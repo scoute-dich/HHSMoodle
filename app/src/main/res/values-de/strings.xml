@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    // Application
+
+    <string name="app_name">HHS Moodle</string>
+    <string name="app_permissions">Du musst der App Zugriff auf den Gerätespeicher gewähren, damit Bildschirmfotos und Downloads
+        gespeichert werden können. Danach solltest du die Anwendung komplett schließen oder das Telefon neu starten.
+        Wenn du den Zugriff verweigerst und die Funktion später doch nutzen willst, kannst du die Berechtigung
+        nachträglich erteilen. Öffne dafür: Systemeinstellungen - Apps - Wetter. Im Bereich Berechtigungen kannst
+        dann die entsprechende Einstellung vornehmen.</string>
+    <string name="app_share_screenshot">Bildschirmfoto Teilen mit:</string>
+    <string name="app_share_image">Bild Teilen mit:</string>
+    <string name="app_share_link">Link Teilen mit:</string>
+    <string name="app_contDesc_1">Header</string>
+    <string name="app_contDesc_2">Icon</string>
+    <string name="app_contDesc_3">Splashscreen</string>
+
+
+    // Tab - Titles
+
+    <string name="title_weatherInfo">Mein Moodle</string>
+    <string name="title_bookmarks">Lesezeichen</string>
+
+
+    // Menu Items
+
+    <string name="menu_share">Wetterbericht teilen</string>
+    <string name="menu_share_screenshot">Bildschirmfoto teilen</string>
+    <string name="menu_share_link">Link als Text teilen</string>
+    <string name="menu_save_screenshot">Bildschirmfoto speichern</string>
+    <string name="menu_settings">Einstellungen</string>
+
+
+    // Context Menu
+
+    <string name="context_saveImage">Bild speichern</string>
+    <string name="context_shareImage">Bild teilen</string>
+    <string name="context_externalBrowser">Im Browser öffnen</string>
+    <string name="context_linkCopy">Link kopieren</string>
+    <string name="context_linkCopy_toast">Link erfolgreich kopiert</string>
+    <string name="context_saveImage_toast">Bild gespeichert unter:</string>
+
+
+    // Settings
+
+    <string name="pref_1">Über die Appp</string>
+    <string name="pref_2">App Einstellungen</string>
+    <string name="pref_3">Hilfe</string>
+
+    <string name="action_changelog">Änderungen</string>
+    <string name="action_changelog_summary">Was gibt es Neues …</string>
+
+    <string name="action_java">Javascript aktivieren</string>
+    <string name="action_java_summary">Manche Funktionen der Internetseiten benötigen Javascript um zu
+        funktionieren. Javascript stellt allerdings ein Sicherheitsrisiko dar.</string>
+
+    <string name="action_longPress">App verlassen</string>
+    <string name="action_longPress_summary">Lange auf die Titelleiste drücken um die App zu verlassen</string>
+
+    <string name="action_license">Lizenz</string>
+    <string name="action_license_summary">Die App ist komplett frei (Open Source) und unter der GPL3-Lizenz lizenziert.</string>
+
+    <string name="action_clearCache">Cache leeren</string>
+    <string name="action_clearCache_summary">Den Cache der Anwendung leeren. Alle offline gespeicherten Seiten werden gelöscht …</string>
+    <string name="action_clearCache_dialog">Möchtest du wirklich den Cache leeren? Alle offline gespeicherten Seiten werden gelöscht.</string>
+
+    <string name="action_start">App Start und Titelleiste-Klick</string>
+    <string name="action_start_summary">Was möchtest du sehen: Entweder den Startschirm oder den Lesezeichenfavorit?</string>
+
+    <string name="action_tabMain">Tabs: Startschirm</string>
+    <string name="action_tabMain_summary">Welcher Tab soll standardmäßig auf dem Startschirm geöffnet werden?</string>
+
+
+    // Moodle
+
+    <string name="text_tit_1">Dashbord</string>
+    <string name="text_tit_2">Profil</string>
+    <string name="text_tit_3">Bewertungen</string>
+    <string name="text_tit_4">Mitteilungen</string>
+    <string name="text_tit_5">Einstellungen</string>
+    <string name="text_tit_6">Schulhomepage</string>
+    <string name="text_tit_7">Websuche</string>
+
+    <string name="text_des_1">Deine persönliche Startseite für unser Moodle.</string>
+    <string name="text_des_2">Bearbeite dein öffentlichen Profil.</string>
+    <string name="text_des_3">Alle Bewertungen und Ergebnisse deiner Kurse.</string>
+    <string name="text_des_4">Persönliche Mitteilungen sehen und senden.</string>
+    <string name="text_des_5">Persönliche Einstellungen für dein Moodle.</string>
+    <string name="text_des_6">Unsere Homepage mit aktuellen Infos, Kontaktdaten, …</string>
+    <string name="text_des_7">Startpage: eine sichere und auf Privatshäre bedachte Suchmaschiene.</string>
+
+
+    // Snackbar
+
+    <string name="toast_yes">OK</string>
+    <string name="toast_cancel">Abbrechen</string>
+    <string name="toast_notAgain">Nicht anzeigen</string>
+    <string name="toast_screenshot">Bildschirmfoto gespeichert unter:</string>
+    <string name="toast_clearCache">Cache wird geleert …</string>
+    <string name="toast_cache">Keine Internetverbindung. Seite wird aus dem Cache geladen.</string>
+    <string name="toast_download">Lade herunter:</string>
+    <string name="toast_download_1">Möchtest du herunterladen:</string>
+    <string name="toast_perm">Berechtigungen gewährt?</string>
+
+
+    // Bookmarks
+
+    <string name="bookmark_remove_confirmation">Lesezeichen wird gelöscht. OK?</string>
+    <string name="bookmark_remove_cannot">Du brauchst mindestens ein Lesezeichen!</string>
+    <string name="bookmark_remove_bookmark">Lesezeichen löschen</string>
+    <string name="bookmark_added">Lesezeichen wird hinzugefügt.</string>
+    <string name="bookmark_setFav">Erfolgreich als Favorit gespeichert.</string>
+    <string name="bookmark_edit_url">URL bearbeiten</string>
+    <string name="bookmark_edit_title">Titel bearbeiten</string>
+    <string name="bookmark_edit_fav">Als Favorit speichern</string>
+
+
+    //States
+
+</resources>

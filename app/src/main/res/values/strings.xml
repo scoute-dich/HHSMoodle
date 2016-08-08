@@ -1,0 +1,119 @@
+<resources>
+
+    // Application
+
+    <string name="app_name">HHS Moodle</string>
+    <string name="app_permissions">You must grant \"Access Storage Permission\" to save screenshots and downloads. After that you should
+        completely close the app or restart the phone. If you don\'t permit the storage access but want to use the
+        screenshot function at a later time, you can grant the permission later. Please open then: system settings - apps -
+        weather. In the permissions section you can grant the \"write storage permission\".</string>
+    <string name="app_share_screenshot">Share screenshot using:</string>
+    <string name="app_share_image">Share image using:</string>
+    <string name="app_share_link">Share link using:</string>
+    <string name="app_contDesc_1">header</string>
+    <string name="app_contDesc_2">icon</string>
+    <string name="app_contDesc_3">splashscreen</string>
+
+
+    // Tab - Titles
+
+    <string name="title_weatherInfo">My Moodle</string>
+    <string name="title_bookmarks">Bookmarks</string>
+
+
+    // Menu Items
+
+    <string name="menu_share">Share weather report</string>
+    <string name="menu_share_screenshot">Share screenshot</string>
+    <string name="menu_share_link">Share link as text</string>
+    <string name="menu_save_screenshot">Save screenshot</string>
+    <string name="menu_settings">Settings</string>
+
+
+    // Context Menu
+
+    <string name="context_saveImage">Save image</string>
+    <string name="context_shareImage">Share image</string>
+    <string name="context_externalBrowser">Open in external browser</string>
+    <string name="context_linkCopy">Copy link</string>
+    <string name="context_linkCopy_toast">Link successfully copied</string>
+    <string name="context_saveImage_toast">Saved image to location:</string>
+
+
+    // Settings
+
+    <string name="pref_1">About the app</string>
+    <string name="pref_2">App settings</string>
+    <string name="pref_3">Help</string>
+
+    <string name="action_changelog">Changelog</string>
+    <string name="action_changelog_summary">See what\'s new …</string>
+
+    <string name="action_java">Enable javascript</string>
+    <string name="action_java_summary">Some functions on the websites need javascript to work. But javascript is
+        known to be a security risk.</string>
+
+    <string name="action_longPress">App exit</string>
+    <string name="action_longPress_summary">Long press title bar to exit app</string>
+
+    <string name="action_license">License</string>
+    <string name="action_license_summary">The app is completely open source and licensed under GPL3.</string>
+
+    <string name="action_clearCache">Clear cache</string>
+    <string name="action_clearCache_summary">Clear cache of application. All cached websites will be lost …</string>
+    <string name="action_clearCache_dialog">Do you really ant to clear cache? All cached websites will be lost.</string>
+
+    <string name="action_start">App start and title bar click</string>
+    <string name="action_start_summary">What do you want to see: Either the main screen or the bookmark list?</string>
+
+    <string name="action_tabMain">Tabs: Main screen</string>
+    <string name="action_tabMain_summary">Which tab should be displayed as default on the main screen?</string>
+
+
+    // Moodle
+
+    <string name="text_tit_1">Dashbord</string>
+    <string name="text_tit_2">Profile</string>
+    <string name="text_tit_3">Ratings</string>
+    <string name="text_tit_4">Notifications</string>
+    <string name="text_tit_5">Settings</string>
+    <string name="text_tit_6">School homepage</string>
+    <string name="text_tit_7">Web search</string>
+
+    <string name="text_des_1">Your personal start page for our moodle.</string>
+    <string name="text_des_2">Configure your public profile.</string>
+    <string name="text_des_3">All your ratings from all your courses.</string>
+    <string name="text_des_4">Read and send personal notifications.</string>
+    <string name="text_des_5">Personal settings for your moodle account.</string>
+    <string name="text_des_6">Our homepage with actual news, contact informations, …</string>
+    <string name="text_des_7">Startpage: a save and secure search engine.</string>
+
+
+    // Snackbar
+
+    <string name="toast_yes">OK</string>
+    <string name="toast_cancel">Cancel</string>
+    <string name="toast_notAgain">Never show</string>
+    <string name="toast_screenshot">Saved screenshot to location:</string>
+    <string name="toast_clearCache">Clearing cache …</string>
+    <string name="toast_cache">No internet connection. Loading from cache.</string>
+    <string name="toast_download">Downloading file:</string>
+    <string name="toast_download_1">Do you want to download:</string>
+    <string name="toast_perm">Permissions granted?</string>
+
+
+    // Bookmarks
+
+    <string name="bookmark_remove_confirmation">Bookmark will be removed. OK?</string>
+    <string name="bookmark_remove_cannot">You need at least one bookmark!</string>
+    <string name="bookmark_remove_bookmark">Delete bookmark</string>
+    <string name="bookmark_added">Adding bookmark.</string>
+    <string name="bookmark_setFav">Successfully set as favorite.</string>
+    <string name="bookmark_edit_url">Edit URL</string>
+    <string name="bookmark_edit_title">Edit title</string>
+    <string name="bookmark_edit_fav">Set as favorite</string>
+
+
+    //States
+
+</resources>
