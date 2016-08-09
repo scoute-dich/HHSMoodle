@@ -9,6 +9,13 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/action_not"
+        android:orderInCategory="100"
+        android:title="@string/menu_rem"
+        android:icon="@drawable/ic_rem"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/action_folder"
         android:orderInCategory="100"
         android:title="@string/menu_folder"

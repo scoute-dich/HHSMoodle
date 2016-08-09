@@ -2,38 +2,46 @@ package de.baumann.hhsmoodle;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.content.ActivityNotFoundException;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import de.baumann.hhsmoodle.fragmentsMain.FragmentBookmark;
 import de.baumann.hhsmoodle.fragmentsMain.FragmentInfo;
+import de.baumann.hhsmoodle.helper.SplashActivity;
 import de.baumann.hhsmoodle.helper.Start;
 
+@SuppressWarnings("ResultOfMethodCallIgnored")
 public class Screen_Main extends AppCompatActivity {
 
     final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
@@ -192,6 +200,58 @@ public class Screen_Main extends AppCompatActivity {
             finish();
         }
 
+        if (id == R.id.action_not) {
+
+            final String title = getString(R.string.menu_rem);
+
+            final LinearLayout layout = new LinearLayout(this);
+            layout.setOrientation(LinearLayout.VERTICAL);
+            layout.setGravity(Gravity.CENTER_HORIZONTAL);
+            final EditText input = new EditText(this);
+            input.setSingleLine(false);
+            layout.setPadding(30, 0, 50, 0);
+            layout.addView(input);
+
+            final AlertDialog.Builder dialog = new AlertDialog.Builder(this)
+                    .setView(layout)
+                    .setTitle(title)
+                    .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int whichButton) {
+
+                            String longText = input.getText().toString().trim();
+                            Notification.Builder mBuilder = new Notification.Builder(Screen_Main.this);
+
+                            mBuilder.setSmallIcon(R.drawable.ic_school_white_24dp);
+                            mBuilder.setContentTitle(title);
+                            mBuilder.setContentText(longText);
+                            mBuilder.setStyle(new Notification.BigTextStyle().bigText(longText));
+
+                            Intent resultIntent = new Intent(Screen_Main.this, SplashActivity.class);
+                            TaskStackBuilder stackBuilder = TaskStackBuilder.create(Screen_Main.this);
+                            stackBuilder.addParentStack(Screen_Main.class);
+
+                            // Adds the Intent that starts the Activity to the top of the stack
+                            stackBuilder.addNextIntent(resultIntent);
+                            PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+                            mBuilder.setContentIntent(resultPendingIntent);
+
+                            NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                            Random rand = new Random();
+                            int n = rand.nextInt(200);
+
+                            // notificationID allows you to update the notification later on.
+                            mNotificationManager.notify(n, mBuilder.build());
+                        }
+                    })
+                    .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            dialog.cancel();
+                        }
+                    });
+            dialog.show();
+        }
         return super.onOptionsItemSelected(item);
     }
 

@@ -5,6 +5,9 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DownloadManager;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.ClipData;
@@ -19,7 +22,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.net.ConnectivityManager;
-import android.net.MailTo;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
@@ -28,6 +30,7 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -37,13 +40,10 @@ import android.text.util.Linkify;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
 import android.webkit.DownloadListener;
 import android.webkit.HttpAuthHandler;
 import android.webkit.URLUtil;
@@ -56,22 +56,21 @@ import android.webkit.WebViewDatabase;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.lang.ref.WeakReference;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Random;
 
 import de.baumann.hhsmoodle.helper.BrowserDatabase;
 import de.baumann.hhsmoodle.helper.Start;
 
+@SuppressWarnings("ResultOfMethodCallIgnored")
 public class Browser extends AppCompatActivity  {
 
     private WebView mWebView;
@@ -169,6 +168,7 @@ public class Browser extends AppCompatActivity  {
         assert mWebView != null;
         mWebView.getSettings().setAppCachePath(getApplicationContext().getCacheDir().getAbsolutePath());
         mWebView.getSettings().setAllowFileAccess(true);
+        mWebView.getSettings().setGeolocationEnabled(false);
         mWebView.getSettings().setAppCacheEnabled(true);
         mWebView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT); // load online by default
         mWebView.getSettings().setBuiltInZoomControls(true);
@@ -184,23 +184,19 @@ public class Browser extends AppCompatActivity  {
             Snackbar.make(mWebView, R.string.toast_cache, Snackbar.LENGTH_LONG).show();
         }
 
-        Intent intent = getIntent();
-        mWebView.loadUrl(intent.getStringExtra("url"));
-        setTitle(intent.getStringExtra("title"));
-
         mWebView.setWebChromeClient(new WebChromeClient() {
             public void onProgressChanged(WebView view, int progress) {
                 progressBar.setProgress(progress);
                 if (progress == 100) {
                     progressBar.setVisibility(View.GONE);
-
-                    String url = mWebView.getTitle();
-                    mWebView.scrollTo(0, 80);
-                    setTitle(url);
-
+                    String title = mWebView.getTitle();
+                    String url = mWebView.getUrl();
+                    if (url.contains("http://moodle.huebsch.ka.schule-bw.de/")) {
+                        mWebView.scrollTo(0, 80);
+                    }
+                    setTitle(title);
                 } else {
                     progressBar.setVisibility(View.VISIBLE);
-
                 }
             }
 
@@ -221,7 +217,6 @@ public class Browser extends AppCompatActivity  {
                         // Error occurred while creating the File
                         return false;
                     }
-
                     // Continue only if the File was successfully created
                     mCameraPhotoPath = "file:" + photoFile.getAbsolutePath();
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
@@ -275,6 +270,7 @@ public class Browser extends AppCompatActivity  {
             }
         });
 
+        onNewIntent(getIntent());
         setBasicAuth();
         registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
 
@@ -316,6 +312,19 @@ public class Browser extends AppCompatActivity  {
         File directory = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/");
         if (!directory.exists()) {
             directory.mkdirs();
+        }
+    }
+
+    protected void onNewIntent(Intent intent) {
+        String action = intent.getAction();
+
+        if (Intent.ACTION_VIEW.equals(action)) {
+            Uri data = intent.getData();
+            String link = data.toString();
+            mWebView.loadUrl(link);
+        } else {
+            mWebView.loadUrl(intent.getStringExtra("url"));
+            setTitle(intent.getStringExtra("title"));
         }
     }
 
@@ -385,8 +394,7 @@ public class Browser extends AppCompatActivity  {
                 if(url.startsWith("mailto:")){
                     Intent i = new Intent(Intent.ACTION_SENDTO, Uri.parse(url));
                     startActivity(i);
-                }
-                else{
+                } else {
                     view.loadUrl(url);
                 }
                 return true;
@@ -407,7 +415,7 @@ public class Browser extends AppCompatActivity  {
         );
     }
 
-    BroadcastReceiver onComplete=new BroadcastReceiver() {
+    private final BroadcastReceiver onComplete = new BroadcastReceiver() {
         public void onReceive(Context ctxt, Intent intent) {
 
             final File directory = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/");
@@ -450,7 +458,6 @@ public class Browser extends AppCompatActivity  {
                 }
             }
         }
-
         mFilePathCallback.onReceiveValue(results);
         mFilePathCallback = null;
     }
@@ -546,7 +553,6 @@ public class Browser extends AppCompatActivity  {
                         }
                         break;
 
-                    //Copy url to clipboard
                     case ID_COPY_LINK:
                         if (url != null) {
                             ClipboardManager clipboard = (ClipboardManager) Browser.this.getSystemService(Context.CLIPBOARD_SERVICE);
@@ -555,7 +561,6 @@ public class Browser extends AppCompatActivity  {
                         }
                         break;
 
-                    //Try to share link to other apps
                     case ID_SHARE_LINK:
                         if (url != null) {
                             Intent sendIntent = new Intent();
@@ -751,9 +756,62 @@ public class Browser extends AppCompatActivity  {
             }
         }
 
+        if (id == R.id.action_not) {
+
+            final String title = mWebView.getTitle();
+            final String url = mWebView.getUrl();
+
+            final LinearLayout layout = new LinearLayout(this);
+            layout.setOrientation(LinearLayout.VERTICAL);
+            layout.setGravity(Gravity.CENTER_HORIZONTAL);
+            final EditText input = new EditText(this);
+            input.setSingleLine(false);
+            layout.setPadding(30, 0, 50, 0);
+            layout.addView(input);
+
+            final AlertDialog.Builder dialog = new AlertDialog.Builder(this)
+                    .setView(layout)
+                    .setTitle(title)
+                    .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int whichButton) {
+
+                            String longText = input.getText().toString().trim();
+                            Notification.Builder mBuilder = new Notification.Builder(Browser.this);
+
+                            mBuilder.setSmallIcon(R.drawable.ic_school_white_24dp);
+                            mBuilder.setContentTitle(title);
+                            mBuilder.setContentText(longText);
+                            mBuilder.setStyle(new Notification.BigTextStyle().bigText(longText));
+
+                            Intent resultIntent = new Intent(Browser.this, Browser.class);
+                            resultIntent.putExtra("url" , url);
+                            TaskStackBuilder stackBuilder = TaskStackBuilder.create(Browser.this);
+                            stackBuilder.addParentStack(Browser.class);
+
+                            // Adds the Intent that starts the Activity to the top of the stack
+                            stackBuilder.addNextIntent(resultIntent);
+                            PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+                            mBuilder.setContentIntent(resultPendingIntent);
+
+                            NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                            Random rand = new Random();
+                            int n = rand.nextInt(200);
+
+                            // notificationID allows you to update the notification later on.
+                            mNotificationManager.notify(n, mBuilder.build());
+                        }
+                    })
+                    .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            dialog.cancel();
+                        }
+                    });
+            dialog.show();
+        }
         return super.onOptionsItemSelected(item);
     }
-
 
     private void checkFirstRunBrowser() {
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
