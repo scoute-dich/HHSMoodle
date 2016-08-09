@@ -10,7 +10,7 @@ A small android webview application to show the mobile webpage of our school moo
 - English translation
 
 ### Links:
-- Download [APK](https://github.com/scoute-dich/HHSMoodle/releases)
+- Download [Releases](https://github.com/scoute-dich/HHSMoodle/releases)
 - Watch [Changelog](https://github.com/scoute-dich/HHSMoodle/blob/master/CHANGELOG.md)
 - See [license](https://github.com/scoute-dich/HHSMoodle/blob/master/LICENSE.md)
 - See [screenshots](https://github.com/scoute-dich/HHSMoodle/blob/master/SCREENSHOTS.md)
