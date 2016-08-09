@@ -190,10 +190,7 @@ public class Browser extends AppCompatActivity  {
                 if (progress == 100) {
                     progressBar.setVisibility(View.GONE);
                     String title = mWebView.getTitle();
-                    String url = mWebView.getUrl();
-                    if (url.contains("https://moodle.huebsch.ka.schule-bw.de/")) {
-                        mWebView.scrollTo(0, 80);
-                    }
+                    mWebView.scrollTo(0, 80);
                     setTitle(title);
                 } else {
                     progressBar.setVisibility(View.VISIBLE);
