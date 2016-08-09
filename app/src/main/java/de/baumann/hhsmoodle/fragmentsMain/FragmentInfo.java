@@ -1,20 +1,26 @@
 package de.baumann.hhsmoodle.fragmentsMain;
 
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+
+import java.io.File;
 
 import de.baumann.hhsmoodle.Browser;
 import de.baumann.hhsmoodle.R;
@@ -60,17 +66,16 @@ public class FragmentInfo extends Fragment {
         };
 
         Integer[] imgid={
-                R.drawable.img_1,
-                R.drawable.img_2,
-                R.drawable.img_3,
-                R.drawable.img_4,
-                R.drawable.img_5,
-                R.drawable.img_6,
-                R.drawable.img_6,
+                R.drawable.ic_view_dashboard_grey600_48dp,
+                R.drawable.ic_face_profile_grey600_48dp,
+                R.drawable.ic_chart_areaspline_grey600_48dp,
+                R.drawable.ic_bell_grey600_48dp,
+                R.drawable.ic_settings_grey600_48dp,
+                R.drawable.ic_web_grey600_48dp,
+                R.drawable.ic_magnify_grey600_48dp,
         };
 
         View rootView = inflater.inflate(R.layout.fragment_screen_main, container, false);
-
 
         setHasOptionsMenu(true);
 
@@ -128,5 +133,24 @@ public class FragmentInfo extends Fragment {
         });
 
         return rootView;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.action_folder:
+
+                final File directory = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/");
+                Intent target = new Intent(Intent.ACTION_VIEW);
+                target.setDataAndType(Uri.fromFile(directory), "resource/folder");
+
+                try {
+                    startActivity (target);
+                } catch (ActivityNotFoundException e) {
+                    Snackbar.make(listView, R.string.toast_install_folder, Snackbar.LENGTH_LONG).show();
+                }
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

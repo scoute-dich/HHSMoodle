@@ -2,6 +2,21 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
+        android:title="@string/pref_4">
+
+        <EditTextPreference
+            android:title="@string/action_username"
+            android:summary="@string/action_username_summary"
+            android:key="username" />
+
+        <EditTextPreference
+            android:title="@string/action_password"
+            android:summary="@string/action_password_summary"
+            android:key="password" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:title="@string/pref_2">
 
         <ListPreference
@@ -12,12 +27,6 @@
             android:entries="@array/listArrayStart"
             android:entryValues="@array/listValuesStart" />
 
-        <CheckBoxPreference
-            android:title="@string/action_longPress"
-            android:summary="@string/action_longPress_summary"
-            android:key="longPress"
-            android:defaultValue="true" />
-
         <ListPreference
             android:title="@string/action_tabMain"
             android:summary="@string/action_tabMain_summary"
@@ -25,6 +34,12 @@
             android:defaultValue="1"
             android:entries="@array/listArrayTabMain"
             android:entryValues="@array/listValuesTabMain" />
+
+        <CheckBoxPreference
+            android:title="@string/action_longPress"
+            android:summary="@string/action_longPress_summary"
+            android:key="longPress"
+            android:defaultValue="true" />
 
         <Preference
             android:title="@string/action_clearCache"

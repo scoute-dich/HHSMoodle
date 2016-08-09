@@ -24,7 +24,7 @@
 
     <string name="changelog_text">
         &lt;i>For more informations visit the project site on github:&lt;br>
-        https://github.com/scoute-dich/Weather&lt;/i>&lt;br>&lt;br>
+        https://github.com/scoute-dich/HHSMoodle&lt;/i>&lt;br>&lt;br>
 
         &lt;b>v 1.0:&lt;/b>&lt;br>
         &#8226; first release
@@ -36,12 +36,8 @@
     <string name="firstSearch_title">Saving bookmarks</string>
     <string name="firstSearch_title_summary">Show again: Saving bookmarks?</string>
     <string name="firstSearch_text">
-        To save a bookmark simply click the icon at the toolbar. If you want to bookmark a city it is
-        important, that the \"Überblick\" button on the website is blue and checked. Otherwise it is
-        later not possible to load the hourly und the 10 day trend forecast of a city.&lt;br>&lt;br>
-
-        If you clicked the icon a popup appears. You can now edit the title of the bookmark.
-        Normally you enter the name of the city.&lt;br>&lt;br>
+        To save a bookmark simply click the icon at the toolbar.
+        If you clicked the icon a popup appears. You can now edit the title of the bookmark.&lt;br>&lt;br>
 
         You can switch back to the main screen or to your favorite (look into the settings) by clicking the toolbar.
         To go back to the main screen you can also press the arrow at the toolbar. Swipe down to reload the website.</string>
@@ -49,8 +45,9 @@
     <string name="firstBrowser_title">Browser</string>
     <string name="firstBrowser_title_summary">Show again: Functionality of the browser?</string>
     <string name="firstBrowser_text">
-        Your bookmarked websites are shown in this webview. A webview displays websites in an app. If you have no internet
-        connection they will be loaded offline from the cache.&lt;br>&lt;br>
+        HHS Moodle is shown in this webview. A webview displays websites in an app. If you have no internet
+        connection they will be loaded offline from the cache (this works not o course overviews). If you want to be logged automatically, you must set your username
+        and your password in the settings.&lt;br>&lt;br>
 
         In the webview there is a context menu, which opens on long pressing a link or image.&lt;br>&lt;br>
 
@@ -61,21 +58,13 @@
     <string name="firstBookmark_title_summary">Show again: Tip about the main screen?</string>
     <string name="firstBookmark_text">
         &lt;i>The tabs:&lt;/i>&lt;br>
-        In the left tab you can open weather informations from the DWD. You can configure your
-        preferred state (Germany only) in the settings. In the right tab you can see your bookmarks.&lt;br>&lt;br>
+        In the left tab you can open your personal Moodle sites. In the right tab you can see your bookmarks.&lt;br>&lt;br>
 
         &lt;i>Edit bookmarks:&lt;/i>&lt;br>
 
         Long click on a bookmark opens a popup menu. You can set your favorite bookmark
-        (It can be loaded on app start or on title bar click - look in the settings.), edit title and URL of the bookmark or
-        delete it (at least one bookmark is needed). If you have problems to open the hourly or the 10 day forecast of a
-        bookmarked city you must control the URL. It should look like this:
-        http://www.wetterdienst.de/Deutschlandwetter/name_of_yor_city. If this is not the case, correct it.&lt;br>&lt;br>
-
-        &lt;i>Search new cities:&lt;/i>&lt;br>
-
-        If you click the magnifier at the toolbar the website of wetterdienst.de opens. There you can search worldwide for cities.
-        Just enter the name in the search field and make your joice.</string>
+        (It can be loaded on app start or on title bar click - look in the settings.), edit the title of the bookmark or
+        delete it (at least one bookmark is needed).</string>
 
     <string name="firstScreenshot_title">Making screenshots</string>
     <string name="firstScreenshot_title_summary">Show again: Taking screenshots?</string>

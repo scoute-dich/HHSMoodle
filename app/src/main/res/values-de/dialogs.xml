@@ -23,7 +23,7 @@
 
     <string name="changelog_text">
         &lt;i>Für mehr Informationen besuche die Projektseite auf Github:&lt;br>
-        https://github.com/scoute-dich/Weather&lt;/i>&lt;br>&lt;br>
+        https://github.com/scoute-dich/HHSMoodle&lt;/i>&lt;br>&lt;br>
 
         &lt;b>v 1.0:&lt;/b>&lt;br>
         &#8226; erste Version
@@ -35,12 +35,9 @@
     <string name="firstSearch_title">Lesezeichen speichern</string>
     <string name="firstSearch_title_summary">Noch einmal anzeigen: Lesezeichen speichen?</string>
     <string name="firstSearch_text">
-        Um ein Lesezeichen zu speichern einfach das Icon in der Toolbar drücken. Wenn du eine Stadt speicherst, ist es wichtig,
-        dass der \"Überblick\" Knopf auf der Internetseite blau und markiert ist. Sonst ist es später nicht möglich
-        die stündliche Vorhersage und den 10 Tage-Trend der Stadt zu laden.&lt;br>&lt;br>
-
+        Um ein Lesezeichen zu speichern einfach das Icon in der Toolbar drücken.
         Wenn du das Icon gedrückt hast, erscheint ein Popup-Menü. Hier kannst du den Titel des Lesezeichens
-        eingeben (im Normalfall den Namen der Stadt).&lt;br>&lt;br>
+        eingeben.&lt;br>&lt;br>
 
         Du kannst zur Startschirm oder zu deinem Favorit (siehe Einstellungen) zurückkehren,
         indem du auf die Titelleiste klickst. Um zum Startschirm zurückzukehren kannst du auch den Pfeil in der Titelleiste
@@ -50,8 +47,9 @@
     <string name="firstBrowser_title">Browser</string>
     <string name="firstBrowser_title_summary">Noch einmal anzeigen: Funktionen des Browsers?</string>
     <string name="firstBrowser_text">
-        Deine Lesezeichen werden in dieser Webview angezeigt. Eine Webview zeigt Internetseiten in Apps an.
-        Wenn du keine Internetverbindung hast, werden sie offline (aus dem Cache) geladen.&lt;br>&lt;br>
+        HHS Moodle wird in dieser Webview angezeigt. Eine Webview zeigt Internetseiten in Apps an.
+        Wenn du keine Internetverbindung hast, werden sie offline (aus dem Cache) geladen (dies funktioniert bei Kursübersichten nicht). Damit du in Zukunft automatisch
+        angemeldet werden kannst, musst du in den Einstellungen deinen Benutzernamen und dein Passwort eingeben.&lt;br>&lt;br>
 
         In der Webview gibt es ein Kontextmenü, dass sich bei einem langen Klick auf Bilder oder Links öffnet.&lt;br>&lt;br>
 
@@ -64,22 +62,14 @@
     <string name="firstBookmark_text">
         &lt;i>Die Tabs:&lt;/i>&lt;br>
 
-        Im linken Tab kannst du Wetterinformationen des DWDs abrufen. In den
-        Einstellungen kannst du dein Bundesland auswählen. Im rechten Tab werden deine Lesezeichen angezeigt.&lt;br>&lt;br>
+        Im linken Tab kannst du deine persönlichen Moodleseiten aufrufen.
+        Im rechten Tab werden deine Lesezeichen angezeigt.&lt;br>&lt;br>
 
         &lt;i>Lesezeichen bearbeiten:&lt;/i>&lt;br>
 
         Ein langer Klick auf ein Lesezeichen öffnet ein Popup-Menü. Du kannst ein Lesezeichen als Favorit setzen
-        (Es kann beim Start der App oder beim Klick auf die Titelbar geladen werden - siehe Einstellungen), den Titel oder die URL des
-        Lesezeichens bearbeiten, oder es komplett löschen (ein Lesezeichen muss mindestens vorhanden sein). Wenn du
-        Probleme hast die stündliche Vorhersage oder den 10 Tage-Trend einer gespeicherten Stadt zu öffnen, musst du die
-        URL kontrollieren. Sie sollte so aussehen: http://www.wetterdienst.de/Deutschlandwetter/name_deiner_stadt.
-        Wenn das nicht so ist, verbessere es.&lt;br>&lt;br>
-
-        &lt;i>Nach neuen Städten suchen:&lt;/i>&lt;br>
-
-        Wenn du die Lupe in der Toolbar klickst, öffnet sich die Internetseite von wetterdienst.de. Du kannst dort weltweit
-        nach Städten suchen. Einfach den Namen in das Suchfeld eingeben und deine Auswahl treffen</string>
+        (Es kann beim Start der App oder beim Klick auf die Titelbar geladen werden - siehe Einstellungen.), den Titel des
+        Lesezeichens bearbeiten, oder es komplett löschen (ein Lesezeichen muss mindestens vorhanden sein).</string>
 
 
     <string name="firstScreenshot_title">Bildschirmfoto aufnehmen</string>

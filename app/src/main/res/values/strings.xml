@@ -23,11 +23,14 @@
 
     // Menu Items
 
-    <string name="menu_share">Share weather report</string>
+    <string name="menu_share">Share moodle page</string>
     <string name="menu_share_screenshot">Share screenshot</string>
     <string name="menu_share_link">Share link as text</string>
+    <string name="menu_share_link_browser">Open link in external browser</string>
+    <string name="menu_share_link_copy">Copy link to clipboard</string>
     <string name="menu_save_screenshot">Save screenshot</string>
     <string name="menu_settings">Settings</string>
+    <string name="menu_folder">Open app folder</string>
 
 
     // Context Menu
@@ -45,13 +48,20 @@
     <string name="pref_1">About the app</string>
     <string name="pref_2">App settings</string>
     <string name="pref_3">Help</string>
+    <string name="pref_4">Login</string>
+
+    <string name="action_username">Username</string>
+    <string name="action_username_summary">Please enter your Moodle username, to get automatically logged in.</string>
+
+    <string name="action_password">Password</string>
+    <string name="action_password_summary">Please enter your Moodle password, to get automatically logged in.</string>
 
     <string name="action_changelog">Changelog</string>
     <string name="action_changelog_summary">See what\'s new …</string>
 
     <string name="action_java">Enable javascript</string>
-    <string name="action_java_summary">Some functions on the websites need javascript to work. But javascript is
-        known to be a security risk.</string>
+    <string name="action_java_summary">Some functions on the websites need javascript to work. It is also used for the
+        automated login. But javascript is known to be a security risk.</string>
 
     <string name="action_longPress">App exit</string>
     <string name="action_longPress_summary">Long press title bar to exit app</string>
@@ -66,7 +76,7 @@
     <string name="action_start">App start and title bar click</string>
     <string name="action_start_summary">What do you want to see: Either the main screen or the bookmark list?</string>
 
-    <string name="action_tabMain">Tabs: Main screen</string>
+    <string name="action_tabMain">Main screen</string>
     <string name="action_tabMain_summary">Which tab should be displayed as default on the main screen?</string>
 
 
@@ -80,11 +90,11 @@
     <string name="text_tit_6">School homepage</string>
     <string name="text_tit_7">Web search</string>
 
-    <string name="text_des_1">Your personal start page for our moodle.</string>
-    <string name="text_des_2">Configure your public profile.</string>
-    <string name="text_des_3">All your ratings from all your courses.</string>
+    <string name="text_des_1">Course overview, files, awards, appointment, calendar, …</string>
+    <string name="text_des_2">Details, reports, miscellaneous, edit profile.</string>
+    <string name="text_des_3">Gradings and results from all your courses.</string>
     <string name="text_des_4">Read and send personal notifications.</string>
-    <string name="text_des_5">Personal settings for your moodle account.</string>
+    <string name="text_des_5">Personal messages and contacts.</string>
     <string name="text_des_6">Our homepage with actual news, contact informations, …</string>
     <string name="text_des_7">Startpage: a save and secure search engine.</string>
 
@@ -99,7 +109,10 @@
     <string name="toast_cache">No internet connection. Loading from cache.</string>
     <string name="toast_download">Downloading file:</string>
     <string name="toast_download_1">Do you want to download:</string>
+    <string name="toast_download_2">Download completed. Open folder?</string>
     <string name="toast_perm">Permissions granted?</string>
+    <string name="toast_install_folder">Please install a file manager.</string>
+    <string name="toast_login">Please enter login data in settings.</string>
 
 
     // Bookmarks

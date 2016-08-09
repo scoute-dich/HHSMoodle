@@ -25,11 +25,14 @@
 
     // Menu Items
 
-    <string name="menu_share">Wetterbericht teilen</string>
+    <string name="menu_share">Moodleseite teilen</string>
     <string name="menu_share_screenshot">Bildschirmfoto teilen</string>
     <string name="menu_share_link">Link als Text teilen</string>
+    <string name="menu_share_link_browser">Link im externen Browser öffnen</string>
+    <string name="menu_share_link_copy">Link in Zwischenablage kopierenn</string>
     <string name="menu_save_screenshot">Bildschirmfoto speichern</string>
     <string name="menu_settings">Einstellungen</string>
+    <string name="menu_folder">Öffne Anwendungsordner</string>
 
 
     // Context Menu
@@ -47,13 +50,21 @@
     <string name="pref_1">Über die Appp</string>
     <string name="pref_2">App Einstellungen</string>
     <string name="pref_3">Hilfe</string>
+    <string name="pref_4">Anmeldung</string>
+
+    <string name="action_username">Benutzername</string>
+    <string name="action_username_summary">Bitte gib deinen Benutzernamen an, um automatisch angemeldet zu werden.</string>
+
+    <string name="action_password">Passwort</string>
+    <string name="action_password_summary">Bitte gib dein Passwort an, um automatisch angemeldet zu werden..</string>
 
     <string name="action_changelog">Änderungen</string>
     <string name="action_changelog_summary">Was gibt es Neues …</string>
 
     <string name="action_java">Javascript aktivieren</string>
     <string name="action_java_summary">Manche Funktionen der Internetseiten benötigen Javascript um zu
-        funktionieren. Javascript stellt allerdings ein Sicherheitsrisiko dar.</string>
+        funktionieren. Es wird außerdem für die automatische Anmeldung gebraucht.
+        Javascript stellt allerdings ein Sicherheitsrisiko dar.</string>
 
     <string name="action_longPress">App verlassen</string>
     <string name="action_longPress_summary">Lange auf die Titelleiste drücken um die App zu verlassen</string>
@@ -68,7 +79,7 @@
     <string name="action_start">App Start und Titelleiste-Klick</string>
     <string name="action_start_summary">Was möchtest du sehen: Entweder den Startschirm oder den Lesezeichenfavorit?</string>
 
-    <string name="action_tabMain">Tabs: Startschirm</string>
+    <string name="action_tabMain">Startschirm</string>
     <string name="action_tabMain_summary">Welcher Tab soll standardmäßig auf dem Startschirm geöffnet werden?</string>
 
 
@@ -82,11 +93,11 @@
     <string name="text_tit_6">Schulhomepage</string>
     <string name="text_tit_7">Websuche</string>
 
-    <string name="text_des_1">Deine persönliche Startseite für unser Moodle.</string>
-    <string name="text_des_2">Bearbeite dein öffentlichen Profil.</string>
+    <string name="text_des_1">Kursübersicht, Dateien, Auszeichnungen, Termine, Kalender, …</string>
+    <string name="text_des_2">Details, Berichte, Verschiedenes, Profil bearbeiten.</string>
     <string name="text_des_3">Alle Bewertungen und Ergebnisse deiner Kurse.</string>
-    <string name="text_des_4">Persönliche Mitteilungen sehen und senden.</string>
-    <string name="text_des_5">Persönliche Einstellungen für dein Moodle.</string>
+    <string name="text_des_4">Persönliche Mitteilungen und Kontakte.</string>
+    <string name="text_des_5">Nutzerkonto, Blogs, Auszeichnungen.</string>
     <string name="text_des_6">Unsere Homepage mit aktuellen Infos, Kontaktdaten, …</string>
     <string name="text_des_7">Startpage: eine sichere und auf Privatshäre bedachte Suchmaschiene.</string>
 
@@ -101,7 +112,10 @@
     <string name="toast_cache">Keine Internetverbindung. Seite wird aus dem Cache geladen.</string>
     <string name="toast_download">Lade herunter:</string>
     <string name="toast_download_1">Möchtest du herunterladen:</string>
+    <string name="toast_download_2">Download vollständig. Ordner öffnen?</string>
     <string name="toast_perm">Berechtigungen gewährt?</string>
+    <string name="toast_install_folder">Bitte einen Dateimanager installieren.</string>
+    <string name="toast_login">Bitte Anmeldedaten in den Einstellungen eingeben.</string>
 
 
     // Bookmarks
@@ -114,8 +128,5 @@
     <string name="bookmark_edit_url">URL bearbeiten</string>
     <string name="bookmark_edit_title">Titel bearbeiten</string>
     <string name="bookmark_edit_fav">Als Favorit speichern</string>
-
-
-    //States
 
 </resources>

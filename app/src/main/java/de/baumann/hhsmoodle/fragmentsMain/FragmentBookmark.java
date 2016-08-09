@@ -2,12 +2,15 @@ package de.baumann.hhsmoodle.fragmentsMain;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -16,6 +19,7 @@ import android.text.SpannableString;
 import android.text.util.Linkify;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -25,6 +29,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -84,7 +89,7 @@ public class FragmentBookmark extends Fragment {
                 layout.setPadding(30, 0, 50, 0);
                 layout.addView(input);
 
-                final CharSequence[] options = {getString(R.string.bookmark_edit_title), getString(R.string.bookmark_edit_url), getString(R.string.bookmark_edit_fav), getString(R.string.bookmark_remove_bookmark)};
+                final CharSequence[] options = {getString(R.string.bookmark_edit_title), getString(R.string.bookmark_edit_fav), getString(R.string.bookmark_remove_bookmark)};
                 new AlertDialog.Builder(getActivity())
                         .setItems(options, new DialogInterface.OnClickListener() {
                             @Override
@@ -118,36 +123,7 @@ public class FragmentBookmark extends Fragment {
                                         e.printStackTrace();
                                     }
                                 }
-                                if (options[item].equals(getString(R.string.bookmark_edit_url))) {
-                                    try {
-                                        input.setText(url);
-                                        final BrowserDatabase db = new BrowserDatabase(getActivity());
-                                        db.deleteBookmark((Integer.parseInt(seqnoStr)));
-                                        final AlertDialog.Builder dialog2 = new AlertDialog.Builder(getActivity())
-                                                .setView(layout)
-                                                .setMessage(R.string.bookmark_edit_url)
-                                                .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
 
-                                                    public void onClick(DialogInterface dialog, int whichButton) {
-                                                        String inputTag = input.getText().toString().trim();
-                                                        db.addBookmark(title, inputTag);
-                                                        db.close();
-                                                        setBookmarkList();
-                                                    }
-                                                })
-                                                .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                                                    public void onClick(DialogInterface dialog, int whichButton) {
-                                                        dialog.cancel();
-                                                    }
-                                                });
-                                        dialog2.show();
-
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-
-                                }
 
                                 if (options[item].equals (getString(R.string.bookmark_edit_fav))) {
                                     final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -280,4 +256,22 @@ public class FragmentBookmark extends Fragment {
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.action_folder:
+
+                final File directory = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/");
+                Intent target = new Intent(Intent.ACTION_VIEW);
+                target.setDataAndType(Uri.fromFile(directory), "resource/folder");
+
+                try {
+                    startActivity (target);
+                } catch (ActivityNotFoundException e) {
+                    Snackbar.make(listView, R.string.toast_install_folder, Snackbar.LENGTH_LONG).show();
+                }
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

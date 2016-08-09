@@ -2,13 +2,17 @@ package de.baumann.hhsmoodle;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -22,6 +26,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -117,6 +122,11 @@ public class Screen_Main extends AppCompatActivity {
                             REQUEST_CODE_ASK_PERMISSIONS);
                 }
             }
+        }
+
+        File directory = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/");
+        if (!directory.exists()) {
+            directory.mkdirs();
         }
     }
 

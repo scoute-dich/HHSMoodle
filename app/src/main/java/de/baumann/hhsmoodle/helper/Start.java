@@ -16,7 +16,7 @@ public class Start extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
 
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        String startURL = sharedPref.getString("favoriteURL", "http://m.wetterdienst.de/");
+        String startURL = sharedPref.getString("favoriteURL", "\"https://moodle.huebsch.ka.schule-bw.de/moodle/");
 
         Intent intent = new Intent(Start.this, Browser.class);
         intent.putExtra("url", startURL);

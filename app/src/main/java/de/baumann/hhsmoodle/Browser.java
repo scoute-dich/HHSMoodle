@@ -5,17 +5,21 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DownloadManager;
+import android.content.ActivityNotFoundException;
+import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.net.ConnectivityManager;
+import android.net.MailTo;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
@@ -33,10 +37,13 @@ import android.text.util.Linkify;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.webkit.DownloadListener;
 import android.webkit.HttpAuthHandler;
 import android.webkit.URLUtil;
@@ -49,11 +56,14 @@ import android.webkit.WebViewDatabase;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.ref.WeakReference;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -74,15 +84,11 @@ public class Browser extends AppCompatActivity  {
     private static final int ID_SHARE_LINK = 13;
     private static final int ID_SHARE_IMAGE = 14;
 
-    private final String USERNAME = "juergen.baumann";
-    private final String PASSWORD = "aw1cN=ZQK<_ 38_--&Lsv]n/I";
-
     private static final int INPUT_FILE_REQUEST_CODE = 1;
     private static final int REQUEST_CODE_ASK_PERMISSIONS = 123;
 
     private ValueCallback<Uri[]> mFilePathCallback;
     private String mCameraPhotoPath;
-
 
     private boolean isNetworkUnAvailable() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService( CONNECTIVITY_SERVICE );
@@ -161,7 +167,6 @@ public class Browser extends AppCompatActivity  {
 
         mWebView = (WebView) findViewById(R.id.webView);
         assert mWebView != null;
-        mWebView.loadUrl("http://m.wetterdienst.de/");
         mWebView.getSettings().setAppCachePath(getApplicationContext().getCacheDir().getAbsolutePath());
         mWebView.getSettings().setAllowFileAccess(true);
         mWebView.getSettings().setAppCacheEnabled(true);
@@ -258,7 +263,7 @@ public class Browser extends AppCompatActivity  {
                                 request.addRequestHeader("Cookie", CookieManager.getInstance().getCookie(url));
                                 request.allowScanningByMediaScanner();
                                 request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED); //Notify client once download is completed!
-                                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename);
+                                request.setDestinationInExternalPublicDir("/HHS_Moodle/", filename);
                                 DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
                                 dm.enqueue(request);
 
@@ -271,6 +276,7 @@ public class Browser extends AppCompatActivity  {
         });
 
         setBasicAuth();
+        registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
 
         if (android.os.Build.VERSION.SDK_INT >= 23) {
             if (sharedPref.getBoolean ("perm_notShow", false)){
@@ -306,28 +312,84 @@ public class Browser extends AppCompatActivity  {
                 }
             }
         }
+
+        File directory = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/");
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
     }
 
     private void setBasicAuth() {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        final String username = sharedPref.getString("username", "");
+        final String password = sharedPref.getString("password", "");
+
         WebViewDatabase.getInstance(this).clearHttpAuthUsernamePassword();
         String HOST = "moodle.huebsch.ka.schule-bw.de/moodle/";
-        mWebView.setHttpAuthUsernamePassword(HOST, HOST, USERNAME, PASSWORD);
+        mWebView.setHttpAuthUsernamePassword(HOST, HOST, username, password);
         mWebView.setWebViewClient(new WebViewClient() {
+
             @Override
             public void onReceivedHttpAuthRequest(WebView view, HttpAuthHandler handler, String host, String realm) {
                 String[] up = view.getHttpAuthUsernamePassword(host, realm);
-                handler.proceed(USERNAME, PASSWORD);
+                handler.proceed(username, password);
                 if (up != null && up.length == 2) {
                     handler.proceed(up[0], up[1]);
-                }
-                else {
+                } else {
                     Log.d("", "Could not find username/password for domain: " + host + ", with realm = " + realm);
                 }
             }
 
             public void onPageFinished(WebView view, String url) {
+
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(Browser.this);
+                final String username = sharedPref.getString("username", "");
+                final String password = sharedPref.getString("password", "");
                 // do your stuff here
                 swipeView.setRefreshing(false);
+
+                if (username.isEmpty() ) {
+                    Snackbar snackbar = Snackbar
+                            .make(mWebView, getString(R.string.toast_login), Snackbar.LENGTH_INDEFINITE)
+                            .setAction(getString(R.string.toast_yes), new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent intent_in = new Intent(Browser.this, UserSettingsActivity.class);
+                                    startActivity(intent_in);
+                                    overridePendingTransition(0, 0);
+                                    finish();
+                                }
+                            });
+                    snackbar.show();
+                } else {
+                    final String js = "javascript:" +
+                            "document.getElementById('password').value = '" + password + "';"  +
+                            "document.getElementById('username').value = '" + username + "';"  +
+                            "var ans = document.getElementsByName('answer');"                  +
+                            "document.getElementById('loginbtn').click()";
+
+                    if (Build.VERSION.SDK_INT >= 19) {
+                        view.evaluateJavascript(js, new ValueCallback<String>() {
+                            @Override
+                            public void onReceiveValue(String s) {
+
+                            }
+                        });
+                    } else {
+                        view.loadUrl(js);
+                    }
+                }
+            }
+
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                if(url.startsWith("mailto:")){
+                    Intent i = new Intent(Intent.ACTION_SENDTO, Uri.parse(url));
+                    startActivity(i);
+                }
+                else{
+                    view.loadUrl(url);
+                }
+                return true;
             }
         });
     }
@@ -344,6 +406,30 @@ public class Browser extends AppCompatActivity  {
                 storageDir      /* directory */
         );
     }
+
+    BroadcastReceiver onComplete=new BroadcastReceiver() {
+        public void onReceive(Context ctxt, Intent intent) {
+
+            final File directory = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/");
+
+            Snackbar snackbar = Snackbar
+                    .make(mWebView, getString(R.string.toast_download_2), Snackbar.LENGTH_INDEFINITE)
+                    .setAction(getString(R.string.toast_yes), new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent target = new Intent(Intent.ACTION_VIEW);
+                            target.setDataAndType(Uri.fromFile(directory), "resource/folder");
+
+                            try {
+                                startActivity (target);
+                            } catch (ActivityNotFoundException e) {
+                                Snackbar.make(mWebView, R.string.toast_install_folder, Snackbar.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+            snackbar.show();
+        }
+    };
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -395,17 +481,12 @@ public class Browser extends AppCompatActivity  {
                 switch (item.getItemId()) {
                     //Save image to external memory
                     case ID_SAVE_IMAGE: {
-                        File directory = new File(Environment.getExternalStorageDirectory() + "/Pictures/Websites/");
-                        if (!directory.exists()) {
-                            //noinspection ResultOfMethodCallIgnored
-                            directory.mkdirs();
-                        }
 
                         try {
                             if (url != null) {
                                 Uri source = Uri.parse(url);
                                 DownloadManager.Request request = new DownloadManager.Request(source);
-                                File destinationFile = new File(Environment.getExternalStorageDirectory() + "/Pictures/Websites/"
+                                File destinationFile = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/"
                                         + source.getLastPathSegment());
                                 request.addRequestHeader("Cookie", CookieManager.getInstance().getCookie(url));
                                 request.setDestinationUri(Uri.fromFile(destinationFile));
@@ -422,7 +503,7 @@ public class Browser extends AppCompatActivity  {
 
                     case ID_SHARE_IMAGE:
                         if(url != null) {
-                            File directory = new File(Environment.getExternalStorageDirectory() + "/Pictures/Websites/");
+                            File directory = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/");
                             if (!directory.exists()) {
                                 //noinspection ResultOfMethodCallIgnored
                                 directory.mkdirs();
@@ -431,7 +512,7 @@ public class Browser extends AppCompatActivity  {
                             try {
                                 Uri source = Uri.parse(url);
                                 DownloadManager.Request request = new DownloadManager.Request(source);
-                                File destinationFile = new File(Environment.getExternalStorageDirectory() + "/Pictures/Websites/"
+                                File destinationFile = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/"
                                         + "1.jpg");
                                 request.addRequestHeader("Cookie", CookieManager.getInstance().getCookie(url));
                                 request.setDestinationUri(Uri.fromFile(destinationFile));
@@ -443,13 +524,18 @@ public class Browser extends AppCompatActivity  {
                                 Snackbar.make(mWebView, R.string.toast_perm , Snackbar.LENGTH_LONG).show();
                             }
 
-                            Uri myUri= Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/Pictures/Websites/"
+                            Uri myUri= Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/"
                                     + "1.jpg"));
                             Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                             sharingIntent.setType("image/*");
                             sharingIntent.putExtra(Intent.EXTRA_STREAM, myUri);
                             sharingIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                             Browser.this.startActivity(Intent.createChooser(sharingIntent, (getString(R.string.app_share_image))));
+
+                            File tempFile = new File(Environment.getExternalStorageDirectory() +  "/HHS_Moodle/" + "1.jpg");
+                            if(tempFile.exists()){
+                                tempFile.delete();
+                            }
                         }
                         break;
 
@@ -574,6 +660,18 @@ public class Browser extends AppCompatActivity  {
             finish();
         }
 
+        if (id == R.id.action_folder) {
+            final File directory = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/");
+            Intent target = new Intent(Intent.ACTION_VIEW);
+            target.setDataAndType(Uri.fromFile(directory), "resource/folder");
+
+            try {
+                startActivity (target);
+            } catch (ActivityNotFoundException e) {
+                Snackbar.make(mWebView, R.string.toast_install_folder, Snackbar.LENGTH_LONG).show();
+            }
+        }
+
         if (id == android.R.id.home) {
             Intent intent_in = new Intent(Browser.this, Screen_Main.class);
             startActivity(intent_in);
@@ -601,7 +699,10 @@ public class Browser extends AppCompatActivity  {
                         });
                 dialog.show();
             } else {
-                final CharSequence[] options = {getString(R.string.menu_share_link), getString(R.string.menu_share_screenshot), getString(R.string.menu_save_screenshot)};
+                final CharSequence[] options = {getString(R.string.menu_share_screenshot),
+                        getString(R.string.menu_save_screenshot),
+                        getString(R.string.menu_share_link), getString(R.string.menu_share_link_browser),
+                        getString(R.string.menu_share_link_copy)};
                 new AlertDialog.Builder(Browser.this)
                         .setItems(options, new DialogInterface.OnClickListener() {
                             @Override
@@ -618,14 +719,14 @@ public class Browser extends AppCompatActivity  {
 
                                     Date date = new Date();
                                     DateFormat dateFormat = new SimpleDateFormat("dd-MM-yy_HH-mm", Locale.getDefault());
-                                    File file = new File(Environment.getExternalStorageDirectory() + "/Pictures/Websites/", dateFormat.format(date) + ".jpg");
+                                    File file = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/", dateFormat.format(date) + ".jpg");
 
                                     if (file.exists()) {
                                         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                                         sharingIntent.setType("image/png");
                                         sharingIntent.putExtra(Intent.EXTRA_SUBJECT, mWebView.getTitle());
                                         sharingIntent.putExtra(Intent.EXTRA_TEXT, mWebView.getUrl());
-                                        Uri bmpUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/Pictures/Websites/"
+                                        Uri bmpUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/"
                                                 + dateFormat.format(date) + ".jpg"));
                                         sharingIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
                                         startActivity(Intent.createChooser(sharingIntent, (getString(R.string.app_share_screenshot))));
@@ -633,6 +734,17 @@ public class Browser extends AppCompatActivity  {
                                 }
                                 if (options[item].equals(getString(R.string.menu_save_screenshot))) {
                                     screenshot();
+                                }
+                                if (options[item].equals(getString(R.string.menu_share_link_browser))) {
+                                    String  url = mWebView.getUrl();
+                                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                                    Browser.this.startActivity(intent);
+                                }
+                                if (options[item].equals(getString(R.string.menu_share_link_copy))) {
+                                    String  url = mWebView.getUrl();
+                                    ClipboardManager clipboard = (ClipboardManager) Browser.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                                    clipboard.setPrimaryClip(ClipData.newPlainText("text", url));
+                                    Snackbar.make(mWebView, R.string.context_linkCopy_toast, Snackbar.LENGTH_LONG).show();
                                 }
                             }
                         }).show();
@@ -666,12 +778,6 @@ public class Browser extends AppCompatActivity  {
     }
 
     private void screenshot() {
-
-        File directory = new File(Environment.getExternalStorageDirectory() + "/Pictures/Websites/");
-        if (!directory.exists()) {
-            //noinspection ResultOfMethodCallIgnored
-            directory.mkdirs();
-        }
 
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         if (sharedPref.getBoolean ("first_screenshot", false)){
@@ -718,7 +824,7 @@ public class Browser extends AppCompatActivity  {
 
         try {
             OutputStream fOut;
-            File file = new File(Environment.getExternalStorageDirectory() + "/Pictures/Websites/" + dateFormat.format(date) + ".jpg");
+            File file = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/" + dateFormat.format(date) + ".jpg");
             fOut = new FileOutputStream(file);
 
             bm.compress(Bitmap.CompressFormat.PNG, 50, fOut);
@@ -726,7 +832,7 @@ public class Browser extends AppCompatActivity  {
             fOut.close();
             bm.recycle();
 
-            String filename = getString(R.string.toast_screenshot) + " " + Environment.getExternalStorageDirectory() + "/Pictures/Websites/" + dateFormat.format(date) + ".jpg";
+            String filename = getString(R.string.toast_screenshot) + " " + Environment.getExternalStorageDirectory() + "/HHS_Moodle/" + dateFormat.format(date) + ".jpg";
             Snackbar.make(swipeView, filename, Snackbar.LENGTH_LONG).show();
 
             Uri uri = Uri.fromFile(file);
