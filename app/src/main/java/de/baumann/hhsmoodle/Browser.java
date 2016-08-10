@@ -5,9 +5,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DownloadManager;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.ClipData;
@@ -30,7 +27,6 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -56,6 +52,8 @@ import android.webkit.WebViewDatabase;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.EditText;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -65,9 +63,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Random;
 
-import de.baumann.hhsmoodle.helper.BrowserDatabase;
+import de.baumann.hhsmoodle.helper.Database_Browser;
+import de.baumann.hhsmoodle.helper.Database_Notes;
 import de.baumann.hhsmoodle.helper.Start;
 
 @SuppressWarnings("ResultOfMethodCallIgnored")
@@ -628,7 +626,7 @@ public class Browser extends AppCompatActivity  {
                     layout.addView(input);
 
                     input.setText(mWebView.getTitle());
-                    final BrowserDatabase db = new BrowserDatabase(this);
+                    final Database_Browser db = new Database_Browser(this);
                     final AlertDialog.Builder dialog = new AlertDialog.Builder(this)
                             .setView(layout)
                             .setMessage(R.string.bookmark_edit_title)
@@ -758,54 +756,61 @@ public class Browser extends AppCompatActivity  {
             final String title = mWebView.getTitle();
             final String url = mWebView.getUrl();
 
-            final LinearLayout layout = new LinearLayout(this);
-            layout.setOrientation(LinearLayout.VERTICAL);
-            layout.setGravity(Gravity.CENTER_HORIZONTAL);
-            final EditText input = new EditText(this);
-            input.setSingleLine(false);
-            layout.setPadding(30, 0, 50, 0);
-            layout.addView(input);
+            try {
 
-            final AlertDialog.Builder dialog = new AlertDialog.Builder(this)
-                    .setView(layout)
-                    .setTitle(title)
-                    .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+                final LinearLayout layout = new LinearLayout(Browser.this);
+                layout.setOrientation(LinearLayout.VERTICAL);
+                layout.setGravity(Gravity.CENTER_HORIZONTAL);
+                layout.setPadding(50, 0, 50, 0);
 
-                        public void onClick(DialogInterface dialog, int whichButton) {
+                final TextView titleText = new TextView(Browser.this);
+                titleText.setText(R.string.note_edit_title);
+                titleText.setPadding(5,50,0,0);
+                layout.addView(titleText);
 
-                            String longText = input.getText().toString().trim();
-                            Notification.Builder mBuilder = new Notification.Builder(Browser.this);
+                final EditText titleEdit = new EditText(Browser.this);
+                titleEdit.setText(title);
+                layout.addView(titleEdit);
 
-                            mBuilder.setSmallIcon(R.drawable.ic_school_white_24dp);
-                            mBuilder.setContentTitle(title);
-                            mBuilder.setContentText(longText);
-                            mBuilder.setStyle(new Notification.BigTextStyle().bigText(longText));
+                final TextView contentText = new TextView(Browser.this);
+                contentText.setText(R.string.note_edit_content);
+                contentText.setPadding(5,25,0,0);
+                layout.addView(contentText);
 
-                            Intent resultIntent = new Intent(Browser.this, Browser.class);
-                            resultIntent.putExtra("url" , url);
-                            TaskStackBuilder stackBuilder = TaskStackBuilder.create(Browser.this);
-                            stackBuilder.addParentStack(Browser.class);
+                final EditText contentEdit = new EditText(Browser.this);
+                contentEdit.setText("");
+                layout.addView(contentEdit);
 
-                            // Adds the Intent that starts the Activity to the top of the stack
-                            stackBuilder.addNextIntent(resultIntent);
-                            PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-                            mBuilder.setContentIntent(resultPendingIntent);
+                ScrollView sv = new ScrollView(Browser.this);
+                sv.pageScroll(0);
+                sv.setBackgroundColor(0);
+                sv.setScrollbarFadingEnabled(true);
+                sv.setVerticalFadingEdgeEnabled(false);
+                sv.addView(layout);
 
-                            NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                            Random rand = new Random();
-                            int n = rand.nextInt(200);
+                final Database_Notes db = new Database_Notes(Browser.this);
+                final AlertDialog.Builder dialog = new AlertDialog.Builder(this)
+                        .setView(sv)
+                        .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
 
-                            // notificationID allows you to update the notification later on.
-                            mNotificationManager.notify(n, mBuilder.build());
-                        }
-                    })
-                    .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                String inputTitle = titleEdit.getText().toString().trim();
+                                String inputContent = contentEdit.getText().toString().trim();
+                                db.addBookmark(inputTitle, url, inputContent);
+                                db.close();
+                            }
+                        })
+                        .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
 
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            dialog.cancel();
-                        }
-                    });
-            dialog.show();
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                dialog.cancel();
+                            }
+                        });
+                dialog.show();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         return super.onOptionsItemSelected(item);
     }

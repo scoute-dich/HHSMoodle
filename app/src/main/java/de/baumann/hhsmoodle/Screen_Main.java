@@ -2,10 +2,6 @@ package de.baumann.hhsmoodle;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,7 +14,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -30,15 +25,17 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import de.baumann.hhsmoodle.fragmentsMain.FragmentBookmark;
 import de.baumann.hhsmoodle.fragmentsMain.FragmentInfo;
-import de.baumann.hhsmoodle.helper.SplashActivity;
+import de.baumann.hhsmoodle.fragmentsMain.FragmentNotes;
+import de.baumann.hhsmoodle.helper.Database_Notes;
 import de.baumann.hhsmoodle.helper.Start;
 
 @SuppressWarnings("ResultOfMethodCallIgnored")
@@ -147,6 +144,7 @@ public class Screen_Main extends AppCompatActivity {
 
         adapter.addFragment(new FragmentInfo(), String.valueOf(getString(R.string.title_weatherInfo)));
         adapter.addFragment(new FragmentBookmark(), String.valueOf(getString(R.string.title_bookmarks)));
+        adapter.addFragment(new FragmentNotes(), String.valueOf(getString(R.string.title_notes)));
 
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(startTabInt,true);
@@ -202,55 +200,63 @@ public class Screen_Main extends AppCompatActivity {
 
         if (id == R.id.action_not) {
 
-            final String title = getString(R.string.menu_rem);
+            final String url = "noURL";
 
-            final LinearLayout layout = new LinearLayout(this);
-            layout.setOrientation(LinearLayout.VERTICAL);
-            layout.setGravity(Gravity.CENTER_HORIZONTAL);
-            final EditText input = new EditText(this);
-            input.setSingleLine(false);
-            layout.setPadding(30, 0, 50, 0);
-            layout.addView(input);
+            try {
 
-            final AlertDialog.Builder dialog = new AlertDialog.Builder(this)
-                    .setView(layout)
-                    .setTitle(title)
-                    .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+                final LinearLayout layout = new LinearLayout(Screen_Main.this);
+                layout.setOrientation(LinearLayout.VERTICAL);
+                layout.setGravity(Gravity.CENTER_HORIZONTAL);
+                layout.setPadding(50, 0, 50, 0);
 
-                        public void onClick(DialogInterface dialog, int whichButton) {
+                final TextView titleText = new TextView(Screen_Main.this);
+                titleText.setText(R.string.note_edit_title);
+                titleText.setPadding(5,50,0,0);
+                layout.addView(titleText);
 
-                            String longText = input.getText().toString().trim();
-                            Notification.Builder mBuilder = new Notification.Builder(Screen_Main.this);
+                final EditText titleEdit = new EditText(Screen_Main.this);
+                titleEdit.setText("");
+                layout.addView(titleEdit);
 
-                            mBuilder.setSmallIcon(R.drawable.ic_school_white_24dp);
-                            mBuilder.setContentTitle(title);
-                            mBuilder.setContentText(longText);
-                            mBuilder.setStyle(new Notification.BigTextStyle().bigText(longText));
+                final TextView contentText = new TextView(Screen_Main.this);
+                contentText.setText(R.string.note_edit_content);
+                contentText.setPadding(5,25,0,0);
+                layout.addView(contentText);
 
-                            Intent resultIntent = new Intent(Screen_Main.this, SplashActivity.class);
-                            TaskStackBuilder stackBuilder = TaskStackBuilder.create(Screen_Main.this);
-                            stackBuilder.addParentStack(Screen_Main.class);
+                final EditText contentEdit = new EditText(Screen_Main.this);
+                contentEdit.setText("");
+                layout.addView(contentEdit);
 
-                            // Adds the Intent that starts the Activity to the top of the stack
-                            stackBuilder.addNextIntent(resultIntent);
-                            PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-                            mBuilder.setContentIntent(resultPendingIntent);
+                ScrollView sv = new ScrollView(Screen_Main.this);
+                sv.pageScroll(0);
+                sv.setBackgroundColor(0);
+                sv.setScrollbarFadingEnabled(true);
+                sv.setVerticalFadingEdgeEnabled(false);
+                sv.addView(layout);
 
-                            NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                            Random rand = new Random();
-                            int n = rand.nextInt(200);
+                final Database_Notes db = new Database_Notes(Screen_Main.this);
+                final AlertDialog.Builder dialog = new AlertDialog.Builder(this)
+                        .setView(sv)
+                        .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
 
-                            // notificationID allows you to update the notification later on.
-                            mNotificationManager.notify(n, mBuilder.build());
-                        }
-                    })
-                    .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                String inputTitle = titleEdit.getText().toString().trim();
+                                String inputContent = contentEdit.getText().toString().trim();
+                                db.addBookmark(inputTitle, url, inputContent);
+                                db.close();
+                            }
+                        })
+                        .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
 
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            dialog.cancel();
-                        }
-                    });
-            dialog.show();
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                dialog.cancel();
+                            }
+                        });
+                dialog.show();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         return super.onOptionsItemSelected(item);
     }

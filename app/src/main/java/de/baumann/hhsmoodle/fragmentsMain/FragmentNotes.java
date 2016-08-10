@@ -2,18 +2,24 @@ package de.baumann.hhsmoodle.fragmentsMain;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.TaskStackBuilder;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.util.Linkify;
@@ -22,25 +28,31 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 import de.baumann.hhsmoodle.Browser;
 import de.baumann.hhsmoodle.R;
-import de.baumann.hhsmoodle.helper.Database_Browser;
+import de.baumann.hhsmoodle.Screen_Main;
+import de.baumann.hhsmoodle.helper.Database_Notes;
 
 
-public class FragmentBookmark extends Fragment {
+public class FragmentNotes extends Fragment {
 
     private ListView listView = null;
+    private int position;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,10 +77,42 @@ public class FragmentBookmark extends Fragment {
                 @SuppressWarnings("unchecked")
                 HashMap<String,String> map = (HashMap<String,String>)listView.getItemAtPosition(position);
 
-                Intent intent = new Intent(getActivity(), Browser.class);
-                intent.putExtra("url", map.get("url"));
-                startActivityForResult(intent, 100);
-                getActivity().finish();
+                final String title = map.get("title");
+                final String cont = map.get("cont");
+
+                LinearLayout layout = new LinearLayout(getActivity());
+                layout.setOrientation(LinearLayout.VERTICAL);
+                layout.setGravity(Gravity.CENTER_HORIZONTAL);
+                layout.setPadding(50, 0, 50, 0);
+
+                final TextView textTitle = new TextView(getContext());
+                textTitle.setText(title);
+                textTitle.setTextSize(24);
+                textTitle.setTypeface(null, Typeface.BOLD);
+                textTitle.setPadding(5,50,0,0);
+                layout.addView(textTitle);
+
+                final TextView textContent = new TextView(getContext());
+                textContent.setText(cont);
+                textContent.setPadding(5,25,0,0);
+                layout.addView(textContent);
+
+                ScrollView sv = new ScrollView(getActivity());
+                sv.pageScroll(0);
+                sv.setBackgroundColor(0);
+                sv.setScrollbarFadingEnabled(true);
+                sv.setVerticalFadingEdgeEnabled(false);
+                sv.addView(layout);
+
+                final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity())
+                        .setView(sv)
+                        .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                dialog.cancel();
+                            }
+                        });
+                dialog.show();
             }
         });
 
@@ -80,33 +124,39 @@ public class FragmentBookmark extends Fragment {
                 final String seqnoStr = map.get("seqno");
                 final String title = map.get("title");
                 final String url = map.get("url");
+                final String cont = map.get("cont");
 
                 final LinearLayout layout = new LinearLayout(getActivity());
                 layout.setOrientation(LinearLayout.VERTICAL);
                 layout.setGravity(Gravity.CENTER_HORIZONTAL);
-                final EditText input = new EditText(getActivity());
-                input.setSingleLine(true);
-                layout.setPadding(30, 0, 50, 0);
-                layout.addView(input);
 
-                final CharSequence[] options = {getString(R.string.bookmark_edit_title), getString(R.string.bookmark_edit_fav), getString(R.string.bookmark_remove_bookmark)};
+                final EditText inputTitle = new EditText(getActivity());
+                inputTitle.setSingleLine(false);
+                inputTitle.setSelection(inputTitle.getText().length());
+                layout.setPadding(30, 0, 50, 0);
+                layout.addView(inputTitle);
+
+                final CharSequence[] options = {getString(R.string.note_edit_title),
+                        getString(R.string.note_edit_content),
+                        getString(R.string.note_set_not),
+                        getString(R.string.note_share),
+                        getString(R.string.note_remove_note)};
                 new AlertDialog.Builder(getActivity())
                         .setItems(options, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int item) {
-                                if (options[item].equals(getString(R.string.bookmark_edit_title))) {
+                                if (options[item].equals(getString(R.string.note_edit_title))) {
                                     try {
-                                        final Database_Browser db = new Database_Browser(getActivity());
+                                        inputTitle.setText(title);
+                                        final Database_Notes db = new Database_Notes(getActivity());
                                         db.deleteBookmark((Integer.parseInt(seqnoStr)));
-                                        input.setText(title);
                                         final AlertDialog.Builder dialog2 = new AlertDialog.Builder(getActivity())
+                                                .setTitle(getString(R.string.note_edit_title))
                                                 .setView(layout)
-                                                .setMessage(R.string.bookmark_edit_title)
                                                 .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
-
                                                     public void onClick(DialogInterface dialog, int whichButton) {
-                                                        String inputTag = input.getText().toString().trim();
-                                                        db.addBookmark(inputTag, url);
+                                                        String textTitle = inputTitle.getText().toString().trim();
+                                                        db.addBookmark(textTitle, url, cont);
                                                         db.close();
                                                         setBookmarkList();
                                                     }
@@ -124,36 +174,98 @@ public class FragmentBookmark extends Fragment {
                                     }
                                 }
 
+                                if (options[item].equals (getString(R.string.note_edit_content))) {
+                                    try {
+                                        inputTitle.setText(cont);
+                                        final Database_Notes db = new Database_Notes(getActivity());
+                                        db.deleteBookmark((Integer.parseInt(seqnoStr)));
+                                        final AlertDialog.Builder dialog2 = new AlertDialog.Builder(getActivity())
+                                                .setTitle(getString(R.string.note_edit_content))
+                                                .setView(layout)
+                                                .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                                        String textContent = inputTitle.getText().toString().trim();
+                                                        db.addBookmark(title, url, textContent);
+                                                        db.close();
+                                                        setBookmarkList();
+                                                    }
+                                                })
+                                                .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
 
-                                if (options[item].equals (getString(R.string.bookmark_edit_fav))) {
-                                    final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                                    sharedPref.edit()
-                                            .putString("favoriteURL", url)
-                                            .putString("favoriteTitle", title)
-                                            .apply();
-                                    Snackbar.make(listView, R.string.bookmark_setFav, Snackbar.LENGTH_LONG).show();
+                                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                                        dialog.cancel();
+                                                    }
+                                                });
+                                        dialog2.show();
+
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
                                 }
 
-                                if (options[item].equals(getString(R.string.bookmark_remove_bookmark))) {
+                                if (options[item].equals (getString(R.string.note_share))) {
+
+                                    Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                                    sharingIntent.setType("text/plain");
+                                    sharingIntent.putExtra(Intent.EXTRA_SUBJECT, title);
+                                    sharingIntent.putExtra(Intent.EXTRA_TEXT, cont);
+                                    startActivity(Intent.createChooser(sharingIntent, (getString(R.string.note_share_2))));
+                                }
+
+                                if (options[item].equals(getString(R.string.note_set_not))) {
+
+                                    final Intent resultIntent;
+
+                                    Notification.Builder mBuilder = new Notification.Builder(getActivity());
+
+                                    mBuilder.setSmallIcon(R.drawable.ic_school_white_24dp);
+                                    mBuilder.setContentTitle(title);
+                                    mBuilder.setContentText(cont);
+                                    mBuilder.setStyle(new Notification.BigTextStyle().bigText(url));
+
+                                    if (url.contains("noURL")) {
+                                        resultIntent = new Intent(getActivity(), Screen_Main.class);
+                                    } else {
+                                        resultIntent = new Intent(getActivity(), Browser.class);
+                                        resultIntent.putExtra("url" , url);
+                                    }
+
+                                    TaskStackBuilder stackBuilder = TaskStackBuilder.create(getActivity());
+                                    stackBuilder.addParentStack(Browser.class);
+
+                                    // Adds the Intent that starts the Activity to the top of the stack
+                                    stackBuilder.addNextIntent(resultIntent);
+                                    PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+                                    mBuilder.setContentIntent(resultPendingIntent);
+
+                                    NotificationManager mNotificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+                                    Random rand = new Random();
+                                    int n = rand.nextInt(200);
+
+                                    // notificationID allows you to update the notification later on.
+                                    mNotificationManager.notify(n, mBuilder.build());
+                                }
+
+                                if (options[item].equals(getString(R.string.note_remove_note))) {
 
                                     try {
-                                        Database_Browser db = new Database_Browser(getActivity());
+                                        Database_Notes db = new Database_Notes(getActivity());
                                         final int count = db.getRecordCount();
                                         db.close();
 
                                         if (count == 1) {
                                             Snackbar snackbar = Snackbar
-                                                    .make(listView, R.string.bookmark_remove_cannot, Snackbar.LENGTH_LONG);
+                                                    .make(listView, R.string.note_remove_cannot, Snackbar.LENGTH_LONG);
                                             snackbar.show();
 
                                         } else {
                                             Snackbar snackbar = Snackbar
-                                                    .make(listView, R.string.bookmark_remove_confirmation, Snackbar.LENGTH_LONG)
+                                                    .make(listView, R.string.note_remove_confirmation, Snackbar.LENGTH_LONG)
                                                     .setAction(R.string.toast_yes, new View.OnClickListener() {
                                                         @Override
                                                         public void onClick(View view) {
                                                             try {
-                                                                Database_Browser db = new Database_Browser(getActivity());
+                                                                Database_Notes db = new Database_Notes(getActivity());
                                                                 db.deleteBookmark(Integer.parseInt(seqnoStr));
                                                                 db.close();
                                                                 setBookmarkList();
@@ -169,18 +281,13 @@ public class FragmentBookmark extends Fragment {
                                         e.printStackTrace();
                                     }
                                 }
-
                             }
                         }).show();
-
                 return true;
             }
         });
 
         setBookmarkList();
-
-
-
         return rootView;
     }
 
@@ -202,7 +309,7 @@ public class FragmentBookmark extends Fragment {
         ArrayList<HashMap<String,String>> mapList = new ArrayList<>();
 
         try {
-            Database_Browser db = new Database_Browser(getActivity());
+            Database_Notes db = new Database_Notes(getActivity());
             ArrayList<String[]> bookmarkList = new ArrayList<>();
             db.getBookmarks(bookmarkList);
             if (bookmarkList.size() == 0) {
@@ -216,14 +323,15 @@ public class FragmentBookmark extends Fragment {
                 map.put("seqno", strAry[0]);
                 map.put("title", strAry[1]);
                 map.put("url", strAry[2]);
+                map.put("cont", strAry[3]);
                 mapList.add(map);
             }
 
             SimpleAdapter simpleAdapter = new SimpleAdapter(
                     getActivity(),
                     mapList,
-                    R.layout.list_item,
-                    new String[] {"title", "url"},
+                    R.layout.list_item_note,
+                    new String[] {"title", "cont"},
                     new int[] {R.id.textView_title, R.id.textView_des}
             );
 
@@ -236,19 +344,19 @@ public class FragmentBookmark extends Fragment {
 
     private void checkFirstRun() {
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        if (sharedPref.getBoolean ("first_bookmark", false)){
-            final SpannableString s = new SpannableString(Html.fromHtml(getString(R.string.firstBookmark_text)));
+        if (sharedPref.getBoolean ("first_note", false)){
+            final SpannableString s = new SpannableString(Html.fromHtml(getString(R.string.firstNote_text)));
             Linkify.addLinks(s, Linkify.WEB_URLS);
 
             final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity())
-                    .setTitle(R.string.firstBookmark_title)
+                    .setTitle(R.string.firstNote_title)
                     .setMessage(s)
                     .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
 
                         public void onClick(DialogInterface dialog, int whichButton) {
                             dialog.cancel();
                             sharedPref.edit()
-                                    .putBoolean("first_bookmark", false)
+                                    .putBoolean("first_note", false)
                                     .apply();
                         }
                     });

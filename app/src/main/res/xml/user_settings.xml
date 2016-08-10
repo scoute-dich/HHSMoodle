@@ -76,6 +76,12 @@
             android:defaultValue="true" />
 
         <CheckBoxPreference
+            android:title="@string/firstNote_title"
+            android:summary="@string/firstNote_title_summary"
+            android:key="first_note"
+            android:defaultValue="true" />
+
+        <CheckBoxPreference
             android:title="@string/firstScreenshot_title"
             android:summary="@string/firstScreenshot_title_summary"
             android:key="first_screenshot"

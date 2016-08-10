@@ -24,11 +24,13 @@
     <string-array name="listArrayTabMain">
         <item>My Moodle</item>
         <item>Bookmarks</item>
+        <item>Notes</item>
     </string-array>
 
     <string-array name="listValuesTabMain">
         <item>0</item>
         <item>1</item>
+        <item>2</item>
     </string-array>
 
 </resources>

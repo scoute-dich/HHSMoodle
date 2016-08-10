@@ -79,6 +79,20 @@
         Bildschirm zu sehen ist). Damit dies richtig funktioniert, solltest du warten, bis die Internetseite komplett geladen
         ist, um sicherzustellen, dass die gesamte Internetseite aufgenommen wird.</string>
 
+    <string name="firstNote_title">Notizen erstellen</string>
+    <string name="firstNote_title_summary">Noch einmal anzeigen: Notizen erstellen?</string>
+    <string name="firstNote_text">
+        &lt;i>Notizen erstellen:&lt;/i>&lt;br>
+        Du kannst Notizen erstellen, indem du den entsprechenden Eintrag im Menu oder das Stifticon in der Toolbar
+        anklickst.&lt;br>&lt;br>
+
+        &lt;i>Arbeit mit Notizen:&lt;/i>&lt;br>
+
+        Wenn du einen Eintrag in der Liste anklickst öffnet sich die Notiz. Wenn du einen Eintrag lange drückst, öffnet sich ein Menü.
+        Du kannst den Titel oder den Inhalt der Notiz bearbeiten oder sie ganz löschen (mindestens eine Notiz muss vorhanden sein).&lt;br>
+        Du kannst auch eine Benachrichtigung an die Statusleiste pinnen. Wenn sie gedrückt wird, öffnet sich die App, oder, wenn die
+        Notiz aus einem Kurs heraus erstellt wurde, der entsprechende Moodleinhalt. Die Benachrichtigung geht beim Neustart verloren.</string>
+
 
     <string name="perm_notShow_title">Berechtigungsdialog</string>
     <string name="perm_notShow_title_summary">Noch einmal anzeigen: Berechtigungsdialog?</string>

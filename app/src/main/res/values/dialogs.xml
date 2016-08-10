@@ -72,6 +72,19 @@
         You can make screenshots of the whole website (even of the part which is outside of your display.
         Before taking the screenshot wait until the website is fully loaded, to ensure that the whole website is captured.</string>
 
+    <string name="firstNote_title">Taking notes</string>
+    <string name="firstNote_title_summary">Show again: Taking notes?</string>
+    <string name="firstNote_text">
+        &lt;i>Create notes:&lt;/i>&lt;br>
+        You can make notes if you click the \"Taking note\" entry in the menu or the pencil icon in the toolbar.&lt;br>&lt;br>
+
+        &lt;i>Working with notes:&lt;/i>&lt;br>
+
+        Clicking a list entry opens the note. Long click on an entry opens a popup menu. You can edit title and content of the
+        note or delete the note (at least one note is needed).&lt;br>
+        You can also set a notification to the system status bar. Clicking the notification opens the app or, if the note was
+        created during viewing a course, the concerning moodle content. The notification gets lost after an reboot.</string>
+
     <string name="perm_notShow_title">Permission dialog</string>
     <string name="perm_notShow_title_summary">Show again: Permission dialog?</string>
 

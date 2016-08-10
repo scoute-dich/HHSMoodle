@@ -9,9 +9,9 @@ import android.database.sqlite.SQLiteStatement;
 
 import java.util.ArrayList;
 
-public class BrowserDatabase extends SQLiteOpenHelper
+public class Database_Browser extends SQLiteOpenHelper
 {
-    public BrowserDatabase(Context context)
+    public Database_Browser(Context context)
             throws NameNotFoundException
     {
         super(context,

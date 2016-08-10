@@ -21,6 +21,7 @@
 
     <string name="title_weatherInfo">Mein Moodle</string>
     <string name="title_bookmarks">Lesezeichen</string>
+    <string name="title_notes">Notizen</string>
 
 
     // Menu Items
@@ -33,7 +34,7 @@
     <string name="menu_save_screenshot">Bildschirmfoto speichern</string>
     <string name="menu_settings">Einstellungen</string>
     <string name="menu_folder">Öffne Anwendungsordner</string>
-    <string name="menu_rem">Erinnerung</string>
+    <string name="menu_rem">Notitz erstellen</string>
 
 
     // Context Menu
@@ -128,5 +129,17 @@
     <string name="bookmark_setFav">Erfolgreich als Favorit gespeichert.</string>
     <string name="bookmark_edit_title">Titel bearbeiten</string>
     <string name="bookmark_edit_fav">Als Favorit speichern</string>
+
+
+    // Notes
+
+    <string name="note_remove_confirmation">Notiz wird entfern. OK?</string>
+    <string name="note_remove_cannot">Du brauchst mindestens eine Notiz!</string>
+    <string name="note_remove_note">Lösche Notiz</string>
+    <string name="note_edit_title">Bearbeite Titel</string>
+    <string name="note_edit_content">Bearbeite Inhalt</string>
+    <string name="note_set_not">Setze Benachrichtigung</string>
+    <string name="note_share">Teile Notiz</string>
+    <string name="note_share_2">Notiz teilen mit:</string>
 
 </resources>
