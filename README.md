@@ -6,7 +6,7 @@ A small android webview application to show the mobile webpage of our school moo
 - capture websites for offline use
 - share screenshot of whole webview
 - context menu for images and links
-- download manager also (https)
+- download manager (also https)
 - English translation
 - Create notes
 - Create notifications (restored after reboot)
