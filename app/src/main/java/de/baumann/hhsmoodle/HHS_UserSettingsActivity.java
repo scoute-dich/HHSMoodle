@@ -25,7 +25,7 @@ import java.io.File;
 import de.baumann.hhsmoodle.helper.Start;
 
 
-public class UserSettingsActivity extends AppCompatActivity {
+public class HHS_UserSettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -176,12 +176,12 @@ public class UserSettingsActivity extends AppCompatActivity {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         final String startType = sharedPref.getString("startType", "1");
         if (startType.equals("2")) {
-            Intent intent_in = new Intent(UserSettingsActivity.this, Start.class);
+            Intent intent_in = new Intent(HHS_UserSettingsActivity.this, Start.class);
             startActivity(intent_in);
             overridePendingTransition(0, 0);
             finish();
         } else if (startType.equals("1")) {
-            Intent intent_in = new Intent(UserSettingsActivity.this, Screen_Main.class);
+            Intent intent_in = new Intent(HHS_UserSettingsActivity.this, HHS_MainScreen.class);
             startActivity(intent_in);
             overridePendingTransition(0, 0);
             finish();
@@ -208,12 +208,12 @@ public class UserSettingsActivity extends AppCompatActivity {
             SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
             final String startType = sharedPref.getString("startType", "1");
             if (startType.equals("2")) {
-                Intent intent_in = new Intent(UserSettingsActivity.this, Start.class);
+                Intent intent_in = new Intent(HHS_UserSettingsActivity.this, Start.class);
                 startActivity(intent_in);
                 overridePendingTransition(0, 0);
                 finish();
             } else if (startType.equals("1")) {
-                Intent intent_in = new Intent(UserSettingsActivity.this, Screen_Main.class);
+                Intent intent_in = new Intent(HHS_UserSettingsActivity.this, HHS_MainScreen.class);
                 startActivity(intent_in);
                 overridePendingTransition(0, 0);
                 finish();

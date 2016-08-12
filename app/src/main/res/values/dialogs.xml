@@ -16,7 +16,11 @@
         GNU General Public License for more details.
 
         You should have received a copy of the GNU General Public License
-        along with this program.  If not, see http://www.gnu.org/licenses.
+        along with this program.  If not, see http://www.gnu.org/licenses.&lt;br>&lt;br>
+
+        &lt;i>Used open source library:&lt;br>
+        NotificationNotes&lt;br>
+        https://github.com/khuttun/NotificationNotes&lt;/i>
     </string>
 
 
@@ -82,8 +86,8 @@
 
         Clicking a list entry opens the note. Long click on an entry opens a popup menu. You can edit title and content of the
         note or delete the note (at least one note is needed).&lt;br>
-        You can also set a notification to the system status bar. Clicking the notification opens the app or, if the note was
-        created during viewing a course, the concerning moodle content. The notification gets lost after an reboot.</string>
+        You can also set a notification to the system status bar. A new screen for editing notifications will open.
+        The notification will appear again after a reboot.</string>
 
     <string name="perm_notShow_title">Permission dialog</string>
     <string name="perm_notShow_title_summary">Show again: Permission dialog?</string>

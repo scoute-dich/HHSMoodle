@@ -2,11 +2,7 @@ package de.baumann.hhsmoodle.fragmentsMain;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,7 +15,6 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.TaskStackBuilder;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.util.Linkify;
@@ -28,7 +23,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -41,18 +35,15 @@ import android.widget.TextView;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
 
-import de.baumann.hhsmoodle.Browser;
 import de.baumann.hhsmoodle.R;
-import de.baumann.hhsmoodle.Screen_Main;
 import de.baumann.hhsmoodle.helper.Database_Notes;
+import de.baumann.hhsmoodle.Notes_MainActivity;
 
 
 public class FragmentNotes extends Fragment {
 
     private ListView listView = null;
-    private int position;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -213,37 +204,16 @@ public class FragmentNotes extends Fragment {
                                 }
 
                                 if (options[item].equals(getString(R.string.note_set_not))) {
+                                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                                    sharedPref.edit()
+                                            .putString("noteTitle", title)
+                                            .putString("noteContent", cont)
+                                            .apply();
 
-                                    final Intent resultIntent;
+                                    Intent intent_in = new Intent(getActivity(), Notes_MainActivity.class);
+                                    startActivity(intent_in);
+                                    getActivity().overridePendingTransition(0, 0);
 
-                                    Notification.Builder mBuilder = new Notification.Builder(getActivity());
-
-                                    mBuilder.setSmallIcon(R.drawable.ic_school_white_24dp);
-                                    mBuilder.setContentTitle(title);
-                                    mBuilder.setContentText(cont);
-                                    mBuilder.setStyle(new Notification.BigTextStyle().bigText(url));
-
-                                    if (url.contains("noURL")) {
-                                        resultIntent = new Intent(getActivity(), Screen_Main.class);
-                                    } else {
-                                        resultIntent = new Intent(getActivity(), Browser.class);
-                                        resultIntent.putExtra("url" , url);
-                                    }
-
-                                    TaskStackBuilder stackBuilder = TaskStackBuilder.create(getActivity());
-                                    stackBuilder.addParentStack(Browser.class);
-
-                                    // Adds the Intent that starts the Activity to the top of the stack
-                                    stackBuilder.addNextIntent(resultIntent);
-                                    PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-                                    mBuilder.setContentIntent(resultPendingIntent);
-
-                                    NotificationManager mNotificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
-                                    Random rand = new Random();
-                                    int n = rand.nextInt(200);
-
-                                    // notificationID allows you to update the notification later on.
-                                    mNotificationManager.notify(n, mBuilder.build());
                                 }
 
                                 if (options[item].equals(getString(R.string.note_remove_note))) {
@@ -378,6 +348,67 @@ public class FragmentNotes extends Fragment {
                     startActivity (target);
                 } catch (ActivityNotFoundException e) {
                     Snackbar.make(listView, R.string.toast_install_folder, Snackbar.LENGTH_LONG).show();
+                }
+
+            case R.id.action_not:
+
+                final String url = "noURL";
+
+                try {
+
+                    final LinearLayout layout = new LinearLayout(getActivity());
+                    layout.setOrientation(LinearLayout.VERTICAL);
+                    layout.setGravity(Gravity.CENTER_HORIZONTAL);
+                    layout.setPadding(50, 0, 50, 0);
+
+                    final TextView titleText = new TextView(getActivity());
+                    titleText.setText(R.string.note_edit_title);
+                    titleText.setPadding(5,50,0,0);
+                    layout.addView(titleText);
+
+                    final EditText titleEdit = new EditText(getActivity());
+                    titleEdit.setText("");
+                    layout.addView(titleEdit);
+
+                    final TextView contentText = new TextView(getActivity());
+                    contentText.setText(R.string.note_edit_content);
+                    contentText.setPadding(5,25,0,0);
+                    layout.addView(contentText);
+
+                    final EditText contentEdit = new EditText(getActivity());
+                    contentEdit.setText("");
+                    layout.addView(contentEdit);
+
+                    ScrollView sv = new ScrollView(getActivity());
+                    sv.pageScroll(0);
+                    sv.setBackgroundColor(0);
+                    sv.setScrollbarFadingEnabled(true);
+                    sv.setVerticalFadingEdgeEnabled(false);
+                    sv.addView(layout);
+
+                    final Database_Notes db = new Database_Notes(getActivity());
+                    final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity())
+                            .setView(sv)
+                            .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    String inputTitle = titleEdit.getText().toString().trim();
+                                    String inputContent = contentEdit.getText().toString().trim();
+                                    db.addBookmark(inputTitle, url, inputContent);
+                                    db.close();
+                                    setBookmarkList();
+                                }
+                            })
+                            .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    dialog.cancel();
+                                }
+                            });
+                    dialog.show();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
         }
         return super.onOptionsItemSelected(item);

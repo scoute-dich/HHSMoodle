@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 
-import de.baumann.hhsmoodle.Browser;
+import de.baumann.hhsmoodle.HHS_Browser;
 
 public class Start extends AppCompatActivity  {
 
@@ -18,7 +18,7 @@ public class Start extends AppCompatActivity  {
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         String startURL = sharedPref.getString("favoriteURL", "\"https://moodle.huebsch.ka.schule-bw.de/moodle/");
 
-        Intent intent = new Intent(Start.this, Browser.class);
+        Intent intent = new Intent(Start.this, HHS_Browser.class);
         intent.putExtra("url", startURL);
         startActivityForResult(intent, 100);
         finish();

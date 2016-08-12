@@ -19,6 +19,7 @@ import android.text.SpannableString;
 import android.text.util.Linkify;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +34,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import de.baumann.hhsmoodle.Browser;
+import de.baumann.hhsmoodle.HHS_Browser;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.helper.Database_Browser;
 
@@ -65,7 +66,7 @@ public class FragmentBookmark extends Fragment {
                 @SuppressWarnings("unchecked")
                 HashMap<String,String> map = (HashMap<String,String>)listView.getItemAtPosition(position);
 
-                Intent intent = new Intent(getActivity(), Browser.class);
+                Intent intent = new Intent(getActivity(), HHS_Browser.class);
                 intent.putExtra("url", map.get("url"));
                 startActivityForResult(intent, 100);
                 getActivity().finish();
@@ -178,9 +179,6 @@ public class FragmentBookmark extends Fragment {
         });
 
         setBookmarkList();
-
-
-
         return rootView;
     }
 
@@ -254,6 +252,13 @@ public class FragmentBookmark extends Fragment {
                     });
             dialog.show();
         }
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        super.onPrepareOptionsMenu(menu);
+        menu.findItem(R.id.action_not).setVisible(false);
     }
 
     @Override

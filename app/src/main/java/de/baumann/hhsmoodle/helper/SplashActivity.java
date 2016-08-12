@@ -29,7 +29,7 @@ import android.view.WindowManager;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import de.baumann.hhsmoodle.Screen_Main;
+import de.baumann.hhsmoodle.HHS_MainScreen;
 import de.baumann.hhsmoodle.R;
 
 
@@ -59,7 +59,7 @@ public class SplashActivity extends AppCompatActivity {
                     startActivity(intent_in);
                     overridePendingTransition(0, 0);
                 } else if (startType.equals("1")){
-                    Intent intent_in = new Intent(SplashActivity.this, Screen_Main.class);
+                    Intent intent_in = new Intent(SplashActivity.this, HHS_MainScreen.class);
                     startActivity(intent_in);
                     overridePendingTransition(0, 0);
                 }

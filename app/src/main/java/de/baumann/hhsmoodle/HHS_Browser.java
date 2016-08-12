@@ -69,7 +69,7 @@ import de.baumann.hhsmoodle.helper.Database_Notes;
 import de.baumann.hhsmoodle.helper.Start;
 
 @SuppressWarnings("ResultOfMethodCallIgnored")
-public class Browser extends AppCompatActivity  {
+public class HHS_Browser extends AppCompatActivity  {
 
     private WebView mWebView;
     private SwipeRefreshLayout swipeView;
@@ -117,12 +117,12 @@ public class Browser extends AppCompatActivity  {
                 @Override
                 public void onClick(View view) {
                     if (startType.equals("2")) {
-                        Intent intent_in = new Intent(Browser.this, Start.class);
+                        Intent intent_in = new Intent(HHS_Browser.this, Start.class);
                         startActivity(intent_in);
                         overridePendingTransition(0, 0);
                         finish();
                     } else if (startType.equals("1")) {
-                        Intent intent_in = new Intent(Browser.this, Screen_Main.class);
+                        Intent intent_in = new Intent(HHS_Browser.this, HHS_MainScreen.class);
                         startActivity(intent_in);
                         overridePendingTransition(0, 0);
                         finish();
@@ -274,7 +274,7 @@ public class Browser extends AppCompatActivity  {
                 int hasWRITE_EXTERNAL_STORAGE = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
                 if (hasWRITE_EXTERNAL_STORAGE != PackageManager.PERMISSION_GRANTED) {
                     if (!shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                        new AlertDialog.Builder(Browser.this)
+                        new AlertDialog.Builder(HHS_Browser.this)
                                 .setMessage(R.string.app_permissions)
                                 .setNeutralButton(R.string.toast_notAgain, new DialogInterface.OnClickListener() {
                                     @Override
@@ -346,7 +346,7 @@ public class Browser extends AppCompatActivity  {
 
             public void onPageFinished(WebView view, String url) {
 
-                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(Browser.this);
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(HHS_Browser.this);
                 final String username = sharedPref.getString("username", "");
                 final String password = sharedPref.getString("password", "");
                 // do your stuff here
@@ -358,7 +358,7 @@ public class Browser extends AppCompatActivity  {
                             .setAction(getString(R.string.toast_yes), new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    Intent intent_in = new Intent(Browser.this, UserSettingsActivity.class);
+                                    Intent intent_in = new Intent(HHS_Browser.this, HHS_UserSettingsActivity.class);
                                     startActivity(intent_in);
                                     overridePendingTransition(0, 0);
                                     finish();
@@ -462,7 +462,7 @@ public class Browser extends AppCompatActivity  {
         if (mWebView.canGoBack()) {
             mWebView.goBack();
         } else {
-            Intent intent_in = new Intent(Browser.this, Screen_Main.class);
+            Intent intent_in = new Intent(HHS_Browser.this, HHS_MainScreen.class);
             startActivity(intent_in);
             overridePendingTransition(0, 0);
             finish();
@@ -492,7 +492,7 @@ public class Browser extends AppCompatActivity  {
                                         + source.getLastPathSegment());
                                 request.addRequestHeader("Cookie", CookieManager.getInstance().getCookie(url));
                                 request.setDestinationUri(Uri.fromFile(destinationFile));
-                                ((DownloadManager) Browser.this.getSystemService(Context.DOWNLOAD_SERVICE)).enqueue(request);
+                                ((DownloadManager) HHS_Browser.this.getSystemService(Context.DOWNLOAD_SERVICE)).enqueue(request);
                                 Snackbar.make(mWebView, getString(R.string.context_saveImage_toast) + " " +
                                         destinationFile.getAbsolutePath() , Snackbar.LENGTH_LONG).show();
                             }
@@ -518,7 +518,7 @@ public class Browser extends AppCompatActivity  {
                                         + "1.jpg");
                                 request.addRequestHeader("Cookie", CookieManager.getInstance().getCookie(url));
                                 request.setDestinationUri(Uri.fromFile(destinationFile));
-                                ((DownloadManager) Browser.this.getSystemService(Context.DOWNLOAD_SERVICE)).enqueue(request);
+                                ((DownloadManager) HHS_Browser.this.getSystemService(Context.DOWNLOAD_SERVICE)).enqueue(request);
                                 Snackbar.make(mWebView, getString(R.string.context_saveImage_toast) + " " +
                                         destinationFile.getAbsolutePath() , Snackbar.LENGTH_LONG).show();
                             } catch (Exception e) {
@@ -532,7 +532,7 @@ public class Browser extends AppCompatActivity  {
                             sharingIntent.setType("image/*");
                             sharingIntent.putExtra(Intent.EXTRA_STREAM, myUri);
                             sharingIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                            Browser.this.startActivity(Intent.createChooser(sharingIntent, (getString(R.string.app_share_image))));
+                            HHS_Browser.this.startActivity(Intent.createChooser(sharingIntent, (getString(R.string.app_share_image))));
 
                             File tempFile = new File(Environment.getExternalStorageDirectory() +  "/HHS_Moodle/" + "1.jpg");
                             if(tempFile.exists()){
@@ -544,13 +544,13 @@ public class Browser extends AppCompatActivity  {
                     case ID_IMAGE_EXTERNAL_BROWSER:
                         if (url != null) {
                             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                            Browser.this.startActivity(intent);
+                            HHS_Browser.this.startActivity(intent);
                         }
                         break;
 
                     case ID_COPY_LINK:
                         if (url != null) {
-                            ClipboardManager clipboard = (ClipboardManager) Browser.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                            ClipboardManager clipboard = (ClipboardManager) HHS_Browser.this.getSystemService(Context.CLIPBOARD_SERVICE);
                             clipboard.setPrimaryClip(ClipData.newPlainText("text", url));
                             Snackbar.make(mWebView, R.string.context_linkCopy_toast, Snackbar.LENGTH_LONG).show();
                         }
@@ -562,7 +562,7 @@ public class Browser extends AppCompatActivity  {
                             sendIntent.setAction(Intent.ACTION_SEND);
                             sendIntent.putExtra(Intent.EXTRA_TEXT, url);
                             sendIntent.setType("text/plain");
-                            Browser.this.startActivity(Intent.createChooser(sendIntent, getResources()
+                            HHS_Browser.this.startActivity(Intent.createChooser(sendIntent, getResources()
                                     .getString(R.string.app_share_link)));
                         }
                         break;
@@ -602,7 +602,7 @@ public class Browser extends AppCompatActivity  {
                 final SpannableString s = new SpannableString(Html.fromHtml(getString(R.string.firstSearch_text)));
                 Linkify.addLinks(s, Linkify.WEB_URLS);
 
-                final AlertDialog.Builder dialog = new AlertDialog.Builder(Browser.this)
+                final AlertDialog.Builder dialog = new AlertDialog.Builder(HHS_Browser.this)
                         .setTitle(R.string.firstSearch_title)
                         .setMessage(s)
                         .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
@@ -654,7 +654,7 @@ public class Browser extends AppCompatActivity  {
         }
 
         if (id == R.id.action_settings) {
-            Intent intent_in = new Intent(Browser.this, UserSettingsActivity.class);
+            Intent intent_in = new Intent(HHS_Browser.this, HHS_UserSettingsActivity.class);
             startActivity(intent_in);
             overridePendingTransition(0, 0);
             finish();
@@ -673,10 +673,16 @@ public class Browser extends AppCompatActivity  {
         }
 
         if (id == android.R.id.home) {
-            Intent intent_in = new Intent(Browser.this, Screen_Main.class);
+            Intent intent_in = new Intent(HHS_Browser.this, HHS_MainScreen.class);
             startActivity(intent_in);
             overridePendingTransition(0, 0);
             finish();
+        }
+
+        if (id == R.id.action_notifications) {
+            Intent intent_in = new Intent(HHS_Browser.this, Notes_MainActivity.class);
+            startActivity(intent_in);
+            overridePendingTransition(0, 0);
         }
 
         if (id == R.id.action_share) {
@@ -703,7 +709,7 @@ public class Browser extends AppCompatActivity  {
                         getString(R.string.menu_save_screenshot),
                         getString(R.string.menu_share_link), getString(R.string.menu_share_link_browser),
                         getString(R.string.menu_share_link_copy)};
-                new AlertDialog.Builder(Browser.this)
+                new AlertDialog.Builder(HHS_Browser.this)
                         .setItems(options, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int item) {
@@ -738,11 +744,11 @@ public class Browser extends AppCompatActivity  {
                                 if (options[item].equals(getString(R.string.menu_share_link_browser))) {
                                     String  url = mWebView.getUrl();
                                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                                    Browser.this.startActivity(intent);
+                                    HHS_Browser.this.startActivity(intent);
                                 }
                                 if (options[item].equals(getString(R.string.menu_share_link_copy))) {
                                     String  url = mWebView.getUrl();
-                                    ClipboardManager clipboard = (ClipboardManager) Browser.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                                    ClipboardManager clipboard = (ClipboardManager) HHS_Browser.this.getSystemService(Context.CLIPBOARD_SERVICE);
                                     clipboard.setPrimaryClip(ClipData.newPlainText("text", url));
                                     Snackbar.make(mWebView, R.string.context_linkCopy_toast, Snackbar.LENGTH_LONG).show();
                                 }
@@ -758,37 +764,37 @@ public class Browser extends AppCompatActivity  {
 
             try {
 
-                final LinearLayout layout = new LinearLayout(Browser.this);
+                final LinearLayout layout = new LinearLayout(HHS_Browser.this);
                 layout.setOrientation(LinearLayout.VERTICAL);
                 layout.setGravity(Gravity.CENTER_HORIZONTAL);
                 layout.setPadding(50, 0, 50, 0);
 
-                final TextView titleText = new TextView(Browser.this);
+                final TextView titleText = new TextView(HHS_Browser.this);
                 titleText.setText(R.string.note_edit_title);
                 titleText.setPadding(5,50,0,0);
                 layout.addView(titleText);
 
-                final EditText titleEdit = new EditText(Browser.this);
+                final EditText titleEdit = new EditText(HHS_Browser.this);
                 titleEdit.setText(title);
                 layout.addView(titleEdit);
 
-                final TextView contentText = new TextView(Browser.this);
+                final TextView contentText = new TextView(HHS_Browser.this);
                 contentText.setText(R.string.note_edit_content);
                 contentText.setPadding(5,25,0,0);
                 layout.addView(contentText);
 
-                final EditText contentEdit = new EditText(Browser.this);
+                final EditText contentEdit = new EditText(HHS_Browser.this);
                 contentEdit.setText("");
                 layout.addView(contentEdit);
 
-                ScrollView sv = new ScrollView(Browser.this);
+                ScrollView sv = new ScrollView(HHS_Browser.this);
                 sv.pageScroll(0);
                 sv.setBackgroundColor(0);
                 sv.setScrollbarFadingEnabled(true);
                 sv.setVerticalFadingEdgeEnabled(false);
                 sv.addView(layout);
 
-                final Database_Notes db = new Database_Notes(Browser.this);
+                final Database_Notes db = new Database_Notes(HHS_Browser.this);
                 final AlertDialog.Builder dialog = new AlertDialog.Builder(this)
                         .setView(sv)
                         .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
@@ -821,7 +827,7 @@ public class Browser extends AppCompatActivity  {
             final SpannableString s = new SpannableString(Html.fromHtml(getString(R.string.firstBrowser_text)));
             Linkify.addLinks(s, Linkify.WEB_URLS);
 
-            final AlertDialog.Builder dialog = new AlertDialog.Builder(Browser.this)
+            final AlertDialog.Builder dialog = new AlertDialog.Builder(HHS_Browser.this)
                     .setTitle(R.string.firstBrowser_title)
                     .setMessage(s)
                     .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
@@ -844,7 +850,7 @@ public class Browser extends AppCompatActivity  {
             final SpannableString s = new SpannableString(Html.fromHtml(getString(R.string.firstScreenshot_text)));
             Linkify.addLinks(s, Linkify.WEB_URLS);
 
-            final AlertDialog.Builder dialog = new AlertDialog.Builder(Browser.this)
+            final AlertDialog.Builder dialog = new AlertDialog.Builder(HHS_Browser.this)
                     .setTitle(R.string.firstScreenshot_title)
                     .setMessage(s)
                     .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {

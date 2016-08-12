@@ -49,7 +49,7 @@ public class Database_Notes extends SQLiteOpenHelper {
         stmt.bindLong(1, seqno);
         stmt.bindString(2, "First Note");
         stmt.bindString(3, "noURL");
-        stmt.bindString(4, "This is just a little example note.");
+        stmt.bindString(4, "This is just a little example notes_note.");
         stmt.executeInsert();
 
         db.setTransactionSuccessful();

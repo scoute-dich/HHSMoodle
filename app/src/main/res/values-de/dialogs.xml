@@ -16,7 +16,13 @@
         GNU General Public License for more details.
 
         You should have received a copy of the GNU General Public License
-        along with this program.  If not, see http://www.gnu.org/licenses.</string>
+        along with this program.  If not, see http://www.gnu.org/licenses.&lt;br>&lt;br>
+
+        &lt;i>Benutzte quelloffene Bibliothek:&lt;br>
+        NotificationNotes&lt;br>
+        https://github.com/khuttun/NotificationNotes&lt;/i>
+
+    </string>
 
 
     //Changelog Dialog
@@ -90,8 +96,8 @@
 
         Wenn du einen Eintrag in der Liste anklickst öffnet sich die Notiz. Wenn du einen Eintrag lange drückst, öffnet sich ein Menü.
         Du kannst den Titel oder den Inhalt der Notiz bearbeiten oder sie ganz löschen (mindestens eine Notiz muss vorhanden sein).&lt;br>
-        Du kannst auch eine Benachrichtigung an die Statusleiste pinnen. Wenn sie gedrückt wird, öffnet sich die App, oder, wenn die
-        Notiz aus einem Kurs heraus erstellt wurde, der entsprechende Moodleinhalt. Die Benachrichtigung geht beim Neustart verloren.</string>
+        Du kannst auch eine Benachrichtigung an die Statusleiste pinnen. Es öffnet sich ein neues Fenster,
+        um die Benachrichtigung zu bearbeiten. Die Benachrichtigung geht beim Neustart nicht verloren.</string>
 
 
     <string name="perm_notShow_title">Berechtigungsdialog</string>

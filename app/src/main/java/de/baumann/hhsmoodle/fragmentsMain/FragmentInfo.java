@@ -13,6 +13,7 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +23,7 @@ import android.widget.ListView;
 
 import java.io.File;
 
-import de.baumann.hhsmoodle.Browser;
+import de.baumann.hhsmoodle.HHS_Browser;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.helper.CustomListAdapter;
 
@@ -98,7 +99,7 @@ public class FragmentInfo extends Fragment {
                                     int position, long id) {
                 // TODO Auto-generated method stub
                 String Selecteditem= itemURL[+position];
-                Intent intent = new Intent(getActivity(), Browser.class);
+                Intent intent = new Intent(getActivity(), HHS_Browser.class);
                 intent.putExtra("url", Selecteditem);
                 startActivityForResult(intent, 100);
                 getActivity().finish();
@@ -133,6 +134,13 @@ public class FragmentInfo extends Fragment {
         });
 
         return rootView;
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        super.onPrepareOptionsMenu(menu);
+        menu.findItem(R.id.action_not).setVisible(false);
     }
 
     @Override

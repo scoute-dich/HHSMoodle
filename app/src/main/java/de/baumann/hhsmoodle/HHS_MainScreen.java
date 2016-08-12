@@ -18,15 +18,10 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -35,13 +30,14 @@ import java.util.List;
 import de.baumann.hhsmoodle.fragmentsMain.FragmentBookmark;
 import de.baumann.hhsmoodle.fragmentsMain.FragmentInfo;
 import de.baumann.hhsmoodle.fragmentsMain.FragmentNotes;
-import de.baumann.hhsmoodle.helper.Database_Notes;
 import de.baumann.hhsmoodle.helper.Start;
 
 @SuppressWarnings("ResultOfMethodCallIgnored")
-public class Screen_Main extends AppCompatActivity {
+public class HHS_MainScreen extends AppCompatActivity {
 
     final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,12 +66,12 @@ public class Screen_Main extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     if (startType.equals("2")) {
-                        Intent intent_in = new Intent(Screen_Main.this, Start.class);
+                        Intent intent_in = new Intent(HHS_MainScreen.this, Start.class);
                         startActivity(intent_in);
                         overridePendingTransition(0, 0);
                         finish();
                     } else if (startType.equals("1")) {
-                        Intent intent_in = new Intent(Screen_Main.this, Screen_Main.class);
+                        Intent intent_in = new Intent(HHS_MainScreen.this, HHS_MainScreen.class);
                         startActivity(intent_in);
                         overridePendingTransition(0, 0);
                         finish();
@@ -99,7 +95,7 @@ public class Screen_Main extends AppCompatActivity {
                 int hasWRITE_EXTERNAL_STORAGE = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
                 if (hasWRITE_EXTERNAL_STORAGE != PackageManager.PERMISSION_GRANTED) {
                     if (!shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                        new AlertDialog.Builder(Screen_Main.this)
+                        new AlertDialog.Builder(HHS_MainScreen.this)
                                 .setMessage(R.string.app_permissions)
                                 .setNeutralButton(R.string.toast_notAgain, new DialogInterface.OnClickListener() {
                                     @Override
@@ -192,72 +188,18 @@ public class Screen_Main extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
-            Intent intent_in = new Intent(Screen_Main.this, UserSettingsActivity.class);
+            Intent intent_in = new Intent(HHS_MainScreen.this, HHS_UserSettingsActivity.class);
             startActivity(intent_in);
             overridePendingTransition(0, 0);
             finish();
         }
 
-        if (id == R.id.action_not) {
-
-            final String url = "noURL";
-
-            try {
-
-                final LinearLayout layout = new LinearLayout(Screen_Main.this);
-                layout.setOrientation(LinearLayout.VERTICAL);
-                layout.setGravity(Gravity.CENTER_HORIZONTAL);
-                layout.setPadding(50, 0, 50, 0);
-
-                final TextView titleText = new TextView(Screen_Main.this);
-                titleText.setText(R.string.note_edit_title);
-                titleText.setPadding(5,50,0,0);
-                layout.addView(titleText);
-
-                final EditText titleEdit = new EditText(Screen_Main.this);
-                titleEdit.setText("");
-                layout.addView(titleEdit);
-
-                final TextView contentText = new TextView(Screen_Main.this);
-                contentText.setText(R.string.note_edit_content);
-                contentText.setPadding(5,25,0,0);
-                layout.addView(contentText);
-
-                final EditText contentEdit = new EditText(Screen_Main.this);
-                contentEdit.setText("");
-                layout.addView(contentEdit);
-
-                ScrollView sv = new ScrollView(Screen_Main.this);
-                sv.pageScroll(0);
-                sv.setBackgroundColor(0);
-                sv.setScrollbarFadingEnabled(true);
-                sv.setVerticalFadingEdgeEnabled(false);
-                sv.addView(layout);
-
-                final Database_Notes db = new Database_Notes(Screen_Main.this);
-                final AlertDialog.Builder dialog = new AlertDialog.Builder(this)
-                        .setView(sv)
-                        .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                String inputTitle = titleEdit.getText().toString().trim();
-                                String inputContent = contentEdit.getText().toString().trim();
-                                db.addBookmark(inputTitle, url, inputContent);
-                                db.close();
-                            }
-                        })
-                        .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                dialog.cancel();
-                            }
-                        });
-                dialog.show();
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        if (id == R.id.action_notifications) {
+            Intent intent_in = new Intent(HHS_MainScreen.this, Notes_MainActivity.class);
+            startActivity(intent_in);
+            overridePendingTransition(0, 0);
         }
+
         return super.onOptionsItemSelected(item);
     }
 

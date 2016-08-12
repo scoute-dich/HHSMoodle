@@ -8,6 +8,8 @@
     <uses-permission android:name="android.permisson.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <application
         android:allowBackup="true"
         android:fullBackupContent="true"
@@ -15,6 +17,7 @@
         android:label="@string/app_name"
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
+        android:launchMode="singleTask"
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity
@@ -31,7 +34,7 @@
         </activity>
 
         <activity
-            android:name="de.baumann.hhsmoodle.Browser"
+            android:name=".HHS_Browser"
             android:launchMode="singleInstance"
             android:windowSoftInputMode="stateAlwaysHidden"
             android:label="@string/app_name"
@@ -54,13 +57,38 @@
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity
-            android:name="de.baumann.hhsmoodle.UserSettingsActivity"
+            android:name=".HHS_UserSettingsActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"
             android:label="@string/app_name" />
 
         <activity
-            android:name="de.baumann.hhsmoodle.Screen_Main"
+            android:name=".HHS_MainScreen"
             android:windowSoftInputMode="stateAlwaysHidden"
             android:theme="@style/AppTheme.NoActionBar"/>
+
+
+        <activity
+            android:name=".Notes_MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:launchMode="singleTask" >
+        </activity>
+
+        <activity
+            android:name=".Notes_AddNoteActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:label="@string/new_note" >
+        </activity>
+
+        <service android:name=".Notes_NotificationService" />
+
+        <receiver
+            android:name=".Notes_BootCompletedReceiver"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
 
     </application>
 
