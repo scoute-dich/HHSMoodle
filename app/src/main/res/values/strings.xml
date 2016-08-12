@@ -34,6 +34,7 @@
     <string name="menu_folder">Open app folder</string>
     <string name="menu_rem">Make a note</string>
     <string name="menu_not">Notifications</string>
+    <string name="menu_bookmark">Add bookmark</string>
 
 
     // Context Menu

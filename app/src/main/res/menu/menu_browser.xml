@@ -13,7 +13,7 @@
         android:id="@+id/action_notifications"
         android:orderInCategory="100"
         android:title="@string/menu_not"
-        android:icon="@drawable/noti"
+        android:icon="@drawable/messageplus"
         app:showAsAction="ifRoom" />
 
     <item
@@ -26,7 +26,7 @@
     <item
         android:id="@+id/action_saveBookmark"
         android:orderInCategory="100"
-        android:title="@string/title_bookmarks"
+        android:title="@string/menu_bookmark"
         android:icon="@drawable/ic_bookmark"
         app:showAsAction="ifRoom" />
 

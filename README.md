@@ -8,6 +8,8 @@ A small android webview application to show the mobile webpage of our school moo
 - context menu for images and links
 - download manager also (https)
 - English translation
+- Create notes
+- Create notifications (restored after reboot)
 
 ### Links:
 - Download [Releases](https://github.com/scoute-dich/HHSMoodle/releases)

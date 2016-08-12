@@ -89,14 +89,13 @@ public class Notes_AddNoteActivity extends AppCompatActivity {
             String title = sharedPref.getString("noteTitle", "");
             String text = sharedPref.getString("noteContent", "");
 
+            this.titleInput.setText(title);
+            this.textInput.setText(text);
+
             sharedPref.edit()
                     .putString("noteTitle", "")
                     .putString("noteContent", "")
-                    .putBoolean("click", true)
                     .apply();
-
-            this.titleInput.setText(title);
-            this.textInput.setText(text);
         }
     }
 

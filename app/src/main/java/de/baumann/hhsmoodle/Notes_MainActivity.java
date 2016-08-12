@@ -165,10 +165,6 @@ public class Notes_MainActivity extends AppCompatActivity {
             assert fab != null;
             fab.performClick();
         }
-
-
-
-
     }
 
     @Override

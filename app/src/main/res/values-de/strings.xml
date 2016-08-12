@@ -36,6 +36,7 @@
     <string name="menu_folder">Öffne Anwendungsordner</string>
     <string name="menu_rem">Notitz erstellen</string>
     <string name="menu_not">Benachrichtigungen</string>
+    <string name="menu_bookmark">Add bookmark</string>
 
 
     // Context Menu
