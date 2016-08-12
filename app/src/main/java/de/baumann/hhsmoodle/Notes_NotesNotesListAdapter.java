@@ -15,7 +15,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 /**
- * Adapter for the main Notes_NotificationNote list.
+ * Adapter for the menu_browser Notes_NotificationNote list.
  */
 class Notes_NotesNotesListAdapter
     extends RecyclerView.Adapter<Notes_NotesNotesListAdapter.ViewHolder>

@@ -1,5 +1,6 @@
 package de.baumann.hhsmoodle;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
  */
 public class Notes_BootCompletedReceiver extends BroadcastReceiver
 {
+    @SuppressLint("UnsafeProtectedBroadcastReceiver")
     @Override
     public void onReceive(Context context, Intent intent)
     {

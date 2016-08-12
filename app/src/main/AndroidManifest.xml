@@ -35,7 +35,7 @@
 
         <activity
             android:name=".HHS_Browser"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="stateAlwaysHidden"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
@@ -63,6 +63,7 @@
 
         <activity
             android:name=".HHS_MainScreen"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="stateAlwaysHidden"
             android:theme="@style/AppTheme.NoActionBar"/>
 
@@ -76,6 +77,8 @@
 
         <activity
             android:name=".Notes_AddNoteActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden"
             android:label="@string/new_note" >
         </activity>

@@ -585,7 +585,7 @@ public class HHS_Browser extends AppCompatActivity  {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.menu_browser, menu);
         return true;
     }
 
@@ -653,13 +653,6 @@ public class HHS_Browser extends AppCompatActivity  {
             }
         }
 
-        if (id == R.id.action_settings) {
-            Intent intent_in = new Intent(HHS_Browser.this, HHS_UserSettingsActivity.class);
-            startActivity(intent_in);
-            overridePendingTransition(0, 0);
-            finish();
-        }
-
         if (id == R.id.action_folder) {
             final File directory = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/");
             Intent target = new Intent(Intent.ACTION_VIEW);
@@ -680,9 +673,18 @@ public class HHS_Browser extends AppCompatActivity  {
         }
 
         if (id == R.id.action_notifications) {
-            Intent intent_in = new Intent(HHS_Browser.this, Notes_MainActivity.class);
+
+            final String title = mWebView.getTitle();
+
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+            sharedPref.edit()
+                    .putString("noteTitle", title)
+                    .putBoolean("click", true)
+                    .apply();
+
+            Intent intent_in = new Intent(this, Notes_MainActivity.class);
             startActivity(intent_in);
-            overridePendingTransition(0, 0);
+            this.overridePendingTransition(0, 0);
         }
 
         if (id == R.id.action_share) {
@@ -761,6 +763,7 @@ public class HHS_Browser extends AppCompatActivity  {
 
             final String title = mWebView.getTitle();
             final String url = mWebView.getUrl();
+            final String text = url + "";
 
             try {
 
@@ -784,7 +787,7 @@ public class HHS_Browser extends AppCompatActivity  {
                 layout.addView(contentText);
 
                 final EditText contentEdit = new EditText(HHS_Browser.this);
-                contentEdit.setText("");
+                contentEdit.setText(text);
                 layout.addView(contentEdit);
 
                 ScrollView sv = new ScrollView(HHS_Browser.this);

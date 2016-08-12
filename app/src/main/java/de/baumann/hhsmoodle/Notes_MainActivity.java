@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -88,8 +89,8 @@ public class Notes_MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d(Notes_Globals.TAG, "Req " + requestCode + ", result " + resultCode);
-        if (resultCode == RESULT_OK)
-        {
+        if (resultCode == RESULT_OK) {
+
             this.addNoteResult = new AddNoteResult(
                 requestCode,
                 data.getStringExtra(Notes_AddNoteActivity.TITLE),
@@ -148,11 +149,26 @@ public class Notes_MainActivity extends AppCompatActivity {
         this.notesListAdapter = new Notes_NotesNotesListAdapter(this, getSupportFragmentManager());
 
         RecyclerView noteListView = (RecyclerView) findViewById(R.id.notes_recycler_view);
+        assert noteListView != null;
         noteListView.setLayoutManager(new LinearLayoutManager(this));
         noteListView.setAdapter(this.notesListAdapter);
 
         this.addNoteResult = null;
+        //noinspection UnusedAssignment
         EmptyNoteListObserver noteListObserver = new EmptyNoteListObserver(noteListView, findViewById(R.id.empty_text_view));
+
+        if (sharedPref.getBoolean ("click", false)){
+            sharedPref.edit()
+                    .putBoolean("click", false)
+                    .apply();
+            FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.view2);
+            assert fab != null;
+            fab.performClick();
+        }
+
+
+
+
     }
 
     @Override

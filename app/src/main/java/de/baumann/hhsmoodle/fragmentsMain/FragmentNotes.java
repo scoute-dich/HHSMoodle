@@ -17,6 +17,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.text.SpannableString;
+import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -68,8 +69,11 @@ public class FragmentNotes extends Fragment {
                 @SuppressWarnings("unchecked")
                 HashMap<String,String> map = (HashMap<String,String>)listView.getItemAtPosition(position);
 
+                SpannableString s;
+                s = new SpannableString(Html.fromHtml(map.get("cont")));
+                Linkify.addLinks(s, Linkify.WEB_URLS);
+
                 final String title = map.get("title");
-                final String cont = map.get("cont");
 
                 LinearLayout layout = new LinearLayout(getActivity());
                 layout.setOrientation(LinearLayout.VERTICAL);
@@ -84,8 +88,9 @@ public class FragmentNotes extends Fragment {
                 layout.addView(textTitle);
 
                 final TextView textContent = new TextView(getContext());
-                textContent.setText(cont);
+                textContent.setText(s);
                 textContent.setPadding(5,25,0,0);
+                textContent.setMovementMethod(LinkMovementMethod.getInstance());
                 layout.addView(textContent);
 
                 ScrollView sv = new ScrollView(getActivity());
@@ -112,6 +117,7 @@ public class FragmentNotes extends Fragment {
 
                 @SuppressWarnings("unchecked")
                 HashMap<String,String> map = (HashMap<String,String>)listView.getItemAtPosition(position);
+
                 final String seqnoStr = map.get("seqno");
                 final String title = map.get("title");
                 final String url = map.get("url");
@@ -208,6 +214,7 @@ public class FragmentNotes extends Fragment {
                                     sharedPref.edit()
                                             .putString("noteTitle", title)
                                             .putString("noteContent", cont)
+                                            .putBoolean("click", true)
                                             .apply();
 
                                     Intent intent_in = new Intent(getActivity(), Notes_MainActivity.class);

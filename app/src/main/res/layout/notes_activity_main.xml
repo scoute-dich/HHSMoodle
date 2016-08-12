@@ -2,6 +2,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:clipToPadding="false">
@@ -21,37 +22,47 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/notes_recycler_view"
-        android:scrollbars="vertical"
-        android:layout_alignParentLeft="true"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="80dp"
-        android:clipToPadding="false"
-        android:layout_alignParentBottom="true"
-        android:layout_below="@+id/view" />
+        android:layout_below="@+id/view">
 
-    <TextView
-        android:id="@+id/empty_text_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:visibility="gone"
-        android:text="@string/no_notes"/>
+        <TextView
+            android:id="@+id/empty_text_view"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:visibility="gone"
+            android:text="@string/no_notes" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:src="@drawable/ic_plus_white_48dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:fabSize="normal"
-        app:borderWidth="0dp"
-        app:elevation="6dp"
-        app:pressedTranslationZ="12dp"
-        android:onClick="addNote"
-        android:layout_alignBottom="@+id/notes_recycler_view"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="false"
-        android:layout_marginBottom="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/notes_recycler_view"
+            android:scrollbars="vertical"
+            android:layout_alignParentLeft="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="80dp"
+            android:clipToPadding="false"
+            android:layout_alignParentBottom="true"  />
+
+        <android.support.design.widget.FloatingActionButton
+            android:src="@drawable/ic_plus_white_48dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fabSize="normal"
+            app:borderWidth="0dp"
+            app:elevation="6dp"
+            app:pressedTranslationZ="12dp"
+            android:onClick="addNote"
+            android:id="@+id/view2"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            tools:ignore="RelativeOverlap" />
+
+    </RelativeLayout>
+
+
 </RelativeLayout>
