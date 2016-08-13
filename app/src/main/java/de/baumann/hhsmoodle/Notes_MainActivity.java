@@ -1,6 +1,8 @@
 package de.baumann.hhsmoodle;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,6 +12,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.text.SpannableString;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -118,12 +123,10 @@ public class Notes_MainActivity extends AppCompatActivity {
                     if (startType.equals("2")) {
                         Intent intent_in = new Intent(Notes_MainActivity.this, Start.class);
                         startActivity(intent_in);
-                        overridePendingTransition(0, 0);
                         finish();
                     } else if (startType.equals("1")) {
                         Intent intent_in = new Intent(Notes_MainActivity.this, HHS_MainScreen.class);
                         startActivity(intent_in);
-                        overridePendingTransition(0, 0);
                         finish();
                     }
                 }
@@ -145,6 +148,7 @@ public class Notes_MainActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
         setTitle(R.string.menu_not);
+        checkFirstRunNotifications();
 
         this.notesListAdapter = new Notes_NotesNotesListAdapter(this, getSupportFragmentManager());
 
@@ -205,6 +209,28 @@ public class Notes_MainActivity extends AppCompatActivity {
         }
     }
 
+    private void checkFirstRunNotifications() {
+        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        if (sharedPref.getBoolean ("first_not", false)){
+            final SpannableString s = new SpannableString(Html.fromHtml(getString(R.string.firstNot_text)));
+            Linkify.addLinks(s, Linkify.WEB_URLS);
+
+            final AlertDialog.Builder dialog = new AlertDialog.Builder(Notes_MainActivity.this)
+                    .setTitle(R.string.firstNot_title)
+                    .setMessage(s)
+                    .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            dialog.cancel();
+                            sharedPref.edit()
+                                    .putBoolean("first_not", false)
+                                    .apply();
+                        }
+                    });
+            dialog.show();
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -222,7 +248,6 @@ public class Notes_MainActivity extends AppCompatActivity {
         if (id == android.R.id.home) {
             Intent intent_in = new Intent(Notes_MainActivity.this, HHS_MainScreen.class);
             startActivity(intent_in);
-            overridePendingTransition(0, 0);
             finish();
         }
 

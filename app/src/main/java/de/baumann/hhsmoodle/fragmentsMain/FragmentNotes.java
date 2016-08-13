@@ -219,8 +219,6 @@ public class FragmentNotes extends Fragment {
 
                                     Intent intent_in = new Intent(getActivity(), Notes_MainActivity.class);
                                     startActivity(intent_in);
-                                    getActivity().overridePendingTransition(0, 0);
-
                                 }
 
                                 if (options[item].equals(getString(R.string.note_remove_note))) {

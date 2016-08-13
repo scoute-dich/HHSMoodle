@@ -22,12 +22,10 @@ package de.baumann.hhsmoodle.helper;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 import de.baumann.hhsmoodle.HHS_MainScreen;
 import de.baumann.hhsmoodle.R;
@@ -41,32 +39,46 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash);
 
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         final String startType = sharedPref.getString("startType", "1");
 
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                if (startType.equals("2")) {
-                    Intent intent_in = new Intent(SplashActivity.this, Start.class);
-                    startActivity(intent_in);
-                    overridePendingTransition(0, 0);
-                } else if (startType.equals("1")){
-                    Intent intent_in = new Intent(SplashActivity.this, HHS_MainScreen.class);
-                    startActivity(intent_in);
-                    overridePendingTransition(0, 0);
+        if (startType.equals("2")) {
+
+            new Handler().postDelayed(new Runnable() {
+                public void run() {
+
+                     /* Create an intent that will start the main activity. */
+                    Intent mainIntent = new Intent(SplashActivity.this, Start.class);
+                    mainIntent.putExtra("id", "1");
+                    //SplashScreen.this.startActivity(mainIntent);
+                    startActivity(mainIntent);
+                     /* Finish splash activity so user cant go back to it. */
+                    SplashActivity.this.finish();
+                     /* Apply our splash exit (fade out) and main
+                        entry (fade in) animation transitions. */
+                    overridePendingTransition(R.anim.fadein,R.anim.fadeout);
                 }
-                finish();
-            }
-        }, 3000);
+            }, 2000);
+        } else if (startType.equals("1")){
+            new Handler().postDelayed(new Runnable() {
+                public void run() {
 
+                     /* Create an intent that will start the main activity. */
+                    Intent mainIntent = new Intent(SplashActivity.this, HHS_MainScreen.class);
+                    mainIntent.putExtra("id", "1");
+                    //SplashScreen.this.startActivity(mainIntent);
+                    startActivity(mainIntent);
+                     /* Finish splash activity so user cant go back to it. */
+                    SplashActivity.this.finish();
+                     /* Apply our splash exit (fade out) and main
+                        entry (fade in) animation transitions. */
+                    overridePendingTransition(R.anim.fadein,R.anim.fadeout);
+                }
+            }, 2000);
+        }
     }
-
 }

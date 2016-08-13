@@ -119,12 +119,10 @@ public class HHS_Browser extends AppCompatActivity  {
                     if (startType.equals("2")) {
                         Intent intent_in = new Intent(HHS_Browser.this, Start.class);
                         startActivity(intent_in);
-                        overridePendingTransition(0, 0);
                         finish();
                     } else if (startType.equals("1")) {
                         Intent intent_in = new Intent(HHS_Browser.this, HHS_MainScreen.class);
                         startActivity(intent_in);
-                        overridePendingTransition(0, 0);
                         finish();
                     }
                 }
@@ -360,7 +358,6 @@ public class HHS_Browser extends AppCompatActivity  {
                                 public void onClick(View view) {
                                     Intent intent_in = new Intent(HHS_Browser.this, HHS_UserSettingsActivity.class);
                                     startActivity(intent_in);
-                                    overridePendingTransition(0, 0);
                                     finish();
                                 }
                             });
@@ -464,7 +461,6 @@ public class HHS_Browser extends AppCompatActivity  {
         } else {
             Intent intent_in = new Intent(HHS_Browser.this, HHS_MainScreen.class);
             startActivity(intent_in);
-            overridePendingTransition(0, 0);
             finish();
         }
     }
@@ -668,7 +664,6 @@ public class HHS_Browser extends AppCompatActivity  {
         if (id == android.R.id.home) {
             Intent intent_in = new Intent(HHS_Browser.this, HHS_MainScreen.class);
             startActivity(intent_in);
-            overridePendingTransition(0, 0);
             finish();
         }
 
@@ -684,7 +679,6 @@ public class HHS_Browser extends AppCompatActivity  {
 
             Intent intent_in = new Intent(this, Notes_MainActivity.class);
             startActivity(intent_in);
-            this.overridePendingTransition(0, 0);
         }
 
         if (id == R.id.action_share) {

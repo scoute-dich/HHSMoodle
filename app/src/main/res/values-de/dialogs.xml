@@ -61,21 +61,32 @@
 
         Du kannst zum Startschirm oder zu deinem Favorit (siehe Einstellungen) zurückkehren,
         indem du auf die Titelleiste klickst. Um zum Startschirm zurückzukehren kannst du auch den Pfeil in der Titelleiste
-        klicken. Nach unten wischen um die Seite neu zu laden.</string>
+        klicken. Nach unten wischen um die Seite neu zu laden.
+
+        &lt;i>Menu:&lt;/i>&lt;br>
+
+        Du kannst eine neue Notiz oder eine Benachrichtigung erstellen. Du kannst die aktuelle Moodleseite als Scrennshot
+        oder nur den Link teilen. Du kannst die Seite als Lesezeichen zum Startschirm hinzufügen und du kannst direkt das
+        Anwendungsverzeichnis öffnen.</string>
 
     <string name="firstBookmark_title">Startschirm</string>
     <string name="firstBookmark_title_summary">Noch einmal anzeigen: Funktion des Startschirms?</string>
     <string name="firstBookmark_text">
         &lt;i>Die Tabs:&lt;/i>&lt;br>
 
-        Im linken Tab kannst du deine persönlichen Moodleseiten aufrufen.
-        Im rechten Tab werden deine Lesezeichen angezeigt.&lt;br>&lt;br>
+        Im linken Tab kannst du deine persönlichen Moodleseiten aufrufen im mittleren Tab werden deine Lesezeichen angezeigt und
+        im rechten deine Notizen.&lt;br>&lt;br>
 
         &lt;i>Lesezeichen bearbeiten:&lt;/i>&lt;br>
 
         Ein langer Klick auf ein Lesezeichen öffnet ein Popup-Menü. Du kannst ein Lesezeichen als Favorit setzen
         (Es kann beim Start der App oder beim Klick auf die Titelbar geladen werden - siehe Einstellungen.), den Titel des
-        Lesezeichens bearbeiten, oder es komplett löschen (ein Lesezeichen muss mindestens vorhanden sein).</string>
+        Lesezeichens bearbeiten, oder es komplett löschen (ein Lesezeichen muss mindestens vorhanden sein).
+
+        &lt;i>Menü:&lt;/i>&lt;br>
+
+        Du kannst vom Hauptschirm über das Menü eine Notiz erstellen, zu deinen Benachrichtungen wechseln, den Anwendungsordner öffnen
+        (dort werden heruntergeladene Dateien gespeichert) oder die Einstellungen erreichen.</string>
 
 
     <string name="firstScreenshot_title">Bildschirmfoto aufnehmen</string>
@@ -98,6 +109,18 @@
         Du kannst den Titel oder den Inhalt der Notiz bearbeiten oder sie ganz löschen (mindestens eine Notiz muss vorhanden sein).&lt;br>
         Du kannst auch eine Benachrichtigung an die Statusleiste pinnen. Es öffnet sich ein neues Fenster,
         um die Benachrichtigung zu bearbeiten. Die Benachrichtigung geht beim Neustart nicht verloren.</string>
+
+    <string name="firstNot_title">Benachrichtigungen</string>
+    <string name="firstNot_title_summary">Noch einmal anzeigen: Benachrichtigungsdialog?</string>
+    <string name="firstNot_text">
+        Hier werden deine Benachrichtungen angezeigt. Eine neue Benachrichtigung kannst du aus einer Notiz, aus einer Moodleseite heraus
+        oder über das \"Plus-Symbol\" erstellen. Wenn du eine Benachrichtung aktivierst, wird sie in der Statusleiste
+        angezeigt (auch nach einem Neustart des Telefons). Durch langes Drücken kannst du eine Benachrichtigung löschen.&lt;br>&lt;br>
+
+        Du kannst zur Startschirm oder zu deinem Favorit (siehe Einstellungen) zurückkehren,
+        indem du auf die Titelleiste klickst. Um zum Startschirm zurückzukehren kannst du auch den Pfeil in der Titelleiste
+        klicken.
+    </string>
 
 
     <string name="perm_notShow_title">Berechtigungsdialog</string>

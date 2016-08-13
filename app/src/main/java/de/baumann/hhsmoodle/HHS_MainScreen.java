@@ -68,13 +68,10 @@ public class HHS_MainScreen extends AppCompatActivity {
                     if (startType.equals("2")) {
                         Intent intent_in = new Intent(HHS_MainScreen.this, Start.class);
                         startActivity(intent_in);
-                        overridePendingTransition(0, 0);
                         finish();
                     } else if (startType.equals("1")) {
                         Intent intent_in = new Intent(HHS_MainScreen.this, HHS_MainScreen.class);
                         startActivity(intent_in);
-                        overridePendingTransition(0, 0);
-                        finish();
                     }
                 }
             });
@@ -190,14 +187,11 @@ public class HHS_MainScreen extends AppCompatActivity {
         if (id == R.id.action_settings) {
             Intent intent_in = new Intent(HHS_MainScreen.this, HHS_UserSettingsActivity.class);
             startActivity(intent_in);
-            overridePendingTransition(0, 0);
-            finish();
         }
 
         if (id == R.id.action_notifications) {
             Intent intent_in = new Intent(HHS_MainScreen.this, Notes_MainActivity.class);
             startActivity(intent_in);
-            overridePendingTransition(0, 0);
         }
 
         return super.onOptionsItemSelected(item);

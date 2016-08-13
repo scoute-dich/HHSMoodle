@@ -171,23 +171,6 @@ public class HHS_UserSettingsActivity extends AppCompatActivity {
         }
     }
 
-    public void onBackPressed() {
-        PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        final String startType = sharedPref.getString("startType", "1");
-        if (startType.equals("2")) {
-            Intent intent_in = new Intent(HHS_UserSettingsActivity.this, Start.class);
-            startActivity(intent_in);
-            overridePendingTransition(0, 0);
-            finish();
-        } else if (startType.equals("1")) {
-            Intent intent_in = new Intent(HHS_UserSettingsActivity.this, HHS_MainScreen.class);
-            startActivity(intent_in);
-            overridePendingTransition(0, 0);
-            finish();
-        }
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -204,20 +187,9 @@ public class HHS_UserSettingsActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == android.R.id.home) {
-            PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
-            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-            final String startType = sharedPref.getString("startType", "1");
-            if (startType.equals("2")) {
-                Intent intent_in = new Intent(HHS_UserSettingsActivity.this, Start.class);
-                startActivity(intent_in);
-                overridePendingTransition(0, 0);
-                finish();
-            } else if (startType.equals("1")) {
-                Intent intent_in = new Intent(HHS_UserSettingsActivity.this, HHS_MainScreen.class);
-                startActivity(intent_in);
-                overridePendingTransition(0, 0);
-                finish();
-            }
+            Intent intent_in = new Intent(HHS_UserSettingsActivity.this, HHS_MainScreen.class);
+            startActivity(intent_in);
+            finish();
         }
 
         return super.onOptionsItemSelected(item);

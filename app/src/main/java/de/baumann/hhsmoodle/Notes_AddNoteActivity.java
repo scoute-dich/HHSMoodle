@@ -47,12 +47,10 @@ public class Notes_AddNoteActivity extends AppCompatActivity {
                     if (startType.equals("2")) {
                         Intent intent_in = new Intent(Notes_AddNoteActivity.this, Start.class);
                         startActivity(intent_in);
-                        overridePendingTransition(0, 0);
                         finish();
                     } else if (startType.equals("1")) {
                         Intent intent_in = new Intent(Notes_AddNoteActivity.this, HHS_MainScreen.class);
                         startActivity(intent_in);
-                        overridePendingTransition(0, 0);
                         finish();
                     }
                 }
@@ -114,7 +112,6 @@ public class Notes_AddNoteActivity extends AppCompatActivity {
         if (id == android.R.id.home) {
             Intent intent_in = new Intent(Notes_AddNoteActivity.this, Notes_MainActivity.class);
             startActivity(intent_in);
-            overridePendingTransition(0, 0);
             finish();
         }
 

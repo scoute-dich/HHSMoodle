@@ -46,6 +46,7 @@
         You can switch back to the main screen or to your favorite (look into the settings) by clicking the toolbar.
         To go back to the main screen you can also press the arrow at the toolbar. Swipe down to reload the website.</string>
 
+
     <string name="firstBrowser_title">Browser</string>
     <string name="firstBrowser_title_summary">Show again: Functionality of the browser?</string>
     <string name="firstBrowser_text">
@@ -56,25 +57,50 @@
         In the webview there is a context menu, which opens on long pressing a link or image.&lt;br>&lt;br>
 
         You can switch back to the main screen or to your favorite (look into the settings) by clicking the toolbar.
+        To go back to the main screen you can also press the arrow at the toolbar. Swipe down to reload the website.
+
+        &lt;i>Menu:&lt;/i>&lt;br>
+
+        You can make a new note or a new notification. You can share the actual moodle site as screenshot, or only the link. You can
+        also add the actual site as bookmark, to reach it from the main screen and you can directly open the app directory.</string>
+
+
+    <string name="firstNot_title">Notifications</string>
+    <string name="firstNot_title_summary">Show again: Notifications dialog?</string>
+    <string name="firstNot_text">
+        Here your notifications are shown. You can create a new notification from a note, a Moodle site or by clicking the
+        \"add icon\". If you activate a notification it will be shown in status bar (even after a reboot). You can delete a
+        notification by long clicking.&lt;br>&lt;br>
+
+        You can switch back to the main screen or to your favorite (look into the settings) by clicking the toolbar.
         To go back to the main screen you can also press the arrow at the toolbar. Swipe down to reload the website.</string>
+
 
     <string name="firstBookmark_title">Main screen</string>
     <string name="firstBookmark_title_summary">Show again: Tip about the main screen?</string>
     <string name="firstBookmark_text">
         &lt;i>The tabs:&lt;/i>&lt;br>
-        In the left tab you can open your personal Moodle sites. In the right tab you can see your bookmarks.&lt;br>&lt;br>
+        In the left tab you can open your personal Moodle sites, in the middle tab you can see your bookmarks and
+        in the right tab you have your notes.&lt;br>&lt;br>
 
         &lt;i>Edit bookmarks:&lt;/i>&lt;br>
 
         Long click on a bookmark opens a popup menu. You can set your favorite bookmark
         (It can be loaded on app start or on title bar click - look in the settings.), edit the title of the bookmark or
-        delete it (at least one bookmark is needed).</string>
+        delete it (at least one bookmark is needed).
+
+        &lt;i>Menu:&lt;/i>&lt;br>
+
+        From the main screen you can create a new note, reach your notifications, open the app directory (where the downloaded
+        files will be saved) or enter the settings screen.</string>
+
 
     <string name="firstScreenshot_title">Making screenshots</string>
     <string name="firstScreenshot_title_summary">Show again: Taking screenshots?</string>
     <string name="firstScreenshot_text">
         You can make screenshots of the whole website (even of the part which is outside of your display.
         Before taking the screenshot wait until the website is fully loaded, to ensure that the whole website is captured.</string>
+
 
     <string name="firstNote_title">Taking notes</string>
     <string name="firstNote_title_summary">Show again: Taking notes?</string>
@@ -88,6 +114,7 @@
         note or delete the note (at least one note is needed).&lt;br>
         You can also set a notification to the system status bar. A new screen for editing notifications will open.
         The notification will appear again after a reboot.</string>
+
 
     <string name="perm_notShow_title">Permission dialog</string>
     <string name="perm_notShow_title_summary">Show again: Permission dialog?</string>

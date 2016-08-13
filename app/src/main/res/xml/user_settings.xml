@@ -82,6 +82,12 @@
             android:defaultValue="true" />
 
         <CheckBoxPreference
+            android:title="@string/firstNot_title"
+            android:summary="@string/firstNot_title_summary"
+            android:key="first_not"
+            android:defaultValue="true" />
+
+        <CheckBoxPreference
             android:title="@string/firstScreenshot_title"
             android:summary="@string/firstScreenshot_title_summary"
             android:key="first_screenshot"
