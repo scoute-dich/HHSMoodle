@@ -18,9 +18,12 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
@@ -63,6 +66,7 @@ import java.util.Locale;
 
 import de.baumann.hhsmoodle.helper.Database_Browser;
 import de.baumann.hhsmoodle.helper.Database_Notes;
+import de.baumann.hhsmoodle.helper.OnSwipeTouchListener;
 import de.baumann.hhsmoodle.helper.Start;
 
 @SuppressWarnings("ResultOfMethodCallIgnored")
@@ -303,6 +307,21 @@ public class HHS_Browser extends AppCompatActivity  {
                             }
                         });
                 snackbar.show();
+            }
+        });
+
+        mWebView.setOnTouchListener(new OnSwipeTouchListener(HHS_Browser.this) {
+
+            public void onSwipeRight() {
+                if (mWebView.canGoBack()) {
+                    mWebView.goBack();
+                }
+            }
+
+            public void onSwipeLeft() {
+                if (mWebView.canGoForward()) {
+                    mWebView.goForward();
+                }
             }
         });
 
