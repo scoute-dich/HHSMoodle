@@ -42,7 +42,7 @@ public class Notes_NotificationService extends IntentService
         this.notificationBuilder.setOngoing(true);
         this.notificationBuilder.setPriority(NotificationCompat.PRIORITY_LOW);
         this.notificationBuilder.setContentIntent(
-            PendingIntent.getActivity(this, 0, new Intent(this, Notes_MainActivity.class), 0));
+            PendingIntent.getActivity(this, 0, new Intent(this, HHS_MainScreen.class), 0));
     }
 
     @Override

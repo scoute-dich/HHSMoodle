@@ -16,11 +16,13 @@
         GNU General Public License for more details.
 
         You should have received a copy of the GNU General Public License
-        along with this program.  If not, see http://www.gnu.org/licenses.&lt;br>&lt;br>
+        along with this program.  If not, see http://www.gnu.org/licenses.&lt;br>&lt;br>&lt;br>
 
-        &lt;i>Benutzte quelloffene Bibliothek:&lt;br>
-        NotificationNotes&lt;br>
-        https://github.com/khuttun/NotificationNotes&lt;/i>
+        &lt;b>Benutzte quelloffene Projekte:&lt;/b>&lt;br>&lt;br>
+        &lt;i>NotificationNotes&lt;br>
+        https://github.com/khuttun/NotificationNotes&lt;br>
+        browser&lt;br>
+        https://github.com/yoshihiroando/browser&lt;/i>
 
     </string>
 
@@ -38,89 +40,85 @@
 
     //Help Dialogs
 
-    <string name="firstSearch_title">Lesezeichen speichern</string>
-    <string name="firstSearch_title_summary">Noch einmal anzeigen: Lesezeichen speichen?</string>
-    <string name="firstSearch_text">
-        Um ein Lesezeichen zu speichern einfach das Icon in der Toolbar drücken.
-        Wenn du das Icon gedrückt hast, erscheint ein Popup-Menü. Hier kannst du den Titel des Lesezeichens
-        eingeben.&lt;br>&lt;br>
-
-        Du kannst zur Startschirm oder zu deinem Favorit (siehe Einstellungen) zurückkehren,
-        indem du auf die Titelleiste klickst. Um zum Startschirm zurückzukehren kannst du auch den Pfeil in der Titelleiste
-        klicken. Nach unten wischen um die Seite neu zu laden.</string>
-
-
-    <string name="firstBrowser_title">Browser</string>
-    <string name="firstBrowser_title_summary">Noch einmal anzeigen: Funktionen des Browsers?</string>
-    <string name="firstBrowser_text">
+    <string name="helpBrowser_title">Browser</string>
+    <string name="helpBrowser_text">
         HHS Moodle wird in dieser Webview angezeigt. Eine Webview zeigt Internetseiten in Apps an.
-        Wenn du keine Internetverbindung hast, werden sie offline (aus dem Cache) geladen (dies funktioniert bei Kursübersichten nicht). Damit du in Zukunft automatisch
-        angemeldet werden kannst, musst du in den Einstellungen deinen Benutzernamen und dein Passwort eingeben.&lt;br>&lt;br>
-
-        In der Webview gibt es ein Kontextmenü, dass sich bei einem langen Klick auf Bilder oder Links öffnet.&lt;br>&lt;br>
-
-        Du kannst zum Startschirm oder zu deinem Favorit (siehe Einstellungen) zurückkehren,
+        Damit du in Zukunft automatisch angemeldet werden kannst, musst du in den Einstellungen
+        deinen Benutzernamen und dein Passwort eingeben. In der Webview gibt es ein Kontextmenü, dass sich bei einem langen
+        Klick auf Bilder oder Links öffnet. Du kannst zum Startschirm oder zu deinem Favorit (siehe Einstellungen) zurückkehren,
         indem du auf die Titelleiste klickst. Um zum Startschirm zurückzukehren kannst du auch den Pfeil in der Titelleiste
-        klicken. Nach unten wischen um die Seite neu zu laden.
+        klicken. Nach unten wischen um die Seite neu zu laden.&lt;br>&lt;br>
 
         &lt;i>Menu:&lt;/i>&lt;br>
-
         Du kannst eine neue Notiz oder eine Benachrichtigung erstellen. Du kannst die aktuelle Moodleseite als Scrennshot
         oder nur den Link teilen. Du kannst die Seite als Lesezeichen zum Startschirm hinzufügen und du kannst direkt das
-        Anwendungsverzeichnis öffnen.</string>
+        Anwendungsverzeichnis öffnen.&lt;br>&lt;br>
 
-    <string name="firstBookmark_title">Startschirm</string>
-    <string name="firstBookmark_title_summary">Noch einmal anzeigen: Funktion des Startschirms?</string>
-    <string name="firstBookmark_text">
-        &lt;i>Die Tabs:&lt;/i>&lt;br>
+        &lt;i>Lesezeichen speichern:&lt;/i>&lt;br>
+        Um ein Lesezeichen zu speichern einfach das Icon in der Toolbar drücken. Wenn du das Icon gedrückt hast, erscheint ein
+        Popup-Menü. Hier kannst du den Titel des Lesezeichens eingeben.&lt;br>&lt;br>
 
-        Im linken Tab kannst du deine persönlichen Moodleseiten aufrufen im mittleren Tab werden deine Lesezeichen angezeigt und
-        im rechten deine Notizen.&lt;br>&lt;br>
-
-        &lt;i>Lesezeichen bearbeiten:&lt;/i>&lt;br>
-
-        Ein langer Klick auf ein Lesezeichen öffnet ein Popup-Menü. Du kannst ein Lesezeichen als Favorit setzen
-        (Es kann beim Start der App oder beim Klick auf die Titelbar geladen werden - siehe Einstellungen.), den Titel des
-        Lesezeichens bearbeiten, oder es komplett löschen (ein Lesezeichen muss mindestens vorhanden sein).
-
-        &lt;i>Menü:&lt;/i>&lt;br>
-
-        Du kannst vom Hauptschirm über das Menü eine Notiz erstellen, zu deinen Benachrichtungen wechseln, den Anwendungsordner öffnen
-        (dort werden heruntergeladene Dateien gespeichert) oder die Einstellungen erreichen.</string>
-
-
-    <string name="firstScreenshot_title">Bildschirmfoto aufnehmen</string>
-    <string name="firstScreenshot_title_summary">Noch einmal anzeigen: Bildschirmfotos richtig aufnehmen?</string>
-    <string name="firstScreenshot_text">
+        &lt;i>Bildschirmfoto aufnehmen:&lt;/i>&lt;br>
         Du kannst Bildschirmfotos der gesamten Internetseite machen (auch von dem Teil, der gerade nicht auf dem
         Bildschirm zu sehen ist). Damit dies richtig funktioniert, solltest du warten, bis die Internetseite komplett geladen
         ist, um sicherzustellen, dass die gesamte Internetseite aufgenommen wird.</string>
 
-    <string name="firstNote_title">Notizen erstellen</string>
-    <string name="firstNote_title_summary">Noch einmal anzeigen: Notizen erstellen?</string>
-    <string name="firstNote_text">
+
+    <string name="helpMain_text">
+        &lt;b>Mein Moodle | Lesezeichen&lt;/b>&lt;br>&lt;br>
+
+        &lt;i>Die Tabs:&lt;/i>&lt;br>
+        Im linken Tab kannst du deine persönlichen Moodleseiten aufrufen und im mittleren Tab werden deine Lesezeichen
+        angezeigt.&lt;br>&lt;br>
+
+        &lt;i>Lesezeichen bearbeiten:&lt;/i>&lt;br>
+        Ein langer Klick auf ein Lesezeichen öffnet ein Popup-Menü. Du kannst ein Lesezeichen als Favorit setzen
+        (Es kann beim Start der App oder beim Klick auf die Titelbar geladen werden - siehe Einstellungen.), den Titel des
+        Lesezeichens bearbeiten, oder es komplett löschen (ein Lesezeichen muss mindestens vorhanden sein). Du kannst außerdem
+        eine neue Notiz oder eine Benachrichtigung erstellen.&lt;br>&lt;br>&lt;br>
+
+        &lt;b>Notizen&lt;/b>&lt;br>&lt;br>
+
         &lt;i>Notizen erstellen:&lt;/i>&lt;br>
         Du kannst Notizen erstellen, indem du den entsprechenden Eintrag im Menu oder das Stifticon in der Toolbar
-        anklickst.&lt;br>&lt;br>
+        anklickst. Wenn die Liste nicht automatisch aktualisiert wird, kannst du auf dem Bild über der Liste nach unten
+        wischen.&lt;br>&lt;br>
 
         &lt;i>Arbeit mit Notizen:&lt;/i>&lt;br>
-
         Wenn du einen Eintrag in der Liste anklickst öffnet sich die Notiz. Wenn du einen Eintrag lange drückst, öffnet sich ein Menü.
         Du kannst den Titel oder den Inhalt der Notiz bearbeiten oder sie ganz löschen (mindestens eine Notiz muss vorhanden sein).&lt;br>
         Du kannst auch eine Benachrichtigung an die Statusleiste pinnen. Es öffnet sich ein neues Fenster,
-        um die Benachrichtigung zu bearbeiten. Die Benachrichtigung geht beim Neustart nicht verloren.</string>
+        um die Benachrichtigung zu bearbeiten. Die Benachrichtigung geht beim Neustart nicht verloren.&lt;br>&lt;br>&lt;br>
 
-    <string name="firstNot_title">Benachrichtigungen</string>
-    <string name="firstNot_title_summary">Noch einmal anzeigen: Benachrichtigungsdialog?</string>
-    <string name="firstNot_text">
+        &lt;b>Menü&lt;/b>&lt;br>&lt;br>
+        Du kannst von hier zu deinen Benachrichtungen wechseln, den Anwendungsordner öffnen
+        (dort werden heruntergeladene Dateien gespeichert) oder die Einstellungen erreichen. Im \"Notizentab\" kannst du
+        außerdem eine neue Notiz erstellen.</string>
+
+
+    <string name="helpNot_title">Benachrichtigungen</string>
+    <string name="helpNot_text">
+        &lt;i>Überblick:&lt;/i>&lt;br>
         Hier werden deine Benachrichtungen angezeigt. Eine neue Benachrichtigung kannst du aus einer Notiz, aus einer Moodleseite heraus
         oder über das \"Plus-Symbol\" erstellen. Wenn du eine Benachrichtung aktivierst, wird sie in der Statusleiste
         angezeigt (auch nach einem Neustart des Telefons). Durch langes Drücken kannst du eine Benachrichtigung löschen.&lt;br>&lt;br>
 
+        &lt;i>Benachrichtigung bearbeiten:&lt;/i>&lt;br>
+        Hier kannst du neue Benachrichtigungen erstellen, oder bestehende bearbeiten. Wenn du fertig bist, den \"Speichern Knopf\"
+        drücken.&lt;br>&lt;br>
+
         Du kannst zur Startschirm oder zu deinem Favorit (siehe Einstellungen) zurückkehren,
         indem du auf die Titelleiste klickst. Um zum Startschirm zurückzukehren kannst du auch den Pfeil in der Titelleiste
-        klicken.
-    </string>
+        klicken.</string>
+
+
+    <string name="helpSettings_title">Einstellungen</string>
+    <string name="helpSettings_text">
+        Manche Einstellungen werden erst bei einem Neustart der Anwendung wirksam.</string>
+
+
+    <string name="dialog_help">
+        Du erreichst einen kurzen Hilfe Dialog auf jedem Schirm, indem du \"Menu -> Hilfe\" drückst.</string>
 
 
     <string name="perm_notShow_title">Berechtigungsdialog</string>

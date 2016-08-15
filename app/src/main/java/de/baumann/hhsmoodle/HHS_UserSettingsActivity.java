@@ -4,28 +4,25 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
-
-import de.baumann.hhsmoodle.helper.Start;
+import java.io.IOException;
 
 
 public class HHS_UserSettingsActivity extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +46,6 @@ public class HHS_UserSettingsActivity extends AppCompatActivity {
         private void addClearCacheListener() {
 
             final Activity activity = getActivity();
-
             Preference reset = findPreference("clearCache");
 
             reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
@@ -67,25 +63,28 @@ public class HHS_UserSettingsActivity extends AppCompatActivity {
                             .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
 
                                 public void onClick(DialogInterface dialog, int whichButton) {
-                                    File dir = getActivity().getCacheDir();
+                                    File cacheDirectory = getActivity().getCacheDir();
+                                    File applicationDirectory = new File(cacheDirectory.getParent());
 
-                                    if (dir != null && dir.isDirectory()) {
+                                    if (cacheDirectory.exists()) {
+                                        String deleteCmd = "rm -r " + cacheDirectory;
+                                        Runtime runtime = Runtime.getRuntime();
                                         try {
-                                            File[] children = dir.listFiles();
-                                            if (children.length > 0) {
-                                                for (File aChildren : children) {
-                                                    File[] temp = aChildren.listFiles();
-                                                    for (File aTemp : temp) {
-                                                        //noinspection ResultOfMethodCallIgnored
-                                                        aTemp.delete();
-                                                    }
-                                                }
-                                            }
-                                        } catch (Exception e) {
-                                            Log.e("Cache", "failed cache clean");
+                                            runtime.exec(deleteCmd);
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
                                         }
                                     }
 
+                                    if (applicationDirectory.exists()) {
+                                        String deleteCmd = "rm -r " + applicationDirectory;
+                                        Runtime runtime = Runtime.getRuntime();
+                                        try {
+                                            runtime.exec(deleteCmd);
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
                                     Toast.makeText(activity,R.string.toast_clearCache,Toast.LENGTH_SHORT).show();
                                 }
                             })
@@ -160,6 +159,47 @@ public class HHS_UserSettingsActivity extends AppCompatActivity {
             });
         }
 
+        private void addClearSettingsListener() {
+
+            final Activity activity = getActivity();
+            Preference reset = findPreference("clearSettings");
+
+            reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference pref) {
+
+                    SpannableString s;
+                    s = new SpannableString(Html.fromHtml(getString(R.string.action_clearSettings_dialog)));
+
+                    Linkify.addLinks(s, Linkify.WEB_URLS);
+
+                    final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity())
+                            .setMessage(s)
+                            .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    try {
+                                        // clearing app data
+                                        Runtime runtime = Runtime.getRuntime();
+                                        runtime.exec("pm clear de.baumann.hhsmoodle");
+
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                    Toast.makeText(activity,R.string.toast_clearSettings,Toast.LENGTH_SHORT).show();
+                                }
+                            })
+                            .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    dialog.cancel();
+                                }
+                            });
+                    dialog.show();
+                    return true;
+                }
+            });
+        }
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -168,13 +208,14 @@ public class HHS_UserSettingsActivity extends AppCompatActivity {
             addLicenseListener();
             addChangelogListener();
             addClearCacheListener();
+            addClearSettingsListener();
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main_settings, menu);
+        getMenuInflater().inflate(R.menu.menu_empty, menu);
         return true;
     }
 
@@ -190,6 +231,17 @@ public class HHS_UserSettingsActivity extends AppCompatActivity {
             Intent intent_in = new Intent(HHS_UserSettingsActivity.this, HHS_MainScreen.class);
             startActivity(intent_in);
             finish();
+        }
+
+        if (id == R.id.action_help) {
+            final SpannableString s = new SpannableString(Html.fromHtml(getString(R.string.helpSettings_text)));
+            Linkify.addLinks(s, Linkify.WEB_URLS);
+
+            final AlertDialog.Builder dialog = new AlertDialog.Builder(HHS_UserSettingsActivity.this)
+                    .setTitle(R.string.helpSettings_title)
+                    .setMessage(s)
+                    .setPositiveButton(getString(R.string.toast_yes), null);
+            dialog.show();
         }
 
         return super.onOptionsItemSelected(item);

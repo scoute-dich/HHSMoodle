@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteStatement;
 import java.util.ArrayList;
 
 public class Database_Notes extends SQLiteOpenHelper {
+
     public Database_Notes(Context context)
             throws NameNotFoundException { super(context,
                 "notes.db",
@@ -26,8 +27,7 @@ public class Database_Notes extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newViewsion) {
     }
 
-    private void createTable(SQLiteDatabase db)
-    {
+    private void createTable(SQLiteDatabase db) {
         db.execSQL(
                 "CREATE TABLE bookmarks (" +
                         "seqno NUMBER NOT NULL, " +
@@ -38,8 +38,8 @@ public class Database_Notes extends SQLiteOpenHelper {
         );
     }
 
-    public void loadInitialData()
-    {
+    public void loadInitialData() {
+
         int seqno = 0;
 
         SQLiteDatabase db = getWritableDatabase();
@@ -47,9 +47,9 @@ public class Database_Notes extends SQLiteOpenHelper {
 
         SQLiteStatement stmt = db.compileStatement("INSERT INTO bookmarks VALUES(?, ?, ?, ?)");
         stmt.bindLong(1, seqno);
-        stmt.bindString(2, "First Note");
+        stmt.bindString(2, "HHS Moodle");
         stmt.bindString(3, "noURL");
-        stmt.bindString(4, "This is just a little example notes_note.");
+        stmt.bindString(4, "Dashboard -> https://moodle.huebsch.ka.schule-bw.de/moodle/my/");
         stmt.executeInsert();
 
         db.setTransactionSuccessful();
@@ -57,8 +57,8 @@ public class Database_Notes extends SQLiteOpenHelper {
         db.close();
     }
 
-    public int getRecordCount()
-    {
+    public int getRecordCount() {
+
         SQLiteDatabase db = getReadableDatabase();
 
         int ret = 0;

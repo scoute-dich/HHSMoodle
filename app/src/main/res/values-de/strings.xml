@@ -34,9 +34,10 @@
     <string name="menu_save_screenshot">Bildschirmfoto speichern</string>
     <string name="menu_settings">Einstellungen</string>
     <string name="menu_folder">Öffne Anwendungsordner</string>
-    <string name="menu_rem">Notitz erstellen</string>
+    <string name="menu_rem">Erstelle Notiz</string>
     <string name="menu_not">Benachrichtigungen</string>
     <string name="menu_bookmark">Lesezeichen hinzufügen</string>
+    <string name="menu_help">Hilfe</string>
 
 
     // Context Menu
@@ -80,11 +81,18 @@
     <string name="action_clearCache_summary">Den Cache der Anwendung leeren. Alle offline gespeicherten Seiten werden gelöscht …</string>
     <string name="action_clearCache_dialog">Möchtest du wirklich den Cache leeren? Alle offline gespeicherten Seiten werden gelöscht.</string>
 
+    <string name="action_clearSettings">Einstellungen löschen</string>
+    <string name="action_clearSettings_summary">Löscht alle Benutzerdaten der Anwendung. Auch die Logindaten …</string>
+    <string name="action_clearSettings_dialog">Möchtest du wirklich alle Einstellungen löschen? Die Anwendung wird dann beendet.</string>
+
     <string name="action_start">App Start und Titelleiste-Klick</string>
     <string name="action_start_summary">Was möchtest du sehen: Entweder den Startschirm oder den Lesezeichenfavorit?</string>
 
     <string name="action_tabMain">Startschirm</string>
     <string name="action_tabMain_summary">Welcher Tab soll standardmäßig auf dem Startschirm geöffnet werden?</string>
+
+    <string name="action_notShow_title">Hilfe Dialog</string>
+    <string name="action_notShow_title_summary">Hilfe Dialog beim Start anzeigen.</string>
 
 
     // Moodle
@@ -113,7 +121,8 @@
     <string name="toast_notAgain">Nicht anzeigen</string>
     <string name="toast_screenshot">Bildschirmfoto gespeichert unter:</string>
     <string name="toast_clearCache">Cache wird geleert …</string>
-    <string name="toast_cache">Keine Internetverbindung. Seite wird aus dem Cache geladen.</string>
+    <string name="toast_clearSettings">Einstellungen werden gelöscht …</string>
+    <string name="toast_noInternet">Kann Seite nicht laden. Keine Internetverbindung?</string>
     <string name="toast_download">Lade herunter:</string>
     <string name="toast_download_1">Möchtest du herunterladen:</string>
     <string name="toast_download_2">Download vollständig. Ordner öffnen?</string>
@@ -129,8 +138,10 @@
     <string name="bookmark_remove_bookmark">Lesezeichen löschen</string>
     <string name="bookmark_added">Lesezeichen wird hinzugefügt.</string>
     <string name="bookmark_setFav">Erfolgreich als Favorit gespeichert.</string>
-    <string name="bookmark_edit_title">Titel bearbeiten</string>
+    <string name="bookmark_edit_title">Bearbeite Titel</string>
     <string name="bookmark_edit_fav">Als Favorit speichern</string>
+    <string name="bookmark_createNote">Erstelle Notiz</string>
+    <string name="bookmark_CreateNotification">Erstelle Benachrichtigung</string>
 
 
     // Notes
@@ -140,7 +151,7 @@
     <string name="note_remove_note">Lösche Notiz</string>
     <string name="note_edit_title">Bearbeite Titel</string>
     <string name="note_edit_content">Bearbeite Inhalt</string>
-    <string name="note_set_not">Setze Benachrichtigung</string>
+    <string name="note_set_not">Erstelle Benachrichtigung</string>
     <string name="note_share">Teile Notiz</string>
     <string name="note_share_2">Notiz teilen mit:</string>
 

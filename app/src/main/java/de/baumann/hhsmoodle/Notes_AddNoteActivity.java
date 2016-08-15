@@ -1,11 +1,15 @@
 package de.baumann.hhsmoodle;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.text.SpannableString;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -60,7 +64,7 @@ public class Notes_AddNoteActivity extends AppCompatActivity {
                 toolbar.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        finish();
+                        finishAffinity();
                         return true;
                     }
                 });
@@ -78,7 +82,9 @@ public class Notes_AddNoteActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             this.titleInput.setText(extras.getString(TITLE, ""));
+            this.titleInput.setSelection(titleInput.getText().length());
             this.textInput.setText(extras.getString(TEXT, ""));
+            this.textInput.setSelection(textInput.getText().length());
             this.noteIndex = extras.getInt(NOTE_INDEX, -1);
             if (noteIndex > -1) {
                 setTitle(getString(R.string.edit_note));
@@ -88,7 +94,9 @@ public class Notes_AddNoteActivity extends AppCompatActivity {
             String text = sharedPref.getString("noteContent", "");
 
             this.titleInput.setText(title);
+            this.titleInput.setSelection(titleInput.getText().length());
             this.textInput.setText(text);
+            this.textInput.setSelection(textInput.getText().length());
 
             sharedPref.edit()
                     .putString("noteTitle", "")
@@ -110,7 +118,7 @@ public class Notes_AddNoteActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == android.R.id.home) {
-            Intent intent_in = new Intent(Notes_AddNoteActivity.this, Notes_MainActivity.class);
+            Intent intent_in = new Intent(Notes_AddNoteActivity.this, HHS_MainScreen.class);
             startActivity(intent_in);
             finish();
         }
@@ -134,6 +142,17 @@ public class Notes_AddNoteActivity extends AppCompatActivity {
                     .apply();
 
             finish();
+        }
+
+        if (id == R.id.action_help) {
+            final SpannableString s = new SpannableString(Html.fromHtml(getString(R.string.helpNot_text)));
+            Linkify.addLinks(s, Linkify.WEB_URLS);
+
+            final AlertDialog.Builder dialog = new AlertDialog.Builder(Notes_AddNoteActivity.this)
+                    .setTitle(R.string.helpNot_title)
+                    .setMessage(s)
+                    .setPositiveButton(getString(R.string.toast_yes), null);
+            dialog.show();
         }
 
         return true;

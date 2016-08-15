@@ -32,9 +32,10 @@
     <string name="menu_save_screenshot">Save screenshot</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_folder">Open app folder</string>
-    <string name="menu_rem">Make a note</string>
+    <string name="menu_rem">Create note</string>
     <string name="menu_not">Notifications</string>
     <string name="menu_bookmark">Add bookmark</string>
+    <string name="menu_help">Help</string>
 
 
     // Context Menu
@@ -77,11 +78,18 @@
     <string name="action_clearCache_summary">Clear cache of application. All cached websites will be lost …</string>
     <string name="action_clearCache_dialog">Do you really ant to clear cache? All cached websites will be lost.</string>
 
+    <string name="action_clearSettings">Clear settings</string>
+    <string name="action_clearSettings_summary">Clear all user settings of application. Also your login data …</string>
+    <string name="action_clearSettings_dialog">Do you really ant to clear settings? Application will force close.</string>
+
     <string name="action_start">App start and title bar click</string>
     <string name="action_start_summary">What do you want to see: Either the main screen or the bookmark list?</string>
 
     <string name="action_tabMain">Main screen</string>
     <string name="action_tabMain_summary">Which tab should be displayed as default on the main screen?</string>
+
+    <string name="action_notShow_title">Help dialog</string>
+    <string name="action_notShow_title_summary">Show the help dialog on start.</string>
 
 
     // Moodle
@@ -110,7 +118,8 @@
     <string name="toast_notAgain">Never show</string>
     <string name="toast_screenshot">Saved screenshot to location:</string>
     <string name="toast_clearCache">Clearing cache …</string>
-    <string name="toast_cache">No internet connection. Loading from cache.</string>
+    <string name="toast_clearSettings">Clearing settings …</string>
+    <string name="toast_noInternet">Can not load page. No internet connection?</string>
     <string name="toast_download">Downloading file:</string>
     <string name="toast_download_1">Do you want to download:</string>
     <string name="toast_download_2">Download completed. Open folder?</string>
@@ -128,6 +137,8 @@
     <string name="bookmark_setFav">Successfully set as favorite.</string>
     <string name="bookmark_edit_title">Edit title</string>
     <string name="bookmark_edit_fav">Set as favorite</string>
+    <string name="bookmark_createNote">Create note</string>
+    <string name="bookmark_CreateNotification">Create notification</string>
 
 
     // Notes
@@ -137,7 +148,7 @@
     <string name="note_remove_note">Delete note</string>
     <string name="note_edit_title">Edit title</string>
     <string name="note_edit_content">Edit content</string>
-    <string name="note_set_not">Set notification</string>
+    <string name="note_set_not">Create notification</string>
     <string name="note_share">Share note</string>
     <string name="note_share_2">Share note using:</string>
 

@@ -16,11 +16,13 @@
         GNU General Public License for more details.
 
         You should have received a copy of the GNU General Public License
-        along with this program.  If not, see http://www.gnu.org/licenses.&lt;br>&lt;br>
+        along with this program.  If not, see http://www.gnu.org/licenses.&lt;br>&lt;br>&lt;br>
 
-        &lt;i>Used open source library:&lt;br>
-        NotificationNotes&lt;br>
-        https://github.com/khuttun/NotificationNotes&lt;/i>
+        &lt;b>Used open source projects:&lt;/b>&lt;br>&lt;br>
+        &lt;i>NotificationNotes&lt;br>
+        https://github.com/khuttun/NotificationNotes&lt;br>
+        browser&lt;br>
+        https://github.com/yoshihiroando/browser&lt;/i>
     </string>
 
 
@@ -37,83 +39,78 @@
 
     //Help Dialogs
 
-    <string name="firstSearch_title">Saving bookmarks</string>
-    <string name="firstSearch_title_summary">Show again: Saving bookmarks?</string>
-    <string name="firstSearch_text">
-        To save a bookmark simply click the icon at the toolbar.
-        If you clicked the icon a popup appears. You can now edit the title of the bookmark.&lt;br>&lt;br>
-
-        You can switch back to the main screen or to your favorite (look into the settings) by clicking the toolbar.
-        To go back to the main screen you can also press the arrow at the toolbar. Swipe down to reload the website.</string>
-
-
-    <string name="firstBrowser_title">Browser</string>
-    <string name="firstBrowser_title_summary">Show again: Functionality of the browser?</string>
-    <string name="firstBrowser_text">
-        HHS Moodle is shown in this webview. A webview displays websites in an app. If you have no internet
-        connection they will be loaded offline from the cache (this works not o course overviews). If you want to be logged automatically, you must set your username
-        and your password in the settings.&lt;br>&lt;br>
-
-        In the webview there is a context menu, which opens on long pressing a link or image.&lt;br>&lt;br>
-
-        You can switch back to the main screen or to your favorite (look into the settings) by clicking the toolbar.
-        To go back to the main screen you can also press the arrow at the toolbar. Swipe down to reload the website.
+    <string name="helpBrowser_title">Browser</string>
+    <string name="helpBrowser_text">
+        HHS Moodle is shown in this webview. A webview displays websites in an app. If you want to be
+        logged automatically, you must set your username and your password in the settings. In the webview there is a
+        context menu, which opens on long pressing a link or image. You can switch back to the main screen or to your favorite
+        (look into the settings) by clicking the toolbar. To go back to the main screen you can also press the arrow at the toolbar.
+        Swipe down to reload the website.&lt;br>&lt;br>
 
         &lt;i>Menu:&lt;/i>&lt;br>
-
         You can make a new note or a new notification. You can share the actual moodle site as screenshot, or only the link. You can
-        also add the actual site as bookmark, to reach it from the main screen and you can directly open the app directory.</string>
+        also add the actual site as bookmark, to reach it from the main screen and you can directly open the app
+        directory.&lt;br>&lt;br>
+
+        &lt;i>Save bookmarks:&lt;/i>&lt;br>
+        To save a bookmark simply click the icon at the toolbar.If you clicked the icon a popup appears. You can now edit the
+        title of the bookmark.&lt;br>&lt;br>
+
+        &lt;i>Taking screenshots;&lt;/i>&lt;br>
+        You can make screenshots of the whole website (even of the part which is outside of your display. Before taking the
+        screenshot wait until the website is fully loaded, to ensure that the whole website is captured.</string>
 
 
-    <string name="firstNot_title">Notifications</string>
-    <string name="firstNot_title_summary">Show again: Notifications dialog?</string>
-    <string name="firstNot_text">
+    <string name="helpMain_text">
+
+        &lt;b>My Moodle | Bookmarks&lt;/b>&lt;br>&lt;br>
+
+        &lt;i>The tabs:&lt;/i>&lt;br>
+        In the left tab you can open your personal Moodle sites and in the middle tab you can see your bookmarks.&lt;br>&lt;br>
+
+        &lt;i>Edit bookmarks:&lt;/i>&lt;br>
+        Long click on a bookmark opens a popup menu. You can set your favorite bookmark
+        (It can be loaded on app start or on title bar click - look in the settings.), edit the title of the bookmark or
+        delete it (at least one bookmark is needed). You can also create a new note or notification.&lt;br>&lt;br>&lt;br>
+
+        &lt;b>Notes&lt;/b>&lt;br>&lt;br>
+
+        &lt;i>Create notes:&lt;/i>&lt;br>
+        You can make notes if you click the \"Taking note\" entry in the menu or the pencil icon in the toolbar. If the list does
+        not refresh automatically, you can swipe down on the picture above the list.&lt;br>&lt;br>
+
+        &lt;i>Working with notes:&lt;/i>&lt;br>
+        Clicking a list entry opens the note. Long click on an entry opens a popup menu. You can edit title and content of the
+        note or delete the note (at least one note is needed).&lt;br>
+        You can also set a notification to the system status bar. A new screen for editing notifications will open.
+        The notification will appear again after a reboot.&lt;br>&lt;br>&lt;br>
+
+        &lt;b>Menu&lt;/b>&lt;br>&lt;br>
+        From the main screen you can create a new note, reach your notifications, open the app directory (where the downloaded
+        files will be saved) or enter the settings screen. In the \"Notes tab\" ou can also create a new note.</string>
+
+
+    <string name="helpNot_title">Notifications</string>
+    <string name="helpNot_text">
+        &lt;i>Overview:&lt;/i>&lt;br>
         Here your notifications are shown. You can create a new notification from a note, a Moodle site or by clicking the
         \"add icon\". If you activate a notification it will be shown in status bar (even after a reboot). You can delete a
         notification by long clicking.&lt;br>&lt;br>
+
+        &lt;i>Edit notification:&lt;/i>&lt;br>
+        Here you can create new or edit existing notifications. After editing click the \"save button\".&lt;br>&lt;br>
 
         You can switch back to the main screen or to your favorite (look into the settings) by clicking the toolbar.
         To go back to the main screen you can also press the arrow at the toolbar.</string>
 
 
-    <string name="firstBookmark_title">Main screen</string>
-    <string name="firstBookmark_title_summary">Show again: Tip about the main screen?</string>
-    <string name="firstBookmark_text">
-        &lt;i>The tabs:&lt;/i>&lt;br>
-        In the left tab you can open your personal Moodle sites, in the middle tab you can see your bookmarks and
-        in the right tab you have your notes.&lt;br>&lt;br>
-
-        &lt;i>Edit bookmarks:&lt;/i>&lt;br>
-
-        Long click on a bookmark opens a popup menu. You can set your favorite bookmark
-        (It can be loaded on app start or on title bar click - look in the settings.), edit the title of the bookmark or
-        delete it (at least one bookmark is needed).
-
-        &lt;i>Menu:&lt;/i>&lt;br>
-
-        From the main screen you can create a new note, reach your notifications, open the app directory (where the downloaded
-        files will be saved) or enter the settings screen.</string>
+    <string name="helpSettings_title">Settings</string>
+    <string name="helpSettings_text">
+        To get some settings applied, you must restart the application.</string>
 
 
-    <string name="firstScreenshot_title">Making screenshots</string>
-    <string name="firstScreenshot_title_summary">Show again: Taking screenshots?</string>
-    <string name="firstScreenshot_text">
-        You can make screenshots of the whole website (even of the part which is outside of your display.
-        Before taking the screenshot wait until the website is fully loaded, to ensure that the whole website is captured.</string>
-
-
-    <string name="firstNote_title">Taking notes</string>
-    <string name="firstNote_title_summary">Show again: Taking notes?</string>
-    <string name="firstNote_text">
-        &lt;i>Create notes:&lt;/i>&lt;br>
-        You can make notes if you click the \"Taking note\" entry in the menu or the pencil icon in the toolbar.&lt;br>&lt;br>
-
-        &lt;i>Working with notes:&lt;/i>&lt;br>
-
-        Clicking a list entry opens the note. Long click on an entry opens a popup menu. You can edit title and content of the
-        note or delete the note (at least one note is needed).&lt;br>
-        You can also set a notification to the system status bar. A new screen for editing notifications will open.
-        The notification will appear again after a reboot.</string>
+    <string name="dialog_help">
+        You can reach a short help dialog on every screen by pressing \"menu -> help\".</string>
 
 
     <string name="perm_notShow_title">Permission dialog</string>

@@ -18,8 +18,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -33,7 +31,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.util.Linkify;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Gravity;
 import android.view.Menu;
@@ -41,14 +38,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.DownloadListener;
-import android.webkit.HttpAuthHandler;
 import android.webkit.URLUtil;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.webkit.WebViewDatabase;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.EditText;
@@ -86,12 +83,6 @@ public class HHS_Browser extends AppCompatActivity  {
 
     private ValueCallback<Uri[]> mFilePathCallback;
     private String mCameraPhotoPath;
-
-    private boolean isNetworkUnAvailable() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService( CONNECTIVITY_SERVICE );
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo == null || !activeNetworkInfo.isConnected();
-    }
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -150,15 +141,9 @@ public class HHS_Browser extends AppCompatActivity  {
         swipeView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if (isNetworkUnAvailable()) { // loading offline
-                    mWebView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
-                    Snackbar.make(mWebView, R.string.toast_cache, Snackbar.LENGTH_LONG).show();
-                }
                 mWebView.reload();
             }
         });
-
-        checkFirstRunBrowser();
 
         mWebView = (WebView) findViewById(R.id.webView);
         assert mWebView != null;
@@ -175,19 +160,77 @@ public class HHS_Browser extends AppCompatActivity  {
             mWebView.getSettings().setJavaScriptEnabled(true);
         }
 
-        if (isNetworkUnAvailable()) { // loading offline
-            mWebView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
-            Snackbar.make(mWebView, R.string.toast_cache, Snackbar.LENGTH_LONG).show();
-        }
+        mWebView.setWebViewClient(new WebViewClient() {
+
+            public void onPageFinished(WebView view, String url) {
+
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(HHS_Browser.this);
+                final String username = sharedPref.getString("username", "");
+                final String password = sharedPref.getString("password", "");
+                // do your stuff here
+                swipeView.setRefreshing(false);
+
+                if (username.isEmpty() ) {
+                    Snackbar snackbar = Snackbar
+                            .make(mWebView, getString(R.string.toast_login), Snackbar.LENGTH_INDEFINITE)
+                            .setAction(getString(R.string.toast_yes), new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent intent_in = new Intent(HHS_Browser.this, HHS_UserSettingsActivity.class);
+                                    startActivity(intent_in);
+                                }
+                            });
+                    snackbar.show();
+                } else {
+                    final String js = "javascript:" +
+                            "document.getElementById('password').value = '" + password + "';"  +
+                            "document.getElementById('username').value = '" + username + "';"  +
+                            "var ans = document.getElementsByName('answer');"                  +
+                            "document.getElementById('loginbtn').click()";
+
+                    if (Build.VERSION.SDK_INT >= 19) {
+                        view.evaluateJavascript(js, new ValueCallback<String>() {
+                            @Override
+                            public void onReceiveValue(String s) {
+
+                            }
+                        });
+                    } else {
+                        view.loadUrl(js);
+                    }
+                }
+            }
+
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                if(url.startsWith("mailto:")){
+                    Intent i = new Intent(Intent.ACTION_SENDTO, Uri.parse(url));
+                    startActivity(i);
+                } else {
+                    view.loadUrl(url);
+                }
+                return true;
+            }
+
+            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                Snackbar.make(mWebView, R.string.toast_noInternet, Snackbar.LENGTH_LONG).show();
+            }
+        });
 
         mWebView.setWebChromeClient(new WebChromeClient() {
             public void onProgressChanged(WebView view, int progress) {
                 progressBar.setProgress(progress);
                 if (progress == 100) {
                     progressBar.setVisibility(View.GONE);
-                    String title = mWebView.getTitle();
-                    mWebView.scrollTo(0, 80);
-                    setTitle(title);
+
+                    String url = mWebView.getUrl();
+                    if (url.contains("moodle")) {
+                        mWebView.scrollTo(0, 80);
+                        setTitle(mWebView.getTitle());
+                    } else {
+                        mWebView.scrollTo(0, 0);
+                        setTitle(mWebView.getTitle());
+                    }
+
                 } else {
                     progressBar.setVisibility(View.VISIBLE);
                 }
@@ -264,7 +307,6 @@ public class HHS_Browser extends AppCompatActivity  {
         });
 
         onNewIntent(getIntent());
-        setBasicAuth();
         registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
 
         if (android.os.Build.VERSION.SDK_INT >= 23) {
@@ -319,79 +361,6 @@ public class HHS_Browser extends AppCompatActivity  {
             mWebView.loadUrl(intent.getStringExtra("url"));
             setTitle(intent.getStringExtra("title"));
         }
-    }
-
-    private void setBasicAuth() {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        final String username = sharedPref.getString("username", "");
-        final String password = sharedPref.getString("password", "");
-
-        WebViewDatabase.getInstance(this).clearHttpAuthUsernamePassword();
-        String HOST = "moodle.huebsch.ka.schule-bw.de/moodle/";
-        mWebView.setHttpAuthUsernamePassword(HOST, HOST, username, password);
-        mWebView.setWebViewClient(new WebViewClient() {
-
-            @Override
-            public void onReceivedHttpAuthRequest(WebView view, HttpAuthHandler handler, String host, String realm) {
-                String[] up = view.getHttpAuthUsernamePassword(host, realm);
-                handler.proceed(username, password);
-                if (up != null && up.length == 2) {
-                    handler.proceed(up[0], up[1]);
-                } else {
-                    Log.d("", "Could not find username/password for domain: " + host + ", with realm = " + realm);
-                }
-            }
-
-            public void onPageFinished(WebView view, String url) {
-
-                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(HHS_Browser.this);
-                final String username = sharedPref.getString("username", "");
-                final String password = sharedPref.getString("password", "");
-                // do your stuff here
-                swipeView.setRefreshing(false);
-
-                if (username.isEmpty() ) {
-                    Snackbar snackbar = Snackbar
-                            .make(mWebView, getString(R.string.toast_login), Snackbar.LENGTH_INDEFINITE)
-                            .setAction(getString(R.string.toast_yes), new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Intent intent_in = new Intent(HHS_Browser.this, HHS_UserSettingsActivity.class);
-                                    startActivity(intent_in);
-                                    finish();
-                                }
-                            });
-                    snackbar.show();
-                } else {
-                    final String js = "javascript:" +
-                            "document.getElementById('password').value = '" + password + "';"  +
-                            "document.getElementById('username').value = '" + username + "';"  +
-                            "var ans = document.getElementsByName('answer');"                  +
-                            "document.getElementById('loginbtn').click()";
-
-                    if (Build.VERSION.SDK_INT >= 19) {
-                        view.evaluateJavascript(js, new ValueCallback<String>() {
-                            @Override
-                            public void onReceiveValue(String s) {
-
-                            }
-                        });
-                    } else {
-                        view.loadUrl(js);
-                    }
-                }
-            }
-
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if(url.startsWith("mailto:")){
-                    Intent i = new Intent(Intent.ACTION_SENDTO, Uri.parse(url));
-                    startActivity(i);
-                } else {
-                    view.loadUrl(url);
-                }
-                return true;
-            }
-        });
     }
 
     private File createImageFile() throws IOException {
@@ -593,59 +562,39 @@ public class HHS_Browser extends AppCompatActivity  {
         int id = item.getItemId();
 
         if (id == R.id.action_saveBookmark) {
-            final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-            if (sharedPref.getBoolean ("first_search", false)) {
-                final SpannableString s = new SpannableString(Html.fromHtml(getString(R.string.firstSearch_text)));
-                Linkify.addLinks(s, Linkify.WEB_URLS);
+            try {
+                final LinearLayout layout = new LinearLayout(this);
+                layout.setOrientation(LinearLayout.VERTICAL);
+                layout.setGravity(Gravity.CENTER_HORIZONTAL);
+                final EditText input = new EditText(this);
+                input.setSingleLine(true);
+                layout.setPadding(30, 0, 50, 0);
+                layout.addView(input);
 
-                final AlertDialog.Builder dialog = new AlertDialog.Builder(HHS_Browser.this)
-                        .setTitle(R.string.firstSearch_title)
-                        .setMessage(s)
+                input.setText(mWebView.getTitle());
+                final Database_Browser db = new Database_Browser(this);
+                final AlertDialog.Builder dialog = new AlertDialog.Builder(this)
+                        .setView(layout)
+                        .setMessage(R.string.bookmark_edit_title)
                         .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
 
                             public void onClick(DialogInterface dialog, int whichButton) {
+                                String inputTag = input.getText().toString().trim();
+                                db.addBookmark(inputTag, mWebView.getUrl());
+                                db.close();
+                                Snackbar.make(mWebView, R.string.bookmark_added, Snackbar.LENGTH_LONG).show();
+                            }
+                        })
+                        .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int whichButton) {
                                 dialog.cancel();
-                                sharedPref.edit()
-                                        .putBoolean("first_search", false)
-                                        .apply();
                             }
                         });
                 dialog.show();
-            } else {
-                try {
-                    final LinearLayout layout = new LinearLayout(this);
-                    layout.setOrientation(LinearLayout.VERTICAL);
-                    layout.setGravity(Gravity.CENTER_HORIZONTAL);
-                    final EditText input = new EditText(this);
-                    input.setSingleLine(true);
-                    layout.setPadding(30, 0, 50, 0);
-                    layout.addView(input);
 
-                    input.setText(mWebView.getTitle());
-                    final Database_Browser db = new Database_Browser(this);
-                    final AlertDialog.Builder dialog = new AlertDialog.Builder(this)
-                            .setView(layout)
-                            .setMessage(R.string.bookmark_edit_title)
-                            .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
-
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    String inputTag = input.getText().toString().trim();
-                                    db.addBookmark(inputTag, mWebView.getUrl());
-                                    db.close();
-                                    Snackbar.make(mWebView, R.string.bookmark_added, Snackbar.LENGTH_LONG).show();
-                                }
-                            })
-                            .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    dialog.cancel();
-                                }
-                            });
-                    dialog.show();
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
 
@@ -667,6 +616,17 @@ public class HHS_Browser extends AppCompatActivity  {
             finish();
         }
 
+        if (id == R.id.action_help) {
+            final SpannableString s = new SpannableString(Html.fromHtml(getString(R.string.helpBrowser_text)));
+            Linkify.addLinks(s, Linkify.WEB_URLS);
+
+            final AlertDialog.Builder dialog = new AlertDialog.Builder(HHS_Browser.this)
+                    .setTitle(R.string.helpBrowser_title)
+                    .setMessage(s)
+                    .setPositiveButton(getString(R.string.toast_yes), null);
+            dialog.show();
+        }
+
         if (id == R.id.action_notifications) {
 
             final String title = mWebView.getTitle();
@@ -682,75 +642,55 @@ public class HHS_Browser extends AppCompatActivity  {
         }
 
         if (id == R.id.action_share) {
-            final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-            if (sharedPref.getBoolean ("first_screenshot", false)){
-                final SpannableString s = new SpannableString(Html.fromHtml(getString(R.string.firstScreenshot_text)));
-                Linkify.addLinks(s, Linkify.WEB_URLS);
-
-                final AlertDialog.Builder dialog = new AlertDialog.Builder(this)
-                        .setTitle(R.string.firstScreenshot_title)
-                        .setMessage(s)
-                        .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                dialog.cancel();
-                                sharedPref.edit()
-                                        .putBoolean("first_screenshot", false)
-                                        .apply();
+            final CharSequence[] options = {getString(R.string.menu_share_screenshot),
+                    getString(R.string.menu_save_screenshot),
+                    getString(R.string.menu_share_link), getString(R.string.menu_share_link_browser),
+                    getString(R.string.menu_share_link_copy)};
+            new AlertDialog.Builder(HHS_Browser.this)
+                    .setItems(options, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int item) {
+                            if (options[item].equals(getString(R.string.menu_share_link))) {
+                                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                                sharingIntent.setType("text/plain");
+                                sharingIntent.putExtra(Intent.EXTRA_SUBJECT, mWebView.getTitle());
+                                sharingIntent.putExtra(Intent.EXTRA_TEXT, mWebView.getUrl());
+                                startActivity(Intent.createChooser(sharingIntent, (getString(R.string.app_share_link))));
                             }
-                        });
-                dialog.show();
-            } else {
-                final CharSequence[] options = {getString(R.string.menu_share_screenshot),
-                        getString(R.string.menu_save_screenshot),
-                        getString(R.string.menu_share_link), getString(R.string.menu_share_link_browser),
-                        getString(R.string.menu_share_link_copy)};
-                new AlertDialog.Builder(HHS_Browser.this)
-                        .setItems(options, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int item) {
-                                if (options[item].equals(getString(R.string.menu_share_link))) {
+                            if (options[item].equals(getString(R.string.menu_share_screenshot))) {
+                                screenshot();
+
+                                Date date = new Date();
+                                DateFormat dateFormat = new SimpleDateFormat("dd-MM-yy_HH-mm", Locale.getDefault());
+                                File file = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/", dateFormat.format(date) + ".jpg");
+
+                                if (file.exists()) {
                                     Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-                                    sharingIntent.setType("text/plain");
+                                    sharingIntent.setType("image/png");
                                     sharingIntent.putExtra(Intent.EXTRA_SUBJECT, mWebView.getTitle());
                                     sharingIntent.putExtra(Intent.EXTRA_TEXT, mWebView.getUrl());
-                                    startActivity(Intent.createChooser(sharingIntent, (getString(R.string.app_share_link))));
-                                }
-                                if (options[item].equals(getString(R.string.menu_share_screenshot))) {
-                                    screenshot();
-
-                                    Date date = new Date();
-                                    DateFormat dateFormat = new SimpleDateFormat("dd-MM-yy_HH-mm", Locale.getDefault());
-                                    File file = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/", dateFormat.format(date) + ".jpg");
-
-                                    if (file.exists()) {
-                                        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-                                        sharingIntent.setType("image/png");
-                                        sharingIntent.putExtra(Intent.EXTRA_SUBJECT, mWebView.getTitle());
-                                        sharingIntent.putExtra(Intent.EXTRA_TEXT, mWebView.getUrl());
-                                        Uri bmpUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/"
-                                                + dateFormat.format(date) + ".jpg"));
-                                        sharingIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
-                                        startActivity(Intent.createChooser(sharingIntent, (getString(R.string.app_share_screenshot))));
-                                    }
-                                }
-                                if (options[item].equals(getString(R.string.menu_save_screenshot))) {
-                                    screenshot();
-                                }
-                                if (options[item].equals(getString(R.string.menu_share_link_browser))) {
-                                    String  url = mWebView.getUrl();
-                                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                                    HHS_Browser.this.startActivity(intent);
-                                }
-                                if (options[item].equals(getString(R.string.menu_share_link_copy))) {
-                                    String  url = mWebView.getUrl();
-                                    ClipboardManager clipboard = (ClipboardManager) HHS_Browser.this.getSystemService(Context.CLIPBOARD_SERVICE);
-                                    clipboard.setPrimaryClip(ClipData.newPlainText("text", url));
-                                    Snackbar.make(mWebView, R.string.context_linkCopy_toast, Snackbar.LENGTH_LONG).show();
+                                    Uri bmpUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/"
+                                            + dateFormat.format(date) + ".jpg"));
+                                    sharingIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
+                                    startActivity(Intent.createChooser(sharingIntent, (getString(R.string.app_share_screenshot))));
                                 }
                             }
-                        }).show();
-            }
+                            if (options[item].equals(getString(R.string.menu_save_screenshot))) {
+                                screenshot();
+                            }
+                            if (options[item].equals(getString(R.string.menu_share_link_browser))) {
+                                String  url = mWebView.getUrl();
+                                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                                HHS_Browser.this.startActivity(intent);
+                            }
+                            if (options[item].equals(getString(R.string.menu_share_link_copy))) {
+                                String  url = mWebView.getUrl();
+                                ClipboardManager clipboard = (ClipboardManager) HHS_Browser.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                                clipboard.setPrimaryClip(ClipData.newPlainText("text", url));
+                                Snackbar.make(mWebView, R.string.context_linkCopy_toast, Snackbar.LENGTH_LONG).show();
+                            }
+                        }
+                    }).show();
         }
 
         if (id == R.id.action_not) {
@@ -818,49 +758,7 @@ public class HHS_Browser extends AppCompatActivity  {
         return super.onOptionsItemSelected(item);
     }
 
-    private void checkFirstRunBrowser() {
-        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        if (sharedPref.getBoolean ("first_browser", false)){
-            final SpannableString s = new SpannableString(Html.fromHtml(getString(R.string.firstBrowser_text)));
-            Linkify.addLinks(s, Linkify.WEB_URLS);
-
-            final AlertDialog.Builder dialog = new AlertDialog.Builder(HHS_Browser.this)
-                    .setTitle(R.string.firstBrowser_title)
-                    .setMessage(s)
-                    .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
-
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            dialog.cancel();
-                            sharedPref.edit()
-                                    .putBoolean("first_browser", false)
-                                    .apply();
-                        }
-                    });
-            dialog.show();
-        }
-    }
-
     private void screenshot() {
-
-        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        if (sharedPref.getBoolean ("first_screenshot", false)){
-            final SpannableString s = new SpannableString(Html.fromHtml(getString(R.string.firstScreenshot_text)));
-            Linkify.addLinks(s, Linkify.WEB_URLS);
-
-            final AlertDialog.Builder dialog = new AlertDialog.Builder(HHS_Browser.this)
-                    .setTitle(R.string.firstScreenshot_title)
-                    .setMessage(s)
-                    .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
-
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            dialog.cancel();
-                            sharedPref.edit()
-                                    .putBoolean("first_screenshot", false)
-                                    .apply();
-                        }
-                    });
-            dialog.show();
-        }
 
         Date date = new Date();
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yy_HH-mm", Locale.getDefault());

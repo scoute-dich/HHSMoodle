@@ -3,12 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/menu_settings"
-        app:showAsAction="never" />
-
-    <item
         android:id="@+id/action_not"
         android:orderInCategory="100"
         android:title="@string/menu_rem"
@@ -26,6 +20,18 @@
         android:id="@+id/action_folder"
         android:orderInCategory="100"
         android:title="@string/menu_folder"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:title="@string/menu_settings"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_help"
+        android:orderInCategory="100"
+        android:title="@string/menu_help"
         app:showAsAction="never" />
 
 </menu>

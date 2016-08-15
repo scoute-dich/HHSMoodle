@@ -41,16 +41,21 @@
             android:key="longPress"
             android:defaultValue="true" />
 
-        <Preference
-            android:title="@string/action_clearCache"
-            android:summary="@string/action_clearCache_summary"
-            android:key="clearCache" />
-
         <CheckBoxPreference
             android:title="@string/action_java"
             android:summary="@string/action_java_summary"
             android:key="java"
             android:defaultValue="true" />
+
+        <Preference
+            android:title="@string/action_clearCache"
+            android:summary="@string/action_clearCache_summary"
+            android:key="clearCache" />
+
+        <Preference
+            android:title="@string/action_clearSettings"
+            android:summary="@string/action_clearSettings_summary"
+            android:key="clearSettings" />
 
     </PreferenceCategory>
 
@@ -58,39 +63,9 @@
         android:title="@string/pref_3">
 
         <CheckBoxPreference
-            android:title="@string/firstBookmark_title"
-            android:summary="@string/firstBookmark_title_summary"
-            android:key="first_bookmark"
-            android:defaultValue="true" />
-
-        <CheckBoxPreference
-            android:title="@string/firstBrowser_title"
-            android:summary="@string/firstBrowser_title_summary"
-            android:key="first_browser"
-            android:defaultValue="true" />
-
-        <CheckBoxPreference
-            android:title="@string/firstSearch_title"
-            android:summary="@string/firstSearch_title_summary"
-            android:key="first_search"
-            android:defaultValue="true" />
-
-        <CheckBoxPreference
-            android:title="@string/firstNote_title"
-            android:summary="@string/firstNote_title_summary"
-            android:key="first_note"
-            android:defaultValue="true" />
-
-        <CheckBoxPreference
-            android:title="@string/firstNot_title"
-            android:summary="@string/firstNot_title_summary"
-            android:key="first_not"
-            android:defaultValue="true" />
-
-        <CheckBoxPreference
-            android:title="@string/firstScreenshot_title"
-            android:summary="@string/firstScreenshot_title_summary"
-            android:key="first_screenshot"
+            android:title="@string/action_notShow_title"
+            android:summary="@string/action_notShow_title_summary"
+            android:key="help_notShow"
             android:defaultValue="true" />
 
         <CheckBoxPreference
