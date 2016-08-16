@@ -47,7 +47,11 @@
         deinen Benutzernamen und dein Passwort eingeben. In der Webview gibt es ein Kontextmenü, dass sich bei einem langen
         Klick auf Bilder oder Links öffnet. Du kannst zum Startschirm oder zu deinem Favorit (siehe Einstellungen) zurückkehren,
         indem du auf die Titelleiste klickst. Um zum Startschirm zurückzukehren kannst du auch den Pfeil in der Titelleiste
-        klicken. Nach unten wischen um die Seite neu zu laden.&lt;br>&lt;br>
+        klicken.&lt;br>&lt;br>
+
+        &lt;i>Wischfunktionen:&lt;/i>&lt;br>
+        Nach unten wischen um die Seite neu zu laden. Nach rechts wischen um vorherige Seite zu laden, nach links wischen, um
+        eine Seite nach vorne zu gelangen.&lt;br>&lt;br>
 
         &lt;i>Menu:&lt;/i>&lt;br>
         Du kannst eine neue Notiz oder eine Benachrichtigung erstellen. Du kannst die aktuelle Moodleseite als Scrennshot

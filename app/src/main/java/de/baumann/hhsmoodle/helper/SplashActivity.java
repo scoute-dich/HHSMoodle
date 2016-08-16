@@ -21,11 +21,18 @@ package de.baumann.hhsmoodle.helper;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.ImageView;
 
 import de.baumann.hhsmoodle.HHS_MainScreen;
 import de.baumann.hhsmoodle.R;
@@ -33,7 +40,9 @@ import de.baumann.hhsmoodle.R;
 
 public class SplashActivity extends AppCompatActivity {
 
-
+    private EditText editUsername;
+    private EditText editPassword;
+    private ImageView Image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,43 +51,96 @@ public class SplashActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash);
 
+        editUsername = (EditText) findViewById(R.id.editUsername);
+        assert editUsername != null;
+        editUsername.setVisibility(View.INVISIBLE);
+        editUsername.getBackground().mutate().setColorFilter(ContextCompat.getColor(SplashActivity.this, R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
+        editPassword = (EditText) findViewById(R.id.editPassword);
+        assert editPassword != null;
+        editPassword.setVisibility(View.INVISIBLE);
+        editPassword.getBackground().mutate().setColorFilter(ContextCompat.getColor(SplashActivity.this, R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
+        Image = (ImageView) findViewById(R.id.image);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        assert fab != null;
+        fab.setVisibility(View.INVISIBLE);
+
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         final String startType = sharedPref.getString("startType", "1");
+        final String username = sharedPref.getString("username", "");
+        final String password = sharedPref.getString("password", "");
 
-        if (startType.equals("2")) {
+        if (username.isEmpty() || password.isEmpty() ) {
 
-            new Handler().postDelayed(new Runnable() {
-                public void run() {
+            editUsername.setVisibility(View.VISIBLE);
+            editPassword.setVisibility(View.VISIBLE);
+            fab.setVisibility(View.VISIBLE);
 
-                     /* Create an intent that will start the main activity. */
-                    Intent mainIntent = new Intent(SplashActivity.this, Start.class);
-                    mainIntent.putExtra("id", "1");
-                    //SplashScreen.this.startActivity(mainIntent);
-                    startActivity(mainIntent);
-                     /* Finish splash activity so user cant go back to it. */
-                    SplashActivity.this.finish();
-                     /* Apply our splash exit (fade out) and main
-                        entry (fade in) animation transitions. */
-                    overridePendingTransition(R.anim.fadein,R.anim.fadeout);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String Username = editUsername.getText().toString().trim();
+                    String Password = editPassword.getText().toString().trim();
+
+                    if (Username.isEmpty() || Password.isEmpty()) {
+                        Snackbar.make(Image, R.string.login_hint, Snackbar.LENGTH_LONG).show();
+                    } else {
+                        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(SplashActivity.this);
+                        sharedPref.edit().putString("username", Username).apply();
+                        sharedPref.edit().putString("password", Password).apply();
+
+                        if (startType.equals("2")) {
+
+                            new Handler().postDelayed(new Runnable() {
+                                public void run() {
+
+                                    Intent mainIntent = new Intent(SplashActivity.this, Start.class);
+                                    mainIntent.putExtra("id", "1");
+                                    startActivity(mainIntent);
+                                    SplashActivity.this.finish();
+                                    overridePendingTransition(R.anim.fadein,R.anim.fadeout);
+                                }
+                            }, 2000);
+                        } else if (startType.equals("1")){
+                            new Handler().postDelayed(new Runnable() {
+                                public void run() {
+
+                                    Intent mainIntent = new Intent(SplashActivity.this, HHS_MainScreen.class);
+                                    mainIntent.putExtra("id", "1");
+                                    startActivity(mainIntent);
+                                    SplashActivity.this.finish();
+                                    overridePendingTransition(R.anim.fadein,R.anim.fadeout);
+                                }
+                            }, 2000);
+                        }
+                    }
                 }
-            }, 2000);
-        } else if (startType.equals("1")){
-            new Handler().postDelayed(new Runnable() {
-                public void run() {
+            });
+        } else {
+            if (startType.equals("2")) {
 
-                     /* Create an intent that will start the main activity. */
-                    Intent mainIntent = new Intent(SplashActivity.this, HHS_MainScreen.class);
-                    mainIntent.putExtra("id", "1");
-                    //SplashScreen.this.startActivity(mainIntent);
-                    startActivity(mainIntent);
-                     /* Finish splash activity so user cant go back to it. */
-                    SplashActivity.this.finish();
-                     /* Apply our splash exit (fade out) and main
-                        entry (fade in) animation transitions. */
-                    overridePendingTransition(R.anim.fadein,R.anim.fadeout);
-                }
-            }, 2000);
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
+
+                        Intent mainIntent = new Intent(SplashActivity.this, Start.class);
+                        mainIntent.putExtra("id", "1");
+                        startActivity(mainIntent);
+                        SplashActivity.this.finish();
+                        overridePendingTransition(R.anim.fadein,R.anim.fadeout);
+                    }
+                }, 2000);
+            } else if (startType.equals("1")){
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
+
+                        Intent mainIntent = new Intent(SplashActivity.this, HHS_MainScreen.class);
+                        mainIntent.putExtra("id", "1");
+                        startActivity(mainIntent);
+                        SplashActivity.this.finish();
+                        overridePendingTransition(R.anim.fadein,R.anim.fadeout);
+                    }
+                }, 2000);
+            }
         }
     }
 }

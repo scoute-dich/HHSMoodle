@@ -2,15 +2,61 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".helper.SplashActivity">
 
     <ImageView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:id="@+id/image"
         android:src="@drawable/splashscreen"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:scaleType="centerCrop"
         android:contentDescription="@string/app_contDesc_3" />
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editUsername"
+        android:layout_above="@+id/editPassword"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="64dp"
+        android:layout_marginRight="64dp"
+        android:hint="@string/login_user"
+        android:textColor="#ffffff"
+        android:textColorHint="#bdbdbd" />
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editPassword"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="64dp"
+        android:layout_marginRight="64dp"
+        android:layout_marginTop="32dp"
+        android:hint="@string/login_password"
+        android:textColor="#ffffff"
+        android:textColorHint="#bdbdbd"
+        android:inputType="textPassword" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:src="@drawable/ic_check_white_48dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:fabSize="normal"
+        app:borderWidth="0dp"
+        app:elevation="6dp"
+        app:pressedTranslationZ="12dp"
+        android:id="@+id/fab"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        tools:ignore="RelativeOverlap"
+        app:backgroundTint="@color/colorAccent" />
 
 </RelativeLayout>

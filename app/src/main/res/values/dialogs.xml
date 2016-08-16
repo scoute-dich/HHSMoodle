@@ -44,8 +44,11 @@
         HHS Moodle is shown in this webview. A webview displays websites in an app. If you want to be
         logged automatically, you must set your username and your password in the settings. In the webview there is a
         context menu, which opens on long pressing a link or image. You can switch back to the main screen or to your favorite
-        (look into the settings) by clicking the toolbar. To go back to the main screen you can also press the arrow at the toolbar.
-        Swipe down to reload the website.&lt;br>&lt;br>
+        (look into the settings) by clicking the toolbar. To go back to the main screen you can also press the arrow at the
+        toolbar.&lt;br>&lt;br>
+
+        &lt;i>Swipe:&lt;/i>&lt;br>
+        Swipe down to reload the website. Swipe right to open previous site, swipe left to move forward.&lt;br>&lt;br>
 
         &lt;i>Menu:&lt;/i>&lt;br>
         You can make a new note or a new notification. You can share the actual moodle site as screenshot, or only the link. You can

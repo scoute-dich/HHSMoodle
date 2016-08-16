@@ -18,12 +18,9 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.media.AudioManager;
-import android.media.ToneGenerator;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
@@ -174,7 +171,7 @@ public class HHS_Browser extends AppCompatActivity  {
                 // do your stuff here
                 swipeView.setRefreshing(false);
 
-                if (username.isEmpty() ) {
+                if (username.isEmpty() || password.isEmpty()) {
                     Snackbar snackbar = Snackbar
                             .make(mWebView, getString(R.string.toast_login), Snackbar.LENGTH_INDEFINITE)
                             .setAction(getString(R.string.toast_yes), new View.OnClickListener() {
@@ -225,16 +222,8 @@ public class HHS_Browser extends AppCompatActivity  {
                 progressBar.setProgress(progress);
                 if (progress == 100) {
                     progressBar.setVisibility(View.GONE);
-
-                    String url = mWebView.getUrl();
-                    if (url.contains("moodle")) {
-                        mWebView.scrollTo(0, 80);
-                        setTitle(mWebView.getTitle());
-                    } else {
-                        mWebView.scrollTo(0, 0);
-                        setTitle(mWebView.getTitle());
-                    }
-
+                    mWebView.scrollTo(0, 80);
+                    setTitle(mWebView.getTitle());
                 } else {
                     progressBar.setVisibility(View.VISIBLE);
                 }

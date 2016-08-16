@@ -17,6 +17,13 @@
     <string name="app_contDesc_3">Splashscreen</string>
 
 
+    // Login
+
+    <string name="login_user">Benutzername</string>
+    <string name="login_password">Passwort</string>
+    <string name="login_hint">Bitte Benutzername und Passwort eingeben.</string>
+
+
     // Tab - Titles
 
     <string name="title_weatherInfo">Mein Moodle</string>
