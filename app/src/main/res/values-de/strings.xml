@@ -54,7 +54,7 @@
     <string name="context_externalBrowser">Im Browser öffnen</string>
     <string name="context_linkCopy">Link kopieren</string>
     <string name="context_linkCopy_toast">Link erfolgreich kopiert</string>
-    <string name="context_saveImage_toast">Bild gespeichert unter:</string>
+    <string name="context_saveImage_toast">Speichere Bild als:</string>
 
 
     // Settings
@@ -126,7 +126,6 @@
     <string name="toast_yes">OK</string>
     <string name="toast_cancel">Abbrechen</string>
     <string name="toast_notAgain">Nicht anzeigen</string>
-    <string name="toast_screenshot">Bildschirmfoto gespeichert unter:</string>
     <string name="toast_clearCache">Cache wird geleert …</string>
     <string name="toast_clearSettings">Einstellungen werden gelöscht …</string>
     <string name="toast_noInternet">Kann Seite nicht laden. Keine Internetverbindung?</string>

@@ -52,7 +52,7 @@
     <string name="context_externalBrowser">Open in external browser</string>
     <string name="context_linkCopy">Copy link</string>
     <string name="context_linkCopy_toast">Link successfully copied</string>
-    <string name="context_saveImage_toast">Saved image to location:</string>
+    <string name="context_saveImage_toast">Saving image as:</string>
 
 
     // Settings
@@ -123,7 +123,6 @@
     <string name="toast_yes">OK</string>
     <string name="toast_cancel">Cancel</string>
     <string name="toast_notAgain">Never show</string>
-    <string name="toast_screenshot">Saved screenshot to location:</string>
     <string name="toast_clearCache">Clearing cache …</string>
     <string name="toast_clearSettings">Clearing settings …</string>
     <string name="toast_noInternet">Can not load page. No internet connection?</string>

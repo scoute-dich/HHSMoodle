@@ -84,9 +84,9 @@ public class FragmentBookmark extends Fragment {
 
                 final CharSequence[] options = {getString(R.string.bookmark_edit_title),
                         getString(R.string.bookmark_edit_fav),
-                        getString(R.string.bookmark_remove_bookmark),
                         getString(R.string.bookmark_createNote),
-                        getString(R.string.bookmark_CreateNotification)};
+                        getString(R.string.bookmark_CreateNotification),
+                        getString(R.string.bookmark_remove_bookmark)};
                 new AlertDialog.Builder(getActivity())
                         .setItems(options, new DialogInterface.OnClickListener() {
                             @Override

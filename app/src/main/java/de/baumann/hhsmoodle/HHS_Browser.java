@@ -459,10 +459,16 @@ public class HHS_Browser extends AppCompatActivity  {
 
                         try {
                             if (url != null) {
+
+                                Date date = new Date();
+                                DateFormat dateFormat = new SimpleDateFormat("dd-MM-yy_HH-mm", Locale.getDefault());
+                                String title = mWebView.getTitle();
+                                title = title.replaceAll("[^a-zA-Z0-9]+","_");
+
                                 Uri source = Uri.parse(url);
                                 DownloadManager.Request request = new DownloadManager.Request(source);
-                                File destinationFile = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/"
-                                        + source.getLastPathSegment());
+                                File destinationFile = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/" + title + "_" +
+                                        dateFormat.format(date) + ".jpg");
                                 request.addRequestHeader("Cookie", CookieManager.getInstance().getCookie(url));
                                 request.setDestinationUri(Uri.fromFile(destinationFile));
                                 ((DownloadManager) HHS_Browser.this.getSystemService(Context.DOWNLOAD_SERVICE)).enqueue(request);
@@ -480,15 +486,20 @@ public class HHS_Browser extends AppCompatActivity  {
                         if(url != null) {
                             File directory = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/");
                             if (!directory.exists()) {
-                                //noinspection ResultOfMethodCallIgnored
                                 directory.mkdirs();
                             }
+
+                            Date date = new Date();
+                            DateFormat dateFormat = new SimpleDateFormat("dd-MM-yy_HH-mm", Locale.getDefault());
+                            String title = mWebView.getTitle();
+                            title = title.replaceAll("[^a-zA-Z0-9]+","_");
+
+                            File destinationFile = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/" + title + "_" +
+                                    dateFormat.format(date) + ".jpg");
 
                             try {
                                 Uri source = Uri.parse(url);
                                 DownloadManager.Request request = new DownloadManager.Request(source);
-                                File destinationFile = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/"
-                                        + "1.jpg");
                                 request.addRequestHeader("Cookie", CookieManager.getInstance().getCookie(url));
                                 request.setDestinationUri(Uri.fromFile(destinationFile));
                                 ((DownloadManager) HHS_Browser.this.getSystemService(Context.DOWNLOAD_SERVICE)).enqueue(request);
@@ -499,18 +510,12 @@ public class HHS_Browser extends AppCompatActivity  {
                                 Snackbar.make(mWebView, R.string.toast_perm , Snackbar.LENGTH_LONG).show();
                             }
 
-                            Uri myUri= Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/"
-                                    + "1.jpg"));
+                            Uri myUri= Uri.fromFile(destinationFile);
                             Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                             sharingIntent.setType("image/*");
                             sharingIntent.putExtra(Intent.EXTRA_STREAM, myUri);
                             sharingIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                             HHS_Browser.this.startActivity(Intent.createChooser(sharingIntent, (getString(R.string.app_share_image))));
-
-                            File tempFile = new File(Environment.getExternalStorageDirectory() +  "/HHS_Moodle/" + "1.jpg");
-                            if(tempFile.exists()){
-                                tempFile.delete();
-                            }
                         }
                         break;
 
@@ -670,15 +675,18 @@ public class HHS_Browser extends AppCompatActivity  {
 
                                 Date date = new Date();
                                 DateFormat dateFormat = new SimpleDateFormat("dd-MM-yy_HH-mm", Locale.getDefault());
-                                File file = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/", dateFormat.format(date) + ".jpg");
+                                String title = mWebView.getTitle();
+                                title = title.replaceAll("[^a-zA-Z0-9]+","_");
 
-                                if (file.exists()) {
+                                File destinationFile = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/" + title + "_" +
+                                        dateFormat.format(date) + ".jpg");
+
+                                if (destinationFile.exists()) {
                                     Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                                     sharingIntent.setType("image/png");
                                     sharingIntent.putExtra(Intent.EXTRA_SUBJECT, mWebView.getTitle());
                                     sharingIntent.putExtra(Intent.EXTRA_TEXT, mWebView.getUrl());
-                                    Uri bmpUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/"
-                                            + dateFormat.format(date) + ".jpg"));
+                                    Uri bmpUri = Uri.fromFile(destinationFile);
                                     sharingIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
                                     startActivity(Intent.createChooser(sharingIntent, (getString(R.string.app_share_screenshot))));
                                 }
@@ -770,6 +778,8 @@ public class HHS_Browser extends AppCompatActivity  {
 
         Date date = new Date();
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yy_HH-mm", Locale.getDefault());
+        String title = mWebView.getTitle();
+        title = title.replaceAll("[^a-zA-Z0-9]+","_");
 
         mWebView.measure(View.MeasureSpec.makeMeasureSpec(
                 View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED),
@@ -793,18 +803,19 @@ public class HHS_Browser extends AppCompatActivity  {
 
         try {
             OutputStream fOut;
-            File file = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/" + dateFormat.format(date) + ".jpg");
-            fOut = new FileOutputStream(file);
+            File destinationFile = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/" + title + "_" +
+                    dateFormat.format(date) + ".jpg");
+            fOut = new FileOutputStream(destinationFile);
 
             bm.compress(Bitmap.CompressFormat.PNG, 50, fOut);
             fOut.flush();
             fOut.close();
             bm.recycle();
 
-            String filename = getString(R.string.toast_screenshot) + " " + Environment.getExternalStorageDirectory() + "/HHS_Moodle/" + dateFormat.format(date) + ".jpg";
-            Snackbar.make(swipeView, filename, Snackbar.LENGTH_LONG).show();
+            Snackbar.make(mWebView, getString(R.string.context_saveImage_toast) + " " +
+                    destinationFile.getAbsolutePath() , Snackbar.LENGTH_LONG).show();
 
-            Uri uri = Uri.fromFile(file);
+            Uri uri = Uri.fromFile(destinationFile);
             Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri);
             sendBroadcast(intent);
 
