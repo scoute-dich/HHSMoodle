@@ -300,6 +300,8 @@ public class HHS_Browser extends AppCompatActivity  {
         });
 
         mWebView.setOnTouchListener(new OnSwipeTouchListener(HHS_Browser.this) {
+            final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(HHS_Browser.this);
+
 
             public void onSwipeRight() {
                 if (mWebView.canGoBack()) {
