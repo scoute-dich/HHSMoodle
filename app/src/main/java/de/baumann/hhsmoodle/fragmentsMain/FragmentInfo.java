@@ -39,6 +39,7 @@ public class FragmentInfo extends Fragment {
         final String[] itemTITLE ={
                 getString(R.string.text_tit_1),
                 getString(R.string.text_tit_2),
+                getString(R.string.text_tit_8),
                 getString(R.string.text_tit_3),
                 getString(R.string.text_tit_4),
                 getString(R.string.text_tit_5),
@@ -49,6 +50,7 @@ public class FragmentInfo extends Fragment {
         final String[] itemURL ={
                 "https://moodle.huebsch.ka.schule-bw.de/moodle/my/",
                 "https://moodle.huebsch.ka.schule-bw.de/moodle/user/profile.php?id=4",
+                "https://moodle.huebsch.ka.schule-bw.de/moodle/calendar/view.php?view=upcoming&course=1",
                 "https://moodle.huebsch.ka.schule-bw.de/moodle/grade/report/overview/index.php",
                 "https://moodle.huebsch.ka.schule-bw.de/moodle/message/index.php",
                 "https://moodle.huebsch.ka.schule-bw.de/moodle/user/preferences.php",
@@ -59,6 +61,7 @@ public class FragmentInfo extends Fragment {
             final String[] itemDES ={
                 getString(R.string.text_des_1),
                 getString(R.string.text_des_2),
+                getString(R.string.text_des_8),
                 getString(R.string.text_des_3),
                 getString(R.string.text_des_4),
                 getString(R.string.text_des_5),
@@ -69,6 +72,7 @@ public class FragmentInfo extends Fragment {
         Integer[] imgid={
                 R.drawable.ic_view_dashboard_grey600_48dp,
                 R.drawable.ic_face_profile_grey600_48dp,
+                R.drawable.ic_calendar_grey600_48dp,
                 R.drawable.ic_chart_areaspline_grey600_48dp,
                 R.drawable.ic_bell_grey600_48dp,
                 R.drawable.ic_settings_grey600_48dp,

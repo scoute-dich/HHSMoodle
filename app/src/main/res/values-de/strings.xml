@@ -106,6 +106,7 @@
 
     <string name="text_tit_1">Dashbord</string>
     <string name="text_tit_2">Profil</string>
+    <string name="text_tit_8">Kalender</string>
     <string name="text_tit_3">Bewertungen</string>
     <string name="text_tit_4">Mitteilungen</string>
     <string name="text_tit_5">Einstellungen</string>
@@ -114,6 +115,7 @@
 
     <string name="text_des_1">Kursübersicht, Dateien, Auszeichnungen, Termine, Kalender, …</string>
     <string name="text_des_2">Details, Berichte, Verschiedenes, Profil bearbeiten.</string>
+    <string name="text_des_8">Anstehende Termine deiner Kurse.</string>
     <string name="text_des_3">Alle Bewertungen und Ergebnisse deiner Kurse.</string>
     <string name="text_des_4">Persönliche Mitteilungen und Kontakte.</string>
     <string name="text_des_5">Nutzerkonto, Blogs, Auszeichnungen.</string>
@@ -135,6 +137,8 @@
     <string name="toast_perm">Berechtigungen gewährt?</string>
     <string name="toast_install_folder">Bitte einen Dateimanager installieren.</string>
     <string name="toast_login">Bitte Anmeldedaten in den Einstellungen eingeben.</string>
+    <string name="toast_back">Kann vorherige Seite nicht laden.</string>
+    <string name="toast_forward">Kann nächste Seite nicht laden.</string>
 
 
     // Bookmarks

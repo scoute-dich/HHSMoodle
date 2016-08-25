@@ -182,23 +182,23 @@ public class HHS_Browser extends AppCompatActivity  {
                                 }
                             });
                     snackbar.show();
+                }
+
+                final String js = "javascript:" +
+                        "document.getElementById('password').value = '" + password + "';"  +
+                        "document.getElementById('username').value = '" + username + "';"  +
+                        "var ans = document.getElementsByName('answer');"                  +
+                        "document.getElementById('loginbtn').click()";
+
+                if (Build.VERSION.SDK_INT >= 19) {
+                    view.evaluateJavascript(js, new ValueCallback<String>() {
+                        @Override
+                        public void onReceiveValue(String s) {
+
+                        }
+                    });
                 } else {
-                    final String js = "javascript:" +
-                            "document.getElementById('password').value = '" + password + "';"  +
-                            "document.getElementById('username').value = '" + username + "';"  +
-                            "var ans = document.getElementsByName('answer');"                  +
-                            "document.getElementById('loginbtn').click()";
-
-                    if (Build.VERSION.SDK_INT >= 19) {
-                        view.evaluateJavascript(js, new ValueCallback<String>() {
-                            @Override
-                            public void onReceiveValue(String s) {
-
-                            }
-                        });
-                    } else {
-                        view.loadUrl(js);
-                    }
+                    view.loadUrl(js);
                 }
             }
 
@@ -218,12 +218,20 @@ public class HHS_Browser extends AppCompatActivity  {
         });
 
         mWebView.setWebChromeClient(new WebChromeClient() {
+
             public void onProgressChanged(WebView view, int progress) {
+                final String url = mWebView.getUrl();
                 progressBar.setProgress(progress);
+
                 if (progress == 100) {
                     progressBar.setVisibility(View.GONE);
-                    mWebView.scrollTo(0, 80);
+
+                } if (progress > 60) {
+                    if (url.contains("moodle.huebsch.ka.schule-bw.de")) {
+                        mWebView.scrollTo(0, 80);
+                    }
                     setTitle(mWebView.getTitle());
+
                 } else {
                     progressBar.setVisibility(View.VISIBLE);
                 }
@@ -300,18 +308,20 @@ public class HHS_Browser extends AppCompatActivity  {
         });
 
         mWebView.setOnTouchListener(new OnSwipeTouchListener(HHS_Browser.this) {
-            final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(HHS_Browser.this);
-
 
             public void onSwipeRight() {
                 if (mWebView.canGoBack()) {
                     mWebView.goBack();
+                } else {
+                    Snackbar.make(mWebView, R.string.toast_back, Snackbar.LENGTH_LONG).show();
                 }
             }
 
             public void onSwipeLeft() {
                 if (mWebView.canGoForward()) {
                     mWebView.goForward();
+                } else {
+                    Snackbar.make(mWebView, R.string.toast_forward, Snackbar.LENGTH_LONG).show();
                 }
             }
         });

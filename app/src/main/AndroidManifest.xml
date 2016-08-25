@@ -45,8 +45,20 @@
                 <data android:scheme="https" />
                 <data android:host="moodle.huebsch.ka.schule-bw.de" />
             </intent-filter>
-
         </activity>
+
+        <activity
+            android:name=".HHS_MainScreen"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+        </activity>
+
 
         <activity
             android:name="de.baumann.hhsmoodle.helper.Start"
@@ -57,13 +69,6 @@
             android:name=".HHS_UserSettingsActivity"
             android:windowSoftInputMode="stateAlwaysHidden"
             android:label="@string/app_name" />
-
-        <activity
-            android:name=".HHS_MainScreen"
-            android:launchMode="singleTask"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:theme="@style/AppTheme.NoActionBar"/>
-
 
         <activity
             android:name=".Notes_MainActivity"

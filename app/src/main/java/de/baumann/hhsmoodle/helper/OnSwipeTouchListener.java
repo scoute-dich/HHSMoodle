@@ -5,17 +5,12 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
-
 public class OnSwipeTouchListener implements View.OnTouchListener {
 
     private final GestureDetector gestureDetector;
 
     public OnSwipeTouchListener(Context context) {
         gestureDetector = new GestureDetector(context, new GestureListener());
-    }
-
-    public GestureDetector getGestureDetector(){
-        return  gestureDetector;
     }
 
     public void onSwipeLeft() {
@@ -26,9 +21,6 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
 
     public boolean onTouch(View v, MotionEvent event) {
         return gestureDetector.onTouchEvent(event);
-    }
-
-    public void onClick(){
     }
 
     private final class GestureListener extends GestureDetector.SimpleOnGestureListener {
@@ -49,12 +41,6 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
                 return true;
             }
             return false;
-        }
-
-        @Override
-        public boolean onSingleTapConfirmed(MotionEvent e) {
-            onClick(); // my method
-            return super.onSingleTapConfirmed(e);
         }
     }
 

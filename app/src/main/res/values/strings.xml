@@ -103,6 +103,7 @@
 
     <string name="text_tit_1">Dashbord</string>
     <string name="text_tit_2">Profile</string>
+    <string name="text_tit_8">Calendar</string>
     <string name="text_tit_3">Ratings</string>
     <string name="text_tit_4">Notifications</string>
     <string name="text_tit_5">Settings</string>
@@ -111,6 +112,7 @@
 
     <string name="text_des_1">Course overview, files, awards, appointment, calendar, …</string>
     <string name="text_des_2">Details, reports, miscellaneous, edit profile.</string>
+    <string name="text_des_8">View upcoming events from your courses.</string>
     <string name="text_des_3">Gradings and results from all your courses.</string>
     <string name="text_des_4">Read and send personal notifications.</string>
     <string name="text_des_5">Personal messages and contacts.</string>
@@ -132,6 +134,8 @@
     <string name="toast_perm">Permissions granted?</string>
     <string name="toast_install_folder">Please install a file manager.</string>
     <string name="toast_login">Please enter login data in settings.</string>
+    <string name="toast_back">Can not go back.</string>
+    <string name="toast_forward">Can not go forward.</string>
 
 
     // Bookmarks
