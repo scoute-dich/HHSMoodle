@@ -48,8 +48,8 @@
             android:defaultValue="true" />
 
         <Preference
-            android:title="@string/action_clearCache"
-            android:summary="@string/action_clearCache_summary"
+            android:title="@string/action_openSettings"
+            android:summary="@string/action_openSettings_summary"
             android:key="clearCache" />
 
         <Preference

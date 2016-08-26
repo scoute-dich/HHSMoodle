@@ -92,7 +92,7 @@
 
         &lt;b>Menu&lt;/b>&lt;br>&lt;br>
         From the main screen you can create a new note, reach your notifications, open the app directory (where the downloaded
-        files will be saved) or enter the settings screen. In the \"Notes tab\" ou can also create a new note.</string>
+        files will be saved), enter the settings screen or create a new note.</string>
 
 
     <string name="helpNot_title">Notifications</string>

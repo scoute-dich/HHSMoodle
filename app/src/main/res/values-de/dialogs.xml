@@ -56,7 +56,7 @@
         eine Seite nach vorne zu gelangen.&lt;br>&lt;br>
 
         &lt;i>Menu:&lt;/i>&lt;br>
-        Du kannst eine neue Notiz oder eine Benachrichtigung erstellen. Du kannst die aktuelle Moodleseite als Scrennshot
+        Du kannst eine neue Notiz oder eine Benachrichtigung erstellen. Du kannst die aktuelle Moodleseite als Bildschirmfoto
         oder nur den Link teilen. Du kannst die Seite als Lesezeichen zum Startschirm hinzufügen und du kannst direkt das
         Anwendungsverzeichnis öffnen.&lt;br>&lt;br>
 
@@ -98,8 +98,7 @@
 
         &lt;b>Menü&lt;/b>&lt;br>&lt;br>
         Du kannst von hier zu deinen Benachrichtungen wechseln, den Anwendungsordner öffnen
-        (dort werden heruntergeladene Dateien gespeichert) oder die Einstellungen erreichen. Im \"Notizentab\" kannst du
-        außerdem eine neue Notiz erstellen.</string>
+        (dort werden heruntergeladene Dateien gespeichert), die Einstellungen erreichen oder eine neue Notiz erstellen.</string>
 
 
     <string name="helpNot_title">Benachrichtigungen</string>

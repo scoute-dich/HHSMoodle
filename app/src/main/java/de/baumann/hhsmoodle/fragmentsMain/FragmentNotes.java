@@ -10,6 +10,7 @@ import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -64,7 +65,7 @@ public class FragmentNotes extends Fragment {
         swipeView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                setBookmarkList();
+                setNotesList();
             }
         });
 
@@ -75,11 +76,12 @@ public class FragmentNotes extends Fragment {
                 @SuppressWarnings("unchecked")
                 HashMap<String,String> map = (HashMap<String,String>)listView.getItemAtPosition(position);
 
-                SpannableString s;
+                final SpannableString s;
                 s = new SpannableString(Html.fromHtml(map.get("cont")));
                 Linkify.addLinks(s, Linkify.WEB_URLS);
 
                 final String title = map.get("title");
+                final String text = map.get("cont");
 
                 LinearLayout layout = new LinearLayout(getActivity());
                 layout.setOrientation(LinearLayout.VERTICAL);
@@ -94,7 +96,8 @@ public class FragmentNotes extends Fragment {
                 layout.addView(textTitle);
 
                 final TextView textContent = new TextView(getContext());
-                textContent.setText(s);
+                textContent.setText(text);
+                textContent.setTextSize(16);
                 textContent.setPadding(5,25,0,0);
                 textContent.setMovementMethod(LinkMovementMethod.getInstance());
                 layout.addView(textContent);
@@ -111,6 +114,48 @@ public class FragmentNotes extends Fragment {
                         .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
 
                             public void onClick(DialogInterface dialog, int whichButton) {
+                                dialog.cancel();
+                            }
+                        })
+                        .setNegativeButton(R.string.app_links, new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int whichButton) {
+
+                                LinearLayout layout = new LinearLayout(getActivity());
+                                layout.setOrientation(LinearLayout.VERTICAL);
+                                layout.setGravity(Gravity.CENTER_HORIZONTAL);
+                                layout.setPadding(50, 0, 50, 0);
+
+                                final TextView textTitle = new TextView(getContext());
+                                textTitle.setText(title);
+                                textTitle.setTextSize(24);
+                                textTitle.setTypeface(null, Typeface.BOLD);
+                                textTitle.setPadding(5,50,0,0);
+                                layout.addView(textTitle);
+
+                                final TextView textContent = new TextView(getContext());
+                                textContent.setText(s);
+                                textContent.setTextSize(16);
+                                textContent.setPadding(5,25,0,0);
+                                textContent.setMovementMethod(LinkMovementMethod.getInstance());
+                                layout.addView(textContent);
+
+                                ScrollView sv = new ScrollView(getActivity());
+                                sv.pageScroll(0);
+                                sv.setBackgroundColor(0);
+                                sv.setScrollbarFadingEnabled(true);
+                                sv.setVerticalFadingEdgeEnabled(false);
+                                sv.addView(layout);
+
+                                final AlertDialog.Builder dialog2 = new AlertDialog.Builder(getActivity())
+                                        .setView(sv)
+                                        .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+
+                                            public void onClick(DialogInterface dialog2, int whichButton) {
+                                                dialog2.cancel();
+                                            }
+                                        });
+                                dialog2.show();
                                 dialog.cancel();
                             }
                         });
@@ -161,7 +206,7 @@ public class FragmentNotes extends Fragment {
                                                         String textTitle = inputTitle.getText().toString().trim();
                                                         db.addBookmark(textTitle, url, cont);
                                                         db.close();
-                                                        setBookmarkList();
+                                                        setNotesList();
                                                     }
                                                 })
                                                 .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
@@ -191,7 +236,7 @@ public class FragmentNotes extends Fragment {
                                                         String textContent = inputTitle.getText().toString().trim();
                                                         db.addBookmark(title, url, textContent);
                                                         db.close();
-                                                        setBookmarkList();
+                                                        setNotesList();
                                                     }
                                                 })
                                                 .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
@@ -250,7 +295,7 @@ public class FragmentNotes extends Fragment {
                                                                 Database_Notes db = new Database_Notes(getActivity());
                                                                 db.deleteBookmark(Integer.parseInt(seqnoStr));
                                                                 db.close();
-                                                                setBookmarkList();
+                                                                setNotesList();
                                                             } catch (PackageManager.NameNotFoundException e) {
                                                                 e.printStackTrace();
                                                             }
@@ -269,7 +314,92 @@ public class FragmentNotes extends Fragment {
             }
         });
 
-        setBookmarkList();
+        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                final String url = "noURL";
+                String title = sharedPref.getString("handleTextTitle", "");
+                String text = sharedPref.getString("handleTextText", "");
+
+                try {
+
+                    final LinearLayout layout = new LinearLayout(getActivity());
+                    layout.setOrientation(LinearLayout.VERTICAL);
+                    layout.setGravity(Gravity.CENTER_HORIZONTAL);
+                    layout.setPadding(50, 0, 50, 0);
+
+                    final TextView titleText = new TextView(getActivity());
+                    titleText.setText(R.string.note_edit_title);
+                    titleText.setPadding(5,50,0,0);
+                    layout.addView(titleText);
+
+                    final EditText titleEdit = new EditText(getActivity());
+                    titleEdit.setText(title);
+                    layout.addView(titleEdit);
+
+                    final TextView contentText = new TextView(getActivity());
+                    contentText.setText(R.string.note_edit_content);
+                    contentText.setPadding(5,25,0,0);
+                    layout.addView(contentText);
+
+                    final EditText contentEdit = new EditText(getActivity());
+                    contentEdit.setText(text);
+                    layout.addView(contentEdit);
+
+                    ScrollView sv = new ScrollView(getActivity());
+                    sv.pageScroll(0);
+                    sv.setBackgroundColor(0);
+                    sv.setScrollbarFadingEnabled(true);
+                    sv.setVerticalFadingEdgeEnabled(false);
+                    sv.addView(layout);
+
+                    final Database_Notes db = new Database_Notes(getActivity());
+                    final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity())
+                            .setView(sv)
+                            .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    String inputTitle = titleEdit.getText().toString().trim();
+                                    String inputContent = contentEdit.getText().toString().trim();
+                                    db.addBookmark(inputTitle, url, inputContent);
+                                    db.close();
+                                    setNotesList();
+                                }
+                            })
+                            .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    dialog.cancel();
+                                }
+                            });
+                    dialog.show();
+
+                    sharedPref.edit().putString("handleTextTitle", "").apply();
+                    sharedPref.edit().putString("handleTextText", "").apply();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        Intent intent = getActivity().getIntent();
+        String action = intent.getAction();
+        String type = intent.getType();
+
+        if (Intent.ACTION_SEND.equals(action) && type != null) {
+            if (type.startsWith("text/")) {
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                sharedPref.edit().putString("handleTextTitle", intent.getStringExtra(Intent.EXTRA_SUBJECT)).apply();
+                sharedPref.edit().putString("handleTextText", intent.getStringExtra(Intent.EXTRA_TEXT)).apply();
+                fab.performClick();
+            }
+        }
+
+        setNotesList();
         return rootView;
     }
 
@@ -280,13 +410,13 @@ public class FragmentNotes extends Fragment {
             case 100:
                 if (resultCode == Activity.RESULT_OK) {
                     if (data.getIntExtra("updated", 0) == 1) {
-                        setBookmarkList();
+                        setNotesList();
                     }
                 }
         }
     }
 
-    private void setBookmarkList() {
+    private void setNotesList() {
 
         ArrayList<HashMap<String,String>> mapList = new ArrayList<>();
 

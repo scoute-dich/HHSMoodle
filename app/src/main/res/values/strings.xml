@@ -6,13 +6,14 @@
     <string name="app_permissions">You must grant \"Access Storage Permission\" to save screenshots and downloads. After that you should
         completely close the app or restart the phone. If you don\'t permit the storage access but want to use the
         screenshot function at a later time, you can grant the permission later. Please open then: system settings - apps -
-        weather. In the permissions section you can grant the \"write storage permission\".</string>
+        HHS Moodle. In the permissions section you can grant the \"write storage permission\".</string>
     <string name="app_share_screenshot">Share screenshot using:</string>
     <string name="app_share_image">Share image using:</string>
     <string name="app_share_link">Share link using:</string>
     <string name="app_contDesc_1">header</string>
     <string name="app_contDesc_2">icon</string>
     <string name="app_contDesc_3">splashscreen</string>
+    <string name="app_links">Show links</string>
 
 
     // Login
@@ -81,12 +82,12 @@
     <string name="action_license">License</string>
     <string name="action_license_summary">The app is completely open source and licensed under GPL3.</string>
 
-    <string name="action_clearCache">Clear cache</string>
-    <string name="action_clearCache_summary">Clear cache of application. All cached websites will be lost …</string>
-    <string name="action_clearCache_dialog">Do you really ant to clear cache? All cached websites will be lost.</string>
+    <string name="action_openSettings">Settings</string>
+    <string name="action_openSettings_summary">Open the system settings of the app. There you can, depending on your Android version,
+        manage several things (Storage, network traffic, permissions, …).</string>
 
-    <string name="action_clearSettings">Clear settings</string>
-    <string name="action_clearSettings_summary">Clear all user settings of application. Also your login data …</string>
+    <string name="action_clearSettings">User settings</string>
+    <string name="action_clearSettings_summary">Clear all personal data of the application. Also your login data …</string>
     <string name="action_clearSettings_dialog">Do you really ant to clear settings? Application will force close.</string>
 
     <string name="action_start">App start and title bar click</string>
@@ -125,7 +126,6 @@
     <string name="toast_yes">OK</string>
     <string name="toast_cancel">Cancel</string>
     <string name="toast_notAgain">Never show</string>
-    <string name="toast_clearCache">Clearing cache …</string>
     <string name="toast_clearSettings">Clearing settings …</string>
     <string name="toast_noInternet">Can not load page. No internet connection?</string>
     <string name="toast_download">Downloading file:</string>

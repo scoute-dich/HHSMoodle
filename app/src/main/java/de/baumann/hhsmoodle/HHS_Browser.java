@@ -226,8 +226,8 @@ public class HHS_Browser extends AppCompatActivity  {
                 if (progress == 100) {
                     progressBar.setVisibility(View.GONE);
 
-                } if (progress > 60) {
-                    if (url.contains("moodle.huebsch.ka.schule-bw.de")) {
+                } if (progress > 50) {
+                    if (url != null && url.contains("moodle.huebsch.ka.schule-bw.de")) {
                         mWebView.scrollTo(0, 80);
                     }
                     setTitle(mWebView.getTitle());

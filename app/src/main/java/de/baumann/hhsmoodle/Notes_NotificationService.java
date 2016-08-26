@@ -12,8 +12,7 @@ import android.util.Log;
 /**
  * Notes_NotificationService displays and cancels notifications.
  */
-public class Notes_NotificationService extends IntentService
-{
+public class Notes_NotificationService extends IntentService {
     private NotificationManager notificationManager;
     private NotificationCompat.Builder notificationBuilder;
 
@@ -23,15 +22,14 @@ public class Notes_NotificationService extends IntentService
     public static final String TITLE = "TITLE";
     public static final String TEXT = "TEXT";
 
-    public Notes_NotificationService()
-    {
+    public Notes_NotificationService() {
         super("Notes_NotificationService");
         Log.d(Notes_Globals.TAG, "Notes_NotificationService ctor");
     }
 
     @Override
-    public void onCreate()
-    {
+    public void onCreate() {
+
         super.onCreate();
         Log.d(Notes_Globals.TAG, "Notes_NotificationService onCreate");
 
@@ -46,22 +44,20 @@ public class Notes_NotificationService extends IntentService
     }
 
     @Override
-    protected void onHandleIntent(Intent intent)
-    {
+    protected void onHandleIntent(Intent intent) {
+
         int id = intent.getIntExtra(ID, -1);
         boolean show = intent.getBooleanExtra(SHOW, false);
         Log.d(Notes_Globals.TAG, "Notes_NotificationService: " + id + " - " + show);
 
-        if (show)
-        {
+        if (show) {
             this.notificationBuilder.setContentTitle(intent.getStringExtra(TITLE));
             this.notificationBuilder.setContentText(intent.getStringExtra(TEXT));
             this.notificationBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(intent.getStringExtra(TEXT)));
             Notification notification = this.notificationBuilder.build();
             this.notificationManager.notify(id, notification);
-        }
-        else
-        {
+
+        } else {
             this.notificationManager.cancel(id);
         }
     }

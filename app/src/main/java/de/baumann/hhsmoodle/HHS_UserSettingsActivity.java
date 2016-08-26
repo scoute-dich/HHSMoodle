@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.SpannableString;
@@ -16,9 +18,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.io.File;
-import java.io.IOException;
 
 
 public class HHS_UserSettingsActivity extends AppCompatActivity {
@@ -43,7 +42,7 @@ public class HHS_UserSettingsActivity extends AppCompatActivity {
 
     public static class SettingsFragment extends PreferenceFragment {
 
-        private void addClearCacheListener() {
+        private void addOpenSettingsListener() {
 
             final Activity activity = getActivity();
             Preference reset = findPreference("clearCache");
@@ -53,48 +52,11 @@ public class HHS_UserSettingsActivity extends AppCompatActivity {
                 public boolean onPreferenceClick(Preference pref)
                 {
 
-                    SpannableString s;
-                    s = new SpannableString(Html.fromHtml(getString(R.string.action_clearCache_dialog)));
-
-                    Linkify.addLinks(s, Linkify.WEB_URLS);
-
-                    final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity())
-                            .setMessage(s)
-                            .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
-
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    File cacheDirectory = getActivity().getCacheDir();
-                                    File applicationDirectory = new File(cacheDirectory.getParent());
-
-                                    if (cacheDirectory.exists()) {
-                                        String deleteCmd = "rm -r " + cacheDirectory;
-                                        Runtime runtime = Runtime.getRuntime();
-                                        try {
-                                            runtime.exec(deleteCmd);
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-
-                                    if (applicationDirectory.exists()) {
-                                        String deleteCmd = "rm -r " + applicationDirectory;
-                                        Runtime runtime = Runtime.getRuntime();
-                                        try {
-                                            runtime.exec(deleteCmd);
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                    Toast.makeText(activity,R.string.toast_clearCache,Toast.LENGTH_SHORT).show();
-                                }
-                            })
-                            .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    dialog.cancel();
-                                }
-                            });
-                    dialog.show();
+                    Intent intent = new Intent();
+                    intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                    Uri uri = Uri.fromParts("package", activity.getPackageName(), null);
+                    intent.setData(uri);
+                    getActivity().startActivity(intent);
 
                     return true;
                 }
@@ -207,7 +169,7 @@ public class HHS_UserSettingsActivity extends AppCompatActivity {
             addPreferencesFromResource(R.xml.user_settings);
             addLicenseListener();
             addChangelogListener();
-            addClearCacheListener();
+            addOpenSettingsListener();
             addClearSettingsListener();
         }
     }
