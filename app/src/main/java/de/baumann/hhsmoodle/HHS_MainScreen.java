@@ -161,68 +161,14 @@ public class HHS_MainScreen extends AppCompatActivity {
         if (!directory.exists()) {
             directory.mkdirs();
         }
-    }
 
-    protected void onNewIntent(Intent intent) {
+        Intent intent = HHS_MainScreen.this.getIntent();
         String action = intent.getAction();
+        String type = intent.getType();
 
-        if (Intent.ACTION_SEND.equals(action)) {
-            final String url = "noURL";
-
-            try {
-
-                final LinearLayout layout = new LinearLayout(HHS_MainScreen.this);
-                layout.setOrientation(LinearLayout.VERTICAL);
-                layout.setGravity(Gravity.CENTER_HORIZONTAL);
-                layout.setPadding(50, 0, 50, 0);
-
-                final TextView titleText = new TextView(HHS_MainScreen.this);
-                titleText.setText(R.string.note_edit_title);
-                titleText.setPadding(5,50,0,0);
-                layout.addView(titleText);
-
-                final EditText titleEdit = new EditText(HHS_MainScreen.this);
-                titleEdit.setText(intent.getStringExtra(Intent.EXTRA_SUBJECT));
-                layout.addView(titleEdit);
-
-                final TextView contentText = new TextView(HHS_MainScreen.this);
-                contentText.setText(R.string.note_edit_content);
-                contentText.setPadding(5,25,0,0);
-                layout.addView(contentText);
-
-                final EditText contentEdit = new EditText(HHS_MainScreen.this);
-                contentEdit.setText(intent.getStringExtra(Intent.EXTRA_TEXT));
-                layout.addView(contentEdit);
-
-                ScrollView sv = new ScrollView(HHS_MainScreen.this);
-                sv.pageScroll(0);
-                sv.setBackgroundColor(0);
-                sv.setScrollbarFadingEnabled(true);
-                sv.setVerticalFadingEdgeEnabled(false);
-                sv.addView(layout);
-
-                final Database_Notes db = new Database_Notes(HHS_MainScreen.this);
-                final AlertDialog.Builder dialog = new AlertDialog.Builder(HHS_MainScreen.this)
-                        .setView(sv)
-                        .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                String inputTitle = titleEdit.getText().toString().trim();
-                                String inputContent = contentEdit.getText().toString().trim();
-                                db.addBookmark(inputTitle, url, inputContent);
-                                db.close();
-                            }
-                        })
-                        .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                dialog.cancel();
-                            }
-                        });
-                dialog.show();
-
-            } catch (Exception e) {
-                e.printStackTrace();
+        if (Intent.ACTION_SEND.equals(action) && type != null) {
+            if (type.startsWith("text/")) {
+                handleSendText(intent);
             }
         }
     }
@@ -268,6 +214,66 @@ public class HHS_MainScreen extends AppCompatActivity {
         @Override
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);// add return null; to display only icons
+        }
+    }
+
+    private void handleSendText(Intent intent) {
+        final String url = "noURL";
+
+        try {
+
+            final LinearLayout layout = new LinearLayout(HHS_MainScreen.this);
+            layout.setOrientation(LinearLayout.VERTICAL);
+            layout.setGravity(Gravity.CENTER_HORIZONTAL);
+            layout.setPadding(50, 0, 50, 0);
+
+            final TextView titleText = new TextView(HHS_MainScreen.this);
+            titleText.setText(R.string.note_edit_title);
+            titleText.setPadding(5,50,0,0);
+            layout.addView(titleText);
+
+            final EditText titleEdit = new EditText(HHS_MainScreen.this);
+            titleEdit.setText(intent.getStringExtra(Intent.EXTRA_SUBJECT));
+            layout.addView(titleEdit);
+
+            final TextView contentText = new TextView(HHS_MainScreen.this);
+            contentText.setText(R.string.note_edit_content);
+            contentText.setPadding(5,25,0,0);
+            layout.addView(contentText);
+
+            final EditText contentEdit = new EditText(HHS_MainScreen.this);
+            contentEdit.setText(intent.getStringExtra(Intent.EXTRA_TEXT));
+            layout.addView(contentEdit);
+
+            ScrollView sv = new ScrollView(HHS_MainScreen.this);
+            sv.pageScroll(0);
+            sv.setBackgroundColor(0);
+            sv.setScrollbarFadingEnabled(true);
+            sv.setVerticalFadingEdgeEnabled(false);
+            sv.addView(layout);
+
+            final Database_Notes db = new Database_Notes(HHS_MainScreen.this);
+            final AlertDialog.Builder dialog = new AlertDialog.Builder(HHS_MainScreen.this)
+                    .setView(sv)
+                    .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            String inputTitle = titleEdit.getText().toString().trim();
+                            String inputContent = contentEdit.getText().toString().trim();
+                            db.addBookmark(inputTitle, url, inputContent);
+                            db.close();
+                        }
+                    })
+                    .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            dialog.cancel();
+                        }
+                    });
+            dialog.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

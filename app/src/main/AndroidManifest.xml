@@ -49,7 +49,6 @@
 
         <activity
             android:name=".HHS_MainScreen"
-            android:launchMode="singleTask"
             android:windowSoftInputMode="stateAlwaysHidden"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
