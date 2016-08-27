@@ -85,6 +85,7 @@ public class HHS_MainScreen extends AppCompatActivity {
                     } else if (startType.equals("1")) {
                         Intent intent_in = new Intent(HHS_MainScreen.this, HHS_MainScreen.class);
                         startActivity(intent_in);
+                        finish();
                     }
                 }
             });

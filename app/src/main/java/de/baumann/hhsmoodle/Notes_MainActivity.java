@@ -208,6 +208,13 @@ public class Notes_MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        Intent intent_in = new Intent(Notes_MainActivity.this, HHS_MainScreen.class);
+        startActivity(intent_in);
+        finish();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_empty, menu);
