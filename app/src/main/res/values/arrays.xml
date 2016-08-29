@@ -11,16 +11,6 @@
         <item>@drawable/splash5</item>
     </array>
 
-    <string-array name="listArrayStart">
-        <item>Main screen</item>
-        <item>Favorite bookmark</item>
-    </string-array>
-
-    <string-array name="listValuesStart">
-        <item>1</item>
-        <item>2</item>
-    </string-array>
-
     <string-array name="listArrayTabMain">
         <item>My Moodle</item>
         <item>Bookmarks</item>

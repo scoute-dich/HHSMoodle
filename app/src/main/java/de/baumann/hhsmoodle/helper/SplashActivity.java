@@ -22,6 +22,7 @@ package de.baumann.hhsmoodle.helper;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -30,6 +31,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -49,6 +51,11 @@ public class SplashActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_splash);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+        }
+
         editUsername = (EditText) findViewById(R.id.editUsername);
         assert editUsername != null;
         editUsername.setVisibility(View.INVISIBLE);
@@ -64,7 +71,6 @@ public class SplashActivity extends AppCompatActivity {
 
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        final String startType = sharedPref.getString("startType", "1");
         final String username = sharedPref.getString("username", "");
         final String password = sharedPref.getString("password", "");
 
@@ -87,58 +93,30 @@ public class SplashActivity extends AppCompatActivity {
                         sharedPref.edit().putString("username", Username).apply();
                         sharedPref.edit().putString("password", Password).apply();
 
-                        if (startType.equals("2")) {
+                        new Handler().postDelayed(new Runnable() {
+                            public void run() {
 
-                            new Handler().postDelayed(new Runnable() {
-                                public void run() {
-
-                                    Intent mainIntent = new Intent(SplashActivity.this, Start.class);
-                                    mainIntent.putExtra("id", "1");
-                                    startActivity(mainIntent);
-                                    SplashActivity.this.finish();
-                                    overridePendingTransition(R.anim.fadein,R.anim.fadeout);
-                                }
-                            }, 2000);
-                        } else if (startType.equals("1")){
-                            new Handler().postDelayed(new Runnable() {
-                                public void run() {
-
-                                    Intent mainIntent = new Intent(SplashActivity.this, HHS_MainScreen.class);
-                                    mainIntent.putExtra("id", "1");
-                                    startActivity(mainIntent);
-                                    SplashActivity.this.finish();
-                                    overridePendingTransition(R.anim.fadein,R.anim.fadeout);
-                                }
-                            }, 2000);
-                        }
+                                Intent mainIntent = new Intent(SplashActivity.this, HHS_MainScreen.class);
+                                mainIntent.putExtra("id", "1");
+                                startActivity(mainIntent);
+                                SplashActivity.this.finish();
+                                overridePendingTransition(R.anim.fadein,R.anim.fadeout);
+                            }
+                        }, 2000);
                     }
                 }
             });
         } else {
-            if (startType.equals("2")) {
+            new Handler().postDelayed(new Runnable() {
+                public void run() {
 
-                new Handler().postDelayed(new Runnable() {
-                    public void run() {
-
-                        Intent mainIntent = new Intent(SplashActivity.this, Start.class);
-                        mainIntent.putExtra("id", "1");
-                        startActivity(mainIntent);
-                        SplashActivity.this.finish();
-                        overridePendingTransition(R.anim.fadein,R.anim.fadeout);
-                    }
-                }, 2000);
-            } else if (startType.equals("1")){
-                new Handler().postDelayed(new Runnable() {
-                    public void run() {
-
-                        Intent mainIntent = new Intent(SplashActivity.this, HHS_MainScreen.class);
-                        mainIntent.putExtra("id", "1");
-                        startActivity(mainIntent);
-                        SplashActivity.this.finish();
-                        overridePendingTransition(R.anim.fadein,R.anim.fadeout);
-                    }
-                }, 2000);
-            }
+                    Intent mainIntent = new Intent(SplashActivity.this, HHS_MainScreen.class);
+                    mainIntent.putExtra("id", "1");
+                    startActivity(mainIntent);
+                    SplashActivity.this.finish();
+                    overridePendingTransition(R.anim.fadein,R.anim.fadeout);
+                }
+            }, 2000);
         }
     }
 }

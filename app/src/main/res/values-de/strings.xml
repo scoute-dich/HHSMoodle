@@ -80,7 +80,7 @@
         Javascript stellt allerdings ein Sicherheitsrisiko dar.</string>
 
     <string name="action_longPress">App verlassen</string>
-    <string name="action_longPress_summary">Lange auf die Titelleiste drücken um die App zu verlassen</string>
+    <string name="action_longPress_summary">Lange auf die Titelleiste drücken um die App zu komplett verlassen.</string>
 
     <string name="action_license">Lizenz</string>
     <string name="action_license_summary">Die App ist komplett frei (Open Source) und unter der GPL3-Lizenz lizenziert.</string>
@@ -92,9 +92,6 @@
     <string name="action_clearSettings">Persönliche Daten</string>
     <string name="action_clearSettings_summary">Löscht alle persönlichen Daten der Anwendung. Auch die Logindaten …</string>
     <string name="action_clearSettings_dialog">Möchtest du wirklich alle Einstellungen löschen? Die Anwendung wird dann beendet.</string>
-
-    <string name="action_start">App Start und Titelleiste-Klick</string>
-    <string name="action_start_summary">Was möchtest du sehen: Entweder den Startschirm oder den Lesezeichenfavorit?</string>
 
     <string name="action_tabMain">Startschirm</string>
     <string name="action_tabMain_summary">Welcher Tab soll standardmäßig auf dem Startschirm geöffnet werden?</string>
@@ -159,18 +156,18 @@
     <string name="note_remove_confirmation">Notiz wird entfernt. OK?</string>
     <string name="note_remove_cannot">Du brauchst mindestens eine Notiz!</string>
     <string name="note_remove_note">Lösche Notiz</string>
-    <string name="note_edit_title">Bearbeite Titel</string>
-    <string name="note_edit_content">Bearbeite Inhalt</string>
+    <string name="note_edit">Notiz bearbeiten</string>
     <string name="note_set_not">Erstelle Benachrichtigung</string>
     <string name="note_share">Teile Notiz</string>
     <string name="note_share_2">Notiz teilen mit:</string>
+    <string name="note_saved">Notiz erfolgreich gespeichert.</string>
 
 
     // Notifications
 
     <string name="save_note_text">Speichern</string>
     <string name="title_hint">Titel</string>
-    <string name="text_hint">Benachrichtigungstext</string>
+    <string name="text_hint">Inhalt</string>
     <string name="no_notes">Noch keine Benachrichtigungen vorhanden.</string>
     <string name="dialog_delete_note">Benachrichtigung löschen</string>
     <string name="delete">Löschen</string>

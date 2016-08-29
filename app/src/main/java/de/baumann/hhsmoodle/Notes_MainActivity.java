@@ -19,8 +19,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import de.baumann.hhsmoodle.helper.Start;
-
 @SuppressWarnings("UnusedParameters")
 public class Notes_MainActivity extends AppCompatActivity {
     /**
@@ -115,19 +113,11 @@ public class Notes_MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if(toolbar != null) {
-            final String startType = sharedPref.getString("startType", "1");
             toolbar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (startType.equals("2")) {
-                        Intent intent_in = new Intent(Notes_MainActivity.this, Start.class);
-                        startActivity(intent_in);
-                        finish();
-                    } else if (startType.equals("1")) {
-                        Intent intent_in = new Intent(Notes_MainActivity.this, HHS_MainScreen.class);
-                        startActivity(intent_in);
-                        finish();
-                    }
+                    Intent intent_in = new Intent(Notes_MainActivity.this, HHS_MainScreen.class);
+                    startActivity(intent_in);
                 }
             });
 
@@ -208,13 +198,6 @@ public class Notes_MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() {
-        Intent intent_in = new Intent(Notes_MainActivity.this, HHS_MainScreen.class);
-        startActivity(intent_in);
-        finish();
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_empty, menu);
@@ -231,7 +214,6 @@ public class Notes_MainActivity extends AppCompatActivity {
         if (id == android.R.id.home) {
             Intent intent_in = new Intent(Notes_MainActivity.this, HHS_MainScreen.class);
             startActivity(intent_in);
-            finish();
         }
 
         if (id == R.id.action_help) {

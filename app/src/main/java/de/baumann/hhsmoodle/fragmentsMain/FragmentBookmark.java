@@ -20,18 +20,16 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import de.baumann.hhsmoodle.HHS_Browser;
+import de.baumann.hhsmoodle.HHS_Note;
 import de.baumann.hhsmoodle.Notes_MainActivity;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.helper.Database_Browser;
-import de.baumann.hhsmoodle.helper.Database_Notes;
 
 
 public class FragmentBookmark extends Fragment {
@@ -52,7 +50,6 @@ public class FragmentBookmark extends Fragment {
         }
 
         listView = (ListView)rootView.findViewById(R.id.bookmarks);
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 @SuppressWarnings("unchecked")
@@ -60,8 +57,7 @@ public class FragmentBookmark extends Fragment {
 
                 Intent intent = new Intent(getActivity(), HHS_Browser.class);
                 intent.putExtra("url", map.get("url"));
-                startActivityForResult(intent, 100);
-                getActivity().finish();
+                startActivity(intent);
             }
         });
 
@@ -82,7 +78,8 @@ public class FragmentBookmark extends Fragment {
                 layout.setPadding(30, 0, 50, 0);
                 layout.addView(input);
 
-                final CharSequence[] options = {getString(R.string.bookmark_edit_title),
+                final CharSequence[] options = {
+                        getString(R.string.bookmark_edit_title),
                         getString(R.string.bookmark_edit_fav),
                         getString(R.string.bookmark_createNote),
                         getString(R.string.bookmark_CreateNotification),
@@ -169,62 +166,14 @@ public class FragmentBookmark extends Fragment {
 
                                 if (options[item].equals (getString(R.string.bookmark_createNote))) {
 
-                                    try {
+                                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                                    sharedPref.edit()
+                                            .putString("handleTextTitle", title)
+                                            .putString("handleTextText", url)
+                                            .apply();
 
-                                        final LinearLayout layout = new LinearLayout(getActivity());
-                                        layout.setOrientation(LinearLayout.VERTICAL);
-                                        layout.setGravity(Gravity.CENTER_HORIZONTAL);
-                                        layout.setPadding(50, 0, 50, 0);
-
-                                        final TextView titleText = new TextView(getActivity());
-                                        titleText.setText(R.string.note_edit_title);
-                                        titleText.setPadding(5,50,0,0);
-                                        layout.addView(titleText);
-
-                                        final EditText titleEdit = new EditText(getActivity());
-                                        titleEdit.setText(title);
-                                        layout.addView(titleEdit);
-
-                                        final TextView contentText = new TextView(getActivity());
-                                        contentText.setText(R.string.note_edit_content);
-                                        contentText.setPadding(5,25,0,0);
-                                        layout.addView(contentText);
-
-                                        final EditText contentEdit = new EditText(getActivity());
-                                        String text = url + " ";
-                                        contentEdit.setText(text);
-                                        layout.addView(contentEdit);
-
-                                        ScrollView sv = new ScrollView(getActivity());
-                                        sv.pageScroll(0);
-                                        sv.setBackgroundColor(0);
-                                        sv.setScrollbarFadingEnabled(true);
-                                        sv.setVerticalFadingEdgeEnabled(false);
-                                        sv.addView(layout);
-
-                                        final Database_Notes db = new Database_Notes(getActivity());
-                                        final AlertDialog.Builder dialog2 = new AlertDialog.Builder(getActivity())
-                                                .setView(sv)
-                                                .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
-
-                                                    public void onClick(DialogInterface dialog, int whichButton) {
-                                                        String inputTitle = titleEdit.getText().toString().trim();
-                                                        String inputContent = contentEdit.getText().toString().trim();
-                                                        db.addBookmark(inputTitle, url, inputContent);
-                                                        db.close();
-                                                    }
-                                                })
-                                                .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                                                    public void onClick(DialogInterface dialog, int whichButton) {
-                                                        dialog.cancel();
-                                                    }
-                                                });
-                                        dialog2.show();
-
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
+                                    Intent intent_in = new Intent(getActivity(), HHS_Note.class);
+                                    startActivity(intent_in);
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_CreateNotification))) {

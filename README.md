@@ -1,5 +1,5 @@
 # HHS Moodle
-A small android webview application to show the mobile webpage of our school moodle instance. Features:
+A small android webview application to show the mobile website of our school moodle instance. Features:
 
 - save moodle sites as bookmarks
 - set favorite bookmark

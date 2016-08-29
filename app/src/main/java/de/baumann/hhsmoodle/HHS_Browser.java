@@ -49,8 +49,6 @@ import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.EditText;
-import android.widget.ScrollView;
-import android.widget.TextView;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -62,9 +60,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import de.baumann.hhsmoodle.helper.Database_Browser;
-import de.baumann.hhsmoodle.helper.Database_Notes;
 import de.baumann.hhsmoodle.helper.OnSwipeTouchListener;
-import de.baumann.hhsmoodle.helper.Start;
 
 @SuppressWarnings("ResultOfMethodCallIgnored")
 public class HHS_Browser extends AppCompatActivity  {
@@ -104,19 +100,11 @@ public class HHS_Browser extends AppCompatActivity  {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if(toolbar != null) {
-            final String startType = sharedPref.getString("startType", "1");
             toolbar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (startType.equals("2")) {
-                        Intent intent_in = new Intent(HHS_Browser.this, Start.class);
-                        startActivity(intent_in);
-                        finish();
-                    } else if (startType.equals("1")) {
-                        Intent intent_in = new Intent(HHS_Browser.this, HHS_MainScreen.class);
-                        startActivity(intent_in);
-                        finish();
-                    }
+                    Intent intent_in = new Intent(HHS_Browser.this, HHS_MainScreen.class);
+                    startActivity(intent_in);
                 }
             });
 
@@ -124,7 +112,7 @@ public class HHS_Browser extends AppCompatActivity  {
                 toolbar.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        finish();
+                        finishAffinity();
                         return true;
                     }
                 });
@@ -445,11 +433,10 @@ public class HHS_Browser extends AppCompatActivity  {
 
     @Override
     public void onBackPressed() {
+
         if (mWebView.canGoBack()) {
             mWebView.goBack();
         } else {
-            Intent intent_in = new Intent(HHS_Browser.this, HHS_MainScreen.class);
-            startActivity(intent_in);
             finish();
         }
     }
@@ -638,7 +625,6 @@ public class HHS_Browser extends AppCompatActivity  {
         if (id == android.R.id.home) {
             Intent intent_in = new Intent(HHS_Browser.this, HHS_MainScreen.class);
             startActivity(intent_in);
-            finish();
         }
 
         if (id == R.id.action_help) {
@@ -667,9 +653,11 @@ public class HHS_Browser extends AppCompatActivity  {
         }
 
         if (id == R.id.action_share) {
-            final CharSequence[] options = {getString(R.string.menu_share_screenshot),
+            final CharSequence[] options = {
+                    getString(R.string.menu_share_screenshot),
                     getString(R.string.menu_save_screenshot),
-                    getString(R.string.menu_share_link), getString(R.string.menu_share_link_browser),
+                    getString(R.string.menu_share_link),
+                    getString(R.string.menu_share_link_browser),
                     getString(R.string.menu_share_link_copy)};
             new AlertDialog.Builder(HHS_Browser.this)
                     .setItems(options, new DialogInterface.OnClickListener() {
@@ -723,65 +711,19 @@ public class HHS_Browser extends AppCompatActivity  {
 
         if (id == R.id.action_not) {
 
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+
             final String title = mWebView.getTitle();
             final String url = mWebView.getUrl();
             final String text = url + "";
 
-            try {
+            sharedPref.edit()
+                    .putString("handleTextTitle", title)
+                    .putString("handleTextText", text)
+                    .apply();
 
-                final LinearLayout layout = new LinearLayout(HHS_Browser.this);
-                layout.setOrientation(LinearLayout.VERTICAL);
-                layout.setGravity(Gravity.CENTER_HORIZONTAL);
-                layout.setPadding(50, 0, 50, 0);
-
-                final TextView titleText = new TextView(HHS_Browser.this);
-                titleText.setText(R.string.note_edit_title);
-                titleText.setPadding(5,50,0,0);
-                layout.addView(titleText);
-
-                final EditText titleEdit = new EditText(HHS_Browser.this);
-                titleEdit.setText(title);
-                layout.addView(titleEdit);
-
-                final TextView contentText = new TextView(HHS_Browser.this);
-                contentText.setText(R.string.note_edit_content);
-                contentText.setPadding(5,25,0,0);
-                layout.addView(contentText);
-
-                final EditText contentEdit = new EditText(HHS_Browser.this);
-                contentEdit.setText(text);
-                layout.addView(contentEdit);
-
-                ScrollView sv = new ScrollView(HHS_Browser.this);
-                sv.pageScroll(0);
-                sv.setBackgroundColor(0);
-                sv.setScrollbarFadingEnabled(true);
-                sv.setVerticalFadingEdgeEnabled(false);
-                sv.addView(layout);
-
-                final Database_Notes db = new Database_Notes(HHS_Browser.this);
-                final AlertDialog.Builder dialog = new AlertDialog.Builder(this)
-                        .setView(sv)
-                        .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                String inputTitle = titleEdit.getText().toString().trim();
-                                String inputContent = contentEdit.getText().toString().trim();
-                                db.addBookmark(inputTitle, url, inputContent);
-                                db.close();
-                            }
-                        })
-                        .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                dialog.cancel();
-                            }
-                        });
-                dialog.show();
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            Intent intent_in = new Intent(HHS_Browser.this, HHS_Note.class);
+            startActivity(intent_in);
         }
         return super.onOptionsItemSelected(item);
     }

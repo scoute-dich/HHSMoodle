@@ -22,8 +22,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/view"
-        android:padding="@dimen/activity_horizontal_margin">
+        android:layout_below="@+id/view">
 
         <EditText
             android:id="@+id/note_title_input"
@@ -33,7 +32,8 @@
             android:layout_alignParentLeft="true"
             android:hint="@string/title_hint"
             android:inputType="textCapSentences"
-            android:layout_marginBottom="@dimen/activity_horizontal_margin" />
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:layout_margin="@dimen/activity_horizontal_margin" />
 
         <EditText
             android:id="@+id/note_text_input"
@@ -41,7 +41,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/note_title_input"
             android:hint="@string/text_hint"
-            android:inputType="textCapSentences|textMultiLine" />
+            android:inputType="textCapSentences|textMultiLine"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin" />
 
     </RelativeLayout>
 

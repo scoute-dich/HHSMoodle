@@ -45,9 +45,8 @@
     <string name="helpBrowser_text">
         HHS Moodle is shown in this webview. A webview displays websites in an app. If you want to be
         logged automatically, you must set your username and your password in the settings. In the webview there is a
-        context menu, which opens on long pressing a link or image. You can switch back to the main screen or to your favorite
-        (look into the settings) by clicking the toolbar. To go back to the main screen you can also press the arrow at the
-        toolbar.&lt;br>&lt;br>
+        context menu, which opens on long pressing a link or image. You can switch back to the main screen by clicking the toolbar
+        or the back arrow.&lt;br>&lt;br>
 
         &lt;i>Swipe:&lt;/i>&lt;br>
         Swipe down to reload the website. Swipe right to open previous site, swipe left to move forward.&lt;br>&lt;br>
@@ -75,7 +74,7 @@
 
         &lt;i>Edit bookmarks:&lt;/i>&lt;br>
         Long click on a bookmark opens a popup menu. You can set your favorite bookmark
-        (It can be loaded on app start or on title bar click - look in the settings.), edit the title of the bookmark or
+        (You can open the favorite ba clicking the orange \"star button\".), edit the title of the bookmark or
         delete it (at least one bookmark is needed). You can also create a new note or notification.&lt;br>&lt;br>&lt;br>
 
         &lt;b>Notes&lt;/b>&lt;br>&lt;br>
@@ -85,8 +84,8 @@
         not refresh automatically, you can swipe down on the picture above the list.&lt;br>&lt;br>
 
         &lt;i>Working with notes:&lt;/i>&lt;br>
-        Clicking a list entry opens the note. Long click on an entry opens a popup menu. You can edit title and content of the
-        note or delete the note (at least one note is needed).&lt;br>
+        Clicking a list entry opens the note. Long click on an entry opens a popup menu. You can edit the
+        note or delete it (at least one note is needed).&lt;br>
         You can also set a notification to the system status bar. A new screen for editing notifications will open.
         The notification will appear again after a reboot.&lt;br>&lt;br>&lt;br>
 

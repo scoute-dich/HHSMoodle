@@ -20,14 +20,6 @@
         android:title="@string/pref_2">
 
         <ListPreference
-            android:title="@string/action_start"
-            android:summary="@string/action_start_summary"
-            android:key="startType"
-            android:defaultValue="1"
-            android:entries="@array/listArrayStart"
-            android:entryValues="@array/listValuesStart" />
-
-        <ListPreference
             android:title="@string/action_tabMain"
             android:summary="@string/action_tabMain_summary"
             android:key="tabMain"

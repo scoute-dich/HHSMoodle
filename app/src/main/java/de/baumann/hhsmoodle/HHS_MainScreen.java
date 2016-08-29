@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -24,15 +25,10 @@ import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.util.Linkify;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -41,16 +37,12 @@ import java.util.List;
 import de.baumann.hhsmoodle.fragmentsMain.FragmentBookmark;
 import de.baumann.hhsmoodle.fragmentsMain.FragmentInfo;
 import de.baumann.hhsmoodle.fragmentsMain.FragmentNotes;
-import de.baumann.hhsmoodle.helper.Database_Notes;
-import de.baumann.hhsmoodle.helper.Start;
 
 @SuppressWarnings("ResultOfMethodCallIgnored")
 public class HHS_MainScreen extends AppCompatActivity {
 
     final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
     private ViewPager viewPager;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,19 +66,11 @@ public class HHS_MainScreen extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if(toolbar != null) {
-            final String startType = sharedPref.getString("startType", "1");
             toolbar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (startType.equals("2")) {
-                        Intent intent_in = new Intent(HHS_MainScreen.this, Start.class);
-                        startActivity(intent_in);
-                        finish();
-                    } else if (startType.equals("1")) {
-                        Intent intent_in = new Intent(HHS_MainScreen.this, HHS_MainScreen.class);
-                        startActivity(intent_in);
-                        finish();
-                    }
+                    Intent intent_in = new Intent(HHS_MainScreen.this, HHS_MainScreen.class);
+                    startActivity(intent_in);
                 }
             });
 
@@ -94,7 +78,7 @@ public class HHS_MainScreen extends AppCompatActivity {
                 toolbar.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        finish();
+                        finishAffinity();
                         return true;
                     }
                 });
@@ -158,19 +142,24 @@ public class HHS_MainScreen extends AppCompatActivity {
             }
         }
 
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        assert fab != null;
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(HHS_MainScreen.this);
+                String startURL = sharedPref.getString("favoriteURL", "\"https://moodle.huebsch.ka.schule-bw.de/moodle/");
+
+                Intent intent = new Intent(HHS_MainScreen.this, HHS_Browser.class);
+                intent.putExtra("url", startURL);
+                startActivity(intent);
+            }
+        });
+
         File directory = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/");
         if (!directory.exists()) {
             directory.mkdirs();
-        }
-
-        Intent intent = HHS_MainScreen.this.getIntent();
-        String action = intent.getAction();
-        String type = intent.getType();
-
-        if (Intent.ACTION_SEND.equals(action) && type != null) {
-            if (type.startsWith("text/")) {
-                viewPager.setCurrentItem(2,true);
-            }
         }
     }
 
@@ -263,63 +252,8 @@ public class HHS_MainScreen extends AppCompatActivity {
         }
 
         if (id == R.id.action_not) {
-            final String url = "noURL";
-
-            try {
-
-                final LinearLayout layout = new LinearLayout(HHS_MainScreen.this);
-                layout.setOrientation(LinearLayout.VERTICAL);
-                layout.setGravity(Gravity.CENTER_HORIZONTAL);
-                layout.setPadding(50, 0, 50, 0);
-
-                final TextView titleText = new TextView(HHS_MainScreen.this);
-                titleText.setText(R.string.note_edit_title);
-                titleText.setPadding(5,50,0,0);
-                layout.addView(titleText);
-
-                final EditText titleEdit = new EditText(HHS_MainScreen.this);
-                titleEdit.setText("");
-                layout.addView(titleEdit);
-
-                final TextView contentText = new TextView(HHS_MainScreen.this);
-                contentText.setText(R.string.note_edit_content);
-                contentText.setPadding(5,25,0,0);
-                layout.addView(contentText);
-
-                final EditText contentEdit = new EditText(HHS_MainScreen.this);
-                contentEdit.setText("");
-                layout.addView(contentEdit);
-
-                ScrollView sv = new ScrollView(HHS_MainScreen.this);
-                sv.pageScroll(0);
-                sv.setBackgroundColor(0);
-                sv.setScrollbarFadingEnabled(true);
-                sv.setVerticalFadingEdgeEnabled(false);
-                sv.addView(layout);
-
-                final Database_Notes db = new Database_Notes(HHS_MainScreen.this);
-                final AlertDialog.Builder dialog = new AlertDialog.Builder(HHS_MainScreen.this)
-                        .setView(sv)
-                        .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                String inputTitle = titleEdit.getText().toString().trim();
-                                String inputContent = contentEdit.getText().toString().trim();
-                                db.addBookmark(inputTitle, url, inputContent);
-                                db.close();
-                            }
-                        })
-                        .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                dialog.cancel();
-                            }
-                        });
-                dialog.show();
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            Intent intent_in = new Intent(HHS_MainScreen.this, HHS_Note.class);
+            startActivity(intent_in);
         }
 
         return super.onOptionsItemSelected(item);

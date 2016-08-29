@@ -22,7 +22,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -33,6 +32,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import de.baumann.hhsmoodle.HHS_Note;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.helper.Database_Notes;
 import de.baumann.hhsmoodle.Notes_MainActivity;
@@ -170,20 +170,10 @@ public class FragmentNotes extends Fragment {
 
                 final String seqnoStr = map.get("seqno");
                 final String title = map.get("title");
-                final String url = map.get("url");
                 final String cont = map.get("cont");
 
-                final LinearLayout layout = new LinearLayout(getActivity());
-                layout.setOrientation(LinearLayout.VERTICAL);
-                layout.setGravity(Gravity.CENTER_HORIZONTAL);
-
-                final EditText inputTitle = new EditText(getActivity());
-                inputTitle.setSingleLine(false);
-                layout.setPadding(30, 0, 50, 0);
-                layout.addView(inputTitle);
-
-                final CharSequence[] options = {getString(R.string.note_edit_title),
-                        getString(R.string.note_edit_content),
+                final CharSequence[] options = {
+                        getString(R.string.note_edit),
                         getString(R.string.note_set_not),
                         getString(R.string.note_share),
                         getString(R.string.note_remove_note)};
@@ -191,60 +181,21 @@ public class FragmentNotes extends Fragment {
                         .setItems(options, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int item) {
-                                if (options[item].equals(getString(R.string.note_edit_title))) {
+                                if (options[item].equals(getString(R.string.note_edit))) {
+                                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                                    sharedPref.edit()
+                                            .putString("handleTextTitle", title)
+                                            .putString("handleTextText", cont)
+                                            .apply();
+
+                                    Intent intent_in = new Intent(getActivity(), HHS_Note.class);
+                                    startActivity(intent_in);
+
                                     try {
-                                        inputTitle.setText(title);
-                                        inputTitle.setSelection(inputTitle.getText().length());
-                                        final Database_Notes db = new Database_Notes(getActivity());
+                                        Database_Notes db = new Database_Notes(getActivity());
                                         db.deleteBookmark((Integer.parseInt(seqnoStr)));
-                                        final AlertDialog.Builder dialog2 = new AlertDialog.Builder(getActivity())
-                                                .setTitle(getString(R.string.note_edit_title))
-                                                .setView(layout)
-                                                .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
-                                                    public void onClick(DialogInterface dialog, int whichButton) {
-                                                        String textTitle = inputTitle.getText().toString().trim();
-                                                        db.addBookmark(textTitle, url, cont);
-                                                        db.close();
-                                                        setNotesList();
-                                                    }
-                                                })
-                                                .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                                                    public void onClick(DialogInterface dialog, int whichButton) {
-                                                        dialog.cancel();
-                                                    }
-                                                });
-                                        dialog2.show();
-
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-
-                                if (options[item].equals (getString(R.string.note_edit_content))) {
-                                    try {
-                                        inputTitle.setText(cont);
-                                        inputTitle.setSelection(inputTitle.getText().length());
-                                        final Database_Notes db = new Database_Notes(getActivity());
-                                        db.deleteBookmark((Integer.parseInt(seqnoStr)));
-                                        final AlertDialog.Builder dialog2 = new AlertDialog.Builder(getActivity())
-                                                .setTitle(getString(R.string.note_edit_content))
-                                                .setView(layout)
-                                                .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
-                                                    public void onClick(DialogInterface dialog, int whichButton) {
-                                                        String textContent = inputTitle.getText().toString().trim();
-                                                        db.addBookmark(title, url, textContent);
-                                                        db.close();
-                                                        setNotesList();
-                                                    }
-                                                })
-                                                .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                                                    public void onClick(DialogInterface dialog, int whichButton) {
-                                                        dialog.cancel();
-                                                    }
-                                                });
-                                        dialog2.show();
+                                        db.close();
+                                        setNotesList();
 
                                     } catch (Exception e) {
                                         e.printStackTrace();
@@ -312,82 +263,6 @@ public class FragmentNotes extends Fragment {
                 return true;
             }
         });
-
-        Intent intent = getActivity().getIntent();
-        String action = intent.getAction();
-        String type = intent.getType();
-
-        if (Intent.ACTION_SEND.equals(action) && type != null) {
-            if (type.startsWith("text/")) {
-                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                sharedPref.edit().putString("handleTextTitle", intent.getStringExtra(Intent.EXTRA_SUBJECT)).apply();
-                sharedPref.edit().putString("handleTextText", intent.getStringExtra(Intent.EXTRA_TEXT)).apply();
-
-                final String url = "noURL";
-                String title = sharedPref.getString("handleTextTitle", "");
-                String text = sharedPref.getString("handleTextText", "");
-
-                try {
-
-                    final LinearLayout layout = new LinearLayout(getActivity());
-                    layout.setOrientation(LinearLayout.VERTICAL);
-                    layout.setGravity(Gravity.CENTER_HORIZONTAL);
-                    layout.setPadding(50, 0, 50, 0);
-
-                    final TextView titleText = new TextView(getActivity());
-                    titleText.setText(R.string.note_edit_title);
-                    titleText.setPadding(5,50,0,0);
-                    layout.addView(titleText);
-
-                    final EditText titleEdit = new EditText(getActivity());
-                    titleEdit.setText(title);
-                    layout.addView(titleEdit);
-
-                    final TextView contentText = new TextView(getActivity());
-                    contentText.setText(R.string.note_edit_content);
-                    contentText.setPadding(5,25,0,0);
-                    layout.addView(contentText);
-
-                    final EditText contentEdit = new EditText(getActivity());
-                    contentEdit.setText(text);
-                    layout.addView(contentEdit);
-
-                    ScrollView sv = new ScrollView(getActivity());
-                    sv.pageScroll(0);
-                    sv.setBackgroundColor(0);
-                    sv.setScrollbarFadingEnabled(true);
-                    sv.setVerticalFadingEdgeEnabled(false);
-                    sv.addView(layout);
-
-                    final Database_Notes db = new Database_Notes(getActivity());
-                    final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity())
-                            .setView(sv)
-                            .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
-
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    String inputTitle = titleEdit.getText().toString().trim();
-                                    String inputContent = contentEdit.getText().toString().trim();
-                                    db.addBookmark(inputTitle, url, inputContent);
-                                    db.close();
-                                    setNotesList();
-                                }
-                            })
-                            .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    dialog.cancel();
-                                }
-                            });
-                    dialog.show();
-
-                    sharedPref.edit().putString("handleTextTitle", "").apply();
-                    sharedPref.edit().putString("handleTextText", "").apply();
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
 
         setNotesList();
         return rootView;

@@ -16,8 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
-import de.baumann.hhsmoodle.helper.Start;
-
 public class Notes_AddNoteActivity extends AppCompatActivity {
 
     private EditText titleInput;
@@ -44,19 +42,11 @@ public class Notes_AddNoteActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if(toolbar != null) {
-            final String startType = sharedPref.getString("startType", "1");
             toolbar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (startType.equals("2")) {
-                        Intent intent_in = new Intent(Notes_AddNoteActivity.this, Start.class);
-                        startActivity(intent_in);
-                        finish();
-                    } else if (startType.equals("1")) {
-                        Intent intent_in = new Intent(Notes_AddNoteActivity.this, HHS_MainScreen.class);
-                        startActivity(intent_in);
-                        finish();
-                    }
+                    Intent intent_in = new Intent(Notes_AddNoteActivity.this, HHS_MainScreen.class);
+                    startActivity(intent_in);
                 }
             });
 
@@ -120,7 +110,6 @@ public class Notes_AddNoteActivity extends AppCompatActivity {
         if (id == android.R.id.home) {
             Intent intent_in = new Intent(Notes_AddNoteActivity.this, HHS_MainScreen.class);
             startActivity(intent_in);
-            finish();
         }
 
         if (id == R.id.save_note) {
@@ -154,7 +143,6 @@ public class Notes_AddNoteActivity extends AppCompatActivity {
                     .setPositiveButton(getString(R.string.toast_yes), null);
             dialog.show();
         }
-
         return true;
     }
 }

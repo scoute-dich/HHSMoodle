@@ -14,11 +14,11 @@
         android:label="@string/app_name"
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
-        android:launchMode="singleTask"
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity
             android:name="de.baumann.hhsmoodle.helper.SplashActivity"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="stateAlwaysHidden"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
@@ -31,7 +31,7 @@
 
         <activity
             android:name=".HHS_Browser"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="stateAlwaysHidden"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
@@ -47,9 +47,17 @@
 
         <activity
             android:name=".HHS_MainScreen"
-            android:noHistory="true"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="stateAlwaysHidden"
             android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <activity
+            android:name=".HHS_Note"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -59,25 +67,21 @@
 
 
         <activity
-            android:name="de.baumann.hhsmoodle.helper.Start"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"/>
-
-        <activity
             android:name=".HHS_UserSettingsActivity"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="stateAlwaysHidden"
             android:label="@string/app_name" />
 
         <activity
             android:name=".Notes_MainActivity"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
 
         <activity
             android:name=".Notes_AddNoteActivity"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden"
             android:label="@string/new_note" >
