@@ -3,3 +3,5 @@
 ![3](https://github.com/scoute-dich/HHSMoodle/blob/master/Screenshots/3.png?raw=true)
 ![4](https://github.com/scoute-dich/HHSMoodle/blob/master/Screenshots/4.png?raw=true)
 ![5](https://github.com/scoute-dich/HHSMoodle/blob/master/Screenshots/5.png?raw=true)
+![6](https://github.com/scoute-dich/HHSMoodle/blob/master/Screenshots/6.png?raw=true)
+![7](https://github.com/scoute-dich/HHSMoodle/blob/master/Screenshots/7.png?raw=true)
