@@ -83,8 +83,7 @@ public class Notes_MainActivity extends AppCompatActivity {
         startActivityForResult(new Intent(this, Notes_AddNoteActivity.class), Notes_AddNoteActivity.ADD_REQ);
     }
 
-    public void deleteNote(int notePos)
-    {
+    public void deleteNote(int notePos) {
         this.notesListAdapter.deleteNote(notePos);
     }
 

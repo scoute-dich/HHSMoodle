@@ -13,7 +13,6 @@
     <string name="app_contDesc_1">header</string>
     <string name="app_contDesc_2">icon</string>
     <string name="app_contDesc_3">splashscreen</string>
-    <string name="app_links">Show links</string>
 
 
     // Login
@@ -99,7 +98,7 @@
 
     // Moodle
 
-    <string name="text_tit_1">Dashbord</string>
+    <string name="text_tit_1">Dashboard</string>
     <string name="text_tit_2">Profile</string>
     <string name="text_tit_8">Calendar</string>
     <string name="text_tit_3">Ratings</string>
@@ -114,7 +113,7 @@
     <string name="text_des_3">Gradings and results from all your courses.</string>
     <string name="text_des_4">Read and send personal notifications.</string>
     <string name="text_des_5">Personal messages and contacts.</string>
-    <string name="text_des_6">Our homepage with actual news, contact informations, …</string>
+    <string name="text_des_6">Our homepage with actual news, contact information, …</string>
     <string name="text_des_7">Startpage: a save and secure search engine.</string>
 
 

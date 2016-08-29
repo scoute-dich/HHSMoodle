@@ -1,6 +1,7 @@
 package de.baumann.hhsmoodle;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.text.util.Linkify;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import de.baumann.hhsmoodle.helper.Database_Notes;
@@ -142,6 +144,9 @@ public class HHS_Note extends AppCompatActivity {
 
         if (id == R.id.save_note) {
 
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(textInput.getWindowToken(), 0);
+
             final String url = "noURL";
 
             try {
@@ -166,10 +171,11 @@ public class HHS_Note extends AppCompatActivity {
         }
 
         if (id == R.id.action_help) {
-            final SpannableString s = new SpannableString(Html.fromHtml(getString(R.string.helpMain_text)));
+            final SpannableString s = new SpannableString(Html.fromHtml(getString(R.string.helpNotes_text)));
             Linkify.addLinks(s, Linkify.WEB_URLS);
 
             final AlertDialog.Builder dialog = new AlertDialog.Builder(HHS_Note.this)
+                    .setTitle(getString(R.string.note_edit))
                     .setMessage(s)
                     .setPositiveButton(getString(R.string.toast_yes), null);
             dialog.show();

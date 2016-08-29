@@ -18,9 +18,9 @@ import java.util.ArrayList;
  * Adapter for the menu_browser Notes_NotificationNote list.
  */
 class Notes_NotesNotesListAdapter
-    extends RecyclerView.Adapter<Notes_NotesNotesListAdapter.ViewHolder>
-    implements Notes_NotesController
-{
+        extends RecyclerView.Adapter<Notes_NotesNotesListAdapter.ViewHolder>
+        implements Notes_NotesController {
+
     private final Activity context;
     private final FragmentManager fragmentManager;
     private ArrayList<Notes_NotificationNote> notes;
@@ -30,16 +30,15 @@ class Notes_NotesNotesListAdapter
      * It also listens to UI actions in the view and forwards the actions to Notes_NotesController.
      */
     public static class ViewHolder extends RecyclerView.ViewHolder
-        implements View.OnClickListener, View.OnLongClickListener, CompoundButton.OnCheckedChangeListener
-    {
+        implements View.OnClickListener, View.OnLongClickListener, CompoundButton.OnCheckedChangeListener {
+
         public final TextView titleView;
         public final TextView textView;
         public final SwitchCompat switchView;
         private final Notes_NotesController notesNotesController;
         private final FragmentManager fragmentManager;
 
-        public ViewHolder(View v, Notes_NotesController notesNotesController, FragmentManager fragmentManager)
-        {
+        public ViewHolder(View v, Notes_NotesController notesNotesController, FragmentManager fragmentManager) {
             super(v);
 
             this.titleView = (TextView) v.findViewById(R.id.note_title);
@@ -54,14 +53,12 @@ class Notes_NotesNotesListAdapter
         }
 
         @Override
-        public void onClick(View v)
-        {
+        public void onClick(View v) {
             this.notesNotesController.onNoteClicked(getAdapterPosition());
         }
 
         @Override
-        public boolean onLongClick(View v)
-        {
+        public boolean onLongClick(View v) {
             Notes_DeleteNoteDialogFragment.newInstance(
                 getAdapterPosition(), this.titleView.getText().toString()).show(
                 this.fragmentManager, "deleteNoteDialog");
@@ -69,29 +66,25 @@ class Notes_NotesNotesListAdapter
         }
 
         @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
-        {
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             this.notesNotesController.onNoteCheckedChanged(getAdapterPosition(), isChecked);
         }
     }
 
-    public Notes_NotesNotesListAdapter(Activity context, FragmentManager fragmentManager)
-    {
+    public Notes_NotesNotesListAdapter(Activity context, FragmentManager fragmentManager) {
         this.context = context;
         this.fragmentManager = fragmentManager;
         this.notes = new ArrayList<>();
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
-    {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.notes_note, parent, false);
         return new ViewHolder(v, this, this.fragmentManager);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position)
-    {
+    public void onBindViewHolder(ViewHolder holder, int position) {
         Notes_NotificationNote n = this.notes.get(position);
         holder.titleView.setText(n.title);
         holder.textView.setText(n.text);
@@ -105,8 +98,7 @@ class Notes_NotesNotesListAdapter
     }
 
     @Override
-    public void onNoteClicked(int position)
-    {
+    public void onNoteClicked(int position) {
         Log.d(Notes_Globals.TAG, "Note clicked " + position);
         Notes_NotificationNote n = this.notes.get(position);
         Intent in = new Intent(this.context, Notes_AddNoteActivity.class);
@@ -117,11 +109,9 @@ class Notes_NotesNotesListAdapter
     }
 
     @Override
-    public void onNoteCheckedChanged(int position, boolean isChecked)
-    {
+    public void onNoteCheckedChanged(int position, boolean isChecked) {
         Notes_NotificationNote n = this.notes.get(position);
-        if (isChecked != n.isVisible)
-        {
+        if (isChecked != n.isVisible) {
             n.isVisible = isChecked;
             setNotification(n);
         }
@@ -132,22 +122,19 @@ class Notes_NotesNotesListAdapter
         return this.notes;
     }
 
-    public void setNotes(ArrayList<Notes_NotificationNote> notes)
-    {
+    public void setNotes(ArrayList<Notes_NotificationNote> notes) {
         this.notes = notes;
         notifyDataSetChanged();
     }
 
-    public void addNote(String title, String text)
-    {
+    public void addNote(String title, String text) {
         Notes_NotificationNote n = new Notes_NotificationNote(getId(), title, text, true);
         this.notes.add(n);
         notifyItemInserted(this.notes.size() - 1);
         setNotification(n);
     }
 
-    public void deleteNote(int position)
-    {
+    public void deleteNote(int position) {
         Notes_NotificationNote n = this.notes.get(position);
         this.notes.remove(position);
         notifyItemRemoved(position);
@@ -155,8 +142,7 @@ class Notes_NotesNotesListAdapter
         setNotification(n);
     }
 
-    public void updateNote(int position, String title, String text)
-    {
+    public void updateNote(int position, String title, String text) {
         Notes_NotificationNote n = this.notes.get(position);
         n.title = title;
         n.text = text;
@@ -169,37 +155,30 @@ class Notes_NotesNotesListAdapter
     /**
      * Get unique notes_note id
      */
-    private int getId()
-    {
+    private int getId() {
         boolean idOk = false;
         int id = 0;
 
-        while (!idOk)
-        {
+        while (!idOk) {
             idOk = true;
-            for (int i = 0; i < this.notes.size(); ++i)
-            {
-                if (this.notes.get(i).id == id)
-                {
+            for (int i = 0; i < this.notes.size(); ++i) {
+                if (this.notes.get(i).id == id) {
                     idOk = false;
                     ++id;
                     break;
                 }
             }
         }
-
         return id;
     }
 
-    private void setNotification(Notes_NotificationNote n)
-    {
+    private void setNotification(Notes_NotificationNote n) {
         Intent in = new Intent(this.context, Notes_NotificationService.class);
 
         in.putExtra(Notes_NotificationService.ID, n.id);
         in.putExtra(Notes_NotificationService.SHOW, n.isVisible);
 
-        if (n.isVisible)
-        {
+        if (n.isVisible) {
             in.putExtra(Notes_NotificationService.TITLE, n.title);
             in.putExtra(Notes_NotificationService.TEXT, n.text);
         }

@@ -99,6 +99,10 @@
         Du kannst von hier zu deinen Benachrichtungen wechseln, den Anwendungsordner öffnen
         (dort werden heruntergeladene Dateien gespeichert), die Einstellungen erreichen oder eine neue Notiz erstellen.</string>
 
+    <string name="helpNotes_text">
+        Hier kannst du neue Notizen erstellen, oder bestehende bearbeiten. Wenn du fertig bist, den \"Speichern Knopf\"
+        drücken.</string>
+
 
     <string name="helpNot_title">Benachrichtigungen</string>
     <string name="helpNot_text">
@@ -111,9 +115,8 @@
         Hier kannst du neue Benachrichtigungen erstellen, oder bestehende bearbeiten. Wenn du fertig bist, den \"Speichern Knopf\"
         drücken.&lt;br>&lt;br>
 
-        Du kannst zur Startschirm oder zu deinem Favorit (siehe Einstellungen) zurückkehren,
-        indem du auf die Titelleiste klickst. Um zum Startschirm zurückzukehren kannst du auch den Pfeil in der Titelleiste
-        klicken.</string>
+        Du kannst zum Startschirm zurückkehren, indem du auf die Titelleiste oder den Pfeil
+        in der Titelleiste klickst.</string>
 
 
     <string name="helpSettings_title">Einstellungen</string>

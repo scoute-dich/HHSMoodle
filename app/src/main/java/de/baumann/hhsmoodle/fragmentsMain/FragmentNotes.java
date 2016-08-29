@@ -13,8 +13,6 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.text.Html;
-import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
 import android.view.Gravity;
@@ -75,10 +73,6 @@ public class FragmentNotes extends Fragment {
                 @SuppressWarnings("unchecked")
                 HashMap<String,String> map = (HashMap<String,String>)listView.getItemAtPosition(position);
 
-                final SpannableString s;
-                s = new SpannableString(Html.fromHtml(map.get("cont")));
-                Linkify.addLinks(s, Linkify.WEB_URLS);
-
                 final String title = map.get("title");
                 final String text = map.get("cont");
 
@@ -92,6 +86,7 @@ public class FragmentNotes extends Fragment {
                 textTitle.setTextSize(24);
                 textTitle.setTypeface(null, Typeface.BOLD);
                 textTitle.setPadding(5,50,0,0);
+                Linkify.addLinks(textTitle, Linkify.WEB_URLS);
                 layout.addView(textTitle);
 
                 final TextView textContent = new TextView(getContext());
@@ -99,6 +94,7 @@ public class FragmentNotes extends Fragment {
                 textContent.setTextSize(16);
                 textContent.setPadding(5,25,0,0);
                 textContent.setMovementMethod(LinkMovementMethod.getInstance());
+                Linkify.addLinks(textContent, Linkify.WEB_URLS);
                 layout.addView(textContent);
 
                 ScrollView sv = new ScrollView(getActivity());
@@ -113,48 +109,6 @@ public class FragmentNotes extends Fragment {
                         .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
 
                             public void onClick(DialogInterface dialog, int whichButton) {
-                                dialog.cancel();
-                            }
-                        })
-                        .setNegativeButton(R.string.app_links, new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog, int whichButton) {
-
-                                LinearLayout layout = new LinearLayout(getActivity());
-                                layout.setOrientation(LinearLayout.VERTICAL);
-                                layout.setGravity(Gravity.CENTER_HORIZONTAL);
-                                layout.setPadding(50, 0, 50, 0);
-
-                                final TextView textTitle = new TextView(getContext());
-                                textTitle.setText(title);
-                                textTitle.setTextSize(24);
-                                textTitle.setTypeface(null, Typeface.BOLD);
-                                textTitle.setPadding(5,50,0,0);
-                                layout.addView(textTitle);
-
-                                final TextView textContent = new TextView(getContext());
-                                textContent.setText(s);
-                                textContent.setTextSize(16);
-                                textContent.setPadding(5,25,0,0);
-                                textContent.setMovementMethod(LinkMovementMethod.getInstance());
-                                layout.addView(textContent);
-
-                                ScrollView sv = new ScrollView(getActivity());
-                                sv.pageScroll(0);
-                                sv.setBackgroundColor(0);
-                                sv.setScrollbarFadingEnabled(true);
-                                sv.setVerticalFadingEdgeEnabled(false);
-                                sv.addView(layout);
-
-                                final AlertDialog.Builder dialog2 = new AlertDialog.Builder(getActivity())
-                                        .setView(sv)
-                                        .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
-
-                                            public void onClick(DialogInterface dialog2, int whichButton) {
-                                                dialog2.cancel();
-                                            }
-                                        });
-                                dialog2.show();
                                 dialog.cancel();
                             }
                         });

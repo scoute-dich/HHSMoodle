@@ -73,8 +73,10 @@ public class Notes_AddNoteActivity extends AppCompatActivity {
         if (extras != null) {
             this.titleInput.setText(extras.getString(TITLE, ""));
             this.titleInput.setSelection(titleInput.getText().length());
+            Linkify.addLinks(titleInput, Linkify.WEB_URLS);
             this.textInput.setText(extras.getString(TEXT, ""));
             this.textInput.setSelection(textInput.getText().length());
+            Linkify.addLinks(textInput, Linkify.WEB_URLS);
             this.noteIndex = extras.getInt(NOTE_INDEX, -1);
             if (noteIndex > -1) {
                 setTitle(getString(R.string.edit_note));

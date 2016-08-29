@@ -94,6 +94,10 @@
         files will be saved), enter the settings screen or create a new note.</string>
 
 
+    <string name="helpNotes_text">
+        Here you can create new or edit existing notes. After editing click the \"save button\"</string>
+
+
     <string name="helpNot_title">Notifications</string>
     <string name="helpNot_text">
         &lt;i>Overview:&lt;/i>&lt;br>
@@ -104,8 +108,8 @@
         &lt;i>Edit notification:&lt;/i>&lt;br>
         Here you can create new or edit existing notifications. After editing click the \"save button\".&lt;br>&lt;br>
 
-        You can switch back to the main screen or to your favorite (look into the settings) by clicking the toolbar.
-        To go back to the main screen you can also press the arrow at the toolbar.</string>
+        You can switch back to the main screen by clicking the toolbar
+        or the back arrow.</string>
 
 
     <string name="helpSettings_title">Settings</string>
