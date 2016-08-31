@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,11 +36,12 @@ import de.baumann.hhsmoodle.helper.Database_Browser;
 public class FragmentBookmark extends Fragment {
 
     private ListView listView = null;
+    private SwipeRefreshLayout swipeView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_screen_main, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_screen_main_swipe, container, false);
 
         ImageView imgHeader = (ImageView) rootView.findViewById(R.id.imageView_header);
         if(imgHeader != null) {
@@ -48,6 +50,16 @@ public class FragmentBookmark extends Fragment {
             imgHeader.setImageResource(images.getResourceId(choice, R.drawable.splash1));
             images.recycle();
         }
+
+        swipeView = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe);
+        assert swipeView != null;
+        swipeView.setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent);
+        swipeView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                setBookmarkList();
+            }
+        });
 
         listView = (ListView)rootView.findViewById(R.id.bookmarks);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -246,5 +258,6 @@ public class FragmentBookmark extends Fragment {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
+        swipeView.setRefreshing(false);
     }
 }

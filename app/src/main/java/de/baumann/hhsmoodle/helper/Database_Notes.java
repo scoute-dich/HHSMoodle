@@ -32,7 +32,6 @@ public class Database_Notes extends SQLiteOpenHelper {
                 "CREATE TABLE bookmarks (" +
                         "seqno NUMBER NOT NULL, " +
                         "title TEXT NOT NULL, " +
-                        "url TEXT NOT NULL, " +
                         "cont TEXT NOT NULL, " +
                         "PRIMARY KEY(seqno))"
         );
@@ -45,11 +44,10 @@ public class Database_Notes extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         db.beginTransaction();
 
-        SQLiteStatement stmt = db.compileStatement("INSERT INTO bookmarks VALUES(?, ?, ?, ?)");
+        SQLiteStatement stmt = db.compileStatement("INSERT INTO bookmarks VALUES(?, ?, ?)");
         stmt.bindLong(1, seqno);
         stmt.bindString(2, "HHS Moodle");
-        stmt.bindString(3, "noURL");
-        stmt.bindString(4, "Dashboard -> https://moodle.huebsch.ka.schule-bw.de/moodle/my/");
+        stmt.bindString(3, "Dashboard -> https://moodle.huebsch.ka.schule-bw.de/moodle/my/");
         stmt.executeInsert();
 
         db.setTransactionSuccessful();
@@ -78,11 +76,11 @@ public class Database_Notes extends SQLiteOpenHelper {
     public void getBookmarks(ArrayList<String[]> data) {
         SQLiteDatabase db = getReadableDatabase();
 
-        String sql = "SELECT seqno,title,url,cont FROM bookmarks ORDER BY seqno";
+        String sql = "SELECT seqno,title,cont FROM bookmarks ORDER BY seqno";
         Cursor c = db.rawQuery(sql, null);
         c.moveToFirst();
         for (int i = 0; i < c.getCount(); i++) {
-            String[] strAry = {c.getString(0), c.getString(1), c.getString(2), c.getString(3)};
+            String[] strAry = {c.getString(0), c.getString(1), c.getString(2)};
             data.add(strAry);
             c.moveToNext();
         }
@@ -90,7 +88,7 @@ public class Database_Notes extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void addBookmark(String title, String url, String cont) {
+    public void addBookmark(String title, String cont) {
         int seqno;
 
         SQLiteDatabase db = getWritableDatabase();
@@ -102,11 +100,10 @@ public class Database_Notes extends SQLiteOpenHelper {
 
         db.beginTransaction();
 
-        SQLiteStatement stmt = db.compileStatement("INSERT INTO bookmarks VALUES(?, ?, ?, ?)");
+        SQLiteStatement stmt = db.compileStatement("INSERT INTO bookmarks VALUES(?, ?, ?)");
         stmt.bindLong(1, seqno);
         stmt.bindString(2, title);
-        stmt.bindString(3, url);
-        stmt.bindString(4, cont);
+        stmt.bindString(3, cont);
         stmt.executeInsert();
 
         db.setTransactionSuccessful();
@@ -134,8 +131,8 @@ public class Database_Notes extends SQLiteOpenHelper {
 //    }
 // --Commented out by Inspection STOP (09.04.16 19:24)
 
-    public void deleteBookmark(int seqno)
-    {
+    public void deleteNote(int seqno) {
+
         SQLiteDatabase db = getWritableDatabase();
         db.beginTransaction();
 

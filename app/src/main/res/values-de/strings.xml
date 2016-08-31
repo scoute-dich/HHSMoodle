@@ -98,6 +98,10 @@
     <string name="action_notShow_title">Hilfe Dialog</string>
     <string name="action_notShow_title_summary">Hilfe Dialog beim Start anzeigen.</string>
 
+    <string name="action_links_title">Links</string>
+    <string name="action_links_summary">Links in Notizen und Benachrichtungen hervorheben, dass sie geöffnet werden
+        können.</string>
+
 
     // Moodle
 

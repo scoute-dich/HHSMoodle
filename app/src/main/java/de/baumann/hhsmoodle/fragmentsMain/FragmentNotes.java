@@ -13,7 +13,6 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -46,6 +45,8 @@ public class FragmentNotes extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_screen_main_swipe, container, false);
 
+        PreferenceManager.setDefaultValues(getActivity(), R.xml.user_settings, false);
+        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         setHasOptionsMenu(true);
 
         ImageView imgHeader = (ImageView) rootView.findViewById(R.id.imageView_header);
@@ -86,15 +87,12 @@ public class FragmentNotes extends Fragment {
                 textTitle.setTextSize(24);
                 textTitle.setTypeface(null, Typeface.BOLD);
                 textTitle.setPadding(5,50,0,0);
-                Linkify.addLinks(textTitle, Linkify.WEB_URLS);
                 layout.addView(textTitle);
 
                 final TextView textContent = new TextView(getContext());
                 textContent.setText(text);
                 textContent.setTextSize(16);
                 textContent.setPadding(5,25,0,0);
-                textContent.setMovementMethod(LinkMovementMethod.getInstance());
-                Linkify.addLinks(textContent, Linkify.WEB_URLS);
                 layout.addView(textContent);
 
                 ScrollView sv = new ScrollView(getActivity());
@@ -103,6 +101,12 @@ public class FragmentNotes extends Fragment {
                 sv.setScrollbarFadingEnabled(true);
                 sv.setVerticalFadingEdgeEnabled(false);
                 sv.addView(layout);
+
+                if (sharedPref.getBoolean ("links", false)){
+                    Linkify.addLinks(textContent, Linkify.WEB_URLS);
+                    Linkify.addLinks(textTitle, Linkify.WEB_URLS);
+
+                }
 
                 final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity())
                         .setView(sv)
@@ -147,7 +151,7 @@ public class FragmentNotes extends Fragment {
 
                                     try {
                                         Database_Notes db = new Database_Notes(getActivity());
-                                        db.deleteBookmark((Integer.parseInt(seqnoStr)));
+                                        db.deleteNote((Integer.parseInt(seqnoStr)));
                                         db.close();
                                         setNotesList();
 
@@ -197,7 +201,7 @@ public class FragmentNotes extends Fragment {
                                                         public void onClick(View view) {
                                                             try {
                                                                 Database_Notes db = new Database_Notes(getActivity());
-                                                                db.deleteBookmark(Integer.parseInt(seqnoStr));
+                                                                db.deleteNote(Integer.parseInt(seqnoStr));
                                                                 db.close();
                                                                 setNotesList();
                                                             } catch (PackageManager.NameNotFoundException e) {
@@ -253,8 +257,7 @@ public class FragmentNotes extends Fragment {
                 HashMap<String, String> map = new HashMap<>();
                 map.put("seqno", strAry[0]);
                 map.put("title", strAry[1]);
-                map.put("url", strAry[2]);
-                map.put("cont", strAry[3]);
+                map.put("cont", strAry[2]);
                 mapList.add(map);
             }
 

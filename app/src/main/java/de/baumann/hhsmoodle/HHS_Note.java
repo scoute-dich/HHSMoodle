@@ -1,7 +1,6 @@
 package de.baumann.hhsmoodle;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,7 +14,6 @@ import android.text.util.Linkify;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import de.baumann.hhsmoodle.helper.Database_Notes;
@@ -144,17 +142,14 @@ public class HHS_Note extends AppCompatActivity {
 
         if (id == R.id.save_note) {
 
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(textInput.getWindowToken(), 0);
-
-            final String url = "noURL";
+            Snackbar.make(titleInput, R.string.note_saved, Snackbar.LENGTH_LONG).show();
 
             try {
 
                 final Database_Notes db = new Database_Notes(HHS_Note.this);
                 String inputTitle = titleInput.getText().toString().trim();
                 String inputContent = textInput.getText().toString().trim();
-                db.addBookmark(inputTitle, url, inputContent);
+                db.addBookmark(inputTitle, inputContent);
                 db.close();
 
             } catch (Exception e) {
@@ -167,7 +162,7 @@ public class HHS_Note extends AppCompatActivity {
                     .putString("handleTextText", "")
                     .apply();
 
-            Snackbar.make(titleInput, R.string.note_saved, Snackbar.LENGTH_LONG).show();
+            finish();
         }
 
         if (id == R.id.action_help) {

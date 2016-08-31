@@ -95,6 +95,9 @@
     <string name="action_notShow_title">Help dialog</string>
     <string name="action_notShow_title_summary">Show the help dialog on start.</string>
 
+    <string name="action_links_title">Links</string>
+    <string name="action_links_summary">Make links in notes and notifications clickable.</string>
+
 
     // Moodle
 
