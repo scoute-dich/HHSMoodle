@@ -3,7 +3,6 @@ A small android webview application to show the mobile website of our school moo
 
 - save moodle sites as bookmarks
 - set favorite bookmark
-- capture websites for offline use
 - share screenshot of whole webview
 - context menu for images and links
 - download manager (also https)
