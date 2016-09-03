@@ -1,10 +1,12 @@
 package de.baumann.hhsmoodle;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
@@ -14,6 +16,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 public class Notes_AddNoteActivity extends AppCompatActivity {
@@ -39,14 +42,40 @@ public class Notes_AddNoteActivity extends AppCompatActivity {
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 
+        this.titleInput = (EditText) findViewById(R.id.note_title_input);
+        this.textInput = (EditText) findViewById(R.id.note_text_input);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if(toolbar != null) {
             toolbar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent_in = new Intent(Notes_AddNoteActivity.this, HHS_MainScreen.class);
-                    startActivity(intent_in);
+
+                    String title = titleInput.getText().toString();
+                    String text = textInput.getText().toString();
+
+                    if (title.isEmpty() && text.isEmpty() ) {
+                        clearSharedPreferences();
+                        Intent intent_in = new Intent(Notes_AddNoteActivity.this, HHS_MainScreen.class);
+                        startActivity(intent_in);
+
+                    } else {
+                        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(textInput.getWindowToken(),
+                                InputMethodManager.RESULT_UNCHANGED_SHOWN);
+                        Snackbar snackbar = Snackbar
+                                .make(textInput, getString(R.string.toast_save), Snackbar.LENGTH_LONG)
+                                .setAction(getString(R.string.toast_no), new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        clearSharedPreferences();
+                                        Intent intent_in = new Intent(Notes_AddNoteActivity.this, HHS_MainScreen.class);
+                                        startActivity(intent_in);
+                                    }
+                                });
+                        snackbar.show();
+                    }
                 }
             });
 
@@ -54,7 +83,29 @@ public class Notes_AddNoteActivity extends AppCompatActivity {
                 toolbar.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        finishAffinity();
+
+                        String title = titleInput.getText().toString();
+                        String text = textInput.getText().toString();
+
+                        if (title.isEmpty() && text.isEmpty() ) {
+                            clearSharedPreferences();
+                            finishAffinity();
+
+                        } else {
+                            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(textInput.getWindowToken(),
+                                    InputMethodManager.RESULT_UNCHANGED_SHOWN);
+                            Snackbar snackbar = Snackbar
+                                    .make(textInput, getString(R.string.toast_save), Snackbar.LENGTH_LONG)
+                                    .setAction(getString(R.string.toast_no), new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            clearSharedPreferences();
+                                            finishAffinity();
+                                        }
+                                    });
+                            snackbar.show();
+                        }
                         return true;
                     }
                 });
@@ -65,9 +116,6 @@ public class Notes_AddNoteActivity extends AppCompatActivity {
         if(actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-
-        this.titleInput = (EditText) findViewById(R.id.note_title_input);
-        this.textInput = (EditText) findViewById(R.id.note_text_input);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -92,11 +140,34 @@ public class Notes_AddNoteActivity extends AppCompatActivity {
             this.titleInput.setSelection(titleInput.getText().length());
             this.textInput.setText(text);
             this.textInput.setSelection(textInput.getText().length());
+            clearSharedPreferences();
+        }
+    }
 
-            sharedPref.edit()
-                    .putString("noteTitle", "")
-                    .putString("noteContent", "")
-                    .apply();
+    @Override
+    public void onBackPressed() {
+
+        String title = titleInput.getText().toString();
+        String text = textInput.getText().toString();
+
+        if (title.isEmpty() && text.isEmpty() ) {
+            clearSharedPreferences();
+            finish();
+
+        } else {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(textInput.getWindowToken(),
+                    InputMethodManager.RESULT_UNCHANGED_SHOWN);
+            Snackbar snackbar = Snackbar
+                    .make(textInput, getString(R.string.toast_save), Snackbar.LENGTH_LONG)
+                    .setAction(getString(R.string.toast_no), new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            clearSharedPreferences();
+                            finish();
+                        }
+                    });
+            snackbar.show();
         }
     }
 
@@ -113,8 +184,33 @@ public class Notes_AddNoteActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == android.R.id.home) {
-            Intent intent_in = new Intent(Notes_AddNoteActivity.this, HHS_MainScreen.class);
-            startActivity(intent_in);
+
+            String title = titleInput.getText().toString();
+            String text = textInput.getText().toString();
+
+            if (title.isEmpty() && text.isEmpty() ) {
+                clearSharedPreferences();
+                Intent intent_in = new Intent(Notes_AddNoteActivity.this, HHS_MainScreen.class);
+                startActivity(intent_in);
+                finish();
+
+            } else {
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(textInput.getWindowToken(),
+                        InputMethodManager.RESULT_UNCHANGED_SHOWN);
+                Snackbar snackbar = Snackbar
+                        .make(textInput, getString(R.string.toast_save), Snackbar.LENGTH_LONG)
+                        .setAction(getString(R.string.toast_no), new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                clearSharedPreferences();
+                                Intent intent_in = new Intent(Notes_AddNoteActivity.this, HHS_MainScreen.class);
+                                startActivity(intent_in);
+                                finish();
+                            }
+                        });
+                snackbar.show();
+            }
         }
 
         if (id == R.id.save_note) {
@@ -129,12 +225,7 @@ public class Notes_AddNoteActivity extends AppCompatActivity {
 
             setResult(RESULT_OK, data);
 
-            final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-            sharedPref.edit()
-                    .putString("noteTitle", "")
-                    .putString("noteContent", "")
-                    .apply();
-
+            clearSharedPreferences();
             finish();
         }
 
@@ -149,5 +240,13 @@ public class Notes_AddNoteActivity extends AppCompatActivity {
             dialog.show();
         }
         return true;
+    }
+
+    private void clearSharedPreferences() {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPref.edit()
+                .putString("noteTitle", "")
+                .putString("noteContent", "")
+                .apply();
     }
 }

@@ -127,6 +127,7 @@
     // Snackbar
 
     <string name="toast_yes">OK</string>
+    <string name="toast_no">Nein</string>
     <string name="toast_cancel">Abbrechen</string>
     <string name="toast_notAgain">Nicht anzeigen</string>
     <string name="toast_clearSettings">Einstellungen werden gelöscht …</string>
@@ -139,6 +140,7 @@
     <string name="toast_login">Bitte Anmeldedaten in den Einstellungen eingeben.</string>
     <string name="toast_back">Kann vorherige Seite nicht laden.</string>
     <string name="toast_forward">Kann nächste Seite nicht laden.</string>
+    <string name="toast_save">Änderungen vor dem Verlasssen speichern?</string>
 
 
     // Bookmarks

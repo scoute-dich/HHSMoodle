@@ -123,6 +123,7 @@
     // Snackbar
 
     <string name="toast_yes">OK</string>
+    <string name="toast_no">No</string>
     <string name="toast_cancel">Cancel</string>
     <string name="toast_notAgain">Never show</string>
     <string name="toast_clearSettings">Clearing settings …</string>
@@ -135,6 +136,7 @@
     <string name="toast_login">Please enter login data in settings.</string>
     <string name="toast_back">Can not go back.</string>
     <string name="toast_forward">Can not go forward.</string>
+    <string name="toast_save">Save changes before leaving?</string>
 
 
     // Bookmarks
