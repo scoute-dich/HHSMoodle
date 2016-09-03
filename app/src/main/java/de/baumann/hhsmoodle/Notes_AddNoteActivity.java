@@ -135,7 +135,6 @@ public class Notes_AddNoteActivity extends AppCompatActivity {
         } else {
             String title = sharedPref.getString("noteTitle", "");
             String text = sharedPref.getString("noteContent", "");
-
             this.titleInput.setText(title);
             this.titleInput.setSelection(titleInput.getText().length());
             this.textInput.setText(text);

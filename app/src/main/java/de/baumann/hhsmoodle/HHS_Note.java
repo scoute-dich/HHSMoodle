@@ -125,12 +125,10 @@ public class HHS_Note extends AppCompatActivity {
             if ("text/plain".equals(type)) {
                 sharedPref.edit().putString("handleTextTitle", intent.getStringExtra(Intent.EXTRA_SUBJECT)).apply();
                 sharedPref.edit().putString("handleTextText", intent.getStringExtra(Intent.EXTRA_TEXT)).apply();
-
                 titleInput.setText(sharedPref.getString("handleTextTitle", ""));
                 titleInput.setSelection(titleInput.getText().length());
                 textInput.setText(sharedPref.getString("handleTextText", ""));
                 textInput.setSelection(textInput.getText().length());
-
                 clearSharedPreferences();
             }
         }
