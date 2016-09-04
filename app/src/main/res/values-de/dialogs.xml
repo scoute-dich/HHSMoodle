@@ -35,6 +35,12 @@
         &lt;i>Für mehr Informationen besuche die Projektseite auf Github:&lt;br>
         https://github.com/scoute-dich/HHSMoodle&lt;/i>&lt;br>&lt;br>
 
+        &lt;b>v 1.0.1:&lt;/b>&lt;br>
+        &#8226; Links klickbar (Notizen/Benachrichtigungen)&lt;br>
+        &#8226; Einstellungen überarbeitet&lt;br>
+        &#8226; Notizen/Benachrichtigungen: speichern beim Verlassen&lt;br>
+        &#8226; kleinere Verbesserungen&lt;br>&lt;br>
+
         &lt;b>v 1.0:&lt;/b>&lt;br>
         &#8226; erste Version
     </string>

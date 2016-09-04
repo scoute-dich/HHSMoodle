@@ -1,2 +1,9 @@
+### v 1.0.1
+- make links clickable
+- reworked settings
+- notes/notifications: save on exit
+- minor improvements
+
+
 ### v 1.0
 - first release

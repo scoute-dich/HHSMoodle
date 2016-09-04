@@ -34,6 +34,12 @@
         &lt;i>For more informations visit the project site on github:&lt;br>
         https://github.com/scoute-dich/HHSMoodle&lt;/i>&lt;br>&lt;br>
 
+        &lt;b>v 1.0.1:&lt;/b>&lt;br>
+        &#8226; make links clickable (notes/notifications)&lt;br>
+        &#8226; reworked settings&lt;br>
+        &#8226; notes/notifications: save on exit&lt;br>
+        &#8226; minor improvements&lt;br>&lt;br>
+
         &lt;b>v 1.0:&lt;/b>&lt;br>
         &#8226; first release
     </string>

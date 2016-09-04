@@ -75,7 +75,8 @@ public class FragmentNotes extends Fragment {
                 HashMap<String,String> map = (HashMap<String,String>)listView.getItemAtPosition(position);
 
                 final String title = map.get("title");
-                final String text = map.get("cont");
+                final String cont = map.get("cont");
+                final String seqnoStr = map.get("seqno");
 
                 LinearLayout layout = new LinearLayout(getActivity());
                 layout.setOrientation(LinearLayout.VERTICAL);
@@ -90,7 +91,7 @@ public class FragmentNotes extends Fragment {
                 layout.addView(textTitle);
 
                 final TextView textContent = new TextView(getContext());
-                textContent.setText(text);
+                textContent.setText(cont);
                 textContent.setTextSize(16);
                 textContent.setPadding(5,25,0,0);
                 layout.addView(textContent);
@@ -114,6 +115,29 @@ public class FragmentNotes extends Fragment {
 
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 dialog.cancel();
+                            }
+                        })
+                        .setNegativeButton(R.string.note_edit, new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                                sharedPref.edit()
+                                        .putString("handleTextTitle", title)
+                                        .putString("handleTextText", cont)
+                                        .apply();
+
+                                Intent intent_in = new Intent(getActivity(), HHS_Note.class);
+                                startActivity(intent_in);
+
+                                try {
+                                    Database_Notes db = new Database_Notes(getActivity());
+                                    db.deleteNote((Integer.parseInt(seqnoStr)));
+                                    db.close();
+                                    setNotesList();
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
                             }
                         });
                 dialog.show();
