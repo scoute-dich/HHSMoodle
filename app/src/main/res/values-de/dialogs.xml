@@ -35,6 +35,9 @@
         &lt;i>Für mehr Informationen besuche die Projektseite auf Github:&lt;br>
         https://github.com/scoute-dich/HHSMoodle&lt;/i>&lt;br>&lt;br>
 
+        &lt;b>v 1.0.2:&lt;/b>&lt;br>
+        &#8226; Wichtig: Hilfe Dialog Notizen&lt;br>&lt;br>
+
         &lt;b>v 1.0.1:&lt;/b>&lt;br>
         &#8226; Links klickbar (Notizen/Benachrichtigungen)&lt;br>
         &#8226; Einstellungen überarbeitet&lt;br>
@@ -91,6 +94,10 @@
 
         &lt;b>Notizen&lt;/b>&lt;br>&lt;br>
 
+        &lt;i>Wichtig:&lt;/i>&lt;br>
+        Immer wenn du eine bestehende Notiz bearbeitest, wird die Notiz gelöscht. Speichere deshalb im \"Bearbeiten Fenster\"
+        immer ab, selbst wenn du nichts veränderst. Sonst ist die Notiz verloren.&lt;br>&lt;br>
+
         &lt;i>Notizen erstellen:&lt;/i>&lt;br>
         Du kannst Notizen erstellen, indem du den entsprechenden Eintrag im Menu oder das Stifticon in der Toolbar
         anklickst. Wenn die Liste nicht automatisch aktualisiert wird, kannst du auf dem Bild über der Liste nach unten
@@ -108,7 +115,11 @@
 
     <string name="helpNotes_text">
         Hier kannst du neue Notizen erstellen, oder bestehende bearbeiten. Wenn du fertig bist, den \"Speichern Knopf\"
-        drücken.</string>
+        drücken.&lt;br>&lt;br>
+
+        &lt;i>Wichtig:&lt;/i>&lt;br>
+        Immer wenn du eine bestehende Notiz bearbeitest, wird die Notiz gelöscht. Speichere deshalb
+        immer ab, selbst wenn du nichts veränderst. Sonst ist die Notiz verloren.</string>
 
 
     <string name="helpNot_title">Benachrichtigungen</string>

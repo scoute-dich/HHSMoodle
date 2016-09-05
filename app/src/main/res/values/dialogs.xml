@@ -34,6 +34,9 @@
         &lt;i>For more informations visit the project site on github:&lt;br>
         https://github.com/scoute-dich/HHSMoodle&lt;/i>&lt;br>&lt;br>
 
+        &lt;b>v 1.0.2:&lt;/b>&lt;br>
+        &#8226; Important: Help dialog notes&lt;br>&lt;br>
+
         &lt;b>v 1.0.1:&lt;/b>&lt;br>
         &#8226; make links clickable (notes/notifications)&lt;br>
         &#8226; reworked settings&lt;br>
@@ -86,6 +89,10 @@
 
         &lt;b>Notes&lt;/b>&lt;br>&lt;br>
 
+        &lt;i>Important:&lt;/i>&lt;br>
+        Always when you edit an existing note, the note will be deleted. Always save your note in the \"Notes editor\",
+        even if you change nothing. Otherwise your note will be lost.&lt;br>&lt;br>
+
         &lt;i>Create notes:&lt;/i>&lt;br>
         You can make notes if you click the \"Taking note\" entry in the menu or the pencil icon in the toolbar. If the list does
         not refresh automatically, you can swipe down on the picture above the list.&lt;br>&lt;br>
@@ -102,7 +109,11 @@
 
 
     <string name="helpNotes_text">
-        Here you can create new or edit existing notes. After editing click the \"save button\"</string>
+        Here you can create new or edit existing notes. After editing click the \"save button\".&lt;br>&lt;br>
+
+        &lt;i>Important:&lt;/i>&lt;br>
+        Always when you edit an existing note, the note will be deleted. Always save your note,
+        even if you change nothing. Otherwise your note will be lost.</string>
 
 
     <string name="helpNot_title">Notifications</string>

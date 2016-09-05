@@ -1,3 +1,7 @@
+### v 1.0.2
+- Important: Help dialog notes
+
+
 ### v 1.0.1
 - make links clickable
 - reworked settings
