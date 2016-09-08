@@ -64,6 +64,7 @@
     <string name="pref_2">App Einstellungen</string>
     <string name="pref_3">Hilfe</string>
     <string name="pref_4">Anmeldung</string>
+    <string name="pref_5">Sicherheit</string>
 
     <string name="action_username">Benutzername</string>
     <string name="action_username_summary">Bitte gib deinen Benutzernamen an, um automatisch angemeldet zu werden.</string>
@@ -100,8 +101,11 @@
     <string name="action_notShow_title_summary">Hilfe Dialog beim Start anzeigen.</string>
 
     <string name="action_links_title">Links</string>
-    <string name="action_links_summary">Links in Notizen und Benachrichtungen hervorheben, dass sie geöffnet werden
-        können.</string>
+    <string name="action_links_summary">Links in Notizen und Benachrichtungen hervorheben, dass sie geöffnet werden können.</string>
+
+    <string name="action_protect">Passwort</string>
+    <string name="action_protect_summary">Bestimme ein Passwort um die App vor unbefugtem Zugriff zu schützen. Leer lassen, wenn
+        du die App nicht schützen willst (eigenes Risiko).</string>
 
 
     // Moodle
@@ -142,6 +146,7 @@
     <string name="toast_back">Kann vorherige Seite nicht laden.</string>
     <string name="toast_forward">Kann nächste Seite nicht laden.</string>
     <string name="toast_save">Änderungen vor dem Verlasssen speichern?</string>
+    <string name="toast_wrongPW">Uuups. Falsches Passwort.</string>
 
 
     // Bookmarks

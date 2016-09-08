@@ -31,8 +31,11 @@
     //Changelog Dialog
 
     <string name="changelog_text">
-        &lt;i>For more informations visit the project site on github:&lt;br>
+        &lt;i>For more information visit the project site on github:&lt;br>
         https://github.com/scoute-dich/HHSMoodle&lt;/i>&lt;br>&lt;br>
+
+        &lt;b>v 1.0.3:&lt;/b>&lt;br>
+        &#8226; Optional: Password protection&lt;br>&lt;br>
 
         &lt;b>v 1.0.2:&lt;/b>&lt;br>
         &#8226; Important: Help dialog notes&lt;br>&lt;br>
@@ -136,7 +139,8 @@
 
 
     <string name="dialog_help">
-        You can reach a short help dialog on every screen by pressing \"menu -> help\".</string>
+        You can reach a short help dialog on every screen by pressing \"menu -> help\". It is recommended to protect the app
+        with a password. You can configure that in the settings.</string>
 
 
     <string name="perm_notShow_title">Permission dialog</string>

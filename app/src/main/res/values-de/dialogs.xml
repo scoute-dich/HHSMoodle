@@ -35,6 +35,9 @@
         &lt;i>Für mehr Informationen besuche die Projektseite auf Github:&lt;br>
         https://github.com/scoute-dich/HHSMoodle&lt;/i>&lt;br>&lt;br>
 
+        &lt;b>v 1.0.3:&lt;/b>&lt;br>
+        &#8226; Optional: Passwortschutz&lt;br>&lt;br>
+
         &lt;b>v 1.0.2:&lt;/b>&lt;br>
         &#8226; Wichtig: Hilfe Dialog Notizen&lt;br>&lt;br>
 
@@ -143,7 +146,8 @@
 
 
     <string name="dialog_help">
-        Du erreichst einen kurzen Hilfe Dialog auf jedem Schirm, indem du \"Menu -> Hilfe\" drückst.</string>
+        Du erreichst einen kurzen Hilfe Dialog auf jedem Schirm, indem du \"Menu -> Hilfe\" drückst. Es wird empfohlen die App
+        mit einem Passwort zu schützen. Dies kann in den Einstellungen vorgenommen werden.</string>
 
 
     <string name="perm_notShow_title">Berechtigungsdialog</string>

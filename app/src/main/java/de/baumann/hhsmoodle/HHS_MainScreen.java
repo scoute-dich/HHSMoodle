@@ -37,6 +37,7 @@ import java.util.List;
 import de.baumann.hhsmoodle.fragmentsMain.FragmentBookmark;
 import de.baumann.hhsmoodle.fragmentsMain.FragmentInfo;
 import de.baumann.hhsmoodle.fragmentsMain.FragmentNotes;
+import de.baumann.hhsmoodle.helper.SplashActivity;
 
 @SuppressWarnings("ResultOfMethodCallIgnored")
 public class HHS_MainScreen extends AppCompatActivity {
@@ -62,6 +63,14 @@ public class HHS_MainScreen extends AppCompatActivity {
 
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+
+        if (sharedPref.getString("protect_PW", "").length() > 0) {
+            if (sharedPref.getBoolean("isOpened", true)) {
+                Intent intent_in = new Intent(HHS_MainScreen.this, SplashActivity.class);
+                startActivity(intent_in);
+                finish();
+            }
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -205,6 +214,16 @@ public class HHS_MainScreen extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);// add return null; to display only icons
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPref.edit()
+                .putBoolean("isOpened", true)
+                .apply();
+        finish();
     }
 
     @Override

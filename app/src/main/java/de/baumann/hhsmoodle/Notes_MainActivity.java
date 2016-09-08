@@ -19,6 +19,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import de.baumann.hhsmoodle.helper.SplashActivity;
+
 @SuppressWarnings("UnusedParameters")
 public class Notes_MainActivity extends AppCompatActivity {
     /**
@@ -108,6 +110,14 @@ public class Notes_MainActivity extends AppCompatActivity {
 
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+
+        if (sharedPref.getString("protect_PW", "").length() > 0) {
+            if (sharedPref.getBoolean("isOpened", true)) {
+                Intent intent_in = new Intent(Notes_MainActivity.this, SplashActivity.class);
+                startActivity(intent_in);
+                finish();
+            }
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

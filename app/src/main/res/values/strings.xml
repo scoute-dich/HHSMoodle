@@ -62,6 +62,7 @@
     <string name="pref_2">App settings</string>
     <string name="pref_3">Help</string>
     <string name="pref_4">Login</string>
+    <string name="pref_5">Security</string>
 
     <string name="action_username">Username</string>
     <string name="action_username_summary">Please enter your Moodle username, to get automatically logged in.</string>
@@ -98,6 +99,10 @@
 
     <string name="action_links_title">Links</string>
     <string name="action_links_summary">Make links in notes and notifications clickable.</string>
+
+    <string name="action_protect">Password</string>
+    <string name="action_protect_summary">Set a password to protect app against unwanted access. Let empty, if you do not want
+    to protect the app (own risk).</string>
 
 
     // Moodle
@@ -138,6 +143,7 @@
     <string name="toast_back">Can not go back.</string>
     <string name="toast_forward">Can not go forward.</string>
     <string name="toast_save">Save changes before leaving?</string>
+    <string name="toast_wrongPW">Uuups. Wrong password.</string>
 
 
     // Bookmarks

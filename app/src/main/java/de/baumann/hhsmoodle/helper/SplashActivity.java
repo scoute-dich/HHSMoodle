@@ -73,6 +73,7 @@ public class SplashActivity extends AppCompatActivity {
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         final String username = sharedPref.getString("username", "");
         final String password = sharedPref.getString("password", "");
+        final String protect = sharedPref.getString("protect_PW", "");
 
         if (username.isEmpty() || password.isEmpty() ) {
 
@@ -102,11 +103,12 @@ public class SplashActivity extends AppCompatActivity {
                                 SplashActivity.this.finish();
                                 overridePendingTransition(R.anim.fadein,R.anim.fadeout);
                             }
-                        }, 2000);
+                        }, 500);
                     }
                 }
             });
-        } else {
+
+        } else if (protect.isEmpty()) {
             new Handler().postDelayed(new Runnable() {
                 public void run() {
 
@@ -117,6 +119,38 @@ public class SplashActivity extends AppCompatActivity {
                     overridePendingTransition(R.anim.fadein,R.anim.fadeout);
                 }
             }, 2000);
+
+        } else {
+            editPassword.setVisibility(View.VISIBLE);
+            fab.setVisibility(View.VISIBLE);
+
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String Password = editPassword.getText().toString().trim();
+
+                    if (Password.equals(protect)) {
+                        new Handler().postDelayed(new Runnable() {
+                            public void run() {
+
+                                sharedPref.edit()
+                                        .putBoolean("isOpened", false)
+                                        .apply();
+
+                                Intent mainIntent = new Intent(SplashActivity.this, HHS_MainScreen.class);
+                                mainIntent.putExtra("id", "1");
+                                startActivity(mainIntent);
+                                SplashActivity.this.finish();
+                                overridePendingTransition(R.anim.fadein,R.anim.fadeout);
+                            }
+                        }, 500);
+
+                    } else {
+                        editPassword.setText("");
+                        Snackbar.make(Image, R.string.toast_wrongPW, Snackbar.LENGTH_LONG).show();
+                    }
+                }
+            });
         }
     }
 }

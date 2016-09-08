@@ -12,7 +12,25 @@
         <EditTextPreference
             android:title="@string/action_password"
             android:summary="@string/action_password_summary"
+            android:inputType="textPassword"
             android:key="password" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_5">
+
+        <EditTextPreference
+            android:title="@string/action_protect"
+            android:summary="@string/action_protect_summary"
+            android:inputType="textPassword"
+            android:key="protect_PW" />
+
+        <CheckBoxPreference
+            android:title="@string/action_java"
+            android:summary="@string/action_java_summary"
+            android:key="java"
+            android:defaultValue="true" />
 
     </PreferenceCategory>
 
@@ -31,12 +49,6 @@
             android:title="@string/action_longPress"
             android:summary="@string/action_longPress_summary"
             android:key="longPress"
-            android:defaultValue="true" />
-
-        <CheckBoxPreference
-            android:title="@string/action_java"
-            android:summary="@string/action_java_summary"
-            android:key="java"
             android:defaultValue="true" />
 
         <CheckBoxPreference

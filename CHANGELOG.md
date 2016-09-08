@@ -1,3 +1,7 @@
+### v 1.0.3
+- Optional: Password protection
+
+
 ### v 1.0.2
 - Important: Help dialog notes
 

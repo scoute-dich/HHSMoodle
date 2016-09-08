@@ -61,6 +61,7 @@ import java.util.Locale;
 
 import de.baumann.hhsmoodle.helper.Database_Browser;
 import de.baumann.hhsmoodle.helper.OnSwipeTouchListener;
+import de.baumann.hhsmoodle.helper.SplashActivity;
 
 @SuppressWarnings("ResultOfMethodCallIgnored")
 public class HHS_Browser extends AppCompatActivity  {
@@ -94,6 +95,14 @@ public class HHS_Browser extends AppCompatActivity  {
 
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+
+        if (sharedPref.getString("protect_PW", "").length() > 0) {
+            if (sharedPref.getBoolean("isOpened", true)) {
+                Intent intent_in = new Intent(HHS_Browser.this, SplashActivity.class);
+                startActivity(intent_in);
+                finish();
+            }
+        }
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 

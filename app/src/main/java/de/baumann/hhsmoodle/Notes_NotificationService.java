@@ -24,7 +24,7 @@ public class Notes_NotificationService extends IntentService {
 
     public Notes_NotificationService() {
         super("Notes_NotificationService");
-        Log.d(Notes_Globals.TAG, "Notes_NotificationService ctor");
+        Log.d(Notes_Globals.TAG, "Notes_NotificationService");
     }
 
     @Override
