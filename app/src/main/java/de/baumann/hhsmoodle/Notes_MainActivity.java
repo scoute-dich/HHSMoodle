@@ -134,6 +134,10 @@ public class Notes_MainActivity extends AppCompatActivity {
                 toolbar.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
+                        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(Notes_MainActivity.this);
+                        sharedPref.edit()
+                                .putBoolean("isOpened", true)
+                                .apply();
                         finishAffinity();
                         return true;
                     }

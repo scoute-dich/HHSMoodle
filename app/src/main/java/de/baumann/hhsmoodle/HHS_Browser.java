@@ -121,6 +121,10 @@ public class HHS_Browser extends AppCompatActivity  {
                 toolbar.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
+                        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(HHS_Browser.this);
+                        sharedPref.edit()
+                                .putBoolean("isOpened", true)
+                                .apply();
                         finishAffinity();
                         return true;
                     }

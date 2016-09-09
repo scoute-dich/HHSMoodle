@@ -87,6 +87,10 @@ public class HHS_MainScreen extends AppCompatActivity {
                 toolbar.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
+                        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(HHS_MainScreen.this);
+                        sharedPref.edit()
+                                .putBoolean("isOpened", true)
+                                .apply();
                         finishAffinity();
                         return true;
                     }

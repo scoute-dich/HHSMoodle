@@ -88,6 +88,10 @@ public class HHS_Note extends AppCompatActivity {
 
                         if (title.isEmpty() && text.isEmpty() ) {
                             clearSharedPreferences();
+                            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(HHS_Note.this);
+                            sharedPref.edit()
+                                    .putBoolean("isOpened", true)
+                                    .apply();
                             finishAffinity();
 
                         } else {

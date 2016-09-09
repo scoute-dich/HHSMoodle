@@ -89,6 +89,11 @@ public class Notes_AddNoteActivity extends AppCompatActivity {
 
                         if (title.isEmpty() && text.isEmpty() ) {
                             clearSharedPreferences();
+                            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(Notes_AddNoteActivity.this);
+                            sharedPref.edit()
+                                    .putBoolean("isOpened", true)
+                                    .apply();
+                            finishAffinity();
                             finishAffinity();
 
                         } else {
