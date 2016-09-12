@@ -156,7 +156,8 @@
     <string name="bookmark_edit_title">Edit title</string>
     <string name="bookmark_edit_fav">Set as favorite</string>
     <string name="bookmark_createNote">Create note</string>
-    <string name="bookmark_CreateNotification">Create notification</string>
+    <string name="bookmark_createNotification">Create notification</string>
+    <string name="bookmark_createShortcut">Create shortcut</string>
 
 
     // Notes
@@ -165,7 +166,7 @@
     <string name="note_remove_cannot">You need at least one note!</string>
     <string name="note_remove_note">Delete note</string>
     <string name="note_edit">Edit note</string>
-    <string name="note_set_not">Create notification</string>
+    <string name="note_set_not">Create note</string>
     <string name="note_share">Share note</string>
     <string name="note_share_2">Share note using:</string>
     <string name="note_saved">Successfully saved note.</string>

@@ -68,7 +68,6 @@ public class HHS_MainScreen extends AppCompatActivity {
             if (sharedPref.getBoolean("isOpened", true)) {
                 Intent intent_in = new Intent(HHS_MainScreen.this, SplashActivity.class);
                 startActivity(intent_in);
-                finish();
             }
         }
 

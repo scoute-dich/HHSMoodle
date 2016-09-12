@@ -19,6 +19,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import de.baumann.hhsmoodle.helper.Database_Notes;
+import de.baumann.hhsmoodle.helper.PasswordActivity;
 
 public class HHS_Note extends AppCompatActivity {
 
@@ -33,6 +34,13 @@ public class HHS_Note extends AppCompatActivity {
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         setTitle(R.string.note_edit);
+
+        if (sharedPref.getString("protect_PW", "").length() > 0) {
+            if (sharedPref.getBoolean("isOpened", true)) {
+                Intent intent_in = new Intent(HHS_Note.this, PasswordActivity.class);
+                startActivity(intent_in);
+            }
+        }
 
         titleInput = (EditText) findViewById(R.id.note_title_input);
         textInput = (EditText) findViewById(R.id.note_text_input);
@@ -127,6 +135,14 @@ public class HHS_Note extends AppCompatActivity {
         if (Intent.ACTION_SEND.equals(action)) {
 
             if ("text/plain".equals(type)) {
+
+                if (sharedPref.getString("protect_PW", "").length() > 0) {
+                    if (sharedPref.getBoolean("isOpened", true)) {
+                        Intent intent_in = new Intent(HHS_Note.this, PasswordActivity.class);
+                        startActivity(intent_in);
+                    }
+                }
+
                 sharedPref.edit().putString("handleTextTitle", intent.getStringExtra(Intent.EXTRA_SUBJECT)).apply();
                 sharedPref.edit().putString("handleTextText", intent.getStringExtra(Intent.EXTRA_TEXT)).apply();
                 titleInput.setText(sharedPref.getString("handleTextTitle", ""));

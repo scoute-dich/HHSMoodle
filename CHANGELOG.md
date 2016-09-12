@@ -1,3 +1,8 @@
+### v 1.0.4
+- improved password protection
+- create shortcuts on home screen
+
+
 ### v 1.0.3
 - Optional: Password protection
 

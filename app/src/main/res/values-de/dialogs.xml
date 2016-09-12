@@ -35,6 +35,10 @@
         &lt;i>Für mehr Informationen besuche die Projektseite auf Github:&lt;br>
         https://github.com/scoute-dich/HHSMoodle&lt;/i>&lt;br>&lt;br>
 
+        &lt;b>v 1.0.4:&lt;/b>&lt;br>
+        &#8226; Passwortschutz verbessert&lt;br>
+        &#8226; Verknüpfungen auf Homescreen erstellen&lt;br>&lt;br>
+
         &lt;b>v 1.0.3:&lt;/b>&lt;br>
         &#8226; Optional: Passwortschutz&lt;br>&lt;br>
 
@@ -88,14 +92,16 @@
         Im linken Tab kannst du deine persönlichen Moodleseiten aufrufen und im mittleren Tab werden deine Lesezeichen
         angezeigt.&lt;br>&lt;br>
 
-        &lt;i>Lesezeichen bearbeiten:&lt;/i>&lt;br>
+        &lt;i>Lesezeichentab:&lt;/i>&lt;br>
         Ein langer Klick auf ein Lesezeichen öffnet ein Popup-Menü. Du kannst ein Lesezeichen als Favorit setzen
         (Du kannst den Favorit durch klicken des orangenen \"Sternknopfes\" öffnen.), den Titel des
         Lesezeichens bearbeiten, oder es komplett löschen (ein Lesezeichen muss mindestens vorhanden sein).
         Wenn die Liste nicht automatisch aktualisiert wird, kannst du auf dem Bild über der Liste nach unten
-        wischen.&lt;br>&lt;br>&lt;br>
+        wischen.&lt;br>
+        Du kannst aus dem Popup-Menü heraus außerdem eine neue Notiz, eine neue Benachrichtigung oder eine Verknüpfung auf deinem
+        \"Homescreen\" erstellen.&lt;br>&lt;br>&lt;br>
 
-        &lt;b>Notizen&lt;/b>&lt;br>&lt;br>
+        &lt;b>Notizentab&lt;/b>&lt;br>&lt;br>
 
         &lt;i>Wichtig:&lt;/i>&lt;br>
         Immer wenn du eine bestehende Notiz bearbeitest, wird die Notiz gelöscht. Speichere deshalb im \"Bearbeiten Fenster\"

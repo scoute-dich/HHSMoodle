@@ -159,7 +159,8 @@
     <string name="bookmark_edit_title">Bearbeite Titel</string>
     <string name="bookmark_edit_fav">Als Favorit speichern</string>
     <string name="bookmark_createNote">Erstelle Notiz</string>
-    <string name="bookmark_CreateNotification">Erstelle Benachrichtigung</string>
+    <string name="bookmark_createNotification">Erstelle Benachrichtigung</string>
+    <string name="bookmark_createShortcut">Erstelle Verknüpfung</string>
 
 
     // Notes

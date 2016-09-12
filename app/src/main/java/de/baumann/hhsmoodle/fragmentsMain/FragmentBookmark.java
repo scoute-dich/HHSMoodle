@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
@@ -94,7 +95,8 @@ public class FragmentBookmark extends Fragment {
                         getString(R.string.bookmark_edit_title),
                         getString(R.string.bookmark_edit_fav),
                         getString(R.string.bookmark_createNote),
-                        getString(R.string.bookmark_CreateNotification),
+                        getString(R.string.bookmark_createNotification),
+                        getString(R.string.bookmark_createShortcut),
                         getString(R.string.bookmark_remove_bookmark)};
                 new AlertDialog.Builder(getActivity())
                         .setItems(options, new DialogInterface.OnClickListener() {
@@ -188,7 +190,7 @@ public class FragmentBookmark extends Fragment {
                                     startActivity(intent_in);
                                 }
 
-                                if (options[item].equals (getString(R.string.bookmark_CreateNotification))) {
+                                if (options[item].equals (getString(R.string.bookmark_createNotification))) {
                                     SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
                                     sharedPref.edit()
                                             .putString("noteTitle", title)
@@ -197,6 +199,21 @@ public class FragmentBookmark extends Fragment {
 
                                     Intent intent_in = new Intent(getActivity(), Notes_MainActivity.class);
                                     startActivity(intent_in);
+                                }
+
+                                if (options[item].equals (getString(R.string.bookmark_createShortcut))) {
+
+                                    Intent i = new Intent();
+                                    i.setAction(Intent.ACTION_VIEW);
+                                    i.setData(Uri.parse(url));
+
+                                    Intent shortcut = new Intent();
+                                    shortcut.putExtra("android.intent.extra.shortcut.INTENT", i);
+                                    shortcut.putExtra("android.intent.extra.shortcut.NAME", "THE NAME OF SHORTCUT TO BE SHOWN");
+                                    shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, title);
+                                    shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(getActivity().getApplicationContext(), R.mipmap.ic_launcher));
+                                    shortcut.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+                                    getActivity().sendBroadcast(shortcut);
                                 }
 
                             }

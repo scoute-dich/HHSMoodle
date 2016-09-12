@@ -33,6 +33,7 @@ import android.text.SpannableString;
 import android.text.util.Linkify;
 import android.view.ContextMenu;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -61,7 +62,7 @@ import java.util.Locale;
 
 import de.baumann.hhsmoodle.helper.Database_Browser;
 import de.baumann.hhsmoodle.helper.OnSwipeTouchListener;
-import de.baumann.hhsmoodle.helper.SplashActivity;
+import de.baumann.hhsmoodle.helper.PasswordActivity;
 
 @SuppressWarnings("ResultOfMethodCallIgnored")
 public class HHS_Browser extends AppCompatActivity  {
@@ -98,9 +99,8 @@ public class HHS_Browser extends AppCompatActivity  {
 
         if (sharedPref.getString("protect_PW", "").length() > 0) {
             if (sharedPref.getBoolean("isOpened", true)) {
-                Intent intent_in = new Intent(HHS_Browser.this, SplashActivity.class);
+                Intent intent_in = new Intent(HHS_Browser.this, PasswordActivity.class);
                 startActivity(intent_in);
-                finish();
             }
         }
 
@@ -452,6 +452,18 @@ public class HHS_Browser extends AppCompatActivity  {
         } else {
             finish();
         }
+    }
+
+    @Override
+    public boolean onKeyLongPress(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+            if (sharedPref.getBoolean ("longPress", false)){
+                finishAffinity();
+            }
+            return true;
+        }
+        return super.onKeyLongPress(keyCode, event);
     }
 
     @Override

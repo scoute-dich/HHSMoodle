@@ -34,6 +34,10 @@
         &lt;i>For more information visit the project site on github:&lt;br>
         https://github.com/scoute-dich/HHSMoodle&lt;/i>&lt;br>&lt;br>
 
+        &lt;b>v 1.0.4:&lt;/b>&lt;br>
+        &#8226; improved password protection&lt;br>
+        &#8226; create shortcuts on home screen&lt;br>&lt;br>
+
         &lt;b>v 1.0.3:&lt;/b>&lt;br>
         &#8226; Optional: Password protection&lt;br>&lt;br>
 
@@ -84,13 +88,14 @@
         &lt;i>The tabs:&lt;/i>&lt;br>
         In the left tab you can open your personal Moodle sites and in the middle tab you can see your bookmarks.&lt;br>&lt;br>
 
-        &lt;i>Edit bookmarks:&lt;/i>&lt;br>
+        &lt;i>Bookmarks tab:&lt;/i>&lt;br>
         Long click on a bookmark opens a popup menu. You can set your favorite bookmark
         (You can open the favorite ba clicking the orange \"star button\".), edit the title of the bookmark or
         delete it (at least one bookmark is needed). If the list does not refresh automatically, you can swipe down on the picture
-        above the list.&lt;br>&lt;br>&lt;br>
+        above the list.&lt;br>
+        From this popup menu you can also create a new note, notification or a shortcut on your \"Home screen\".&lt;br>&lt;br>&lt;br>&lt;br>&lt;br>&lt;br>
 
-        &lt;b>Notes&lt;/b>&lt;br>&lt;br>
+        &lt;b>Notes tab&lt;/b>&lt;br>&lt;br>
 
         &lt;i>Important:&lt;/i>&lt;br>
         Always when you edit an existing note, the note will be deleted. Always save your note in the \"Notes editor\",

@@ -153,4 +153,13 @@ public class SplashActivity extends AppCompatActivity {
             });
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPref.edit()
+                .putBoolean("isOpened", true)
+                .apply();
+        finishAffinity();
+    }
 }

@@ -19,7 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import de.baumann.hhsmoodle.helper.SplashActivity;
+import de.baumann.hhsmoodle.helper.PasswordActivity;
 
 @SuppressWarnings("UnusedParameters")
 public class Notes_MainActivity extends AppCompatActivity {
@@ -113,9 +113,8 @@ public class Notes_MainActivity extends AppCompatActivity {
 
         if (sharedPref.getString("protect_PW", "").length() > 0) {
             if (sharedPref.getBoolean("isOpened", true)) {
-                Intent intent_in = new Intent(Notes_MainActivity.this, SplashActivity.class);
+                Intent intent_in = new Intent(Notes_MainActivity.this, PasswordActivity.class);
                 startActivity(intent_in);
-                finish();
             }
         }
 
