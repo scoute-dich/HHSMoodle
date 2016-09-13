@@ -278,6 +278,52 @@ public class HHS_MainScreen extends AppCompatActivity {
             startActivity(intent_in);
         }
 
+        if (id == R.id.action_shortcut) {
+            final CharSequence[] options = {
+                    getString(R.string.bookmark_createNotification),
+                    getString(R.string.bookmark_createNote)};
+
+            new AlertDialog.Builder(HHS_MainScreen.this)
+                    .setItems(options, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int item) {
+
+                            if (options[item].equals (getString(R.string.bookmark_createNote))) {
+                                Intent i = new Intent(getApplicationContext(), de.baumann.hhsmoodle.HHS_Note.class);
+
+                                Intent shortcut = new Intent();
+                                shortcut.setAction(Intent.ACTION_MAIN);
+                                shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, i);
+                                shortcut.putExtra("android.intent.extra.shortcut.INTENT", i);
+                                shortcut.putExtra("android.intent.extra.shortcut.NAME", "THE NAME OF SHORTCUT TO BE SHOWN");
+                                shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, (getString(R.string.bookmark_createNote)));
+                                shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
+                                        Intent.ShortcutIconResource.fromContext(getApplicationContext(), R.mipmap.ic_note));
+                                shortcut.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+                                sendBroadcast(shortcut);
+                                Snackbar.make(viewPager, R.string.toast_shortcut, Snackbar.LENGTH_LONG).show();
+                            }
+
+                            if (options[item].equals (getString(R.string.bookmark_createNotification))) {
+                                Intent i = new Intent(getApplicationContext(), de.baumann.hhsmoodle.Notes_MainActivity.class);
+
+                                Intent shortcut = new Intent();
+                                shortcut.setAction(Intent.ACTION_MAIN);
+                                shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, i);
+                                shortcut.putExtra("android.intent.extra.shortcut.INTENT", i);
+                                shortcut.putExtra("android.intent.extra.shortcut.NAME", "THE NAME OF SHORTCUT TO BE SHOWN");
+                                shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, (getString(R.string.bookmark_createNotification)));
+                                shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
+                                        Intent.ShortcutIconResource.fromContext(getApplicationContext(), R.mipmap.ic_notification));
+                                shortcut.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+                                sendBroadcast(shortcut);
+                                Snackbar.make(viewPager, R.string.toast_shortcut, Snackbar.LENGTH_LONG).show();
+                            }
+
+                        }
+                    }).show();
+        }
+
         return super.onOptionsItemSelected(item);
     }
 

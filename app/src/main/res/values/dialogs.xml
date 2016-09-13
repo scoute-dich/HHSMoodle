@@ -36,6 +36,8 @@
 
         &lt;b>v 1.0.4:&lt;/b>&lt;br>
         &#8226; improved password protection&lt;br>
+        &#8226; Optional: swipe to navigate&lt;br>
+        &#8226; problems dialog in settings&lt;br>
         &#8226; create shortcuts on home screen&lt;br>&lt;br>
 
         &lt;b>v 1.0.3:&lt;/b>&lt;br>
@@ -83,7 +85,7 @@
 
     <string name="helpMain_text">
 
-        &lt;b>My Moodle | Bookmarks&lt;/b>&lt;br>&lt;br>
+        &lt;b>Tabs: My Moodle | Bookmarks&lt;/b>&lt;br>&lt;br>
 
         &lt;i>The tabs:&lt;/i>&lt;br>
         In the left tab you can open your personal Moodle sites and in the middle tab you can see your bookmarks.&lt;br>&lt;br>
@@ -95,7 +97,7 @@
         above the list.&lt;br>
         From this popup menu you can also create a new note, notification or a shortcut on your \"Home screen\".&lt;br>&lt;br>&lt;br>&lt;br>&lt;br>&lt;br>
 
-        &lt;b>Notes tab&lt;/b>&lt;br>&lt;br>
+        &lt;b>Tab: Notes&lt;/b>&lt;br>&lt;br>
 
         &lt;i>Important:&lt;/i>&lt;br>
         Always when you edit an existing note, the note will be deleted. Always save your note in the \"Notes editor\",
@@ -113,7 +115,8 @@
 
         &lt;b>Menu&lt;/b>&lt;br>&lt;br>
         From the main screen you can create a new note, reach your notifications, open the app directory (where the downloaded
-        files will be saved), enter the settings screen or create a new note.</string>
+        files will be saved), enter the settings screen or create a new note. You can also create a shortcut on your \"Home screen\"
+        to create new notes or notifications faster.</string>
 
 
     <string name="helpNotes_text">

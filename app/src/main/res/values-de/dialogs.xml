@@ -37,6 +37,8 @@
 
         &lt;b>v 1.0.4:&lt;/b>&lt;br>
         &#8226; Passwortschutz verbessert&lt;br>
+        &#8226; Optional: wischen zum Navigieren&lt;br>
+        &#8226; Problemdialog in den Einstellungen&lt;br>
         &#8226; Verknüpfungen auf Homescreen erstellen&lt;br>&lt;br>
 
         &lt;b>v 1.0.3:&lt;/b>&lt;br>
@@ -86,7 +88,7 @@
 
 
     <string name="helpMain_text">
-        &lt;b>Mein Moodle | Lesezeichen&lt;/b>&lt;br>&lt;br>
+        &lt;b>Tabs: Mein Moodle | Lesezeichen&lt;/b>&lt;br>&lt;br>
 
         &lt;i>Die Tabs:&lt;/i>&lt;br>
         Im linken Tab kannst du deine persönlichen Moodleseiten aufrufen und im mittleren Tab werden deine Lesezeichen
@@ -101,7 +103,7 @@
         Du kannst aus dem Popup-Menü heraus außerdem eine neue Notiz, eine neue Benachrichtigung oder eine Verknüpfung auf deinem
         \"Homescreen\" erstellen.&lt;br>&lt;br>&lt;br>
 
-        &lt;b>Notizentab&lt;/b>&lt;br>&lt;br>
+        &lt;b>Tab: Notizen&lt;/b>&lt;br>&lt;br>
 
         &lt;i>Wichtig:&lt;/i>&lt;br>
         Immer wenn du eine bestehende Notiz bearbeitest, wird die Notiz gelöscht. Speichere deshalb im \"Bearbeiten Fenster\"
@@ -120,7 +122,9 @@
 
         &lt;b>Menü&lt;/b>&lt;br>&lt;br>
         Du kannst von hier zu deinen Benachrichtungen wechseln, den Anwendungsordner öffnen
-        (dort werden heruntergeladene Dateien gespeichert), die Einstellungen erreichen oder eine neue Notiz erstellen.</string>
+        (dort werden heruntergeladene Dateien gespeichert), die Einstellungen erreichen oder eine neue Notiz erstellen.
+        Du kannst außerdem eine Verknüpfung auf deinem \"Homescreen\" erstellen, um schnell eine neue Notiz oder Benachrichtigung
+        zu erstellen.</string>
 
     <string name="helpNotes_text">
         Hier kannst du neue Notizen erstellen, oder bestehende bearbeiten. Wenn du fertig bist, den \"Speichern Knopf\"

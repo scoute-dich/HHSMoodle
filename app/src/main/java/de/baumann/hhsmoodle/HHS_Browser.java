@@ -162,6 +162,27 @@ public class HHS_Browser extends AppCompatActivity  {
             mWebView.getSettings().setJavaScriptEnabled(true);
         }
 
+        if (sharedPref.getBoolean ("swipe", false)){
+            mWebView.setOnTouchListener(new OnSwipeTouchListener(HHS_Browser.this) {
+
+                public void onSwipeRight() {
+                    if (mWebView.canGoBack()) {
+                        mWebView.goBack();
+                    } else {
+                        Snackbar.make(mWebView, R.string.toast_back, Snackbar.LENGTH_LONG).show();
+                    }
+                }
+
+                public void onSwipeLeft() {
+                    if (mWebView.canGoForward()) {
+                        mWebView.goForward();
+                    } else {
+                        Snackbar.make(mWebView, R.string.toast_forward, Snackbar.LENGTH_LONG).show();
+                    }
+                }
+            });
+        }
+
         mWebView.setWebViewClient(new WebViewClient() {
 
             public void onPageFinished(WebView view, String url) {
@@ -305,25 +326,6 @@ public class HHS_Browser extends AppCompatActivity  {
                             }
                         });
                 snackbar.show();
-            }
-        });
-
-        mWebView.setOnTouchListener(new OnSwipeTouchListener(HHS_Browser.this) {
-
-            public void onSwipeRight() {
-                if (mWebView.canGoBack()) {
-                    mWebView.goBack();
-                } else {
-                    Snackbar.make(mWebView, R.string.toast_back, Snackbar.LENGTH_LONG).show();
-                }
-            }
-
-            public void onSwipeLeft() {
-                if (mWebView.canGoForward()) {
-                    mWebView.goForward();
-                } else {
-                    Snackbar.make(mWebView, R.string.toast_forward, Snackbar.LENGTH_LONG).show();
-                }
             }
         });
 

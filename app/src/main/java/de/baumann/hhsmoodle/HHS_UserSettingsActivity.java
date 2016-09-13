@@ -14,8 +14,12 @@ import android.text.Html;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -162,6 +166,64 @@ public class HHS_UserSettingsActivity extends AppCompatActivity {
             });
         }
 
+        private void addProblemsListener() {
+
+            final Activity activity = getActivity();
+            Preference reset = findPreference("problem");
+
+            reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference pref) {
+
+                    SpannableString s;
+                    s = new SpannableString(Html.fromHtml(getString(R.string.action_clearSettings_dialog)));
+
+                    Linkify.addLinks(s, Linkify.WEB_URLS);
+
+                    final LinearLayout layout = new LinearLayout(getActivity());
+                    layout.setOrientation(LinearLayout.VERTICAL);
+                    layout.setGravity(Gravity.CENTER_HORIZONTAL);
+                    final EditText input = new EditText(getActivity());
+                    input.setSingleLine(false);
+                    layout.setPadding(30, 0, 50, 0);
+                    layout.addView(input);
+
+                    final AlertDialog.Builder dialog2 = new AlertDialog.Builder(getActivity())
+                            .setView(layout)
+                            .setMessage(R.string.action_problem_text)
+                            .setPositiveButton(R.string.action_problem_button, new DialogInterface.OnClickListener() {
+
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    Log.i("Send email", "");
+
+                                    String[] TO = {"juergen.baumann@huebsch.karlsruhe.de"};
+                                    String text = input.getText().toString().trim();
+                                    Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                                    emailIntent.setData(Uri.parse("mailto:"));
+                                    emailIntent.setType("text/plain");
+
+                                    emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
+                                    emailIntent.putExtra(Intent.EXTRA_SUBJECT, "HHS Moodle");
+                                    emailIntent.putExtra(Intent.EXTRA_TEXT, text);
+
+                                    try {
+                                        startActivity(Intent.createChooser(emailIntent, getString(R.string.note_share_3)));
+                                    } catch (android.content.ActivityNotFoundException ex) {
+                                        Toast.makeText(activity, R.string.toast_install_mail, Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            })
+                            .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    dialog.cancel();
+                                }
+                            });
+                    dialog2.show();
+                    return true;
+                }
+            });
+        }
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -171,6 +233,7 @@ public class HHS_UserSettingsActivity extends AppCompatActivity {
             addChangelogListener();
             addOpenSettingsListener();
             addClearSettingsListener();
+            addProblemsListener();
         }
     }
 

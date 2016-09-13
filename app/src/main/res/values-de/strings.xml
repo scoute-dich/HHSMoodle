@@ -107,6 +107,15 @@
     <string name="action_protect_summary">Bestimme ein Passwort um die App vor unbefugtem Zugriff zu schützen. Leer lassen, wenn
         du die App nicht schützen willst (eigenes Risiko).</string>
 
+    <string name="action_swipe">Wischen</string>
+    <string name="action_swipe_summary">Nach rechts und links wischen um durch Webseiten zu navigieren.</string>
+
+    <string name="action_problem">Probleme?</string>
+    <string name="action_problem_summary">Wenn du mit der App (oder unserem Moodle) Probleme oder Verbesserungsvorschläge hast, kannst
+        du mir eine Email schicken (Oder einfach einen Fehlerbericht auf Github einreichen.).</string>
+    <string name="action_problem_button">Email senden</string>
+    <string name="action_problem_text">Bitte Emailtext eingeben:</string>
+
 
     // Moodle
 
@@ -147,6 +156,8 @@
     <string name="toast_forward">Kann nächste Seite nicht laden.</string>
     <string name="toast_save">Änderungen vor dem Verlasssen speichern?</string>
     <string name="toast_wrongPW">Uuups. Falsches Passwort.</string>
+    <string name="toast_shortcut">Verknüpfung erfolgreich erstellt.</string>
+    <string name="toast_install_mail">Bitte eine Emailapp installieren.</string>
 
 
     // Bookmarks
@@ -172,6 +183,7 @@
     <string name="note_set_not">Erstelle Benachrichtigung</string>
     <string name="note_share">Teile Notiz</string>
     <string name="note_share_2">Notiz teilen mit:</string>
+    <string name="note_share_3">Email senden mit:</string>
     <string name="note_saved">Notiz erfolgreich gespeichert.</string>
 
 

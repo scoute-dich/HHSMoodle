@@ -104,6 +104,15 @@
     <string name="action_protect_summary">Set a password to protect app against unwanted access. Let empty, if you do not want
     to protect the app (own risk).</string>
 
+    <string name="action_swipe">Swipe</string>
+    <string name="action_swipe_summary">Swipe left or right to navigate through websites.</string>
+
+    <string name="action_problem">Problems?</string>
+    <string name="action_problem_summary">If you have problems with the app (or our Moodle) or suggestions for improvements, you can
+        send me a mail (or just open an issue on Github).</string>
+    <string name="action_problem_button">Send mail</string>
+    <string name="action_problem_text">Please enter mail text:</string>
+
 
     // Moodle
 
@@ -144,6 +153,8 @@
     <string name="toast_forward">Can not go forward.</string>
     <string name="toast_save">Save changes before leaving?</string>
     <string name="toast_wrongPW">Uuups. Wrong password.</string>
+    <string name="toast_shortcut">Shortcut successfully created.</string>
+    <string name="toast_install_mail">Please install a mail client.</string>
 
 
     // Bookmarks
@@ -169,6 +180,7 @@
     <string name="note_set_not">Create note</string>
     <string name="note_share">Share note</string>
     <string name="note_share_2">Share note using:</string>
+    <string name="note_share_3">Send mail using:</string>
     <string name="note_saved">Successfully saved note.</string>
 
 

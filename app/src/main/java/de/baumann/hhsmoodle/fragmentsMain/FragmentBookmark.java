@@ -214,6 +214,7 @@ public class FragmentBookmark extends Fragment {
                                     shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(getActivity().getApplicationContext(), R.mipmap.ic_launcher));
                                     shortcut.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
                                     getActivity().sendBroadcast(shortcut);
+                                    Snackbar.make(listView, R.string.toast_shortcut, Snackbar.LENGTH_LONG).show();
                                 }
 
                             }

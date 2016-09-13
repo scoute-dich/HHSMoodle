@@ -1,5 +1,7 @@
 ### v 1.0.4
 - improved password protection
+- Optional: swipe to navigate
+- problems dialog in settings
 - create shortcuts on home screen
 
 

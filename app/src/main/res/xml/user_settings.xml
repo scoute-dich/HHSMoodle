@@ -57,6 +57,12 @@
             android:key="links"
             android:defaultValue="true" />
 
+        <CheckBoxPreference
+            android:title="@string/action_swipe"
+            android:summary="@string/action_swipe_summary"
+            android:key="swipe"
+            android:defaultValue="true" />
+
         <Preference
             android:title="@string/action_openSettings"
             android:summary="@string/action_openSettings_summary"
@@ -83,6 +89,11 @@
             android:summary="@string/perm_notShow_title_summary"
             android:key="perm_notShow"
             android:defaultValue="true" />
+
+        <Preference
+            android:title="@string/action_problem"
+            android:summary="@string/action_problem_summary"
+            android:key="problem" />
 
     </PreferenceCategory>
 

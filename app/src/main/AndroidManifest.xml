@@ -67,6 +67,7 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/bookmark_createNote" >
             <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="text/plain" />
@@ -83,6 +84,9 @@
             android:name=".Notes_MainActivity"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
         </activity>
 
         <activity
