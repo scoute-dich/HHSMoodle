@@ -87,10 +87,6 @@
     <string name="action_openSettings_summary">Open the system settings of the app. There you can, depending on your Android version,
         manage several things (Storage, network traffic, permissions, …).</string>
 
-    <string name="action_clearSettings">User settings</string>
-    <string name="action_clearSettings_summary">Clear all personal data of the application. Also your login data …</string>
-    <string name="action_clearSettings_dialog">Do you really ant to clear settings? Application will force close.</string>
-
     <string name="action_tabMain">Main screen</string>
     <string name="action_tabMain_summary">Which tab should be displayed as default on the main screen?</string>
 
@@ -112,6 +108,9 @@
         send me a mail (or just open an issue on Github).</string>
     <string name="action_problem_button">Send mail</string>
     <string name="action_problem_text">Please enter mail text:</string>
+
+    <string name="action_font">Font size</string>
+    <string name="action_font_summary">Change font size for websites.</string>
 
 
     // Moodle
@@ -141,7 +140,6 @@
     <string name="toast_no">No</string>
     <string name="toast_cancel">Cancel</string>
     <string name="toast_notAgain">Never show</string>
-    <string name="toast_clearSettings">Clearing settings …</string>
     <string name="toast_noInternet">Can not load page. No internet connection?</string>
     <string name="toast_download">Downloading file:</string>
     <string name="toast_download_1">Do you want to download:</string>

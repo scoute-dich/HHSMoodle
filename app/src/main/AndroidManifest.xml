@@ -19,7 +19,6 @@
 
         <activity
             android:name="de.baumann.hhsmoodle.helper.SplashActivity"
-            android:windowSoftInputMode="stateAlwaysHidden"
             android:launchMode="singleTask"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
@@ -33,7 +32,6 @@
 
         <activity
             android:name="de.baumann.hhsmoodle.helper.PasswordActivity"
-            android:windowSoftInputMode="stateAlwaysHidden"
             android:launchMode="singleTask"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
@@ -104,6 +102,19 @@
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".helper.Widget_shortcuts" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE">
+
+                </action>
+            </intent-filter>
+
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/widget_shortcuts">
+            </meta-data>
         </receiver>
 
     </application>

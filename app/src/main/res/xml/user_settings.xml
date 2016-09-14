@@ -63,15 +63,18 @@
             android:key="swipe"
             android:defaultValue="true" />
 
+        <ListPreference
+            android:title="@string/action_font"
+            android:summary="@string/action_font_summary"
+            android:key="font"
+            android:defaultValue="100"
+            android:entries="@array/listArrayFont"
+            android:entryValues="@array/listValuesFont" />
+
         <Preference
             android:title="@string/action_openSettings"
             android:summary="@string/action_openSettings_summary"
             android:key="clearCache" />
-
-        <Preference
-            android:title="@string/action_clearSettings"
-            android:summary="@string/action_clearSettings_summary"
-            android:key="clearSettings" />
 
     </PreferenceCategory>
 

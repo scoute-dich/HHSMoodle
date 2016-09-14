@@ -23,4 +23,16 @@
         <item>2</item>
     </string-array>
 
+    <string-array name="listArrayFont">
+        <item>Klein (70%)</item>
+        <item>Normal (100%)</item>
+        <item>Groß (130%)</item>
+    </string-array>
+
+    <string-array name="listValuesFont">
+        <item>70</item>
+        <item>100</item>
+        <item>130</item>
+    </string-array>
+
 </resources>

@@ -35,11 +35,14 @@
         &lt;i>Für mehr Informationen besuche die Projektseite auf Github:&lt;br>
         https://github.com/scoute-dich/HHSMoodle&lt;/i>&lt;br>&lt;br>
 
-        &lt;b>v 1.0.4:&lt;/b>&lt;br>
+        &lt;b>v 1.2:&lt;/b>&lt;br>
+        &#8226; Widget für den Homescreen&lt;br>
+        &#8226; Einstellungen: Schriftgröße&lt;br>
         &#8226; Passwortschutz verbessert&lt;br>
         &#8226; Optional: wischen zum Navigieren&lt;br>
         &#8226; Problemdialog in den Einstellungen&lt;br>
-        &#8226; Verknüpfungen auf Homescreen erstellen&lt;br>&lt;br>
+        &#8226; Verknüpfungen auf Homescreen erstellen&lt;br>
+        &#8226; Kleinere Verbesserungen&lt;br>&lt;br>
 
         &lt;b>v 1.0.3:&lt;/b>&lt;br>
         &#8226; Optional: Passwortschutz&lt;br>&lt;br>
@@ -51,7 +54,7 @@
         &#8226; Links klickbar (Notizen/Benachrichtigungen)&lt;br>
         &#8226; Einstellungen überarbeitet&lt;br>
         &#8226; Notizen/Benachrichtigungen: speichern beim Verlassen&lt;br>
-        &#8226; kleinere Verbesserungen&lt;br>&lt;br>
+        &#8226; Kleinere Verbesserungen&lt;br>&lt;br>
 
         &lt;b>v 1.0:&lt;/b>&lt;br>
         &#8226; erste Version

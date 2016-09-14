@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="56dp"
+    android:background="@color/colorPrimary"
+    tools:ignore="Overdraw">
+
+    <ImageButton
+        android:layout_width="46dp"
+        android:layout_height="46dp"
+        android:id="@+id/imageButton"
+        android:src="@drawable/ic_pencil"
+        android:background="?android:selectableItemBackground"
+        android:scaleType="fitCenter"
+        android:layout_alignTop="@+id/imageButton3"
+        android:layout_toStartOf="@+id/imageButton3"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        tools:ignore="ContentDescription" />
+
+    <ImageButton
+        android:layout_width="46dp"
+        android:layout_height="46dp"
+        android:id="@+id/imageButton2"
+        android:src="@drawable/noti"
+        android:background="?android:selectableItemBackground"
+        android:scaleType="fitCenter"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        tools:ignore="ContentDescription"
+        android:layout_marginEnd="8dp" />
+
+    <ImageButton
+        android:layout_width="46dp"
+        android:layout_height="46dp"
+        android:id="@+id/imageButton3"
+        android:src="@drawable/messageplus"
+        android:background="?android:selectableItemBackground"
+        android:scaleType="fitCenter"
+        android:layout_alignTop="@+id/imageButton2"
+        android:layout_toStartOf="@+id/imageButton2"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        tools:ignore="ContentDescription" />
+
+    <ImageButton
+        android:layout_width="46dp"
+        android:layout_height="46dp"
+        android:id="@+id/imageButton4"
+        android:src="@drawable/ic_star_white_48dp"
+        android:background="?android:selectableItemBackground"
+        android:scaleType="fitCenter"
+        android:layout_marginEnd="8dp"
+        android:layout_alignTop="@+id/imageButton"
+        android:layout_toStartOf="@+id/imageButton"
+        android:layout_marginBottom="8dp"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textSize="24sp"
+        android:id="@+id/textView"
+        android:fontFamily="sans-serif-condensed"
+        android:textColor="@color/abc_primary_text_material_dark"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true"
+        tools:ignore="PrivateResource,RelativeOverlap"
+        android:layout_marginStart="16dp"
+        android:layout_toStartOf="@+id/imageButton4"
+        android:layout_marginEnd="8dp" />
+
+</RelativeLayout>

@@ -161,7 +161,7 @@ public class HHS_MainScreen extends AppCompatActivity {
             public void onClick(View v) {
 
                 final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(HHS_MainScreen.this);
-                String startURL = sharedPref.getString("favoriteURL", "\"https://moodle.huebsch.ka.schule-bw.de/moodle/");
+                String startURL = sharedPref.getString("favoriteURL", "https://moodle.huebsch.ka.schule-bw.de/moodle/");
 
                 Intent intent = new Intent(HHS_MainScreen.this, HHS_Browser.class);
                 intent.putExtra("url", startURL);
@@ -306,6 +306,7 @@ public class HHS_MainScreen extends AppCompatActivity {
 
                             if (options[item].equals (getString(R.string.bookmark_createNotification))) {
                                 Intent i = new Intent(getApplicationContext(), de.baumann.hhsmoodle.Notes_MainActivity.class);
+                                i.setAction(Intent.ACTION_MAIN);
 
                                 Intent shortcut = new Intent();
                                 shortcut.setAction(Intent.ACTION_MAIN);

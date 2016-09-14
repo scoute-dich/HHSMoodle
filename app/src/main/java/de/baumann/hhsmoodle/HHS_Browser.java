@@ -33,7 +33,6 @@ import android.text.SpannableString;
 import android.text.util.Linkify;
 import android.view.ContextMenu;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -96,6 +95,8 @@ public class HHS_Browser extends AppCompatActivity  {
 
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        String fontSizeST = sharedPref.getString("font", "100");
+        int fontSize = Integer.parseInt(fontSizeST);
 
         if (sharedPref.getString("protect_PW", "").length() > 0) {
             if (sharedPref.getBoolean("isOpened", true)) {
@@ -156,6 +157,7 @@ public class HHS_Browser extends AppCompatActivity  {
         mWebView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT); // load online by default
         mWebView.getSettings().setBuiltInZoomControls(true);
         mWebView.getSettings().setDisplayZoomControls(false);
+        mWebView.getSettings().setTextZoom(fontSize);
         registerForContextMenu(mWebView);
 
         if (sharedPref.getBoolean ("java", false)){
@@ -454,18 +456,6 @@ public class HHS_Browser extends AppCompatActivity  {
         } else {
             finish();
         }
-    }
-
-    @Override
-    public boolean onKeyLongPress(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-            if (sharedPref.getBoolean ("longPress", false)){
-                finishAffinity();
-            }
-            return true;
-        }
-        return super.onKeyLongPress(keyCode, event);
     }
 
     @Override

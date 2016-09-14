@@ -125,47 +125,6 @@ public class HHS_UserSettingsActivity extends AppCompatActivity {
             });
         }
 
-        private void addClearSettingsListener() {
-
-            final Activity activity = getActivity();
-            Preference reset = findPreference("clearSettings");
-
-            reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                public boolean onPreferenceClick(Preference pref) {
-
-                    SpannableString s;
-                    s = new SpannableString(Html.fromHtml(getString(R.string.action_clearSettings_dialog)));
-
-                    Linkify.addLinks(s, Linkify.WEB_URLS);
-
-                    final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity())
-                            .setMessage(s)
-                            .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
-
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    try {
-                                        // clearing app data
-                                        Runtime runtime = Runtime.getRuntime();
-                                        runtime.exec("pm clear de.baumann.hhsmoodle");
-
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-                                    Toast.makeText(activity,R.string.toast_clearSettings,Toast.LENGTH_SHORT).show();
-                                }
-                            })
-                            .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    dialog.cancel();
-                                }
-                            });
-                    dialog.show();
-                    return true;
-                }
-            });
-        }
-
         private void addProblemsListener() {
 
             final Activity activity = getActivity();
@@ -173,11 +132,6 @@ public class HHS_UserSettingsActivity extends AppCompatActivity {
 
             reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference pref) {
-
-                    SpannableString s;
-                    s = new SpannableString(Html.fromHtml(getString(R.string.action_clearSettings_dialog)));
-
-                    Linkify.addLinks(s, Linkify.WEB_URLS);
 
                     final LinearLayout layout = new LinearLayout(getActivity());
                     layout.setOrientation(LinearLayout.VERTICAL);
@@ -232,7 +186,6 @@ public class HHS_UserSettingsActivity extends AppCompatActivity {
             addLicenseListener();
             addChangelogListener();
             addOpenSettingsListener();
-            addClearSettingsListener();
             addProblemsListener();
         }
     }

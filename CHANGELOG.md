@@ -1,4 +1,5 @@
 ### v 1.0.4
+- widget for home screen
 - improved password protection
 - Optional: swipe to navigate
 - problems dialog in settings

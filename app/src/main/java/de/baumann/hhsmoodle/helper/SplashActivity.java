@@ -118,7 +118,7 @@ public class SplashActivity extends AppCompatActivity {
                     SplashActivity.this.finish();
                     overridePendingTransition(R.anim.fadein,R.anim.fadeout);
                 }
-            }, 2000);
+            }, 1000);
 
         } else {
             editPassword.setVisibility(View.VISIBLE);

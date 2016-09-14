@@ -23,6 +23,7 @@ import de.baumann.hhsmoodle.helper.PasswordActivity;
 
 @SuppressWarnings("UnusedParameters")
 public class Notes_MainActivity extends AppCompatActivity {
+
     /**
      * Observe changes in notes list and display an alternate view if the list is empty.
      */
@@ -157,6 +158,8 @@ public class Notes_MainActivity extends AppCompatActivity {
         noteListView.setLayoutManager(new LinearLayoutManager(this));
         noteListView.setAdapter(this.notesListAdapter);
 
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.view2);
+
         this.addNoteResult = null;
         //noinspection UnusedAssignment
         EmptyNoteListObserver noteListObserver = new EmptyNoteListObserver(noteListView, findViewById(R.id.empty_text_view));
@@ -165,7 +168,14 @@ public class Notes_MainActivity extends AppCompatActivity {
             sharedPref.edit()
                     .putBoolean("click", false)
                     .apply();
-            FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.view2);
+            assert fab != null;
+            fab.performClick();
+        }
+
+        Intent intent = getIntent();
+        String action = intent.getAction();
+
+        if (Intent.ACTION_MAIN.equals(action)) {
             assert fab != null;
             fab.performClick();
         }

@@ -90,10 +90,6 @@
     <string name="action_openSettings_summary">Öffne die Systemeinstellungen der App. Je nach Android Version kannst du dort
         verschiedene Einstellungen vornehmen (Speicherplatz, Netzwerkverkehr, Berechtigungen, …).</string>
 
-    <string name="action_clearSettings">Persönliche Daten</string>
-    <string name="action_clearSettings_summary">Löscht alle persönlichen Daten der Anwendung. Auch die Logindaten …</string>
-    <string name="action_clearSettings_dialog">Möchtest du wirklich alle Einstellungen löschen? Die Anwendung wird dann beendet.</string>
-
     <string name="action_tabMain">Startschirm</string>
     <string name="action_tabMain_summary">Welcher Tab soll standardmäßig auf dem Startschirm geöffnet werden?</string>
 
@@ -115,6 +111,9 @@
         du mir eine Email schicken (Oder einfach einen Fehlerbericht auf Github einreichen.).</string>
     <string name="action_problem_button">Email senden</string>
     <string name="action_problem_text">Bitte Emailtext eingeben:</string>
+
+    <string name="action_font">Schriftgröße</string>
+    <string name="action_font_summary">Ändere die Schriftgröße für Internetseiten.</string>
 
 
     // Moodle
@@ -144,7 +143,6 @@
     <string name="toast_no">Nein</string>
     <string name="toast_cancel">Abbrechen</string>
     <string name="toast_notAgain">Nicht anzeigen</string>
-    <string name="toast_clearSettings">Einstellungen werden gelöscht …</string>
     <string name="toast_noInternet">Kann Seite nicht laden. Keine Internetverbindung?</string>
     <string name="toast_download">Lade herunter:</string>
     <string name="toast_download_1">Möchtest du herunterladen:</string>
