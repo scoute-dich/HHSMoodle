@@ -10,20 +10,21 @@
         android:layout_width="46dp"
         android:layout_height="46dp"
         android:id="@+id/imageButton"
-        android:src="@drawable/ic_pencil"
+        android:src="@mipmap/w_note"
         android:background="?android:selectableItemBackground"
         android:scaleType="fitCenter"
         android:layout_alignTop="@+id/imageButton3"
         android:layout_toStartOf="@+id/imageButton3"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
-        tools:ignore="ContentDescription" />
+        tools:ignore="ContentDescription"
+        android:padding="6dp" />
 
     <ImageButton
         android:layout_width="46dp"
         android:layout_height="46dp"
         android:id="@+id/imageButton2"
-        android:src="@drawable/noti"
+        android:src="@mipmap/w_not"
         android:background="?android:selectableItemBackground"
         android:scaleType="fitCenter"
         android:layout_centerVertical="true"
@@ -31,33 +32,36 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         tools:ignore="ContentDescription"
-        android:layout_marginEnd="8dp" />
+        android:layout_marginEnd="8dp"
+        android:padding="6dp" />
 
     <ImageButton
         android:layout_width="46dp"
         android:layout_height="46dp"
         android:id="@+id/imageButton3"
-        android:src="@drawable/messageplus"
+        android:src="@mipmap/w_note_plus"
         android:background="?android:selectableItemBackground"
         android:scaleType="fitCenter"
         android:layout_alignTop="@+id/imageButton2"
         android:layout_toStartOf="@+id/imageButton2"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
-        tools:ignore="ContentDescription" />
+        tools:ignore="ContentDescription"
+        android:padding="6dp" />
 
     <ImageButton
         android:layout_width="46dp"
         android:layout_height="46dp"
         android:id="@+id/imageButton4"
-        android:src="@drawable/ic_star_white_48dp"
+        android:src="@mipmap/w_star"
         android:background="?android:selectableItemBackground"
         android:scaleType="fitCenter"
         android:layout_marginEnd="8dp"
         android:layout_alignTop="@+id/imageButton"
         android:layout_toStartOf="@+id/imageButton"
         android:layout_marginBottom="8dp"
-        tools:ignore="ContentDescription" />
+        tools:ignore="ContentDescription"
+        android:padding="6dp" />
 
     <TextView
         android:layout_width="wrap_content"

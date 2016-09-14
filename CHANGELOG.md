@@ -1,4 +1,4 @@
-### v 1.0.4
+### v 1.1
 - widget for home screen
 - improved password protection
 - Optional: swipe to navigate

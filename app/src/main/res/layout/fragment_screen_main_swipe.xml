@@ -5,11 +5,11 @@
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe"
         android:layout_width="match_parent"
-        android:layout_height="275dp" >
+        android:layout_height="200dp" >
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="275dp"
+            android:layout_height="100dp"
             android:id="@+id/imageView_header"
             android:layout_centerHorizontal="true"
             android:src="@drawable/splash1"
@@ -22,7 +22,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentStart="false"
-        android:layout_alignParentLeft="true"
         android:layout_below="@+id/swipe" />
 
 </RelativeLayout>
