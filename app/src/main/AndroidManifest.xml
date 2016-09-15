@@ -29,14 +29,23 @@
             </intent-filter>
         </activity>
 
-
         <activity
             android:name="de.baumann.hhsmoodle.helper.PasswordActivity"
             android:launchMode="singleTask"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name="de.baumann.hhsmoodle.helper.Popup_bookmarks"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.AppCompat.Light.Dialog"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
         </activity>
+
 
         <activity
             android:name=".HHS_Browser"

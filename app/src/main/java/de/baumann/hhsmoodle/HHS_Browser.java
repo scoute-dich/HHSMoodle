@@ -2,7 +2,6 @@ package de.baumann.hhsmoodle;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.content.ActivityNotFoundException;
@@ -10,7 +9,6 @@ import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -20,7 +18,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
@@ -35,7 +32,6 @@ import android.view.ContextMenu;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.DownloadListener;
 import android.webkit.URLUtil;
@@ -50,6 +46,12 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.EditText;
 
+import android.app.Activity;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ListView;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -62,6 +64,7 @@ import java.util.Locale;
 import de.baumann.hhsmoodle.helper.Database_Browser;
 import de.baumann.hhsmoodle.helper.OnSwipeTouchListener;
 import de.baumann.hhsmoodle.helper.PasswordActivity;
+import de.baumann.hhsmoodle.helper.Popup_bookmarks;
 
 @SuppressWarnings("ResultOfMethodCallIgnored")
 public class HHS_Browser extends AppCompatActivity  {
@@ -742,6 +745,13 @@ public class HHS_Browser extends AppCompatActivity  {
             Intent intent_in = new Intent(HHS_Browser.this, HHS_Note.class);
             startActivity(intent_in);
         }
+
+        if (id == R.id.action_bookmark) {
+
+            Intent intent_in = new Intent(HHS_Browser.this, Popup_bookmarks.class);
+            startActivity(intent_in);
+        }
+
         return super.onOptionsItemSelected(item);
     }
 

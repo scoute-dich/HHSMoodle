@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.widget.RemoteViews;
 
-import de.baumann.hhsmoodle.HHS_Browser;
 import de.baumann.hhsmoodle.HHS_MainScreen;
 import de.baumann.hhsmoodle.HHS_Note;
 import de.baumann.hhsmoodle.Notes_MainActivity;
@@ -22,7 +21,6 @@ public class Widget_shortcuts extends AppWidgetProvider {
 
             PreferenceManager.setDefaultValues(context, R.xml.user_settings, false);
             SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-            String startURL = sharedPref.getString("favoriteURL", "https://moodle.huebsch.ka.schule-bw.de/moodle/");
 
             Intent configIntent = new Intent(context, HHS_Note.class);
             PendingIntent configPendingIntent = PendingIntent.getActivity(context, 0, configIntent, 0);
@@ -37,11 +35,9 @@ public class Widget_shortcuts extends AppWidgetProvider {
             Intent configIntent4 = new Intent(context, HHS_MainScreen.class);
             PendingIntent configPendingIntent4 = PendingIntent.getActivity(context, 0, configIntent4, 0);
 
-            Intent configIntent5 = new Intent(context, HHS_Browser.class);
+            Intent configIntent5 = new Intent(context, Popup_bookmarks.class);
 
             configIntent5.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-            configIntent5.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-            configIntent5.putExtra("url", startURL);
             PendingIntent configPendingIntent5 = PendingIntent.getActivity(context, 0, configIntent5, 0);
 
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_shortcuts);

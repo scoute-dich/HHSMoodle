@@ -17,17 +17,23 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/action_share"
+        android:id="@+id/action_bookmark"
         android:orderInCategory="100"
-        android:title="@string/menu_share"
-        android:icon="@drawable/ic_share"
+        android:title="@string/title_bookmarks"
+        android:icon="@drawable/ic_bookmark"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_saveBookmark"
         android:orderInCategory="100"
         android:title="@string/menu_bookmark"
-        android:icon="@drawable/ic_bookmark"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_share"
+        android:orderInCategory="100"
+        android:title="@string/menu_share"
+        android:icon="@drawable/ic_share"
         app:showAsAction="ifRoom" />
 
     <item
@@ -41,5 +47,7 @@
         android:orderInCategory="100"
         android:title="@string/menu_help"
         app:showAsAction="never" />
+
+
 
 </menu>

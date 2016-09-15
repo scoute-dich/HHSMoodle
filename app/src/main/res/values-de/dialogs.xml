@@ -76,9 +76,9 @@
         eine Seite nach vorne zu gelangen.&lt;br>&lt;br>
 
         &lt;i>Menu:&lt;/i>&lt;br>
-        Du kannst eine neue Notiz oder eine Benachrichtigung erstellen. Du kannst die aktuelle Moodleseite als Bildschirmfoto
-        oder nur den Link teilen. Du kannst die Seite als Lesezeichen zum Startschirm hinzufügen und du kannst direkt das
-        Anwendungsverzeichnis öffnen.&lt;br>&lt;br>
+        Du kannst eine neue Notiz oder eine Benachrichtigung erstellen und deine Lesezeichen aufrufen. Du kannst die aktuelle
+        Moodleseite als Bildschirmfoto oder nur den Link teilen. Du kannst die Seite als Lesezeichen zum Startschirm
+        hinzufügen und du kannst direkt das Anwendungsverzeichnis öffnen.&lt;br>&lt;br>
 
         &lt;i>Lesezeichen speichern:&lt;/i>&lt;br>
         Um ein Lesezeichen zu speichern einfach das Icon in der Toolbar drücken. Wenn du das Icon gedrückt hast, erscheint ein
@@ -158,9 +158,11 @@
         Manche Einstellungen werden erst bei einem Neustart der Anwendung wirksam.</string>
 
 
+    <string name="dialog_help_title">HHS Moodle - kurze Enführung</string>
     <string name="dialog_help">
         Du erreichst einen kurzen Hilfe Dialog auf jedem Schirm, indem du \"Menu -> Hilfe\" drückst. Es wird empfohlen die App
-        mit einem Passwort zu schützen. Dies kann in den Einstellungen vorgenommen werden.</string>
+        mit einem Passwort zu schützen. Dies und andere Einstellungen erreichst du über das Menü. Du kannst
+        deinem \"Homescreen\" ein Widget hinzufügen, um einen schnellen Zugriff auf alle Funktionen der App zu erhalten.</string>
 
 
     <string name="perm_notShow_title">Berechtigungsdialog</string>
