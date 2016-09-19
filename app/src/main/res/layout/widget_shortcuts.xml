@@ -7,75 +7,60 @@
     tools:ignore="Overdraw">
 
     <ImageButton
-        android:layout_width="46dp"
-        android:layout_height="46dp"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:id="@+id/imageButton"
-        android:src="@mipmap/w_note"
+        android:src="@mipmap/ic_launcher"
         android:background="?android:selectableItemBackground"
         android:scaleType="fitCenter"
-        android:layout_alignTop="@+id/imageButton3"
-        android:layout_toStartOf="@+id/imageButton3"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
         tools:ignore="ContentDescription"
-        android:padding="6dp" />
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/imageButton2" />
 
     <ImageButton
-        android:layout_width="46dp"
-        android:layout_height="46dp"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:id="@+id/imageButton2"
-        android:src="@mipmap/w_not"
+        android:src="@mipmap/ic_bookmark"
         android:background="?android:selectableItemBackground"
         android:scaleType="fitCenter"
-        android:layout_centerVertical="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
         tools:ignore="ContentDescription"
-        android:layout_marginEnd="8dp"
-        android:padding="6dp" />
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/imageButton3" />
 
     <ImageButton
-        android:layout_width="46dp"
-        android:layout_height="46dp"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:id="@+id/imageButton3"
-        android:src="@mipmap/w_note_plus"
+        android:src="@mipmap/ic_note"
         android:background="?android:selectableItemBackground"
         android:scaleType="fitCenter"
-        android:layout_alignTop="@+id/imageButton2"
-        android:layout_toStartOf="@+id/imageButton2"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
         tools:ignore="ContentDescription"
-        android:padding="6dp" />
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/imageButton4" />
 
     <ImageButton
-        android:layout_width="46dp"
-        android:layout_height="46dp"
+        tools:ignore="ContentDescription"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:id="@+id/imageButton4"
-        android:src="@mipmap/w_star"
+        android:src="@mipmap/ic_note_plus"
         android:background="?android:selectableItemBackground"
         android:scaleType="fitCenter"
-        android:layout_marginEnd="8dp"
-        android:layout_alignTop="@+id/imageButton"
-        android:layout_toStartOf="@+id/imageButton"
-        android:layout_marginBottom="8dp"
-        tools:ignore="ContentDescription"
-        android:padding="6dp" />
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/app_name"
+        android:text="@string/app_name_short"
         android:textSize="24sp"
         android:id="@+id/textView"
         android:fontFamily="sans-serif-condensed"
         android:textColor="@color/abc_primary_text_material_dark"
+        tools:ignore="PrivateResource,RelativeOverlap"
         android:layout_centerVertical="true"
         android:layout_alignParentStart="true"
-        tools:ignore="PrivateResource,RelativeOverlap"
-        android:layout_marginStart="16dp"
-        android:layout_toStartOf="@+id/imageButton4"
-        android:layout_marginEnd="8dp" />
+        android:layout_marginLeft="16dp" />
 
 </RelativeLayout>

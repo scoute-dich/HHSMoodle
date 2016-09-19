@@ -1,21 +1,16 @@
-package de.baumann.hhsmoodle.fragmentsMain;
+package de.baumann.hhsmoodle.popup;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
 
 import de.baumann.hhsmoodle.HHS_Browser;
@@ -23,14 +18,11 @@ import de.baumann.hhsmoodle.HHS_Note;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.helper.CustomListAdapter;
 
-
-public class FragmentInfo extends Fragment {
-
-    private ListView listView;
+public class Popup_info extends Activity {
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         final String[] itemTITLE ={
                 getString(R.string.text_tit_1),
@@ -54,7 +46,7 @@ public class FragmentInfo extends Fragment {
                 "https://startpage.com/",
         };
 
-            final String[] itemDES ={
+        final String[] itemDES ={
                 getString(R.string.text_des_1),
                 getString(R.string.text_des_2),
                 getString(R.string.text_des_8),
@@ -76,18 +68,10 @@ public class FragmentInfo extends Fragment {
                 R.drawable.ic_magnify_grey600_48dp,
         };
 
-        View rootView = inflater.inflate(R.layout.fragment_screen_main, container, false);
-
-        ImageView imgHeader = (ImageView) rootView.findViewById(R.id.imageView_header);
-        if(imgHeader != null) {
-            TypedArray images = getResources().obtainTypedArray(R.array.splash_images);
-            int choice = (int) (Math.random() * images.length());
-            imgHeader.setImageResource(images.getResourceId(choice, R.drawable.splash1));
-            images.recycle();
-        }
-
-        CustomListAdapter adapter=new CustomListAdapter(getActivity(), itemTITLE, itemURL, itemDES, imgid);
-        listView = (ListView)rootView.findViewById(R.id.bookmarks);
+        setContentView(R.layout.activity_popup);
+        
+        CustomListAdapter adapter=new CustomListAdapter(Popup_info.this, itemTITLE, itemURL, itemDES, imgid);
+        ListView listView = (ListView) findViewById(R.id.dialogList);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -97,9 +81,10 @@ public class FragmentInfo extends Fragment {
                                     int position, long id) {
                 // TODO Auto-generated method stub
                 String Selecteditem= itemURL[+position];
-                Intent intent = new Intent(getActivity(), HHS_Browser.class);
+                Intent intent = new Intent(Popup_info.this, HHS_Browser.class);
                 intent.putExtra("url", Selecteditem);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -114,18 +99,18 @@ public class FragmentInfo extends Fragment {
                         getString(R.string.bookmark_createNote),
                         getString(R.string.bookmark_createShortcut),
                         getString(R.string.bookmark_createEvent)};
-                new AlertDialog.Builder(getActivity())
+                new AlertDialog.Builder(Popup_info.this)
                         .setItems(options, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int item) {
 
                                 if (options[item].equals (getString(R.string.bookmark_edit_fav))) {
-                                    final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                                    final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(Popup_info.this);
                                     sharedPref.edit()
                                             .putString("favoriteURL", url)
                                             .putString("favoriteTitle", title)
                                             .apply();
-                                    Snackbar.make(listView, R.string.bookmark_setFav, Snackbar.LENGTH_LONG).show();
+                                    finish();
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createEvent))) {
@@ -134,18 +119,20 @@ public class FragmentInfo extends Fragment {
                                     calIntent.setType("vnd.android.cursor.item/event");
                                     calIntent.putExtra(CalendarContract.Events.TITLE, title);
                                     startActivity(calIntent);
+                                    finish();
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createNote))) {
 
-                                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(Popup_info.this);
                                     sharedPref.edit()
                                             .putString("handleTextTitle", title)
                                             .putString("handleTextText", url)
                                             .apply();
 
-                                    Intent intent_in = new Intent(getActivity(), HHS_Note.class);
+                                    Intent intent_in = new Intent(Popup_info.this, HHS_Note.class);
                                     startActivity(intent_in);
+                                    finish();
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createShortcut))) {
@@ -158,10 +145,10 @@ public class FragmentInfo extends Fragment {
                                     shortcut.putExtra("android.intent.extra.shortcut.INTENT", i);
                                     shortcut.putExtra("android.intent.extra.shortcut.NAME", "THE NAME OF SHORTCUT TO BE SHOWN");
                                     shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, title);
-                                    shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(getActivity().getApplicationContext(), R.mipmap.ic_launcher));
+                                    shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(Popup_info.this.getApplicationContext(), R.mipmap.ic_launcher));
                                     shortcut.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
-                                    getActivity().sendBroadcast(shortcut);
-                                    Snackbar.make(listView, R.string.toast_shortcut, Snackbar.LENGTH_LONG).show();
+                                    Popup_info.this.sendBroadcast(shortcut);
+                                    finish();
                                 }
 
 
@@ -172,6 +159,5 @@ public class FragmentInfo extends Fragment {
             }
         });
 
-        return rootView;
     }
 }

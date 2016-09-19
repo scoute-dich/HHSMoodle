@@ -50,7 +50,6 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ListView;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -64,7 +63,7 @@ import java.util.Locale;
 import de.baumann.hhsmoodle.helper.Database_Browser;
 import de.baumann.hhsmoodle.helper.OnSwipeTouchListener;
 import de.baumann.hhsmoodle.helper.PasswordActivity;
-import de.baumann.hhsmoodle.helper.Popup_bookmarks;
+import de.baumann.hhsmoodle.popup.Popup_bookmarks;
 
 @SuppressWarnings("ResultOfMethodCallIgnored")
 public class HHS_Browser extends AppCompatActivity  {
@@ -580,6 +579,16 @@ public class HHS_Browser extends AppCompatActivity  {
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        if (sharedPref.getBoolean ("help", false)){
+            menu.getItem(5).setVisible(false); // here pass the index of save menu item
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_browser, menu);
@@ -656,20 +665,6 @@ public class HHS_Browser extends AppCompatActivity  {
                     .setMessage(s)
                     .setPositiveButton(getString(R.string.toast_yes), null);
             dialog.show();
-        }
-
-        if (id == R.id.action_notifications) {
-
-            final String title = mWebView.getTitle();
-
-            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-            sharedPref.edit()
-                    .putString("noteTitle", title)
-                    .putBoolean("click", true)
-                    .apply();
-
-            Intent intent_in = new Intent(this, Notes_MainActivity.class);
-            startActivity(intent_in);
         }
 
         if (id == R.id.action_share) {

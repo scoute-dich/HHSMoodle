@@ -5,7 +5,6 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
 
     <application
@@ -30,16 +29,29 @@
         </activity>
 
         <activity
-            android:name="de.baumann.hhsmoodle.helper.PasswordActivity"
+            android:name=".popup.Popup_bookmarks"
             android:launchMode="singleTask"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppThemeDialog"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
 
         <activity
-            android:name="de.baumann.hhsmoodle.helper.Popup_bookmarks"
+            android:name=".popup.Popup_notes"
             android:launchMode="singleTask"
-            android:theme="@style/Theme.AppCompat.Light.Dialog"
+            android:theme="@style/AppThemeDialog"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".popup.Popup_info"
+            android:launchMode="singleTask"
+            android:theme="@style/AppThemeDialog"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -63,12 +75,6 @@
         </activity>
 
         <activity
-            android:name=".HHS_MainScreen"
-            android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-
-        <activity
             android:name=".HHS_Note"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar"
@@ -81,47 +87,31 @@
             </intent-filter>
         </activity>
 
-
         <activity
             android:name=".HHS_UserSettingsActivity"
             android:launchMode="singleTask"
             android:label="@string/app_name" />
 
         <activity
-            android:name=".Notes_MainActivity"
+            android:name="de.baumann.hhsmoodle.helper.PasswordActivity"
             android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
-        </activity>
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name=".Notes_AddNoteActivity"
+            android:name=".HHS_MainScreen"
             android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:label="@string/new_note" >
-        </activity>
-
-        <service android:name=".Notes_NotificationService" />
-
-        <receiver
-            android:name=".Notes_BootCompletedReceiver"
-            android:permission="android.permission.RECEIVE_BOOT_COMPLETED" >
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <receiver
             android:name=".helper.Widget_shortcuts" >
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE">
-
-                </action>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
 
-            <meta-data android:name="android.appwidget.provider"
+            <meta-data
+                android:name="android.appwidget.provider"
                 android:resource="@xml/widget_shortcuts">
             </meta-data>
         </receiver>

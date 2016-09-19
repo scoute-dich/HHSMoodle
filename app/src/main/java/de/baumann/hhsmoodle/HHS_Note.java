@@ -2,6 +2,7 @@ package de.baumann.hhsmoodle;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -16,7 +17,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import de.baumann.hhsmoodle.helper.Database_Notes;
 import de.baumann.hhsmoodle.helper.PasswordActivity;
@@ -25,14 +28,15 @@ public class HHS_Note extends AppCompatActivity {
 
     private EditText titleInput;
     private EditText textInput;
+    private TextView textPri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.notes_activity_add_note);
+        setContentView(R.layout.activity_note);
 
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         setTitle(R.string.note_edit);
 
         if (sharedPref.getString("protect_PW", "").length() > 0) {
@@ -44,6 +48,19 @@ public class HHS_Note extends AppCompatActivity {
 
         titleInput = (EditText) findViewById(R.id.note_title_input);
         textInput = (EditText) findViewById(R.id.note_text_input);
+        textPri = (TextView) findViewById(R.id.textPri);
+
+        String priority = sharedPref.getString("handleTextIcon", "");
+
+        if (priority.isEmpty()) {
+            textPri.setText(R.string.note_priority_0);
+        } else if (priority.equals("!")) {
+            textPri.setText(R.string.note_priority_1);
+        } else if (priority.equals("!!")) {
+            textPri.setText(R.string.note_priority_2);
+        } else  {
+            textPri.setText(R.string.note_priority_3);
+        }
 
         titleInput.setText(sharedPref.getString("handleTextTitle", ""));
         titleInput.setSelection(titleInput.getText().length());
@@ -128,6 +145,38 @@ public class HHS_Note extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
+        Button b = (Button) findViewById(R.id.button);
+        assert b != null;
+        String buttonText = getString(R.string.note_priority) + ":";
+        b.setText(buttonText);
+        b.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+
+                final CharSequence[] options = {
+                        getString(R.string.note_priority_0),
+                        getString(R.string.note_priority_1),
+                        getString(R.string.note_priority_2),
+                        getString(R.string.note_priority_3)};
+                new AlertDialog.Builder(HHS_Note.this)
+                        .setItems(options, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int item) {
+                                if (options[item].equals(getString(R.string.note_priority_0))) {
+                                    textPri.setText(getString(R.string.note_priority_0));
+                                } else if (options[item].equals(getString(R.string.note_priority_1))) {
+                                    textPri.setText(getString(R.string.note_priority_1));
+                                } else if (options[item].equals(getString(R.string.note_priority_2))) {
+                                    textPri.setText(getString(R.string.note_priority_2));
+                                } else  {
+                                    textPri.setText(getString(R.string.note_priority_3));
+                                }
+                            }
+                        }).show();
+            }
+        });
+
         Intent intent = getIntent();
         String action = intent.getAction();
         String type = intent.getType();
@@ -182,6 +231,16 @@ public class HHS_Note extends AppCompatActivity {
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        if (sharedPref.getBoolean ("help", false)){
+            menu.getItem(1).setVisible(false); // here pass the index of save menu item
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_add_note, menu);
@@ -232,7 +291,20 @@ public class HHS_Note extends AppCompatActivity {
                 final Database_Notes db = new Database_Notes(HHS_Note.this);
                 String inputTitle = titleInput.getText().toString().trim();
                 String inputContent = textInput.getText().toString().trim();
-                db.addBookmark(inputTitle, inputContent);
+                String priority = textPri.getText().toString();
+
+                String inputPriority;
+                if (priority.contains(getString(R.string.note_priority_0))) {
+                    inputPriority = "";
+                } else if (priority.contains(getString(R.string.note_priority_1))) {
+                    inputPriority = "!";
+                } else if (priority.contains(getString(R.string.note_priority_2))) {
+                    inputPriority = "!!";
+                } else {
+                    inputPriority = "!!!";
+                }
+
+                db.addBookmark(inputTitle, inputContent, inputPriority);
                 db.close();
 
             } catch (Exception e) {
@@ -260,6 +332,7 @@ public class HHS_Note extends AppCompatActivity {
         sharedPref.edit()
                 .putString("handleTextTitle", "")
                 .putString("handleTextText", "")
+                .putString("handleTextIcon", "")
                 .apply();
     }
 }

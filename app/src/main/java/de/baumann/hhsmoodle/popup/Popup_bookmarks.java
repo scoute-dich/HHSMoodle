@@ -1,4 +1,4 @@
-package de.baumann.hhsmoodle.fragmentsMain;
+package de.baumann.hhsmoodle.popup;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -6,20 +6,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.CalendarContract;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -29,48 +24,29 @@ import java.util.HashMap;
 
 import de.baumann.hhsmoodle.HHS_Browser;
 import de.baumann.hhsmoodle.HHS_Note;
-import de.baumann.hhsmoodle.Notes_MainActivity;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.helper.Database_Browser;
 
-
-public class FragmentBookmark extends Fragment {
+public class Popup_bookmarks extends Activity {
 
     private ListView listView = null;
-    private SwipeRefreshLayout swipeView;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_screen_main_swipe, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-        ImageView imgHeader = (ImageView) rootView.findViewById(R.id.imageView_header);
-        if(imgHeader != null) {
-            TypedArray images = getResources().obtainTypedArray(R.array.splash_images);
-            int choice = (int) (Math.random() * images.length());
-            imgHeader.setImageResource(images.getResourceId(choice, R.drawable.splash1));
-            images.recycle();
-        }
+        setContentView(R.layout.activity_popup);
 
-        swipeView = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe);
-        assert swipeView != null;
-        swipeView.setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent);
-        swipeView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                setBookmarkList();
-            }
-        });
-
-        listView = (ListView)rootView.findViewById(R.id.bookmarks);
+        listView = (ListView)findViewById(R.id.dialogList);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 @SuppressWarnings("unchecked")
                 HashMap<String,String> map = (HashMap<String,String>)listView.getItemAtPosition(position);
 
-                Intent intent = new Intent(getActivity(), HHS_Browser.class);
+                Intent intent = new Intent(Popup_bookmarks.this, HHS_Browser.class);
                 intent.putExtra("url", map.get("url"));
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -83,10 +59,10 @@ public class FragmentBookmark extends Fragment {
                 final String title = map.get("title");
                 final String url = map.get("url");
 
-                final LinearLayout layout = new LinearLayout(getActivity());
+                final LinearLayout layout = new LinearLayout(Popup_bookmarks.this);
                 layout.setOrientation(LinearLayout.VERTICAL);
                 layout.setGravity(Gravity.CENTER_HORIZONTAL);
-                final EditText input = new EditText(getActivity());
+                final EditText input = new EditText(Popup_bookmarks.this);
                 input.setSingleLine(true);
                 layout.setPadding(30, 0, 50, 0);
                 layout.addView(input);
@@ -95,19 +71,19 @@ public class FragmentBookmark extends Fragment {
                         getString(R.string.bookmark_edit_title),
                         getString(R.string.bookmark_edit_fav),
                         getString(R.string.bookmark_createNote),
-                        getString(R.string.bookmark_createNotification),
                         getString(R.string.bookmark_createShortcut),
+                        getString(R.string.bookmark_createEvent),
                         getString(R.string.bookmark_remove_bookmark)};
-                new AlertDialog.Builder(getActivity())
+                new AlertDialog.Builder(Popup_bookmarks.this)
                         .setItems(options, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int item) {
                                 if (options[item].equals(getString(R.string.bookmark_edit_title))) {
                                     try {
-                                        final Database_Browser db = new Database_Browser(getActivity());
+                                        final Database_Browser db = new Database_Browser(Popup_bookmarks.this);
                                         db.deleteBookmark((Integer.parseInt(seqnoStr)));
                                         input.setText(title);
-                                        final AlertDialog.Builder dialog2 = new AlertDialog.Builder(getActivity())
+                                        final AlertDialog.Builder dialog2 = new AlertDialog.Builder(Popup_bookmarks.this)
                                                 .setView(layout)
                                                 .setMessage(R.string.bookmark_edit_title)
                                                 .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
@@ -117,12 +93,17 @@ public class FragmentBookmark extends Fragment {
                                                         db.addBookmark(inputTag, url);
                                                         db.close();
                                                         setBookmarkList();
+                                                        finish();
                                                     }
                                                 })
                                                 .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
 
                                                     public void onClick(DialogInterface dialog, int whichButton) {
+                                                        db.addBookmark(title, url);
+                                                        db.close();
+                                                        setBookmarkList();
                                                         dialog.cancel();
+                                                        finish();
                                                     }
                                                 });
                                         dialog2.show();
@@ -132,20 +113,28 @@ public class FragmentBookmark extends Fragment {
                                     }
                                 }
 
-
                                 if (options[item].equals (getString(R.string.bookmark_edit_fav))) {
-                                    final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                                    final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(Popup_bookmarks.this);
                                     sharedPref.edit()
                                             .putString("favoriteURL", url)
                                             .putString("favoriteTitle", title)
                                             .apply();
-                                    Snackbar.make(listView, R.string.bookmark_setFav, Snackbar.LENGTH_LONG).show();
+                                    finish();
+                                }
+
+                                if (options[item].equals (getString(R.string.bookmark_createEvent))) {
+
+                                    Intent calIntent = new Intent(Intent.ACTION_INSERT);
+                                    calIntent.setType("vnd.android.cursor.item/event");
+                                    calIntent.putExtra(CalendarContract.Events.TITLE, title);
+                                    startActivity(calIntent);
+                                    finish();
                                 }
 
                                 if (options[item].equals(getString(R.string.bookmark_remove_bookmark))) {
 
                                     try {
-                                        Database_Browser db = new Database_Browser(getActivity());
+                                        Database_Browser db = new Database_Browser(Popup_bookmarks.this);
                                         final int count = db.getRecordCount();
                                         db.close();
 
@@ -161,13 +150,14 @@ public class FragmentBookmark extends Fragment {
                                                         @Override
                                                         public void onClick(View view) {
                                                             try {
-                                                                Database_Browser db = new Database_Browser(getActivity());
+                                                                Database_Browser db = new Database_Browser(Popup_bookmarks.this);
                                                                 db.deleteBookmark(Integer.parseInt(seqnoStr));
                                                                 db.close();
                                                                 setBookmarkList();
                                                             } catch (PackageManager.NameNotFoundException e) {
                                                                 e.printStackTrace();
                                                             }
+                                                            finish();
                                                         }
                                                     });
                                             snackbar.show();
@@ -180,25 +170,15 @@ public class FragmentBookmark extends Fragment {
 
                                 if (options[item].equals (getString(R.string.bookmark_createNote))) {
 
-                                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(Popup_bookmarks.this);
                                     sharedPref.edit()
                                             .putString("handleTextTitle", title)
                                             .putString("handleTextText", url)
                                             .apply();
 
-                                    Intent intent_in = new Intent(getActivity(), HHS_Note.class);
+                                    Intent intent_in = new Intent(Popup_bookmarks.this, HHS_Note.class);
                                     startActivity(intent_in);
-                                }
-
-                                if (options[item].equals (getString(R.string.bookmark_createNotification))) {
-                                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                                    sharedPref.edit()
-                                            .putString("noteTitle", title)
-                                            .putBoolean("click", true)
-                                            .apply();
-
-                                    Intent intent_in = new Intent(getActivity(), Notes_MainActivity.class);
-                                    startActivity(intent_in);
+                                    finish();
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createShortcut))) {
@@ -211,10 +191,10 @@ public class FragmentBookmark extends Fragment {
                                     shortcut.putExtra("android.intent.extra.shortcut.INTENT", i);
                                     shortcut.putExtra("android.intent.extra.shortcut.NAME", "THE NAME OF SHORTCUT TO BE SHOWN");
                                     shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, title);
-                                    shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(getActivity().getApplicationContext(), R.mipmap.ic_launcher));
+                                    shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(Popup_bookmarks.this.getApplicationContext(), R.mipmap.ic_launcher));
                                     shortcut.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
-                                    getActivity().sendBroadcast(shortcut);
-                                    Snackbar.make(listView, R.string.toast_shortcut, Snackbar.LENGTH_LONG).show();
+                                    Popup_bookmarks.this.sendBroadcast(shortcut);
+                                    finish();
                                 }
 
                             }
@@ -223,22 +203,7 @@ public class FragmentBookmark extends Fragment {
                 return true;
             }
         });
-
         setBookmarkList();
-        return rootView;
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case 100:
-                if (resultCode == Activity.RESULT_OK) {
-                    if (data.getIntExtra("updated", 0) == 1) {
-                        setBookmarkList();
-                    }
-                }
-        }
     }
 
     private void setBookmarkList() {
@@ -246,7 +211,7 @@ public class FragmentBookmark extends Fragment {
         ArrayList<HashMap<String,String>> mapList = new ArrayList<>();
 
         try {
-            Database_Browser db = new Database_Browser(getActivity());
+            Database_Browser db = new Database_Browser(Popup_bookmarks.this);
             ArrayList<String[]> bookmarkList = new ArrayList<>();
             db.getBookmarks(bookmarkList);
             if (bookmarkList.size() == 0) {
@@ -264,9 +229,9 @@ public class FragmentBookmark extends Fragment {
             }
 
             SimpleAdapter simpleAdapter = new SimpleAdapter(
-                    getActivity(),
+                    Popup_bookmarks.this,
                     mapList,
-                    R.layout.list_item,
+                    R.layout.list_item_popup,
                     new String[] {"title", "url"},
                     new int[] {R.id.textView_title, R.id.textView_des}
             );
@@ -276,6 +241,5 @@ public class FragmentBookmark extends Fragment {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        swipeView.setRefreshing(false);
     }
 }

@@ -5,6 +5,7 @@
     // Application
 
     <string name="app_name">HHS Moodle</string>
+    <string name="app_name_short">HHS</string>
     <string name="app_permissions">Du musst der App Zugriff auf den Gerätespeicher gewähren, damit Bildschirmfotos und Downloads
         gespeichert werden können. Danach solltest du die Anwendung komplett schließen oder das Telefon neu starten.
         Wenn du den Zugriff verweigerst und die Funktion später doch nutzen willst, kannst du die Berechtigung
@@ -27,7 +28,7 @@
 
     // Tab - Titles
 
-    <string name="title_weatherInfo">Mein Moodle</string>
+    <string name="title_info">Mein Moodle</string>
     <string name="title_bookmarks">Lesezeichen</string>
     <string name="title_notes">Notizen</string>
 
@@ -43,10 +44,8 @@
     <string name="menu_settings">Einstellungen</string>
     <string name="menu_folder">Öffne Anwendungsordner</string>
     <string name="menu_rem">Erstelle Notiz</string>
-    <string name="menu_not">Benachrichtigungen</string>
     <string name="menu_bookmark">Lesezeichen hinzufügen</string>
     <string name="menu_help">Hilfe</string>
-    <string name="menu_shortcut_title">Verknüfung zum Homescreen zufügen:</string>
 
 
     // Context Menu
@@ -94,8 +93,8 @@
     <string name="action_tabMain">Startschirm</string>
     <string name="action_tabMain_summary">Welcher Tab soll standardmäßig auf dem Startschirm geöffnet werden?</string>
 
-    <string name="action_notShow_title">Hilfe Dialog</string>
-    <string name="action_notShow_title_summary">Hilfe Dialog beim Start anzeigen.</string>
+    <string name="action_notShow_title">Einführung</string>
+    <string name="action_notShow_title_summary">Den kurzen Einführungsdialog beim Start anzeigen.</string>
 
     <string name="action_links_title">Links</string>
     <string name="action_links_summary">Links in Notizen und Benachrichtungen hervorheben, dass sie geöffnet werden können.</string>
@@ -115,6 +114,9 @@
 
     <string name="action_font">Schriftgröße</string>
     <string name="action_font_summary">Ändere die Schriftgröße für Internetseiten.</string>
+
+    <string name="action_help">Hilfemenü</string>
+    <string name="action_help_summary">Deaktiviere das Hilfemenü in der gesamten App.</string>
 
 
     // Moodle
@@ -169,7 +171,7 @@
     <string name="bookmark_edit_title">Bearbeite Titel</string>
     <string name="bookmark_edit_fav">Als Favorit speichern</string>
     <string name="bookmark_createNote">Erstelle Notiz</string>
-    <string name="bookmark_createNotification">Erstelle Benachrichtigung</string>
+    <string name="bookmark_createEvent">Erstelle Kalendereintrag</string>
     <string name="bookmark_createShortcut">Erstelle Verknüpfung</string>
 
 
@@ -179,23 +181,17 @@
     <string name="note_remove_cannot">Du brauchst mindestens eine Notiz!</string>
     <string name="note_remove_note">Lösche Notiz</string>
     <string name="note_edit">Notiz bearbeiten</string>
-    <string name="note_set_not">Erstelle Benachrichtigung</string>
     <string name="note_share">Teile Notiz</string>
     <string name="note_share_2">Notiz teilen mit:</string>
     <string name="note_share_3">Email senden mit:</string>
     <string name="note_saved">Notiz erfolgreich gespeichert.</string>
-
-
-    // Notifications
-
+    <string name="note_priority">Dringlichkeit</string>
+    <string name="note_priority_0">Normal</string>
+    <string name="note_priority_1">! Wichtig</string>
+    <string name="note_priority_2">!! Sehr wichtig</string>
+    <string name="note_priority_3">!!! Sofort erledigen</string>
     <string name="save_note_text">Speichern</string>
     <string name="title_hint">Titel</string>
     <string name="text_hint">Inhalt</string>
-    <string name="no_notes">Noch keine Benachrichtigungen vorhanden.</string>
-    <string name="dialog_delete_note">Benachrichtigung löschen</string>
-    <string name="delete">Löschen</string>
-    <string name="cancel">Abbrechen</string>
-    <string name="new_note">Neue Benachrichtigung</string>
-    <string name="edit_note">Benachrichtigung bearbeiten</string>
 
 </resources>

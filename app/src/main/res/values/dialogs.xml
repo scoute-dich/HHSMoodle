@@ -20,10 +20,7 @@
 
         &lt;b>Used open source projects:&lt;/b>&lt;br>&lt;br>
 
-        &lt;i>NotificationNotes&lt;br>
-        https://github.com/khuttun/NotificationNotes&lt;br>&lt;br>
-
-        browser&lt;br>
+        &lt;i>browser&lt;br>
         https://github.com/yoshihiroando/browser&lt;/i>
     </string>
 
@@ -73,7 +70,7 @@
         Swipe down to reload the website. Swipe right to open previous site, swipe left to move forward.&lt;br>&lt;br>
 
         &lt;i>Menu:&lt;/i>&lt;br>
-        You can make a new note or a new notification and rech your bookmarks. You can share the actual moodle site as
+        You can make a new note or a new notification and reach your bookmarks. You can share the actual moodle site as
         screenshot, or only the link. You can also add the actual site as bookmark, to reach it from the main screen and
         you can directly open the app directory.&lt;br>&lt;br>
 
@@ -118,8 +115,8 @@
 
         &lt;b>Menu&lt;/b>&lt;br>&lt;br>
         From the main screen you can create a new note, reach your notifications, open the app directory (where the downloaded
-        files will be saved), enter the settings screen or create a new note. You can also create a shortcut on your \"Home screen\"
-        to create new notes or notifications faster.</string>
+        files will be saved), enter the settings screen or create a new note. You can also create shortcuts
+        on your \"Home screen\" to have a faster access to the main functions of the app.</string>
 
 
     <string name="helpNotes_text">
@@ -128,20 +125,6 @@
         &lt;i>Important:&lt;/i>&lt;br>
         Always when you edit an existing note, the note will be deleted. Always save your note,
         even if you change nothing. Otherwise your note will be lost.</string>
-
-
-    <string name="helpNot_title">Notifications</string>
-    <string name="helpNot_text">
-        &lt;i>Overview:&lt;/i>&lt;br>
-        Here your notifications are shown. You can create a new notification from a note, a Moodle site or by clicking the
-        \"add icon\". If you activate a notification it will be shown in status bar (even after a reboot). You can delete a
-        notification by long clicking.&lt;br>&lt;br>
-
-        &lt;i>Edit notification:&lt;/i>&lt;br>
-        Here you can create new or edit existing notifications. After editing click the \"save button\".&lt;br>&lt;br>
-
-        You can switch back to the main screen by clicking the toolbar
-        or the back arrow.</string>
 
 
     <string name="helpSettings_title">Settings</string>

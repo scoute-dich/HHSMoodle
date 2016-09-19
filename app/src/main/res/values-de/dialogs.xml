@@ -20,10 +20,7 @@
 
         &lt;b>Benutzte quelloffene Projekte:&lt;/b>&lt;br>&lt;br>
 
-        &lt;i>NotificationNotes&lt;br>
-        https://github.com/khuttun/NotificationNotes&lt;br>&lt;br>
-
-        browser&lt;br>
+        &lt;i>browser&lt;br>
         https://github.com/yoshihiroando/browser&lt;/i>
 
     </string>
@@ -126,8 +123,8 @@
         &lt;b>Menü&lt;/b>&lt;br>&lt;br>
         Du kannst von hier zu deinen Benachrichtungen wechseln, den Anwendungsordner öffnen
         (dort werden heruntergeladene Dateien gespeichert), die Einstellungen erreichen oder eine neue Notiz erstellen.
-        Du kannst außerdem eine Verknüpfung auf deinem \"Homescreen\" erstellen, um schnell eine neue Notiz oder Benachrichtigung
-        zu erstellen.</string>
+        Du kannst außerdem Verknüpfungen auf deinem \"Homescreen\" erstellen, um einen schnellen Zugriff auf alle Funktionen
+        der App zu erhalten.</string>
 
     <string name="helpNotes_text">
         Hier kannst du neue Notizen erstellen, oder bestehende bearbeiten. Wenn du fertig bist, den \"Speichern Knopf\"
@@ -136,21 +133,6 @@
         &lt;i>Wichtig:&lt;/i>&lt;br>
         Immer wenn du eine bestehende Notiz bearbeitest, wird die Notiz gelöscht. Speichere deshalb
         immer ab, selbst wenn du nichts veränderst. Sonst ist die Notiz verloren.</string>
-
-
-    <string name="helpNot_title">Benachrichtigungen</string>
-    <string name="helpNot_text">
-        &lt;i>Überblick:&lt;/i>&lt;br>
-        Hier werden deine Benachrichtungen angezeigt. Eine neue Benachrichtigung kannst du aus einer Notiz, aus einer Moodleseite heraus
-        oder über das \"Plus-Symbol\" erstellen. Wenn du eine Benachrichtung aktivierst, wird sie in der Statusleiste
-        angezeigt (auch nach einem Neustart des Telefons). Durch langes Drücken kannst du eine Benachrichtigung löschen.&lt;br>&lt;br>
-
-        &lt;i>Benachrichtigung bearbeiten:&lt;/i>&lt;br>
-        Hier kannst du neue Benachrichtigungen erstellen, oder bestehende bearbeiten. Wenn du fertig bist, den \"Speichern Knopf\"
-        drücken.&lt;br>&lt;br>
-
-        Du kannst zum Startschirm zurückkehren, indem du auf die Titelleiste oder den Pfeil
-        in der Titelleiste klickst.</string>
 
 
     <string name="helpSettings_title">Einstellungen</string>

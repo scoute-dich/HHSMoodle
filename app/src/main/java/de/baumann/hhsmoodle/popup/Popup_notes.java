@@ -1,4 +1,4 @@
-package de.baumann.hhsmoodle.fragmentsMain;
+package de.baumann.hhsmoodle.popup;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -6,21 +6,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.util.Linkify;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
@@ -34,40 +29,20 @@ import de.baumann.hhsmoodle.HHS_Note;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.helper.Database_Notes;
 
-
-public class FragmentNotes extends Fragment {
+public class Popup_notes extends Activity {
 
     private ListView listView = null;
-    private SwipeRefreshLayout swipeView;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_screen_main_swipe, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-        PreferenceManager.setDefaultValues(getActivity(), R.xml.user_settings, false);
-        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        setHasOptionsMenu(true);
+        PreferenceManager.setDefaultValues(Popup_notes.this, R.xml.user_settings, false);
+        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(Popup_notes.this);
 
-        ImageView imgHeader = (ImageView) rootView.findViewById(R.id.imageView_header);
-        if(imgHeader != null) {
-            TypedArray images = getResources().obtainTypedArray(R.array.splash_images);
-            int choice = (int) (Math.random() * images.length());
-            imgHeader.setImageResource(images.getResourceId(choice, R.drawable.splash1));
-            images.recycle();
-        }
+        setContentView(R.layout.activity_popup);
 
-        swipeView = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe);
-        assert swipeView != null;
-        swipeView.setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent);
-        swipeView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                setNotesList();
-            }
-        });
-
-        listView = (ListView)rootView.findViewById(R.id.bookmarks);
+        listView = (ListView)findViewById(R.id.dialogList);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 @SuppressWarnings("unchecked")
@@ -78,25 +53,25 @@ public class FragmentNotes extends Fragment {
                 final String seqnoStr = map.get("seqno");
                 final String icon = map.get("icon");
 
-                LinearLayout layout = new LinearLayout(getActivity());
+                LinearLayout layout = new LinearLayout(Popup_notes.this);
                 layout.setOrientation(LinearLayout.VERTICAL);
                 layout.setGravity(Gravity.CENTER_HORIZONTAL);
                 layout.setPadding(50, 0, 50, 0);
 
-                final TextView textTitle = new TextView(getContext());
+                final TextView textTitle = new TextView(Popup_notes.this);
                 textTitle.setText(title);
                 textTitle.setTextSize(24);
                 textTitle.setTypeface(null, Typeface.BOLD);
                 textTitle.setPadding(5,50,0,0);
                 layout.addView(textTitle);
 
-                final TextView textContent = new TextView(getContext());
+                final TextView textContent = new TextView(Popup_notes.this);
                 textContent.setText(cont);
                 textContent.setTextSize(16);
                 textContent.setPadding(5,25,0,0);
                 layout.addView(textContent);
 
-                ScrollView sv = new ScrollView(getActivity());
+                ScrollView sv = new ScrollView(Popup_notes.this);
                 sv.pageScroll(0);
                 sv.setBackgroundColor(0);
                 sv.setScrollbarFadingEnabled(true);
@@ -109,29 +84,30 @@ public class FragmentNotes extends Fragment {
 
                 }
 
-                final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity())
+                final AlertDialog.Builder dialog = new AlertDialog.Builder(Popup_notes.this)
                         .setView(sv)
                         .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
 
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 dialog.cancel();
+                                finish();
                             }
                         })
                         .setNegativeButton(R.string.note_edit, new DialogInterface.OnClickListener() {
 
                             public void onClick(DialogInterface dialog, int whichButton) {
-                                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(Popup_notes.this);
                                 sharedPref.edit()
                                         .putString("handleTextTitle", title)
                                         .putString("handleTextText", cont)
                                         .putString("handleTextIcon", icon)
                                         .apply();
 
-                                Intent intent_in = new Intent(getActivity(), HHS_Note.class);
+                                Intent intent_in = new Intent(Popup_notes.this, HHS_Note.class);
                                 startActivity(intent_in);
 
                                 try {
-                                    Database_Notes db = new Database_Notes(getActivity());
+                                    Database_Notes db = new Database_Notes(Popup_notes.this);
                                     db.deleteNote((Integer.parseInt(seqnoStr)));
                                     db.close();
                                     setNotesList();
@@ -139,6 +115,7 @@ public class FragmentNotes extends Fragment {
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
+                                finish();
                             }
                         });
                 dialog.show();
@@ -161,23 +138,23 @@ public class FragmentNotes extends Fragment {
                         getString(R.string.note_share),
                         getString(R.string.bookmark_createEvent),
                         getString(R.string.note_remove_note)};
-                new AlertDialog.Builder(getActivity())
+                new AlertDialog.Builder(Popup_notes.this)
                         .setItems(options, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int item) {
                                 if (options[item].equals(getString(R.string.note_edit))) {
-                                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(Popup_notes.this);
                                     sharedPref.edit()
                                             .putString("handleTextTitle", title)
                                             .putString("handleTextText", cont)
                                             .putString("handleTextIcon", icon)
                                             .apply();
 
-                                    Intent intent_in = new Intent(getActivity(), HHS_Note.class);
+                                    Intent intent_in = new Intent(Popup_notes.this, HHS_Note.class);
                                     startActivity(intent_in);
 
                                     try {
-                                        Database_Notes db = new Database_Notes(getActivity());
+                                        Database_Notes db = new Database_Notes(Popup_notes.this);
                                         db.deleteNote((Integer.parseInt(seqnoStr)));
                                         db.close();
                                         setNotesList();
@@ -185,6 +162,7 @@ public class FragmentNotes extends Fragment {
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
+                                    finish();
                                 }
 
                                 if (options[item].equals (getString(R.string.note_share))) {
@@ -194,6 +172,7 @@ public class FragmentNotes extends Fragment {
                                     sharingIntent.putExtra(Intent.EXTRA_SUBJECT, title);
                                     sharingIntent.putExtra(Intent.EXTRA_TEXT, cont);
                                     startActivity(Intent.createChooser(sharingIntent, (getString(R.string.note_share_2))));
+                                    finish();
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createEvent))) {
@@ -203,12 +182,13 @@ public class FragmentNotes extends Fragment {
                                     calIntent.putExtra(CalendarContract.Events.TITLE, title);
                                     calIntent.putExtra(CalendarContract.Events.DESCRIPTION, cont);
                                     startActivity(calIntent);
+                                    finish();
                                 }
 
                                 if (options[item].equals(getString(R.string.note_remove_note))) {
 
                                     try {
-                                        Database_Notes db = new Database_Notes(getActivity());
+                                        Database_Notes db = new Database_Notes(Popup_notes.this);
                                         final int count = db.getRecordCount();
                                         db.close();
 
@@ -224,13 +204,14 @@ public class FragmentNotes extends Fragment {
                                                         @Override
                                                         public void onClick(View view) {
                                                             try {
-                                                                Database_Notes db = new Database_Notes(getActivity());
+                                                                Database_Notes db = new Database_Notes(Popup_notes.this);
                                                                 db.deleteNote(Integer.parseInt(seqnoStr));
                                                                 db.close();
                                                                 setNotesList();
                                                             } catch (PackageManager.NameNotFoundException e) {
                                                                 e.printStackTrace();
                                                             }
+                                                            finish();
                                                         }
                                                     });
                                             snackbar.show();
@@ -247,28 +228,14 @@ public class FragmentNotes extends Fragment {
         });
 
         setNotesList();
-        return rootView;
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case 100:
-                if (resultCode == Activity.RESULT_OK) {
-                    if (data.getIntExtra("updated", 0) == 1) {
-                        setNotesList();
-                    }
-                }
-        }
     }
 
     private void setNotesList() {
-
+        
         ArrayList<HashMap<String,String>> mapList = new ArrayList<>();
 
         try {
-            Database_Notes db = new Database_Notes(getActivity());
+            Database_Notes db = new Database_Notes(Popup_notes.this);
             ArrayList<String[]> bookmarkList = new ArrayList<>();
             db.getBookmarks(bookmarkList);
             if (bookmarkList.size() == 0) {
@@ -287,7 +254,7 @@ public class FragmentNotes extends Fragment {
             }
 
             SimpleAdapter simpleAdapter = new SimpleAdapter(
-                    getActivity(),
+                    Popup_notes.this,
                     mapList,
                     R.layout.list_item_note,
                     new String[] {"title", "cont", "icon"},
@@ -316,14 +283,14 @@ public class FragmentNotes extends Fragment {
                                     getString(R.string.note_priority_1),
                                     getString(R.string.note_priority_2),
                                     getString(R.string.note_priority_3)};
-                            new AlertDialog.Builder(getActivity())
+                            new AlertDialog.Builder(Popup_notes.this)
                                     .setItems(options, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int item) {
                                             if (options[item].equals(getString(R.string.note_priority_0))) {
 
                                                 try {
-                                                    Database_Notes db = new Database_Notes(getActivity());
+                                                    Database_Notes db = new Database_Notes(Popup_notes.this);
                                                     db.deleteNote((Integer.parseInt(seqnoStr)));
                                                     db.close();
 
@@ -333,7 +300,7 @@ public class FragmentNotes extends Fragment {
 
                                                 try {
 
-                                                    final Database_Notes db = new Database_Notes(getActivity());
+                                                    final Database_Notes db = new Database_Notes(Popup_notes.this);
                                                     db.addBookmark(title, cont, "");
                                                     db.close();
                                                     setNotesList();
@@ -341,12 +308,13 @@ public class FragmentNotes extends Fragment {
                                                 } catch (Exception e) {
                                                     e.printStackTrace();
                                                 }
+                                                finish();
                                             }
 
                                             if (options[item].equals(getString(R.string.note_priority_1))) {
 
                                                 try {
-                                                    Database_Notes db = new Database_Notes(getActivity());
+                                                    Database_Notes db = new Database_Notes(Popup_notes.this);
                                                     db.deleteNote((Integer.parseInt(seqnoStr)));
                                                     db.close();
 
@@ -356,7 +324,7 @@ public class FragmentNotes extends Fragment {
 
                                                 try {
 
-                                                    final Database_Notes db = new Database_Notes(getActivity());
+                                                    final Database_Notes db = new Database_Notes(Popup_notes.this);
                                                     db.addBookmark(title, cont, "!");
                                                     db.close();
                                                     setNotesList();
@@ -364,12 +332,13 @@ public class FragmentNotes extends Fragment {
                                                 } catch (Exception e) {
                                                     e.printStackTrace();
                                                 }
+                                                finish();
                                             }
 
                                             if (options[item].equals(getString(R.string.note_priority_2))) {
 
                                                 try {
-                                                    Database_Notes db = new Database_Notes(getActivity());
+                                                    Database_Notes db = new Database_Notes(Popup_notes.this);
                                                     db.deleteNote((Integer.parseInt(seqnoStr)));
                                                     db.close();
 
@@ -379,7 +348,7 @@ public class FragmentNotes extends Fragment {
 
                                                 try {
 
-                                                    final Database_Notes db = new Database_Notes(getActivity());
+                                                    final Database_Notes db = new Database_Notes(Popup_notes.this);
                                                     db.addBookmark(title, cont, "!!");
                                                     db.close();
                                                     setNotesList();
@@ -387,12 +356,13 @@ public class FragmentNotes extends Fragment {
                                                 } catch (Exception e) {
                                                     e.printStackTrace();
                                                 }
+                                                finish();
                                             }
 
                                             if (options[item].equals(getString(R.string.note_priority_3))) {
 
                                                 try {
-                                                    Database_Notes db = new Database_Notes(getActivity());
+                                                    Database_Notes db = new Database_Notes(Popup_notes.this);
                                                     db.deleteNote((Integer.parseInt(seqnoStr)));
                                                     db.close();
 
@@ -402,7 +372,7 @@ public class FragmentNotes extends Fragment {
 
                                                 try {
 
-                                                    final Database_Notes db = new Database_Notes(getActivity());
+                                                    final Database_Notes db = new Database_Notes(Popup_notes.this);
                                                     db.addBookmark(title, cont, "!!!");
                                                     db.close();
                                                     setNotesList();
@@ -410,6 +380,7 @@ public class FragmentNotes extends Fragment {
                                                 } catch (Exception e) {
                                                     e.printStackTrace();
                                                 }
+                                                finish();
                                             }
                                         }
                                     }).show();
@@ -424,6 +395,5 @@ public class FragmentNotes extends Fragment {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        swipeView.setRefreshing(false);
     }
 }

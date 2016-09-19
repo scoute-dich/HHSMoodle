@@ -4,6 +4,7 @@
     // Application
 
     <string name="app_name">HHS Moodle</string>
+    <string name="app_name_short">HHS</string>
     <string name="app_permissions">You must grant \"Access Storage Permission\" to save screenshots and downloads. After that you should
         completely close the app or restart the phone. If you don\'t permit the storage access but want to use the
         screenshot function at a later time, you can grant the permission later. Please open then: system settings - apps -
@@ -25,7 +26,7 @@
 
     // Tab - Titles
 
-    <string name="title_weatherInfo">My Moodle</string>
+    <string name="title_info">My Moodle</string>
     <string name="title_bookmarks">Bookmarks</string>
     <string name="title_notes">Notes</string>
 
@@ -41,10 +42,8 @@
     <string name="menu_settings">Settings</string>
     <string name="menu_folder">Open app folder</string>
     <string name="menu_rem">Create note</string>
-    <string name="menu_not">Notifications</string>
     <string name="menu_bookmark">Add bookmark</string>
     <string name="menu_help">Help</string>
-    <string name="menu_shortcut_title">Add shortcut to Home screen:</string>
 
 
     // Context Menu
@@ -91,8 +90,8 @@
     <string name="action_tabMain">Main screen</string>
     <string name="action_tabMain_summary">Which tab should be displayed as default on the main screen?</string>
 
-    <string name="action_notShow_title">Help dialog</string>
-    <string name="action_notShow_title_summary">Show the help dialog on start.</string>
+    <string name="action_notShow_title">Introduction dialog</string>
+    <string name="action_notShow_title_summary">Show the short introduction dialog on start.</string>
 
     <string name="action_links_title">Links</string>
     <string name="action_links_summary">Make links in notes and notifications clickable.</string>
@@ -112,6 +111,9 @@
 
     <string name="action_font">Font size</string>
     <string name="action_font_summary">Change font size for websites.</string>
+
+    <string name="action_help">Help menu</string>
+    <string name="action_help_summary">Disable all help menus in the app.</string>
 
 
     // Moodle
@@ -166,7 +168,7 @@
     <string name="bookmark_edit_title">Edit title</string>
     <string name="bookmark_edit_fav">Set as favorite</string>
     <string name="bookmark_createNote">Create note</string>
-    <string name="bookmark_createNotification">Create notification</string>
+    <string name="bookmark_createEvent">Create calendar event</string>
     <string name="bookmark_createShortcut">Create shortcut</string>
 
 
@@ -176,24 +178,17 @@
     <string name="note_remove_cannot">You need at least one note!</string>
     <string name="note_remove_note">Delete note</string>
     <string name="note_edit">Edit note</string>
-    <string name="note_set_not">Create note</string>
     <string name="note_share">Share note</string>
     <string name="note_share_2">Share note using:</string>
     <string name="note_share_3">Send mail using:</string>
     <string name="note_saved">Successfully saved note.</string>
-
-
-    // Notifications
-
+    <string name="note_priority">Priority</string>
+    <string name="note_priority_0">Normal</string>
+    <string name="note_priority_1">! Important</string>
+    <string name="note_priority_2">!! Very important</string>
+    <string name="note_priority_3">!!! Better do now</string>
     <string name="save_note_text">Save</string>
     <string name="title_hint">Title</string>
     <string name="text_hint">Content</string>
-    <string name="no_notes">No notifications added yet.</string>
-    <string name="dialog_delete_note">Delete notification</string>
-    <string name="delete">Delete</string>
-    <string name="cancel">Cancel</string>
-    <string name="new_note">New notification</string>
-    <string name="edit_note">Edit notification</string>
-
 
 </resources>

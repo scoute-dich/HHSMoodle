@@ -10,13 +10,6 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/action_notifications"
-        android:orderInCategory="100"
-        android:title="@string/menu_not"
-        android:icon="@drawable/noti"
-        app:showAsAction="ifRoom" />
-
-    <item
         android:id="@+id/action_folder"
         android:orderInCategory="100"
         android:title="@string/menu_folder"

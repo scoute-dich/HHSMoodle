@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
@@ -188,6 +190,16 @@ public class HHS_UserSettingsActivity extends AppCompatActivity {
             addOpenSettingsListener();
             addProblemsListener();
         }
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        if (sharedPref.getBoolean ("help", false)){
+            menu.getItem(0).setVisible(false); // here pass the index of save menu item
+        }
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override

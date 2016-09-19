@@ -34,10 +34,13 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.baumann.hhsmoodle.fragmentsMain.FragmentBookmark;
+import de.baumann.hhsmoodle.fragmentsMain.FragmentBookmarks;
 import de.baumann.hhsmoodle.fragmentsMain.FragmentInfo;
 import de.baumann.hhsmoodle.fragmentsMain.FragmentNotes;
 import de.baumann.hhsmoodle.helper.SplashActivity;
+import de.baumann.hhsmoodle.popup.Popup_bookmarks;
+import de.baumann.hhsmoodle.popup.Popup_info;
+import de.baumann.hhsmoodle.popup.Popup_notes;
 
 @SuppressWarnings("ResultOfMethodCallIgnored")
 public class HHS_MainScreen extends AppCompatActivity {
@@ -182,8 +185,8 @@ public class HHS_MainScreen extends AppCompatActivity {
         final int startTabInt = Integer.parseInt(startTab);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        adapter.addFragment(new FragmentInfo(), String.valueOf(getString(R.string.title_weatherInfo)));
-        adapter.addFragment(new FragmentBookmark(), String.valueOf(getString(R.string.title_bookmarks)));
+        adapter.addFragment(new FragmentInfo(), String.valueOf(getString(R.string.title_info)));
+        adapter.addFragment(new FragmentBookmarks(), String.valueOf(getString(R.string.title_bookmarks)));
         adapter.addFragment(new FragmentNotes(), String.valueOf(getString(R.string.title_notes)));
 
         viewPager.setAdapter(adapter);
@@ -230,6 +233,16 @@ public class HHS_MainScreen extends AppCompatActivity {
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        if (sharedPref.getBoolean ("help", false)){
+            menu.getItem(4).setVisible(false); // here pass the index of save menu item
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -243,11 +256,6 @@ public class HHS_MainScreen extends AppCompatActivity {
 
         if (id == R.id.action_settings) {
             Intent intent_in = new Intent(HHS_MainScreen.this, HHS_UserSettingsActivity.class);
-            startActivity(intent_in);
-        }
-
-        if (id == R.id.action_notifications) {
-            Intent intent_in = new Intent(HHS_MainScreen.this, Notes_MainActivity.class);
             startActivity(intent_in);
         }
 
@@ -280,15 +288,66 @@ public class HHS_MainScreen extends AppCompatActivity {
 
         if (id == R.id.action_shortcut) {
             final CharSequence[] options = {
-                    getString(R.string.bookmark_createNotification),
-                    getString(R.string.bookmark_createNote),
-                    getString(R.string.title_bookmarks)};
+                    getString(R.string.title_info),
+                    getString(R.string.title_bookmarks),
+                    getString(R.string.title_notes),
+                    getString(R.string.bookmark_createNote)};
 
             new AlertDialog.Builder(HHS_MainScreen.this)
-                    .setTitle(R.string.menu_shortcut_title)
                     .setItems(options, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int item) {
+
+                            if (options[item].equals (getString(R.string.title_info))) {
+                                Intent i = new Intent(getApplicationContext(), Popup_info.class);
+                                i.setAction(Intent.ACTION_MAIN);
+
+                                Intent shortcut = new Intent();
+                                shortcut.setAction(Intent.ACTION_MAIN);
+                                shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, i);
+                                shortcut.putExtra("android.intent.extra.shortcut.INTENT", i);
+                                shortcut.putExtra("android.intent.extra.shortcut.NAME", "THE NAME OF SHORTCUT TO BE SHOWN");
+                                shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, (getString(R.string.title_info)));
+                                shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
+                                        Intent.ShortcutIconResource.fromContext(getApplicationContext(), R.mipmap.ic_launcher));
+                                shortcut.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+                                sendBroadcast(shortcut);
+                                Snackbar.make(viewPager, R.string.toast_shortcut, Snackbar.LENGTH_LONG).show();
+                            }
+
+                            if (options[item].equals (getString(R.string.title_bookmarks))) {
+                                Intent i = new Intent(getApplicationContext(), Popup_bookmarks.class);
+                                i.setAction(Intent.ACTION_MAIN);
+
+                                Intent shortcut = new Intent();
+                                shortcut.setAction(Intent.ACTION_MAIN);
+                                shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, i);
+                                shortcut.putExtra("android.intent.extra.shortcut.INTENT", i);
+                                shortcut.putExtra("android.intent.extra.shortcut.NAME", "THE NAME OF SHORTCUT TO BE SHOWN");
+                                shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, (getString(R.string.title_bookmarks)));
+                                shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
+                                        Intent.ShortcutIconResource.fromContext(getApplicationContext(), R.mipmap.ic_bookmark));
+                                shortcut.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+                                sendBroadcast(shortcut);
+                                Snackbar.make(viewPager, R.string.toast_shortcut, Snackbar.LENGTH_LONG).show();
+                            }
+
+                            if (options[item].equals (getString(R.string.title_notes))) {
+                                Intent i = new Intent(getApplicationContext(), Popup_notes.class);
+                                i.setAction(Intent.ACTION_MAIN);
+
+                                Intent shortcut = new Intent();
+                                shortcut.setAction(Intent.ACTION_MAIN);
+                                shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, i);
+                                shortcut.putExtra("android.intent.extra.shortcut.INTENT", i);
+                                shortcut.putExtra("android.intent.extra.shortcut.NAME", "THE NAME OF SHORTCUT TO BE SHOWN");
+                                shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, (getString(R.string.title_notes)));
+                                shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
+                                        Intent.ShortcutIconResource.fromContext(getApplicationContext(), R.mipmap.ic_note));
+                                shortcut.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+                                sendBroadcast(shortcut);
+                                Snackbar.make(viewPager, R.string.toast_shortcut, Snackbar.LENGTH_LONG).show();
+                            }
 
                             if (options[item].equals (getString(R.string.bookmark_createNote))) {
                                 Intent i = new Intent(getApplicationContext(), de.baumann.hhsmoodle.HHS_Note.class);
@@ -300,41 +359,7 @@ public class HHS_MainScreen extends AppCompatActivity {
                                 shortcut.putExtra("android.intent.extra.shortcut.NAME", "THE NAME OF SHORTCUT TO BE SHOWN");
                                 shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, (getString(R.string.bookmark_createNote)));
                                 shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
-                                        Intent.ShortcutIconResource.fromContext(getApplicationContext(), R.mipmap.ic_note));
-                                shortcut.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
-                                sendBroadcast(shortcut);
-                                Snackbar.make(viewPager, R.string.toast_shortcut, Snackbar.LENGTH_LONG).show();
-                            }
-
-                            if (options[item].equals (getString(R.string.bookmark_createNotification))) {
-                                Intent i = new Intent(getApplicationContext(), de.baumann.hhsmoodle.Notes_MainActivity.class);
-                                i.setAction(Intent.ACTION_MAIN);
-
-                                Intent shortcut = new Intent();
-                                shortcut.setAction(Intent.ACTION_MAIN);
-                                shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, i);
-                                shortcut.putExtra("android.intent.extra.shortcut.INTENT", i);
-                                shortcut.putExtra("android.intent.extra.shortcut.NAME", "THE NAME OF SHORTCUT TO BE SHOWN");
-                                shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, (getString(R.string.bookmark_createNotification)));
-                                shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
-                                        Intent.ShortcutIconResource.fromContext(getApplicationContext(), R.mipmap.ic_notification));
-                                shortcut.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
-                                sendBroadcast(shortcut);
-                                Snackbar.make(viewPager, R.string.toast_shortcut, Snackbar.LENGTH_LONG).show();
-                            }
-
-                            if (options[item].equals (getString(R.string.title_bookmarks))) {
-                                Intent i = new Intent(getApplicationContext(), de.baumann.hhsmoodle.helper.Popup_bookmarks.class);
-                                i.setAction(Intent.ACTION_MAIN);
-
-                                Intent shortcut = new Intent();
-                                shortcut.setAction(Intent.ACTION_MAIN);
-                                shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, i);
-                                shortcut.putExtra("android.intent.extra.shortcut.INTENT", i);
-                                shortcut.putExtra("android.intent.extra.shortcut.NAME", "THE NAME OF SHORTCUT TO BE SHOWN");
-                                shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, (getString(R.string.title_bookmarks)));
-                                shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
-                                        Intent.ShortcutIconResource.fromContext(getApplicationContext(), R.mipmap.ic_bookmark));
+                                        Intent.ShortcutIconResource.fromContext(getApplicationContext(), R.mipmap.ic_note_plus));
                                 shortcut.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
                                 sendBroadcast(shortcut);
                                 Snackbar.make(viewPager, R.string.toast_shortcut, Snackbar.LENGTH_LONG).show();

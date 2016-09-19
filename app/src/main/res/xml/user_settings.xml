@@ -93,6 +93,12 @@
             android:key="perm_notShow"
             android:defaultValue="true" />
 
+        <CheckBoxPreference
+            android:title="@string/action_help"
+            android:summary="@string/action_help_summary"
+            android:key="help"
+            android:defaultValue="false" />
+
         <Preference
             android:title="@string/action_problem"
             android:summary="@string/action_problem_summary"
