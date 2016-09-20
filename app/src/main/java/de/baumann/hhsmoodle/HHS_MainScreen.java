@@ -12,7 +12,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -65,7 +64,7 @@ public class HHS_MainScreen extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 
         if (sharedPref.getString("protect_PW", "").length() > 0) {
             if (sharedPref.getBoolean("isOpened", true)) {
@@ -80,8 +79,19 @@ public class HHS_MainScreen extends AppCompatActivity {
             toolbar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent_in = new Intent(HHS_MainScreen.this, HHS_MainScreen.class);
-                    startActivity(intent_in);
+                    final String startURL = sharedPref.getString("favoriteURL", "https://moodle.huebsch.ka.schule-bw.de/moodle/");
+                    final String startType = sharedPref.getString("startType", "1");
+
+                    if (startType.equals("2")) {
+                        Intent mainIntent = new Intent(HHS_MainScreen.this, HHS_Browser.class);
+                        mainIntent.putExtra("id", "1");
+                        mainIntent.putExtra("url", startURL);
+                        startActivity(mainIntent);
+                    } else if (startType.equals("1")){
+                        Intent mainIntent = new Intent(HHS_MainScreen.this, HHS_MainScreen.class);
+                        mainIntent.putExtra("id", "1");
+                        startActivity(mainIntent);
+                    }
                 }
             });
 
@@ -156,21 +166,6 @@ public class HHS_MainScreen extends AppCompatActivity {
                 }
             }
         }
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        assert fab != null;
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(HHS_MainScreen.this);
-                String startURL = sharedPref.getString("favoriteURL", "https://moodle.huebsch.ka.schule-bw.de/moodle/");
-
-                Intent intent = new Intent(HHS_MainScreen.this, HHS_Browser.class);
-                intent.putExtra("url", startURL);
-                startActivity(intent);
-            }
-        });
 
         File directory = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/");
         if (!directory.exists()) {
@@ -257,16 +252,6 @@ public class HHS_MainScreen extends AppCompatActivity {
         if (id == R.id.action_settings) {
             Intent intent_in = new Intent(HHS_MainScreen.this, HHS_UserSettingsActivity.class);
             startActivity(intent_in);
-        }
-
-        if (id == R.id.action_help) {
-            final SpannableString s = new SpannableString(Html.fromHtml(getString(R.string.helpMain_text)));
-            Linkify.addLinks(s, Linkify.WEB_URLS);
-
-            final AlertDialog.Builder dialog = new AlertDialog.Builder(HHS_MainScreen.this)
-                    .setMessage(s)
-                    .setPositiveButton(getString(R.string.toast_yes), null);
-            dialog.show();
         }
 
         if (id == R.id.action_folder) {

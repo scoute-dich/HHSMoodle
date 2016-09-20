@@ -35,6 +35,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import de.baumann.hhsmoodle.HHS_Browser;
 import de.baumann.hhsmoodle.HHS_MainScreen;
 import de.baumann.hhsmoodle.R;
 
@@ -71,9 +72,11 @@ public class SplashActivity extends AppCompatActivity {
 
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        final String startType = sharedPref.getString("startType", "1");
         final String username = sharedPref.getString("username", "");
         final String password = sharedPref.getString("password", "");
         final String protect = sharedPref.getString("protect_PW", "");
+        final String startURL = sharedPref.getString("favoriteURL", "https://moodle.huebsch.ka.schule-bw.de/moodle/");
 
         if (username.isEmpty() || password.isEmpty() ) {
 
@@ -94,31 +97,61 @@ public class SplashActivity extends AppCompatActivity {
                         sharedPref.edit().putString("username", Username).apply();
                         sharedPref.edit().putString("password", Password).apply();
 
-                        new Handler().postDelayed(new Runnable() {
-                            public void run() {
+                        if (startType.equals("2")) {
 
-                                Intent mainIntent = new Intent(SplashActivity.this, HHS_MainScreen.class);
-                                mainIntent.putExtra("id", "1");
-                                startActivity(mainIntent);
-                                SplashActivity.this.finish();
-                                overridePendingTransition(R.anim.fadein,R.anim.fadeout);
-                            }
-                        }, 500);
+                            new Handler().postDelayed(new Runnable() {
+                                public void run() {
+
+                                    Intent mainIntent = new Intent(SplashActivity.this, HHS_Browser.class);
+                                    mainIntent.putExtra("id", "1");
+                                    mainIntent.putExtra("url", startURL);
+                                    startActivity(mainIntent);
+                                    SplashActivity.this.finish();
+                                    overridePendingTransition(R.anim.fadein,R.anim.fadeout);
+                                }
+                            }, 500);
+                        } else if (startType.equals("1")){
+                            new Handler().postDelayed(new Runnable() {
+                                public void run() {
+
+                                    Intent mainIntent = new Intent(SplashActivity.this, HHS_MainScreen.class);
+                                    mainIntent.putExtra("id", "1");
+                                    startActivity(mainIntent);
+                                    SplashActivity.this.finish();
+                                    overridePendingTransition(R.anim.fadein,R.anim.fadeout);
+                                }
+                            }, 500);
+                        }
                     }
                 }
             });
 
         } else if (protect.isEmpty()) {
-            new Handler().postDelayed(new Runnable() {
-                public void run() {
+            if (startType.equals("2")) {
 
-                    Intent mainIntent = new Intent(SplashActivity.this, HHS_MainScreen.class);
-                    mainIntent.putExtra("id", "1");
-                    startActivity(mainIntent);
-                    SplashActivity.this.finish();
-                    overridePendingTransition(R.anim.fadein,R.anim.fadeout);
-                }
-            }, 1000);
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
+
+                        Intent mainIntent = new Intent(SplashActivity.this, HHS_Browser.class);
+                        mainIntent.putExtra("id", "1");
+                        mainIntent.putExtra("url", startURL);
+                        startActivity(mainIntent);
+                        SplashActivity.this.finish();
+                        overridePendingTransition(R.anim.fadein,R.anim.fadeout);
+                    }
+                }, 1000);
+            } else if (startType.equals("1")){
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
+
+                        Intent mainIntent = new Intent(SplashActivity.this, HHS_MainScreen.class);
+                        mainIntent.putExtra("id", "1");
+                        startActivity(mainIntent);
+                        SplashActivity.this.finish();
+                        overridePendingTransition(R.anim.fadein,R.anim.fadeout);
+                    }
+                }, 1000);
+            }
 
         } else {
             editPassword.setVisibility(View.VISIBLE);
@@ -130,20 +163,37 @@ public class SplashActivity extends AppCompatActivity {
                     String Password = editPassword.getText().toString().trim();
 
                     if (Password.equals(protect)) {
-                        new Handler().postDelayed(new Runnable() {
-                            public void run() {
+                        if (startType.equals("2")) {
 
-                                sharedPref.edit()
-                                        .putBoolean("isOpened", false)
-                                        .apply();
+                            new Handler().postDelayed(new Runnable() {
+                                public void run() {
+                                    sharedPref.edit()
+                                            .putBoolean("isOpened", false)
+                                            .apply();
 
-                                Intent mainIntent = new Intent(SplashActivity.this, HHS_MainScreen.class);
-                                mainIntent.putExtra("id", "1");
-                                startActivity(mainIntent);
-                                SplashActivity.this.finish();
-                                overridePendingTransition(R.anim.fadein,R.anim.fadeout);
-                            }
-                        }, 500);
+                                    Intent mainIntent = new Intent(SplashActivity.this, HHS_Browser.class);
+                                    mainIntent.putExtra("id", "1");
+                                    mainIntent.putExtra("url", startURL);
+                                    startActivity(mainIntent);
+                                    SplashActivity.this.finish();
+                                    overridePendingTransition(R.anim.fadein,R.anim.fadeout);
+                                }
+                            }, 500);
+                        } else if (startType.equals("1")){
+                            new Handler().postDelayed(new Runnable() {
+                                public void run() {
+                                    sharedPref.edit()
+                                            .putBoolean("isOpened", false)
+                                            .apply();
+
+                                    Intent mainIntent = new Intent(SplashActivity.this, HHS_MainScreen.class);
+                                    mainIntent.putExtra("id", "1");
+                                    startActivity(mainIntent);
+                                    SplashActivity.this.finish();
+                                    overridePendingTransition(R.anim.fadein,R.anim.fadeout);
+                                }
+                            }, 500);
+                        }
 
                     } else {
                         editPassword.setText("");

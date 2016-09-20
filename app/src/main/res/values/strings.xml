@@ -115,6 +115,9 @@
     <string name="action_help">Help menu</string>
     <string name="action_help_summary">Disable all help menus in the app.</string>
 
+    <string name="action_start">App start and title bar click</string>
+    <string name="action_start_summary">What do you want to see: Either the main screen or the bookmark list?</string>
+
 
     // Moodle
 

@@ -45,6 +45,14 @@
             android:entries="@array/listArrayTabMain"
             android:entryValues="@array/listValuesTabMain" />
 
+        <ListPreference
+            android:title="@string/action_start"
+            android:summary="@string/action_start_summary"
+            android:key="startType"
+            android:defaultValue="1"
+            android:entries="@array/listArrayStart"
+            android:entryValues="@array/listValuesStart" />
+
         <CheckBoxPreference
             android:title="@string/action_longPress"
             android:summary="@string/action_longPress_summary"

@@ -11,7 +11,11 @@ import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.text.Html;
+import android.text.SpannableString;
+import android.text.util.Linkify;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -85,6 +89,8 @@ public class FragmentInfo extends Fragment {
             imgHeader.setImageResource(images.getResourceId(choice, R.drawable.splash1));
             images.recycle();
         }
+
+        setHasOptionsMenu(true);
 
         CustomListAdapter adapter=new CustomListAdapter(getActivity(), itemTITLE, itemURL, itemDES, imgid);
         listView = (ListView)rootView.findViewById(R.id.bookmarks);
@@ -173,5 +179,24 @@ public class FragmentInfo extends Fragment {
         });
 
         return rootView;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.action_help:
+
+                final SpannableString s = new SpannableString(Html.fromHtml(getString(R.string.helpInfo_text)));
+                Linkify.addLinks(s, Linkify.WEB_URLS);
+
+                final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity())
+                        .setTitle(R.string.title_info)
+                        .setMessage(s)
+                        .setPositiveButton(getString(R.string.toast_yes), null);
+                dialog.show();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

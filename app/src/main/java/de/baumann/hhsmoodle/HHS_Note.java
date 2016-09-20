@@ -76,12 +76,23 @@ public class HHS_Note extends AppCompatActivity {
 
                     String title = titleInput.getText().toString();
                     String text = textInput.getText().toString();
+                    final String startURL = sharedPref.getString("favoriteURL", "https://moodle.huebsch.ka.schule-bw.de/moodle/");
+                    final String startType = sharedPref.getString("startType", "1");
 
                     if (title.isEmpty() && text.isEmpty() ) {
                         clearSharedPreferences();
-                        Intent intent_in = new Intent(HHS_Note.this, HHS_MainScreen.class);
-                        startActivity(intent_in);
-                        finish();
+                        if (startType.equals("2")) {
+                            Intent mainIntent = new Intent(HHS_Note.this, HHS_Browser.class);
+                            mainIntent.putExtra("id", "1");
+                            mainIntent.putExtra("url", startURL);
+                            startActivity(mainIntent);
+                            finish();
+                        } else if (startType.equals("1")){
+                            Intent mainIntent = new Intent(HHS_Note.this, HHS_MainScreen.class);
+                            mainIntent.putExtra("id", "1");
+                            startActivity(mainIntent);
+                            finish();
+                        }
 
                     } else {
                         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -93,9 +104,18 @@ public class HHS_Note extends AppCompatActivity {
                                     @Override
                                     public void onClick(View view) {
                                         clearSharedPreferences();
-                                        Intent intent_in = new Intent(HHS_Note.this, HHS_MainScreen.class);
-                                        startActivity(intent_in);
-                                        finish();
+                                        if (startType.equals("2")) {
+                                            Intent mainIntent = new Intent(HHS_Note.this, HHS_Browser.class);
+                                            mainIntent.putExtra("id", "1");
+                                            mainIntent.putExtra("url", startURL);
+                                            startActivity(mainIntent);
+                                            finish();
+                                        } else if (startType.equals("1")){
+                                            Intent mainIntent = new Intent(HHS_Note.this, HHS_MainScreen.class);
+                                            mainIntent.putExtra("id", "1");
+                                            startActivity(mainIntent);
+                                            finish();
+                                        }
                                     }
                                 });
                         snackbar.show();
@@ -315,7 +335,7 @@ public class HHS_Note extends AppCompatActivity {
         }
 
         if (id == R.id.action_help) {
-            final SpannableString s = new SpannableString(Html.fromHtml(getString(R.string.helpNotes_text)));
+            final SpannableString s = new SpannableString(Html.fromHtml(getString(R.string.helpAddNotes_text)));
             Linkify.addLinks(s, Linkify.WEB_URLS);
 
             final AlertDialog.Builder dialog = new AlertDialog.Builder(HHS_Note.this)

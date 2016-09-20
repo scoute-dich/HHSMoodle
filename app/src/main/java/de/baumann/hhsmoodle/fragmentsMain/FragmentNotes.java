@@ -14,9 +14,12 @@ import android.provider.CalendarContract;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.Html;
+import android.text.SpannableString;
 import android.text.util.Linkify;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -56,6 +59,8 @@ public class FragmentNotes extends Fragment {
             imgHeader.setImageResource(images.getResourceId(choice, R.drawable.splash1));
             images.recycle();
         }
+
+        setHasOptionsMenu(true);
 
         swipeView = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe);
         assert swipeView != null;
@@ -425,5 +430,24 @@ public class FragmentNotes extends Fragment {
             e.printStackTrace();
         }
         swipeView.setRefreshing(false);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.action_help:
+
+                final SpannableString s = new SpannableString(Html.fromHtml(getString(R.string.helpNotes_text)));
+                Linkify.addLinks(s, Linkify.WEB_URLS);
+
+                final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity())
+                        .setTitle(R.string.title_notes)
+                        .setMessage(s)
+                        .setPositiveButton(getString(R.string.toast_yes), null);
+                dialog.show();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

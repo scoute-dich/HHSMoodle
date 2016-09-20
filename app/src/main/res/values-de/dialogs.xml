@@ -60,91 +60,170 @@
 
     //Help Dialogs
 
-    <string name="helpBrowser_title">Browser</string>
-    <string name="helpBrowser_text">
-        HHS Moodle wird in dieser Webview angezeigt. Eine Webview zeigt Internetseiten in Apps an.
-        Damit du in Zukunft automatisch angemeldet werden kannst, musst du in den Einstellungen
-        deinen Benutzernamen und dein Passwort eingeben. In der Webview gibt es ein Kontextmenü, dass sich bei einem langen
-        Klick auf Bilder oder Links öffnet. Du kannst zum Startschirm zurückkehren, indem du auf die Titelleiste oder den Pfeil
-        in der Titelleiste klickst.&lt;br>&lt;br>
+    <string name="dialog_help_title">HHS Moodle - kurze Enführung</string>
+    <string name="dialog_help">
+        Du erreichst einen kurzen Hilfe Dialog auf jedem Schirm, indem du \"Menu -> Hilfe\" drückst.&lt;br>&lt;br>
 
-        &lt;i>Wischfunktionen:&lt;/i>&lt;br>
-        Nach unten wischen um die Seite neu zu laden. Nach rechts wischen um vorherige Seite zu laden, nach links wischen, um
-        eine Seite nach vorne zu gelangen.&lt;br>&lt;br>
+        &lt;b>Wichtig&lt;/b>&lt;br>
+        Wenn dein Moodlepasswort oder -Anmeldename geändert wird, musst du dies auch in den Einstellungen der App ändern.
+        Es wird außerdem dringend empfohlen die App mit einem Passwort gegen ungewollten Zugriff zu schützen. Dies und
+        andere Einstellungen erreichst du über das \"Menu -> Einstellungen\".&lt;br>&lt;br>
 
-        &lt;i>Menu:&lt;/i>&lt;br>
-        Du kannst eine neue Notiz oder eine Benachrichtigung erstellen und deine Lesezeichen aufrufen. Du kannst die aktuelle
-        Moodleseite als Bildschirmfoto oder nur den Link teilen. Du kannst die Seite als Lesezeichen zum Startschirm
-        hinzufügen und du kannst direkt das Anwendungsverzeichnis öffnen.&lt;br>&lt;br>
+        &lt;b>Navigation&lt;/b>&lt;br>
+        Du erreichst den Hauptschirm der Anwendung, indem du den Pfeil oben links in der Titelleiste anklickst. Ein Klick
+        auf die Titelleiste bringt dich entweder zum Hauptschirm, oder zu deinem Lesezeichenfavorit (kann in den
+        Einstellungen bestimmt werden). Wenn du lange auf die Titelleiste klickst, wird die App komplett beendet.&lt;br>&lt;br>
 
-        &lt;i>Lesezeichen speichern:&lt;/i>&lt;br>
-        Um ein Lesezeichen zu speichern einfach das Icon in der Toolbar drücken. Wenn du das Icon gedrückt hast, erscheint ein
-        Popup-Menü. Hier kannst du den Titel des Lesezeichens eingeben.&lt;br>&lt;br>
-
-        &lt;i>Bildschirmfoto aufnehmen:&lt;/i>&lt;br>
-        Du kannst Bildschirmfotos der gesamten Internetseite machen (auch von dem Teil, der gerade nicht auf dem
-        Bildschirm zu sehen ist). Damit dies richtig funktioniert, solltest du warten, bis die Internetseite komplett geladen
-        ist, um sicherzustellen, dass die gesamte Internetseite aufgenommen wird.</string>
+        &lt;b>Widgets&lt;/b>&lt;br>
+        Du kannst deinem Homescreen ein Widget hinzufügen, um einen schnellen Zugriff auf alle wichtigen Funktionen der
+        App zu erhalten (App starten, Mein Moodle, Lesezeichen, Notizen, Notiz erstellen).</string>
 
 
-    <string name="helpMain_text">
-        &lt;b>Tabs: Mein Moodle | Lesezeichen&lt;/b>&lt;br>&lt;br>
+    <string name="helpBookmarks_text">
+        Hier werden die von dir gespeicherten Lesezeichen angezeigt.&lt;br>&lt;br>
 
-        &lt;i>Die Tabs:&lt;/i>&lt;br>
-        Im linken Tab kannst du deine persönlichen Moodleseiten aufrufen und im mittleren Tab werden deine Lesezeichen
-        angezeigt.&lt;br>&lt;br>
+        &lt;b>Die Liste&lt;/b>&lt;br>
+        Wenn du einen Listeneintrag anklickst, öffnet sich das Lesezeichen im internen Browser. Bei einem langen Klick
+        öffnet sich ein Popupmenü. Wenn die Liste nicht automatisch aktualisiert wird, kannst du auf dem Bild über der Liste
+        nach unten wischen. &lt;br>&lt;br>
 
-        &lt;i>Lesezeichentab:&lt;/i>&lt;br>
-        Ein langer Klick auf ein Lesezeichen öffnet ein Popup-Menü. Du kannst ein Lesezeichen als Favorit setzen
-        (Du kannst den Favorit durch klicken des orangenen \"Sternknopfes\" öffnen.), den Titel des
-        Lesezeichens bearbeiten, oder es komplett löschen (ein Lesezeichen muss mindestens vorhanden sein).
-        Wenn die Liste nicht automatisch aktualisiert wird, kannst du auf dem Bild über der Liste nach unten
-        wischen.&lt;br>
-        Du kannst aus dem Popup-Menü heraus außerdem eine neue Notiz, eine neue Benachrichtigung oder eine Verknüpfung auf deinem
-        \"Homescreen\" erstellen.&lt;br>&lt;br>&lt;br>
+        &lt;b>Popup Menü:&lt;/b>&lt;br>
+        &#8226;&lt;i> Bearbeite Titel:&lt;/i> Du kannst den Titel des Lesezeichens bearbeiten.&lt;br>
+        &#8226;&lt;i> Als Favorit speichern:&lt;/i> Wenn du ein Lesezeichen als Favorit speicherst, kann es sofort beim Start
+        der App und bei einem Klick auf die Titelleiste angezeigt werden. Dies muss in den Einstellungen aktiviert werden.&lt;br>
+        &#8226;&lt;i> Erstelle Notiz:&lt;/i> Der Titel des Lesezeichens wird automatisch als Titel für eine neue Notiz
+        benutzt.&lt;br>
+        &#8226;&lt;i> Erstelle Verknüpfung:&lt;/i> Es wird eine Verknüpfung zu deinem Lesezeichen direkt auf deinen Homescreen
+        angelegt.&lt;br>
+        &#8226;&lt;i> Erstelle Kalendereintrag:&lt;/i> Der Name des Lesezeichens wird als Name für einen neuen Kalendereintrag
+        benutzt. Die Bearbeitung findet in deiner Kalenderapp statt.&lt;br>
+        &#8226;&lt;i> Lösche Lesezeichen:&lt;/i> Es muss mindestens ein Lesezeichen vorhanden sein. Alle anderen können
+        gelöscht werden.&lt;br>&lt;br>
 
-        &lt;b>Tab: Notizen&lt;/b>&lt;br>&lt;br>
+        &lt;b>Menü:&lt;/b>&lt;br>
+        &#8226;&lt;i> Erstelle Notiz (Stifticon):&lt;/i> Es öffnet sich ein neues Fenster, in dem du eine Notiz erstellen
+        kannst.&lt;br>
+        &#8226;&lt;i> Öffne Anwendungsordner:&lt;/i> Wenn du einen Dateimanager installiert hast, öffnet sich das Verzeichnis,
+        in dem z.B. herunter geladene Dateien gespeichert werden.&lt;br>
+        &#8226;&lt;i> Erstelle Verknüpfung:&lt;/i> Um einen schnellen Zugriff auf die Funktionen dieser App zu haben, kannst
+        du Verknüpfungen auf deinem Homescreen erstellen (Mein Moodle, Lesezeichen, Notizen, Notiz erstellen).&lt;br>
+        &#8226;&lt;i> Einstellungen:&lt;/i> In den Einstellungen kannst du das Verhalten der App deinen Bedürfnissen
+        anpassen. Auf jeden Fall wird empfohlen ein Kennwort zu setzen, um die App vor ungewolltem Zugriff zu schützen.&lt;br>
+        &#8226;&lt;i> Hilfe:&lt;/i> Öffnet den jeweiligen Hilfedialog.
+    </string>
 
-        &lt;i>Wichtig:&lt;/i>&lt;br>
+
+    <string name="helpInfo_text">
+        Hier werden Lesezeichen von voreingestellten, wichtigen Moodleseiten gezeigt. Auerdem ein Link zu unserer Schulhomepage
+        und zu einer Suchmaschine. Diese Liste kann nicht bearbeitet werden.&lt;br>&lt;br>
+
+        &lt;b>Die Liste&lt;/b>&lt;br>
+        Wenn du einen Listeneintrag anklickst, öffnet sich das Lesezeichen im internen Browser. Bei einem langen Klick
+        öffnet sich ein Popupmenü.&lt;br>&lt;br>
+
+        &lt;b>Popup Menü:&lt;/b>&lt;br>
+        &#8226;&lt;i> Als Favorit speichern:&lt;/i> Wenn du ein Lesezeichen als Favorit speicherst, kann es sofort beim Start
+        der App und bei einem Klick auf die Titelleiste angezeigt werden. Dies muss in den Einstellungen aktiviert werden.&lt;br>
+        &#8226;&lt;i> Erstelle Notiz:&lt;/i> Der Titel des Lesezeichens wird automatisch als Titel für eine neue Notiz
+        benutzt.&lt;br>
+        &#8226;&lt;i> Erstelle Verknüpfung:&lt;/i> Es wird eine Verknüpfung zu deinem Lesezeichen direkt auf deinen Homescreen
+        angelegt.&lt;br>
+        &#8226;&lt;i> Erstelle Kalendereintrag:&lt;/i> Der Name des Lesezeichens wird als Name für einen neuen Kalendereintrag
+        benutzt. Die Bearbeitung findet in deiner Kalenderapp statt.&lt;br>&lt;br>
+
+        &lt;b>Menü:&lt;/b>&lt;br>
+        &#8226;&lt;i> Erstelle Notiz (Stifticon):&lt;/i> Es öffnet sich ein neues Fenster, in dem du eine Notiz erstellen
+        kannst.&lt;br>
+        &#8226;&lt;i> Öffne Anwendungsordner:&lt;/i> Wenn du einen Dateimanager installiert hast, öffnet sich das Verzeichnis,
+        in dem z.B. herunter geladene Dateien gespeichert werden.&lt;br>
+        &#8226;&lt;i> Erstelle Verknüpfung:&lt;/i> Um einen schnellen Zugriff auf die Funktionen dieser App zu haben, kannst
+        du Verknüpfungen auf deinem Homescreen erstellen (Mein Moodle, Lesezeichen, Notizen, Notiz erstellen).&lt;br>
+        &#8226;&lt;i> Einstellungen:&lt;/i> In den Einstellungen kannst du das Verhalten der App deinen Bedürfnissen
+        anpassen. Auf jeden Fall wird empfohlen ein Kennwort zu setzen, um die App vor ungewolltem Zugriff zu schützen.&lt;br>
+        &#8226;&lt;i> Hilfe:&lt;/i> Öffnet den jeweiligen Hilfedialog.
+    </string>
+
+
+    <string name="helpNotes_text">
+        Hier werden deine Notizen angezeigt. Du kannst Notizen erstellen, indem du den entsprechenden Eintrag im Menu
+        (Stifticon) anklickst.&lt;br>&lt;br>
+
+        &lt;b>Wichtig:&lt;/b>&lt;br>
         Immer wenn du eine bestehende Notiz bearbeitest, wird die Notiz gelöscht. Speichere deshalb im \"Bearbeiten Fenster\"
         immer ab, selbst wenn du nichts veränderst. Sonst ist die Notiz verloren.&lt;br>&lt;br>
 
-        &lt;i>Notizen erstellen:&lt;/i>&lt;br>
-        Du kannst Notizen erstellen, indem du den entsprechenden Eintrag im Menu oder das Stifticon in der Toolbar
-        anklickst. Wenn die Liste nicht automatisch aktualisiert wird, kannst du auf dem Bild über der Liste nach unten
-        wischen.&lt;br>&lt;br>
+        &lt;b>Die Liste&lt;/b>&lt;br>
+        Wenn du einen Listeneintrag anklickst, öffnet sich die Notiz. Bei einem langen Klick öffnet sich ein
+        Popupmenü. Wenn du den linken Bereich (entweder mit Ausrufezeichen oder ein leerer Bereich) der Liste anklickst,
+        kannst du die Dringlichkeit der Notiz bearbeiten. Wenn die Liste nicht automatisch aktualisiert wird, kannst du auf
+        dem Bild über der Liste nach unten wischen.&lt;br>&lt;br>
 
-        &lt;i>Arbeit mit Notizen:&lt;/i>&lt;br>
-        Wenn du einen Eintrag in der Liste anklickst öffnet sich die Notiz. Wenn du einen Eintrag lange drückst, öffnet sich ein Menü.
-        Du kannst die Notiz bearbeiten oder sie ganz löschen (mindestens eine Notiz muss vorhanden sein).&lt;br>
-        Du kannst auch eine Benachrichtigung an die Statusleiste pinnen. Es öffnet sich ein neues Fenster,
-        um die Benachrichtigung zu bearbeiten. Die Benachrichtigung geht beim Neustart nicht verloren.&lt;br>&lt;br>&lt;br>
+        &lt;b>Popup Menü:&lt;/b>&lt;br>
+        &#8226;&lt;i> Bearbeite Notiz:&lt;/i> Es öffnet sich ein neues Fenster, in dem du die Dringlichkeit, den Titel
+        und den Inhalt der Notiz bearbeiten kannst.&lt;br>
+        &#8226;&lt;i> Teile Notiz:&lt;/i> Du kannst die Notiz mit jeder App teilen, die Text empfangen kann (SMS, Email,
+        …).&lt;br>
+        &#8226;&lt;i> Erstelle Kalendereintrag:&lt;/i> Der Name der Notiz wird als Name für einen neuen Kalendereintrag
+        benutzt. Die Bearbeitung findet in deiner Kalenderapp statt.&lt;br>
+        &#8226;&lt;i> Lösche Notiz:&lt;/i> Es muss mindestens eine Notiz vorhanden sein. Alle anderen können gelöscht
+        werden.&lt;br>&lt;br>
 
-        &lt;b>Menü&lt;/b>&lt;br>&lt;br>
-        Du kannst von hier zu deinen Benachrichtungen wechseln, den Anwendungsordner öffnen
-        (dort werden heruntergeladene Dateien gespeichert), die Einstellungen erreichen oder eine neue Notiz erstellen.
-        Du kannst außerdem Verknüpfungen auf deinem \"Homescreen\" erstellen, um einen schnellen Zugriff auf alle Funktionen
-        der App zu erhalten.</string>
+        &lt;b>Menü:&lt;/b>&lt;br>
+        &#8226;&lt;i> Erstelle Notiz (Stifticon):&lt;/i> Es öffnet sich ein neues Fenster, in dem du eine Notiz erstellen
+        kannst.&lt;br>
+        &#8226;&lt;i> Öffne Anwendungsordner:&lt;/i> Wenn du einen Dateimanager installiert hast, öffnet sich das Verzeichnis,
+        in dem z.B. herunter geladene Dateien gespeichert werden.&lt;br>
+        &#8226;&lt;i> Erstelle Verknüpfung:&lt;/i> Um einen schnellen Zugriff auf die Funktionen dieser App zu haben, kannst
+        du Verknüpfungen auf deinem Homescreen erstellen (Mein Moodle, Lesezeichen, Notizen, Notiz erstellen).&lt;br>
+        &#8226;&lt;i> Einstellungen:&lt;/i> In den Einstellungen kannst du das Verhalten der App deinen Bedürfnissen
+        anpassen. Auf jeden Fall wird empfohlen ein Kennwort zu setzen, um die App vor ungewolltem Zugriff zu schützen.&lt;br>
+        &#8226;&lt;i> Hilfe:&lt;/i> Öffnet den jeweiligen Hilfedialog.
+    </string>
 
-    <string name="helpNotes_text">
-        Hier kannst du neue Notizen erstellen, oder bestehende bearbeiten. Wenn du fertig bist, den \"Speichern Knopf\"
-        drücken.&lt;br>&lt;br>
 
-        &lt;i>Wichtig:&lt;/i>&lt;br>
-        Immer wenn du eine bestehende Notiz bearbeitest, wird die Notiz gelöscht. Speichere deshalb
-        immer ab, selbst wenn du nichts veränderst. Sonst ist die Notiz verloren.</string>
+    <string name="helpAddNotes_text">
+        Hier kannst du die Dringlichkeit, den Titel und den Inhalt einer Notiz bearbeiten.&lt;br>&lt;br>
 
+        &lt;b>Wichtig:&lt;/b>&lt;br>
+        Immer wenn du eine bestehende Notiz bearbeitest, wird die Notiz gelöscht. Speichere deshalb im \"Bearbeiten Fenster\"
+        immer ab, selbst wenn du nichts veränderst. Sonst ist die Notiz verloren.&lt;br>&lt;br>
+
+        &lt;b>Menü:&lt;/b>&lt;br>
+        &#8226;&lt;i> Speichern (Diskettenicon):&lt;/i> Wenn du die Notiz speicherst, kehrst du zum verherigen Fenster
+        (Hauptschirm oder Browser) zurück.&lt;br>
+        &#8226;&lt;i> Hilfe:&lt;/i> Öffnet den jeweiligen Hilfedialog.
+    </string>
 
     <string name="helpSettings_title">Einstellungen</string>
     <string name="helpSettings_text">
         Manche Einstellungen werden erst bei einem Neustart der Anwendung wirksam.</string>
 
+    <string name="helpBrowser_title">Browser</string>
+    <string name="helpBrowser_text">
+        HHS Moodle wird in diesem Browser angezeigt. Er hat ein Kontextmenü, dass sich bei einem langen Klick auf Bilder oder
+        Links öffnet.&lt;br>&lt;br>
 
-    <string name="dialog_help_title">HHS Moodle - kurze Enführung</string>
-    <string name="dialog_help">
-        Du erreichst einen kurzen Hilfe Dialog auf jedem Schirm, indem du \"Menu -> Hilfe\" drückst. Es wird empfohlen die App
-        mit einem Passwort zu schützen. Dies und andere Einstellungen erreichst du über das Menü. Du kannst
-        deinem \"Homescreen\" ein Widget hinzufügen, um einen schnellen Zugriff auf alle Funktionen der App zu erhalten.</string>
+        &lt;b>Wischfunktionen:&lt;/b>&lt;br>
+        &#8226;&lt;i> Nach unten:&lt;/i> Seite neu zu laden.&lt;br>
+        &#8226;&lt;i> Nach rechts:&lt;/i> Eine Seite zurück.&lt;br>
+        &#8226;&lt;i> Nch links:&lt;/i> Eine Seite nach vorne.&lt;br>&lt;br>
+
+        &lt;b>Menü:&lt;/b>&lt;br>
+        &#8226;&lt;i> Erstelle Notiz (Stifticon):&lt;/i> Es öffnet sich ein neues Fenster, in dem du eine Notiz erstellen
+        kannst.&lt;br>
+        &#8226;&lt;i> Lesezeichen öffnen (Sternicon):&lt;/i> Es öffnet sich ein Popupfenster mit deiner Lesezeichenliste.&lt;br>
+        &#8226;&lt;i> Lesezeichen hinzufügen:&lt;/i> Füge die aktuelle Internetseite zu deinen Lesezeichen hinzu. Es öffnet
+        sich ein Popupfenster, in dem du den Titel des Lesezeichens bearbeiten kannst.&lt;br>
+        &#8226;&lt;i> Lesezeichen teilen:&lt;/i> Du kannst die Internetseite als Text mit jeder App teilen, die Text
+        empfangen kann (SMS, Email, …). Du kannst außerdem Bildschirmfotos der gesamten Internetseite machen (auch von
+        dem Teil, der gerade nicht auf dem Bildschirm zu sehen ist). Damit dies richtig funktioniert, solltest du warten,
+        bis die Internetseite komplett geladen ist, um sicherzustellen, dass die gesamte Internetseite aufgenommen wird.&lt;br>
+        &#8226;&lt;i> Öffne Anwendungsordner:&lt;/i> Wenn du einen Dateimanager installiert hast, öffnet sich das Verzeichnis,
+        in dem z.B. herunter geladene Dateien gespeichert werden.&lt;br>
+        &#8226;&lt;i> Einstellungen:&lt;/i> In den Einstellungen kannst du das Verhalten der App deinen Bedürfnissen
+        anpassen. Auf jeden Fall wird empfohlen ein Kennwort zu setzen, um die App vor ungewolltem Zugriff zu schützen.&lt;br>
+        &#8226;&lt;i> Hilfe:&lt;/i> Öffnet den jeweiligen Hilfedialog.
+    </string>
 
 
     <string name="perm_notShow_title">Berechtigungsdialog</string>

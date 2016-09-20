@@ -96,7 +96,7 @@ public class HHS_Browser extends AppCompatActivity  {
         setContentView(R.layout.activity_browser);
 
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         String fontSizeST = sharedPref.getString("font", "100");
         int fontSize = Integer.parseInt(fontSizeST);
 
@@ -115,8 +115,19 @@ public class HHS_Browser extends AppCompatActivity  {
             toolbar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent_in = new Intent(HHS_Browser.this, HHS_MainScreen.class);
-                    startActivity(intent_in);
+                    final String startURL = sharedPref.getString("favoriteURL", "https://moodle.huebsch.ka.schule-bw.de/moodle/");
+                    final String startType = sharedPref.getString("startType", "1");
+
+                    if (startType.equals("2")) {
+                        Intent mainIntent = new Intent(HHS_Browser.this, HHS_Browser.class);
+                        mainIntent.putExtra("id", "1");
+                        mainIntent.putExtra("url", startURL);
+                        startActivity(mainIntent);
+                    } else if (startType.equals("1")){
+                        Intent mainIntent = new Intent(HHS_Browser.this, HHS_MainScreen.class);
+                        mainIntent.putExtra("id", "1");
+                        startActivity(mainIntent);
+                    }
                 }
             });
 
@@ -665,6 +676,11 @@ public class HHS_Browser extends AppCompatActivity  {
                     .setMessage(s)
                     .setPositiveButton(getString(R.string.toast_yes), null);
             dialog.show();
+        }
+
+        if (id == R.id.action_settings) {
+            Intent intent_in = new Intent(HHS_Browser.this, HHS_UserSettingsActivity.class);
+            startActivity(intent_in);
         }
 
         if (id == R.id.action_share) {

@@ -78,7 +78,6 @@ public class PasswordActivity extends AppCompatActivity {
                 String Password = editPassword.getText().toString().trim();
 
                 if (Password.equals(protect)) {
-
                     finish();
 
                 } else {

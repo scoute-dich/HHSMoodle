@@ -118,6 +118,9 @@
     <string name="action_help">Hilfemenü</string>
     <string name="action_help_summary">Deaktiviere das Hilfemenü in der gesamten App.</string>
 
+    <string name="action_start">App Start und Titelleiste-Klick</string>
+    <string name="action_start_summary">Was möchtest du sehen: Entweder den Startschirm oder den Lesezeichenfavorit?</string>
+
 
     // Moodle
 
