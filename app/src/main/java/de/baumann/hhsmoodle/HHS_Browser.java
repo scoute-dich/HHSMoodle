@@ -710,7 +710,6 @@ public class HHS_Browser extends AppCompatActivity  {
                                     startActivity(Intent.createChooser(sharingIntent, (getString(R.string.app_share_screenshot))));
                                 }
                             }
-
                             if (options[item].equals(getString(R.string.menu_save_screenshot))) {
                                 screenshot();
                             }
