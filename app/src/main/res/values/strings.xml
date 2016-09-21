@@ -65,10 +65,10 @@
     <string name="pref_5">Security</string>
 
     <string name="action_username">Username</string>
-    <string name="action_username_summary">Please enter your Moodle username, to get automatically logged in.</string>
+    <string name="action_username_summary">Please enter your Moodle username to get automatically logged in.</string>
 
-    <string name="action_password">Password</string>
-    <string name="action_password_summary">Please enter your Moodle password, to get automatically logged in.</string>
+    <string name="action_password">Password (Moodle)</string>
+    <string name="action_password_summary">Please enter your Moodle password to get automatically logged in.</string>
 
     <string name="action_changelog">Changelog</string>
     <string name="action_changelog_summary">See what\'s new …</string>
@@ -96,7 +96,7 @@
     <string name="action_links_title">Links</string>
     <string name="action_links_summary">Make links in notes and notifications clickable.</string>
 
-    <string name="action_protect">Password</string>
+    <string name="action_protect">Password (App access)</string>
     <string name="action_protect_summary">Set a password to protect app against unwanted access. Let empty, if you do not want
     to protect the app (own risk).</string>
 
@@ -152,7 +152,6 @@
     <string name="toast_download_2">Download completed. Open folder?</string>
     <string name="toast_perm">Permissions granted?</string>
     <string name="toast_install_folder">Please install a file manager.</string>
-    <string name="toast_login">Please enter login data in settings.</string>
     <string name="toast_back">Can not go back.</string>
     <string name="toast_forward">Can not go forward.</string>
     <string name="toast_save">Save changes before leaving?</string>
@@ -185,11 +184,9 @@
     <string name="note_share_2">Share note using:</string>
     <string name="note_share_3">Send mail using:</string>
     <string name="note_saved">Successfully saved note.</string>
-    <string name="note_priority">Priority</string>
     <string name="note_priority_0">Normal</string>
-    <string name="note_priority_1">! Important</string>
-    <string name="note_priority_2">!! Very important</string>
-    <string name="note_priority_3">!!! Better do now</string>
+    <string name="note_priority_1">Low</string>
+    <string name="note_priority_2">High</string>
     <string name="save_note_text">Save</string>
     <string name="title_hint">Title</string>
     <string name="text_hint">Content</string>

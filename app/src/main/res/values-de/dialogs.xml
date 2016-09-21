@@ -18,7 +18,7 @@
         You should have received a copy of the GNU General Public License
         along with this program.  If not, see http://www.gnu.org/licenses.&lt;br>&lt;br>&lt;br>
 
-        &lt;b>Benutzte quelloffene Projekte:&lt;/b>&lt;br>&lt;br>
+        &lt;b>Benutztes quelloffenes Projekt:&lt;/b>&lt;br>&lt;br>
 
         &lt;i>browser&lt;br>
         https://github.com/yoshihiroando/browser&lt;/i>
@@ -31,6 +31,15 @@
     <string name="changelog_text">
         &lt;i>Für mehr Informationen besuche die Projektseite auf Github:&lt;br>
         https://github.com/scoute-dich/HHSMoodle&lt;/i>&lt;br>&lt;br>
+
+        &lt;b>v 2.0:&lt;/b>&lt;br>
+        &#8226; Benachrichtigungen entfern&lt;br>
+        &#8226; Kalendereintrag erstellen&lt;br>
+        &#8226; Notizen: Priorität&lt;br>
+        &#8226; Einstellungen: App Start&lt;br>
+        &#8226; Widget: Verbesserungen&lt;br>
+        &#8226; Mobile Ansicht optimiert&lt;br>
+        &#8226; Andere Verbesserungen&lt;br>&lt;br>
 
         &lt;b>v 1.1:&lt;/b>&lt;br>
         &#8226; Widget für den Homescreen&lt;br>
@@ -67,7 +76,7 @@
         &lt;b>Wichtig&lt;/b>&lt;br>
         Wenn dein Moodlepasswort oder -Anmeldename geändert wird, musst du dies auch in den Einstellungen der App ändern.
         Es wird außerdem dringend empfohlen die App mit einem Passwort gegen ungewollten Zugriff zu schützen. Dies und
-        andere Einstellungen erreichst du über das \"Menu -> Einstellungen\".&lt;br>&lt;br>
+        andere Einstellungen erreichst du über das \"Menü -> Einstellungen\".&lt;br>&lt;br>
 
         &lt;b>Navigation&lt;/b>&lt;br>
         Du erreichst den Hauptschirm der Anwendung, indem du den Pfeil oben links in der Titelleiste anklickst. Ein Klick
@@ -82,17 +91,17 @@
     <string name="helpBookmarks_text">
         Hier werden die von dir gespeicherten Lesezeichen angezeigt.&lt;br>&lt;br>
 
-        &lt;b>Die Liste&lt;/b>&lt;br>
+        &lt;b>Die Liste:&lt;/b>&lt;br>
         Wenn du einen Listeneintrag anklickst, öffnet sich das Lesezeichen im internen Browser. Bei einem langen Klick
         öffnet sich ein Popupmenü. Wenn die Liste nicht automatisch aktualisiert wird, kannst du auf dem Bild über der Liste
-        nach unten wischen. &lt;br>&lt;br>
+        nach unten wischen.&lt;br>&lt;br>
 
         &lt;b>Popup Menü:&lt;/b>&lt;br>
         &#8226;&lt;i> Bearbeite Titel:&lt;/i> Du kannst den Titel des Lesezeichens bearbeiten.&lt;br>
         &#8226;&lt;i> Als Favorit speichern:&lt;/i> Wenn du ein Lesezeichen als Favorit speicherst, kann es sofort beim Start
         der App und bei einem Klick auf die Titelleiste angezeigt werden. Dies muss in den Einstellungen aktiviert werden.&lt;br>
         &#8226;&lt;i> Erstelle Notiz:&lt;/i> Der Titel des Lesezeichens wird automatisch als Titel für eine neue Notiz
-        benutzt.&lt;br>
+        benutzt, der Link für den Inhalt.&lt;br>
         &#8226;&lt;i> Erstelle Verknüpfung:&lt;/i> Es wird eine Verknüpfung zu deinem Lesezeichen direkt auf deinen Homescreen
         angelegt.&lt;br>
         &#8226;&lt;i> Erstelle Kalendereintrag:&lt;/i> Der Name des Lesezeichens wird als Name für einen neuen Kalendereintrag
@@ -114,10 +123,10 @@
 
 
     <string name="helpInfo_text">
-        Hier werden Lesezeichen von voreingestellten, wichtigen Moodleseiten gezeigt. Auerdem ein Link zu unserer Schulhomepage
+        Hier werden Lesezeichen von voreingestellten, wichtigen Moodleseiten gezeigt. Außerdem ein Link zu unserer Schulhomepage
         und zu einer Suchmaschine. Diese Liste kann nicht bearbeitet werden.&lt;br>&lt;br>
 
-        &lt;b>Die Liste&lt;/b>&lt;br>
+        &lt;b>Die Liste:&lt;/b>&lt;br>
         Wenn du einen Listeneintrag anklickst, öffnet sich das Lesezeichen im internen Browser. Bei einem langen Klick
         öffnet sich ein Popupmenü.&lt;br>&lt;br>
 
@@ -125,7 +134,7 @@
         &#8226;&lt;i> Als Favorit speichern:&lt;/i> Wenn du ein Lesezeichen als Favorit speicherst, kann es sofort beim Start
         der App und bei einem Klick auf die Titelleiste angezeigt werden. Dies muss in den Einstellungen aktiviert werden.&lt;br>
         &#8226;&lt;i> Erstelle Notiz:&lt;/i> Der Titel des Lesezeichens wird automatisch als Titel für eine neue Notiz
-        benutzt.&lt;br>
+        benutzt, der Link für den Inhal.&lt;br>
         &#8226;&lt;i> Erstelle Verknüpfung:&lt;/i> Es wird eine Verknüpfung zu deinem Lesezeichen direkt auf deinen Homescreen
         angelegt.&lt;br>
         &#8226;&lt;i> Erstelle Kalendereintrag:&lt;/i> Der Name des Lesezeichens wird als Name für einen neuen Kalendereintrag
@@ -152,7 +161,7 @@
         Immer wenn du eine bestehende Notiz bearbeitest, wird die Notiz gelöscht. Speichere deshalb im \"Bearbeiten Fenster\"
         immer ab, selbst wenn du nichts veränderst. Sonst ist die Notiz verloren.&lt;br>&lt;br>
 
-        &lt;b>Die Liste&lt;/b>&lt;br>
+        &lt;b>Die Liste:&lt;/b>&lt;br>
         Wenn du einen Listeneintrag anklickst, öffnet sich die Notiz. Bei einem langen Klick öffnet sich ein
         Popupmenü. Wenn du den linken Bereich (entweder mit Ausrufezeichen oder ein leerer Bereich) der Liste anklickst,
         kannst du die Dringlichkeit der Notiz bearbeiten. Wenn die Liste nicht automatisch aktualisiert wird, kannst du auf
@@ -206,18 +215,19 @@
         &lt;b>Wischfunktionen:&lt;/b>&lt;br>
         &#8226;&lt;i> Nach unten:&lt;/i> Seite neu zu laden.&lt;br>
         &#8226;&lt;i> Nach rechts:&lt;/i> Eine Seite zurück.&lt;br>
-        &#8226;&lt;i> Nch links:&lt;/i> Eine Seite nach vorne.&lt;br>&lt;br>
+        &#8226;&lt;i> Nach links:&lt;/i> Eine Seite nach vorne.&lt;br>&lt;br>
 
         &lt;b>Menü:&lt;/b>&lt;br>
         &#8226;&lt;i> Erstelle Notiz (Stifticon):&lt;/i> Es öffnet sich ein neues Fenster, in dem du eine Notiz erstellen
-        kannst.&lt;br>
+        kannst. Der Titel der Webseite wird als Titel für die Notiz benutzt, der Link steht im Inhalt.&lt;br>
         &#8226;&lt;i> Lesezeichen öffnen (Sternicon):&lt;/i> Es öffnet sich ein Popupfenster mit deiner Lesezeichenliste.&lt;br>
         &#8226;&lt;i> Lesezeichen hinzufügen:&lt;/i> Füge die aktuelle Internetseite zu deinen Lesezeichen hinzu. Es öffnet
         sich ein Popupfenster, in dem du den Titel des Lesezeichens bearbeiten kannst.&lt;br>
         &#8226;&lt;i> Lesezeichen teilen:&lt;/i> Du kannst die Internetseite als Text mit jeder App teilen, die Text
-        empfangen kann (SMS, Email, …). Du kannst außerdem Bildschirmfotos der gesamten Internetseite machen (auch von
-        dem Teil, der gerade nicht auf dem Bildschirm zu sehen ist). Damit dies richtig funktioniert, solltest du warten,
-        bis die Internetseite komplett geladen ist, um sicherzustellen, dass die gesamte Internetseite aufgenommen wird.&lt;br>
+        empfangen kann (SMS, Email, …). Du kannst außerdem Bildschirmfotos der gesamten Internetseite machen und teilen
+        (auch von dem Teil, der gerade nicht auf dem Bildschirm zu sehen ist). Damit dies richtig funktioniert, solltest du
+        warten, bis die Internetseite komplett geladen ist, um sicherzustellen, dass die gesamte Internetseite
+        aufgenommen wird.&lt;br>
         &#8226;&lt;i> Öffne Anwendungsordner:&lt;/i> Wenn du einen Dateimanager installiert hast, öffnet sich das Verzeichnis,
         in dem z.B. herunter geladene Dateien gespeichert werden.&lt;br>
         &#8226;&lt;i> Einstellungen:&lt;/i> In den Einstellungen kannst du das Verhalten der App deinen Bedürfnissen

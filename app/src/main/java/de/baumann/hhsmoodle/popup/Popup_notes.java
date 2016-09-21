@@ -16,6 +16,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
@@ -256,33 +257,44 @@ public class Popup_notes extends Activity {
             SimpleAdapter simpleAdapter = new SimpleAdapter(
                     Popup_notes.this,
                     mapList,
-                    R.layout.list_item_note,
-                    new String[] {"title", "cont", "icon"},
-                    new int[] {R.id.textView_title, R.id.textView_des, R.id.pri}
+                    R.layout.list_item,
+                    new String[] {"title", "cont"},
+                    new int[] {R.id.textView_title, R.id.textView_des}
             ) {
                 @Override
                 public View getView (final int position, View convertView, ViewGroup parent) {
 
-                    View v = super.getView(position, convertView, parent);
+                    @SuppressWarnings("unchecked")
+                    HashMap<String,String> map = (HashMap<String,String>)listView.getItemAtPosition(position);
+                    final String title = map.get("title");
+                    final String cont = map.get("cont");
+                    final String seqnoStr = map.get("seqno");
+                    final String icon = map.get("icon");
 
-                    TextView i=(TextView) v.findViewById(R.id.pri);
+                    View v = super.getView(position, convertView, parent);
+                    ImageView i=(ImageView) v.findViewById(R.id.icon);
+
+                    switch (icon) {
+                        case "":
+                            i.setImageResource(R.drawable.pr_green);
+                            break;
+                        case "!":
+                            i.setImageResource(R.drawable.pr_yellow);
+                            break;
+                        case "!!":
+                            i.setImageResource(R.drawable.pr_red);
+                            break;
+                    }
+
                     i.setOnClickListener(new View.OnClickListener() {
 
                         @Override
                         public void onClick(View arg0) {
 
-                            @SuppressWarnings("unchecked")
-                            HashMap<String,String> map = (HashMap<String,String>)listView.getItemAtPosition(position);
-
-                            final String title = map.get("title");
-                            final String cont = map.get("cont");
-                            final String seqnoStr = map.get("seqno");
-
                             final CharSequence[] options = {
                                     getString(R.string.note_priority_0),
                                     getString(R.string.note_priority_1),
-                                    getString(R.string.note_priority_2),
-                                    getString(R.string.note_priority_3)};
+                                    getString(R.string.note_priority_2)};
                             new AlertDialog.Builder(Popup_notes.this)
                                     .setItems(options, new DialogInterface.OnClickListener() {
                                         @Override
@@ -308,7 +320,6 @@ public class Popup_notes extends Activity {
                                                 } catch (Exception e) {
                                                     e.printStackTrace();
                                                 }
-                                                finish();
                                             }
 
                                             if (options[item].equals(getString(R.string.note_priority_1))) {
@@ -332,7 +343,6 @@ public class Popup_notes extends Activity {
                                                 } catch (Exception e) {
                                                     e.printStackTrace();
                                                 }
-                                                finish();
                                             }
 
                                             if (options[item].equals(getString(R.string.note_priority_2))) {
@@ -356,31 +366,6 @@ public class Popup_notes extends Activity {
                                                 } catch (Exception e) {
                                                     e.printStackTrace();
                                                 }
-                                                finish();
-                                            }
-
-                                            if (options[item].equals(getString(R.string.note_priority_3))) {
-
-                                                try {
-                                                    Database_Notes db = new Database_Notes(Popup_notes.this);
-                                                    db.deleteNote((Integer.parseInt(seqnoStr)));
-                                                    db.close();
-
-                                                } catch (Exception e) {
-                                                    e.printStackTrace();
-                                                }
-
-                                                try {
-
-                                                    final Database_Notes db = new Database_Notes(Popup_notes.this);
-                                                    db.addBookmark(title, cont, "!!!");
-                                                    db.close();
-                                                    setNotesList();
-
-                                                } catch (Exception e) {
-                                                    e.printStackTrace();
-                                                }
-                                                finish();
                                             }
                                         }
                                     }).show();

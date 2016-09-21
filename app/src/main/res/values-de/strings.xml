@@ -67,10 +67,10 @@
     <string name="pref_5">Sicherheit</string>
 
     <string name="action_username">Benutzername</string>
-    <string name="action_username_summary">Bitte gib deinen Benutzernamen an, um automatisch angemeldet zu werden.</string>
+    <string name="action_username_summary">Bitte gib deinen Moodle Benutzernamen an, um automatisch angemeldet zu werden.</string>
 
-    <string name="action_password">Passwort</string>
-    <string name="action_password_summary">Bitte gib dein Passwort an, um automatisch angemeldet zu werden..</string>
+    <string name="action_password">Passwort (Moodle)</string>
+    <string name="action_password_summary">Bitte gib dein Moodle Passwort an, um automatisch angemeldet zu werden..</string>
 
     <string name="action_changelog">Änderungen</string>
     <string name="action_changelog_summary">Was gibt es Neues …</string>
@@ -99,7 +99,7 @@
     <string name="action_links_title">Links</string>
     <string name="action_links_summary">Links in Notizen und Benachrichtungen hervorheben, dass sie geöffnet werden können.</string>
 
-    <string name="action_protect">Passwort</string>
+    <string name="action_protect">Passwort (App Zugang)</string>
     <string name="action_protect_summary">Bestimme ein Passwort um die App vor unbefugtem Zugriff zu schützen. Leer lassen, wenn
         du die App nicht schützen willst (eigenes Risiko).</string>
 
@@ -155,7 +155,6 @@
     <string name="toast_download_2">Download vollständig. Ordner öffnen?</string>
     <string name="toast_perm">Berechtigungen gewährt?</string>
     <string name="toast_install_folder">Bitte einen Dateimanager installieren.</string>
-    <string name="toast_login">Bitte Anmeldedaten in den Einstellungen eingeben.</string>
     <string name="toast_back">Kann vorherige Seite nicht laden.</string>
     <string name="toast_forward">Kann nächste Seite nicht laden.</string>
     <string name="toast_save">Änderungen vor dem Verlasssen speichern?</string>
@@ -188,11 +187,9 @@
     <string name="note_share_2">Notiz teilen mit:</string>
     <string name="note_share_3">Email senden mit:</string>
     <string name="note_saved">Notiz erfolgreich gespeichert.</string>
-    <string name="note_priority">Dringlichkeit</string>
-    <string name="note_priority_0">Normal</string>
-    <string name="note_priority_1">! Wichtig</string>
-    <string name="note_priority_2">!! Sehr wichtig</string>
-    <string name="note_priority_3">!!! Sofort erledigen</string>
+    <string name="note_priority_0">Niedrig</string>
+    <string name="note_priority_1">Normal</string>
+    <string name="note_priority_2">Hoch</string>
     <string name="save_note_text">Speichern</string>
     <string name="title_hint">Titel</string>
     <string name="text_hint">Inhalt</string>

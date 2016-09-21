@@ -18,7 +18,7 @@
         You should have received a copy of the GNU General Public License
         along with this program.  If not, see http://www.gnu.org/licenses.&lt;br>&lt;br>&lt;br>
 
-        &lt;b>Used open source projects:&lt;/b>&lt;br>&lt;br>
+        &lt;b>Used open source project:&lt;/b>&lt;br>&lt;br>
 
         &lt;i>browser&lt;br>
         https://github.com/yoshihiroando/browser&lt;/i>
@@ -30,6 +30,15 @@
     <string name="changelog_text">
         &lt;i>For more information visit the project site on github:&lt;br>
         https://github.com/scoute-dich/HHSMoodle&lt;/i>&lt;br>&lt;br>
+
+        &lt;b>v 2.0:&lt;/b>&lt;br>
+        &#8226; Removed notifications&lt;br>
+        &#8226; Create calendar event&lt;br>
+        &#8226; Priority for notes&lt;br>
+        &#8226; Settings: app start&lt;br>
+        &#8226; Widget: improvement&lt;br>
+        &#8226; Mobile view optimized&lt;br>
+        &#8226; Other improvements&lt;br>&lt;br>
 
         &lt;b>v 1.1:&lt;/b>&lt;br>
         &#8226; Widget for home screen&lt;br>
@@ -59,173 +68,161 @@
 
     //Help Dialogs
 
-    <string name="dialog_help_title">HHS Moodle - kurze Enführung</string>
+    <string name="dialog_help_title">HHS Moodle - short introduction</string>
     <string name="dialog_help">
-        Du erreichst einen kurzen Hilfe Dialog auf jedem Schirm, indem du \"Menu -> Hilfe\" drückst.&lt;br>&lt;br>
+        On every screen you can reach a help dialog, by clicking \"Menu -> Help\".&lt;br>&lt;br>
 
-        &lt;b>Wichtig&lt;/b>&lt;br>
-        Wenn dein Moodlepasswort oder -Anmeldename geändert wird, musst du dies auch in den Einstellungen der App ändern.
-        Es wird außerdem dringend empfohlen die App mit einem Passwort gegen ungewollten Zugriff zu schützen. Dies und
-        andere Einstellungen erreichst du über das \"Menu -> Einstellungen\".&lt;br>&lt;br>
+        &lt;b>Important&lt;/b>&lt;br>
+        If your moodle username or password gets changed, you must change this also in the settings.
+        It is highly recommended to protect the app with a password against unwanted access. This and other settings
+        you can reach by pressing \"Menu -> Settings\".&lt;br>&lt;br>
 
         &lt;b>Navigation&lt;/b>&lt;br>
-        Du erreichst den Hauptschirm der Anwendung, indem du den Pfeil oben links in der Titelleiste anklickst. Ein Klick
-        auf die Titelleiste bringt dich entweder zum Hauptschirm, oder zu deinem Lesezeichenfavorit (kann in den
-        Einstellungen bestimmt werden). Wenn du lange auf die Titelleiste klickst, wird die App komplett beendet.&lt;br>&lt;br>
+        You reach the main screen of the app, by clicking the arrow on the left side of the toolbar. By clicking the toolbar
+        you can go either back to the main screen or open your favorite bookmark (you can decide this in the settings).
+        If you long click on the toolbar, the app gets closed completely.&lt;br>&lt;br>
 
         &lt;b>Widgets&lt;/b>&lt;br>
-        Du kannst deinem Homescreen ein Widget hinzufügen, um einen schnellen Zugriff auf alle wichtigen Funktionen der
-        App zu erhalten (App starten, Mein Moodle, Lesezeichen, Notizen, Notiz erstellen).</string>
+        You can add a widget to your homescreen, to get a faster access to the main functions of the app (Start app,
+        My Moodle, bookmarks, notes, create new note).</string>
 
 
     <string name="helpBookmarks_text">
-        Hier werden die von dir gespeicherten Lesezeichen angezeigt.&lt;br>&lt;br>
+        Here your saved bookmarks are shown.&lt;br>&lt;br>
 
-        &lt;b>Die Liste&lt;/b>&lt;br>
-        Wenn du einen Listeneintrag anklickst, öffnet sich das Lesezeichen im internen Browser. Bei einem langen Klick
-        öffnet sich ein Popupmenü. Wenn die Liste nicht automatisch aktualisiert wird, kannst du auf dem Bild über der Liste
-        nach unten wischen. &lt;br>&lt;br>
+        &lt;b>The List:&lt;/b>&lt;br>
+        If you click on a list entry the bookmark opens in the intern browser. If you long click a list entry a popup
+        menu opens.If the list does not refresh it automatically, you can swipe down on the picture above the list, to refresh
+        manually.&lt;br>&lt;br>
 
-        &lt;b>Popup Menü:&lt;/b>&lt;br>
-        &#8226;&lt;i> Bearbeite Titel:&lt;/i> Du kannst den Titel des Lesezeichens bearbeiten.&lt;br>
-        &#8226;&lt;i> Als Favorit speichern:&lt;/i> Wenn du ein Lesezeichen als Favorit speicherst, kann es sofort beim Start
-        der App und bei einem Klick auf die Titelleiste angezeigt werden. Dies muss in den Einstellungen aktiviert werden.&lt;br>
-        &#8226;&lt;i> Erstelle Notiz:&lt;/i> Der Titel des Lesezeichens wird automatisch als Titel für eine neue Notiz
-        benutzt.&lt;br>
-        &#8226;&lt;i> Erstelle Verknüpfung:&lt;/i> Es wird eine Verknüpfung zu deinem Lesezeichen direkt auf deinen Homescreen
-        angelegt.&lt;br>
-        &#8226;&lt;i> Erstelle Kalendereintrag:&lt;/i> Der Name des Lesezeichens wird als Name für einen neuen Kalendereintrag
-        benutzt. Die Bearbeitung findet in deiner Kalenderapp statt.&lt;br>
-        &#8226;&lt;i> Lösche Lesezeichen:&lt;/i> Es muss mindestens ein Lesezeichen vorhanden sein. Alle anderen können
-        gelöscht werden.&lt;br>&lt;br>
+        &lt;b>Popup menu:&lt;/b>&lt;br>
+        &#8226;&lt;i> Edit title:&lt;/i> You can edit the title of the bookmark.&lt;br>
+        &#8226;&lt;i> Set as favorite:&lt;/i> If you set a bookmark as favorite, you can open it at the app start or by
+        clicking on the toolbar. You can configure that in the settings.&lt;br>
+        &#8226;&lt;i> Create note:&lt;/i> The title of the bookmark will be used as title for a new note, the url for the content.&lt;br>
+        &#8226;&lt;i> Create shortcut:&lt;/i> A shortcut to the bookmark will be created on your homescreen.&lt;br>
+        &#8226;&lt;i> Create calendar entry:&lt;/i> The name of the bookmark will be used as title for a new calendar
+        entry. Editing of this entry will take place in your calendar app.&lt;br>
+        &#8226;&lt;i> Delete bookmark:&lt;/i> At least one bookmark must remain. All others can be deleted.&lt;br>&lt;br>
 
-        &lt;b>Menü:&lt;/b>&lt;br>
-        &#8226;&lt;i> Erstelle Notiz (Stifticon):&lt;/i> Es öffnet sich ein neues Fenster, in dem du eine Notiz erstellen
-        kannst.&lt;br>
-        &#8226;&lt;i> Öffne Anwendungsordner:&lt;/i> Wenn du einen Dateimanager installiert hast, öffnet sich das Verzeichnis,
-        in dem z.B. herunter geladene Dateien gespeichert werden.&lt;br>
-        &#8226;&lt;i> Erstelle Verknüpfung:&lt;/i> Um einen schnellen Zugriff auf die Funktionen dieser App zu haben, kannst
-        du Verknüpfungen auf deinem Homescreen erstellen (Mein Moodle, Lesezeichen, Notizen, Notiz erstellen).&lt;br>
-        &#8226;&lt;i> Einstellungen:&lt;/i> In den Einstellungen kannst du das Verhalten der App deinen Bedürfnissen
-        anpassen. Auf jeden Fall wird empfohlen ein Kennwort zu setzen, um die App vor ungewolltem Zugriff zu schützen.&lt;br>
-        &#8226;&lt;i> Hilfe:&lt;/i> Öffnet den jeweiligen Hilfedialog.
+        &lt;b>Menu:&lt;/b>&lt;br>
+        &#8226;&lt;i> Create note (pen icon):&lt;/i> A new window where you can create a new note will open.&lt;br>
+        &#8226;&lt;i> Open app directory:&lt;/i> If you have a installed file manager, the directory where downloaded files
+        are stored will open.&lt;br>
+        &#8226;&lt;i> Create shortcut:&lt;/i> To have a faster access to the main functions of the app, you can create
+        shortcuts on your homescreen (My Moodle, bookmarks, notes, create new note).&lt;br>
+        &#8226;&lt;i> Settings:&lt;/i> In the settings you can configure the behavior of the app. It is highly
+        recommended to protect the app with a password against unwanted access.&lt;br>
+        &#8226;&lt;i> Help:&lt;/i> Opens the help dialog.
     </string>
 
 
     <string name="helpInfo_text">
-        Hier werden Lesezeichen von voreingestellten, wichtigen Moodleseiten gezeigt. Auerdem ein Link zu unserer Schulhomepage
-        und zu einer Suchmaschine. Diese Liste kann nicht bearbeitet werden.&lt;br>&lt;br>
+        Here are bookmarks to important Moodle sites stored. Also a link to our school homepage and to a search engine.
+        This list can not be edited.&lt;br>&lt;br>
 
-        &lt;b>Die Liste&lt;/b>&lt;br>
-        Wenn du einen Listeneintrag anklickst, öffnet sich das Lesezeichen im internen Browser. Bei einem langen Klick
-        öffnet sich ein Popupmenü.&lt;br>&lt;br>
+        &lt;b>The list:&lt;/b>&lt;br>
+        If you click on a list entry the bookmark opens in the intern browser. If you long click a list entry a popup
+        menu opens.&lt;br>&lt;br>
 
-        &lt;b>Popup Menü:&lt;/b>&lt;br>
-        &#8226;&lt;i> Als Favorit speichern:&lt;/i> Wenn du ein Lesezeichen als Favorit speicherst, kann es sofort beim Start
-        der App und bei einem Klick auf die Titelleiste angezeigt werden. Dies muss in den Einstellungen aktiviert werden.&lt;br>
-        &#8226;&lt;i> Erstelle Notiz:&lt;/i> Der Titel des Lesezeichens wird automatisch als Titel für eine neue Notiz
-        benutzt.&lt;br>
-        &#8226;&lt;i> Erstelle Verknüpfung:&lt;/i> Es wird eine Verknüpfung zu deinem Lesezeichen direkt auf deinen Homescreen
-        angelegt.&lt;br>
-        &#8226;&lt;i> Erstelle Kalendereintrag:&lt;/i> Der Name des Lesezeichens wird als Name für einen neuen Kalendereintrag
-        benutzt. Die Bearbeitung findet in deiner Kalenderapp statt.&lt;br>&lt;br>
+        &lt;b>Popup menu:&lt;/b>&lt;br>
+        &#8226;&lt;i> Set as favorite:&lt;/i> If you set a bookmark as favorite, you can open it at the app start or by
+        clicking on the toolbar. You can configure that in the settings.&lt;br>
+        &#8226;&lt;i> Create note:&lt;/i> The title of the bookmark will be used as title for a new note, the url for the content.&lt;br>
+        &#8226;&lt;i> Create shortcut:&lt;/i> A shortcut to the bookmark will be created on your homescreen.&lt;br>
+        &#8226;&lt;i> Create calendar entry:&lt;/i> The name of the bookmark will be used as title for a new calendar
+        entry. Editing of this entry will take place in your calendar app.&lt;br>&lt;br>
 
-        &lt;b>Menü:&lt;/b>&lt;br>
-        &#8226;&lt;i> Erstelle Notiz (Stifticon):&lt;/i> Es öffnet sich ein neues Fenster, in dem du eine Notiz erstellen
-        kannst.&lt;br>
-        &#8226;&lt;i> Öffne Anwendungsordner:&lt;/i> Wenn du einen Dateimanager installiert hast, öffnet sich das Verzeichnis,
-        in dem z.B. herunter geladene Dateien gespeichert werden.&lt;br>
-        &#8226;&lt;i> Erstelle Verknüpfung:&lt;/i> Um einen schnellen Zugriff auf die Funktionen dieser App zu haben, kannst
-        du Verknüpfungen auf deinem Homescreen erstellen (Mein Moodle, Lesezeichen, Notizen, Notiz erstellen).&lt;br>
-        &#8226;&lt;i> Einstellungen:&lt;/i> In den Einstellungen kannst du das Verhalten der App deinen Bedürfnissen
-        anpassen. Auf jeden Fall wird empfohlen ein Kennwort zu setzen, um die App vor ungewolltem Zugriff zu schützen.&lt;br>
-        &#8226;&lt;i> Hilfe:&lt;/i> Öffnet den jeweiligen Hilfedialog.
+        &lt;b>Menu:&lt;/b>&lt;br>
+        &#8226;&lt;i> Create note (pen icon):&lt;/i> A new window where you can create a new note will open.&lt;br>
+        &#8226;&lt;i> Open app directory:&lt;/i> If you have a installed file manager, the directory where downloaded files
+        are stored will open.&lt;br>
+        &#8226;&lt;i> Create shortcut:&lt;/i> To have a faster access to the main functions of the app, you can create
+        shortcuts on your homescreen (My Moodle, bookmarks, notes, create new note).&lt;br>
+        &#8226;&lt;i> Settings:&lt;/i> In the settings you can configure the behavior of the app. It is highly
+        recommended to protect the app with a password against unwanted access.&lt;br>
+        &#8226;&lt;i> Help:&lt;/i> Opens the help dialog.
     </string>
 
 
     <string name="helpNotes_text">
-        Hier werden deine Notizen angezeigt. Du kannst Notizen erstellen, indem du den entsprechenden Eintrag im Menu
-        (Stifticon) anklickst.&lt;br>&lt;br>
+        Here your notes are shown. You can create a note, by clicking the menu entry (pen icon).&lt;br>&lt;br>
 
-        &lt;b>Wichtig:&lt;/b>&lt;br>
-        Immer wenn du eine bestehende Notiz bearbeitest, wird die Notiz gelöscht. Speichere deshalb im \"Bearbeiten Fenster\"
-        immer ab, selbst wenn du nichts veränderst. Sonst ist die Notiz verloren.&lt;br>&lt;br>
+        &lt;b>Important:&lt;/b>&lt;br>
+        If you edit an existing note, it will be deleted. Therefore always save in the \"Edit note\"
+        window, even if you do not change anything. Otherwise the note is lost.&lt;br>&lt;br>
 
-        &lt;b>Die Liste&lt;/b>&lt;br>
-        Wenn du einen Listeneintrag anklickst, öffnet sich die Notiz. Bei einem langen Klick öffnet sich ein
-        Popupmenü. Wenn du den linken Bereich (entweder mit Ausrufezeichen oder ein leerer Bereich) der Liste anklickst,
-        kannst du die Dringlichkeit der Notiz bearbeiten. Wenn die Liste nicht automatisch aktualisiert wird, kannst du auf
-        dem Bild über der Liste nach unten wischen.&lt;br>&lt;br>
+        &lt;b>The list:&lt;/b>&lt;br>
+        If you click on a list entry the note opens in a dialog. If you long click a list entry a popup
+        menu opens. If you click in the area on the left (either with exclamation mark or empty) of a list entry,
+        You can edit the priority of the note. If the list does not refresh automatically, you can swipe down on the
+        picture above the list, to refresh it manually.&lt;br>&lt;br>
 
-        &lt;b>Popup Menü:&lt;/b>&lt;br>
-        &#8226;&lt;i> Bearbeite Notiz:&lt;/i> Es öffnet sich ein neues Fenster, in dem du die Dringlichkeit, den Titel
-        und den Inhalt der Notiz bearbeiten kannst.&lt;br>
-        &#8226;&lt;i> Teile Notiz:&lt;/i> Du kannst die Notiz mit jeder App teilen, die Text empfangen kann (SMS, Email,
-        …).&lt;br>
-        &#8226;&lt;i> Erstelle Kalendereintrag:&lt;/i> Der Name der Notiz wird als Name für einen neuen Kalendereintrag
-        benutzt. Die Bearbeitung findet in deiner Kalenderapp statt.&lt;br>
-        &#8226;&lt;i> Lösche Notiz:&lt;/i> Es muss mindestens eine Notiz vorhanden sein. Alle anderen können gelöscht
-        werden.&lt;br>&lt;br>
+        &lt;b>Popup menu:&lt;/b>&lt;br>
+        &#8226;&lt;i> Edit note:&lt;/i> A new window, where you can edit priority, title and content of the note, will
+        open.&lt;br>
+        &#8226;&lt;i> Share note:&lt;/i> You can share the note with every app which is able to receive text
+        (SMS, Email,…).&lt;br>
+        &#8226;&lt;i> Create calendar entry:&lt;/i> The name of the note will be used as title for a new calendar
+        entry. Editing of this entry will take place in your calendar app.&lt;br>
+        &#8226;&lt;i> Delete note:&lt;/i> At least one note must remain. All others can be deleted.&lt;br>&lt;br>
 
-        &lt;b>Menü:&lt;/b>&lt;br>
-        &#8226;&lt;i> Erstelle Notiz (Stifticon):&lt;/i> Es öffnet sich ein neues Fenster, in dem du eine Notiz erstellen
-        kannst.&lt;br>
-        &#8226;&lt;i> Öffne Anwendungsordner:&lt;/i> Wenn du einen Dateimanager installiert hast, öffnet sich das Verzeichnis,
-        in dem z.B. herunter geladene Dateien gespeichert werden.&lt;br>
-        &#8226;&lt;i> Erstelle Verknüpfung:&lt;/i> Um einen schnellen Zugriff auf die Funktionen dieser App zu haben, kannst
-        du Verknüpfungen auf deinem Homescreen erstellen (Mein Moodle, Lesezeichen, Notizen, Notiz erstellen).&lt;br>
-        &#8226;&lt;i> Einstellungen:&lt;/i> In den Einstellungen kannst du das Verhalten der App deinen Bedürfnissen
-        anpassen. Auf jeden Fall wird empfohlen ein Kennwort zu setzen, um die App vor ungewolltem Zugriff zu schützen.&lt;br>
-        &#8226;&lt;i> Hilfe:&lt;/i> Öffnet den jeweiligen Hilfedialog.
+        &lt;b>Menu:&lt;/b>&lt;br>
+        &#8226;&lt;i> Create note (pen icon):&lt;/i> A new window where you can create a new note will open.&lt;br>
+        &#8226;&lt;i> Open app directory:&lt;/i> If you have a installed file manager, the directory where downloaded files
+        are stored will open.&lt;br>
+        &#8226;&lt;i> Create shortcut:&lt;/i> To have a faster access to the main functions of the app, you can create
+        shortcuts on your homescreen (My Moodle, bookmarks, notes, create new note).&lt;br>
+        &#8226;&lt;i> Settings:&lt;/i> In the settings you can configure the behavior of the app. It is highly
+        recommended to protect the app with a password against unwanted access.&lt;br>
+        &#8226;&lt;i> Help:&lt;/i> Opens the help dialog.
     </string>
 
 
     <string name="helpAddNotes_text">
-        Hier kannst du die Dringlichkeit, den Titel und den Inhalt einer Notiz bearbeiten.&lt;br>&lt;br>
+        Here you can edit priority, title and content of a note.&lt;br>&lt;br>
 
-        &lt;b>Wichtig:&lt;/b>&lt;br>
-        Immer wenn du eine bestehende Notiz bearbeitest, wird die Notiz gelöscht. Speichere deshalb im \"Bearbeiten Fenster\"
-        immer ab, selbst wenn du nichts veränderst. Sonst ist die Notiz verloren.&lt;br>&lt;br>
+        &lt;b>Important:&lt;/b>&lt;br>
+        If you edit an existing note, it will be deleted. Therefore always save in the \"Edit note\"
+        window, even if you do not change anything. Otherwise the note is lost.&lt;br>&lt;br>
 
-        &lt;b>Menü:&lt;/b>&lt;br>
-        &#8226;&lt;i> Speichern (Diskettenicon):&lt;/i> Wenn du die Notiz speicherst, kehrst du zum verherigen Fenster
-        (Hauptschirm oder Browser) zurück.&lt;br>
-        &#8226;&lt;i> Hilfe:&lt;/i> Öffnet den jeweiligen Hilfedialog.
+        &lt;b>Menu:&lt;/b>&lt;br>
+        &#8226;&lt;i> Save (Disc icon):&lt;/i> If you save the note, you will go back to the previous window
+        (main screen or browser).&lt;br>
+        &#8226;&lt;i> Help:&lt;/i> Opens the help dialog.
     </string>
 
-    <string name="helpSettings_title">Einstellungen</string>
+    <string name="helpSettings_title">Settings</string>
     <string name="helpSettings_text">
-        Manche Einstellungen werden erst bei einem Neustart der Anwendung wirksam.</string>
+        Some settings need a restart of the app to be applied.</string>
 
     <string name="helpBrowser_title">Browser</string>
     <string name="helpBrowser_text">
-        HHS Moodle wird in diesem Browser angezeigt. Er hat ein Kontextmenü, dass sich bei einem langen Klick auf Bilder oder
-        Links öffnet.&lt;br>&lt;br>
+        HHS Moodle is shown in this browser. There is a context menu, which opens by long clicking a picture or link.&lt;br>&lt;br>
 
-        &lt;b>Wischfunktionen:&lt;/b>&lt;br>
-        &#8226;&lt;i> Nach unten:&lt;/i> Seite neu zu laden.&lt;br>
-        &#8226;&lt;i> Nach rechts:&lt;/i> Eine Seite zurück.&lt;br>
-        &#8226;&lt;i> Nch links:&lt;/i> Eine Seite nach vorne.&lt;br>&lt;br>
+        &lt;b>Swipe:&lt;/b>&lt;br>
+        &#8226;&lt;i> Swipe down:&lt;/i> reload website.&lt;br>
+        &#8226;&lt;i> Swipe right:&lt;/i> one page back.&lt;br>
+        &#8226;&lt;i> Swipe left:&lt;/i> one page forward.&lt;br>&lt;br>
 
-        &lt;b>Menü:&lt;/b>&lt;br>
-        &#8226;&lt;i> Erstelle Notiz (Stifticon):&lt;/i> Es öffnet sich ein neues Fenster, in dem du eine Notiz erstellen
-        kannst.&lt;br>
-        &#8226;&lt;i> Lesezeichen öffnen (Sternicon):&lt;/i> Es öffnet sich ein Popupfenster mit deiner Lesezeichenliste.&lt;br>
-        &#8226;&lt;i> Lesezeichen hinzufügen:&lt;/i> Füge die aktuelle Internetseite zu deinen Lesezeichen hinzu. Es öffnet
-        sich ein Popupfenster, in dem du den Titel des Lesezeichens bearbeiten kannst.&lt;br>
-        &#8226;&lt;i> Lesezeichen teilen:&lt;/i> Du kannst die Internetseite als Text mit jeder App teilen, die Text
-        empfangen kann (SMS, Email, …). Du kannst außerdem Bildschirmfotos der gesamten Internetseite machen (auch von
-        dem Teil, der gerade nicht auf dem Bildschirm zu sehen ist). Damit dies richtig funktioniert, solltest du warten,
-        bis die Internetseite komplett geladen ist, um sicherzustellen, dass die gesamte Internetseite aufgenommen wird.&lt;br>
-        &#8226;&lt;i> Öffne Anwendungsordner:&lt;/i> Wenn du einen Dateimanager installiert hast, öffnet sich das Verzeichnis,
-        in dem z.B. herunter geladene Dateien gespeichert werden.&lt;br>
-        &#8226;&lt;i> Einstellungen:&lt;/i> In den Einstellungen kannst du das Verhalten der App deinen Bedürfnissen
-        anpassen. Auf jeden Fall wird empfohlen ein Kennwort zu setzen, um die App vor ungewolltem Zugriff zu schützen.&lt;br>
-        &#8226;&lt;i> Hilfe:&lt;/i> Öffnet den jeweiligen Hilfedialog.
+        &lt;b>Menu:&lt;/b>&lt;br>
+        &#8226;&lt;i> Create note (pen icon):&lt;/i> A new window will popup, where you can create a note. The title of the website
+        is used for the note title. The link is used for the content.&lt;br>
+        &#8226;&lt;i> Open bookmarks (star icon):&lt;/i> A popup dialog with your bookmark list will open.&lt;br>
+        &#8226;&lt;i> Add bookmark:&lt;/i> Add the actual website to your bookmark list. A popup dialog where you can edit the title
+        of the bookmark will open.&lt;br>
+        &#8226;&lt;i> Share bookmark:&lt;/i> You can share the link with every app which is able to receive text
+        (SMS, Email,…). You can also make and share screenshots of the whole website (even from the part, which is not on the
+        screen). With that you should wait until the whole website is loaded, to avoid problems.&lt;br>
+        &#8226;&lt;i> Open app directory:&lt;/i> If you have a installed file manager, the directory where downloaded files
+        are stored will open.&lt;br>
+        &#8226;&lt;i> Settings:&lt;/i> In the settings you can configure the behavior of the app. It is highly
+        recommended to protect the app with a password against unwanted access.&lt;br>
+        &#8226;&lt;i> Help:&lt;/i> Opens the help dialog.
     </string>
 
 
-    <string name="perm_notShow_title">Berechtigungsdialog</string>
-    <string name="perm_notShow_title_summary">Noch einmal anzeigen: Berechtigungsdialog?</string>
+    <string name="perm_notShow_title">Permission dialog</string>
+    <string name="perm_notShow_title_summary">Show again: Permission dialog?</string>
 
 </resources>

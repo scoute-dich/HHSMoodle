@@ -1,3 +1,13 @@
+### v 2.0
+- Removed notifications
+- Create calendar event
+- Priority for notes
+- Settings: options at app start
+- Widget: improvement
+- Mobile view optimized
+- Other improvements
+
+
 ### v 1.1
 - widget for home screen
 - improved password protection

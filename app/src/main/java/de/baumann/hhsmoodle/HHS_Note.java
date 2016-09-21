@@ -17,9 +17,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.ImageButton;
 
 import de.baumann.hhsmoodle.helper.Database_Notes;
 import de.baumann.hhsmoodle.helper.PasswordActivity;
@@ -28,7 +27,7 @@ public class HHS_Note extends AppCompatActivity {
 
     private EditText titleInput;
     private EditText textInput;
-    private TextView textPri;
+    private String inputPriority;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,20 +47,6 @@ public class HHS_Note extends AppCompatActivity {
 
         titleInput = (EditText) findViewById(R.id.note_title_input);
         textInput = (EditText) findViewById(R.id.note_text_input);
-        textPri = (TextView) findViewById(R.id.textPri);
-
-        String priority = sharedPref.getString("handleTextIcon", "");
-
-        if (priority.isEmpty()) {
-            textPri.setText(R.string.note_priority_0);
-        } else if (priority.equals("!")) {
-            textPri.setText(R.string.note_priority_1);
-        } else if (priority.equals("!!")) {
-            textPri.setText(R.string.note_priority_2);
-        } else  {
-            textPri.setText(R.string.note_priority_3);
-        }
-
         titleInput.setText(sharedPref.getString("handleTextTitle", ""));
         titleInput.setSelection(titleInput.getText().length());
         textInput.setText(sharedPref.getString("handleTextText", ""));
@@ -149,6 +134,9 @@ public class HHS_Note extends AppCompatActivity {
                                         @Override
                                         public void onClick(View view) {
                                             clearSharedPreferences();
+                                            sharedPref.edit()
+                                                    .putBoolean("isOpened", true)
+                                                    .apply();
                                             finishAffinity();
                                         }
                                     });
@@ -165,10 +153,26 @@ public class HHS_Note extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        Button b = (Button) findViewById(R.id.button);
+        String priority = sharedPref.getString("handleTextIcon", "");
+
+        final ImageButton b = (ImageButton) findViewById(R.id.imageButtonPri);
         assert b != null;
-        String buttonText = getString(R.string.note_priority) + ":";
-        b.setText(buttonText);
+
+        switch (priority) {
+            case "":
+                b.setImageResource(R.drawable.pr_green);
+                inputPriority = "";
+                break;
+            case "!":
+                b.setImageResource(R.drawable.pr_yellow);
+                inputPriority = "!";
+                break;
+            case "!!":
+                b.setImageResource(R.drawable.pr_red);
+                inputPriority = "!!";
+                break;
+        }
+
         b.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -177,20 +181,20 @@ public class HHS_Note extends AppCompatActivity {
                 final CharSequence[] options = {
                         getString(R.string.note_priority_0),
                         getString(R.string.note_priority_1),
-                        getString(R.string.note_priority_2),
-                        getString(R.string.note_priority_3)};
+                        getString(R.string.note_priority_2)};
                 new AlertDialog.Builder(HHS_Note.this)
                         .setItems(options, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int item) {
                                 if (options[item].equals(getString(R.string.note_priority_0))) {
-                                    textPri.setText(getString(R.string.note_priority_0));
+                                    b.setImageResource(R.drawable.pr_green);
+                                    inputPriority = "";
                                 } else if (options[item].equals(getString(R.string.note_priority_1))) {
-                                    textPri.setText(getString(R.string.note_priority_1));
+                                    b.setImageResource(R.drawable.pr_yellow);
+                                    inputPriority = "!";
                                 } else if (options[item].equals(getString(R.string.note_priority_2))) {
-                                    textPri.setText(getString(R.string.note_priority_2));
-                                } else  {
-                                    textPri.setText(getString(R.string.note_priority_3));
+                                    b.setImageResource(R.drawable.pr_red);
+                                    inputPriority = "!!";
                                 }
                             }
                         }).show();
@@ -311,18 +315,6 @@ public class HHS_Note extends AppCompatActivity {
                 final Database_Notes db = new Database_Notes(HHS_Note.this);
                 String inputTitle = titleInput.getText().toString().trim();
                 String inputContent = textInput.getText().toString().trim();
-                String priority = textPri.getText().toString();
-
-                String inputPriority;
-                if (priority.contains(getString(R.string.note_priority_0))) {
-                    inputPriority = "";
-                } else if (priority.contains(getString(R.string.note_priority_1))) {
-                    inputPriority = "!";
-                } else if (priority.contains(getString(R.string.note_priority_2))) {
-                    inputPriority = "!!";
-                } else {
-                    inputPriority = "!!!";
-                }
 
                 db.addBookmark(inputTitle, inputContent, inputPriority);
                 db.close();

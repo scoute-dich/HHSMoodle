@@ -205,21 +205,8 @@ public class HHS_Browser extends AppCompatActivity  {
                 SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(HHS_Browser.this);
                 final String username = sharedPref.getString("username", "");
                 final String password = sharedPref.getString("password", "");
-                // do your stuff here
-                swipeView.setRefreshing(false);
 
-                if (username.isEmpty() || password.isEmpty()) {
-                    Snackbar snackbar = Snackbar
-                            .make(mWebView, getString(R.string.toast_login), Snackbar.LENGTH_INDEFINITE)
-                            .setAction(getString(R.string.toast_yes), new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Intent intent_in = new Intent(HHS_Browser.this, HHS_UserSettingsActivity.class);
-                                    startActivity(intent_in);
-                                }
-                            });
-                    snackbar.show();
-                }
+                swipeView.setRefreshing(false);
 
                 final String js = "javascript:" +
                         "document.getElementById('password').value = '" + password + "';"  +
@@ -263,14 +250,15 @@ public class HHS_Browser extends AppCompatActivity  {
                 if (progress == 100) {
                     progressBar.setVisibility(View.GONE);
 
-                } if (progress > 50) {
-                    if (url != null && url.contains("moodle.huebsch.ka.schule-bw.de")) {
-                        mWebView.scrollTo(0, 80);
-                    }
-                    setTitle(mWebView.getTitle());
-
                 } else {
                     progressBar.setVisibility(View.VISIBLE);
+                    setTitle(mWebView.getTitle());
+                    if (url != null && url.contains("moodle.huebsch.ka.schule-bw.de")) {
+                        mWebView.loadUrl("javascript:(function() { " +
+                                "var head = document.getElementsByClassName('navbar navbar-fixed-top moodle-has-zindex')[0];"
+                                + "head.parentNode.removeChild(head);" +
+                                "})()");
+                    }
                 }
             }
 
@@ -594,7 +582,7 @@ public class HHS_Browser extends AppCompatActivity  {
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         if (sharedPref.getBoolean ("help", false)){
-            menu.getItem(5).setVisible(false); // here pass the index of save menu item
+            menu.getItem(6).setVisible(false); // here pass the index of save menu item
         }
         return super.onPrepareOptionsMenu(menu);
     }

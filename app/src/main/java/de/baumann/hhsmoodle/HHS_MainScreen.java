@@ -290,8 +290,6 @@ public class HHS_MainScreen extends AppCompatActivity {
                                 Intent shortcut = new Intent();
                                 shortcut.setAction(Intent.ACTION_MAIN);
                                 shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, i);
-                                shortcut.putExtra("android.intent.extra.shortcut.INTENT", i);
-                                shortcut.putExtra("android.intent.extra.shortcut.NAME", "THE NAME OF SHORTCUT TO BE SHOWN");
                                 shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, (getString(R.string.title_info)));
                                 shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
                                         Intent.ShortcutIconResource.fromContext(getApplicationContext(), R.mipmap.ic_launcher));
@@ -307,8 +305,6 @@ public class HHS_MainScreen extends AppCompatActivity {
                                 Intent shortcut = new Intent();
                                 shortcut.setAction(Intent.ACTION_MAIN);
                                 shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, i);
-                                shortcut.putExtra("android.intent.extra.shortcut.INTENT", i);
-                                shortcut.putExtra("android.intent.extra.shortcut.NAME", "THE NAME OF SHORTCUT TO BE SHOWN");
                                 shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, (getString(R.string.title_bookmarks)));
                                 shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
                                         Intent.ShortcutIconResource.fromContext(getApplicationContext(), R.mipmap.ic_bookmark));
@@ -324,8 +320,6 @@ public class HHS_MainScreen extends AppCompatActivity {
                                 Intent shortcut = new Intent();
                                 shortcut.setAction(Intent.ACTION_MAIN);
                                 shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, i);
-                                shortcut.putExtra("android.intent.extra.shortcut.INTENT", i);
-                                shortcut.putExtra("android.intent.extra.shortcut.NAME", "THE NAME OF SHORTCUT TO BE SHOWN");
                                 shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, (getString(R.string.title_notes)));
                                 shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
                                         Intent.ShortcutIconResource.fromContext(getApplicationContext(), R.mipmap.ic_note));
@@ -340,8 +334,6 @@ public class HHS_MainScreen extends AppCompatActivity {
                                 Intent shortcut = new Intent();
                                 shortcut.setAction(Intent.ACTION_MAIN);
                                 shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, i);
-                                shortcut.putExtra("android.intent.extra.shortcut.INTENT", i);
-                                shortcut.putExtra("android.intent.extra.shortcut.NAME", "THE NAME OF SHORTCUT TO BE SHOWN");
                                 shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, (getString(R.string.bookmark_createNote)));
                                 shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
                                         Intent.ShortcutIconResource.fromContext(getApplicationContext(), R.mipmap.ic_note_plus));

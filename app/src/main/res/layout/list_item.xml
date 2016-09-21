@@ -7,14 +7,13 @@
 
     <ImageView
         android:id="@+id/icon"
-        android:layout_width="24dp"
+        android:layout_width="48dp"
         android:layout_height="match_parent"
         android:src="@drawable/ic_school_grey600_48dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginRight="16dp"
-        android:contentDescription="@string/app_contDesc_2" />
+        android:contentDescription="@string/app_contDesc_2"
+        android:padding="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp" />
 
     <LinearLayout android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -30,8 +29,7 @@
             android:layout_marginTop="16dp"
             android:textSize="18sp"
             android:layout_marginRight="16dp"
-            android:lines="1"
-            android:layout_marginLeft="16dp" />
+            android:lines="1" />
 
         <TextView
             android:id="@+id/textView_des"
@@ -42,8 +40,7 @@
             android:layout_marginBottom="16dp"
             android:typeface="serif"
             android:lines="1"
-            android:layout_marginRight="16dp"
-            android:layout_marginLeft="16dp" />
+            android:layout_marginRight="16dp" />
 
         <TextView
             android:id="@+id/textView_url"
