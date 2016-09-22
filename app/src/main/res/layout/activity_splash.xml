@@ -20,13 +20,13 @@
         android:layout_height="wrap_content"
         android:id="@+id/editUsername"
         android:layout_above="@+id/editPassword"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginLeft="64dp"
         android:layout_marginRight="64dp"
         android:hint="@string/login_user"
         android:textColor="#ffffff"
-        android:textColorHint="#bdbdbd" />
+        android:textColorHint="#bdbdbd"
+        android:maxLines="1" />
 
     <EditText
         android:layout_width="fill_parent"
@@ -40,7 +40,8 @@
         android:hint="@string/login_password"
         android:textColor="#ffffff"
         android:textColorHint="#bdbdbd"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:maxLines="1" />
 
     <android.support.design.widget.FloatingActionButton
         android:src="@drawable/ic_check_white_48dp"
@@ -52,9 +53,8 @@
         app:pressedTranslationZ="12dp"
         android:id="@+id/fab"
         android:layout_marginBottom="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         tools:ignore="RelativeOverlap"
         app:backgroundTint="@color/colorAccent" />

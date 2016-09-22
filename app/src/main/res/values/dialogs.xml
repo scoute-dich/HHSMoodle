@@ -154,9 +154,8 @@
 
         &lt;b>The list:&lt;/b>&lt;br>
         If you click on a list entry the note opens in a dialog. If you long click a list entry a popup
-        menu opens. If you click in the area on the left (either with exclamation mark or empty) of a list entry,
-        You can edit the priority of the note. If the list does not refresh automatically, you can swipe down on the
-        picture above the list, to refresh it manually.&lt;br>&lt;br>
+        menu opens. If you click on the circle on the left of a list entry, You can edit the priority of the note. If the
+        list does not refresh automatically, you can swipe down on the picture above the list, to refresh it manually.&lt;br>&lt;br>
 
         &lt;b>Popup menu:&lt;/b>&lt;br>
         &#8226;&lt;i> Edit note:&lt;/i> A new window, where you can edit priority, title and content of the note, will

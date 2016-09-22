@@ -55,11 +55,13 @@
             android:layout_height="32dp"
             android:id="@+id/imageButtonPri"
             android:src="@drawable/pr_green"
+            android:background="?android:selectableItemBackground"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:layout_marginTop="@dimen/activity_horizontal_margin"
-            tools:ignore="ContentDescription" />
+            tools:ignore="ContentDescription"
+            android:scaleType="centerCrop" />
 
     </RelativeLayout>
 

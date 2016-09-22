@@ -163,9 +163,9 @@
 
         &lt;b>Die Liste:&lt;/b>&lt;br>
         Wenn du einen Listeneintrag anklickst, öffnet sich die Notiz. Bei einem langen Klick öffnet sich ein
-        Popupmenü. Wenn du den linken Bereich (entweder mit Ausrufezeichen oder ein leerer Bereich) der Liste anklickst,
-        kannst du die Dringlichkeit der Notiz bearbeiten. Wenn die Liste nicht automatisch aktualisiert wird, kannst du auf
-        dem Bild über der Liste nach unten wischen.&lt;br>&lt;br>
+        Popupmenü. Wenn du den Kreis neben einem Listeneintrag anklickst, kannst du die Dringlichkeit der Notiz bearbeiten.
+        Wenn die Liste nicht automatisch aktualisiert wird, kannst du auf dem Bild über der Liste nach unten
+        wischen.&lt;br>&lt;br>
 
         &lt;b>Popup Menü:&lt;/b>&lt;br>
         &#8226;&lt;i> Bearbeite Notiz:&lt;/i> Es öffnet sich ein neues Fenster, in dem du die Dringlichkeit, den Titel

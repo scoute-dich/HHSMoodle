@@ -3,7 +3,8 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:minWidth="300dp">
+    android:minWidth="300dp"
+    android:maxWidth="300dp">
 
     <ListView
         android:id="@+id/dialogList"

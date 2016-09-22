@@ -70,7 +70,7 @@
     <string name="action_username_summary">Bitte gib deinen Moodle Benutzernamen an, um automatisch angemeldet zu werden.</string>
 
     <string name="action_password">Passwort (Moodle)</string>
-    <string name="action_password_summary">Bitte gib dein Moodle Passwort an, um automatisch angemeldet zu werden..</string>
+    <string name="action_password_summary">Bitte gib dein Moodle Passwort an, um automatisch angemeldet zu werden.</string>
 
     <string name="action_changelog">Änderungen</string>
     <string name="action_changelog_summary">Was gibt es Neues …</string>

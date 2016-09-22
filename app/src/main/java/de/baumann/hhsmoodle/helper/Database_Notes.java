@@ -49,7 +49,7 @@ public class Database_Notes extends SQLiteOpenHelper {
         stmt.bindLong(1, seqno);
         stmt.bindString(2, "HHS Moodle");
         stmt.bindString(3, "Dashboard -> https://moodle.huebsch.ka.schule-bw.de/moodle/my/");
-        stmt.bindString(4, "!!!");
+        stmt.bindString(4, "!");
         stmt.executeInsert();
 
         db.setTransactionSuccessful();
