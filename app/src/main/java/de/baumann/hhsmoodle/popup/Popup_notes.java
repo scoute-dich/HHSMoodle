@@ -291,84 +291,15 @@ public class Popup_notes extends Activity {
                         @Override
                         public void onClick(View arg0) {
 
-                            final CharSequence[] options = {
-                                    getString(R.string.note_priority_0),
-                                    getString(R.string.note_priority_1),
-                                    getString(R.string.note_priority_2)};
-                            new AlertDialog.Builder(Popup_notes.this)
-                                    .setItems(options, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int item) {
-                                            if (options[item].equals(getString(R.string.note_priority_0))) {
-
-                                                try {
-                                                    Database_Notes db = new Database_Notes(Popup_notes.this);
-                                                    db.deleteNote((Integer.parseInt(seqnoStr)));
-                                                    db.close();
-
-                                                } catch (Exception e) {
-                                                    e.printStackTrace();
-                                                }
-
-                                                try {
-
-                                                    final Database_Notes db = new Database_Notes(Popup_notes.this);
-                                                    db.addBookmark(title, cont, "");
-                                                    db.close();
-                                                    setNotesList();
-
-                                                } catch (Exception e) {
-                                                    e.printStackTrace();
-                                                }
-                                            }
-
-                                            if (options[item].equals(getString(R.string.note_priority_1))) {
-
-                                                try {
-                                                    Database_Notes db = new Database_Notes(Popup_notes.this);
-                                                    db.deleteNote((Integer.parseInt(seqnoStr)));
-                                                    db.close();
-
-                                                } catch (Exception e) {
-                                                    e.printStackTrace();
-                                                }
-
-                                                try {
-
-                                                    final Database_Notes db = new Database_Notes(Popup_notes.this);
-                                                    db.addBookmark(title, cont, "!");
-                                                    db.close();
-                                                    setNotesList();
-
-                                                } catch (Exception e) {
-                                                    e.printStackTrace();
-                                                }
-                                            }
-
-                                            if (options[item].equals(getString(R.string.note_priority_2))) {
-
-                                                try {
-                                                    Database_Notes db = new Database_Notes(Popup_notes.this);
-                                                    db.deleteNote((Integer.parseInt(seqnoStr)));
-                                                    db.close();
-
-                                                } catch (Exception e) {
-                                                    e.printStackTrace();
-                                                }
-
-                                                try {
-
-                                                    final Database_Notes db = new Database_Notes(Popup_notes.this);
-                                                    db.addBookmark(title, cont, "!!");
-                                                    db.close();
-                                                    setNotesList();
-
-                                                } catch (Exception e) {
-                                                    e.printStackTrace();
-                                                }
-                                            }
-                                        }
-                                    }).show();
+                            final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(Popup_notes.this);
+                            sharedPref.edit()
+                                    .putString("note_title", title)
+                                    .putString("note_cont", cont)
+                                    .putString("note_segno", seqnoStr)
+                                    .apply();
+                            Intent mainIntent = new Intent(Popup_notes.this, Popup_dialog_priority.class);
+                            startActivity(mainIntent);
+                            finish();
                         }
                     });
                     return v;
