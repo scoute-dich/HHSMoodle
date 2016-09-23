@@ -110,7 +110,6 @@ public class Popup_info extends Activity {
                                             .putString("favoriteURL", url)
                                             .putString("favoriteTitle", title)
                                             .apply();
-                                    finish();
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createEvent))) {
@@ -119,7 +118,6 @@ public class Popup_info extends Activity {
                                     calIntent.setType("vnd.android.cursor.item/event");
                                     calIntent.putExtra(CalendarContract.Events.TITLE, title);
                                     startActivity(calIntent);
-                                    finish();
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createNote))) {
@@ -132,7 +130,6 @@ public class Popup_info extends Activity {
 
                                     Intent intent_in = new Intent(Popup_info.this, HHS_Note.class);
                                     startActivity(intent_in);
-                                    finish();
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createShortcut))) {
@@ -148,10 +145,7 @@ public class Popup_info extends Activity {
                                     shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(Popup_info.this.getApplicationContext(), R.mipmap.ic_launcher));
                                     shortcut.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
                                     Popup_info.this.sendBroadcast(shortcut);
-                                    finish();
                                 }
-
-
                             }
                         }).show();
 

@@ -16,9 +16,13 @@ import android.text.util.Linkify;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListAdapter;
+import android.widget.TextView;
 
 import de.baumann.hhsmoodle.helper.Database_Notes;
 import de.baumann.hhsmoodle.helper.PasswordActivity;
@@ -178,21 +182,41 @@ public class HHS_Note extends AppCompatActivity {
             @Override
             public void onClick(View arg0) {
 
-                final CharSequence[] options = {
-                        getString(R.string.note_priority_0),
-                        getString(R.string.note_priority_1),
-                        getString(R.string.note_priority_2)};
+                final Item[] items = {
+                        new Item(getString(R.string.note_priority_0), R.drawable.pr_green_1),
+                        new Item(getString(R.string.note_priority_1), R.drawable.pr_yellow_1),
+                        new Item(getString(R.string.note_priority_2), R.drawable.pr_red_1),
+                };
+
+                ListAdapter adapter = new ArrayAdapter<Item>(
+                        HHS_Note.this,
+                        android.R.layout.select_dialog_item,
+                        android.R.id.text1,
+                        items){
+                    public View getView(int position, View convertView, ViewGroup parent) {
+                        //Use super class to create the View
+                        View v = super.getView(position, convertView, parent);
+                        TextView tv = (TextView)v.findViewById(android.R.id.text1);
+                        tv.setTextSize(18);
+                        tv.setCompoundDrawablesWithIntrinsicBounds(items[position].icon, 0, 0, 0);
+                        //Add margin between image and text (support various screen densities)
+                        int dp5 = (int) (5 * getResources().getDisplayMetrics().density + 0.5f);
+                        tv.setCompoundDrawablePadding(dp5);
+
+                        return v;
+                    }
+                };
+
                 new AlertDialog.Builder(HHS_Note.this)
-                        .setItems(options, new DialogInterface.OnClickListener() {
-                            @Override
+                        .setAdapter(adapter, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int item) {
-                                if (options[item].equals(getString(R.string.note_priority_0))) {
+                                if (item == 0) {
                                     b.setImageResource(R.drawable.pr_green);
                                     inputPriority = "";
-                                } else if (options[item].equals(getString(R.string.note_priority_1))) {
+                                } else if (item == 1) {
                                     b.setImageResource(R.drawable.pr_yellow);
                                     inputPriority = "!";
-                                } else if (options[item].equals(getString(R.string.note_priority_2))) {
+                                } else if (item == 2) {
                                     b.setImageResource(R.drawable.pr_red);
                                     inputPriority = "!!";
                                 }
@@ -224,6 +248,19 @@ public class HHS_Note extends AppCompatActivity {
                 textInput.setSelection(textInput.getText().length());
                 clearSharedPreferences();
             }
+        }
+    }
+
+    public static class Item{
+        public final String text;
+        public final int icon;
+        public Item(String text, Integer icon) {
+            this.text = text;
+            this.icon = icon;
+        }
+        @Override
+        public String toString() {
+            return text;
         }
     }
 
