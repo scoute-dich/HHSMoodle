@@ -36,6 +36,7 @@ public class Database_Browser extends SQLiteOpenHelper
                         "seqno NUMBER NOT NULL, " +
                         "title TEXT NOT NULL, " +
                         "url TEXT NOT NULL, " +
+                        "icon TEXT NOT NULL, " +
                         "PRIMARY KEY(seqno))"
         );
     }
@@ -47,10 +48,11 @@ public class Database_Browser extends SQLiteOpenHelper
         SQLiteDatabase db = getWritableDatabase();
         db.beginTransaction();
 
-        SQLiteStatement stmt = db.compileStatement("INSERT INTO bookmarks VALUES(?, ?, ?)");
+        SQLiteStatement stmt = db.compileStatement("INSERT INTO bookmarks VALUES(?, ?, ?, ?)");
         stmt.bindLong(1, seqno);
         stmt.bindString(2, "HHS Moodle");
         stmt.bindString(3, "https://moodle.huebsch.ka.schule-bw.de/moodle/my/");
+        stmt.bindString(4, "1");
         stmt.executeInsert();
 
         db.setTransactionSuccessful();
@@ -80,11 +82,11 @@ public class Database_Browser extends SQLiteOpenHelper
     {
         SQLiteDatabase db = getReadableDatabase();
 
-        String sql = "SELECT seqno,title,url FROM bookmarks ORDER BY seqno";
+        String sql = "SELECT seqno,title,url,icon FROM bookmarks ORDER BY seqno";
         Cursor c = db.rawQuery(sql, null);
         c.moveToFirst();
         for (int i = 0; i < c.getCount(); i++) {
-            String[] strAry = {c.getString(0), c.getString(1), c.getString(2)};
+            String[] strAry = {c.getString(0), c.getString(1), c.getString(2), c.getString(3)};
             data.add(strAry);
             c.moveToNext();
         }
@@ -92,7 +94,7 @@ public class Database_Browser extends SQLiteOpenHelper
         db.close();
     }
 
-    public void addBookmark(String title, String url)
+    public void addBookmark(String title, String url, String icon)
     {
         int seqno;
 
@@ -105,10 +107,11 @@ public class Database_Browser extends SQLiteOpenHelper
 
         db.beginTransaction();
 
-        SQLiteStatement stmt = db.compileStatement("INSERT INTO bookmarks VALUES(?, ?, ?)");
+        SQLiteStatement stmt = db.compileStatement("INSERT INTO bookmarks VALUES(?, ?, ?, ?)");
         stmt.bindLong(1, seqno);
         stmt.bindString(2, title);
         stmt.bindString(3, url);
+        stmt.bindString(4, icon);
         stmt.executeInsert();
 
         db.setTransactionSuccessful();

@@ -33,7 +33,7 @@ public class Database_Notes extends SQLiteOpenHelper {
                         "seqno NUMBER NOT NULL, " +
                         "title TEXT NOT NULL, " +
                         "cont TEXT NOT NULL, " +
-                        "icon Text NOT NULL, " +
+                        "icon TEXT NOT NULL, " +
                         "PRIMARY KEY(seqno))"
         );
     }

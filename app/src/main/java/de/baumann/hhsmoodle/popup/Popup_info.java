@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
+import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -71,7 +72,7 @@ public class Popup_info extends Activity {
         setContentView(R.layout.activity_popup);
         
         CustomListAdapter adapter=new CustomListAdapter(Popup_info.this, itemTITLE, itemURL, itemDES, imgid);
-        ListView listView = (ListView) findViewById(R.id.dialogList);
+        final ListView listView = (ListView) findViewById(R.id.dialogList);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -110,6 +111,7 @@ public class Popup_info extends Activity {
                                             .putString("favoriteURL", url)
                                             .putString("favoriteTitle", title)
                                             .apply();
+                                    Snackbar.make(listView, R.string.bookmark_setFav, Snackbar.LENGTH_LONG).show();
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createEvent))) {

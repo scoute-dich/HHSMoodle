@@ -93,8 +93,8 @@
 
         &lt;b>Die Liste:&lt;/b>&lt;br>
         Wenn du einen Listeneintrag anklickst, öffnet sich das Lesezeichen im internen Browser. Bei einem langen Klick
-        öffnet sich ein Popupmenü. Wenn die Liste nicht automatisch aktualisiert wird, kannst du auf dem Bild über der Liste
-        nach unten wischen.&lt;br>&lt;br>
+        öffnet sich ein Popupmenü. Um das Icon des Lesezeichens zu ändern, musst du es anklicken. Wenn die Liste nicht automatisch
+        aktualisiert wird, kannst du auf dem Bild über der Liste nach unten wischen.&lt;br>&lt;br>
 
         &lt;b>Popup Menü:&lt;/b>&lt;br>
         &#8226;&lt;i> Bearbeite Titel:&lt;/i> Du kannst den Titel des Lesezeichens bearbeiten.&lt;br>

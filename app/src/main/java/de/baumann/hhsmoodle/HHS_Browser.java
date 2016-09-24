@@ -620,7 +620,7 @@ public class HHS_Browser extends AppCompatActivity  {
 
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 String inputTag = input.getText().toString().trim();
-                                db.addBookmark(inputTag, mWebView.getUrl());
+                                db.addBookmark(inputTag, mWebView.getUrl(), "1");
                                 db.close();
                                 Snackbar.make(mWebView, R.string.bookmark_added, Snackbar.LENGTH_LONG).show();
                             }
