@@ -16,8 +16,10 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
@@ -91,7 +93,6 @@ public class Popup_notes extends Activity {
 
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 dialog.cancel();
-                                finish();
                             }
                         })
                         .setNegativeButton(R.string.note_edit, new DialogInterface.OnClickListener() {
@@ -116,7 +117,6 @@ public class Popup_notes extends Activity {
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
-                                finish();
                             }
                         });
                 dialog.show();
@@ -163,7 +163,6 @@ public class Popup_notes extends Activity {
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
-                                    finish();
                                 }
 
                                 if (options[item].equals (getString(R.string.note_share))) {
@@ -173,7 +172,6 @@ public class Popup_notes extends Activity {
                                     sharingIntent.putExtra(Intent.EXTRA_SUBJECT, title);
                                     sharingIntent.putExtra(Intent.EXTRA_TEXT, cont);
                                     startActivity(Intent.createChooser(sharingIntent, (getString(R.string.note_share_2))));
-                                    finish();
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createEvent))) {
@@ -183,7 +181,6 @@ public class Popup_notes extends Activity {
                                     calIntent.putExtra(CalendarContract.Events.TITLE, title);
                                     calIntent.putExtra(CalendarContract.Events.DESCRIPTION, cont);
                                     startActivity(calIntent);
-                                    finish();
                                 }
 
                                 if (options[item].equals(getString(R.string.note_remove_note))) {
@@ -212,7 +209,6 @@ public class Popup_notes extends Activity {
                                                             } catch (PackageManager.NameNotFoundException e) {
                                                                 e.printStackTrace();
                                                             }
-                                                            finish();
                                                         }
                                                     });
                                             snackbar.show();
@@ -291,15 +287,76 @@ public class Popup_notes extends Activity {
                         @Override
                         public void onClick(View arg0) {
 
-                            final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(Popup_notes.this);
-                            sharedPref.edit()
-                                    .putString("note_title", title)
-                                    .putString("note_cont", cont)
-                                    .putString("note_segno", seqnoStr)
-                                    .apply();
-                            Intent mainIntent = new Intent(Popup_notes.this, Popup_dialog_priority.class);
-                            startActivity(mainIntent);
-                            finish();
+                            final Item[] items = {
+                                    new Item(getString(R.string.note_priority_0), R.drawable.pr_green_1),
+                                    new Item(getString(R.string.note_priority_1), R.drawable.pr_yellow_1),
+                                    new Item(getString(R.string.note_priority_2), R.drawable.pr_red_1),
+                            };
+
+                            ListAdapter adapter = new ArrayAdapter<Item>(
+                                    Popup_notes.this,
+                                    android.R.layout.select_dialog_item,
+                                    android.R.id.text1,
+                                    items){
+                                public View getView(int position, View convertView, ViewGroup parent) {
+                                    //Use super class to create the View
+                                    View v = super.getView(position, convertView, parent);
+                                    TextView tv = (TextView)v.findViewById(android.R.id.text1);
+                                    tv.setTextSize(18);
+                                    tv.setCompoundDrawablesWithIntrinsicBounds(items[position].icon, 0, 0, 0);
+                                    //Add margin between image and text (support various screen densities)
+                                    int dp5 = (int) (5 * getResources().getDisplayMetrics().density + 0.5f);
+                                    tv.setCompoundDrawablePadding(dp5);
+
+                                    return v;
+                                }
+                            };
+
+                            new AlertDialog.Builder(Popup_notes.this)
+                                    .setAdapter(adapter, new DialogInterface.OnClickListener() {
+
+                                        public void onClick(DialogInterface dialog, int item) {
+                                            if (item == 0) {
+                                                try {
+
+                                                    final Database_Notes db = new Database_Notes(Popup_notes.this);
+                                                    db.deleteNote((Integer.parseInt(seqnoStr)));
+                                                    db.addBookmark(title, cont, "");
+                                                    db.close();
+                                                    setNotesList();
+
+                                                } catch (Exception e) {
+                                                    e.printStackTrace();
+                                                }
+
+                                            } else if (item == 1) {
+                                                try {
+
+                                                    final Database_Notes db = new Database_Notes(Popup_notes.this);
+                                                    db.deleteNote((Integer.parseInt(seqnoStr)));
+                                                    db.addBookmark(title, cont, "!");
+                                                    db.close();
+                                                    setNotesList();
+
+                                                } catch (Exception e) {
+                                                    e.printStackTrace();
+                                                }
+
+                                            } else if (item == 2) {
+                                                try {
+
+                                                    final Database_Notes db = new Database_Notes(Popup_notes.this);
+                                                    db.deleteNote((Integer.parseInt(seqnoStr)));
+                                                    db.addBookmark(title, cont, "!!");
+                                                    db.close();
+                                                    setNotesList();
+
+                                                } catch (Exception e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        }
+                                    }).show();
                         }
                     });
                     return v;
@@ -310,6 +367,19 @@ public class Popup_notes extends Activity {
 
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static class Item{
+        public final String text;
+        public final int icon;
+        public Item(String text, Integer icon) {
+            this.text = text;
+            this.icon = icon;
+        }
+        @Override
+        public String toString() {
+            return text;
         }
     }
 }

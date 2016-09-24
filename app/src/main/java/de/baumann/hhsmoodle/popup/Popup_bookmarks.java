@@ -93,7 +93,6 @@ public class Popup_bookmarks extends Activity {
                                                         db.addBookmark(inputTag, url);
                                                         db.close();
                                                         setBookmarkList();
-                                                        finish();
                                                     }
                                                 })
                                                 .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
@@ -103,7 +102,6 @@ public class Popup_bookmarks extends Activity {
                                                         db.close();
                                                         setBookmarkList();
                                                         dialog.cancel();
-                                                        finish();
                                                     }
                                                 });
                                         dialog2.show();
@@ -119,7 +117,6 @@ public class Popup_bookmarks extends Activity {
                                             .putString("favoriteURL", url)
                                             .putString("favoriteTitle", title)
                                             .apply();
-                                    finish();
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createEvent))) {
@@ -128,7 +125,6 @@ public class Popup_bookmarks extends Activity {
                                     calIntent.setType("vnd.android.cursor.item/event");
                                     calIntent.putExtra(CalendarContract.Events.TITLE, title);
                                     startActivity(calIntent);
-                                    finish();
                                 }
 
                                 if (options[item].equals(getString(R.string.bookmark_remove_bookmark))) {
@@ -157,7 +153,6 @@ public class Popup_bookmarks extends Activity {
                                                             } catch (PackageManager.NameNotFoundException e) {
                                                                 e.printStackTrace();
                                                             }
-                                                            finish();
                                                         }
                                                     });
                                             snackbar.show();
@@ -178,7 +173,6 @@ public class Popup_bookmarks extends Activity {
 
                                     Intent intent_in = new Intent(Popup_bookmarks.this, HHS_Note.class);
                                     startActivity(intent_in);
-                                    finish();
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createShortcut))) {
@@ -194,7 +188,6 @@ public class Popup_bookmarks extends Activity {
                                     shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(Popup_bookmarks.this.getApplicationContext(), R.mipmap.ic_launcher));
                                     shortcut.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
                                     Popup_bookmarks.this.sendBroadcast(shortcut);
-                                    finish();
                                 }
 
                             }

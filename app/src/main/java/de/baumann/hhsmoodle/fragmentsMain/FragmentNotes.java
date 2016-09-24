@@ -23,8 +23,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
@@ -328,28 +330,40 @@ public class FragmentNotes extends Fragment {
                         @Override
                         public void onClick(View arg0) {
 
-                            final CharSequence[] options = {
-                                    getString(R.string.note_priority_0),
-                                    getString(R.string.note_priority_1),
-                                    getString(R.string.note_priority_2)};
+                            final Item[] items = {
+                                    new Item(getString(R.string.note_priority_0), R.drawable.pr_green_1),
+                                    new Item(getString(R.string.note_priority_1), R.drawable.pr_yellow_1),
+                                    new Item(getString(R.string.note_priority_2), R.drawable.pr_red_1),
+                            };
+
+                            ListAdapter adapter = new ArrayAdapter<Item>(
+                                    getActivity(),
+                                    android.R.layout.select_dialog_item,
+                                    android.R.id.text1,
+                                    items){
+                                public View getView(int position, View convertView, ViewGroup parent) {
+                                    //Use super class to create the View
+                                    View v = super.getView(position, convertView, parent);
+                                    TextView tv = (TextView)v.findViewById(android.R.id.text1);
+                                    tv.setTextSize(18);
+                                    tv.setCompoundDrawablesWithIntrinsicBounds(items[position].icon, 0, 0, 0);
+                                    //Add margin between image and text (support various screen densities)
+                                    int dp5 = (int) (5 * getResources().getDisplayMetrics().density + 0.5f);
+                                    tv.setCompoundDrawablePadding(dp5);
+
+                                    return v;
+                                }
+                            };
+
                             new AlertDialog.Builder(getActivity())
-                                    .setItems(options, new DialogInterface.OnClickListener() {
-                                        @Override
+                                    .setAdapter(adapter, new DialogInterface.OnClickListener() {
+
                                         public void onClick(DialogInterface dialog, int item) {
-                                            if (options[item].equals(getString(R.string.note_priority_0))) {
-
-                                                try {
-                                                    Database_Notes db = new Database_Notes(getActivity());
-                                                    db.deleteNote((Integer.parseInt(seqnoStr)));
-                                                    db.close();
-
-                                                } catch (Exception e) {
-                                                    e.printStackTrace();
-                                                }
-
+                                            if (item == 0) {
                                                 try {
 
                                                     final Database_Notes db = new Database_Notes(getActivity());
+                                                    db.deleteNote((Integer.parseInt(seqnoStr)));
                                                     db.addBookmark(title, cont, "");
                                                     db.close();
                                                     setNotesList();
@@ -357,22 +371,12 @@ public class FragmentNotes extends Fragment {
                                                 } catch (Exception e) {
                                                     e.printStackTrace();
                                                 }
-                                            }
 
-                                            if (options[item].equals(getString(R.string.note_priority_1))) {
-
-                                                try {
-                                                    Database_Notes db = new Database_Notes(getActivity());
-                                                    db.deleteNote((Integer.parseInt(seqnoStr)));
-                                                    db.close();
-
-                                                } catch (Exception e) {
-                                                    e.printStackTrace();
-                                                }
-
+                                            } else if (item == 1) {
                                                 try {
 
                                                     final Database_Notes db = new Database_Notes(getActivity());
+                                                    db.deleteNote((Integer.parseInt(seqnoStr)));
                                                     db.addBookmark(title, cont, "!");
                                                     db.close();
                                                     setNotesList();
@@ -380,22 +384,12 @@ public class FragmentNotes extends Fragment {
                                                 } catch (Exception e) {
                                                     e.printStackTrace();
                                                 }
-                                            }
 
-                                            if (options[item].equals(getString(R.string.note_priority_2))) {
-
-                                                try {
-                                                    Database_Notes db = new Database_Notes(getActivity());
-                                                    db.deleteNote((Integer.parseInt(seqnoStr)));
-                                                    db.close();
-
-                                                } catch (Exception e) {
-                                                    e.printStackTrace();
-                                                }
-
+                                            } else if (item == 2) {
                                                 try {
 
                                                     final Database_Notes db = new Database_Notes(getActivity());
+                                                    db.deleteNote((Integer.parseInt(seqnoStr)));
                                                     db.addBookmark(title, cont, "!!");
                                                     db.close();
                                                     setNotesList();
@@ -418,6 +412,19 @@ public class FragmentNotes extends Fragment {
             e.printStackTrace();
         }
         swipeView.setRefreshing(false);
+    }
+
+    public static class Item{
+        public final String text;
+        public final int icon;
+        public Item(String text, Integer icon) {
+            this.text = text;
+            this.icon = icon;
+        }
+        @Override
+        public String toString() {
+            return text;
+        }
     }
 
     @Override
