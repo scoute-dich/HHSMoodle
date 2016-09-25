@@ -579,10 +579,14 @@ public class HHS_Browser extends AppCompatActivity  {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+        menu.getItem(0).setVisible(false);
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         if (sharedPref.getBoolean ("help", false)){
             menu.getItem(6).setVisible(false); // here pass the index of save menu item
+        }
+        if (sharedPref.getBoolean ("tab_3", false)){
+            menu.getItem(0).setVisible(true); // here pass the index of save menu item
         }
         return super.onPrepareOptionsMenu(menu);
     }

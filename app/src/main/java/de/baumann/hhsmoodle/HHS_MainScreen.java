@@ -180,9 +180,16 @@ public class HHS_MainScreen extends AppCompatActivity {
         final int startTabInt = Integer.parseInt(startTab);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        adapter.addFragment(new FragmentInfo(), String.valueOf(getString(R.string.title_info)));
-        adapter.addFragment(new FragmentBookmarks(), String.valueOf(getString(R.string.title_bookmarks)));
-        adapter.addFragment(new FragmentNotes(), String.valueOf(getString(R.string.title_notes)));
+
+        if (sharedPref.getBoolean("tab_1", false)) {
+            adapter.addFragment(new FragmentInfo(), String.valueOf(getString(R.string.title_info)));
+        }
+        if (sharedPref.getBoolean("tab_2", false)) {
+            adapter.addFragment(new FragmentBookmarks(), String.valueOf(getString(R.string.title_bookmarks)));
+        }
+        if (sharedPref.getBoolean("tab_3", false)) {
+            adapter.addFragment(new FragmentNotes(), String.valueOf(getString(R.string.title_notes)));
+        }
 
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(startTabInt,true);
@@ -229,10 +236,14 @@ public class HHS_MainScreen extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+        menu.getItem(0).setVisible(false);
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         if (sharedPref.getBoolean ("help", false)){
             menu.getItem(4).setVisible(false); // here pass the index of save menu item
+        }
+        if (sharedPref.getBoolean ("tab_3", false)){
+            menu.getItem(0).setVisible(true); // here pass the index of save menu item
         }
         return super.onPrepareOptionsMenu(menu);
     }

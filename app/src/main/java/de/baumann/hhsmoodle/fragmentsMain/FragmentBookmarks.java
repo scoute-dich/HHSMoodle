@@ -2,7 +2,6 @@ package de.baumann.hhsmoodle.fragmentsMain;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -515,11 +514,11 @@ public class FragmentBookmarks extends Fragment {
         swipeView.setRefreshing(false);
     }
 
-    private void changeIcon(String segno, String title, String url, String icon) {
+    private void changeIcon(String seqno, String title, String url, String icon) {
         try {
 
             final Database_Browser db = new Database_Browser(getActivity());
-            db.deleteBookmark((Integer.parseInt(segno)));
+            db.deleteBookmark((Integer.parseInt(seqno)));
             db.addBookmark(title, url, icon);
             db.close();
             setBookmarkList();

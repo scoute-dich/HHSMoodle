@@ -473,11 +473,11 @@ public class Popup_bookmarks extends Activity {
         }
     }
 
-    private void changeIcon(String segno, String title, String url, String icon) {
+    private void changeIcon(String seqno, String title, String url, String icon) {
         try {
 
             final Database_Browser db = new Database_Browser(Popup_bookmarks.this);
-            db.deleteBookmark((Integer.parseInt(segno)));
+            db.deleteBookmark((Integer.parseInt(seqno)));
             db.addBookmark(title, url, icon);
             db.close();
             setBookmarkList();

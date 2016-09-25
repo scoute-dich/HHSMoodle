@@ -1,3 +1,7 @@
+### v 2.1
+- Option to change bookmark icon
+- Choose tabs to show
+
 ### v 2.0
 - Removed notifications
 - Create calendar event
