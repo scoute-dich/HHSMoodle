@@ -49,8 +49,8 @@ public class FragmentInfo extends Fragment {
 
         final String[] itemURL ={
                 "https://moodle.huebsch.ka.schule-bw.de/moodle/my/",
-                "https://moodle.huebsch.ka.schule-bw.de/moodle/user/profile.php?id=4",
-                "https://moodle.huebsch.ka.schule-bw.de/moodle/calendar/view.php?view=upcoming&course=1",
+                "https://moodle.huebsch.ka.schule-bw.de/moodle/user/profile.php",
+                "https://moodle.huebsch.ka.schule-bw.de/moodle/calendar/view.php",
                 "https://moodle.huebsch.ka.schule-bw.de/moodle/grade/report/overview/index.php",
                 "https://moodle.huebsch.ka.schule-bw.de/moodle/message/index.php",
                 "https://moodle.huebsch.ka.schule-bw.de/moodle/user/preferences.php",

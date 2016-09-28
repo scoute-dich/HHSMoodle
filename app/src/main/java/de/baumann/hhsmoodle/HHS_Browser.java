@@ -245,13 +245,10 @@ public class HHS_Browser extends AppCompatActivity  {
 
             public void onProgressChanged(WebView view, int progress) {
                 final String url = mWebView.getUrl();
+
                 progressBar.setProgress(progress);
 
-                if (progress == 100) {
-                    progressBar.setVisibility(View.GONE);
-
-                } else {
-                    progressBar.setVisibility(View.VISIBLE);
+                if (progress > 0 && progress <= 60) {
                     setTitle(mWebView.getTitle());
                     if (url != null && url.contains("moodle.huebsch.ka.schule-bw.de")) {
                         mWebView.loadUrl("javascript:(function() { " +
@@ -260,6 +257,18 @@ public class HHS_Browser extends AppCompatActivity  {
                                 "})()");
                     }
                 }
+
+                if (progress > 60) {
+                    setTitle(mWebView.getTitle());
+                    if (url != null && url.contains("moodle.huebsch.ka.schule-bw.de")) {
+                        mWebView.loadUrl("javascript:(function() { " +
+                                "var head = document.getElementsByClassName('navbar navbar-fixed-top moodle-has-zindex')[0];"
+                                + "head.parentNode.removeChild(head);" +
+                                "})()");
+                    }
+                }
+
+                progressBar.setVisibility(progress == 100 ? View.GONE : View.VISIBLE);
             }
 
             @Override
