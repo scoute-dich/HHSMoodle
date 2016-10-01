@@ -433,7 +433,15 @@ public class FragmentNotes extends Fragment {
         switch (item.getItemId()) {
             case R.id.action_help:
 
-                final SpannableString s = new SpannableString(Html.fromHtml(getString(R.string.helpNotes_text)));
+                SpannableString s;
+
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                    s = new SpannableString(Html.fromHtml(getString(R.string.helpNotes_text),Html.FROM_HTML_MODE_LEGACY));
+                } else {
+                    //noinspection deprecation
+                    s = new SpannableString(Html.fromHtml(getString(R.string.helpNotes_text)));
+                }
+
                 Linkify.addLinks(s, Linkify.WEB_URLS);
 
                 final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity())

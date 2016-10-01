@@ -4,7 +4,6 @@
     // Application
 
     <string name="app_name">HHS Moodle</string>
-    <string name="app_name_short">HHS</string>
     <string name="app_permissions">You must grant \"Access Storage Permission\" to save screenshots and downloads. After that you should
         completely close the app or restart the phone. If you don\'t permit the storage access but want to use the
         screenshot function at a later time, you can grant the permission later. Please open then: system settings - apps -
@@ -12,6 +11,7 @@
     <string name="app_share_screenshot">Share screenshot using:</string>
     <string name="app_share_image">Share image using:</string>
     <string name="app_share_link">Share link using:</string>
+    <string name="app_share_file">Choose file with:</string>
     <string name="app_contDesc_1">header</string>
     <string name="app_contDesc_2">icon</string>
     <string name="app_contDesc_3">splashscreen</string>

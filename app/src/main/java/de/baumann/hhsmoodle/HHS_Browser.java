@@ -28,6 +28,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.util.Linkify;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Gravity;
 import android.view.Menu;
@@ -78,11 +79,17 @@ public class HHS_Browser extends AppCompatActivity  {
     private static final int ID_SHARE_LINK = 13;
     private static final int ID_SHARE_IMAGE = 14;
 
-    private static final int INPUT_FILE_REQUEST_CODE = 1;
     private static final int REQUEST_CODE_ASK_PERMISSIONS = 123;
+
+    private static final String TAG = HHS_Browser.class.getSimpleName();
+
+    private static final int REQUEST_CODE_LOLLIPOP = 1;
+    private final static int RESULT_CODE_ICE_CREAM = 2;
 
     private ValueCallback<Uri[]> mFilePathCallback;
     private String mCameraPhotoPath;
+
+    private ValueCallback<Uri> mUploadMessage;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -252,8 +259,8 @@ public class HHS_Browser extends AppCompatActivity  {
                     setTitle(mWebView.getTitle());
                     if (url != null && url.contains("moodle.huebsch.ka.schule-bw.de")) {
                         mWebView.loadUrl("javascript:(function() { " +
-                                "var head = document.getElementsByClassName('navbar navbar-fixed-top moodle-has-zindex')[0];"
-                                + "head.parentNode.removeChild(head);" +
+                                "var head = document.getElementsByClassName('navbar navbar-fixed-top moodle-has-zindex')[0];" +
+                                "head.parentNode.removeChild(head);" +
                                 "})()");
                     }
                 }
@@ -262,8 +269,8 @@ public class HHS_Browser extends AppCompatActivity  {
                     setTitle(mWebView.getTitle());
                     if (url != null && url.contains("moodle.huebsch.ka.schule-bw.de")) {
                         mWebView.loadUrl("javascript:(function() { " +
-                                "var head = document.getElementsByClassName('navbar navbar-fixed-top moodle-has-zindex')[0];"
-                                + "head.parentNode.removeChild(head);" +
+                                "var head = document.getElementsByClassName('navbar navbar-fixed-top moodle-has-zindex')[0];" +
+                                "head.parentNode.removeChild(head);" +
                                 "})()");
                     }
                 }
@@ -271,27 +278,46 @@ public class HHS_Browser extends AppCompatActivity  {
                 progressBar.setVisibility(progress == 100 ? View.GONE : View.VISIBLE);
             }
 
-            @Override
-            public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
-                if (mFilePathCallback != null) mFilePathCallback.onReceiveValue(null);
+            //For Android 4.1
+            public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String capture) {
+                mUploadMessage = uploadMsg;
+                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+                i.addCategory(Intent.CATEGORY_OPENABLE);
+                i.setType("*/*");
+                startActivityForResult(Intent.createChooser(i, getString(R.string.app_share_file)),
+                        RESULT_CODE_ICE_CREAM);
 
+            }
+
+            //For Android5.0+
+            public boolean onShowFileChooser(
+                    WebView webView, ValueCallback<Uri[]> filePathCallback,
+                    FileChooserParams fileChooserParams) {
+                if (mFilePathCallback != null) {
+                    mFilePathCallback.onReceiveValue(null);
+                }
                 mFilePathCallback = filePathCallback;
 
                 Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
                     // Create the File where the photo should go
-                    File photoFile;
+                    File photoFile = null;
                     try {
                         photoFile = createImageFile();
                         takePictureIntent.putExtra("PhotoPath", mCameraPhotoPath);
                     } catch (IOException ex) {
                         // Error occurred while creating the File
-                        return false;
+                        Log.e(TAG, "Unable to create Image File", ex);
                     }
+
                     // Continue only if the File was successfully created
-                    mCameraPhotoPath = "file:" + photoFile.getAbsolutePath();
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
-                            Uri.fromFile(photoFile));
+                    if (photoFile != null) {
+                        mCameraPhotoPath = "file:" + photoFile.getAbsolutePath();
+                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+                                Uri.fromFile(photoFile));
+                    } else {
+                        takePictureIntent = null;
+                    }
                 }
 
                 Intent contentSelectionIntent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -299,14 +325,19 @@ public class HHS_Browser extends AppCompatActivity  {
                 contentSelectionIntent.setType("*/*");
 
                 Intent[] intentArray;
-                intentArray = new Intent[]{takePictureIntent};
+                if (takePictureIntent != null) {
+                    intentArray = new Intent[]{takePictureIntent};
+                } else {
+                    intentArray = new Intent[0];
+                }
 
                 Intent chooserIntent = new Intent(Intent.ACTION_CHOOSER);
                 chooserIntent.putExtra(Intent.EXTRA_INTENT, contentSelectionIntent);
-                chooserIntent.putExtra(Intent.EXTRA_TITLE, "Image Chooser");
+                chooserIntent.putExtra(Intent.EXTRA_TITLE, getString(R.string.app_share_file));
                 chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, intentArray);
 
-                startActivityForResult(chooserIntent, INPUT_FILE_REQUEST_CODE);
+                startActivityForResult(chooserIntent, REQUEST_CODE_LOLLIPOP);
+
                 return true;
             }
         });
@@ -323,9 +354,7 @@ public class HHS_Browser extends AppCompatActivity  {
                         .setAction(getString(R.string.toast_yes), new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                DownloadManager.Request request = new DownloadManager.Request(
-                                        Uri.parse(url));
-
+                                DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
                                 request.addRequestHeader("Cookie", CookieManager.getInstance().getCookie(url));
                                 request.allowScanningByMediaScanner();
                                 request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED); //Notify client once download is completed!
@@ -411,6 +440,42 @@ public class HHS_Browser extends AppCompatActivity  {
         );
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case RESULT_CODE_ICE_CREAM:
+                Uri uri = null;
+                if (data != null) {
+                    uri = data.getData();
+                }
+                mUploadMessage.onReceiveValue(uri);
+                mUploadMessage = null;
+                break;
+            case REQUEST_CODE_LOLLIPOP:
+                Uri[] results = null;
+                // Check that the response is a good one
+                if (resultCode == Activity.RESULT_OK) {
+                    if (data == null) {
+                        // If there is not data, then we may have taken a photo
+                        if (mCameraPhotoPath != null) {
+                            results = new Uri[]{Uri.parse(mCameraPhotoPath)};
+                        }
+                    } else {
+                        String dataString = data.getDataString();
+                        if (dataString != null) {
+                            results = new Uri[]{Uri.parse(dataString)};
+                        }
+                    }
+                }
+
+                mFilePathCallback.onReceiveValue(results);
+                mFilePathCallback = null;
+                break;
+        }
+    }
+
     private final BroadcastReceiver onComplete = new BroadcastReceiver() {
         public void onReceive(Context ctxt, Intent intent) {
 
@@ -434,29 +499,6 @@ public class HHS_Browser extends AppCompatActivity  {
             snackbar.show();
         }
     };
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode != INPUT_FILE_REQUEST_CODE || mFilePathCallback == null) {
-            super.onActivityResult(requestCode, resultCode, data);
-            return;
-        }
-        Uri[] results = null;
-        if (resultCode == Activity.RESULT_OK) {
-            if (data == null) {
-                if (mCameraPhotoPath != null) {
-                    results = new Uri[]{Uri.parse(mCameraPhotoPath)};
-                }
-            } else {
-                String dataString = data.getDataString();
-                if (dataString != null) {
-                    results = new Uri[]{Uri.parse(dataString)};
-                }
-            }
-        }
-        mFilePathCallback.onReceiveValue(results);
-        mFilePathCallback = null;
-    }
 
     @Override
     public void onBackPressed() {
@@ -669,7 +711,16 @@ public class HHS_Browser extends AppCompatActivity  {
         }
 
         if (id == R.id.action_help) {
-            final SpannableString s = new SpannableString(Html.fromHtml(getString(R.string.helpBrowser_text)));
+
+            SpannableString s;
+
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                s = new SpannableString(Html.fromHtml(getString(R.string.helpBrowser_text),Html.FROM_HTML_MODE_LEGACY));
+            } else {
+                //noinspection deprecation
+                s = new SpannableString(Html.fromHtml(getString(R.string.helpBrowser_text)));
+            }
+
             Linkify.addLinks(s, Linkify.WEB_URLS);
 
             final AlertDialog.Builder dialog = new AlertDialog.Builder(HHS_Browser.this)

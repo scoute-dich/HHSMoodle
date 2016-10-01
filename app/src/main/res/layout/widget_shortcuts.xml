@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="56dp"
-    android:background="@color/colorPrimary"
     tools:ignore="Overdraw">
 
     <ImageButton
@@ -15,7 +14,8 @@
         android:scaleType="fitCenter"
         tools:ignore="ContentDescription"
         android:layout_alignParentTop="true"
-        android:layout_toStartOf="@+id/imageButton2" />
+        android:layout_toEndOf="@+id/imageButton21"
+        android:layout_margin="4dp" />
 
     <ImageButton
         android:layout_width="56dp"
@@ -26,7 +26,8 @@
         android:scaleType="fitCenter"
         tools:ignore="ContentDescription"
         android:layout_alignParentTop="true"
-        android:layout_toStartOf="@+id/imageButton3" />
+        android:layout_toEndOf="@+id/imageButton"
+        android:layout_margin="4dp" />
 
     <ImageButton
         android:layout_width="56dp"
@@ -37,7 +38,8 @@
         android:scaleType="fitCenter"
         tools:ignore="ContentDescription"
         android:layout_alignParentTop="true"
-        android:layout_toStartOf="@+id/imageButton4" />
+        android:layout_toEndOf="@+id/imageButton2"
+        android:layout_margin="4dp" />
 
     <ImageButton
         tools:ignore="ContentDescription"
@@ -48,19 +50,19 @@
         android:background="?android:selectableItemBackground"
         android:scaleType="fitCenter"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_toEndOf="@+id/imageButton3"
+        android:layout_margin="4dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/app_name_short"
-        android:textSize="24sp"
-        android:id="@+id/textView"
-        android:fontFamily="sans-serif-condensed"
-        android:textColor="@color/abc_primary_text_material_dark"
-        tools:ignore="PrivateResource,RelativeOverlap"
-        android:layout_centerVertical="true"
+    <ImageButton
+        tools:ignore="ContentDescription"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:id="@+id/imageButton21"
+        android:src="@mipmap/ic_calendar"
+        android:background="?android:selectableItemBackground"
+        android:scaleType="fitCenter"
+        android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="16dp" />
+        android:layout_margin="4dp" />
 
 </RelativeLayout>

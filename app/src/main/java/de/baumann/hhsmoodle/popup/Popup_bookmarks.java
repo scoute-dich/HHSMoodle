@@ -236,7 +236,7 @@ public class Popup_bookmarks extends Activity {
                     new int[] {R.id.textView_title, R.id.textView_des}
             ){
                 @Override
-                public View getView (final int position, final View convertView, ViewGroup parent) {
+                public View getView (final int position, final View convertView, final ViewGroup parent) {
 
                     @SuppressWarnings("unchecked")
                     HashMap<String,String> map = (HashMap<String,String>)listView.getItemAtPosition(position);
@@ -308,7 +308,7 @@ public class Popup_bookmarks extends Activity {
 
                             if (convertView == null) {
                                 LayoutInflater inflater = Popup_bookmarks.this.getLayoutInflater();
-                                View dialogView = inflater.inflate(R.layout.dialog_icon, null);
+                                View dialogView = inflater.inflate(R.layout.dialog_icon, parent, false);
                                 dialogBuilder.setView(dialogView);
 
                                 final AlertDialog alertDialog = dialogBuilder.create();

@@ -4,6 +4,8 @@
     package="de.baumann.hhsmoodle">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permisson.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
 
@@ -50,6 +52,16 @@
 
         <activity
             android:name=".popup.Popup_info"
+            android:launchMode="singleTask"
+            android:theme="@style/AppThemeDialog"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".popup.Popup_calendar"
             android:launchMode="singleTask"
             android:theme="@style/AppThemeDialog"
             android:label="@string/app_name">

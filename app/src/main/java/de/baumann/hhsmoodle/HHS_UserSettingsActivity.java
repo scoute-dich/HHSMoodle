@@ -78,7 +78,13 @@ public class HHS_UserSettingsActivity extends AppCompatActivity {
                 {
 
                     SpannableString s;
-                    s = new SpannableString(Html.fromHtml(getString(R.string.changelog_text)));
+
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                        s = new SpannableString(Html.fromHtml(getString(R.string.changelog_text),Html.FROM_HTML_MODE_LEGACY));
+                    } else {
+                        //noinspection deprecation
+                        s = new SpannableString(Html.fromHtml(getString(R.string.changelog_text)));
+                    }
 
                     Linkify.addLinks(s, Linkify.WEB_URLS);
 
@@ -106,7 +112,13 @@ public class HHS_UserSettingsActivity extends AppCompatActivity {
                 public boolean onPreferenceClick(Preference pref) {
 
                     SpannableString s;
-                    s = new SpannableString(Html.fromHtml(getString(R.string.about_text)));
+
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                        s = new SpannableString(Html.fromHtml(getString(R.string.about_text),Html.FROM_HTML_MODE_LEGACY));
+                    } else {
+                        //noinspection deprecation
+                        s = new SpannableString(Html.fromHtml(getString(R.string.about_text)));
+                    }
 
                     Linkify.addLinks(s, Linkify.WEB_URLS);
 
@@ -224,7 +236,16 @@ public class HHS_UserSettingsActivity extends AppCompatActivity {
         }
 
         if (id == R.id.action_help) {
-            final SpannableString s = new SpannableString(Html.fromHtml(getString(R.string.helpSettings_text)));
+
+            SpannableString s;
+
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                s = new SpannableString(Html.fromHtml(getString(R.string.helpSettings_text),Html.FROM_HTML_MODE_LEGACY));
+            } else {
+                //noinspection deprecation
+                s = new SpannableString(Html.fromHtml(getString(R.string.helpSettings_text)));
+            }
+
             Linkify.addLinks(s, Linkify.WEB_URLS);
 
             final AlertDialog.Builder dialog = new AlertDialog.Builder(HHS_UserSettingsActivity.this)

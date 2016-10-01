@@ -276,7 +276,7 @@ public class FragmentBookmarks extends Fragment {
                     new int[] {R.id.textView_title, R.id.textView_des}
             ){
                 @Override
-                public View getView (final int position, final View convertView, ViewGroup parent) {
+                public View getView (final int position, final View convertView, final ViewGroup parent) {
 
                     @SuppressWarnings("unchecked")
                     HashMap<String,String> map = (HashMap<String,String>)listView.getItemAtPosition(position);
@@ -348,7 +348,7 @@ public class FragmentBookmarks extends Fragment {
 
                             if (convertView == null) {
                                 LayoutInflater inflater = getActivity().getLayoutInflater();
-                                View dialogView = inflater.inflate(R.layout.dialog_icon, null);
+                                View dialogView = inflater.inflate(R.layout.dialog_icon, parent, false);
                                 dialogBuilder.setView(dialogView);
 
                                 final AlertDialog alertDialog = dialogBuilder.create();
@@ -534,7 +534,15 @@ public class FragmentBookmarks extends Fragment {
         switch (item.getItemId()) {
             case R.id.action_help:
 
-                final SpannableString s = new SpannableString(Html.fromHtml(getString(R.string.helpBookmarks_text)));
+                SpannableString s;
+
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                    s = new SpannableString(Html.fromHtml(getString(R.string.helpBookmarks_text),Html.FROM_HTML_MODE_LEGACY));
+                } else {
+                    //noinspection deprecation
+                    s = new SpannableString(Html.fromHtml(getString(R.string.helpBookmarks_text)));
+                }
+
                 Linkify.addLinks(s, Linkify.WEB_URLS);
 
                 final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity())

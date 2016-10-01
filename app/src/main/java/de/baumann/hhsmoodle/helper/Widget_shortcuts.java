@@ -12,6 +12,7 @@ import android.widget.RemoteViews;
 import de.baumann.hhsmoodle.HHS_Note;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.popup.Popup_bookmarks;
+import de.baumann.hhsmoodle.popup.Popup_calendar;
 import de.baumann.hhsmoodle.popup.Popup_info;
 import de.baumann.hhsmoodle.popup.Popup_notes;
 
@@ -41,7 +42,7 @@ public class Widget_shortcuts extends AppWidgetProvider {
             configIntent3.setAction(Intent.ACTION_MAIN);
             PendingIntent configPendingIntent4 = PendingIntent.getActivity(context, 0, configIntent4, 0);
 
-            Intent configIntent5 = new Intent(context, SplashActivity.class);
+            Intent configIntent5 = new Intent(context, Popup_calendar.class);
             configIntent5.putExtra("url", startURL);
             PendingIntent configPendingIntent5 = PendingIntent.getActivity(context, 0, configIntent5, 0);
 
@@ -51,7 +52,7 @@ public class Widget_shortcuts extends AppWidgetProvider {
             views.setOnClickPendingIntent(R.id.imageButton2, configPendingIntent2);
             views.setOnClickPendingIntent(R.id.imageButton3, configPendingIntent3);
             views.setOnClickPendingIntent(R.id.imageButton4, configPendingIntent4);
-            views.setOnClickPendingIntent(R.id.textView, configPendingIntent5);
+            views.setOnClickPendingIntent(R.id.imageButton21, configPendingIntent5);
 
             appWidgetManager.updateAppWidget(appWidgetId, views);
         }

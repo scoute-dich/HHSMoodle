@@ -112,7 +112,16 @@ public class HHS_MainScreen extends AppCompatActivity {
 
         boolean show = sharedPref.getBoolean("help_notShow", true);
         if (show){
-            final SpannableString s = new SpannableString(Html.fromHtml(getString(R.string.dialog_help)));
+
+            SpannableString s;
+
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                s = new SpannableString(Html.fromHtml(getString(R.string.dialog_help),Html.FROM_HTML_MODE_LEGACY));
+            } else {
+                //noinspection deprecation
+                s = new SpannableString(Html.fromHtml(getString(R.string.dialog_help)));
+            }
+
             Linkify.addLinks(s, Linkify.WEB_URLS);
 
             final AlertDialog.Builder dialog = new AlertDialog.Builder(HHS_MainScreen.this)

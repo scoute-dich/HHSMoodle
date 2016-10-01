@@ -1,3 +1,8 @@
+### v 2.2
+- fixed links (My Moodle)
+- added Calendar to widget (offline)
+- improved upload files
+
 ### v 2.1
 - Option to change bookmark icon
 - Choose tabs to show
