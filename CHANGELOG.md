@@ -2,6 +2,7 @@
 - fixed links (My Moodle)
 - added Calendar to widget (offline)
 - improved upload files
+- improved password protection
 
 ### v 2.1
 - Option to change bookmark icon

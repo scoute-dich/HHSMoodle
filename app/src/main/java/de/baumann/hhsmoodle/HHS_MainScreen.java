@@ -36,8 +36,10 @@ import java.util.List;
 import de.baumann.hhsmoodle.fragmentsMain.FragmentBookmarks;
 import de.baumann.hhsmoodle.fragmentsMain.FragmentInfo;
 import de.baumann.hhsmoodle.fragmentsMain.FragmentNotes;
+import de.baumann.hhsmoodle.helper.PasswordActivity;
 import de.baumann.hhsmoodle.helper.SplashActivity;
 import de.baumann.hhsmoodle.popup.Popup_bookmarks;
+import de.baumann.hhsmoodle.popup.Popup_calendar;
 import de.baumann.hhsmoodle.popup.Popup_info;
 import de.baumann.hhsmoodle.popup.Popup_notes;
 
@@ -68,7 +70,7 @@ public class HHS_MainScreen extends AppCompatActivity {
 
         if (sharedPref.getString("protect_PW", "").length() > 0) {
             if (sharedPref.getBoolean("isOpened", true)) {
-                Intent intent_in = new Intent(HHS_MainScreen.this, SplashActivity.class);
+                Intent intent_in = new Intent(HHS_MainScreen.this, PasswordActivity.class);
                 startActivity(intent_in);
             }
         }
@@ -296,7 +298,8 @@ public class HHS_MainScreen extends AppCompatActivity {
                     getString(R.string.title_info),
                     getString(R.string.title_bookmarks),
                     getString(R.string.title_notes),
-                    getString(R.string.bookmark_createNote)};
+                    getString(R.string.bookmark_createNote),
+                    getString(R.string.menu_calendar)};
 
             new AlertDialog.Builder(HHS_MainScreen.this)
                     .setItems(options, new DialogInterface.OnClickListener() {
@@ -357,6 +360,20 @@ public class HHS_MainScreen extends AppCompatActivity {
                                 shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, (getString(R.string.bookmark_createNote)));
                                 shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
                                         Intent.ShortcutIconResource.fromContext(getApplicationContext(), R.mipmap.ic_note_plus));
+                                shortcut.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+                                sendBroadcast(shortcut);
+                                Snackbar.make(viewPager, R.string.toast_shortcut, Snackbar.LENGTH_LONG).show();
+                            }
+
+                            if (options[item].equals (getString(R.string.menu_calendar))) {
+                                Intent i = new Intent(getApplicationContext(), Popup_calendar.class);
+
+                                Intent shortcut = new Intent();
+                                shortcut.setAction(Intent.ACTION_MAIN);
+                                shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, i);
+                                shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, (getString(R.string.menu_calendar)));
+                                shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
+                                        Intent.ShortcutIconResource.fromContext(getApplicationContext(), R.mipmap.ic_calendar));
                                 shortcut.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
                                 sendBroadcast(shortcut);
                                 Snackbar.make(viewPager, R.string.toast_shortcut, Snackbar.LENGTH_LONG).show();

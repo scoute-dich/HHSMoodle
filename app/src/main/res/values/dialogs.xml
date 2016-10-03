@@ -31,6 +31,12 @@
         &lt;i>For more information visit the project site on github:&lt;br>
         https://github.com/scoute-dich/HHSMoodle&lt;/i>&lt;br>&lt;br>
 
+        &lt;b>v 2.2:&lt;/b>&lt;br>
+        &#8226; fixed: links (My Moodle)&lt;br>
+        &#8226; added: Calendar to widget (offline)&lt;br>
+        &#8226; improved: upload files&lt;br>
+        &#8226; improved: password protection&lt;br>&lt;br>
+
         &lt;b>v 2.1:&lt;/b>&lt;br>
         &#8226; Choose tabs&lt;br>
         &#8226; Bookmarks: change icons&lt;br>&lt;br>
@@ -87,7 +93,7 @@
         If you long click on the toolbar, the app gets closed completely.&lt;br>&lt;br>
 
         &lt;b>Widgets&lt;/b>&lt;br>
-        You can add a widget to your homescreen, to get a faster access to the main functions of the app (Start app,
+        You can add a widget to your homescreen, to get a faster access to the main functions of the app (calendar -> offline,
         My Moodle, bookmarks, notes, create new note).</string>
 
 
@@ -114,7 +120,7 @@
         &#8226;&lt;i> Open app directory:&lt;/i> If you have a installed file manager, the directory where downloaded files
         are stored will open.&lt;br>
         &#8226;&lt;i> Create shortcut:&lt;/i> To have a faster access to the main functions of the app, you can create
-        shortcuts on your homescreen (My Moodle, bookmarks, notes, create new note).&lt;br>
+        shortcuts on your homescreen (calendar -> offline, My Moodle, bookmarks, notes, create new note).&lt;br>
         &#8226;&lt;i> Settings:&lt;/i> In the settings you can configure the behavior of the app. It is highly
         recommended to protect the app with a password against unwanted access.&lt;br>
         &#8226;&lt;i> Help:&lt;/i> Opens the help dialog.
@@ -142,7 +148,7 @@
         &#8226;&lt;i> Open app directory:&lt;/i> If you have a installed file manager, the directory where downloaded files
         are stored will open.&lt;br>
         &#8226;&lt;i> Create shortcut:&lt;/i> To have a faster access to the main functions of the app, you can create
-        shortcuts on your homescreen (My Moodle, bookmarks, notes, create new note).&lt;br>
+        shortcuts on your homescreen (calendar -> offline, My Moodle, bookmarks, notes, create new note).&lt;br>
         &#8226;&lt;i> Settings:&lt;/i> In the settings you can configure the behavior of the app. It is highly
         recommended to protect the app with a password against unwanted access.&lt;br>
         &#8226;&lt;i> Help:&lt;/i> Opens the help dialog.
@@ -175,7 +181,7 @@
         &#8226;&lt;i> Open app directory:&lt;/i> If you have a installed file manager, the directory where downloaded files
         are stored will open.&lt;br>
         &#8226;&lt;i> Create shortcut:&lt;/i> To have a faster access to the main functions of the app, you can create
-        shortcuts on your homescreen (My Moodle, bookmarks, notes, create new note).&lt;br>
+        shortcuts on your homescreen (calendar -> offline, My Moodle, bookmarks, notes, create new note).&lt;br>
         &#8226;&lt;i> Settings:&lt;/i> In the settings you can configure the behavior of the app. It is highly
         recommended to protect the app with a password against unwanted access.&lt;br>
         &#8226;&lt;i> Help:&lt;/i> Opens the help dialog.

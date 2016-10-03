@@ -46,6 +46,7 @@
     <string name="menu_rem">Erstelle Notiz</string>
     <string name="menu_bookmark">Lesezeichen hinzufügen</string>
     <string name="menu_help">Hilfe</string>
+    <string name="menu_calendar">Kalender</string>
 
 
     // Context Menu
@@ -167,6 +168,7 @@
     <string name="toast_wrongPW">Uuups. Falsches Passwort.</string>
     <string name="toast_shortcut">Verknüpfung erfolgreich erstellt.</string>
     <string name="toast_install_mail">Bitte eine Emailapp installieren.</string>
+    <string name="toast_cache">Lade Webseite aus dem Cache.</string>
 
 
     // Bookmarks

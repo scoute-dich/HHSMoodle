@@ -78,6 +78,10 @@ public class PasswordActivity extends AppCompatActivity {
                 String Password = editPassword.getText().toString().trim();
 
                 if (Password.equals(protect)) {
+                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(PasswordActivity.this);
+                    sharedPref.edit()
+                            .putBoolean("isOpened", false)
+                            .apply();
                     finish();
 
                 } else {

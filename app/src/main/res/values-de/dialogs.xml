@@ -32,6 +32,12 @@
         &lt;i>Für mehr Informationen besuche die Projektseite auf Github:&lt;br>
         https://github.com/scoute-dich/HHSMoodle&lt;/i>&lt;br>&lt;br>
 
+        &lt;b>v 2.2:&lt;/b>&lt;br>
+        &#8226; Fixed: Links (My Moodle)&lt;br>
+        &#8226; Kalender zum Widget hinzugefügt (offline)&lt;br>
+        &#8226; Verbessert: Dateiupload&lt;br>
+        &#8226; Verbessert: Passwortschutz&lt;br>&lt;br>
+
         &lt;b>v 2.1:&lt;/b>&lt;br>
         &#8226; Tabs auswählen möglich&lt;br>
         &#8226; Lesezeichen: Icon ändern&lt;br>&lt;br>
@@ -89,7 +95,7 @@
 
         &lt;b>Widgets&lt;/b>&lt;br>
         Du kannst deinem Homescreen ein Widget hinzufügen, um einen schnellen Zugriff auf alle wichtigen Funktionen der
-        App zu erhalten (App starten, Mein Moodle, Lesezeichen, Notizen, Notiz erstellen).</string>
+        App zu erhalten (Kalender -> offline, Mein Moodle, Lesezeichen, Notizen, Notiz erstellen).</string>
 
 
     <string name="helpBookmarks_text">
@@ -119,7 +125,7 @@
         &#8226;&lt;i> Öffne Anwendungsordner:&lt;/i> Wenn du einen Dateimanager installiert hast, öffnet sich das Verzeichnis,
         in dem z.B. herunter geladene Dateien gespeichert werden.&lt;br>
         &#8226;&lt;i> Erstelle Verknüpfung:&lt;/i> Um einen schnellen Zugriff auf die Funktionen dieser App zu haben, kannst
-        du Verknüpfungen auf deinem Homescreen erstellen (Mein Moodle, Lesezeichen, Notizen, Notiz erstellen).&lt;br>
+        du Verknüpfungen auf deinem Homescreen erstellen (Kalender -> offline, Mein Moodle, Lesezeichen, Notizen, Notiz erstellen).&lt;br>
         &#8226;&lt;i> Einstellungen:&lt;/i> In den Einstellungen kannst du das Verhalten der App deinen Bedürfnissen
         anpassen. Auf jeden Fall wird empfohlen ein Kennwort zu setzen, um die App vor ungewolltem Zugriff zu schützen.&lt;br>
         &#8226;&lt;i> Hilfe:&lt;/i> Öffnet den jeweiligen Hilfedialog.
@@ -150,7 +156,7 @@
         &#8226;&lt;i> Öffne Anwendungsordner:&lt;/i> Wenn du einen Dateimanager installiert hast, öffnet sich das Verzeichnis,
         in dem z.B. herunter geladene Dateien gespeichert werden.&lt;br>
         &#8226;&lt;i> Erstelle Verknüpfung:&lt;/i> Um einen schnellen Zugriff auf die Funktionen dieser App zu haben, kannst
-        du Verknüpfungen auf deinem Homescreen erstellen (Mein Moodle, Lesezeichen, Notizen, Notiz erstellen).&lt;br>
+        du Verknüpfungen auf deinem Homescreen erstellen (Kalender -> offline, Mein Moodle, Lesezeichen, Notizen, Notiz erstellen).&lt;br>
         &#8226;&lt;i> Einstellungen:&lt;/i> In den Einstellungen kannst du das Verhalten der App deinen Bedürfnissen
         anpassen. Auf jeden Fall wird empfohlen ein Kennwort zu setzen, um die App vor ungewolltem Zugriff zu schützen.&lt;br>
         &#8226;&lt;i> Hilfe:&lt;/i> Öffnet den jeweiligen Hilfedialog.
@@ -187,7 +193,7 @@
         &#8226;&lt;i> Öffne Anwendungsordner:&lt;/i> Wenn du einen Dateimanager installiert hast, öffnet sich das Verzeichnis,
         in dem z.B. herunter geladene Dateien gespeichert werden.&lt;br>
         &#8226;&lt;i> Erstelle Verknüpfung:&lt;/i> Um einen schnellen Zugriff auf die Funktionen dieser App zu haben, kannst
-        du Verknüpfungen auf deinem Homescreen erstellen (Mein Moodle, Lesezeichen, Notizen, Notiz erstellen).&lt;br>
+        du Verknüpfungen auf deinem Homescreen erstellen (Kalender -> offline, Mein Moodle, Lesezeichen, Notizen, Notiz erstellen).&lt;br>
         &#8226;&lt;i> Einstellungen:&lt;/i> In den Einstellungen kannst du das Verhalten der App deinen Bedürfnissen
         anpassen. Auf jeden Fall wird empfohlen ein Kennwort zu setzen, um die App vor ungewolltem Zugriff zu schützen.&lt;br>
         &#8226;&lt;i> Hilfe:&lt;/i> Öffnet den jeweiligen Hilfedialog.

@@ -83,7 +83,7 @@ public class Popup_calendar extends AppCompatActivity  {
 
         if (isNetworkUnAvailable()) { // loading offline
             mWebView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
-            Snackbar.make(mWebView, R.string.toast_noInternet, Snackbar.LENGTH_LONG).show();
+            Snackbar.make(mWebView, R.string.toast_cache, Snackbar.LENGTH_LONG).show();
         }
 
         if (sharedPref.getBoolean ("swipe", false)){

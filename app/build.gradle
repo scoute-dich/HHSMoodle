@@ -2,14 +2,14 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion '24.0.3'
+    buildToolsVersion '23.0.3'
 
     defaultConfig {
         applicationId "de.baumann.hhsmoodle"
         minSdkVersion 17
         targetSdkVersion 24
-        versionCode 11
-        versionName "2.1"
+        versionCode 12
+        versionName "2.2"
     }
     buildTypes {
         release {
