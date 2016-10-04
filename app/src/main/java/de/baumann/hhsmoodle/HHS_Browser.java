@@ -799,9 +799,7 @@ public class HHS_Browser extends AppCompatActivity  {
                     .putString("handleTextTitle", title)
                     .putString("handleTextText", text)
                     .apply();
-
-            helpers.isOpened(HHS_Browser.this);
-            helpers.switchToActivity(HHS_Browser.this, HHS_Note.class, "", false);
+            helpers.editNote(HHS_Browser.this);
         }
 
         if (id == R.id.action_bookmark) {

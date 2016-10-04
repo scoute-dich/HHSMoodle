@@ -177,6 +177,22 @@ public class HHS_MainScreen extends AppCompatActivity {
             }
         }
 
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        String type = intent.getType();
+
+        if (Intent.ACTION_SEND.equals(action)) {
+            sharedPref.edit()
+                    .putString("handleTextTitle", intent.getStringExtra(Intent.EXTRA_SUBJECT))
+                    .putString("handleTextText", intent.getStringExtra(Intent.EXTRA_TEXT))
+                    .putString("handleTextIcon", "")
+                    .apply();
+
+            if ("text/plain".equals(type)) {
+                helpers.editNote(HHS_MainScreen.this);
+            }
+        }
+
         File directory = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/");
         if (!directory.exists()) {
             directory.mkdirs();
@@ -284,8 +300,7 @@ public class HHS_MainScreen extends AppCompatActivity {
         }
 
         if (id == R.id.action_not) {
-            helpers.isOpened(HHS_MainScreen.this);
-            helpers.switchToActivity(HHS_MainScreen.this, HHS_Note.class, "", false);
+            helpers.editNote(HHS_MainScreen.this);
         }
 
         if (id == R.id.action_shortcut) {
@@ -347,7 +362,7 @@ public class HHS_MainScreen extends AppCompatActivity {
                             }
 
                             if (options[item].equals (getString(R.string.bookmark_createNote))) {
-                                Intent i = new Intent(getApplicationContext(), de.baumann.hhsmoodle.HHS_Note.class);
+                                Intent i = new Intent(getApplicationContext(), de.baumann.hhsmoodle.HHS_MainScreen.class);
 
                                 Intent shortcut = new Intent();
                                 shortcut.setAction(Intent.ACTION_MAIN);

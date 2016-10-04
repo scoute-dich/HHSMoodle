@@ -47,7 +47,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import de.baumann.hhsmoodle.HHS_Note;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.helper.Database_Notes;
 import de.baumann.hhsmoodle.helper.helpers;
@@ -125,8 +124,7 @@ public class Popup_notes extends Activity {
                                         .putString("handleTextIcon", icon)
                                         .putString("handleTextSeqno", seqnoStr)
                                         .apply();
-                                helpers.isClosed(Popup_notes.this);
-                                helpers.switchToActivity(Popup_notes.this, HHS_Note.class, "", false);
+                                helpers.editNote(Popup_notes.this);
                             }
                         });
                 dialog.show();
@@ -162,8 +160,7 @@ public class Popup_notes extends Activity {
                                             .putString("handleTextIcon", icon)
                                             .putString("handleTextSeqno", seqnoStr)
                                             .apply();
-                                    helpers.isClosed(Popup_notes.this);
-                                    helpers.switchToActivity(Popup_notes.this, HHS_Note.class, "", false);
+                                    helpers.editNote(Popup_notes.this);
                                 }
 
                                 if (options[item].equals (getString(R.string.note_share))) {

@@ -150,7 +150,6 @@
     // Snackbar
 
     <string name="toast_yes">OK</string>
-    <string name="toast_no">No</string>
     <string name="toast_cancel">Cancel</string>
     <string name="toast_notAgain">Never show</string>
     <string name="toast_noInternet">Can not load page. No internet connection?</string>
@@ -161,7 +160,6 @@
     <string name="toast_install_folder">Please install a file manager.</string>
     <string name="toast_back">Can not go back.</string>
     <string name="toast_forward">Can not go forward.</string>
-    <string name="toast_save">Save changes before leaving?</string>
     <string name="toast_wrongPW">Uuups. Wrong password.</string>
     <string name="toast_shortcut">Shortcut successfully created.</string>
     <string name="toast_install_mail">Please install a mail client.</string>
@@ -191,11 +189,9 @@
     <string name="note_share">Share note</string>
     <string name="note_share_2">Share note using:</string>
     <string name="note_share_3">Send mail using:</string>
-    <string name="note_saved">Successfully saved note.</string>
     <string name="note_priority_0">Normal</string>
     <string name="note_priority_1">Low</string>
     <string name="note_priority_2">High</string>
-    <string name="save_note_text">Save</string>
     <string name="title_hint">Title</string>
     <string name="text_hint">Content</string>
 

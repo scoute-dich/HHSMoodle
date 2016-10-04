@@ -50,7 +50,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import de.baumann.hhsmoodle.HHS_Browser;
-import de.baumann.hhsmoodle.HHS_Note;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.helper.Database_Browser;
 import de.baumann.hhsmoodle.helper.helpers;
@@ -211,8 +210,7 @@ public class FragmentBookmarks extends Fragment {
                                             .putString("handleTextTitle", title)
                                             .putString("handleTextText", url)
                                             .apply();
-                                    helpers.isOpened(getActivity());
-                                    helpers.switchToActivity(getActivity(), HHS_Note.class, "", false);
+                                    helpers.editNote(getActivity());
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createShortcut))) {

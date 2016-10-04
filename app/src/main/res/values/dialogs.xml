@@ -188,19 +188,6 @@
     </string>
 
 
-    <string name="helpAddNotes_text">
-        Here you can edit priority, title and content of a note.&lt;br>&lt;br>
-
-        &lt;b>Important:&lt;/b>&lt;br>
-        If you edit an existing note, it will be deleted. Therefore always save in the \"Edit note\"
-        window, even if you do not change anything. Otherwise the note is lost.&lt;br>&lt;br>
-
-        &lt;b>Menu:&lt;/b>&lt;br>
-        &#8226;&lt;i> Save (Disc icon):&lt;/i> If you save the note, you will go back to the previous window
-        (main screen or browser).&lt;br>
-        &#8226;&lt;i> Help:&lt;/i> Opens the help dialog.
-    </string>
-
     <string name="helpSettings_title">Settings</string>
     <string name="helpSettings_text">
         Some settings need a restart of the app to be applied.</string>

@@ -52,7 +52,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import de.baumann.hhsmoodle.HHS_Note;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.helper.Database_Notes;
 import de.baumann.hhsmoodle.helper.helpers;
@@ -151,8 +150,7 @@ public class FragmentNotes extends Fragment {
                                         .putString("handleTextIcon", icon)
                                         .putString("handleTextSeqno", seqnoStr)
                                         .apply();
-                                helpers.isOpened(getActivity());
-                                helpers.switchToActivity(getActivity(), HHS_Note.class, "", false);
+                                helpers.editNote(getActivity());
                             }
                         });
                 dialog.show();
@@ -187,9 +185,7 @@ public class FragmentNotes extends Fragment {
                                             .putString("handleTextIcon", icon)
                                             .putString("handleTextSeqno", seqnoStr)
                                             .apply();
-
-                                    helpers.isOpened(getActivity());
-                                    helpers.switchToActivity(getActivity(), HHS_Note.class, "", false);
+                                    helpers.editNote(getActivity());
                                 }
 
                                 if (options[item].equals (getString(R.string.note_share))) {

@@ -28,7 +28,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.widget.RemoteViews;
 
-import de.baumann.hhsmoodle.HHS_Note;
+import de.baumann.hhsmoodle.HHS_MainScreen;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.popup.Popup_bookmarks;
 import de.baumann.hhsmoodle.popup.Popup_calendar;
@@ -57,7 +57,7 @@ public class Widget_shortcuts extends AppWidgetProvider {
             configIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
             PendingIntent configPendingIntent3 = PendingIntent.getActivity(context, 0, configIntent3, 0);
 
-            Intent configIntent4 = new Intent(context, HHS_Note.class);
+            Intent configIntent4 = new Intent(context, HHS_MainScreen.class);
             configIntent3.setAction(Intent.ACTION_MAIN);
             PendingIntent configPendingIntent4 = PendingIntent.getActivity(context, 0, configIntent4, 0);
 

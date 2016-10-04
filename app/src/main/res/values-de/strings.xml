@@ -153,7 +153,6 @@
     // Snackbar
 
     <string name="toast_yes">OK</string>
-    <string name="toast_no">Nein</string>
     <string name="toast_cancel">Abbrechen</string>
     <string name="toast_notAgain">Nicht anzeigen</string>
     <string name="toast_noInternet">Kann Seite nicht laden. Keine Internetverbindung?</string>
@@ -164,7 +163,6 @@
     <string name="toast_install_folder">Bitte einen Dateimanager installieren.</string>
     <string name="toast_back">Kann vorherige Seite nicht laden.</string>
     <string name="toast_forward">Kann nächste Seite nicht laden.</string>
-    <string name="toast_save">Änderungen vor dem Verlasssen speichern?</string>
     <string name="toast_wrongPW">Uuups. Falsches Passwort.</string>
     <string name="toast_shortcut">Verknüpfung erfolgreich erstellt.</string>
     <string name="toast_install_mail">Bitte eine Emailapp installieren.</string>
@@ -194,11 +192,9 @@
     <string name="note_share">Teile Notiz</string>
     <string name="note_share_2">Notiz teilen mit:</string>
     <string name="note_share_3">Email senden mit:</string>
-    <string name="note_saved">Notiz erfolgreich gespeichert.</string>
     <string name="note_priority_0">Niedrig</string>
     <string name="note_priority_1">Normal</string>
     <string name="note_priority_2">Hoch</string>
-    <string name="save_note_text">Speichern</string>
     <string name="title_hint">Titel</string>
     <string name="text_hint">Inhalt</string>
 

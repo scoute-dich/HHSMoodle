@@ -46,7 +46,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import de.baumann.hhsmoodle.HHS_Browser;
-import de.baumann.hhsmoodle.HHS_Note;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.helper.Database_Browser;
 import de.baumann.hhsmoodle.helper.helpers;
@@ -193,8 +192,7 @@ public class Popup_bookmarks extends Activity {
                                             .putString("handleTextTitle", title)
                                             .putString("handleTextText", url)
                                             .apply();
-                                    helpers.isClosed(Popup_bookmarks.this);
-                                    helpers.switchToActivity(Popup_bookmarks.this, HHS_Note.class, "", false);
+                                    helpers.editNote(Popup_bookmarks.this);
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createShortcut))) {

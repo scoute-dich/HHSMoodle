@@ -34,7 +34,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import de.baumann.hhsmoodle.HHS_Browser;
-import de.baumann.hhsmoodle.HHS_Note;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.helper.CustomListAdapter;
 import de.baumann.hhsmoodle.helper.helpers;
@@ -145,8 +144,7 @@ public class Popup_info extends Activity {
                                             .putString("handleTextTitle", title)
                                             .putString("handleTextText", url)
                                             .apply();
-                                    helpers.isClosed(Popup_info.this);
-                                    helpers.switchToActivity(Popup_info.this, HHS_Note.class, "", false);
+                                    helpers.editNote(Popup_info.this);
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createShortcut))) {

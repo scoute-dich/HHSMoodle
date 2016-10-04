@@ -200,19 +200,6 @@
     </string>
 
 
-    <string name="helpAddNotes_text">
-        Hier kannst du die Dringlichkeit, den Titel und den Inhalt einer Notiz bearbeiten.&lt;br>&lt;br>
-
-        &lt;b>Wichtig:&lt;/b>&lt;br>
-        Immer wenn du eine bestehende Notiz bearbeitest, wird die Notiz gelöscht. Speichere deshalb im \"Bearbeiten Fenster\"
-        immer ab, selbst wenn du nichts veränderst. Sonst ist die Notiz verloren.&lt;br>&lt;br>
-
-        &lt;b>Menü:&lt;/b>&lt;br>
-        &#8226;&lt;i> Speichern (Diskettenicon):&lt;/i> Wenn du die Notiz speicherst, kehrst du zum verherigen Fenster
-        (Hauptschirm oder Browser) zurück.&lt;br>
-        &#8226;&lt;i> Hilfe:&lt;/i> Öffnet den jeweiligen Hilfedialog.
-    </string>
-
     <string name="helpSettings_title">Einstellungen</string>
     <string name="helpSettings_text">
         Manche Einstellungen werden erst bei einem Neustart der Anwendung wirksam.</string>
