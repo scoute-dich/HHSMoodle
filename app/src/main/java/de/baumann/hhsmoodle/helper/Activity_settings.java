@@ -31,19 +31,19 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Html;
-import android.text.SpannableString;
+import android.support.v7.widget.Toolbar;
 import android.text.method.LinkMovementMethod;
-import android.text.util.Linkify;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import de.baumann.hhsmoodle.HHS_Browser;
 import de.baumann.hhsmoodle.HHS_MainScreen;
 import de.baumann.hhsmoodle.R;
 
@@ -52,18 +52,56 @@ public class Activity_settings extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_user_settings);
+        setContentView(R.layout.activity_settings);
+
+        PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
+        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        setTitle(R.string.note_edit);
+
+        if (sharedPref.getString("protect_PW", "").length() > 0) {
+            if (sharedPref.getBoolean("isOpened", true)) {
+                helpers.switchToActivity(Activity_settings.this, Activity_password.class, "", false);
+            }
+        }
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if(toolbar != null) {
+            toolbar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    final String startURL = sharedPref.getString("favoriteURL", "https://moodle.huebsch.ka.schule-bw.de/moodle/");
+                    final String startType = sharedPref.getString("startType", "1");
+
+                    if (startType.equals("2")) {
+                        helpers.isOpened(Activity_settings.this);
+                        helpers.switchToActivity(Activity_settings.this, HHS_Browser.class, startURL, true);
+                    } else if (startType.equals("1")){
+                        helpers.isOpened(Activity_settings.this);
+                        helpers.switchToActivity(Activity_settings.this, HHS_MainScreen.class, "", true);
+                    }
+                }
+            });
+
+            if (sharedPref.getBoolean ("longPress", false)){
+                toolbar.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        helpers.isClosed(Activity_settings.this);
+                        finishAffinity();
+                        return true;
+                    }
+                });
+            }
+        }
 
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         if(actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            setTitle(R.string.menu_settings);
         }
 
         // Display the fragment as the activity_screen_main content
-        getFragmentManager().beginTransaction()
-                .replace(android.R.id.content, new SettingsFragment())
-                .commit();
+        getFragmentManager().beginTransaction().replace(R.id.content_frame, new SettingsFragment()).commit();
     }
 
     public static class SettingsFragment extends PreferenceFragment {
@@ -97,20 +135,9 @@ public class Activity_settings extends AppCompatActivity {
                 public boolean onPreferenceClick(Preference pref)
                 {
 
-                    SpannableString s;
-
-                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                        s = new SpannableString(Html.fromHtml(getString(R.string.changelog_text),Html.FROM_HTML_MODE_LEGACY));
-                    } else {
-                        //noinspection deprecation
-                        s = new SpannableString(Html.fromHtml(getString(R.string.changelog_text)));
-                    }
-
-                    Linkify.addLinks(s, Linkify.WEB_URLS);
-
                     final AlertDialog d = new AlertDialog.Builder(getActivity())
                             .setTitle(R.string.action_changelog)
-                            .setMessage( s )
+                            .setMessage(helpers.textSpannable(getString(R.string.changelog_text)))
                             .setPositiveButton(getString(R.string.toast_yes),
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int id) {
@@ -131,20 +158,9 @@ public class Activity_settings extends AppCompatActivity {
             reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference pref) {
 
-                    SpannableString s;
-
-                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                        s = new SpannableString(Html.fromHtml(getString(R.string.about_text),Html.FROM_HTML_MODE_LEGACY));
-                    } else {
-                        //noinspection deprecation
-                        s = new SpannableString(Html.fromHtml(getString(R.string.about_text)));
-                    }
-
-                    Linkify.addLinks(s, Linkify.WEB_URLS);
-
                     final AlertDialog d = new AlertDialog.Builder(getActivity())
                             .setTitle(R.string.about_title)
-                            .setMessage(s)
+                            .setMessage(helpers.textSpannable(getString(R.string.about_text)))
                             .setPositiveButton(getString(R.string.toast_yes),
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int id) {
@@ -224,6 +240,12 @@ public class Activity_settings extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        helpers.isClosed(Activity_settings.this);
+        finish();
+    }
+
+    @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -249,27 +271,13 @@ public class Activity_settings extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == android.R.id.home) {
-            Intent intent_in = new Intent(Activity_settings.this, HHS_MainScreen.class);
-            startActivity(intent_in);
-            finish();
+            helpers.switchToActivity(Activity_settings.this, HHS_MainScreen.class, "", true);
         }
 
         if (id == R.id.action_help) {
-
-            SpannableString s;
-
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                s = new SpannableString(Html.fromHtml(getString(R.string.helpSettings_text),Html.FROM_HTML_MODE_LEGACY));
-            } else {
-                //noinspection deprecation
-                s = new SpannableString(Html.fromHtml(getString(R.string.helpSettings_text)));
-            }
-
-            Linkify.addLinks(s, Linkify.WEB_URLS);
-
             final AlertDialog.Builder dialog = new AlertDialog.Builder(Activity_settings.this)
                     .setTitle(R.string.helpSettings_title)
-                    .setMessage(s)
+                    .setMessage(helpers.textSpannable(getString(R.string.helpSettings_text)))
                     .setPositiveButton(getString(R.string.toast_yes), null);
             dialog.show();
         }

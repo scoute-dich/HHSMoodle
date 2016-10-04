@@ -42,6 +42,7 @@ import android.widget.ProgressBar;
 
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.helper.OnSwipeTouchListener;
+import de.baumann.hhsmoodle.helper.helpers;
 
 @SuppressWarnings("ResultOfMethodCallIgnored")
 public class Popup_calendar extends AppCompatActivity  {
@@ -163,6 +164,7 @@ public class Popup_calendar extends AppCompatActivity  {
                     view.loadUrl(url);
                 } else {
                     Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    helpers.isClosed(Popup_calendar.this);
                     startActivity(i);
                 }
                 return true;

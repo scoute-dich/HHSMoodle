@@ -202,7 +202,7 @@
 
     // Password
 
-    <string name="pw_forgotten">Password forgotten?</string>
+    <string name="pw_forgotten">Pin forgotten?</string>
     <string name="pw_forgotten_dialog">Do you want to delete all user data (also login data, saved bookmarks, notes, …) to reset
         your app pin? The application will close.</string>
 

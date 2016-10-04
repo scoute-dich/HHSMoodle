@@ -29,9 +29,6 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
-import android.text.SpannableString;
-import android.text.util.Linkify;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,6 +42,7 @@ import android.widget.TextView;
 
 import de.baumann.hhsmoodle.helper.Database_Notes;
 import de.baumann.hhsmoodle.helper.Activity_password;
+import de.baumann.hhsmoodle.helper.helpers;
 
 public class HHS_Note extends AppCompatActivity {
 
@@ -63,8 +61,7 @@ public class HHS_Note extends AppCompatActivity {
 
         if (sharedPref.getString("protect_PW", "").length() > 0) {
             if (sharedPref.getBoolean("isOpened", true)) {
-                Intent intent_in = new Intent(HHS_Note.this, Activity_password.class);
-                startActivity(intent_in);
+                helpers.switchToActivity(HHS_Note.this, Activity_password.class, "", false);
             }
         }
 
@@ -90,18 +87,11 @@ public class HHS_Note extends AppCompatActivity {
                     if (title.isEmpty() && text.isEmpty() ) {
                         clearSharedPreferences();
                         if (startType.equals("2")) {
-                            isOpened();
-                            Intent mainIntent = new Intent(HHS_Note.this, HHS_Browser.class);
-                            mainIntent.putExtra("id", "1");
-                            mainIntent.putExtra("url", startURL);
-                            startActivity(mainIntent);
-                            finish();
+                            helpers.isOpened(HHS_Note.this);
+                            helpers.switchToActivity(HHS_Note.this, HHS_Browser.class, startURL, true);
                         } else if (startType.equals("1")){
-                            isOpened();
-                            Intent mainIntent = new Intent(HHS_Note.this, HHS_MainScreen.class);
-                            mainIntent.putExtra("id", "1");
-                            startActivity(mainIntent);
-                            finish();
+                            helpers.isOpened(HHS_Note.this);
+                            helpers.switchToActivity(HHS_Note.this, HHS_MainScreen.class, "", true);
                         }
 
                     } else {
@@ -115,16 +105,11 @@ public class HHS_Note extends AppCompatActivity {
                                     public void onClick(View view) {
                                         clearSharedPreferences();
                                         if (startType.equals("2")) {
-                                            Intent mainIntent = new Intent(HHS_Note.this, HHS_Browser.class);
-                                            mainIntent.putExtra("id", "1");
-                                            mainIntent.putExtra("url", startURL);
-                                            startActivity(mainIntent);
-                                            finish();
+                                            helpers.isOpened(HHS_Note.this);
+                                            helpers.switchToActivity(HHS_Note.this, HHS_Browser.class, startURL, true);
                                         } else if (startType.equals("1")){
-                                            Intent mainIntent = new Intent(HHS_Note.this, HHS_MainScreen.class);
-                                            mainIntent.putExtra("id", "1");
-                                            startActivity(mainIntent);
-                                            finish();
+                                            helpers.isOpened(HHS_Note.this);
+                                            helpers.switchToActivity(HHS_Note.this, HHS_MainScreen.class, "", true);
                                         }
                                     }
                                 });
@@ -143,7 +128,7 @@ public class HHS_Note extends AppCompatActivity {
 
                         if (title.isEmpty() && text.isEmpty() ) {
                             clearSharedPreferences();
-                            isClosed();
+                            helpers.isClosed(HHS_Note.this);
                             finishAffinity();
 
                         } else {
@@ -156,7 +141,7 @@ public class HHS_Note extends AppCompatActivity {
                                         @Override
                                         public void onClick(View view) {
                                             clearSharedPreferences();
-                                            isClosed();
+                                            helpers.isClosed(HHS_Note.this);
                                             finishAffinity();
                                         }
                                     });
@@ -270,7 +255,7 @@ public class HHS_Note extends AppCompatActivity {
     public static class Item{
         public final String text;
         public final int icon;
-        public Item(String text, Integer icon) {
+        Item(String text, Integer icon) {
             this.text = text;
             this.icon = icon;
         }
@@ -288,7 +273,7 @@ public class HHS_Note extends AppCompatActivity {
 
         if (title.isEmpty() && text.isEmpty() ) {
             clearSharedPreferences();
-            isClosed();
+            helpers.isClosed(HHS_Note.this);
             finish();
 
         } else {
@@ -301,6 +286,7 @@ public class HHS_Note extends AppCompatActivity {
                         @Override
                         public void onClick(View view) {
                             clearSharedPreferences();
+                            helpers.isClosed(HHS_Note.this);
                             finish();
                         }
                     });
@@ -335,11 +321,9 @@ public class HHS_Note extends AppCompatActivity {
             String text = textInput.getText().toString();
 
             if (title.isEmpty() && text.isEmpty() ) {
-                isOpened();
                 clearSharedPreferences();
-                Intent intent_in = new Intent(HHS_Note.this, HHS_MainScreen.class);
-                startActivity(intent_in);
-                finish();
+                helpers.isOpened(HHS_Note.this);
+                helpers.switchToActivity(HHS_Note.this, HHS_MainScreen.class, "", true);
 
             } else {
                 InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -350,11 +334,9 @@ public class HHS_Note extends AppCompatActivity {
                         .setAction(getString(R.string.toast_no), new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                isOpened();
                                 clearSharedPreferences();
-                                Intent intent_in = new Intent(HHS_Note.this, HHS_MainScreen.class);
-                                startActivity(intent_in);
-                                finish();
+                                helpers.isOpened(HHS_Note.this);
+                                helpers.switchToActivity(HHS_Note.this, HHS_MainScreen.class, "", true);
                             }
                         });
                 snackbar.show();
@@ -363,6 +345,8 @@ public class HHS_Note extends AppCompatActivity {
 
         if (id == R.id.save_note) {
             Snackbar.make(titleInput, R.string.note_saved, Snackbar.LENGTH_LONG).show();
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+            String seqno = sharedPref.getString("handleTextSeqno", "");
 
             try {
 
@@ -373,29 +357,26 @@ public class HHS_Note extends AppCompatActivity {
                 db.addBookmark(inputTitle, inputContent, inputPriority);
                 db.close();
 
+                if (seqno.length() > 0) {
+                    db.deleteNote((Integer.parseInt(seqno)));
+                    sharedPref.edit()
+                            .putString("handleTextSeqno", "")
+                            .apply();
+                }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
             clearSharedPreferences();
-            isClosed();
+            helpers.isClosed(HHS_Note.this);
             finish();
         }
 
         if (id == R.id.action_help) {
-            SpannableString s;
-
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                s = new SpannableString(Html.fromHtml(getString(R.string.helpAddNotes_text),Html.FROM_HTML_MODE_LEGACY));
-            } else {
-                //noinspection deprecation
-                s = new SpannableString(Html.fromHtml(getString(R.string.helpAddNotes_text)));
-            }
-
-            Linkify.addLinks(s, Linkify.WEB_URLS);
-
             final AlertDialog.Builder dialog = new AlertDialog.Builder(HHS_Note.this)
                     .setTitle(getString(R.string.note_edit))
-                    .setMessage(s)
+                    .setMessage(helpers.textSpannable(getString(R.string.helpAddNotes_text)))
                     .setPositiveButton(getString(R.string.toast_yes), null);
             dialog.show();
         }
@@ -408,20 +389,6 @@ public class HHS_Note extends AppCompatActivity {
                 .putString("handleTextTitle", "")
                 .putString("handleTextText", "")
                 .putString("handleTextIcon", "")
-                .apply();
-    }
-
-    private void isOpened () {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(HHS_Note.this);
-        sharedPref.edit()
-                .putBoolean("isOpened", false)
-                .apply();
-    }
-
-    private void isClosed () {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(HHS_Note.this);
-        sharedPref.edit()
-                .putBoolean("isOpened", true)
                 .apply();
     }
 }

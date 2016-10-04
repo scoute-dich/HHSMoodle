@@ -33,9 +33,6 @@ import android.provider.CalendarContract;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.text.Html;
-import android.text.SpannableString;
-import android.text.util.Linkify;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -56,6 +53,7 @@ import de.baumann.hhsmoodle.HHS_Browser;
 import de.baumann.hhsmoodle.HHS_Note;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.helper.Database_Browser;
+import de.baumann.hhsmoodle.helper.helpers;
 
 public class FragmentBookmarks extends Fragment {
 
@@ -90,13 +88,10 @@ public class FragmentBookmarks extends Fragment {
         listView = (ListView)rootView.findViewById(R.id.bookmarks);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                isOpened();
                 @SuppressWarnings("unchecked")
                 HashMap<String,String> map = (HashMap<String,String>)listView.getItemAtPosition(position);
-
-                Intent intent = new Intent(getActivity(), HHS_Browser.class);
-                intent.putExtra("url", map.get("url"));
-                startActivity(intent);
+                helpers.isOpened(getActivity());
+                helpers.switchToActivity(getActivity(), HHS_Browser.class, map.get("url"), false);
             }
         });
 
@@ -139,8 +134,8 @@ public class FragmentBookmarks extends Fragment {
                                                 .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
 
                                                     public void onClick(DialogInterface dialog, int whichButton) {
-                                                        db.deleteBookmark((Integer.parseInt(seqnoStr)));
                                                         String inputTag = input.getText().toString().trim();
+                                                        db.deleteBookmark((Integer.parseInt(seqnoStr)));
                                                         db.addBookmark(inputTag, url, icon);
                                                         db.close();
                                                         setBookmarkList();
@@ -216,9 +211,8 @@ public class FragmentBookmarks extends Fragment {
                                             .putString("handleTextTitle", title)
                                             .putString("handleTextText", url)
                                             .apply();
-                                    isOpened();
-                                    Intent intent_in = new Intent(getActivity(), HHS_Note.class);
-                                    startActivity(intent_in);
+                                    helpers.isOpened(getActivity());
+                                    helpers.switchToActivity(getActivity(), HHS_Note.class, "", false);
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createShortcut))) {
@@ -548,32 +542,13 @@ public class FragmentBookmarks extends Fragment {
 
         switch (item.getItemId()) {
             case R.id.action_help:
-
-                SpannableString s;
-
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                    s = new SpannableString(Html.fromHtml(getString(R.string.helpBookmarks_text),Html.FROM_HTML_MODE_LEGACY));
-                } else {
-                    //noinspection deprecation
-                    s = new SpannableString(Html.fromHtml(getString(R.string.helpBookmarks_text)));
-                }
-
-                Linkify.addLinks(s, Linkify.WEB_URLS);
-
                 final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity())
                         .setTitle(R.string.title_bookmarks)
-                        .setMessage(s)
+                        .setMessage(helpers.textSpannable(getString(R.string.helpBookmarks_text)))
                         .setPositiveButton(getString(R.string.toast_yes), null);
                 dialog.show();
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void isOpened () {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        sharedPref.edit()
-                .putBoolean("isOpened", false)
-                .apply();
     }
 }

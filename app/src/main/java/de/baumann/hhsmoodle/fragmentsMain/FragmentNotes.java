@@ -33,8 +33,6 @@ import android.provider.CalendarContract;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.text.Html;
-import android.text.SpannableString;
 import android.text.util.Linkify;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -57,6 +55,7 @@ import java.util.HashMap;
 import de.baumann.hhsmoodle.HHS_Note;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.helper.Database_Notes;
+import de.baumann.hhsmoodle.helper.helpers;
 
 public class FragmentNotes extends Fragment {
 
@@ -150,21 +149,10 @@ public class FragmentNotes extends Fragment {
                                         .putString("handleTextTitle", title)
                                         .putString("handleTextText", cont)
                                         .putString("handleTextIcon", icon)
+                                        .putString("handleTextSeqno", seqnoStr)
                                         .apply();
-
-                                isOpened();
-                                Intent intent_in = new Intent(getActivity(), HHS_Note.class);
-                                startActivity(intent_in);
-
-                                try {
-                                    Database_Notes db = new Database_Notes(getActivity());
-                                    db.deleteNote((Integer.parseInt(seqnoStr)));
-                                    db.close();
-                                    setNotesList();
-
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
+                                helpers.isOpened(getActivity());
+                                helpers.switchToActivity(getActivity(), HHS_Note.class, "", false);
                             }
                         });
                 dialog.show();
@@ -197,21 +185,11 @@ public class FragmentNotes extends Fragment {
                                             .putString("handleTextTitle", title)
                                             .putString("handleTextText", cont)
                                             .putString("handleTextIcon", icon)
+                                            .putString("handleTextSeqno", seqnoStr)
                                             .apply();
 
-                                    isOpened();
-                                    Intent intent_in = new Intent(getActivity(), HHS_Note.class);
-                                    startActivity(intent_in);
-
-                                    try {
-                                        Database_Notes db = new Database_Notes(getActivity());
-                                        db.deleteNote((Integer.parseInt(seqnoStr)));
-                                        db.close();
-                                        setNotesList();
-
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
+                                    helpers.isOpened(getActivity());
+                                    helpers.switchToActivity(getActivity(), HHS_Note.class, "", false);
                                 }
 
                                 if (options[item].equals (getString(R.string.note_share))) {
@@ -428,7 +406,7 @@ public class FragmentNotes extends Fragment {
     public static class Item{
         public final String text;
         public final int icon;
-        public Item(String text, Integer icon) {
+        Item(String text, Integer icon) {
             this.text = text;
             this.icon = icon;
         }
@@ -443,32 +421,13 @@ public class FragmentNotes extends Fragment {
 
         switch (item.getItemId()) {
             case R.id.action_help:
-
-                SpannableString s;
-
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                    s = new SpannableString(Html.fromHtml(getString(R.string.helpNotes_text),Html.FROM_HTML_MODE_LEGACY));
-                } else {
-                    //noinspection deprecation
-                    s = new SpannableString(Html.fromHtml(getString(R.string.helpNotes_text)));
-                }
-
-                Linkify.addLinks(s, Linkify.WEB_URLS);
-
                 final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity())
                         .setTitle(R.string.title_notes)
-                        .setMessage(s)
+                        .setMessage(helpers.textSpannable(getString(R.string.helpNotes_text)))
                         .setPositiveButton(getString(R.string.toast_yes), null);
                 dialog.show();
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void isOpened () {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        sharedPref.edit()
-                .putBoolean("isOpened", false)
-                .apply();
     }
 }

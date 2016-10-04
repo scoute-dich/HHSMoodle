@@ -28,9 +28,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Html;
-import android.text.SpannableString;
-import android.text.util.Linkify;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -61,9 +58,7 @@ public class Activity_password extends AppCompatActivity {
         ib0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String textNow = text.getText().toString().trim();
-                String pin = textNow + "0";
-                text.setText(pin);
+                enterNum("0");
             }
         });
 
@@ -72,9 +67,7 @@ public class Activity_password extends AppCompatActivity {
         ib1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String textNow = text.getText().toString().trim();
-                String pin = textNow + "1";
-                text.setText(pin);
+                enterNum("1");
             }
         });
 
@@ -83,9 +76,7 @@ public class Activity_password extends AppCompatActivity {
         ib2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String textNow = text.getText().toString().trim();
-                String pin = textNow + "2";
-                text.setText(pin);
+                enterNum("2");
             }
         });
 
@@ -94,9 +85,7 @@ public class Activity_password extends AppCompatActivity {
         ib3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String textNow = text.getText().toString().trim();
-                String pin = textNow + "3";
-                text.setText(pin);
+                enterNum("3");
             }
         });
 
@@ -105,9 +94,7 @@ public class Activity_password extends AppCompatActivity {
         ib4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String textNow = text.getText().toString().trim();
-                String pin = textNow + "4";
-                text.setText(pin);
+                enterNum("4");
             }
         });
 
@@ -116,9 +103,7 @@ public class Activity_password extends AppCompatActivity {
         ib5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String textNow = text.getText().toString().trim();
-                String pin = textNow + "5";
-                text.setText(pin);
+                enterNum("5");
             }
         });
 
@@ -127,9 +112,7 @@ public class Activity_password extends AppCompatActivity {
         ib6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String textNow = text.getText().toString().trim();
-                String pin = textNow + "6";
-                text.setText(pin);
+                enterNum("6");
             }
         });
 
@@ -138,9 +121,7 @@ public class Activity_password extends AppCompatActivity {
         ib7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String textNow = text.getText().toString().trim();
-                String pin = textNow + "7";
-                text.setText(pin);
+                enterNum("7");
             }
         });
 
@@ -149,9 +130,7 @@ public class Activity_password extends AppCompatActivity {
         ib8.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String textNow = text.getText().toString().trim();
-                String pin = textNow + "8";
-                text.setText(pin);
+                enterNum("8");
             }
         });
 
@@ -160,9 +139,7 @@ public class Activity_password extends AppCompatActivity {
         ib9.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String textNow = text.getText().toString().trim();
-                String pin = textNow + "9";
-                text.setText(pin);
+                enterNum("9");
             }
         });
 
@@ -178,12 +155,8 @@ public class Activity_password extends AppCompatActivity {
                 String Password = text.getText().toString().trim();
 
                 if (Password.equals(protect)) {
-                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(Activity_password.this);
-                    sharedPref.edit()
-                            .putBoolean("isOpened", false)
-                            .apply();
+                    helpers.isOpened(Activity_password.this);
                     finish();
-
                 } else {
                     Snackbar.make(text, R.string.toast_wrongPW, Snackbar.LENGTH_LONG).show();
                 }
@@ -204,20 +177,8 @@ public class Activity_password extends AppCompatActivity {
         clear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                SpannableString s;
-
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                    s = new SpannableString(Html.fromHtml(getString(R.string.pw_forgotten_dialog),Html.FROM_HTML_MODE_LEGACY));
-                } else {
-                    //noinspection deprecation
-                    s = new SpannableString(Html.fromHtml(getString(R.string.pw_forgotten_dialog)));
-                }
-
-                Linkify.addLinks(s, Linkify.WEB_URLS);
-
                 final AlertDialog.Builder dialog = new AlertDialog.Builder(Activity_password.this)
-                        .setMessage(s)
+                        .setMessage(helpers.textSpannable(getString(R.string.pw_forgotten_dialog)))
                         .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
 
                             public void onClick(DialogInterface dialog, int whichButton) {
@@ -225,7 +186,6 @@ public class Activity_password extends AppCompatActivity {
                                     // clearing app data
                                     Runtime runtime = Runtime.getRuntime();
                                     runtime.exec("pm clear de.baumann.hhsmoodle");
-
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
@@ -244,10 +204,13 @@ public class Activity_password extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        sharedPref.edit()
-                .putBoolean("isOpened", true)
-                .apply();
+        helpers.isClosed(Activity_password.this);
         finishAffinity();
+    }
+
+    private void enterNum (String number) {
+        String textNow = text.getText().toString().trim();
+        String pin = textNow + number;
+        text.setText(pin);
     }
 }

@@ -40,9 +40,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
-import android.text.SpannableString;
-import android.text.util.Linkify;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -57,6 +54,7 @@ import de.baumann.hhsmoodle.fragmentsMain.FragmentInfo;
 import de.baumann.hhsmoodle.fragmentsMain.FragmentNotes;
 import de.baumann.hhsmoodle.helper.Activity_password;
 import de.baumann.hhsmoodle.helper.Activity_settings;
+import de.baumann.hhsmoodle.helper.helpers;
 import de.baumann.hhsmoodle.popup.Popup_bookmarks;
 import de.baumann.hhsmoodle.popup.Popup_calendar;
 import de.baumann.hhsmoodle.popup.Popup_info;
@@ -89,8 +87,7 @@ public class HHS_MainScreen extends AppCompatActivity {
 
         if (sharedPref.getString("protect_PW", "").length() > 0) {
             if (sharedPref.getBoolean("isOpened", true)) {
-                Intent intent_in = new Intent(HHS_MainScreen.this, Activity_password.class);
-                startActivity(intent_in);
+                helpers.switchToActivity(HHS_MainScreen.this, Activity_password.class, "", false);
             }
         }
 
@@ -104,16 +101,11 @@ public class HHS_MainScreen extends AppCompatActivity {
                     final String startType = sharedPref.getString("startType", "1");
 
                     if (startType.equals("2")) {
-                        isOpened();
-                        Intent mainIntent = new Intent(HHS_MainScreen.this, HHS_Browser.class);
-                        mainIntent.putExtra("id", "1");
-                        mainIntent.putExtra("url", startURL);
-                        startActivity(mainIntent);
+                        helpers.isOpened(HHS_MainScreen.this);
+                        helpers.switchToActivity(HHS_MainScreen.this, HHS_Browser.class, startURL, true);
                     } else if (startType.equals("1")){
-                        isOpened();
-                        Intent mainIntent = new Intent(HHS_MainScreen.this, HHS_MainScreen.class);
-                        mainIntent.putExtra("id", "1");
-                        startActivity(mainIntent);
+                        helpers.isOpened(HHS_MainScreen.this);
+                        helpers.switchToActivity(HHS_MainScreen.this, HHS_MainScreen.class, "", false);
                     }
                 }
             });
@@ -122,7 +114,7 @@ public class HHS_MainScreen extends AppCompatActivity {
                 toolbar.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        isClosed();
+                        helpers.isClosed(HHS_MainScreen.this);
                         finishAffinity();
                         return true;
                     }
@@ -133,20 +125,9 @@ public class HHS_MainScreen extends AppCompatActivity {
         boolean show = sharedPref.getBoolean("help_notShow", true);
         if (show){
 
-            SpannableString s;
-
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                s = new SpannableString(Html.fromHtml(getString(R.string.dialog_help),Html.FROM_HTML_MODE_LEGACY));
-            } else {
-                //noinspection deprecation
-                s = new SpannableString(Html.fromHtml(getString(R.string.dialog_help)));
-            }
-
-            Linkify.addLinks(s, Linkify.WEB_URLS);
-
             final AlertDialog.Builder dialog = new AlertDialog.Builder(HHS_MainScreen.this)
                     .setTitle(R.string.dialog_help_title)
-                    .setMessage(s)
+                    .setMessage(helpers.textSpannable(getString(R.string.dialog_help)))
                     .setPositiveButton(getString(R.string.toast_yes), null)
                     .setNegativeButton(getString(R.string.toast_notAgain), new DialogInterface.OnClickListener() {
                         @Override
@@ -228,7 +209,7 @@ public class HHS_MainScreen extends AppCompatActivity {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
-        public ViewPagerAdapter(FragmentManager manager) {
+        ViewPagerAdapter(FragmentManager manager) {
             super(manager);
         }
 
@@ -242,7 +223,7 @@ public class HHS_MainScreen extends AppCompatActivity {
             return mFragmentList.size();
         }
 
-        public void addFragment(Fragment fragment, String title) {
+        void addFragment(Fragment fragment, String title) {
             mFragmentList.add(fragment);
             mFragmentTitleList.add(title);
         }
@@ -255,8 +236,7 @@ public class HHS_MainScreen extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
-        isClosed();
+        helpers.isClosed(HHS_MainScreen.this);
         finish();
     }
 
@@ -287,9 +267,8 @@ public class HHS_MainScreen extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
-            isOpened();
-            Intent intent_in = new Intent(HHS_MainScreen.this, Activity_settings.class);
-            startActivity(intent_in);
+            helpers.isOpened(HHS_MainScreen.this);
+            helpers.switchToActivity(HHS_MainScreen.this, Activity_settings.class, "", false);
         }
 
         if (id == R.id.action_folder) {
@@ -305,9 +284,8 @@ public class HHS_MainScreen extends AppCompatActivity {
         }
 
         if (id == R.id.action_not) {
-            isOpened();
-            Intent intent_in = new Intent(HHS_MainScreen.this, HHS_Note.class);
-            startActivity(intent_in);
+            helpers.isOpened(HHS_MainScreen.this);
+            helpers.switchToActivity(HHS_MainScreen.this, HHS_Note.class, "", false);
         }
 
         if (id == R.id.action_shortcut) {
@@ -402,19 +380,4 @@ public class HHS_MainScreen extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-    private void isOpened () {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(HHS_MainScreen.this);
-        sharedPref.edit()
-                .putBoolean("isOpened", false)
-                .apply();
-    }
-
-    private void isClosed () {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(HHS_MainScreen.this);
-        sharedPref.edit()
-                .putBoolean("isOpened", true)
-                .apply();
-    }
-
 }

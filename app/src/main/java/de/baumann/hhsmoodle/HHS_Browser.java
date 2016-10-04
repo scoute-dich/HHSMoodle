@@ -44,9 +44,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
-import android.text.SpannableString;
-import android.text.util.Linkify;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Gravity;
@@ -84,6 +81,7 @@ import de.baumann.hhsmoodle.helper.Database_Browser;
 import de.baumann.hhsmoodle.helper.Activity_settings;
 import de.baumann.hhsmoodle.helper.OnSwipeTouchListener;
 import de.baumann.hhsmoodle.helper.Activity_password;
+import de.baumann.hhsmoodle.helper.helpers;
 import de.baumann.hhsmoodle.popup.Popup_bookmarks;
 
 @SuppressWarnings("ResultOfMethodCallIgnored")
@@ -129,8 +127,7 @@ public class HHS_Browser extends AppCompatActivity  {
 
         if (sharedPref.getString("protect_PW", "").length() > 0) {
             if (sharedPref.getBoolean("isOpened", true)) {
-                Intent intent_in = new Intent(HHS_Browser.this, Activity_password.class);
-                startActivity(intent_in);
+                helpers.switchToActivity(HHS_Browser.this, Activity_password.class, "", false);
             }
         }
 
@@ -146,16 +143,11 @@ public class HHS_Browser extends AppCompatActivity  {
                     final String startType = sharedPref.getString("startType", "1");
 
                     if (startType.equals("2")) {
-                        isOpened();
-                        Intent mainIntent = new Intent(HHS_Browser.this, HHS_Browser.class);
-                        mainIntent.putExtra("id", "1");
-                        mainIntent.putExtra("url", startURL);
-                        startActivity(mainIntent);
+                        helpers.isOpened(HHS_Browser.this);
+                        helpers.switchToActivity(HHS_Browser.this, HHS_Browser.class, startURL, false);
                     } else if (startType.equals("1")){
-                        isOpened();
-                        Intent mainIntent = new Intent(HHS_Browser.this, HHS_MainScreen.class);
-                        mainIntent.putExtra("id", "1");
-                        startActivity(mainIntent);
+                        helpers.isOpened(HHS_Browser.this);
+                        helpers.switchToActivity(HHS_Browser.this, HHS_MainScreen.class, "", true);
                     }
                 }
             });
@@ -164,7 +156,7 @@ public class HHS_Browser extends AppCompatActivity  {
                 toolbar.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        isClosed();
+                        helpers.isClosed(HHS_Browser.this);
                         finishAffinity();
                         return true;
                     }
@@ -205,7 +197,6 @@ public class HHS_Browser extends AppCompatActivity  {
 
         if (sharedPref.getBoolean ("swipe", false)){
             mWebView.setOnTouchListener(new OnSwipeTouchListener(HHS_Browser.this) {
-
                 public void onSwipeRight() {
                     if (mWebView.canGoBack()) {
                         mWebView.goBack();
@@ -213,7 +204,6 @@ public class HHS_Browser extends AppCompatActivity  {
                         Snackbar.make(mWebView, R.string.toast_back, Snackbar.LENGTH_LONG).show();
                     }
                 }
-
                 public void onSwipeLeft() {
                     if (mWebView.canGoForward()) {
                         mWebView.goForward();
@@ -328,7 +318,6 @@ public class HHS_Browser extends AppCompatActivity  {
                         // Error occurred while creating the File
                         Log.e(TAG, "Unable to create Image File", ex);
                     }
-
                     // Continue only if the File was successfully created
                     if (photoFile != null) {
                         mCameraPhotoPath = "file:" + photoFile.getAbsolutePath();
@@ -381,8 +370,7 @@ public class HHS_Browser extends AppCompatActivity  {
                                 DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
                                 dm.enqueue(request);
 
-                                Snackbar.make(mWebView, getString(R.string.toast_download) + " " +
-                                        filename , Snackbar.LENGTH_LONG).show();
+                                Snackbar.make(mWebView, getString(R.string.toast_download) + " " + filename , Snackbar.LENGTH_LONG).show();
                             }
                         });
                 snackbar.show();
@@ -520,17 +508,6 @@ public class HHS_Browser extends AppCompatActivity  {
     };
 
     @Override
-    public void onBackPressed() {
-
-        if (mWebView.canGoBack()) {
-            mWebView.goBack();
-        } else {
-            finish();
-            isClosed();
-        }
-    }
-
-    @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
 
@@ -649,6 +626,16 @@ public class HHS_Browser extends AppCompatActivity  {
     }
 
     @Override
+    public void onBackPressed() {
+        if (mWebView.canGoBack()) {
+            mWebView.goBack();
+        } else {
+            helpers.isClosed(HHS_Browser.this);
+            finish();
+        }
+    }
+
+    @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         menu.getItem(0).setVisible(false);
 
@@ -726,34 +713,21 @@ public class HHS_Browser extends AppCompatActivity  {
         }
 
         if (id == android.R.id.home) {
-            isOpened();
-            Intent intent_in = new Intent(HHS_Browser.this, HHS_MainScreen.class);
-            startActivity(intent_in);
+            helpers.isOpened(HHS_Browser.this);
+            helpers.switchToActivity(HHS_Browser.this, HHS_MainScreen.class, "", true);
         }
 
         if (id == R.id.action_help) {
-            SpannableString s;
-
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                s = new SpannableString(Html.fromHtml(getString(R.string.helpBrowser_text),Html.FROM_HTML_MODE_LEGACY));
-            } else {
-                //noinspection deprecation
-                s = new SpannableString(Html.fromHtml(getString(R.string.helpBrowser_text)));
-            }
-
-            Linkify.addLinks(s, Linkify.WEB_URLS);
-
             final AlertDialog.Builder dialog = new AlertDialog.Builder(HHS_Browser.this)
                     .setTitle(R.string.helpBrowser_title)
-                    .setMessage(s)
+                    .setMessage(helpers.textSpannable(getString(R.string.helpBrowser_text)))
                     .setPositiveButton(getString(R.string.toast_yes), null);
             dialog.show();
         }
 
         if (id == R.id.action_settings) {
-            isOpened();
-            Intent intent_in = new Intent(HHS_Browser.this, Activity_settings.class);
-            startActivity(intent_in);
+            helpers.isOpened(HHS_Browser.this);
+            helpers.switchToActivity(HHS_Browser.this, Activity_settings.class, "", false);
         }
 
         if (id == R.id.action_share) {
@@ -814,7 +788,7 @@ public class HHS_Browser extends AppCompatActivity  {
         }
 
         if (id == R.id.action_not) {
-            isOpened();
+
             SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 
             final String title = mWebView.getTitle();
@@ -826,14 +800,13 @@ public class HHS_Browser extends AppCompatActivity  {
                     .putString("handleTextText", text)
                     .apply();
 
-            Intent intent_in = new Intent(HHS_Browser.this, HHS_Note.class);
-            startActivity(intent_in);
+            helpers.isOpened(HHS_Browser.this);
+            helpers.switchToActivity(HHS_Browser.this, HHS_Note.class, "", false);
         }
 
         if (id == R.id.action_bookmark) {
-            isOpened();
-            Intent intent_in = new Intent(HHS_Browser.this, Popup_bookmarks.class);
-            startActivity(intent_in);
+            helpers.isOpened(HHS_Browser.this);
+            helpers.switchToActivity(HHS_Browser.this, Popup_bookmarks.class, "", false);
         }
 
         return super.onOptionsItemSelected(item);
@@ -887,19 +860,5 @@ public class HHS_Browser extends AppCompatActivity  {
             e.printStackTrace();
             Snackbar.make(mWebView, R.string.toast_perm, Snackbar.LENGTH_LONG).show();
         }
-    }
-
-    private void isOpened () {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(HHS_Browser.this);
-        sharedPref.edit()
-                .putBoolean("isOpened", false)
-                .apply();
-    }
-
-    private void isClosed () {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(HHS_Browser.this);
-        sharedPref.edit()
-                .putBoolean("isOpened", true)
-                .apply();
     }
 }

@@ -50,6 +50,7 @@ import java.util.HashMap;
 import de.baumann.hhsmoodle.HHS_Note;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.helper.Database_Notes;
+import de.baumann.hhsmoodle.helper.helpers;
 
 public class Popup_notes extends Activity {
 
@@ -122,20 +123,10 @@ public class Popup_notes extends Activity {
                                         .putString("handleTextTitle", title)
                                         .putString("handleTextText", cont)
                                         .putString("handleTextIcon", icon)
+                                        .putString("handleTextSeqno", seqnoStr)
                                         .apply();
-
-                                Intent intent_in = new Intent(Popup_notes.this, HHS_Note.class);
-                                startActivity(intent_in);
-
-                                try {
-                                    Database_Notes db = new Database_Notes(Popup_notes.this);
-                                    db.deleteNote((Integer.parseInt(seqnoStr)));
-                                    db.close();
-                                    setNotesList();
-
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
+                                helpers.isClosed(Popup_notes.this);
+                                helpers.switchToActivity(Popup_notes.this, HHS_Note.class, "", false);
                             }
                         });
                 dialog.show();
@@ -162,30 +153,20 @@ public class Popup_notes extends Activity {
                         .setItems(options, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int item) {
+
                                 if (options[item].equals(getString(R.string.note_edit))) {
                                     SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(Popup_notes.this);
                                     sharedPref.edit()
                                             .putString("handleTextTitle", title)
                                             .putString("handleTextText", cont)
                                             .putString("handleTextIcon", icon)
+                                            .putString("handleTextSeqno", seqnoStr)
                                             .apply();
-
-                                    Intent intent_in = new Intent(Popup_notes.this, HHS_Note.class);
-                                    startActivity(intent_in);
-
-                                    try {
-                                        Database_Notes db = new Database_Notes(Popup_notes.this);
-                                        db.deleteNote((Integer.parseInt(seqnoStr)));
-                                        db.close();
-                                        setNotesList();
-
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
+                                    helpers.isClosed(Popup_notes.this);
+                                    helpers.switchToActivity(Popup_notes.this, HHS_Note.class, "", false);
                                 }
 
                                 if (options[item].equals (getString(R.string.note_share))) {
-
                                     Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                                     sharingIntent.setType("text/plain");
                                     sharingIntent.putExtra(Intent.EXTRA_SUBJECT, title);
@@ -194,7 +175,6 @@ public class Popup_notes extends Activity {
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createEvent))) {
-
                                     Intent calIntent = new Intent(Intent.ACTION_INSERT);
                                     calIntent.setType("vnd.android.cursor.item/event");
                                     calIntent.putExtra(CalendarContract.Events.TITLE, title);
@@ -203,7 +183,6 @@ public class Popup_notes extends Activity {
                                 }
 
                                 if (options[item].equals(getString(R.string.note_remove_note))) {
-
                                     try {
                                         Database_Notes db = new Database_Notes(Popup_notes.this);
                                         final int count = db.getRecordCount();
@@ -392,7 +371,7 @@ public class Popup_notes extends Activity {
     public static class Item{
         public final String text;
         public final int icon;
-        public Item(String text, Integer icon) {
+        Item(String text, Integer icon) {
             this.text = text;
             this.icon = icon;
         }

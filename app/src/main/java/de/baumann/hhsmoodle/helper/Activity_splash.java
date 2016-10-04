@@ -100,7 +100,6 @@ public class Activity_splash extends AppCompatActivity {
 
                             new Handler().postDelayed(new Runnable() {
                                 public void run() {
-
                                     Intent mainIntent = new Intent(Activity_splash.this, HHS_Browser.class);
                                     mainIntent.putExtra("id", "1");
                                     mainIntent.putExtra("url", startURL);

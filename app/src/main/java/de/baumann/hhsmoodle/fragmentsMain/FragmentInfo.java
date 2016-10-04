@@ -30,9 +30,6 @@ import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.text.Html;
-import android.text.SpannableString;
-import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,6 +42,7 @@ import de.baumann.hhsmoodle.HHS_Browser;
 import de.baumann.hhsmoodle.HHS_Note;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.helper.CustomListAdapter;
+import de.baumann.hhsmoodle.helper.helpers;
 
 public class FragmentInfo extends Fragment {
 
@@ -119,12 +117,9 @@ public class FragmentInfo extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                // TODO Auto-generated method stub
-                isOpened();
                 String Selecteditem= itemURL[+position];
-                Intent intent = new Intent(getActivity(), HHS_Browser.class);
-                intent.putExtra("url", Selecteditem);
-                startActivity(intent);
+                helpers.isOpened(getActivity());
+                helpers.switchToActivity(getActivity(), HHS_Browser.class, Selecteditem, false);
             }
         });
 
@@ -166,10 +161,8 @@ public class FragmentInfo extends Fragment {
                                             .putString("handleTextTitle", title)
                                             .putString("handleTextText", url)
                                             .apply();
-
-                                    isOpened();
-                                    Intent intent_in = new Intent(getActivity(), HHS_Note.class);
-                                    startActivity(intent_in);
+                                    helpers.isOpened(getActivity());
+                                    helpers.switchToActivity(getActivity(), HHS_Note.class, "", false);
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createShortcut))) {
@@ -202,32 +195,13 @@ public class FragmentInfo extends Fragment {
 
         switch (item.getItemId()) {
             case R.id.action_help:
-
-                SpannableString s;
-
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                    s = new SpannableString(Html.fromHtml(getString(R.string.helpInfo_text),Html.FROM_HTML_MODE_LEGACY));
-                } else {
-                    //noinspection deprecation
-                    s = new SpannableString(Html.fromHtml(getString(R.string.helpInfo_text)));
-                }
-
-                Linkify.addLinks(s, Linkify.WEB_URLS);
-
                 final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity())
                         .setTitle(R.string.title_info)
-                        .setMessage(s)
+                        .setMessage(helpers.textSpannable(getString(R.string.helpInfo_text)))
                         .setPositiveButton(getString(R.string.toast_yes), null);
                 dialog.show();
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void isOpened () {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        sharedPref.edit()
-                .putBoolean("isOpened", false)
-                .apply();
     }
 }

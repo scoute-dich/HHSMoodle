@@ -37,6 +37,7 @@ import de.baumann.hhsmoodle.HHS_Browser;
 import de.baumann.hhsmoodle.HHS_Note;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.helper.CustomListAdapter;
+import de.baumann.hhsmoodle.helper.helpers;
 
 public class Popup_info extends Activity {
 
@@ -101,10 +102,8 @@ public class Popup_info extends Activity {
                                     int position, long id) {
                 // TODO Auto-generated method stub
                 String Selecteditem= itemURL[+position];
-                Intent intent = new Intent(Popup_info.this, HHS_Browser.class);
-                intent.putExtra("url", Selecteditem);
-                startActivity(intent);
-                finish();
+                helpers.isClosed(Popup_info.this);
+                helpers.switchToActivity(Popup_info.this, HHS_Browser.class, Selecteditem, false);
             }
         });
 
@@ -134,7 +133,6 @@ public class Popup_info extends Activity {
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createEvent))) {
-
                                     Intent calIntent = new Intent(Intent.ACTION_INSERT);
                                     calIntent.setType("vnd.android.cursor.item/event");
                                     calIntent.putExtra(CalendarContract.Events.TITLE, title);
@@ -142,19 +140,16 @@ public class Popup_info extends Activity {
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createNote))) {
-
                                     SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(Popup_info.this);
                                     sharedPref.edit()
                                             .putString("handleTextTitle", title)
                                             .putString("handleTextText", url)
                                             .apply();
-
-                                    Intent intent_in = new Intent(Popup_info.this, HHS_Note.class);
-                                    startActivity(intent_in);
+                                    helpers.isClosed(Popup_info.this);
+                                    helpers.switchToActivity(Popup_info.this, HHS_Note.class, "", false);
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createShortcut))) {
-
                                     Intent i = new Intent();
                                     i.setAction(Intent.ACTION_VIEW);
                                     i.setData(Uri.parse(url));
@@ -173,6 +168,5 @@ public class Popup_info extends Activity {
                 return true;
             }
         });
-
     }
 }

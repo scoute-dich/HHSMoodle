@@ -205,8 +205,8 @@
 
     // Password
 
-    <string name="pw_forgotten">Passwort vergessen?</string>
+    <string name="pw_forgotten">Pin vergessen?</string>
     <string name="pw_forgotten_dialog">Möchtest du alle persönlichen Daten (auch die Logindaten, gespeicherten Lesezeichen, Notizen,
-        …) um deine Zugangspin zurückzusetzen? Die Anwendung wird dann beendet.</string>
+        …) löschen, um deine Zugangspin zurückzusetzen? Die Anwendung wird dann beendet.</string>
 
 </resources>

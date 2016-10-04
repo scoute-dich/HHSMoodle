@@ -49,6 +49,7 @@ import de.baumann.hhsmoodle.HHS_Browser;
 import de.baumann.hhsmoodle.HHS_Note;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.helper.Database_Browser;
+import de.baumann.hhsmoodle.helper.helpers;
 
 public class Popup_bookmarks extends Activity {
 
@@ -145,7 +146,6 @@ public class Popup_bookmarks extends Activity {
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createEvent))) {
-
                                     Intent calIntent = new Intent(Intent.ACTION_INSERT);
                                     calIntent.setType("vnd.android.cursor.item/event");
                                     calIntent.putExtra(CalendarContract.Events.TITLE, title);
@@ -153,7 +153,6 @@ public class Popup_bookmarks extends Activity {
                                 }
 
                                 if (options[item].equals(getString(R.string.bookmark_remove_bookmark))) {
-
                                     try {
                                         Database_Browser db = new Database_Browser(Popup_bookmarks.this);
                                         final int count = db.getRecordCount();
@@ -189,19 +188,16 @@ public class Popup_bookmarks extends Activity {
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createNote))) {
-
                                     SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(Popup_bookmarks.this);
                                     sharedPref.edit()
                                             .putString("handleTextTitle", title)
                                             .putString("handleTextText", url)
                                             .apply();
-
-                                    Intent intent_in = new Intent(Popup_bookmarks.this, HHS_Note.class);
-                                    startActivity(intent_in);
+                                    helpers.isClosed(Popup_bookmarks.this);
+                                    helpers.switchToActivity(Popup_bookmarks.this, HHS_Note.class, "", false);
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createShortcut))) {
-
                                     Intent i = new Intent();
                                     i.setAction(Intent.ACTION_VIEW);
                                     i.setData(Uri.parse(url));
