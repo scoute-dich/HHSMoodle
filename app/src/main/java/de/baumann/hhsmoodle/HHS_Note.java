@@ -1,3 +1,22 @@
+/*
+    This file is part of the HHS Moodle WebApp.
+
+    HHS Moodle WebApp is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    HHS Moodle WebApp is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with the Diaspora Native WebApp.
+
+    If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package de.baumann.hhsmoodle;
 
 import android.app.AlertDialog;
@@ -25,7 +44,7 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import de.baumann.hhsmoodle.helper.Database_Notes;
-import de.baumann.hhsmoodle.helper.PasswordActivity;
+import de.baumann.hhsmoodle.helper.Activity_password;
 
 public class HHS_Note extends AppCompatActivity {
 
@@ -44,7 +63,7 @@ public class HHS_Note extends AppCompatActivity {
 
         if (sharedPref.getString("protect_PW", "").length() > 0) {
             if (sharedPref.getBoolean("isOpened", true)) {
-                Intent intent_in = new Intent(HHS_Note.this, PasswordActivity.class);
+                Intent intent_in = new Intent(HHS_Note.this, Activity_password.class);
                 startActivity(intent_in);
             }
         }
@@ -71,12 +90,14 @@ public class HHS_Note extends AppCompatActivity {
                     if (title.isEmpty() && text.isEmpty() ) {
                         clearSharedPreferences();
                         if (startType.equals("2")) {
+                            isOpened();
                             Intent mainIntent = new Intent(HHS_Note.this, HHS_Browser.class);
                             mainIntent.putExtra("id", "1");
                             mainIntent.putExtra("url", startURL);
                             startActivity(mainIntent);
                             finish();
                         } else if (startType.equals("1")){
+                            isOpened();
                             Intent mainIntent = new Intent(HHS_Note.this, HHS_MainScreen.class);
                             mainIntent.putExtra("id", "1");
                             startActivity(mainIntent);
@@ -122,10 +143,7 @@ public class HHS_Note extends AppCompatActivity {
 
                         if (title.isEmpty() && text.isEmpty() ) {
                             clearSharedPreferences();
-                            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(HHS_Note.this);
-                            sharedPref.edit()
-                                    .putBoolean("isOpened", true)
-                                    .apply();
+                            isClosed();
                             finishAffinity();
 
                         } else {
@@ -138,9 +156,7 @@ public class HHS_Note extends AppCompatActivity {
                                         @Override
                                         public void onClick(View view) {
                                             clearSharedPreferences();
-                                            sharedPref.edit()
-                                                    .putBoolean("isOpened", true)
-                                                    .apply();
+                                            isClosed();
                                             finishAffinity();
                                         }
                                     });
@@ -235,7 +251,7 @@ public class HHS_Note extends AppCompatActivity {
 
                 if (sharedPref.getString("protect_PW", "").length() > 0) {
                     if (sharedPref.getBoolean("isOpened", true)) {
-                        Intent intent_in = new Intent(HHS_Note.this, PasswordActivity.class);
+                        Intent intent_in = new Intent(HHS_Note.this, Activity_password.class);
                         startActivity(intent_in);
                     }
                 }
@@ -272,6 +288,7 @@ public class HHS_Note extends AppCompatActivity {
 
         if (title.isEmpty() && text.isEmpty() ) {
             clearSharedPreferences();
+            isClosed();
             finish();
 
         } else {
@@ -314,11 +331,11 @@ public class HHS_Note extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == android.R.id.home) {
-
             String title = titleInput.getText().toString();
             String text = textInput.getText().toString();
 
             if (title.isEmpty() && text.isEmpty() ) {
+                isOpened();
                 clearSharedPreferences();
                 Intent intent_in = new Intent(HHS_Note.this, HHS_MainScreen.class);
                 startActivity(intent_in);
@@ -333,6 +350,7 @@ public class HHS_Note extends AppCompatActivity {
                         .setAction(getString(R.string.toast_no), new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
+                                isOpened();
                                 clearSharedPreferences();
                                 Intent intent_in = new Intent(HHS_Note.this, HHS_MainScreen.class);
                                 startActivity(intent_in);
@@ -344,7 +362,6 @@ public class HHS_Note extends AppCompatActivity {
         }
 
         if (id == R.id.save_note) {
-
             Snackbar.make(titleInput, R.string.note_saved, Snackbar.LENGTH_LONG).show();
 
             try {
@@ -360,11 +377,11 @@ public class HHS_Note extends AppCompatActivity {
                 e.printStackTrace();
             }
             clearSharedPreferences();
+            isClosed();
             finish();
         }
 
         if (id == R.id.action_help) {
-
             SpannableString s;
 
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
@@ -391,6 +408,20 @@ public class HHS_Note extends AppCompatActivity {
                 .putString("handleTextTitle", "")
                 .putString("handleTextText", "")
                 .putString("handleTextIcon", "")
+                .apply();
+    }
+
+    private void isOpened () {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(HHS_Note.this);
+        sharedPref.edit()
+                .putBoolean("isOpened", false)
+                .apply();
+    }
+
+    private void isClosed () {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(HHS_Note.this);
+        sharedPref.edit()
+                .putBoolean("isOpened", true)
                 .apply();
     }
 }

@@ -1,3 +1,22 @@
+/*
+    This file is part of the HHS Moodle WebApp.
+
+    HHS Moodle WebApp is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    HHS Moodle WebApp is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with the Diaspora Native WebApp.
+
+    If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package de.baumann.hhsmoodle.helper;
 
 import android.content.Context;
@@ -120,24 +139,6 @@ public class Database_Browser extends SQLiteOpenHelper
 
         c.close();
     }
-
-// --Commented out by Inspection START (09.04.16 19:24):
-//    public void updateBookmark(int seqno, String title, String url)
-//    {
-//        SQLiteDatabase db = getWritableDatabase();
-//        db.beginTransaction();
-//
-//        SQLiteStatement stmt = db.compileStatement("UPDATE bookmarks SET title=?, url=? WHERE seqno=?");
-//        stmt.bindLong(1, seqno);
-//        stmt.bindString(2, title);
-//        stmt.bindString(3, url);
-//        stmt.execute();
-//
-//        db.setTransactionSuccessful();
-//        db.endTransaction();
-//        db.close();
-//    }
-// --Commented out by Inspection STOP (09.04.16 19:24)
 
     public void deleteBookmark(int seqno)
     {

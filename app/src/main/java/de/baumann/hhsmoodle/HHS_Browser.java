@@ -1,3 +1,22 @@
+/*
+    This file is part of the HHS Moodle WebApp.
+
+    HHS Moodle WebApp is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    HHS Moodle WebApp is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with the Diaspora Native WebApp.
+
+    If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package de.baumann.hhsmoodle;
 
 import android.Manifest;
@@ -62,8 +81,9 @@ import java.util.Date;
 import java.util.Locale;
 
 import de.baumann.hhsmoodle.helper.Database_Browser;
+import de.baumann.hhsmoodle.helper.Activity_settings;
 import de.baumann.hhsmoodle.helper.OnSwipeTouchListener;
-import de.baumann.hhsmoodle.helper.PasswordActivity;
+import de.baumann.hhsmoodle.helper.Activity_password;
 import de.baumann.hhsmoodle.popup.Popup_bookmarks;
 
 @SuppressWarnings("ResultOfMethodCallIgnored")
@@ -109,7 +129,7 @@ public class HHS_Browser extends AppCompatActivity  {
 
         if (sharedPref.getString("protect_PW", "").length() > 0) {
             if (sharedPref.getBoolean("isOpened", true)) {
-                Intent intent_in = new Intent(HHS_Browser.this, PasswordActivity.class);
+                Intent intent_in = new Intent(HHS_Browser.this, Activity_password.class);
                 startActivity(intent_in);
             }
         }
@@ -126,11 +146,13 @@ public class HHS_Browser extends AppCompatActivity  {
                     final String startType = sharedPref.getString("startType", "1");
 
                     if (startType.equals("2")) {
+                        isOpened();
                         Intent mainIntent = new Intent(HHS_Browser.this, HHS_Browser.class);
                         mainIntent.putExtra("id", "1");
                         mainIntent.putExtra("url", startURL);
                         startActivity(mainIntent);
                     } else if (startType.equals("1")){
+                        isOpened();
                         Intent mainIntent = new Intent(HHS_Browser.this, HHS_MainScreen.class);
                         mainIntent.putExtra("id", "1");
                         startActivity(mainIntent);
@@ -142,10 +164,7 @@ public class HHS_Browser extends AppCompatActivity  {
                 toolbar.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(HHS_Browser.this);
-                        sharedPref.edit()
-                                .putBoolean("isOpened", true)
-                                .apply();
+                        isClosed();
                         finishAffinity();
                         return true;
                     }
@@ -507,6 +526,7 @@ public class HHS_Browser extends AppCompatActivity  {
             mWebView.goBack();
         } else {
             finish();
+            isClosed();
         }
     }
 
@@ -706,12 +726,12 @@ public class HHS_Browser extends AppCompatActivity  {
         }
 
         if (id == android.R.id.home) {
+            isOpened();
             Intent intent_in = new Intent(HHS_Browser.this, HHS_MainScreen.class);
             startActivity(intent_in);
         }
 
         if (id == R.id.action_help) {
-
             SpannableString s;
 
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
@@ -731,7 +751,8 @@ public class HHS_Browser extends AppCompatActivity  {
         }
 
         if (id == R.id.action_settings) {
-            Intent intent_in = new Intent(HHS_Browser.this, HHS_UserSettingsActivity.class);
+            isOpened();
+            Intent intent_in = new Intent(HHS_Browser.this, Activity_settings.class);
             startActivity(intent_in);
         }
 
@@ -793,7 +814,7 @@ public class HHS_Browser extends AppCompatActivity  {
         }
 
         if (id == R.id.action_not) {
-
+            isOpened();
             SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 
             final String title = mWebView.getTitle();
@@ -810,7 +831,7 @@ public class HHS_Browser extends AppCompatActivity  {
         }
 
         if (id == R.id.action_bookmark) {
-
+            isOpened();
             Intent intent_in = new Intent(HHS_Browser.this, Popup_bookmarks.class);
             startActivity(intent_in);
         }
@@ -819,7 +840,6 @@ public class HHS_Browser extends AppCompatActivity  {
     }
 
     private void screenshot() {
-
         Date date = new Date();
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yy_HH-mm", Locale.getDefault());
         String title = mWebView.getTitle();
@@ -867,5 +887,19 @@ public class HHS_Browser extends AppCompatActivity  {
             e.printStackTrace();
             Snackbar.make(mWebView, R.string.toast_perm, Snackbar.LENGTH_LONG).show();
         }
+    }
+
+    private void isOpened () {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(HHS_Browser.this);
+        sharedPref.edit()
+                .putBoolean("isOpened", false)
+                .apply();
+    }
+
+    private void isClosed () {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(HHS_Browser.this);
+        sharedPref.edit()
+                .putBoolean("isOpened", true)
+                .apply();
     }
 }

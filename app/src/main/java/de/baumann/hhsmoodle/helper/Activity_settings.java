@@ -1,4 +1,23 @@
-package de.baumann.hhsmoodle;
+/*
+    This file is part of the HHS Moodle WebApp.
+
+    HHS Moodle WebApp is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    HHS Moodle WebApp is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with the Diaspora Native WebApp.
+
+    If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package de.baumann.hhsmoodle.helper;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -25,9 +44,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import de.baumann.hhsmoodle.HHS_MainScreen;
+import de.baumann.hhsmoodle.R;
 
-public class HHS_UserSettingsActivity extends AppCompatActivity {
-
+public class Activity_settings extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,8 +90,8 @@ public class HHS_UserSettingsActivity extends AppCompatActivity {
         }
 
         private void addChangelogListener() {
-            Preference reset = findPreference("changelog");
 
+            Preference reset = findPreference("changelog");
             reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
             {
                 public boolean onPreferenceClick(Preference pref)
@@ -106,8 +126,8 @@ public class HHS_UserSettingsActivity extends AppCompatActivity {
         }
 
         private void addLicenseListener() {
-            Preference reset = findPreference("license");
 
+            Preference reset = findPreference("license");
             reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference pref) {
 
@@ -143,7 +163,6 @@ public class HHS_UserSettingsActivity extends AppCompatActivity {
 
             final Activity activity = getActivity();
             Preference reset = findPreference("problem");
-
             reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference pref) {
 
@@ -230,7 +249,7 @@ public class HHS_UserSettingsActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == android.R.id.home) {
-            Intent intent_in = new Intent(HHS_UserSettingsActivity.this, HHS_MainScreen.class);
+            Intent intent_in = new Intent(Activity_settings.this, HHS_MainScreen.class);
             startActivity(intent_in);
             finish();
         }
@@ -248,7 +267,7 @@ public class HHS_UserSettingsActivity extends AppCompatActivity {
 
             Linkify.addLinks(s, Linkify.WEB_URLS);
 
-            final AlertDialog.Builder dialog = new AlertDialog.Builder(HHS_UserSettingsActivity.this)
+            final AlertDialog.Builder dialog = new AlertDialog.Builder(Activity_settings.this)
                     .setTitle(R.string.helpSettings_title)
                     .setMessage(s)
                     .setPositiveButton(getString(R.string.toast_yes), null);

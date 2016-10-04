@@ -101,9 +101,9 @@
     <string name="action_links_title">Links</string>
     <string name="action_links_summary">Links in Notizen und Benachrichtungen hervorheben, dass sie geöffnet werden können.</string>
 
-    <string name="action_protect">Passwort (App Zugang)</string>
-    <string name="action_protect_summary">Bestimme ein Passwort um die App vor unbefugtem Zugriff zu schützen. Leer lassen, wenn
-        du die App nicht schützen willst (eigenes Risiko).</string>
+    <string name="action_protect">Pin (App Zugang)</string>
+    <string name="action_protect_summary">Bestimme eine Pin um die App vor unbefugtem Zugriff zu schützen. Benutze nur Nummern.
+        Leer lassen, wenn du die App nicht schützen willst (eigenes Risiko).</string>
 
     <string name="action_swipe">Wischen</string>
     <string name="action_swipe_summary">Nach rechts und links wischen um durch Webseiten zu navigieren.</string>
@@ -201,5 +201,12 @@
     <string name="save_note_text">Speichern</string>
     <string name="title_hint">Titel</string>
     <string name="text_hint">Inhalt</string>
+
+
+    // Password
+
+    <string name="pw_forgotten">Passwort vergessen?</string>
+    <string name="pw_forgotten_dialog">Möchtest du alle persönlichen Daten (auch die Logindaten, gespeicherten Lesezeichen, Notizen,
+        …) um deine Zugangspin zurückzusetzen? Die Anwendung wird dann beendet.</string>
 
 </resources>

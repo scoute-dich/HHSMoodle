@@ -98,9 +98,9 @@
     <string name="action_links_title">Links</string>
     <string name="action_links_summary">Make links in notes and notifications clickable.</string>
 
-    <string name="action_protect">Password (App access)</string>
-    <string name="action_protect_summary">Set a password to protect app against unwanted access. Let empty, if you do not want
-    to protect the app (own risk).</string>
+    <string name="action_protect">Pin (App access)</string>
+    <string name="action_protect_summary">Set a pin to protect app against unwanted access. Only use numbers. Let empty, if you do
+        not want to protect the app (own risk).</string>
 
     <string name="action_swipe">Swipe</string>
     <string name="action_swipe_summary">Swipe left or right to navigate through websites.</string>
@@ -198,5 +198,12 @@
     <string name="save_note_text">Save</string>
     <string name="title_hint">Title</string>
     <string name="text_hint">Content</string>
+
+
+    // Password
+
+    <string name="pw_forgotten">Password forgotten?</string>
+    <string name="pw_forgotten_dialog">Do you want to delete all user data (also login data, saved bookmarks, notes, …) to reset
+        your app pin? The application will close.</string>
 
 </resources>

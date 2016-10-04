@@ -1,3 +1,22 @@
+/*
+    This file is part of the HHS Moodle WebApp.
+
+    HHS Moodle WebApp is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    HHS Moodle WebApp is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with the Diaspora Native WebApp.
+
+    If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package de.baumann.hhsmoodle.fragmentsMain;
 
 import android.app.Activity;
@@ -38,7 +57,6 @@ import java.util.HashMap;
 import de.baumann.hhsmoodle.HHS_Note;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.helper.Database_Notes;
-
 
 public class FragmentNotes extends Fragment {
 
@@ -134,6 +152,7 @@ public class FragmentNotes extends Fragment {
                                         .putString("handleTextIcon", icon)
                                         .apply();
 
+                                isOpened();
                                 Intent intent_in = new Intent(getActivity(), HHS_Note.class);
                                 startActivity(intent_in);
 
@@ -180,6 +199,7 @@ public class FragmentNotes extends Fragment {
                                             .putString("handleTextIcon", icon)
                                             .apply();
 
+                                    isOpened();
                                     Intent intent_in = new Intent(getActivity(), HHS_Note.class);
                                     startActivity(intent_in);
 
@@ -195,7 +215,6 @@ public class FragmentNotes extends Fragment {
                                 }
 
                                 if (options[item].equals (getString(R.string.note_share))) {
-
                                     Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                                     sharingIntent.setType("text/plain");
                                     sharingIntent.putExtra(Intent.EXTRA_SUBJECT, title);
@@ -204,7 +223,6 @@ public class FragmentNotes extends Fragment {
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createEvent))) {
-
                                     Intent calIntent = new Intent(Intent.ACTION_INSERT);
                                     calIntent.setType("vnd.android.cursor.item/event");
                                     calIntent.putExtra(CalendarContract.Events.TITLE, title);
@@ -213,7 +231,6 @@ public class FragmentNotes extends Fragment {
                                 }
 
                                 if (options[item].equals(getString(R.string.note_remove_note))) {
-
                                     try {
                                         Database_Notes db = new Database_Notes(getActivity());
                                         final int count = db.getRecordCount();
@@ -242,13 +259,13 @@ public class FragmentNotes extends Fragment {
                                                     });
                                             snackbar.show();
                                         }
-
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
                                 }
                             }
                         }).show();
+
                 return true;
             }
         });
@@ -361,39 +378,33 @@ public class FragmentNotes extends Fragment {
                                         public void onClick(DialogInterface dialog, int item) {
                                             if (item == 0) {
                                                 try {
-
                                                     final Database_Notes db = new Database_Notes(getActivity());
                                                     db.deleteNote((Integer.parseInt(seqnoStr)));
                                                     db.addBookmark(title, cont, "");
                                                     db.close();
                                                     setNotesList();
-
                                                 } catch (Exception e) {
                                                     e.printStackTrace();
                                                 }
 
                                             } else if (item == 1) {
                                                 try {
-
                                                     final Database_Notes db = new Database_Notes(getActivity());
                                                     db.deleteNote((Integer.parseInt(seqnoStr)));
                                                     db.addBookmark(title, cont, "!");
                                                     db.close();
                                                     setNotesList();
-
                                                 } catch (Exception e) {
                                                     e.printStackTrace();
                                                 }
 
                                             } else if (item == 2) {
                                                 try {
-
                                                     final Database_Notes db = new Database_Notes(getActivity());
                                                     db.deleteNote((Integer.parseInt(seqnoStr)));
                                                     db.addBookmark(title, cont, "!!");
                                                     db.close();
                                                     setNotesList();
-
                                                 } catch (Exception e) {
                                                     e.printStackTrace();
                                                 }
@@ -452,5 +463,12 @@ public class FragmentNotes extends Fragment {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void isOpened () {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        sharedPref.edit()
+                .putBoolean("isOpened", false)
+                .apply();
     }
 }

@@ -1,12 +1,12 @@
 /*
-    This file is part of the Diaspora Native WebApp.
+    This file is part of the HHS Moodle WebApp.
 
-    Diaspora Native WebApp is free software: you can redistribute it and/or modify
+    HHS Moodle WebApp is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    Diaspora Native WebApp is distributed in the hope that it will be useful,
+    HHS Moodle WebApp is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
@@ -40,7 +40,7 @@ import de.baumann.hhsmoodle.HHS_MainScreen;
 import de.baumann.hhsmoodle.R;
 
 
-public class SplashActivity extends AppCompatActivity {
+public class Activity_splash extends AppCompatActivity {
 
     private EditText editUsername;
     private EditText editPassword;
@@ -60,11 +60,11 @@ public class SplashActivity extends AppCompatActivity {
         editUsername = (EditText) findViewById(R.id.editUsername);
         assert editUsername != null;
         editUsername.setVisibility(View.INVISIBLE);
-        editUsername.getBackground().mutate().setColorFilter(ContextCompat.getColor(SplashActivity.this, R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
+        editUsername.getBackground().mutate().setColorFilter(ContextCompat.getColor(Activity_splash.this, R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
         editPassword = (EditText) findViewById(R.id.editPassword);
         assert editPassword != null;
         editPassword.setVisibility(View.INVISIBLE);
-        editPassword.getBackground().mutate().setColorFilter(ContextCompat.getColor(SplashActivity.this, R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
+        editPassword.getBackground().mutate().setColorFilter(ContextCompat.getColor(Activity_splash.this, R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
         Image = (ImageView) findViewById(R.id.image);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         assert fab != null;
@@ -75,7 +75,6 @@ public class SplashActivity extends AppCompatActivity {
         final String startType = sharedPref.getString("startType", "1");
         final String username = sharedPref.getString("username", "");
         final String password = sharedPref.getString("password", "");
-        final String protect = sharedPref.getString("protect_PW", "");
         final String startURL = sharedPref.getString("favoriteURL", "https://moodle.huebsch.ka.schule-bw.de/moodle/");
 
         if (username.isEmpty() || password.isEmpty() ) {
@@ -93,7 +92,7 @@ public class SplashActivity extends AppCompatActivity {
                     if (Username.isEmpty() || Password.isEmpty()) {
                         Snackbar.make(Image, R.string.login_hint, Snackbar.LENGTH_LONG).show();
                     } else {
-                        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(SplashActivity.this);
+                        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(Activity_splash.this);
                         sharedPref.edit().putString("username", Username).apply();
                         sharedPref.edit().putString("password", Password).apply();
 
@@ -102,11 +101,11 @@ public class SplashActivity extends AppCompatActivity {
                             new Handler().postDelayed(new Runnable() {
                                 public void run() {
 
-                                    Intent mainIntent = new Intent(SplashActivity.this, HHS_Browser.class);
+                                    Intent mainIntent = new Intent(Activity_splash.this, HHS_Browser.class);
                                     mainIntent.putExtra("id", "1");
                                     mainIntent.putExtra("url", startURL);
                                     startActivity(mainIntent);
-                                    SplashActivity.this.finish();
+                                    Activity_splash.this.finish();
                                     overridePendingTransition(R.anim.fadein,R.anim.fadeout);
                                 }
                             }, 500);
@@ -114,10 +113,10 @@ public class SplashActivity extends AppCompatActivity {
                             new Handler().postDelayed(new Runnable() {
                                 public void run() {
 
-                                    Intent mainIntent = new Intent(SplashActivity.this, HHS_MainScreen.class);
+                                    Intent mainIntent = new Intent(Activity_splash.this, HHS_MainScreen.class);
                                     mainIntent.putExtra("id", "1");
                                     startActivity(mainIntent);
-                                    SplashActivity.this.finish();
+                                    Activity_splash.this.finish();
                                     overridePendingTransition(R.anim.fadein,R.anim.fadeout);
                                 }
                             }, 500);
@@ -126,17 +125,17 @@ public class SplashActivity extends AppCompatActivity {
                 }
             });
 
-        } else if (protect.isEmpty()) {
+        } else {
             if (startType.equals("2")) {
 
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
 
-                        Intent mainIntent = new Intent(SplashActivity.this, HHS_Browser.class);
+                        Intent mainIntent = new Intent(Activity_splash.this, HHS_Browser.class);
                         mainIntent.putExtra("id", "1");
                         mainIntent.putExtra("url", startURL);
                         startActivity(mainIntent);
-                        SplashActivity.this.finish();
+                        Activity_splash.this.finish();
                         overridePendingTransition(R.anim.fadein,R.anim.fadeout);
                     }
                 }, 1000);
@@ -144,63 +143,14 @@ public class SplashActivity extends AppCompatActivity {
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
 
-                        Intent mainIntent = new Intent(SplashActivity.this, HHS_MainScreen.class);
+                        Intent mainIntent = new Intent(Activity_splash.this, HHS_MainScreen.class);
                         mainIntent.putExtra("id", "1");
                         startActivity(mainIntent);
-                        SplashActivity.this.finish();
+                        Activity_splash.this.finish();
                         overridePendingTransition(R.anim.fadein,R.anim.fadeout);
                     }
                 }, 1000);
             }
-
-        } else {
-            editPassword.setVisibility(View.VISIBLE);
-            fab.setVisibility(View.VISIBLE);
-
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    String Password = editPassword.getText().toString().trim();
-
-                    if (Password.equals(protect)) {
-                        if (startType.equals("2")) {
-
-                            new Handler().postDelayed(new Runnable() {
-                                public void run() {
-                                    sharedPref.edit()
-                                            .putBoolean("isOpened", false)
-                                            .apply();
-
-                                    Intent mainIntent = new Intent(SplashActivity.this, HHS_Browser.class);
-                                    mainIntent.putExtra("id", "1");
-                                    mainIntent.putExtra("url", startURL);
-                                    startActivity(mainIntent);
-                                    SplashActivity.this.finish();
-                                    overridePendingTransition(R.anim.fadein,R.anim.fadeout);
-                                }
-                            }, 500);
-                        } else if (startType.equals("1")){
-                            new Handler().postDelayed(new Runnable() {
-                                public void run() {
-                                    sharedPref.edit()
-                                            .putBoolean("isOpened", false)
-                                            .apply();
-
-                                    Intent mainIntent = new Intent(SplashActivity.this, HHS_MainScreen.class);
-                                    mainIntent.putExtra("id", "1");
-                                    startActivity(mainIntent);
-                                    SplashActivity.this.finish();
-                                    overridePendingTransition(R.anim.fadein,R.anim.fadeout);
-                                }
-                            }, 500);
-                        }
-
-                    } else {
-                        editPassword.setText("");
-                        Snackbar.make(Image, R.string.toast_wrongPW, Snackbar.LENGTH_LONG).show();
-                    }
-                }
-            });
         }
     }
 

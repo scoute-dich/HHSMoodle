@@ -1,3 +1,22 @@
+/*
+    This file is part of the HHS Moodle WebApp.
+
+    HHS Moodle WebApp is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    HHS Moodle WebApp is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with the Diaspora Native WebApp.
+
+    If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package de.baumann.hhsmoodle;
 
 import android.Manifest;
@@ -36,8 +55,8 @@ import java.util.List;
 import de.baumann.hhsmoodle.fragmentsMain.FragmentBookmarks;
 import de.baumann.hhsmoodle.fragmentsMain.FragmentInfo;
 import de.baumann.hhsmoodle.fragmentsMain.FragmentNotes;
-import de.baumann.hhsmoodle.helper.PasswordActivity;
-import de.baumann.hhsmoodle.helper.SplashActivity;
+import de.baumann.hhsmoodle.helper.Activity_password;
+import de.baumann.hhsmoodle.helper.Activity_settings;
 import de.baumann.hhsmoodle.popup.Popup_bookmarks;
 import de.baumann.hhsmoodle.popup.Popup_calendar;
 import de.baumann.hhsmoodle.popup.Popup_info;
@@ -70,7 +89,7 @@ public class HHS_MainScreen extends AppCompatActivity {
 
         if (sharedPref.getString("protect_PW", "").length() > 0) {
             if (sharedPref.getBoolean("isOpened", true)) {
-                Intent intent_in = new Intent(HHS_MainScreen.this, PasswordActivity.class);
+                Intent intent_in = new Intent(HHS_MainScreen.this, Activity_password.class);
                 startActivity(intent_in);
             }
         }
@@ -85,11 +104,13 @@ public class HHS_MainScreen extends AppCompatActivity {
                     final String startType = sharedPref.getString("startType", "1");
 
                     if (startType.equals("2")) {
+                        isOpened();
                         Intent mainIntent = new Intent(HHS_MainScreen.this, HHS_Browser.class);
                         mainIntent.putExtra("id", "1");
                         mainIntent.putExtra("url", startURL);
                         startActivity(mainIntent);
                     } else if (startType.equals("1")){
+                        isOpened();
                         Intent mainIntent = new Intent(HHS_MainScreen.this, HHS_MainScreen.class);
                         mainIntent.putExtra("id", "1");
                         startActivity(mainIntent);
@@ -101,10 +122,7 @@ public class HHS_MainScreen extends AppCompatActivity {
                 toolbar.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(HHS_MainScreen.this);
-                        sharedPref.edit()
-                                .putBoolean("isOpened", true)
-                                .apply();
+                        isClosed();
                         finishAffinity();
                         return true;
                     }
@@ -238,10 +256,7 @@ public class HHS_MainScreen extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        sharedPref.edit()
-                .putBoolean("isOpened", true)
-                .apply();
+        isClosed();
         finish();
     }
 
@@ -272,7 +287,8 @@ public class HHS_MainScreen extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
-            Intent intent_in = new Intent(HHS_MainScreen.this, HHS_UserSettingsActivity.class);
+            isOpened();
+            Intent intent_in = new Intent(HHS_MainScreen.this, Activity_settings.class);
             startActivity(intent_in);
         }
 
@@ -289,6 +305,7 @@ public class HHS_MainScreen extends AppCompatActivity {
         }
 
         if (id == R.id.action_not) {
+            isOpened();
             Intent intent_in = new Intent(HHS_MainScreen.this, HHS_Note.class);
             startActivity(intent_in);
         }
@@ -384,6 +401,20 @@ public class HHS_MainScreen extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void isOpened () {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(HHS_MainScreen.this);
+        sharedPref.edit()
+                .putBoolean("isOpened", false)
+                .apply();
+    }
+
+    private void isClosed () {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(HHS_MainScreen.this);
+        sharedPref.edit()
+                .putBoolean("isOpened", true)
+                .apply();
     }
 
 }

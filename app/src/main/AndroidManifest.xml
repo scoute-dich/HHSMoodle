@@ -19,7 +19,7 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity
-            android:name="de.baumann.hhsmoodle.helper.SplashActivity"
+            android:name="de.baumann.hhsmoodle.helper.Activity_splash"
             android:launchMode="singleTask"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
@@ -99,12 +99,12 @@
         </activity>
 
         <activity
-            android:name=".HHS_UserSettingsActivity"
+            android:name=".helper.Activity_settings"
             android:launchMode="singleTask"
             android:label="@string/app_name" />
 
         <activity
-            android:name="de.baumann.hhsmoodle.helper.PasswordActivity"
+            android:name="de.baumann.hhsmoodle.helper.Activity_password"
             android:launchMode="singleTask"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
