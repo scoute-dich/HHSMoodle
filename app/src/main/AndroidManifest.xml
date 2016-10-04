@@ -87,6 +87,7 @@
 
         <activity
             android:name=".HHS_Note"
+            android:windowSoftInputMode="stateAlwaysVisible"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/bookmark_createNote" >
