@@ -64,7 +64,7 @@ public class FragmentNotes extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_screen_main_swipe, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_screen_notes, container, false);
 
         PreferenceManager.setDefaultValues(getActivity(), R.xml.user_settings, false);
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -90,7 +90,7 @@ public class FragmentNotes extends Fragment {
             }
         });
 
-        listView = (ListView)rootView.findViewById(R.id.bookmarks);
+        listView = (ListView)rootView.findViewById(R.id.notes);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 @SuppressWarnings("unchecked")
@@ -287,7 +287,7 @@ public class FragmentNotes extends Fragment {
             SimpleAdapter simpleAdapter = new SimpleAdapter(
                     getActivity(),
                     mapList,
-                    R.layout.list_item,
+                    R.layout.list_item_notes,
                     new String[] {"title", "cont"},
                     new int[] {R.id.textView_title, R.id.textView_des}
             ) {

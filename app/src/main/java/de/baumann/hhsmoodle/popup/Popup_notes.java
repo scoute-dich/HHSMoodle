@@ -248,7 +248,7 @@ public class Popup_notes extends Activity {
             SimpleAdapter simpleAdapter = new SimpleAdapter(
                     Popup_notes.this,
                     mapList,
-                    R.layout.list_item,
+                    R.layout.list_item_bookmarks,
                     new String[] {"title", "cont"},
                     new int[] {R.id.textView_title, R.id.textView_des}
             ) {

@@ -95,7 +95,7 @@ public class FragmentInfo extends Fragment {
                 R.drawable.ic_magnify_grey600_48dp,
         };
 
-        View rootView = inflater.inflate(R.layout.fragment_screen_main, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_screen_info, container, false);
 
         ImageView imgHeader = (ImageView) rootView.findViewById(R.id.imageView_header);
         if(imgHeader != null) {

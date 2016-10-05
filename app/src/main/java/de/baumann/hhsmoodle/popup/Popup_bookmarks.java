@@ -244,7 +244,7 @@ public class Popup_bookmarks extends Activity {
             SimpleAdapter simpleAdapter = new SimpleAdapter(
                     Popup_bookmarks.this,
                     mapList,
-                    R.layout.list_item,
+                    R.layout.list_item_bookmarks,
                     new String[] {"title", "url"},
                     new int[] {R.id.textView_title, R.id.textView_des}
             ){
