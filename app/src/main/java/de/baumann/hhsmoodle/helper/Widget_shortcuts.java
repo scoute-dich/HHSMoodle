@@ -54,11 +54,11 @@ public class Widget_shortcuts extends AppWidgetProvider {
             PendingIntent configPendingIntent2 = PendingIntent.getActivity(context, 0, configIntent2, 0);
 
             Intent configIntent3 = new Intent(context, Popup_notes.class);
-            configIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+            configIntent3.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
             PendingIntent configPendingIntent3 = PendingIntent.getActivity(context, 0, configIntent3, 0);
 
             Intent configIntent4 = new Intent(context, HHS_MainScreen.class);
-            configIntent3.setAction(Intent.ACTION_MAIN);
+            configIntent4.setAction(Intent.ACTION_SEND);
             PendingIntent configPendingIntent4 = PendingIntent.getActivity(context, 0, configIntent4, 0);
 
             Intent configIntent5 = new Intent(context, Popup_calendar.class);

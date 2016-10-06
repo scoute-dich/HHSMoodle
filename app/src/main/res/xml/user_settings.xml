@@ -87,29 +87,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/pref_6">
-
-        <CheckBoxPreference
-            android:title="@string/title_info"
-            android:summary="@string/action_tab1_summary"
-            android:key="tab_1"
-            android:defaultValue="true" />
-
-        <CheckBoxPreference
-            android:title="@string/title_bookmarks"
-            android:summary="@string/action_tab2_summary"
-            android:key="tab_2"
-            android:defaultValue="true" />
-
-        <CheckBoxPreference
-            android:title="@string/title_notes"
-            android:summary="@string/action_tab3_summary"
-            android:key="tab_3"
-            android:defaultValue="true" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
         android:title="@string/pref_3">
 
         <CheckBoxPreference

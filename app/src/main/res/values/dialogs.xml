@@ -33,9 +33,13 @@
 
         &lt;b>v 2.2:&lt;/b>&lt;br>
         &#8226; fixed: links (My Moodle)&lt;br>
-        &#8226; added: Calendar to widget (offline)&lt;br>
+        &#8226; added: edit notes (dialog)&lt;br>
+        &#8226; added: Calendar (widget -> offline)&lt;br>
+        &#8226; removed: choose tabs&lt;br>
         &#8226; improved: upload files&lt;br>
-        &#8226; improved: password protection&lt;br>&lt;br>
+        &#8226; improved: password protection (pin)&lt;br>
+        &#8226; improved: saving of notes and bookmarks&lt;br>
+        &#8226; improved: code&lt;br>&lt;br>
 
         &lt;b>v 2.1:&lt;/b>&lt;br>
         &#8226; Choose tabs&lt;br>
@@ -102,8 +106,7 @@
 
         &lt;b>The List:&lt;/b>&lt;br>
         If you click on a list entry the bookmark opens in the intern browser. If you long click a list entry a popup
-        menu opens. You can change the bookmark icon by clicking on it. If the list does not refresh it automatically,
-        you can swipe down on the picture above the list, to refresh manually.&lt;br>&lt;br>
+        menu opens. You can change the bookmark icon by clicking on it.&lt;br>&lt;br>
 
         &lt;b>Popup menu:&lt;/b>&lt;br>
         &#8226;&lt;i> Edit title:&lt;/i> You can edit the title of the bookmark.&lt;br>
@@ -116,7 +119,7 @@
         &#8226;&lt;i> Delete bookmark:&lt;/i> At least one bookmark must remain. All others can be deleted.&lt;br>&lt;br>
 
         &lt;b>Menu:&lt;/b>&lt;br>
-        &#8226;&lt;i> Create note (pen icon):&lt;/i> A new window where you can create a new note will open.&lt;br>
+        &#8226;&lt;i> Create note (pen icon):&lt;/i> A new dialog where you can create a new note will open.&lt;br>
         &#8226;&lt;i> Open app directory:&lt;/i> If you have a installed file manager, the directory where downloaded files
         are stored will open.&lt;br>
         &#8226;&lt;i> Create shortcut:&lt;/i> To have a faster access to the main functions of the app, you can create
@@ -144,7 +147,7 @@
         entry. Editing of this entry will take place in your calendar app.&lt;br>&lt;br>
 
         &lt;b>Menu:&lt;/b>&lt;br>
-        &#8226;&lt;i> Create note (pen icon):&lt;/i> A new window where you can create a new note will open.&lt;br>
+        &#8226;&lt;i> Create note (pen icon):&lt;/i> A new dialog where you can create a new note will open.&lt;br>
         &#8226;&lt;i> Open app directory:&lt;/i> If you have a installed file manager, the directory where downloaded files
         are stored will open.&lt;br>
         &#8226;&lt;i> Create shortcut:&lt;/i> To have a faster access to the main functions of the app, you can create
@@ -158,17 +161,12 @@
     <string name="helpNotes_text">
         Here your notes are shown. You can create a note, by clicking the menu entry (pen icon).&lt;br>&lt;br>
 
-        &lt;b>Important:&lt;/b>&lt;br>
-        If you edit an existing note, it will be deleted. Therefore always save in the \"Edit note\"
-        window, even if you do not change anything. Otherwise the note is lost.&lt;br>&lt;br>
-
         &lt;b>The list:&lt;/b>&lt;br>
         If you click on a list entry the note opens in a dialog. If you long click a list entry a popup
-        menu opens. If you click on the circle on the left of a list entry, You can edit the priority of the note. If the
-        list does not refresh automatically, you can swipe down on the picture above the list, to refresh it manually.&lt;br>&lt;br>
+        menu opens. If you click on the circle on the left of a list entry, You can edit the priority of the note.&lt;br>&lt;br>
 
         &lt;b>Popup menu:&lt;/b>&lt;br>
-        &#8226;&lt;i> Edit note:&lt;/i> A new window, where you can edit priority, title and content of the note, will
+        &#8226;&lt;i> Edit note:&lt;/i> A new dialog, where you can edit priority, title and content of the note, will
         open.&lt;br>
         &#8226;&lt;i> Share note:&lt;/i> You can share the note with every app which is able to receive text
         (SMS, Email,…).&lt;br>
@@ -177,7 +175,7 @@
         &#8226;&lt;i> Delete note:&lt;/i> At least one note must remain. All others can be deleted.&lt;br>&lt;br>
 
         &lt;b>Menu:&lt;/b>&lt;br>
-        &#8226;&lt;i> Create note (pen icon):&lt;/i> A new window where you can create a new note will open.&lt;br>
+        &#8226;&lt;i> Create note (pen icon):&lt;/i> A new dialog where you can create a new note will open.&lt;br>
         &#8226;&lt;i> Open app directory:&lt;/i> If you have a installed file manager, the directory where downloaded files
         are stored will open.&lt;br>
         &#8226;&lt;i> Create shortcut:&lt;/i> To have a faster access to the main functions of the app, you can create

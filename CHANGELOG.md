@@ -1,8 +1,12 @@
 ### v 2.2
-- fixed links (My Moodle)
-- added Calendar to widget (offline)
-- improved upload files
-- improved password protection
+- fixed: links (My Moodle)
+- added: edit notes (dialog)
+- added: Calendar (widget -> offline)
+- removed: choose tabs
+- improved: upload files
+- improved: password protection (pin)
+- improved: saving of notes and bookmarks
+- improved: code
 
 ### v 2.1
 - Option to change bookmark icon

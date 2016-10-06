@@ -40,6 +40,8 @@ import de.baumann.hhsmoodle.helper.helpers;
 
 public class Popup_info extends Activity {
 
+    private SharedPreferences sharedPref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +91,8 @@ public class Popup_info extends Activity {
         };
 
         setContentView(R.layout.activity_popup);
+        PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         
         CustomListAdapter adapter=new CustomListAdapter(Popup_info.this, itemTITLE, itemURL, itemDES, imgid);
         final ListView listView = (ListView) findViewById(R.id.dialogList);
@@ -123,7 +127,6 @@ public class Popup_info extends Activity {
                             public void onClick(DialogInterface dialog, int item) {
 
                                 if (options[item].equals (getString(R.string.bookmark_edit_fav))) {
-                                    final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(Popup_info.this);
                                     sharedPref.edit()
                                             .putString("favoriteURL", url)
                                             .putString("favoriteTitle", title)
@@ -139,7 +142,6 @@ public class Popup_info extends Activity {
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createNote))) {
-                                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(Popup_info.this);
                                     sharedPref.edit()
                                             .putString("handleTextTitle", title)
                                             .putString("handleTextText", url)

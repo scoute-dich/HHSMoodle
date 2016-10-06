@@ -123,6 +123,7 @@ public class Popup_notes extends Activity {
                                         .putString("handleTextText", cont)
                                         .putString("handleTextIcon", icon)
                                         .putString("handleTextSeqno", seqnoStr)
+                                        .putString("fromPopup", "0")
                                         .apply();
                                 helpers.editNote(Popup_notes.this);
                             }
@@ -159,6 +160,7 @@ public class Popup_notes extends Activity {
                                             .putString("handleTextText", cont)
                                             .putString("handleTextIcon", icon)
                                             .putString("handleTextSeqno", seqnoStr)
+                                            .putString("fromPopup", "0")
                                             .apply();
                                     helpers.editNote(Popup_notes.this);
                                 }
@@ -248,7 +250,7 @@ public class Popup_notes extends Activity {
             SimpleAdapter simpleAdapter = new SimpleAdapter(
                     Popup_notes.this,
                     mapList,
-                    R.layout.list_item_bookmarks,
+                    R.layout.list_item,
                     new String[] {"title", "cont"},
                     new int[] {R.id.textView_title, R.id.textView_des}
             ) {

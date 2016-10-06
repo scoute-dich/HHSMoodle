@@ -19,7 +19,6 @@
 
 package de.baumann.hhsmoodle.fragmentsMain;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -32,7 +31,6 @@ import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.util.Linkify;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -59,7 +57,7 @@ import de.baumann.hhsmoodle.helper.helpers;
 public class FragmentNotes extends Fragment {
 
     private ListView listView = null;
-    private SwipeRefreshLayout swipeView;
+    private SharedPreferences sharedPref;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,28 +65,16 @@ public class FragmentNotes extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_screen_notes, container, false);
 
         PreferenceManager.setDefaultValues(getActivity(), R.xml.user_settings, false);
-        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         setHasOptionsMenu(true);
 
-        ImageView imgHeader = (ImageView) rootView.findViewById(R.id.imageView_header);
+        ImageView imgHeader = (ImageView) rootView.findViewById(R.id.imageView_header_notes);
         if(imgHeader != null) {
             TypedArray images = getResources().obtainTypedArray(R.array.splash_images);
             int choice = (int) (Math.random() * images.length());
             imgHeader.setImageResource(images.getResourceId(choice, R.drawable.splash1));
             images.recycle();
         }
-
-        setHasOptionsMenu(true);
-
-        swipeView = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe);
-        assert swipeView != null;
-        swipeView.setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent);
-        swipeView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                setNotesList();
-            }
-        });
 
         listView = (ListView)rootView.findViewById(R.id.notes);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -129,7 +115,7 @@ public class FragmentNotes extends Fragment {
                 if (sharedPref.getBoolean ("links", false)){
                     Linkify.addLinks(textContent, Linkify.WEB_URLS);
                     Linkify.addLinks(textTitle, Linkify.WEB_URLS);
-
+                    helpers.isOpened(getActivity());
                 }
 
                 final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity())
@@ -143,7 +129,6 @@ public class FragmentNotes extends Fragment {
                         .setNegativeButton(R.string.note_edit, new DialogInterface.OnClickListener() {
 
                             public void onClick(DialogInterface dialog, int whichButton) {
-                                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
                                 sharedPref.edit()
                                         .putString("handleTextTitle", title)
                                         .putString("handleTextText", cont)
@@ -178,7 +163,6 @@ public class FragmentNotes extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialog, int item) {
                                 if (options[item].equals(getString(R.string.note_edit))) {
-                                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
                                     sharedPref.edit()
                                             .putString("handleTextTitle", title)
                                             .putString("handleTextText", cont)
@@ -248,19 +232,6 @@ public class FragmentNotes extends Fragment {
         return rootView;
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case 100:
-                if (resultCode == Activity.RESULT_OK) {
-                    if (data.getIntExtra("updated", 0) == 1) {
-                        setNotesList();
-                    }
-                }
-        }
-    }
-
     private void setNotesList() {
 
         ArrayList<HashMap<String,String>> mapList = new ArrayList<>();
@@ -289,7 +260,7 @@ public class FragmentNotes extends Fragment {
                     mapList,
                     R.layout.list_item_notes,
                     new String[] {"title", "cont"},
-                    new int[] {R.id.textView_title, R.id.textView_des}
+                    new int[] {R.id.textView_title_notes, R.id.textView_des_notes}
             ) {
                 @Override
                 public View getView (final int position, View convertView, ViewGroup parent) {
@@ -302,7 +273,7 @@ public class FragmentNotes extends Fragment {
                     final String icon = map.get("icon");
 
                     View v = super.getView(position, convertView, parent);
-                    ImageView i=(ImageView) v.findViewById(R.id.icon);
+                    ImageView i=(ImageView) v.findViewById(R.id.icon_notes);
 
                     switch (icon) {
                         case "":
@@ -396,7 +367,6 @@ public class FragmentNotes extends Fragment {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        swipeView.setRefreshing(false);
     }
 
     public static class Item{

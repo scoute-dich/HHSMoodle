@@ -53,12 +53,15 @@ import de.baumann.hhsmoodle.helper.helpers;
 public class Popup_bookmarks extends Activity {
 
     private ListView listView = null;
+    private SharedPreferences sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_popup);
+        PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 
         listView = (ListView)findViewById(R.id.dialogList);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -136,7 +139,6 @@ public class Popup_bookmarks extends Activity {
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_edit_fav))) {
-                                    final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(Popup_bookmarks.this);
                                     sharedPref.edit()
                                             .putString("favoriteURL", url)
                                             .putString("favoriteTitle", title)
@@ -187,7 +189,6 @@ public class Popup_bookmarks extends Activity {
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createNote))) {
-                                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(Popup_bookmarks.this);
                                     sharedPref.edit()
                                             .putString("handleTextTitle", title)
                                             .putString("handleTextText", url)
@@ -244,7 +245,7 @@ public class Popup_bookmarks extends Activity {
             SimpleAdapter simpleAdapter = new SimpleAdapter(
                     Popup_bookmarks.this,
                     mapList,
-                    R.layout.list_item_bookmarks,
+                    R.layout.list_item,
                     new String[] {"title", "url"},
                     new int[] {R.id.textView_title, R.id.textView_des}
             ){

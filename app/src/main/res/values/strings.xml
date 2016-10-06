@@ -64,7 +64,6 @@
     <string name="pref_3">Help</string>
     <string name="pref_4">Login</string>
     <string name="pref_5">Security</string>
-    <string name="pref_6">Tabs</string>
 
     <string name="action_username">Username</string>
     <string name="action_username_summary">Please enter your Moodle username to get automatically logged in.</string>
@@ -96,7 +95,7 @@
     <string name="action_notShow_title_summary">Show the short introduction dialog on start.</string>
 
     <string name="action_links_title">Links</string>
-    <string name="action_links_summary">Make links in notes and notifications clickable.</string>
+    <string name="action_links_summary">Make links in notes clickable.</string>
 
     <string name="action_protect">Pin (App access)</string>
     <string name="action_protect_summary">Set a pin to protect app against unwanted access. Only use numbers. Let empty, if you do
@@ -119,11 +118,6 @@
 
     <string name="action_start">App start and title bar click</string>
     <string name="action_start_summary">What do you want to see: Either the main screen or the bookmark list?</string>
-
-    <string name="action_tab1_summary">Here are bookmarks to important Moodle sites stored. Also a link to our school
-        homepage and to a search engine.</string>
-    <string name="action_tab2_summary">Here your saved bookmarks are shown.</string>
-    <string name="action_tab3_summary">Here your notes are shown.</string>
 
 
     // Moodle

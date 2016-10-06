@@ -50,6 +50,7 @@ public class Popup_calendar extends AppCompatActivity  {
     private WebView mWebView;
     private SwipeRefreshLayout swipeView;
     private ProgressBar progressBar;
+    private SharedPreferences sharedPref;
 
     private boolean isNetworkUnAvailable() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -69,7 +70,7 @@ public class Popup_calendar extends AppCompatActivity  {
         setContentView(R.layout.activity_popup_calendar);
 
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
-        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         String fontSizeST = sharedPref.getString("font", "100");
         int fontSize = Integer.parseInt(fontSizeST);
 
@@ -131,7 +132,6 @@ public class Popup_calendar extends AppCompatActivity  {
 
             public void onPageFinished(WebView view, String url) {
 
-                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(Popup_calendar.this);
                 final String username = sharedPref.getString("username", "");
                 final String password = sharedPref.getString("password", "");
 

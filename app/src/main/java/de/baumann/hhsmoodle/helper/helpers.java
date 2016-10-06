@@ -201,6 +201,13 @@ public class helpers {
                                 .putString("handleTextIcon", "")
                                 .apply();
                         helpers.setNotesList(from);
+                        if (sharedPref.getString("fromPopup", "").equals("0")) {
+                            sharedPref.edit()
+                                    .putString("fromPopup", "")
+                                    .apply();
+                            from.recreate();
+                        }
+
                     }
                 })
                 .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
@@ -214,6 +221,15 @@ public class helpers {
                         dialog.cancel();
                     }
                 });
+        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            public void onCancel(final DialogInterface dialog) {
+                if (sharedPref.getString("fromPopup", "").equals("0")) {
+                    sharedPref.edit()
+                            .putString("fromPopup", "")
+                            .apply();
+                }
+            }
+        });
         dialog.show();
     }
 
@@ -274,7 +290,7 @@ public class helpers {
                     mapList,
                     R.layout.list_item_notes,
                     new String[] {"title", "cont"},
-                    new int[] {R.id.textView_title, R.id.textView_des}
+                    new int[] {R.id.textView_title_notes, R.id.textView_des_notes}
             ) {
                 @Override
                 public View getView (final int position, View convertView, ViewGroup parent) {
@@ -287,7 +303,7 @@ public class helpers {
                     final String icon = map.get("icon");
 
                     View v = super.getView(position, convertView, parent);
-                    ImageView i=(ImageView) v.findViewById(R.id.icon);
+                    ImageView i=(ImageView) v.findViewById(R.id.icon_notes);
 
                     switch (icon) {
                         case "":

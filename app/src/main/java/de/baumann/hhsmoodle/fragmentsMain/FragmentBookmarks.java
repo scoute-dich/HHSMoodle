@@ -32,7 +32,6 @@ import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -57,12 +56,15 @@ import de.baumann.hhsmoodle.helper.helpers;
 public class FragmentBookmarks extends Fragment {
 
     private ListView listView = null;
-    private SwipeRefreshLayout swipeView;
+    private SharedPreferences sharedPref;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         View rootView = inflater.inflate(R.layout.fragment_screen_bookmarks, container, false);
+        PreferenceManager.setDefaultValues(getActivity(), R.xml.user_settings, false);
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        setHasOptionsMenu(true);
 
         ImageView imgHeader = (ImageView) rootView.findViewById(R.id.imageView_header);
         if(imgHeader != null) {
@@ -72,26 +74,19 @@ public class FragmentBookmarks extends Fragment {
             images.recycle();
         }
 
-        setHasOptionsMenu(true);
-
-        swipeView = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe);
-        assert swipeView != null;
-        swipeView.setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent);
-        swipeView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                setBookmarkList();
-            }
-        });
-
         listView = (ListView)rootView.findViewById(R.id.bookmarks);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                helpers.isOpened(getActivity());
+                final String startTab = sharedPref.getString("tabMain", "0");
+                sharedPref.edit()
+                        .putString("tabPref", startTab)
+                        .putString("tabMain", "1")
+                        .apply();
+
                 @SuppressWarnings("unchecked")
                 HashMap<String,String> map = (HashMap<String,String>)listView.getItemAtPosition(position);
                 helpers.isOpened(getActivity());
-                helpers.switchToActivity(getActivity(), HHS_Browser.class, map.get("url"), false);
+                helpers.switchToActivity(getActivity(), HHS_Browser.class, map.get("url"), true);
             }
         });
 
@@ -162,7 +157,6 @@ public class FragmentBookmarks extends Fragment {
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_edit_fav))) {
-                                    final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
                                     sharedPref.edit()
                                             .putString("favoriteURL", url)
                                             .putString("favoriteTitle", title)
@@ -206,7 +200,6 @@ public class FragmentBookmarks extends Fragment {
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createNote))) {
-                                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
                                     sharedPref.edit()
                                             .putString("handleTextTitle", title)
                                             .putString("handleTextText", url)
@@ -279,7 +272,7 @@ public class FragmentBookmarks extends Fragment {
             SimpleAdapter simpleAdapter = new SimpleAdapter(
                     getActivity(),
                     mapList,
-                    R.layout.list_item_bookmarks,
+                    R.layout.list_item,
                     new String[] {"title", "url"},
                     new int[] {R.id.textView_title, R.id.textView_des}
             ){
@@ -517,7 +510,6 @@ public class FragmentBookmarks extends Fragment {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        swipeView.setRefreshing(false);
     }
 
     private void changeIcon(String seqno, String title, String url, String icon) {

@@ -46,10 +46,10 @@ import de.baumann.hhsmoodle.helper.helpers;
 public class FragmentInfo extends Fragment {
 
     private ListView listView;
+    private SharedPreferences sharedPref;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         final String[] itemTITLE ={
                 getString(R.string.text_tit_1),
@@ -95,7 +95,10 @@ public class FragmentInfo extends Fragment {
                 R.drawable.ic_magnify_grey600_48dp,
         };
 
-        View rootView = inflater.inflate(R.layout.fragment_screen_info, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_screen_bookmarks, container, false);
+        PreferenceManager.setDefaultValues(getActivity(), R.xml.user_settings, false);
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        setHasOptionsMenu(true);
 
         ImageView imgHeader = (ImageView) rootView.findViewById(R.id.imageView_header);
         if(imgHeader != null) {
@@ -104,8 +107,6 @@ public class FragmentInfo extends Fragment {
             imgHeader.setImageResource(images.getResourceId(choice, R.drawable.splash1));
             images.recycle();
         }
-
-        setHasOptionsMenu(true);
 
         CustomListAdapter adapter=new CustomListAdapter(getActivity(), itemTITLE, itemURL, itemDES, imgid);
         listView = (ListView)rootView.findViewById(R.id.bookmarks);
@@ -116,9 +117,14 @@ public class FragmentInfo extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
+                final String startTab = sharedPref.getString("tabMain", "0");
+                sharedPref.edit()
+                        .putString("tabPref", startTab)
+                        .putString("tabMain", "0")
+                        .apply();
                 String Selecteditem= itemURL[+position];
                 helpers.isOpened(getActivity());
-                helpers.switchToActivity(getActivity(), HHS_Browser.class, Selecteditem, false);
+                helpers.switchToActivity(getActivity(), HHS_Browser.class, Selecteditem, true);
             }
         });
 
@@ -139,7 +145,6 @@ public class FragmentInfo extends Fragment {
                             public void onClick(DialogInterface dialog, int item) {
 
                                 if (options[item].equals (getString(R.string.bookmark_edit_fav))) {
-                                    final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
                                     sharedPref.edit()
                                             .putString("favoriteURL", url)
                                             .putString("favoriteTitle", title)
@@ -155,7 +160,6 @@ public class FragmentInfo extends Fragment {
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createNote))) {
-                                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
                                     sharedPref.edit()
                                             .putString("handleTextTitle", title)
                                             .putString("handleTextText", url)

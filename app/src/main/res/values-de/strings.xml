@@ -66,7 +66,6 @@
     <string name="pref_3">Hilfe</string>
     <string name="pref_4">Anmeldung</string>
     <string name="pref_5">Sicherheit</string>
-    <string name="pref_6">Tabs</string>
 
     <string name="action_username">Benutzername</string>
     <string name="action_username_summary">Bitte gib deinen Moodle Benutzernamen an, um automatisch angemeldet zu werden.</string>
@@ -99,7 +98,7 @@
     <string name="action_notShow_title_summary">Den kurzen Einführungsdialog beim Start anzeigen.</string>
 
     <string name="action_links_title">Links</string>
-    <string name="action_links_summary">Links in Notizen und Benachrichtungen hervorheben, dass sie geöffnet werden können.</string>
+    <string name="action_links_summary">Links in Notizen hervorheben, damit sie geöffnet werden können.</string>
 
     <string name="action_protect">Pin (App Zugang)</string>
     <string name="action_protect_summary">Bestimme eine Pin um die App vor unbefugtem Zugriff zu schützen. Benutze nur Nummern.
@@ -122,11 +121,6 @@
 
     <string name="action_start">App Start und Titelleiste-Klick</string>
     <string name="action_start_summary">Was möchtest du sehen: Entweder den Startschirm oder den Lesezeichenfavorit?</string>
-
-    <string name="action_tab1_summary">Hier werden Lesezeichen von voreingestellten, wichtigen Moodleseiten gezeigt. Außerdem ein Link zu unserer Schulhomepage
-        und zu einer Suchmaschine.</string>
-    <string name="action_tab2_summary">Hier werden die von dir gespeicherten Lesezeichen angezeigt.</string>
-    <string name="action_tab3_summary">Hier werden deine Notizen angezeigt.</string>
 
 
     // Moodle

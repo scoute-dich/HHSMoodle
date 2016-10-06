@@ -58,7 +58,6 @@ public class Database_Notes extends SQLiteOpenHelper {
     }
 
     public void loadInitialData() {
-
         int seqno = 0;
 
         SQLiteDatabase db = getWritableDatabase();
@@ -77,7 +76,6 @@ public class Database_Notes extends SQLiteOpenHelper {
     }
 
     public int getRecordCount() {
-
         SQLiteDatabase db = getReadableDatabase();
 
         int ret = 0;
@@ -136,7 +134,6 @@ public class Database_Notes extends SQLiteOpenHelper {
     }
 
     public void deleteNote(int seqno) {
-
         SQLiteDatabase db = getWritableDatabase();
         db.beginTransaction();
 

@@ -28,11 +28,9 @@ import android.database.sqlite.SQLiteStatement;
 
 import java.util.ArrayList;
 
-public class Database_Browser extends SQLiteOpenHelper
-{
+public class Database_Browser extends SQLiteOpenHelper {
     public Database_Browser(Context context)
-            throws NameNotFoundException
-    {
+            throws NameNotFoundException {
         super(context,
                 "browser.db",
                 null,
@@ -48,8 +46,7 @@ public class Database_Browser extends SQLiteOpenHelper
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newViewsion) {
     }
 
-    private void createTable(SQLiteDatabase db)
-    {
+    private void createTable(SQLiteDatabase db) {
         db.execSQL(
                 "CREATE TABLE bookmarks (" +
                         "seqno NUMBER NOT NULL, " +
@@ -60,8 +57,7 @@ public class Database_Browser extends SQLiteOpenHelper
         );
     }
 
-    public void loadInitialData()
-    {
+    public void loadInitialData() {
         int seqno = 0;
 
         SQLiteDatabase db = getWritableDatabase();
@@ -79,8 +75,7 @@ public class Database_Browser extends SQLiteOpenHelper
         db.close();
     }
 
-    public int getRecordCount()
-    {
+    public int getRecordCount() {
         SQLiteDatabase db = getReadableDatabase();
 
         int ret = 0;
@@ -97,8 +92,7 @@ public class Database_Browser extends SQLiteOpenHelper
         return ret;
     }
 
-    public void getBookmarks(ArrayList<String[]> data)
-    {
+    public void getBookmarks(ArrayList<String[]> data) {
         SQLiteDatabase db = getReadableDatabase();
 
         String sql = "SELECT seqno,title,url,icon FROM bookmarks ORDER BY seqno";
@@ -113,8 +107,7 @@ public class Database_Browser extends SQLiteOpenHelper
         db.close();
     }
 
-    public void addBookmark(String title, String url, String icon)
-    {
+    public void addBookmark(String title, String url, String icon) {
         int seqno;
 
         SQLiteDatabase db = getWritableDatabase();
@@ -140,8 +133,8 @@ public class Database_Browser extends SQLiteOpenHelper
         c.close();
     }
 
-    public void deleteBookmark(int seqno)
-    {
+    public void deleteBookmark(int seqno) {
+
         SQLiteDatabase db = getWritableDatabase();
         db.beginTransaction();
 

@@ -65,11 +65,15 @@ public class HHS_MainScreen extends AppCompatActivity {
 
     final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
     private ViewPager viewPager;
+    private SharedPreferences sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_screen_main);
+        PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -81,9 +85,6 @@ public class HHS_MainScreen extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         assert tabLayout != null;
         tabLayout.setupWithViewPager(viewPager);
-
-        PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
-        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 
         if (sharedPref.getString("protect_PW", "").length() > 0) {
             if (sharedPref.getBoolean("isOpened", true)) {
@@ -123,8 +124,8 @@ public class HHS_MainScreen extends AppCompatActivity {
         }
 
         boolean show = sharedPref.getBoolean("help_notShow", true);
-        if (show){
 
+        if (show){
             final AlertDialog.Builder dialog = new AlertDialog.Builder(HHS_MainScreen.this)
                     .setTitle(R.string.dialog_help_title)
                     .setMessage(helpers.textSpannable(getString(R.string.dialog_help)))
@@ -179,7 +180,6 @@ public class HHS_MainScreen extends AppCompatActivity {
 
         Intent intent = getIntent();
         String action = intent.getAction();
-        String type = intent.getType();
 
         if (Intent.ACTION_SEND.equals(action)) {
             sharedPref.edit()
@@ -187,10 +187,7 @@ public class HHS_MainScreen extends AppCompatActivity {
                     .putString("handleTextText", intent.getStringExtra(Intent.EXTRA_TEXT))
                     .putString("handleTextIcon", "")
                     .apply();
-
-            if ("text/plain".equals(type)) {
-                helpers.editNote(HHS_MainScreen.this);
-            }
+            helpers.editNote(HHS_MainScreen.this);
         }
 
         File directory = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/");
@@ -201,21 +198,13 @@ public class HHS_MainScreen extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
 
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         final String startTab = sharedPref.getString("tabMain", "0");
         final int startTabInt = Integer.parseInt(startTab);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-
-        if (sharedPref.getBoolean("tab_1", false)) {
-            adapter.addFragment(new FragmentInfo(), String.valueOf(getString(R.string.title_info)));
-        }
-        if (sharedPref.getBoolean("tab_2", false)) {
-            adapter.addFragment(new FragmentBookmarks(), String.valueOf(getString(R.string.title_bookmarks)));
-        }
-        if (sharedPref.getBoolean("tab_3", false)) {
-            adapter.addFragment(new FragmentNotes(), String.valueOf(getString(R.string.title_notes)));
-        }
+        adapter.addFragment(new FragmentInfo(), String.valueOf(getString(R.string.title_info)));
+        adapter.addFragment(new FragmentBookmarks(), String.valueOf(getString(R.string.title_bookmarks)));
+        adapter.addFragment(new FragmentNotes(), String.valueOf(getString(R.string.title_notes)));
 
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(startTabInt,true);
@@ -260,7 +249,6 @@ public class HHS_MainScreen extends AppCompatActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         menu.getItem(0).setVisible(false);
 
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         if (sharedPref.getBoolean ("help", false)){
             menu.getItem(4).setVisible(false); // here pass the index of save menu item
         }
@@ -392,7 +380,6 @@ public class HHS_MainScreen extends AppCompatActivity {
                         }
                     }).show();
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

@@ -45,12 +45,15 @@ public class Activity_splash extends AppCompatActivity {
     private EditText editUsername;
     private EditText editPassword;
     private ImageView Image;
+    private SharedPreferences sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_splash);
+        PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -70,8 +73,6 @@ public class Activity_splash extends AppCompatActivity {
         assert fab != null;
         fab.setVisibility(View.INVISIBLE);
 
-        PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
-        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         final String startType = sharedPref.getString("startType", "1");
         final String username = sharedPref.getString("username", "");
         final String password = sharedPref.getString("password", "");
@@ -92,7 +93,6 @@ public class Activity_splash extends AppCompatActivity {
                     if (Username.isEmpty() || Password.isEmpty()) {
                         Snackbar.make(Image, R.string.login_hint, Snackbar.LENGTH_LONG).show();
                     } else {
-                        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(Activity_splash.this);
                         sharedPref.edit().putString("username", Username).apply();
                         sharedPref.edit().putString("password", Password).apply();
 
@@ -155,7 +155,6 @@ public class Activity_splash extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPref.edit()
                 .putBoolean("isOpened", true)
                 .apply();

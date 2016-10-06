@@ -39,7 +39,7 @@ public class CustomListAdapter extends ArrayAdapter<String> {
     private final Integer[] imgid;
 
     public CustomListAdapter(Activity context, String[] itemTITLE, String[] itemURL, String[] itemDES, Integer[] imgid) {
-        super(context, R.layout.list_item_bookmarks, itemTITLE);
+        super(context, R.layout.list_item, itemTITLE);
 
         this.context=context;
         this.itemTITLE=itemTITLE;
@@ -53,7 +53,7 @@ public class CustomListAdapter extends ArrayAdapter<String> {
         if (rowView == null) {
             LayoutInflater infInflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            rowView = infInflater.inflate(R.layout.list_item_bookmarks, parent, false);
+            rowView = infInflater.inflate(R.layout.list_item, parent, false);
         }
 
         ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);

@@ -38,6 +38,7 @@ import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
@@ -90,6 +91,7 @@ public class HHS_Browser extends AppCompatActivity  {
     private WebView mWebView;
     private SwipeRefreshLayout swipeView;
     private ProgressBar progressBar;
+    private SharedPreferences sharedPref;
 
     private static final int ID_SAVE_IMAGE = 10;
     private static final int ID_IMAGE_EXTERNAL_BROWSER = 11;
@@ -119,9 +121,9 @@ public class HHS_Browser extends AppCompatActivity  {
         }
 
         setContentView(R.layout.activity_browser);
-
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
-        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+
         String fontSizeST = sharedPref.getString("font", "100");
         int fontSize = Integer.parseInt(fontSizeST);
 
@@ -218,7 +220,6 @@ public class HHS_Browser extends AppCompatActivity  {
 
             public void onPageFinished(WebView view, String url) {
 
-                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(HHS_Browser.this);
                 final String username = sharedPref.getString("username", "");
                 final String password = sharedPref.getString("password", "");
 
@@ -295,7 +296,6 @@ public class HHS_Browser extends AppCompatActivity  {
                 i.setType("*/*");
                 startActivityForResult(Intent.createChooser(i, getString(R.string.app_share_file)),
                         RESULT_CODE_ICE_CREAM);
-
             }
 
             //For Android5.0+
@@ -390,7 +390,6 @@ public class HHS_Browser extends AppCompatActivity  {
                                 .setNeutralButton(R.string.toast_notAgain, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplication());
                                         dialog.cancel();
                                         sharedPref.edit()
                                                 .putBoolean("perm_notShow", false)
@@ -630,8 +629,22 @@ public class HHS_Browser extends AppCompatActivity  {
         if (mWebView.canGoBack()) {
             mWebView.goBack();
         } else {
-            helpers.isClosed(HHS_Browser.this);
-            finish();
+            final String tabPref = sharedPref.getString("tabPref", "0");
+            if (tabPref.equals("")) {
+                helpers.isClosed(HHS_Browser.this);
+                finish();
+            } else {
+                helpers.switchToActivity(HHS_Browser.this, HHS_MainScreen.class, "", false);
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
+                        sharedPref.edit()
+                                .putString("tabPref", "")
+                                .putString("tabMain", tabPref)
+                                .apply();
+                        finish();
+                    }
+                }, 500);
+            }
         }
     }
 
@@ -639,7 +652,6 @@ public class HHS_Browser extends AppCompatActivity  {
     public boolean onPrepareOptionsMenu(Menu menu) {
         menu.getItem(0).setVisible(false);
 
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         if (sharedPref.getBoolean ("help", false)){
             menu.getItem(6).setVisible(false); // here pass the index of save menu item
         }
@@ -788,8 +800,6 @@ public class HHS_Browser extends AppCompatActivity  {
         }
 
         if (id == R.id.action_not) {
-
-            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 
             final String title = mWebView.getTitle();
             final String url = mWebView.getUrl();

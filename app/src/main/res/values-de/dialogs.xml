@@ -34,16 +34,20 @@
 
         &lt;b>v 2.2:&lt;/b>&lt;br>
         &#8226; Fixed: Links (My Moodle)&lt;br>
-        &#8226; Kalender zum Widget hinzugefügt (offline)&lt;br>
+        &#8226; Hizugefügt: Notizen bearbeiten (Dialog)&lt;br>
+        &#8226; Hizugefügt: Kalender (Widget -> offline)&lt;br>
+        &#8226; Entfernt: Tabs auswählen&lt;br>
         &#8226; Verbessert: Dateiupload&lt;br>
-        &#8226; Verbessert: Passwortschutz&lt;br>&lt;br>
+        &#8226; Verbessert: Passwortschutz (Pin)&lt;br>
+        &#8226; Verbessert: Speichern von Notizen und Leszeichen&lt;br>
+        &#8226; Verbessert: Code&lt;br>&lt;br>
 
         &lt;b>v 2.1:&lt;/b>&lt;br>
         &#8226; Tabs auswählen möglich&lt;br>
         &#8226; Lesezeichen: Icon ändern&lt;br>&lt;br>
 
         &lt;b>v 2.0:&lt;/b>&lt;br>
-        &#8226; Benachrichtigungen entfern&lt;br>
+        &#8226; Benachrichtigungen entfernt&lt;br>
         &#8226; Kalendereintrag erstellen&lt;br>
         &#8226; Notizen: Priorität&lt;br>
         &#8226; Einstellungen: App Start&lt;br>
@@ -103,8 +107,7 @@
 
         &lt;b>Die Liste:&lt;/b>&lt;br>
         Wenn du einen Listeneintrag anklickst, öffnet sich das Lesezeichen im internen Browser. Bei einem langen Klick
-        öffnet sich ein Popupmenü. Um das Icon des Lesezeichens zu ändern, musst du es anklicken. Wenn die Liste nicht automatisch
-        aktualisiert wird, kannst du auf dem Bild über der Liste nach unten wischen.&lt;br>&lt;br>
+        öffnet sich ein Popupmenü. Um das Icon des Lesezeichens zu ändern, musst du es anklicken.&lt;br>&lt;br>
 
         &lt;b>Popup Menü:&lt;/b>&lt;br>
         &#8226;&lt;i> Bearbeite Titel:&lt;/i> Du kannst den Titel des Lesezeichens bearbeiten.&lt;br>
@@ -120,7 +123,7 @@
         gelöscht werden.&lt;br>&lt;br>
 
         &lt;b>Menü:&lt;/b>&lt;br>
-        &#8226;&lt;i> Erstelle Notiz (Stifticon):&lt;/i> Es öffnet sich ein neues Fenster, in dem du eine Notiz erstellen
+        &#8226;&lt;i> Erstelle Notiz (Stifticon):&lt;/i> Es öffnet sich ein Dialogfenster, in dem du eine Notiz erstellen
         kannst.&lt;br>
         &#8226;&lt;i> Öffne Anwendungsordner:&lt;/i> Wenn du einen Dateimanager installiert hast, öffnet sich das Verzeichnis,
         in dem z.B. herunter geladene Dateien gespeichert werden.&lt;br>
@@ -151,7 +154,7 @@
         benutzt. Die Bearbeitung findet in deiner Kalenderapp statt.&lt;br>&lt;br>
 
         &lt;b>Menü:&lt;/b>&lt;br>
-        &#8226;&lt;i> Erstelle Notiz (Stifticon):&lt;/i> Es öffnet sich ein neues Fenster, in dem du eine Notiz erstellen
+        &#8226;&lt;i> Erstelle Notiz (Stifticon):&lt;/i> Es öffnet sich ein Dialogfenster, in dem du eine Notiz erstellen
         kannst.&lt;br>
         &#8226;&lt;i> Öffne Anwendungsordner:&lt;/i> Wenn du einen Dateimanager installiert hast, öffnet sich das Verzeichnis,
         in dem z.B. herunter geladene Dateien gespeichert werden.&lt;br>
@@ -167,18 +170,13 @@
         Hier werden deine Notizen angezeigt. Du kannst Notizen erstellen, indem du den entsprechenden Eintrag im Menu
         (Stifticon) anklickst.&lt;br>&lt;br>
 
-        &lt;b>Wichtig:&lt;/b>&lt;br>
-        Immer wenn du eine bestehende Notiz bearbeitest, wird die Notiz gelöscht. Speichere deshalb im \"Bearbeiten Fenster\"
-        immer ab, selbst wenn du nichts veränderst. Sonst ist die Notiz verloren.&lt;br>&lt;br>
-
         &lt;b>Die Liste:&lt;/b>&lt;br>
         Wenn du einen Listeneintrag anklickst, öffnet sich die Notiz. Bei einem langen Klick öffnet sich ein
-        Popupmenü. Wenn du den Kreis neben einem Listeneintrag anklickst, kannst du die Dringlichkeit der Notiz bearbeiten.
-        Wenn die Liste nicht automatisch aktualisiert wird, kannst du auf dem Bild über der Liste nach unten
-        wischen.&lt;br>&lt;br>
+        Popupmenü. Wenn du den Kreis neben einem Listeneintrag anklickst, kannst du die Dringlichkeit der Notiz
+        bearbeiten.&lt;br>&lt;br>
 
         &lt;b>Popup Menü:&lt;/b>&lt;br>
-        &#8226;&lt;i> Bearbeite Notiz:&lt;/i> Es öffnet sich ein neues Fenster, in dem du die Dringlichkeit, den Titel
+        &#8226;&lt;i> Bearbeite Notiz:&lt;/i> Es öffnet sich ein Dialogfenster, in dem du die Dringlichkeit, den Titel
         und den Inhalt der Notiz bearbeiten kannst.&lt;br>
         &#8226;&lt;i> Teile Notiz:&lt;/i> Du kannst die Notiz mit jeder App teilen, die Text empfangen kann (SMS, Email,
         …).&lt;br>
@@ -188,7 +186,7 @@
         werden.&lt;br>&lt;br>
 
         &lt;b>Menü:&lt;/b>&lt;br>
-        &#8226;&lt;i> Erstelle Notiz (Stifticon):&lt;/i> Es öffnet sich ein neues Fenster, in dem du eine Notiz erstellen
+        &#8226;&lt;i> Erstelle Notiz (Stifticon):&lt;/i> Es öffnet sich ein Dialogfenster, in dem du eine Notiz erstellen
         kannst.&lt;br>
         &#8226;&lt;i> Öffne Anwendungsordner:&lt;/i> Wenn du einen Dateimanager installiert hast, öffnet sich das Verzeichnis,
         in dem z.B. herunter geladene Dateien gespeichert werden.&lt;br>
