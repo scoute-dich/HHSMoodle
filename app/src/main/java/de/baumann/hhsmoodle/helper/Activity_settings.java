@@ -26,6 +26,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
@@ -45,6 +46,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.nio.channels.FileChannel;
+
 import de.baumann.hhsmoodle.HHS_Browser;
 import de.baumann.hhsmoodle.HHS_MainScreen;
 import de.baumann.hhsmoodle.R;
@@ -59,9 +65,10 @@ public class Activity_settings extends AppCompatActivity {
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         SecurePreferences sharedPrefSec = new SecurePreferences(Activity_settings.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
-        setTitle(R.string.note_edit);
+        String pw = sharedPrefSec.getString("protect_PW");
+        setTitle(R.string.menu_settings);
 
-        if (sharedPrefSec.getString("password") != null) {
+        if (pw != null && pw.length() > 0) {
             if (sharedPref.getBoolean("isOpened", true)) {
                 helpers.switchToActivity(Activity_settings.this, Activity_password.class, "", false);
             }
@@ -360,6 +367,95 @@ public class Activity_settings extends AppCompatActivity {
             });
         }
 
+        private void addBackup_dbListener() {
+
+            Preference reset = findPreference("backup_db");
+            reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference pref) {
+
+                    try {
+                        File sd = Environment.getExternalStorageDirectory();
+                        File data = Environment.getDataDirectory();
+
+                        if (sd.canWrite()) {
+                            String currentDBPath = "//data//" + "de.baumann.hhsmoodle"
+                                    + "//databases//" + "browser.db";
+                            String backupDBPath = "//HHS_Moodle//" + "//backup//" + "browser.db";
+                            File currentDB = new File(data, currentDBPath);
+                            File backupDB = new File(sd, backupDBPath);
+
+                            FileChannel src = new FileInputStream(currentDB).getChannel();
+                            FileChannel dst = new FileOutputStream(backupDB).getChannel();
+                            dst.transferFrom(src, 0, src.size());
+                            src.close();
+                            dst.close();
+
+                            String currentDBPath2 = "//data//" + "de.baumann.hhsmoodle"
+                                    + "//databases//" + "notes.db";
+                            String backupDBPath2 = "//HHS_Moodle//" + "//backup//" + "notes.db";
+                            File currentDB2 = new File(data, currentDBPath2);
+                            File backupDB2 = new File(sd, backupDBPath2);
+
+                            FileChannel src2 = new FileInputStream(currentDB2).getChannel();
+                            FileChannel dst2 = new FileOutputStream(backupDB2).getChannel();
+                            dst2.transferFrom(src2, 0, src2.size());
+                            src2.close();
+                            dst2.close();
+
+                            Toast.makeText(getActivity(), R.string.toast_backup, Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (Exception e) {
+                        Toast.makeText(getActivity(), R.string.toast_backup_not, Toast.LENGTH_SHORT).show();
+                    }
+                    return true;
+                }
+            });
+        }
+
+        private void addRestore_dbListener() {
+
+            Preference reset = findPreference("restore_db");
+            reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference pref) {
+
+                    try {
+                        File sd = Environment.getExternalStorageDirectory();
+                        File data = Environment.getDataDirectory();
+
+                        if (sd.canWrite()) {
+                            String currentDBPath = "//data//" + "de.baumann.hhsmoodle"
+                                    + "//databases//" + "browser.db";
+                            String backupDBPath = "//HHS_Moodle//" + "//backup//" + "browser.db";
+                            File currentDB = new File(data, currentDBPath);
+                            File backupDB = new File(sd, backupDBPath);
+
+                            FileChannel src = new FileInputStream(backupDB).getChannel();
+                            FileChannel dst = new FileOutputStream(currentDB).getChannel();
+                            dst.transferFrom(src, 0, src.size());
+                            src.close();
+                            dst.close();
+
+                            String currentDBPath2 = "//data//" + "de.baumann.hhsmoodle"
+                                    + "//databases//" + "notes.db";
+                            String backupDBPath2 = "//HHS_Moodle//" + "//backup//" + "notes.db";
+                            File currentDB2 = new File(data, currentDBPath2);
+                            File backupDB2 = new File(sd, backupDBPath2);
+
+                            FileChannel src2 = new FileInputStream(backupDB2).getChannel();
+                            FileChannel dst2 = new FileOutputStream(currentDB2).getChannel();
+                            dst2.transferFrom(src2, 0, src2.size());
+                            src2.close();
+                            dst2.close();
+                            Toast.makeText(getActivity(), R.string.toast_restore, Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (Exception e) {
+                        Toast.makeText(getActivity(), R.string.toast_restore_not, Toast.LENGTH_SHORT).show();
+                    }
+                    return true;
+                }
+            });
+        }
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -372,6 +468,8 @@ public class Activity_settings extends AppCompatActivity {
             addPasswordListener();
             addUsernameListener();
             addProtectListener();
+            addBackup_dbListener();
+            addRestore_dbListener();
         }
     }
 

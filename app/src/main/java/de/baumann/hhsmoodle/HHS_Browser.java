@@ -125,11 +125,12 @@ public class HHS_Browser extends AppCompatActivity  {
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPrefSec = new SecurePreferences(HHS_Browser.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
+        String pw = sharedPrefSec.getString("protect_PW");
 
         String fontSizeST = sharedPref.getString("font", "100");
         int fontSize = Integer.parseInt(fontSizeST);
 
-        if (sharedPrefSec.getString("password") != null) {
+        if (pw != null  && pw.length() > 0) {
             if (sharedPref.getBoolean("isOpened", true)) {
                 helpers.switchToActivity(HHS_Browser.this, Activity_password.class, "", false);
             }
@@ -196,11 +197,8 @@ public class HHS_Browser extends AppCompatActivity  {
         mWebView.getSettings().setBuiltInZoomControls(true);
         mWebView.getSettings().setDisplayZoomControls(false);
         mWebView.getSettings().setTextZoom(fontSize);
+        mWebView.getSettings().setJavaScriptEnabled(true);
         registerForContextMenu(mWebView);
-
-        if (sharedPref.getBoolean ("java", false)){
-            mWebView.getSettings().setJavaScriptEnabled(true);
-        }
 
         if (sharedPref.getBoolean ("swipe", false)){
             mWebView.setOnTouchListener(new OnSwipeTouchListener(HHS_Browser.this) {
@@ -419,7 +417,7 @@ public class HHS_Browser extends AppCompatActivity  {
             }
         }
 
-        File directory = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/");
+        File directory = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/backup/");
         if (!directory.exists()) {
             directory.mkdirs();
         }

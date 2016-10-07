@@ -31,11 +31,13 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Base64;
 
 
+@SuppressWarnings("ALL")
 public class SecurePreferences {
 
     public static class SecurePreferencesException extends RuntimeException {
@@ -68,6 +70,7 @@ public class SecurePreferences {
      * the plaintext value of the value which can be used to decipher the value.
      * @throws SecurePreferencesException
      */
+    @SuppressLint("GetInstance")
     public SecurePreferences(Context context, String preferenceName, String secureKey, boolean encryptKeys) throws SecurePreferencesException {
         try {
             this.writer = Cipher.getInstance(TRANSFORMATION);
@@ -118,7 +121,7 @@ public class SecurePreferences {
 
     public void put(String key, String value) {
         if (value == null) {
-            preferences.edit().remove(toKey(key)).commit();
+            preferences.edit().remove(toKey(key)).apply();
         }
         else {
             putValue(toKey(key), value);
@@ -130,7 +133,7 @@ public class SecurePreferences {
     }
 
     public void removeValue(String key) {
-        preferences.edit().remove(toKey(key)).commit();
+        preferences.edit().remove(toKey(key)).apply();
     }
 
     public String getString(String key) throws SecurePreferencesException {
@@ -142,7 +145,7 @@ public class SecurePreferences {
     }
 
     public void clear() {
-        preferences.edit().clear().commit();
+        preferences.edit().clear().apply();
     }
 
     private String toKey(String key) {
@@ -154,7 +157,7 @@ public class SecurePreferences {
     private void putValue(String key, String value) throws SecurePreferencesException {
         String secureValueEncoded = encrypt(value, writer);
 
-        preferences.edit().putString(key, secureValueEncoded).commit();
+        preferences.edit().putString(key, secureValueEncoded).apply();
     }
 
     protected String encrypt(String value, Cipher writer) throws SecurePreferencesException {

@@ -67,7 +67,6 @@ public class HHS_MainScreen extends AppCompatActivity {
     final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
     private ViewPager viewPager;
     private SharedPreferences sharedPref;
-    private SecurePreferences sharedPrefSec;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +75,8 @@ public class HHS_MainScreen extends AppCompatActivity {
         setContentView(R.layout.activity_screen_main);
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        sharedPrefSec = new SecurePreferences(HHS_MainScreen.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
+        SecurePreferences sharedPrefSec = new SecurePreferences(HHS_MainScreen.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
+        String pw = sharedPrefSec.getString("protect_PW");
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -89,7 +89,7 @@ public class HHS_MainScreen extends AppCompatActivity {
         assert tabLayout != null;
         tabLayout.setupWithViewPager(viewPager);
 
-        if (sharedPrefSec.getString("password") != null) {
+        if (pw != null && pw.length() > 0) {
             if (sharedPref.getBoolean("isOpened", true)) {
                 helpers.switchToActivity(HHS_MainScreen.this, Activity_password.class, "", false);
             }
@@ -193,7 +193,7 @@ public class HHS_MainScreen extends AppCompatActivity {
             helpers.editNote(HHS_MainScreen.this);
         }
 
-        File directory = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/");
+        File directory = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/backup/");
         if (!directory.exists()) {
             directory.mkdirs();
         }

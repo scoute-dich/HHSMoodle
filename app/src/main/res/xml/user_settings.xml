@@ -24,11 +24,15 @@
             android:summary="@string/action_protect_summary"
             android:key="protect_PW" />
 
-        <CheckBoxPreference
-            android:title="@string/action_java"
-            android:summary="@string/action_java_summary"
-            android:key="java"
-            android:defaultValue="true" />
+        <Preference
+            android:title="@string/action_backup"
+            android:summary="@string/action_backup_summary"
+            android:key="backup_db" />
+
+        <Preference
+            android:title="@string/action_restore"
+            android:summary="@string/action_restore_summary"
+            android:key="restore_db" />
 
     </PreferenceCategory>
 

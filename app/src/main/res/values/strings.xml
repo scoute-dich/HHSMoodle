@@ -74,10 +74,6 @@
     <string name="action_changelog">Changelog</string>
     <string name="action_changelog_summary">See what\'s new …</string>
 
-    <string name="action_java">Enable javascript</string>
-    <string name="action_java_summary">Some functions on the websites need javascript to work. It is also used for the
-        automated login. But javascript is known to be a security risk.</string>
-
     <string name="action_longPress">App exit</string>
     <string name="action_longPress_summary">Long press title bar to exit app completely.</string>
 
@@ -119,6 +115,12 @@
     <string name="action_start">App start and title bar click</string>
     <string name="action_start_summary">What do you want to see: Either the main screen or the bookmark list?</string>
 
+    <string name="action_backup">Backup</string>
+    <string name="action_backup_summary">Backup your notes and bookmarks to sdcard. A new backup overwrites the old one.</string>
+
+    <string name="action_restore">Restore</string>
+    <string name="action_restore_summary">Restore your notes and bookmarks from sdcard.</string>
+
 
     // Moodle
 
@@ -158,6 +160,10 @@
     <string name="toast_shortcut">Shortcut successfully created.</string>
     <string name="toast_install_mail">Please install a mail client.</string>
     <string name="toast_cache">Loading website from cache.</string>
+    <string name="toast_backup">Backup successfully.</string>
+    <string name="toast_restore">Restore successfully.</string>
+    <string name="toast_backup_not">Backup failed.</string>
+    <string name="toast_restore_not">Restore failed.</string>
 
 
     // Bookmarks

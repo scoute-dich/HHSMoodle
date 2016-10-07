@@ -18,10 +18,12 @@
         You should have received a copy of the GNU General Public License
         along with this program.  If not, see http://www.gnu.org/licenses.&lt;br>&lt;br>&lt;br>
 
-        &lt;b>Used open source project:&lt;/b>&lt;br>&lt;br>
+        &lt;b>Used open source projects:&lt;/b>&lt;br>&lt;br>
 
         &lt;i>browser&lt;br>
-        https://github.com/yoshihiroando/browser&lt;/i>
+        https://github.com/yoshihiroando/browser&lt;br>&lt;br>
+        &lt;i>encrypted-userprefs&lt;br>
+        https://github.com/sveinungkb/encrypted-userprefs&lt;/i>
     </string>
 
 
