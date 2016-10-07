@@ -33,6 +33,12 @@
         &lt;i>For more information visit the project site on github:&lt;br>
         https://github.com/scoute-dich/HHSMoodle&lt;/i>&lt;br>&lt;br>
 
+        &lt;b>v 2.3:&lt;/b>&lt;br>
+        &#8226; added: encryption login data&lt;br>
+        &#8226; added: backup databases&lt;br>
+        &#8226; removed: disable javascript&lt;br>
+        &#8226; improved: a few things&lt;br>&lt;br>
+
         &lt;b>v 2.2:&lt;/b>&lt;br>
         &#8226; fixed: links (My Moodle)&lt;br>
         &#8226; added: edit notes (dialog)&lt;br>
@@ -190,7 +196,17 @@
 
     <string name="helpSettings_title">Settings</string>
     <string name="helpSettings_text">
-        Some settings need a restart of the app to be applied.</string>
+        &lt;b>Login:&lt;/b>&lt;br>
+        If your moodle username or password gets changed, you must change this also in the here. Otherwise the app can not
+        connect you to our Moodle site.&lt;br>&lt;br>
+
+        &lt;b>Security:&lt;/b>&lt;br>
+        Here you can set a pin to protect the app against unwanted access. If you forget it, you can delete all personal
+        settings (login, bookmarks, notes, …). You can backup your bookmarks and notes on the sd-card, and restore them
+        later.&lt;br>&lt;br>
+
+        All other settings are self explanatory. If you have problems, you can write a mail (\"Problems?\").
+    </string>
 
     <string name="helpBrowser_title">Browser</string>
     <string name="helpBrowser_text">

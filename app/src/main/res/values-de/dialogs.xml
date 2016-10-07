@@ -18,7 +18,7 @@
         You should have received a copy of the GNU General Public License
         along with this program.  If not, see http://www.gnu.org/licenses.&lt;br>&lt;br>&lt;br>
 
-        &lt;b>Benutzte quelloffenes Projekte:&lt;/b>&lt;br>&lt;br>
+        &lt;b>Benutzte quelloffene Projekte:&lt;/b>&lt;br>&lt;br>
 
         &lt;i>browser&lt;br>
         https://github.com/yoshihiroando/browser&lt;br>&lt;br>
@@ -33,6 +33,12 @@
     <string name="changelog_text">
         &lt;i>Für mehr Informationen besuche die Projektseite auf Github:&lt;br>
         https://github.com/scoute-dich/HHSMoodle&lt;/i>&lt;br>&lt;br>
+
+        &lt;b>v 2.3:&lt;/b>&lt;br>
+        &#8226; Hinzugefügt: Verschlüsselung Logindaten&lt;br>
+        &#8226; Hinzugefügt: Sicherung Datenbanken&lt;br>
+        &#8226; Entfernt: Javascript deaktivieren&lt;br>
+        &#8226; Verbessert: Kleinigkeiten&lt;br>&lt;br>
 
         &lt;b>v 2.2:&lt;/b>&lt;br>
         &#8226; Fixed: Links (My Moodle)&lt;br>
@@ -202,7 +208,18 @@
 
     <string name="helpSettings_title">Einstellungen</string>
     <string name="helpSettings_text">
-        Manche Einstellungen werden erst bei einem Neustart der Anwendung wirksam.</string>
+        &lt;b>Anmeldung:&lt;/b>&lt;br>
+        Wenn dein Moodlepasswort oder dein Benutzername geändert wird, musst du das hier auch tun, sonst kann die App dich
+        nicht anmelden.&lt;br>&lt;br>
+
+        &lt;b>Sicherheit:&lt;/b>&lt;br>
+        Hier kannst du eine Pin setzen, um die App vor ungewolltem Zugriff zu schützen. Wenn du sie vergisst, kannst du alle
+        Daten der Anwendung (Login, Lesezeichen, Notizen, …)löschen. Du kannst zur Sicherheit deine Lesezeichen und Notizen
+        auf der SD-Karte sichern und später von dort wiederherstellen.&lt;br>&lt;br>
+
+        Alle anderen Einstellungen sind selbst erklärend. Wenn du Probleme hast, kannst du mir eine Mail senden (\"Probleme?\").
+    </string>
+
 
     <string name="helpBrowser_title">Browser</string>
     <string name="helpBrowser_text">

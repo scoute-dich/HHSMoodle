@@ -1,3 +1,9 @@
+### v 2.3
+- added: encryption login data
+- added: backup databases
+- removed: disable javascript
+- improved: a few things
+
 ### v 2.2
 - fixed: links (My Moodle)
 - added: edit notes (dialog)
