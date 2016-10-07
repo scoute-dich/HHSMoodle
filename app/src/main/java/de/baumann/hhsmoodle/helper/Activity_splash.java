@@ -46,14 +46,16 @@ public class Activity_splash extends AppCompatActivity {
     private EditText editPassword;
     private ImageView Image;
     private SharedPreferences sharedPref;
+    private SecurePreferences sharedPrefSec;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_splash);
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPrefSec = new SecurePreferences(Activity_splash.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -74,11 +76,9 @@ public class Activity_splash extends AppCompatActivity {
         fab.setVisibility(View.INVISIBLE);
 
         final String startType = sharedPref.getString("startType", "1");
-        final String username = sharedPref.getString("username", "");
-        final String password = sharedPref.getString("password", "");
         final String startURL = sharedPref.getString("favoriteURL", "https://moodle.huebsch.ka.schule-bw.de/moodle/");
 
-        if (username.isEmpty() || password.isEmpty() ) {
+        if (sharedPrefSec.getString("password") == null || sharedPrefSec.getString("username") == null) {
 
             editUsername.setVisibility(View.VISIBLE);
             editPassword.setVisibility(View.VISIBLE);
@@ -93,8 +93,8 @@ public class Activity_splash extends AppCompatActivity {
                     if (Username.isEmpty() || Password.isEmpty()) {
                         Snackbar.make(Image, R.string.login_hint, Snackbar.LENGTH_LONG).show();
                     } else {
-                        sharedPref.edit().putString("username", Username).apply();
-                        sharedPref.edit().putString("password", Password).apply();
+                        sharedPrefSec.put("username", Username);
+                        sharedPrefSec.put("password", Password);
 
                         if (startType.equals("2")) {
 

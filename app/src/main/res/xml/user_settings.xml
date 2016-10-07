@@ -4,15 +4,14 @@
     <PreferenceCategory
         android:title="@string/pref_4">
 
-        <EditTextPreference
+        <Preference
             android:title="@string/action_username"
             android:summary="@string/action_username_summary"
             android:key="username" />
 
-        <EditTextPreference
+        <Preference
             android:title="@string/action_password"
             android:summary="@string/action_password_summary"
-            android:inputType="textPassword"
             android:key="password" />
 
     </PreferenceCategory>
@@ -20,10 +19,9 @@
     <PreferenceCategory
         android:title="@string/pref_5">
 
-        <EditTextPreference
+        <Preference
             android:title="@string/action_protect"
             android:summary="@string/action_protect_summary"
-            android:inputType="numberPassword"
             android:key="protect_PW" />
 
         <CheckBoxPreference

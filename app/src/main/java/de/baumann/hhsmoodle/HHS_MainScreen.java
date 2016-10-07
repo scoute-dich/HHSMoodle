@@ -54,6 +54,7 @@ import de.baumann.hhsmoodle.fragmentsMain.FragmentInfo;
 import de.baumann.hhsmoodle.fragmentsMain.FragmentNotes;
 import de.baumann.hhsmoodle.helper.Activity_password;
 import de.baumann.hhsmoodle.helper.Activity_settings;
+import de.baumann.hhsmoodle.helper.SecurePreferences;
 import de.baumann.hhsmoodle.helper.helpers;
 import de.baumann.hhsmoodle.popup.Popup_bookmarks;
 import de.baumann.hhsmoodle.popup.Popup_calendar;
@@ -66,6 +67,7 @@ public class HHS_MainScreen extends AppCompatActivity {
     final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
     private ViewPager viewPager;
     private SharedPreferences sharedPref;
+    private SecurePreferences sharedPrefSec;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +76,7 @@ public class HHS_MainScreen extends AppCompatActivity {
         setContentView(R.layout.activity_screen_main);
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPrefSec = new SecurePreferences(HHS_MainScreen.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -86,7 +89,7 @@ public class HHS_MainScreen extends AppCompatActivity {
         assert tabLayout != null;
         tabLayout.setupWithViewPager(viewPager);
 
-        if (sharedPref.getString("protect_PW", "").length() > 0) {
+        if (sharedPrefSec.getString("password") != null) {
             if (sharedPref.getBoolean("isOpened", true)) {
                 helpers.switchToActivity(HHS_MainScreen.this, Activity_password.class, "", false);
             }
@@ -272,7 +275,7 @@ public class HHS_MainScreen extends AppCompatActivity {
 
         if (id == R.id.action_settings) {
             helpers.isOpened(HHS_MainScreen.this);
-            helpers.switchToActivity(HHS_MainScreen.this, Activity_settings.class, "", false);
+            helpers.switchToActivity(HHS_MainScreen.this, Activity_settings.class, "", true);
         }
 
         if (id == R.id.action_folder) {
@@ -351,6 +354,7 @@ public class HHS_MainScreen extends AppCompatActivity {
 
                             if (options[item].equals (getString(R.string.bookmark_createNote))) {
                                 Intent i = new Intent(getApplicationContext(), de.baumann.hhsmoodle.HHS_MainScreen.class);
+                                i.setAction(Intent.ACTION_SEND);
 
                                 Intent shortcut = new Intent();
                                 shortcut.setAction(Intent.ACTION_MAIN);

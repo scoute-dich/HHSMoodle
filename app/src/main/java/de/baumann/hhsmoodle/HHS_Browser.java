@@ -79,9 +79,9 @@ import java.util.Date;
 import java.util.Locale;
 
 import de.baumann.hhsmoodle.helper.Database_Browser;
-import de.baumann.hhsmoodle.helper.Activity_settings;
 import de.baumann.hhsmoodle.helper.OnSwipeTouchListener;
 import de.baumann.hhsmoodle.helper.Activity_password;
+import de.baumann.hhsmoodle.helper.SecurePreferences;
 import de.baumann.hhsmoodle.helper.helpers;
 import de.baumann.hhsmoodle.popup.Popup_bookmarks;
 
@@ -92,6 +92,7 @@ public class HHS_Browser extends AppCompatActivity  {
     private SwipeRefreshLayout swipeView;
     private ProgressBar progressBar;
     private SharedPreferences sharedPref;
+    private SecurePreferences sharedPrefSec;
 
     private static final int ID_SAVE_IMAGE = 10;
     private static final int ID_IMAGE_EXTERNAL_BROWSER = 11;
@@ -123,11 +124,12 @@ public class HHS_Browser extends AppCompatActivity  {
         setContentView(R.layout.activity_browser);
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPrefSec = new SecurePreferences(HHS_Browser.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
 
         String fontSizeST = sharedPref.getString("font", "100");
         int fontSize = Integer.parseInt(fontSizeST);
 
-        if (sharedPref.getString("protect_PW", "").length() > 0) {
+        if (sharedPrefSec.getString("password") != null) {
             if (sharedPref.getBoolean("isOpened", true)) {
                 helpers.switchToActivity(HHS_Browser.this, Activity_password.class, "", false);
             }
@@ -144,6 +146,8 @@ public class HHS_Browser extends AppCompatActivity  {
                     final String startURL = sharedPref.getString("favoriteURL", "https://moodle.huebsch.ka.schule-bw.de/moodle/");
                     final String startType = sharedPref.getString("startType", "1");
 
+                    helpers.resetStartTab(HHS_Browser.this);
+
                     if (startType.equals("2")) {
                         helpers.isOpened(HHS_Browser.this);
                         helpers.switchToActivity(HHS_Browser.this, HHS_Browser.class, startURL, false);
@@ -158,6 +162,7 @@ public class HHS_Browser extends AppCompatActivity  {
                 toolbar.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
+                        helpers.resetStartTab(HHS_Browser.this);
                         helpers.isClosed(HHS_Browser.this);
                         finishAffinity();
                         return true;
@@ -220,8 +225,8 @@ public class HHS_Browser extends AppCompatActivity  {
 
             public void onPageFinished(WebView view, String url) {
 
-                final String username = sharedPref.getString("username", "");
-                final String password = sharedPref.getString("password", "");
+                String username = sharedPrefSec.getString("username");
+                String password = sharedPrefSec.getString("password");
 
                 swipeView.setRefreshing(false);
 
@@ -629,18 +634,14 @@ public class HHS_Browser extends AppCompatActivity  {
         if (mWebView.canGoBack()) {
             mWebView.goBack();
         } else {
-            final String tabPref = sharedPref.getString("tabPref", "0");
-            if (tabPref.equals("")) {
+            if (sharedPref.getString("tabPref", "").equals("")) {
                 helpers.isClosed(HHS_Browser.this);
                 finish();
             } else {
                 helpers.switchToActivity(HHS_Browser.this, HHS_MainScreen.class, "", false);
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
-                        sharedPref.edit()
-                                .putString("tabPref", "")
-                                .putString("tabMain", tabPref)
-                                .apply();
+                        helpers.resetStartTab(HHS_Browser.this);
                         finish();
                     }
                 }, 500);
@@ -725,6 +726,7 @@ public class HHS_Browser extends AppCompatActivity  {
         }
 
         if (id == android.R.id.home) {
+            helpers.resetStartTab(HHS_Browser.this);
             helpers.isOpened(HHS_Browser.this);
             helpers.switchToActivity(HHS_Browser.this, HHS_MainScreen.class, "", true);
         }
@@ -735,11 +737,6 @@ public class HHS_Browser extends AppCompatActivity  {
                     .setMessage(helpers.textSpannable(getString(R.string.helpBrowser_text)))
                     .setPositiveButton(getString(R.string.toast_yes), null);
             dialog.show();
-        }
-
-        if (id == R.id.action_settings) {
-            helpers.isOpened(HHS_Browser.this);
-            helpers.switchToActivity(HHS_Browser.this, Activity_settings.class, "", false);
         }
 
         if (id == R.id.action_share) {

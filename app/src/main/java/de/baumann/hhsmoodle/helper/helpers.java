@@ -72,6 +72,17 @@ public class helpers {
                 .apply();
     }
 
+    public static void resetStartTab (Activity from) {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(from);
+        String tabPref = sharedPref.getString("tabPref", "");
+        if (tabPref.length() > 0) {
+            sharedPref.edit()
+                    .putString("tabPref", "")
+                    .putString("tabMain", tabPref)
+                    .apply();
+        }
+    }
+
     public static void editNote (final Activity from) {
 
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(from);

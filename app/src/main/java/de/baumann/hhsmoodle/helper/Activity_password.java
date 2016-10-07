@@ -45,8 +45,7 @@ public class Activity_password extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_password);
-        PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        SecurePreferences sharedPrefSec = new SecurePreferences(Activity_password.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -145,7 +144,7 @@ public class Activity_password extends AppCompatActivity {
             }
         });
 
-        final String protect = sharedPref.getString("protect_PW", "");
+        final String protect = sharedPrefSec.getString("protect_PW");
 
         ImageButton enter = (ImageButton) findViewById(R.id.imageButton23);
         assert enter != null;
