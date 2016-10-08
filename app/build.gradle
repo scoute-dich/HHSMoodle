@@ -8,8 +8,8 @@ android {
         applicationId "de.baumann.hhsmoodle"
         minSdkVersion 17
         targetSdkVersion 24
-        versionCode 17
-        versionName "2.3.2"
+        versionCode 18
+        versionName "2.3.3"
     }
     buildTypes {
         release {
