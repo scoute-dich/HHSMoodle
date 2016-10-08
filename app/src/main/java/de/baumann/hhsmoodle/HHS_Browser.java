@@ -651,7 +651,7 @@ public class HHS_Browser extends AppCompatActivity  {
     public boolean onPrepareOptionsMenu(Menu menu) {
 
         if (sharedPref.getBoolean ("help", false)){
-            menu.getItem(6).setVisible(false); // here pass the index of save menu item
+            menu.getItem(5).setVisible(false); // here pass the index of save menu item
         }
         return super.onPrepareOptionsMenu(menu);
     }
