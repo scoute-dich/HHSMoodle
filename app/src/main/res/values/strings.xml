@@ -164,6 +164,7 @@
     <string name="toast_restore">Restore successfully.</string>
     <string name="toast_backup_not">Backup failed.</string>
     <string name="toast_restore_not">Restore failed.</string>
+    <string name="toast_screenshot_failed">Failed to create screenshot.</string>
 
 
     // Bookmarks

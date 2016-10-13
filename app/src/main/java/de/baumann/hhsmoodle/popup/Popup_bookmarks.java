@@ -69,10 +69,8 @@ public class Popup_bookmarks extends Activity {
                 @SuppressWarnings("unchecked")
                 HashMap<String,String> map = (HashMap<String,String>)listView.getItemAtPosition(position);
 
-                Intent intent = new Intent(Popup_bookmarks.this, HHS_Browser.class);
-                intent.putExtra("url", map.get("url"));
-                startActivity(intent);
-                finish();
+                helpers.isClosed(Popup_bookmarks.this);
+                helpers.switchToActivity(Popup_bookmarks.this, HHS_Browser.class, map.get("url"), true);
             }
         });
 

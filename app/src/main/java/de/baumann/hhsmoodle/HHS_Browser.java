@@ -93,6 +93,7 @@ public class HHS_Browser extends AppCompatActivity  {
     private ProgressBar progressBar;
     private SharedPreferences sharedPref;
     private SecurePreferences sharedPrefSec;
+    private Bitmap bitmap;
 
     private static final int ID_SAVE_IMAGE = 10;
     private static final int ID_IMAGE_EXTERNAL_BROWSER = 11;
@@ -359,6 +360,8 @@ public class HHS_Browser extends AppCompatActivity  {
                                         final String contentDisposition, final String mimetype,
                                         long contentLength) {
 
+                registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+
                 final String filename= URLUtil.guessFileName(url, contentDisposition, mimetype);
                 Snackbar snackbar = Snackbar
                         .make(mWebView, getString(R.string.toast_download_1) + " " + filename, Snackbar.LENGTH_INDEFINITE)
@@ -381,7 +384,6 @@ public class HHS_Browser extends AppCompatActivity  {
         });
 
         onNewIntent(getIntent());
-        registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
 
         if (android.os.Build.VERSION.SDK_INT >= 23) {
             if (sharedPref.getBoolean ("perm_notShow", false)){
@@ -488,24 +490,37 @@ public class HHS_Browser extends AppCompatActivity  {
     private final BroadcastReceiver onComplete = new BroadcastReceiver() {
         public void onReceive(Context ctxt, Intent intent) {
 
-            final File directory = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/");
-
             Snackbar snackbar = Snackbar
-                    .make(mWebView, getString(R.string.toast_download_2), Snackbar.LENGTH_INDEFINITE)
+                    .make(mWebView, getString(R.string.toast_download_2), Snackbar.LENGTH_LONG)
                     .setAction(getString(R.string.toast_yes), new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Intent target = new Intent(Intent.ACTION_VIEW);
-                            target.setDataAndType(Uri.fromFile(directory), "resource/folder");
-
-                            try {
-                                startActivity (target);
-                            } catch (ActivityNotFoundException e) {
-                                Snackbar.make(mWebView, R.string.toast_install_folder, Snackbar.LENGTH_LONG).show();
-                            }
+                            startActivity(new Intent(DownloadManager.ACTION_VIEW_DOWNLOADS));
                         }
                     });
             snackbar.show();
+            unregisterReceiver(onComplete);
+        }
+    };
+
+    private final BroadcastReceiver onComplete2 = new BroadcastReceiver() {
+        public void onReceive(Context ctxt, Intent intent) {
+
+            Date date = new Date();
+            DateFormat dateFormat = new SimpleDateFormat("dd-MM-yy_HH-mm", Locale.getDefault());
+            String title = mWebView.getTitle();
+            title = title.replaceAll("[^a-zA-Z0-9]+","_");
+
+            File destinationFile = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/" + title + "_" +
+                    dateFormat.format(date) + ".jpg");
+
+            Uri myUri= Uri.fromFile(destinationFile);
+            Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+            sharingIntent.setType("image/*");
+            sharingIntent.putExtra(Intent.EXTRA_STREAM, myUri);
+            sharingIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            HHS_Browser.this.startActivity(Intent.createChooser(sharingIntent, (getString(R.string.app_share_image))));
+            unregisterReceiver(onComplete2);
         }
     };
 
@@ -569,20 +584,17 @@ public class HHS_Browser extends AppCompatActivity  {
                                 DownloadManager.Request request = new DownloadManager.Request(source);
                                 request.addRequestHeader("Cookie", CookieManager.getInstance().getCookie(url));
                                 request.setDestinationUri(Uri.fromFile(destinationFile));
-                                ((DownloadManager) HHS_Browser.this.getSystemService(Context.DOWNLOAD_SERVICE)).enqueue(request);
+                                DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+                                dm.enqueue(request);
+
                                 Snackbar.make(mWebView, getString(R.string.context_saveImage_toast) + " " +
                                         destinationFile.getAbsolutePath() , Snackbar.LENGTH_LONG).show();
+
                             } catch (Exception e) {
                                 e.printStackTrace();
-                                Snackbar.make(mWebView, R.string.toast_perm , Snackbar.LENGTH_LONG).show();
+                                Snackbar.make(mWebView, R.string.toast_perm , Snackbar.LENGTH_SHORT).show();
                             }
-
-                            Uri myUri= Uri.fromFile(destinationFile);
-                            Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-                            sharingIntent.setType("image/*");
-                            sharingIntent.putExtra(Intent.EXTRA_STREAM, myUri);
-                            sharingIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                            HHS_Browser.this.startActivity(Intent.createChooser(sharingIntent, (getString(R.string.app_share_image))));
+                            registerReceiver(onComplete2, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
                         }
                         break;
 
@@ -817,47 +829,50 @@ public class HHS_Browser extends AppCompatActivity  {
         String title = mWebView.getTitle();
         title = title.replaceAll("[^a-zA-Z0-9]+","_");
 
-        mWebView.measure(View.MeasureSpec.makeMeasureSpec(
-                View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED),
-                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-        mWebView.layout(0, 0, mWebView.getMeasuredWidth(),
-                mWebView.getMeasuredHeight());
-        mWebView.setDrawingCacheEnabled(true);
-        mWebView.buildDrawingCache();
-        Bitmap bm = Bitmap.createBitmap(mWebView.getMeasuredWidth(),
-                mWebView.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+        try{
+            mWebView.measure(View.MeasureSpec.makeMeasureSpec(
+                    View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED),
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+            mWebView.layout(0, 0, mWebView.getMeasuredWidth(), mWebView.getMeasuredHeight());
+            mWebView.setDrawingCacheEnabled(true);
+            mWebView.buildDrawingCache();
 
-        Canvas bigcanvas = new Canvas(bm);
-        Paint paint = new Paint();
-        int iHeight = bm.getHeight();
-        bigcanvas.drawBitmap(bm, 0, iHeight, paint);
-        mWebView.draw(bigcanvas);
-        System.out.println("1111111111111111111111="
-                + bigcanvas.getWidth());
-        System.out.println("22222222222222222222222="
-                + bigcanvas.getHeight());
+            bitmap = Bitmap.createBitmap(mWebView.getMeasuredWidth(),
+                    mWebView.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
 
-        try {
-            OutputStream fOut;
-            File destinationFile = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/" + title + "_" +
-                    dateFormat.format(date) + ".jpg");
-            fOut = new FileOutputStream(destinationFile);
+            Canvas canvas = new Canvas(bitmap);
+            Paint paint = new Paint();
+            int iHeight = bitmap.getHeight();
+            canvas.drawBitmap(bitmap, 0, iHeight, paint);
+            mWebView.draw(canvas);
 
-            bm.compress(Bitmap.CompressFormat.PNG, 50, fOut);
-            fOut.flush();
-            fOut.close();
-            bm.recycle();
-
-            Snackbar.make(mWebView, getString(R.string.context_saveImage_toast) + " " +
-                    destinationFile.getAbsolutePath() , Snackbar.LENGTH_LONG).show();
-
-            Uri uri = Uri.fromFile(destinationFile);
-            Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri);
-            sendBroadcast(intent);
-
-        } catch (Exception e) {
+        }catch (OutOfMemoryError e) {
             e.printStackTrace();
-            Snackbar.make(mWebView, R.string.toast_perm, Snackbar.LENGTH_LONG).show();
+            Snackbar.make(mWebView, R.string.toast_screenshot_failed, Snackbar.LENGTH_SHORT).show();
+        }
+
+        if (bitmap != null) {
+            try {
+                File destinationFile = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/" + title + "_" +
+                        dateFormat.format(date) + ".jpg");
+                OutputStream fOut;
+                fOut = new FileOutputStream(destinationFile);
+
+                bitmap.compress(Bitmap.CompressFormat.PNG, 50, fOut);
+                fOut.flush();
+                fOut.close();
+                bitmap.recycle();
+
+                Snackbar.make(mWebView, getString(R.string.context_saveImage_toast) + " " + destinationFile , Snackbar.LENGTH_SHORT).show();
+
+                Uri uri = Uri.fromFile(destinationFile);
+                Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri);
+                sendBroadcast(intent);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                Snackbar.make(mWebView, R.string.toast_perm, Snackbar.LENGTH_SHORT).show();
+            }
         }
     }
 }

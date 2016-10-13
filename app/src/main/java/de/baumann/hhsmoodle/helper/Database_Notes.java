@@ -95,7 +95,7 @@ public class Database_Notes extends SQLiteOpenHelper {
     public void getBookmarks(ArrayList<String[]> data) {
         SQLiteDatabase db = getReadableDatabase();
 
-        String sql = "SELECT seqno,title,cont,icon FROM bookmarks ORDER BY seqno";
+        String sql = "SELECT seqno,title,cont,icon FROM bookmarks ORDER BY title";
         Cursor c = db.rawQuery(sql, null);
         c.moveToFirst();
         for (int i = 0; i < c.getCount(); i++) {

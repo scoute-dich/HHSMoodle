@@ -77,7 +77,7 @@
     <string name="action_changelog_summary">Was gibt es Neues …</string>
 
     <string name="action_longPress">App verlassen</string>
-    <string name="action_longPress_summary">Lange auf die Titelleiste drücken um die App zu komplett verlassen.</string>
+    <string name="action_longPress_summary">Lange auf die Titelleiste drücken um die App komplett zu verlassen.</string>
 
     <string name="action_license">Lizenz</string>
     <string name="action_license_summary">Die App ist komplett frei (Open Source) und unter der GPL3-Lizenz lizenziert.</string>
@@ -167,6 +167,7 @@
     <string name="toast_restore">Wiederherstellung erfolgreich.</string>
     <string name="toast_backup_not">Sicherung fehlgeschlagen.</string>
     <string name="toast_restore_not">Wiederherstellung fehlgeschlagen.</string>
+    <string name="toast_screenshot_failed">Konnte Screenshot nicht erstellen.</string>
 
 
     // Bookmarks

@@ -106,7 +106,7 @@ public class Popup_info extends Activity {
                 // TODO Auto-generated method stub
                 String Selecteditem= itemURL[+position];
                 helpers.isClosed(Popup_info.this);
-                helpers.switchToActivity(Popup_info.this, HHS_Browser.class, Selecteditem, false);
+                helpers.switchToActivity(Popup_info.this, HHS_Browser.class, Selecteditem, true);
             }
         });
 

@@ -166,6 +166,7 @@ public class Popup_calendar extends AppCompatActivity  {
                     Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                     helpers.isClosed(Popup_calendar.this);
                     startActivity(i);
+                    finish();
                 }
                 return true;
             }
