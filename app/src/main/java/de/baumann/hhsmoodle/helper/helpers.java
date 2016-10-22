@@ -20,12 +20,15 @@
 package de.baumann.hhsmoodle.helper;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Environment;
+import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.text.SpannableString;
@@ -33,6 +36,7 @@ import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -108,6 +112,12 @@ public class helpers {
         textInput.setText(sharedPref.getString("handleTextText", ""));
         textInput.setSelection(textInput.getText().length());
 
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                helpers.showKeyboard(from,titleInput);
+            }
+        }, 200);
+
         final ImageButton be = (ImageButton) dialogView.findViewById(R.id.imageButtonPri);
         assert be != null;
 
@@ -148,7 +158,8 @@ public class helpers {
                         android.R.layout.select_dialog_item,
                         android.R.id.text1,
                         items){
-                    public View getView(int position, View convertView, ViewGroup parent) {
+                    @NonNull
+                    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
                         //Use super class to create the View
                         View v = super.getView(position, convertView, parent);
                         TextView tv = (TextView)v.findViewById(android.R.id.text1);
@@ -350,7 +361,8 @@ public class helpers {
                                     android.R.layout.select_dialog_item,
                                     android.R.id.text1,
                                     items){
-                                public View getView(int position, View convertView, ViewGroup parent) {
+                                @NonNull
+                                public View getView(int position, View convertView, @NonNull ViewGroup parent) {
                                     //Use super class to create the View
                                     View v = super.getView(position, convertView, parent);
                                     TextView tv = (TextView)v.findViewById(android.R.id.text1);
@@ -430,5 +442,10 @@ public class helpers {
         Date date = new Date();
         DateFormat dateFormat = new SimpleDateFormat("yy-MM-dd_HH-mm-ss", Locale.getDefault());
         return  dateFormat.format(date) + ".jpg";
+    }
+
+    public static void showKeyboard(Activity from, EditText editText) {
+        InputMethodManager imm = (InputMethodManager) from.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
     }
 }

@@ -27,6 +27,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
@@ -200,6 +201,12 @@ public class Activity_settings extends AppCompatActivity {
                     layout.setPadding(30, 0, 50, 0);
                     layout.addView(input);
 
+                    new Handler().postDelayed(new Runnable() {
+                        public void run() {
+                            helpers.showKeyboard(getActivity(),input);
+                        }
+                    }, 200);
+
                     final AlertDialog.Builder dialog2 = new AlertDialog.Builder(getActivity())
                             .setView(layout)
                             .setMessage(R.string.action_problem_text)
@@ -258,6 +265,12 @@ public class Activity_settings extends AppCompatActivity {
                     layout.setPadding(30, 0, 50, 0);
                     layout.addView(input);
 
+                    new Handler().postDelayed(new Runnable() {
+                        public void run() {
+                            helpers.showKeyboard(getActivity(),input);
+                        }
+                    }, 200);
+
                     final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity())
                             .setView(layout)
                             .setMessage(R.string.action_password)
@@ -302,9 +315,15 @@ public class Activity_settings extends AppCompatActivity {
                     layout.setPadding(30, 0, 50, 0);
                     layout.addView(input);
 
+                    new Handler().postDelayed(new Runnable() {
+                        public void run() {
+                            helpers.showKeyboard(getActivity(),input);
+                        }
+                    }, 200);
+
                     final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity())
                             .setView(layout)
-                            .setMessage(R.string.action_password)
+                            .setMessage(R.string.action_protect)
                             .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
 
                                 public void onClick(DialogInterface dialog, int whichButton) {
@@ -343,6 +362,12 @@ public class Activity_settings extends AppCompatActivity {
                     input.setText(username);
                     layout.setPadding(30, 0, 50, 0);
                     layout.addView(input);
+
+                    new Handler().postDelayed(new Runnable() {
+                        public void run() {
+                            helpers.showKeyboard(getActivity(),input);
+                        }
+                    }, 200);
 
                     final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity())
                             .setView(layout)

@@ -29,6 +29,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.text.util.Linkify;
 import android.view.Gravity;
@@ -295,7 +296,8 @@ public class Popup_notes extends Activity {
                                     android.R.layout.select_dialog_item,
                                     android.R.id.text1,
                                     items){
-                                public View getView(int position, View convertView, ViewGroup parent) {
+                                @NonNull
+                                public View getView(int position, View convertView, @NonNull ViewGroup parent) {
                                     //Use super class to create the View
                                     View v = super.getView(position, convertView, parent);
                                     TextView tv = (TextView)v.findViewById(android.R.id.text1);

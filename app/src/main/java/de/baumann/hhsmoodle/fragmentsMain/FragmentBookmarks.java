@@ -28,6 +28,7 @@ import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
 import android.support.design.widget.Snackbar;
@@ -120,6 +121,11 @@ public class FragmentBookmarks extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialog, int item) {
                                 if (options[item].equals(getString(R.string.bookmark_edit_title))) {
+                                    new Handler().postDelayed(new Runnable() {
+                                        public void run() {
+                                            helpers.showKeyboard(getActivity(),input);
+                                        }
+                                    }, 200);
                                     try {
                                         final Database_Browser db = new Database_Browser(getActivity());
                                         input.setText(title);

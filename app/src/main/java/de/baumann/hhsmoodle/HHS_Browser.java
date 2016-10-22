@@ -722,10 +722,16 @@ public class HHS_Browser extends AppCompatActivity  {
                 layout.setGravity(Gravity.CENTER_HORIZONTAL);
                 final EditText input = new EditText(this);
                 input.setSingleLine(true);
+                input.setText(mWebView.getTitle());
                 layout.setPadding(30, 0, 50, 0);
                 layout.addView(input);
 
-                input.setText(mWebView.getTitle());
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
+                        helpers.showKeyboard(HHS_Browser.this,input);
+                    }
+                }, 200);
+
                 final Database_Browser db = new Database_Browser(this);
                 final AlertDialog.Builder dialog = new AlertDialog.Builder(this)
                         .setView(layout)
