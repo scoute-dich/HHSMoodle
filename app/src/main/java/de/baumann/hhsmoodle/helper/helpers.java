@@ -24,6 +24,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
@@ -41,8 +42,13 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 import de.baumann.hhsmoodle.R;
 
@@ -410,5 +416,19 @@ public class helpers {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    public static File newFile () {
+        return  new File(Environment.getExternalStorageDirectory() + newFileDest() + newFileName());
+    }
+
+    public static String newFileDest () {
+        return  ("/HHS_Moodle/");
+    }
+
+    public static String newFileName () {
+        Date date = new Date();
+        DateFormat dateFormat = new SimpleDateFormat("yy-MM-dd_HH-mm-ss", Locale.getDefault());
+        return  dateFormat.format(date) + ".jpg";
     }
 }

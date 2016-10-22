@@ -20,6 +20,7 @@
 package de.baumann.hhsmoodle.popup;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -35,6 +36,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -155,20 +157,24 @@ public class Popup_calendar extends AppCompatActivity  {
                 }
             }
 
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            @TargetApi(Build.VERSION_CODES.N)
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                final Uri uri = request.getUrl();
+                return handleUri(uri);
+            }
 
-                if(url.startsWith("mailto:")){
-                    Intent i = new Intent(Intent.ACTION_SENDTO, Uri.parse(url));
-                    startActivity(i);
-                } else if(url.contains("calendar")) {
-                    view.loadUrl(url);
+            private boolean handleUri(final Uri uri) {
+                final String url = uri.toString();
+                if(url.contains("calendar")) {
+                    mWebView.loadUrl(url);
                 } else {
                     Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                     helpers.isClosed(Popup_calendar.this);
                     startActivity(i);
                     finish();
                 }
-                return true;
+                return true;//do nothing in other cases
             }
         });
 

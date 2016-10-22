@@ -151,7 +151,7 @@
     <string name="toast_noInternet">Can not load page. No internet connection?</string>
     <string name="toast_download">Downloading file:</string>
     <string name="toast_download_1">Do you want to download:</string>
-    <string name="toast_download_2">Download completed. Open folder?</string>
+    <string name="toast_download_2">Download completed. Open download manager?</string>
     <string name="toast_perm">Permissions granted?</string>
     <string name="toast_install_folder">Please install a file manager.</string>
     <string name="toast_back">Can not go back.</string>
