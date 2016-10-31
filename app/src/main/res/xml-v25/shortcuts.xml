@@ -1,0 +1,90 @@
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <shortcut
+        android:shortcutId="calendar"
+        android:enabled="true"
+        android:icon="@mipmap/ic_calendar"
+        android:shortcutShortLabel="@string/menu_calendar"
+        android:shortcutLongLabel="@string/menu_calendar"
+        android:shortcutDisabledMessage="@string/menu_calendar">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="de.baumann.hhsmoodle"
+            android:targetClass="de.baumann.hhsmoodle.popup.Popup_calendar" />
+        <!-- If your shortcut is associated with multiple intents, include them
+             here. The last intent in the list is what the user sees when they
+             launch this shortcut. -->
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="moodle"
+        android:enabled="true"
+        android:icon="@mipmap/ic_launcher"
+        android:shortcutShortLabel="@string/title_info"
+        android:shortcutLongLabel="@string/title_info"
+        android:shortcutDisabledMessage="@string/title_info">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="de.baumann.hhsmoodle"
+            android:targetClass="de.baumann.hhsmoodle.popup.Popup_info" />
+        <!-- If your shortcut is associated with multiple intents, include them
+             here. The last intent in the list is what the user sees when they
+             launch this shortcut. -->
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="bookmarks"
+        android:enabled="true"
+        android:icon="@mipmap/ic_bookmark"
+        android:shortcutShortLabel="@string/title_bookmarks"
+        android:shortcutLongLabel="@string/title_bookmarks"
+        android:shortcutDisabledMessage="@string/title_bookmarks">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="de.baumann.hhsmoodle"
+            android:targetClass="de.baumann.hhsmoodle.popup.Popup_bookmarks" />
+        <!-- If your shortcut is associated with multiple intents, include them
+             here. The last intent in the list is what the user sees when they
+             launch this shortcut. -->
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="notes"
+        android:enabled="true"
+        android:icon="@mipmap/ic_note"
+        android:shortcutShortLabel="@string/title_notes"
+        android:shortcutLongLabel="@string/title_notes"
+        android:shortcutDisabledMessage="@string/title_notes">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="de.baumann.hhsmoodle"
+            android:targetClass="de.baumann.hhsmoodle.popup.Popup_notes" />
+        <!-- If your shortcut is associated with multiple intents, include them
+             here. The last intent in the list is what the user sees when they
+             launch this shortcut. -->
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="compose"
+        android:enabled="true"
+        android:icon="@mipmap/ic_note_plus"
+        android:shortcutShortLabel="@string/bookmark_createNote"
+        android:shortcutLongLabel="@string/bookmark_createNote"
+        android:shortcutDisabledMessage="@string/bookmark_createNote">
+        <intent
+            android:action="android.intent.action.SEND"
+            android:targetPackage="de.baumann.hhsmoodle"
+            android:targetClass="de.baumann.hhsmoodle.HHS_MainScreen" />
+        <!-- If your shortcut is associated with multiple intents, include them
+             here. The last intent in the list is what the user sees when they
+             launch this shortcut. -->
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+
+</shortcuts>
+        
+
