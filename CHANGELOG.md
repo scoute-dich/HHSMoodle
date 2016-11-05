@@ -1,3 +1,8 @@
+### v 2.4:
+- maintenance release
+- Android N support
+- Qick shortcuts (Android N)
+
 ### v 2.3
 - added: encryption login data
 - added: backup databases

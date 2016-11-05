@@ -325,7 +325,6 @@ public class Popup_bookmarks extends Activity {
 
                                 final AlertDialog alertDialog = dialogBuilder.create();
                                 alertDialog.show();
-                                alertDialog.getWindow().setLayout(425, 425);
 
                                 ImageButton ib_1 = (ImageButton) dialogView.findViewById(R.id.imageButton5);
                                 ib_1.setOnClickListener(new View.OnClickListener() {
