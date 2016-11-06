@@ -43,6 +43,7 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.FileProvider;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -760,8 +761,16 @@ public class HHS_Browser extends AppCompatActivity  {
 
         if (id == R.id.action_folder) {
             final File directory = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/");
-            Intent target = new Intent(Intent.ACTION_VIEW);
-            target.setDataAndType(Uri.fromFile(directory), "resource/folder");
+
+            Intent target = new Intent();
+            target.setAction(Intent.ACTION_VIEW);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                target.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                Uri contentUri = FileProvider.getUriForFile(HHS_Browser.this, this.getApplicationContext().getPackageName() + ".provider", directory);
+                target.setDataAndType(contentUri, "resource/folder");
+            } else {
+                target.setDataAndType(Uri.fromFile(directory), "resource/folder");
+            }
 
             try {
                 startActivity (target);

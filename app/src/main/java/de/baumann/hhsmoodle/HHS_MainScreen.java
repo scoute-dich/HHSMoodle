@@ -37,6 +37,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -276,8 +277,16 @@ public class HHS_MainScreen extends AppCompatActivity {
 
         if (id == R.id.action_folder) {
             final File directory = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/");
-            Intent target = new Intent(Intent.ACTION_VIEW);
-            target.setDataAndType(Uri.fromFile(directory), "resource/folder");
+
+            Intent target = new Intent();
+            target.setAction(Intent.ACTION_VIEW);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                target.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                Uri contentUri = FileProvider.getUriForFile(HHS_MainScreen.this, this.getApplicationContext().getPackageName() + ".provider", directory);
+                target.setDataAndType(contentUri, "resource/folder");
+            } else {
+                target.setDataAndType(Uri.fromFile(directory), "resource/folder");
+            }
 
             try {
                 startActivity (target);
