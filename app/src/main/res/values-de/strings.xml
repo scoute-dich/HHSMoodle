@@ -155,7 +155,6 @@
     <string name="toast_download">Lade herunter:</string>
     <string name="toast_download_1">Möchtest du herunterladen:</string>
     <string name="toast_perm">Berechtigungen gewährt?</string>
-    <string name="toast_install_folder">Bitte einen Dateimanager installieren.</string>
     <string name="toast_back">Kann vorherige Seite nicht laden.</string>
     <string name="toast_forward">Kann nächste Seite nicht laden.</string>
     <string name="toast_wrongPW">Uuups. Falsches Passwort.</string>
@@ -168,6 +167,8 @@
     <string name="toast_restore_not">Wiederherstellung fehlgeschlagen.</string>
     <string name="toast_download_2">Download vollständig. Downloadmanager öffnen?</string>
     <string name="toast_screenshot_failed">Konnte Screenshot nicht erstellen.</string>
+    <string name="toast_extension">No supported file extension</string>
+    <string name="toast_install_app">Please install an app to perform action.</string>
 
 
     // Bookmarks
@@ -205,5 +206,11 @@
     <string name="pw_forgotten">Pin vergessen?</string>
     <string name="pw_forgotten_dialog">Möchtest du alle persönlichen Daten (auch die Logindaten, gespeicherten Lesezeichen, Notizen,
         …) löschen, um deine Zugangspin zurückzusetzen? Die Anwendung wird dann beendet.</string>
+
+
+    //File chooser
+
+    <string name="title_choose">Auswählen</string>
+    <string name="dialog_cancel">Abbrechen</string>
 
 </resources>

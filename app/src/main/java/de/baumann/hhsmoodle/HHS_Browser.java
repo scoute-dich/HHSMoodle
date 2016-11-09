@@ -24,7 +24,6 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.DownloadManager;
-import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -43,7 +42,6 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.FileProvider;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -760,23 +758,7 @@ public class HHS_Browser extends AppCompatActivity  {
         }
 
         if (id == R.id.action_folder) {
-            final File directory = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/");
-
-            Intent target = new Intent();
-            target.setAction(Intent.ACTION_VIEW);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                target.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                Uri contentUri = FileProvider.getUriForFile(HHS_Browser.this, this.getApplicationContext().getPackageName() + ".provider", directory);
-                target.setDataAndType(contentUri, "resource/folder");
-            } else {
-                target.setDataAndType(Uri.fromFile(directory), "resource/folder");
-            }
-
-            try {
-                startActivity (target);
-            } catch (ActivityNotFoundException e) {
-                Snackbar.make(mWebView, R.string.toast_install_folder, Snackbar.LENGTH_LONG).show();
-            }
+            helpers.openFilePicker(HHS_Browser.this, mWebView);
         }
 
         if (id == android.R.id.home) {

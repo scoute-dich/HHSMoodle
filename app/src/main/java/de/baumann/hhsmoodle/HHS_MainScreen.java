@@ -21,12 +21,10 @@ package de.baumann.hhsmoodle;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -37,7 +35,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -276,23 +273,7 @@ public class HHS_MainScreen extends AppCompatActivity {
         }
 
         if (id == R.id.action_folder) {
-            final File directory = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/");
-
-            Intent target = new Intent();
-            target.setAction(Intent.ACTION_VIEW);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                target.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                Uri contentUri = FileProvider.getUriForFile(HHS_MainScreen.this, this.getApplicationContext().getPackageName() + ".provider", directory);
-                target.setDataAndType(contentUri, "resource/folder");
-            } else {
-                target.setDataAndType(Uri.fromFile(directory), "resource/folder");
-            }
-
-            try {
-                startActivity (target);
-            } catch (ActivityNotFoundException e) {
-                Snackbar.make(viewPager, R.string.toast_install_folder, Snackbar.LENGTH_LONG).show();
-            }
+            helpers.openFilePicker(HHS_MainScreen.this, viewPager);
         }
 
         if (id == R.id.action_not) {

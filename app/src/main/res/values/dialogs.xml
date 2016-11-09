@@ -20,6 +20,9 @@
 
         &lt;b>Used open source projects:&lt;/b>&lt;br>&lt;br>
 
+        &lt;i>android-file-chooser&lt;br>
+        https://github.com/hedzr/android-file-chooser&lt;br>&lt;br>
+
         &lt;i>browser&lt;br>
         https://github.com/yoshihiroando/browser&lt;br>&lt;br>
 
@@ -34,10 +37,11 @@
         &lt;i>For more information visit the project site on github:&lt;br>
         https://github.com/scoute-dich/HHSMoodle&lt;/i>&lt;br>&lt;br>
 
-        &lt;b>v 2.4:&lt;/b>&lt;br>
+        &lt;b>v 2.4+:&lt;/b>&lt;br>
         &#8226; maintenance release&lt;br>
-        &#8226; Android N support&lt;br>
-        &#8226; Quick shortcuts (Android N)&lt;br>&lt;br>
+        &#8226; added: Android N support&lt;br>
+        &#8226; added: file chooser&lt;br>
+        &#8226; added: Quick shortcuts (Android N)&lt;br>&lt;br>
 
         &lt;b>v 2.3:&lt;/b>&lt;br>
         &#8226; added: encryption login data&lt;br>

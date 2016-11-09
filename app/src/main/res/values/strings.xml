@@ -153,7 +153,6 @@
     <string name="toast_download_1">Do you want to download:</string>
     <string name="toast_download_2">Download completed. Open download manager?</string>
     <string name="toast_perm">Permissions granted?</string>
-    <string name="toast_install_folder">Please install a file manager.</string>
     <string name="toast_back">Can not go back.</string>
     <string name="toast_forward">Can not go forward.</string>
     <string name="toast_wrongPW">Uuups. Wrong password.</string>
@@ -165,6 +164,8 @@
     <string name="toast_backup_not">Backup failed.</string>
     <string name="toast_restore_not">Restore failed.</string>
     <string name="toast_screenshot_failed">Failed to create screenshot.</string>
+    <string name="toast_extension">No supported file extension</string>
+    <string name="toast_install_app">Please install an app to perform action.</string>
 
 
     // Bookmarks
@@ -202,5 +203,11 @@
     <string name="pw_forgotten">Pin forgotten?</string>
     <string name="pw_forgotten_dialog">Do you want to delete all user data (also login data, saved bookmarks, notes, …) to reset
         your app pin? The application will close.</string>
+
+
+    //File chooser
+
+    <string name="title_choose">Auswählen</string>
+    <string name="dialog_cancel">Abbrechen</string>
 
 </resources>

@@ -20,6 +20,8 @@
 
         &lt;b>Benutzte quelloffene Projekte:&lt;/b>&lt;br>&lt;br>
 
+        &lt;i>android-file-chooser&lt;br>
+        https://github.com/hedzr/android-file-chooser&lt;br>&lt;br>
         &lt;i>browser&lt;br>
         https://github.com/yoshihiroando/browser&lt;br>&lt;br>
         &lt;i>encrypted-userprefs&lt;br>
@@ -34,10 +36,11 @@
         &lt;i>Für mehr Informationen besuche die Projektseite auf Github:&lt;br>
         https://github.com/scoute-dich/HHSMoodle&lt;/i>&lt;br>&lt;br>
 
-        &lt;b>v 2.4:&lt;/b>&lt;br>
+        &lt;b>v 2.4+:&lt;/b>&lt;br>
         &#8226; Wartungsversion&lt;br>
-        &#8226; Android N Unterstützung&lt;br>
-        &#8226; Schnellverknüpfungen (Android N)&lt;br>&lt;br>
+        &#8226; Hinzugefügt: Android N Unterstützung&lt;br>
+        &#8226; Hinzugefügt: Dateibrowser&lt;br>
+        &#8226; Hinzugefügt: Schnellverknüpfungen (Android N)&lt;br>&lt;br>
 
         &lt;b>v 2.3:&lt;/b>&lt;br>
         &#8226; Hinzugefügt: Verschlüsselung Logindaten&lt;br>
