@@ -73,6 +73,12 @@
             android:key="swipe"
             android:defaultValue="true" />
 
+        <CheckBoxPreference
+            android:title="@string/action_arrow"
+            android:summary="@string/action_arrow_summary"
+            android:key="arrow"
+            android:defaultValue="true" />
+
         <ListPreference
             android:title="@string/action_font"
             android:summary="@string/action_font_summary"

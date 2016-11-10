@@ -40,8 +40,8 @@ import android.widget.ListView;
 
 import de.baumann.hhsmoodle.HHS_Browser;
 import de.baumann.hhsmoodle.R;
-import de.baumann.hhsmoodle.helper.CustomListAdapter;
-import de.baumann.hhsmoodle.helper.helpers;
+import de.baumann.hhsmoodle.helper.class_CustomListAdapter;
+import de.baumann.hhsmoodle.helper.helper_main;
 
 public class FragmentInfo extends Fragment {
 
@@ -108,7 +108,7 @@ public class FragmentInfo extends Fragment {
             images.recycle();
         }
 
-        CustomListAdapter adapter=new CustomListAdapter(getActivity(), itemTITLE, itemURL, itemDES, imgid);
+        class_CustomListAdapter adapter=new class_CustomListAdapter(getActivity(), itemTITLE, itemURL, itemDES, imgid);
         listView = (ListView)rootView.findViewById(R.id.bookmarks);
         listView.setAdapter(adapter);
 
@@ -123,8 +123,8 @@ public class FragmentInfo extends Fragment {
                         .putString("tabMain", "0")
                         .apply();
                 String Selecteditem= itemURL[+position];
-                helpers.isOpened(getActivity());
-                helpers.switchToActivity(getActivity(), HHS_Browser.class, Selecteditem, true);
+                helper_main.isOpened(getActivity());
+                helper_main.switchToActivity(getActivity(), HHS_Browser.class, Selecteditem, true);
             }
         });
 
@@ -164,7 +164,7 @@ public class FragmentInfo extends Fragment {
                                             .putString("handleTextTitle", title)
                                             .putString("handleTextText", url)
                                             .apply();
-                                    helpers.editNote(getActivity());
+                                    helper_main.editNote(getActivity());
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createShortcut))) {
@@ -199,7 +199,7 @@ public class FragmentInfo extends Fragment {
             case R.id.action_help:
                 final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity())
                         .setTitle(R.string.title_info)
-                        .setMessage(helpers.textSpannable(getString(R.string.helpInfo_text)))
+                        .setMessage(helper_main.textSpannable(getString(R.string.helpInfo_text)))
                         .setPositiveButton(getString(R.string.toast_yes), null);
                 dialog.show();
                 return true;

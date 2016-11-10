@@ -112,7 +112,7 @@
         </activity>
 
         <receiver
-            android:name=".helper.Widget_shortcuts" >
+            android:name=".helper.class_Widget_shortcuts" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>

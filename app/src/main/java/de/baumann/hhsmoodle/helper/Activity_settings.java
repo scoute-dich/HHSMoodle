@@ -65,13 +65,13 @@ public class Activity_settings extends AppCompatActivity {
 
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        SecurePreferences sharedPrefSec = new SecurePreferences(Activity_settings.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
+        class_SecurePreferences sharedPrefSec = new class_SecurePreferences(Activity_settings.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
         String pw = sharedPrefSec.getString("protect_PW");
         setTitle(R.string.menu_settings);
 
         if (pw != null && pw.length() > 0) {
             if (sharedPref.getBoolean("isOpened", true)) {
-                helpers.switchToActivity(Activity_settings.this, Activity_password.class, "", false);
+                helper_main.switchToActivity(Activity_settings.this, Activity_password.class, "", false);
             }
         }
 
@@ -85,11 +85,11 @@ public class Activity_settings extends AppCompatActivity {
                     final String startType = sharedPref.getString("startType", "1");
 
                     if (startType.equals("2")) {
-                        helpers.isOpened(Activity_settings.this);
-                        helpers.switchToActivity(Activity_settings.this, HHS_Browser.class, startURL, true);
+                        helper_main.isOpened(Activity_settings.this);
+                        helper_main.switchToActivity(Activity_settings.this, HHS_Browser.class, startURL, true);
                     } else if (startType.equals("1")){
-                        helpers.isOpened(Activity_settings.this);
-                        helpers.switchToActivity(Activity_settings.this, HHS_MainScreen.class, "", true);
+                        helper_main.isOpened(Activity_settings.this);
+                        helper_main.switchToActivity(Activity_settings.this, HHS_MainScreen.class, "", true);
                     }
                 }
             });
@@ -98,7 +98,7 @@ public class Activity_settings extends AppCompatActivity {
                 toolbar.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        helpers.isClosed(Activity_settings.this);
+                        helper_main.isClosed(Activity_settings.this);
                         finishAffinity();
                         return true;
                     }
@@ -148,7 +148,7 @@ public class Activity_settings extends AppCompatActivity {
 
                     final AlertDialog d = new AlertDialog.Builder(getActivity())
                             .setTitle(R.string.action_changelog)
-                            .setMessage(helpers.textSpannable(getString(R.string.changelog_text)))
+                            .setMessage(helper_main.textSpannable(getString(R.string.changelog_text)))
                             .setPositiveButton(getString(R.string.toast_yes),
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int id) {
@@ -171,7 +171,7 @@ public class Activity_settings extends AppCompatActivity {
 
                     final AlertDialog d = new AlertDialog.Builder(getActivity())
                             .setTitle(R.string.about_title)
-                            .setMessage(helpers.textSpannable(getString(R.string.about_text)))
+                            .setMessage(helper_main.textSpannable(getString(R.string.about_text)))
                             .setPositiveButton(getString(R.string.toast_yes),
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int id) {
@@ -203,7 +203,7 @@ public class Activity_settings extends AppCompatActivity {
 
                     new Handler().postDelayed(new Runnable() {
                         public void run() {
-                            helpers.showKeyboard(getActivity(),input);
+                            helper_main.showKeyboard(getActivity(),input);
                         }
                     }, 200);
 
@@ -251,7 +251,7 @@ public class Activity_settings extends AppCompatActivity {
                 public boolean onPreferenceClick(Preference pref) {
 
                     final Activity activity = getActivity();
-                    final SecurePreferences sharedPrefSec = new SecurePreferences(activity, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
+                    final class_SecurePreferences sharedPrefSec = new class_SecurePreferences(activity, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
                     final String password = sharedPrefSec.getString("password");
 
                     final LinearLayout layout = new LinearLayout(getActivity());
@@ -267,7 +267,7 @@ public class Activity_settings extends AppCompatActivity {
 
                     new Handler().postDelayed(new Runnable() {
                         public void run() {
-                            helpers.showKeyboard(getActivity(),input);
+                            helper_main.showKeyboard(getActivity(),input);
                         }
                     }, 200);
 
@@ -301,7 +301,7 @@ public class Activity_settings extends AppCompatActivity {
                 public boolean onPreferenceClick(Preference pref) {
 
                     final Activity activity = getActivity();
-                    final SecurePreferences sharedPrefSec = new SecurePreferences(activity, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
+                    final class_SecurePreferences sharedPrefSec = new class_SecurePreferences(activity, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
                     final String password = sharedPrefSec.getString("protect_PW");
 
                     final LinearLayout layout = new LinearLayout(getActivity());
@@ -317,7 +317,7 @@ public class Activity_settings extends AppCompatActivity {
 
                     new Handler().postDelayed(new Runnable() {
                         public void run() {
-                            helpers.showKeyboard(getActivity(),input);
+                            helper_main.showKeyboard(getActivity(),input);
                         }
                     }, 200);
 
@@ -351,7 +351,7 @@ public class Activity_settings extends AppCompatActivity {
                 public boolean onPreferenceClick(Preference pref) {
 
                     final Activity activity = getActivity();
-                    final SecurePreferences sharedPrefSec = new SecurePreferences(activity, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
+                    final class_SecurePreferences sharedPrefSec = new class_SecurePreferences(activity, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
                     final String username = sharedPrefSec.getString("username");
 
                     final LinearLayout layout = new LinearLayout(getActivity());
@@ -365,7 +365,7 @@ public class Activity_settings extends AppCompatActivity {
 
                     new Handler().postDelayed(new Runnable() {
                         public void run() {
-                            helpers.showKeyboard(getActivity(),input);
+                            helper_main.showKeyboard(getActivity(),input);
                         }
                     }, 200);
 
@@ -500,8 +500,8 @@ public class Activity_settings extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        helpers.isOpened(Activity_settings.this);
-        helpers.switchToActivity(Activity_settings.this, HHS_MainScreen.class, "", true);
+        helper_main.isOpened(Activity_settings.this);
+        helper_main.switchToActivity(Activity_settings.this, HHS_MainScreen.class, "", true);
     }
 
     @Override
@@ -530,13 +530,13 @@ public class Activity_settings extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == android.R.id.home) {
-            helpers.switchToActivity(Activity_settings.this, HHS_MainScreen.class, "", true);
+            helper_main.switchToActivity(Activity_settings.this, HHS_MainScreen.class, "", true);
         }
 
         if (id == R.id.action_help) {
             final AlertDialog.Builder dialog = new AlertDialog.Builder(Activity_settings.this)
                     .setTitle(R.string.helpSettings_title)
-                    .setMessage(helpers.textSpannable(getString(R.string.helpSettings_text)))
+                    .setMessage(helper_main.textSpannable(getString(R.string.helpSettings_text)))
                     .setPositiveButton(getString(R.string.toast_yes), null);
             dialog.show();
         }

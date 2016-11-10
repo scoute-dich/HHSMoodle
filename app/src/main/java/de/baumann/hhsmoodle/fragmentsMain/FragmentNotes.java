@@ -53,7 +53,7 @@ import java.util.HashMap;
 
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.helper.Database_Notes;
-import de.baumann.hhsmoodle.helper.helpers;
+import de.baumann.hhsmoodle.helper.helper_main;
 
 public class FragmentNotes extends Fragment {
 
@@ -116,7 +116,7 @@ public class FragmentNotes extends Fragment {
                 if (sharedPref.getBoolean ("links", false)){
                     Linkify.addLinks(textContent, Linkify.WEB_URLS);
                     Linkify.addLinks(textTitle, Linkify.WEB_URLS);
-                    helpers.isOpened(getActivity());
+                    helper_main.isOpened(getActivity());
                 }
 
                 final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity())
@@ -136,7 +136,7 @@ public class FragmentNotes extends Fragment {
                                         .putString("handleTextIcon", icon)
                                         .putString("handleTextSeqno", seqnoStr)
                                         .apply();
-                                helpers.editNote(getActivity());
+                                helper_main.editNote(getActivity());
                             }
                         });
                 dialog.show();
@@ -170,7 +170,7 @@ public class FragmentNotes extends Fragment {
                                             .putString("handleTextIcon", icon)
                                             .putString("handleTextSeqno", seqnoStr)
                                             .apply();
-                                    helpers.editNote(getActivity());
+                                    helper_main.editNote(getActivity());
                                 }
 
                                 if (options[item].equals (getString(R.string.note_share))) {
@@ -391,7 +391,7 @@ public class FragmentNotes extends Fragment {
             case R.id.action_help:
                 final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity())
                         .setTitle(R.string.title_notes)
-                        .setMessage(helpers.textSpannable(getString(R.string.helpNotes_text)))
+                        .setMessage(helper_main.textSpannable(getString(R.string.helpNotes_text)))
                         .setPositiveButton(getString(R.string.toast_yes), null);
                 dialog.show();
                 return true;

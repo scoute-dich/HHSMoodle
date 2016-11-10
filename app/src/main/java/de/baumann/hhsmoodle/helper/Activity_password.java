@@ -43,7 +43,7 @@ public class Activity_password extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_password);
-        SecurePreferences sharedPrefSec = new SecurePreferences(Activity_password.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
+        class_SecurePreferences sharedPrefSec = new class_SecurePreferences(Activity_password.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -152,7 +152,7 @@ public class Activity_password extends AppCompatActivity {
                 String Password = text.getText().toString().trim();
 
                 if (Password.equals(protect)) {
-                    helpers.isOpened(Activity_password.this);
+                    helper_main.isOpened(Activity_password.this);
                     finish();
                 } else {
                     Snackbar.make(text, R.string.toast_wrongPW, Snackbar.LENGTH_LONG).show();
@@ -175,7 +175,7 @@ public class Activity_password extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 final AlertDialog.Builder dialog = new AlertDialog.Builder(Activity_password.this)
-                        .setMessage(helpers.textSpannable(getString(R.string.pw_forgotten_dialog)))
+                        .setMessage(helper_main.textSpannable(getString(R.string.pw_forgotten_dialog)))
                         .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
 
                             public void onClick(DialogInterface dialog, int whichButton) {
@@ -201,7 +201,7 @@ public class Activity_password extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        helpers.isClosed(Activity_password.this);
+        helper_main.isClosed(Activity_password.this);
         finishAffinity();
     }
 

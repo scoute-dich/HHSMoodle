@@ -48,7 +48,7 @@ import java.util.HashMap;
 import de.baumann.hhsmoodle.HHS_Browser;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.helper.Database_Browser;
-import de.baumann.hhsmoodle.helper.helpers;
+import de.baumann.hhsmoodle.helper.helper_main;
 
 public class Popup_bookmarks extends Activity {
 
@@ -69,8 +69,8 @@ public class Popup_bookmarks extends Activity {
                 @SuppressWarnings("unchecked")
                 HashMap<String,String> map = (HashMap<String,String>)listView.getItemAtPosition(position);
 
-                helpers.isClosed(Popup_bookmarks.this);
-                helpers.switchToActivity(Popup_bookmarks.this, HHS_Browser.class, map.get("url"), true);
+                helper_main.isClosed(Popup_bookmarks.this);
+                helper_main.switchToActivity(Popup_bookmarks.this, HHS_Browser.class, map.get("url"), true);
             }
         });
 
@@ -191,7 +191,7 @@ public class Popup_bookmarks extends Activity {
                                             .putString("handleTextTitle", title)
                                             .putString("handleTextText", url)
                                             .apply();
-                                    helpers.editNote(Popup_bookmarks.this);
+                                    helper_main.editNote(Popup_bookmarks.this);
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createShortcut))) {

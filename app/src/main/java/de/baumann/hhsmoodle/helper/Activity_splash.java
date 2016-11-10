@@ -46,7 +46,7 @@ public class Activity_splash extends AppCompatActivity {
     private EditText editPassword;
     private ImageView Image;
     private SharedPreferences sharedPref;
-    private SecurePreferences sharedPrefSec;
+    private class_SecurePreferences sharedPrefSec;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -55,7 +55,7 @@ public class Activity_splash extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        sharedPrefSec = new SecurePreferences(Activity_splash.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
+        sharedPrefSec = new class_SecurePreferences(Activity_splash.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);

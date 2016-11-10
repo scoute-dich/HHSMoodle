@@ -38,7 +38,7 @@ import android.util.Base64;
 
 
 @SuppressWarnings("ALL")
-public class SecurePreferences {
+public class class_SecurePreferences {
 
     public static class SecurePreferencesException extends RuntimeException {
 
@@ -60,7 +60,7 @@ public class SecurePreferences {
     private final SharedPreferences preferences;
 
     /**
-     * This will initialize an instance of the SecurePreferences class
+     * This will initialize an instance of the class_SecurePreferences class
      * @param context your current context.
      * @param preferenceName name of preferences file (preferenceName.xml)
      * @param secureKey the key used for encryption, finding a good key scheme is hard.
@@ -71,7 +71,7 @@ public class SecurePreferences {
      * @throws SecurePreferencesException
      */
     @SuppressLint("GetInstance")
-    public SecurePreferences(Context context, String preferenceName, String secureKey, boolean encryptKeys) throws SecurePreferencesException {
+    public class_SecurePreferences(Context context, String preferenceName, String secureKey, boolean encryptKeys) throws SecurePreferencesException {
         try {
             this.writer = Cipher.getInstance(TRANSFORMATION);
             this.reader = Cipher.getInstance(TRANSFORMATION);

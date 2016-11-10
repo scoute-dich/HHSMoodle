@@ -35,7 +35,7 @@ import de.baumann.hhsmoodle.popup.Popup_calendar;
 import de.baumann.hhsmoodle.popup.Popup_info;
 import de.baumann.hhsmoodle.popup.Popup_notes;
 
-public class Widget_shortcuts extends AppWidgetProvider {
+public class class_Widget_shortcuts extends AppWidgetProvider {
 
 
     public void onUpdate(Context context, AppWidgetManager appWidgetManager,int[] appWidgetIds) {

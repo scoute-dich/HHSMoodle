@@ -31,7 +31,7 @@ import android.widget.TextView;
 
 import de.baumann.hhsmoodle.R;
 
-public class CustomListAdapter extends ArrayAdapter<String> {
+public class class_CustomListAdapter extends ArrayAdapter<String> {
 
     private final Activity context;
     private final String[] itemTITLE;
@@ -39,7 +39,7 @@ public class CustomListAdapter extends ArrayAdapter<String> {
     private final String[] itemDES;
     private final Integer[] imgid;
 
-    public CustomListAdapter(Activity context, String[] itemTITLE, String[] itemURL, String[] itemDES, Integer[] imgid) {
+    public class_CustomListAdapter(Activity context, String[] itemTITLE, String[] itemURL, String[] itemDES, Integer[] imgid) {
         super(context, R.layout.list_item, itemTITLE);
 
         this.context=context;

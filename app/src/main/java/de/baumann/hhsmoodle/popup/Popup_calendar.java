@@ -43,8 +43,8 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import de.baumann.hhsmoodle.R;
-import de.baumann.hhsmoodle.helper.OnSwipeTouchListener;
-import de.baumann.hhsmoodle.helper.helpers;
+import de.baumann.hhsmoodle.helper.class_OnSwipeTouchListener;
+import de.baumann.hhsmoodle.helper.helper_main;
 
 @SuppressWarnings("ResultOfMethodCallIgnored")
 public class Popup_calendar extends AppCompatActivity  {
@@ -110,7 +110,7 @@ public class Popup_calendar extends AppCompatActivity  {
         }
 
         if (sharedPref.getBoolean ("swipe", false)){
-            mWebView.setOnTouchListener(new OnSwipeTouchListener(Popup_calendar.this) {
+            mWebView.setOnTouchListener(new class_OnSwipeTouchListener(Popup_calendar.this) {
 
                 public void onSwipeRight() {
                     if (mWebView.canGoBack()) {
@@ -161,20 +161,16 @@ public class Popup_calendar extends AppCompatActivity  {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 final Uri uri = request.getUrl();
-                return handleUri(uri);
-            }
-
-            private boolean handleUri(final Uri uri) {
                 final String url = uri.toString();
                 if(url.contains("calendar")) {
                     mWebView.loadUrl(url);
                 } else {
                     Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                    helpers.isClosed(Popup_calendar.this);
+                    helper_main.isClosed(Popup_calendar.this);
                     startActivity(i);
                     finish();
                 }
-                return true;//do nothing in other cases
+                return true;
             }
         });
 

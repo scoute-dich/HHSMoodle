@@ -52,8 +52,8 @@ import de.baumann.hhsmoodle.fragmentsMain.FragmentInfo;
 import de.baumann.hhsmoodle.fragmentsMain.FragmentNotes;
 import de.baumann.hhsmoodle.helper.Activity_password;
 import de.baumann.hhsmoodle.helper.Activity_settings;
-import de.baumann.hhsmoodle.helper.SecurePreferences;
-import de.baumann.hhsmoodle.helper.helpers;
+import de.baumann.hhsmoodle.helper.class_SecurePreferences;
+import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.popup.Popup_bookmarks;
 import de.baumann.hhsmoodle.popup.Popup_calendar;
 import de.baumann.hhsmoodle.popup.Popup_info;
@@ -73,7 +73,7 @@ public class HHS_MainScreen extends AppCompatActivity {
         setContentView(R.layout.activity_screen_main);
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        SecurePreferences sharedPrefSec = new SecurePreferences(HHS_MainScreen.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
+        class_SecurePreferences sharedPrefSec = new class_SecurePreferences(HHS_MainScreen.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
         String pw = sharedPrefSec.getString("protect_PW");
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -89,7 +89,7 @@ public class HHS_MainScreen extends AppCompatActivity {
 
         if (pw != null && pw.length() > 0) {
             if (sharedPref.getBoolean("isOpened", true)) {
-                helpers.switchToActivity(HHS_MainScreen.this, Activity_password.class, "", false);
+                helper_main.switchToActivity(HHS_MainScreen.this, Activity_password.class, "", false);
             }
         }
 
@@ -103,11 +103,11 @@ public class HHS_MainScreen extends AppCompatActivity {
                     final String startType = sharedPref.getString("startType", "1");
 
                     if (startType.equals("2")) {
-                        helpers.isOpened(HHS_MainScreen.this);
-                        helpers.switchToActivity(HHS_MainScreen.this, HHS_Browser.class, startURL, true);
+                        helper_main.isOpened(HHS_MainScreen.this);
+                        helper_main.switchToActivity(HHS_MainScreen.this, HHS_Browser.class, startURL, true);
                     } else if (startType.equals("1")){
-                        helpers.isOpened(HHS_MainScreen.this);
-                        helpers.switchToActivity(HHS_MainScreen.this, HHS_MainScreen.class, "", false);
+                        helper_main.isOpened(HHS_MainScreen.this);
+                        helper_main.switchToActivity(HHS_MainScreen.this, HHS_MainScreen.class, "", false);
                     }
                 }
             });
@@ -116,7 +116,7 @@ public class HHS_MainScreen extends AppCompatActivity {
                 toolbar.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        helpers.isClosed(HHS_MainScreen.this);
+                        helper_main.isClosed(HHS_MainScreen.this);
                         finishAffinity();
                         return true;
                     }
@@ -129,7 +129,7 @@ public class HHS_MainScreen extends AppCompatActivity {
         if (show){
             final AlertDialog.Builder dialog = new AlertDialog.Builder(HHS_MainScreen.this)
                     .setTitle(R.string.dialog_help_title)
-                    .setMessage(helpers.textSpannable(getString(R.string.dialog_help)))
+                    .setMessage(helper_main.textSpannable(getString(R.string.dialog_help)))
                     .setPositiveButton(getString(R.string.toast_yes), null)
                     .setNegativeButton(getString(R.string.toast_notAgain), new DialogInterface.OnClickListener() {
                         @Override
@@ -188,7 +188,7 @@ public class HHS_MainScreen extends AppCompatActivity {
                     .putString("handleTextText", intent.getStringExtra(Intent.EXTRA_TEXT))
                     .putString("handleTextIcon", "")
                     .apply();
-            helpers.editNote(HHS_MainScreen.this);
+            helper_main.editNote(HHS_MainScreen.this);
         }
 
         File directory = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/backup/");
@@ -242,7 +242,7 @@ public class HHS_MainScreen extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        helpers.isClosed(HHS_MainScreen.this);
+        helper_main.isClosed(HHS_MainScreen.this);
         finish();
     }
 
@@ -268,16 +268,16 @@ public class HHS_MainScreen extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
-            helpers.isOpened(HHS_MainScreen.this);
-            helpers.switchToActivity(HHS_MainScreen.this, Activity_settings.class, "", true);
+            helper_main.isOpened(HHS_MainScreen.this);
+            helper_main.switchToActivity(HHS_MainScreen.this, Activity_settings.class, "", true);
         }
 
         if (id == R.id.action_folder) {
-            helpers.openFilePicker(HHS_MainScreen.this, viewPager);
+            helper_main.openFilePicker(HHS_MainScreen.this, viewPager);
         }
 
         if (id == R.id.action_not) {
-            helpers.editNote(HHS_MainScreen.this);
+            helper_main.editNote(HHS_MainScreen.this);
         }
 
         if (id == R.id.action_shortcut) {

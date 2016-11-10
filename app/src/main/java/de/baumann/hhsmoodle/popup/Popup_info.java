@@ -35,8 +35,8 @@ import android.widget.ListView;
 
 import de.baumann.hhsmoodle.HHS_Browser;
 import de.baumann.hhsmoodle.R;
-import de.baumann.hhsmoodle.helper.CustomListAdapter;
-import de.baumann.hhsmoodle.helper.helpers;
+import de.baumann.hhsmoodle.helper.class_CustomListAdapter;
+import de.baumann.hhsmoodle.helper.helper_main;
 
 public class Popup_info extends Activity {
 
@@ -94,7 +94,7 @@ public class Popup_info extends Activity {
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         
-        CustomListAdapter adapter=new CustomListAdapter(Popup_info.this, itemTITLE, itemURL, itemDES, imgid);
+        class_CustomListAdapter adapter=new class_CustomListAdapter(Popup_info.this, itemTITLE, itemURL, itemDES, imgid);
         final ListView listView = (ListView) findViewById(R.id.dialogList);
         listView.setAdapter(adapter);
 
@@ -105,8 +105,8 @@ public class Popup_info extends Activity {
                                     int position, long id) {
                 // TODO Auto-generated method stub
                 String Selecteditem= itemURL[+position];
-                helpers.isClosed(Popup_info.this);
-                helpers.switchToActivity(Popup_info.this, HHS_Browser.class, Selecteditem, true);
+                helper_main.isClosed(Popup_info.this);
+                helper_main.switchToActivity(Popup_info.this, HHS_Browser.class, Selecteditem, true);
             }
         });
 
@@ -146,7 +146,7 @@ public class Popup_info extends Activity {
                                             .putString("handleTextTitle", title)
                                             .putString("handleTextText", url)
                                             .apply();
-                                    helpers.editNote(Popup_info.this);
+                                    helper_main.editNote(Popup_info.this);
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createShortcut))) {

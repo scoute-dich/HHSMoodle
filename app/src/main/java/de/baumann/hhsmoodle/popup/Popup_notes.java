@@ -50,7 +50,7 @@ import java.util.HashMap;
 
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.helper.Database_Notes;
-import de.baumann.hhsmoodle.helper.helpers;
+import de.baumann.hhsmoodle.helper.helper_main;
 
 public class Popup_notes extends Activity {
 
@@ -126,7 +126,7 @@ public class Popup_notes extends Activity {
                                         .putString("handleTextSeqno", seqnoStr)
                                         .putString("fromPopup", "0")
                                         .apply();
-                                helpers.editNote(Popup_notes.this);
+                                helper_main.editNote(Popup_notes.this);
                             }
                         });
                 dialog.show();
@@ -163,7 +163,7 @@ public class Popup_notes extends Activity {
                                             .putString("handleTextSeqno", seqnoStr)
                                             .putString("fromPopup", "0")
                                             .apply();
-                                    helpers.editNote(Popup_notes.this);
+                                    helper_main.editNote(Popup_notes.this);
                                 }
 
                                 if (options[item].equals (getString(R.string.note_share))) {

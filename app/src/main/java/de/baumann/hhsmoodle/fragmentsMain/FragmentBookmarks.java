@@ -52,7 +52,7 @@ import java.util.HashMap;
 import de.baumann.hhsmoodle.HHS_Browser;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.helper.Database_Browser;
-import de.baumann.hhsmoodle.helper.helpers;
+import de.baumann.hhsmoodle.helper.helper_main;
 
 public class FragmentBookmarks extends Fragment {
 
@@ -86,8 +86,8 @@ public class FragmentBookmarks extends Fragment {
 
                 @SuppressWarnings("unchecked")
                 HashMap<String,String> map = (HashMap<String,String>)listView.getItemAtPosition(position);
-                helpers.isOpened(getActivity());
-                helpers.switchToActivity(getActivity(), HHS_Browser.class, map.get("url"), true);
+                helper_main.isOpened(getActivity());
+                helper_main.switchToActivity(getActivity(), HHS_Browser.class, map.get("url"), true);
             }
         });
 
@@ -123,7 +123,7 @@ public class FragmentBookmarks extends Fragment {
                                 if (options[item].equals(getString(R.string.bookmark_edit_title))) {
                                     new Handler().postDelayed(new Runnable() {
                                         public void run() {
-                                            helpers.showKeyboard(getActivity(),input);
+                                            helper_main.showKeyboard(getActivity(),input);
                                         }
                                     }, 200);
                                     try {
@@ -210,7 +210,7 @@ public class FragmentBookmarks extends Fragment {
                                             .putString("handleTextTitle", title)
                                             .putString("handleTextText", url)
                                             .apply();
-                                    helpers.editNote(getActivity());
+                                    helper_main.editNote(getActivity());
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createShortcut))) {
@@ -540,7 +540,7 @@ public class FragmentBookmarks extends Fragment {
             case R.id.action_help:
                 final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity())
                         .setTitle(R.string.title_bookmarks)
-                        .setMessage(helpers.textSpannable(getString(R.string.helpBookmarks_text)))
+                        .setMessage(helper_main.textSpannable(getString(R.string.helpBookmarks_text)))
                         .setPositiveButton(getString(R.string.toast_yes), null);
                 dialog.show();
                 return true;

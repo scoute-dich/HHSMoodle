@@ -121,6 +121,9 @@
     <string name="action_restore">Restore</string>
     <string name="action_restore_summary">Restore your notes and bookmarks from sdcard.</string>
 
+    <string name="action_arrow">Arrows</string>
+    <string name="action_arrow_summary">Display arrows to navigate through websites.</string>
+
 
     // Moodle
 
@@ -148,7 +151,6 @@
     <string name="toast_yes">OK</string>
     <string name="toast_cancel">Cancel</string>
     <string name="toast_notAgain">Never show</string>
-    <string name="toast_noInternet">Can not load page. No internet connection?</string>
     <string name="toast_download">Downloading file:</string>
     <string name="toast_download_1">Do you want to download:</string>
     <string name="toast_download_2">Download completed. Open download manager?</string>
