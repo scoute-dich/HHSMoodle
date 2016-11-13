@@ -1,6 +1,8 @@
-### v 2.4:
+### v 2.4+:
 - maintenance release
 - Android N support
+- file chooser
+- arrows to navigate
 - Qick shortcuts (Android N)
 
 ### v 2.3

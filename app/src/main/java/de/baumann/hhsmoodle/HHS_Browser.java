@@ -668,7 +668,8 @@ public class HHS_Browser extends AppCompatActivity implements ObservableScrollVi
         }
 
         if (id == R.id.action_folder) {
-            helper_main.openFilePicker(HHS_Browser.this, mWebView);
+            String startDir = Environment.getExternalStorageDirectory() + "/HHS_Moodle/";
+            helper_main.openFilePicker(HHS_Browser.this, mWebView, startDir);
         }
 
         if (id == android.R.id.home) {

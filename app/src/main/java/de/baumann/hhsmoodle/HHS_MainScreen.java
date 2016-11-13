@@ -19,12 +19,10 @@
 
 package de.baumann.hhsmoodle;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -62,7 +60,6 @@ import de.baumann.hhsmoodle.popup.Popup_notes;
 @SuppressWarnings("ResultOfMethodCallIgnored")
 public class HHS_MainScreen extends AppCompatActivity {
 
-    final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
     private ViewPager viewPager;
     private SharedPreferences sharedPref;
 
@@ -144,40 +141,7 @@ public class HHS_MainScreen extends AppCompatActivity {
             dialog.show();
         }
 
-        if (android.os.Build.VERSION.SDK_INT >= 23) {
-            if (sharedPref.getBoolean ("perm_notShow", false)){
-                int hasWRITE_EXTERNAL_STORAGE = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-                if (hasWRITE_EXTERNAL_STORAGE != PackageManager.PERMISSION_GRANTED) {
-                    if (!shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                        new AlertDialog.Builder(HHS_MainScreen.this)
-                                .setMessage(R.string.app_permissions)
-                                .setNeutralButton(R.string.toast_notAgain, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplication());
-                                        dialog.cancel();
-                                        sharedPref.edit()
-                                                .putBoolean("perm_notShow", false)
-                                                .apply();
-                                    }
-                                })
-                                .setPositiveButton(getString(R.string.toast_yes), new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        if (android.os.Build.VERSION.SDK_INT >= 23)
-                                            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                                                    REQUEST_CODE_ASK_PERMISSIONS);
-                                    }
-                                })
-                                .setNegativeButton(getString(R.string.toast_cancel), null)
-                                .show();
-                        return;
-                    }
-                    requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                            REQUEST_CODE_ASK_PERMISSIONS);
-                }
-            }
-        }
+        helper_main.grantPermissions(HHS_MainScreen.this);
 
         Intent intent = getIntent();
         String action = intent.getAction();
@@ -273,7 +237,8 @@ public class HHS_MainScreen extends AppCompatActivity {
         }
 
         if (id == R.id.action_folder) {
-            helper_main.openFilePicker(HHS_MainScreen.this, viewPager);
+            String startDir = Environment.getExternalStorageDirectory() + "/HHS_Moodle/";
+            helper_main.openFilePicker(HHS_MainScreen.this, viewPager, startDir);
         }
 
         if (id == R.id.action_not) {
