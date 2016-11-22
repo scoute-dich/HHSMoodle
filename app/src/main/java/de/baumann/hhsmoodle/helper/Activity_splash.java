@@ -28,6 +28,7 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -44,6 +45,8 @@ public class Activity_splash extends AppCompatActivity {
 
     private EditText editUsername;
     private EditText editPassword;
+    private TextInputLayout editUsernameLayout;
+    private TextInputLayout editPasswordLayout;
     private ImageView Image;
     private SharedPreferences sharedPref;
     private class_SecurePreferences sharedPrefSec;
@@ -61,6 +64,11 @@ public class Activity_splash extends AppCompatActivity {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
         }
+
+        editUsernameLayout = (TextInputLayout)findViewById(R.id.editUsernameLayout);
+        editUsernameLayout.setVisibility(View.INVISIBLE);
+        editPasswordLayout = (TextInputLayout)findViewById(R.id.editPasswordLayout);
+        editPasswordLayout.setVisibility(View.INVISIBLE);
 
         editUsername = (EditText) findViewById(R.id.editUsername);
         assert editUsername != null;
@@ -80,6 +88,8 @@ public class Activity_splash extends AppCompatActivity {
 
         if (sharedPrefSec.getString("password") == null || sharedPrefSec.getString("username") == null) {
 
+            editUsernameLayout.setVisibility(View.VISIBLE);
+            editPasswordLayout.setVisibility(View.VISIBLE);
             editUsername.setVisibility(View.VISIBLE);
             editPassword.setVisibility(View.VISIBLE);
             fab.setVisibility(View.VISIBLE);
