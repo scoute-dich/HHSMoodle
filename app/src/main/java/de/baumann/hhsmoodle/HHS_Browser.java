@@ -607,41 +607,44 @@ public class HHS_Browser extends AppCompatActivity implements ObservableScrollVi
 
         if (id == R.id.action_saveBookmark) {
             try {
-                final LinearLayout layout = new LinearLayout(this);
-                layout.setOrientation(LinearLayout.VERTICAL);
-                layout.setGravity(Gravity.CENTER_HORIZONTAL);
-                final EditText input = new EditText(this);
-                input.setSingleLine(true);
-                input.setText(mWebView.getTitle());
-                layout.setPadding(30, 0, 50, 0);
-                layout.addView(input);
+
+                final Database_Browser db = new Database_Browser(HHS_Browser.this);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(HHS_Browser.this);
+                View dialogView = View.inflate(HHS_Browser.this, R.layout.dialog_edit, null);
+
+                final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
+                edit_title.setHint(R.string.bookmark_edit_title);
+                edit_title.setText(mWebView.getTitle());
+
+                builder.setView(dialogView);
+                builder.setTitle(R.string.bookmark_edit_title);
+                builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                        String inputTag = edit_title.getText().toString().trim();
+                        db.addBookmark(inputTag, mWebView.getUrl(), "1");
+                        db.close();
+                        Snackbar.make(mWebView, R.string.bookmark_added, Snackbar.LENGTH_LONG).show();
+                    }
+                });
+                builder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        dialog.cancel();
+                    }
+                });
+
+                final AlertDialog dialog2 = builder.create();
+                // Display the custom alert dialog on interface
+                dialog2.show();
 
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
-                        helper_main.showKeyboard(HHS_Browser.this,input);
+                        helper_main.showKeyboard(HHS_Browser.this,edit_title);
                     }
                 }, 200);
-
-                final Database_Browser db = new Database_Browser(this);
-                final AlertDialog.Builder dialog = new AlertDialog.Builder(this)
-                        .setView(layout)
-                        .setMessage(R.string.bookmark_edit_title)
-                        .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                String inputTag = input.getText().toString().trim();
-                                db.addBookmark(inputTag, mWebView.getUrl(), "1");
-                                db.close();
-                                Snackbar.make(mWebView, R.string.bookmark_added, Snackbar.LENGTH_LONG).show();
-                            }
-                        })
-                        .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                dialog.cancel();
-                            }
-                        });
-                dialog.show();
 
             } catch (Exception e) {
                 e.printStackTrace();

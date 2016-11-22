@@ -1,4 +1,4 @@
-### v 2.5:
+### v 2.5+:
 - new: app shortcut icons
 - improved: UI (dialogs)
 - improved: password protection
