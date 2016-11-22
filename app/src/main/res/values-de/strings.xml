@@ -70,14 +70,11 @@
     <string name="pref_1">Über die Appp</string>
     <string name="pref_2">App Einstellungen</string>
     <string name="pref_3">Hilfe</string>
-    <string name="pref_4">Anmeldung</string>
     <string name="pref_5">Sicherheit</string>
 
-    <string name="action_username">Benutzername</string>
-    <string name="action_username_summary">Bitte gib deinen Moodle Benutzernamen an, um automatisch angemeldet zu werden.</string>
-
-    <string name="action_password">Passwort (Moodle)</string>
-    <string name="action_password_summary">Bitte gib dein Moodle Passwort an, um automatisch angemeldet zu werden.</string>
+    <string name="action_username">Logindaten (Moodle)</string>
+    <string name="action_username_summary">Bitte gib deinen Moodle Benutzernamen und dein Passwort an, um automatisch angemeldet zu
+        werden.</string>
 
     <string name="action_changelog">Änderungen</string>
     <string name="action_changelog_summary">Was gibt es Neues …</string>
@@ -191,6 +188,7 @@
     <string name="bookmark_createNote">Erstelle Notiz</string>
     <string name="bookmark_createEvent">Erstelle Kalendereintrag</string>
     <string name="bookmark_createShortcut">Erstelle Verknüpfung</string>
+    <string name="bookmark_edit_icon">Icon bearbeiten</string>
 
 
     // Notes
@@ -211,6 +209,7 @@
 
     // Password
 
+    <string name="pw_hint">Pin (nur Nummern)</string>
     <string name="pw_forgotten">Pin vergessen?</string>
     <string name="pw_forgotten_dialog">Möchtest du alle persönlichen Daten (auch die Logindaten, gespeicherten Lesezeichen, Notizen,
         …) löschen, um deine Zugangspin zurückzusetzen? Die Anwendung wird dann beendet.</string>

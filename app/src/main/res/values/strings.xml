@@ -67,14 +67,10 @@
     <string name="pref_1">About the app</string>
     <string name="pref_2">App settings</string>
     <string name="pref_3">Help</string>
-    <string name="pref_4">Login</string>
     <string name="pref_5">Security</string>
 
-    <string name="action_username">Username</string>
-    <string name="action_username_summary">Please enter your Moodle username to get automatically logged in.</string>
-
-    <string name="action_password">Password (Moodle)</string>
-    <string name="action_password_summary">Please enter your Moodle password to get automatically logged in.</string>
+    <string name="action_username">Login data (Moodle)</string>
+    <string name="action_username_summary">Please enter your Moodle username and password to get automatically logged in.</string>
 
     <string name="action_changelog">Changelog</string>
     <string name="action_changelog_summary">See what\'s new …</string>
@@ -187,6 +183,7 @@
     <string name="bookmark_createNote">Create note</string>
     <string name="bookmark_createEvent">Create calendar event</string>
     <string name="bookmark_createShortcut">Create shortcut</string>
+    <string name="bookmark_edit_icon">Change icon</string>
 
 
     // Notes
@@ -207,6 +204,7 @@
 
     // Password
 
+    <string name="pw_hint">Pin (only numbers)</string>
     <string name="pw_forgotten">Pin forgotten?</string>
     <string name="pw_forgotten_dialog">Do you want to delete all user data (also login data, saved bookmarks, notes, …) to reset
         your app pin? The application will close.</string>

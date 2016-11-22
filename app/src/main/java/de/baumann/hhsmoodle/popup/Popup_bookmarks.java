@@ -27,10 +27,10 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
 import android.support.design.widget.Snackbar;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +38,6 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -47,7 +46,9 @@ import java.util.HashMap;
 
 import de.baumann.hhsmoodle.HHS_Browser;
 import de.baumann.hhsmoodle.R;
+import de.baumann.hhsmoodle.helper.Activity_password;
 import de.baumann.hhsmoodle.helper.Database_Browser;
+import de.baumann.hhsmoodle.helper.class_SecurePreferences;
 import de.baumann.hhsmoodle.helper.helper_main;
 
 public class Popup_bookmarks extends Activity {
@@ -59,9 +60,18 @@ public class Popup_bookmarks extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_popup);
+        class_SecurePreferences sharedPrefSec = new class_SecurePreferences(Popup_bookmarks.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
+        String pw = sharedPrefSec.getString("protect_PW");
+
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        if (pw != null  && pw.length() > 0) {
+            if (sharedPref.getBoolean("isOpened", true)) {
+                helper_main.switchToActivity(Popup_bookmarks.this, Activity_password.class, "", false);
+            }
+        }
+
+        setContentView(R.layout.activity_popup);
 
         listView = (ListView)findViewById(R.id.dialogList);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -84,14 +94,6 @@ public class Popup_bookmarks extends Activity {
                 final String url = map.get("url");
                 final String icon = map.get("icon");
 
-                final LinearLayout layout = new LinearLayout(Popup_bookmarks.this);
-                layout.setOrientation(LinearLayout.VERTICAL);
-                layout.setGravity(Gravity.CENTER_HORIZONTAL);
-                final EditText input = new EditText(Popup_bookmarks.this);
-                input.setSingleLine(true);
-                layout.setPadding(30, 0, 50, 0);
-                layout.addView(input);
-
                 final CharSequence[] options = {
                         getString(R.string.bookmark_edit_title),
                         getString(R.string.bookmark_edit_fav),
@@ -105,31 +107,46 @@ public class Popup_bookmarks extends Activity {
                             public void onClick(DialogInterface dialog, int item) {
                                 if (options[item].equals(getString(R.string.bookmark_edit_title))) {
                                     try {
+
                                         final Database_Browser db = new Database_Browser(Popup_bookmarks.this);
-                                        db.deleteBookmark((Integer.parseInt(seqnoStr)));
-                                        input.setText(title);
-                                        final AlertDialog.Builder dialog2 = new AlertDialog.Builder(Popup_bookmarks.this)
-                                                .setView(layout)
-                                                .setMessage(R.string.bookmark_edit_title)
-                                                .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
 
-                                                    public void onClick(DialogInterface dialog, int whichButton) {
-                                                        String inputTag = input.getText().toString().trim();
-                                                        db.addBookmark(inputTag, url, icon);
-                                                        db.close();
-                                                        setBookmarkList();
-                                                    }
-                                                })
-                                                .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(Popup_bookmarks.this);
+                                        View dialogView = View.inflate(Popup_bookmarks.this, R.layout.dialog_edit, null);
 
-                                                    public void onClick(DialogInterface dialog, int whichButton) {
-                                                        db.addBookmark(title, url, icon);
-                                                        db.close();
-                                                        setBookmarkList();
-                                                        dialog.cancel();
-                                                    }
-                                                });
+                                        final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
+                                        edit_title.setHint(R.string.bookmark_edit_title);
+                                        edit_title.setText(title);
+
+                                        builder.setView(dialogView);
+                                        builder.setTitle(R.string.bookmark_edit_title);
+                                        builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+
+                                            public void onClick(DialogInterface dialog, int whichButton) {
+
+                                                String inputTag = edit_title.getText().toString().trim();
+                                                db.deleteBookmark((Integer.parseInt(seqnoStr)));
+                                                db.addBookmark(inputTag, url, icon);
+                                                db.close();
+                                                setBookmarkList();
+                                                Snackbar.make(listView, R.string.bookmark_added, Snackbar.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                        builder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                                            public void onClick(DialogInterface dialog, int whichButton) {
+                                                dialog.cancel();
+                                            }
+                                        });
+
+                                        final AlertDialog dialog2 = builder.create();
+                                        // Display the custom alert dialog on interface
                                         dialog2.show();
+
+                                        new Handler().postDelayed(new Runnable() {
+                                            public void run() {
+                                                helper_main.showKeyboard(Popup_bookmarks.this,edit_title);
+                                            }
+                                        }, 200);
 
                                     } catch (Exception e) {
                                         e.printStackTrace();
@@ -317,6 +334,13 @@ public class Popup_bookmarks extends Activity {
 
                             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(Popup_bookmarks.this);
                             // ...Irrelevant code for customizing the buttons and title
+                            dialogBuilder.setTitle(R.string.bookmark_edit_icon);
+                            dialogBuilder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    dialog.cancel();
+                                }
+                            });
 
                             if (convertView == null) {
                                 LayoutInflater inflater = Popup_bookmarks.this.getLayoutInflater();
@@ -496,5 +520,29 @@ public class Popup_bookmarks extends Activity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        helper_main.isClosed(Popup_bookmarks.this);
+        finish();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();    //To change body of overridden methods use File | Settings | File Templates.
+        helper_main.isOpened(Popup_bookmarks.this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
+        helper_main.isOpened(Popup_bookmarks.this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();    //To change body of overridden methods use File | Settings | File Templates.
+        helper_main.isClosed(Popup_bookmarks.this);
     }
 }

@@ -2,32 +2,46 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <EditText
-        android:id="@+id/note_title_input"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/layout_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/title_hint"
-        android:inputType="textCapSentences|textMultiLine"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_alignParentTop="true"
         android:layout_marginTop="@dimen/activity_horizontal_margin"
-        android:layout_alignParentStart="true"
-        android:layout_toStartOf="@+id/imageButtonPri" />
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        app:passwordToggleEnabled="false"
+        android:layout_toStartOf="@+id/imageButtonPri">
 
-    <EditText
-        android:id="@+id/note_text_input"
+        <EditText
+            android:id="@+id/note_title_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/title_hint"
+            android:inputType="textCapSentences|textMultiLine" />
+
+    </android.support.design.widget.TextInputLayout>
+
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/layout_cont"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
         android:layout_width="match_parent"
+        android:layout_below="@+id/layout_title"
         android:layout_height="wrap_content"
-        android:hint="@string/text_hint"
-        android:inputType="textCapSentences|textMultiLine"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_below="@+id/note_title_input"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="@dimen/activity_horizontal_margin" />
+        app:passwordToggleEnabled="false">
+
+        <EditText
+            android:id="@+id/note_text_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/text_hint"
+            android:inputType="textCapSentences|textMultiLine" />
+
+    </android.support.design.widget.TextInputLayout>
 
     <ImageButton
         android:layout_width="32dp"
@@ -35,11 +49,10 @@
         android:id="@+id/imageButtonPri"
         android:src="@drawable/pr_green"
         android:background="?android:selectableItemBackground"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/activity_horizontal_margin"
         tools:ignore="ContentDescription"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_alignTop="@+id/layout_title"
+        android:layout_alignEnd="@+id/layout_cont" />
 
 </RelativeLayout>

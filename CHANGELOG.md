@@ -1,9 +1,14 @@
+### v 2.5:
+- new: app shortcut icons
+- improved: UI (dialogs)
+- improved: password protection
+
 ### v 2.4+:
 - maintenance release
 - Android N support
 - file chooser
 - arrows to navigate
-- Qick shortcuts (Android N)
+- Quick shortcuts (Android N)
 
 ### v 2.3
 - added: encryption login data

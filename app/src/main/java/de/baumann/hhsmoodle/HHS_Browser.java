@@ -123,7 +123,6 @@ public class HHS_Browser extends AppCompatActivity implements ObservableScrollVi
             WebView.enableSlowWholeDocumentDraw();
         }
 
-        setContentView(R.layout.activity_browser);
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         class_SecurePreferences sharedPrefSec = new class_SecurePreferences(HHS_Browser.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
@@ -134,6 +133,8 @@ public class HHS_Browser extends AppCompatActivity implements ObservableScrollVi
                 helper_main.switchToActivity(HHS_Browser.this, Activity_password.class, "", false);
             }
         }
+
+        setContentView(R.layout.activity_browser);
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
@@ -582,26 +583,6 @@ public class HHS_Browser extends AppCompatActivity implements ObservableScrollVi
     }
 
     @Override
-    public void onBackPressed() {
-        if (mWebView.canGoBack()) {
-            mWebView.goBack();
-        } else {
-            if (sharedPref.getString("tabPref", "").equals("")) {
-                helper_main.isClosed(HHS_Browser.this);
-                finish();
-            } else {
-                helper_main.switchToActivity(HHS_Browser.this, HHS_MainScreen.class, "", false);
-                new Handler().postDelayed(new Runnable() {
-                    public void run() {
-                        helper_main.resetStartTab(HHS_Browser.this);
-                        finish();
-                    }
-                }, 500);
-            }
-        }
-    }
-
-    @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
 
         if (sharedPref.getBoolean ("help", false)){
@@ -861,5 +842,43 @@ public class HHS_Browser extends AppCompatActivity implements ObservableScrollVi
         } else {
             imageButton.setVisibility(View.INVISIBLE);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mWebView.canGoBack()) {
+            mWebView.goBack();
+        } else {
+            if (sharedPref.getString("tabPref", "").equals("")) {
+                helper_main.isClosed(HHS_Browser.this);
+                finish();
+            } else {
+                helper_main.switchToActivity(HHS_Browser.this, HHS_MainScreen.class, "", false);
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
+                        helper_main.resetStartTab(HHS_Browser.this);
+                        finish();
+                    }
+                }, 500);
+            }
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();    //To change body of overridden methods use File | Settings | File Templates.
+        helper_main.isOpened(HHS_Browser.this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
+        helper_main.isOpened(HHS_Browser.this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();    //To change body of overridden methods use File | Settings | File Templates.
+        helper_main.isClosed(HHS_Browser.this);
     }
 }

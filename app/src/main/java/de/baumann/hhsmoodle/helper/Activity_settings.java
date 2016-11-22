@@ -34,9 +34,7 @@ import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.InputType;
 import android.text.method.LinkMovementMethod;
-import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -244,56 +242,6 @@ public class Activity_settings extends AppCompatActivity {
             });
         }
 
-        private void addPasswordListener() {
-
-            Preference reset = findPreference("password");
-            reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                public boolean onPreferenceClick(Preference pref) {
-
-                    final Activity activity = getActivity();
-                    final class_SecurePreferences sharedPrefSec = new class_SecurePreferences(activity, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
-                    final String password = sharedPrefSec.getString("password");
-
-                    final LinearLayout layout = new LinearLayout(getActivity());
-                    layout.setOrientation(LinearLayout.VERTICAL);
-                    layout.setGravity(Gravity.CENTER_HORIZONTAL);
-                    final EditText input = new EditText(getActivity());
-                    input.setSingleLine(true);
-                    input.setText(password);
-                    input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                    input.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    layout.setPadding(30, 0, 50, 0);
-                    layout.addView(input);
-
-                    new Handler().postDelayed(new Runnable() {
-                        public void run() {
-                            helper_main.showKeyboard(getActivity(),input);
-                        }
-                    }, 200);
-
-                    final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity())
-                            .setView(layout)
-                            .setMessage(R.string.action_password)
-                            .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
-
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    String inputTag = input.getText().toString().trim();
-                                    sharedPrefSec.put("password", inputTag);
-                                }
-                            })
-                            .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    dialog.cancel();
-                                }
-                            });
-                    dialog.show();
-
-                    return true;
-                }
-            });
-        }
-
         private void addProtectListener() {
 
             Preference reset = findPreference("protect_PW");
@@ -304,40 +252,39 @@ public class Activity_settings extends AppCompatActivity {
                     final class_SecurePreferences sharedPrefSec = new class_SecurePreferences(activity, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
                     final String password = sharedPrefSec.getString("protect_PW");
 
-                    final LinearLayout layout = new LinearLayout(getActivity());
-                    layout.setOrientation(LinearLayout.VERTICAL);
-                    layout.setGravity(Gravity.CENTER_HORIZONTAL);
-                    final EditText input = new EditText(getActivity());
-                    input.setSingleLine(true);
-                    input.setText(password);
-                    input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                    input.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    layout.setPadding(30, 0, 50, 0);
-                    layout.addView(input);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                    View dialogView = View.inflate(activity, R.layout.dialog_pin, null);
+
+                    final EditText pass_userPW = (EditText) dialogView.findViewById(R.id.pass_userPin);
+                    pass_userPW.setText(password);
+
+                    builder.setView(dialogView);
+                    builder.setTitle(R.string.action_protect);
+                    builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int whichButton) {
+
+                            String inputTag = pass_userPW.getText().toString().trim();
+                            sharedPrefSec.put("protect_PW", inputTag);
+
+                        }
+                    });
+                    builder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            dialog.cancel();
+                        }
+                    });
+
+                    final AlertDialog dialog2 = builder.create();
+                    // Display the custom alert dialog on interface
+                    dialog2.show();
 
                     new Handler().postDelayed(new Runnable() {
                         public void run() {
-                            helper_main.showKeyboard(getActivity(),input);
+                            helper_main.showKeyboard(activity,pass_userPW);
                         }
                     }, 200);
-
-                    final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity())
-                            .setView(layout)
-                            .setMessage(R.string.action_protect)
-                            .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
-
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    String inputTag = input.getText().toString().trim();
-                                    sharedPrefSec.put("protect_PW", inputTag);
-                                }
-                            })
-                            .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    dialog.cancel();
-                                }
-                            });
-                    dialog.show();
 
                     return true;
                 }
@@ -350,42 +297,51 @@ public class Activity_settings extends AppCompatActivity {
             reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference pref) {
 
-                    final Activity activity = getActivity();
-                    final class_SecurePreferences sharedPrefSec = new class_SecurePreferences(activity, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
-                    final String username = sharedPrefSec.getString("username");
+                    try {
 
-                    final LinearLayout layout = new LinearLayout(getActivity());
-                    layout.setOrientation(LinearLayout.VERTICAL);
-                    layout.setGravity(Gravity.CENTER_HORIZONTAL);
-                    final EditText input = new EditText(getActivity());
-                    input.setSingleLine(true);
-                    input.setText(username);
-                    layout.setPadding(30, 0, 50, 0);
-                    layout.addView(input);
+                        final class_SecurePreferences sharedPrefSec = new class_SecurePreferences(getActivity(), "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
 
-                    new Handler().postDelayed(new Runnable() {
-                        public void run() {
-                            helper_main.showKeyboard(getActivity(),input);
-                        }
-                    }, 200);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        View dialogView = View.inflate(getActivity(), R.layout.dialog_login, null);
 
-                    final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity())
-                            .setView(layout)
-                            .setMessage(R.string.action_username)
-                            .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+                        final EditText pass_userName = (EditText) dialogView.findViewById(R.id.pass_userName);
+                        pass_userName.setText(sharedPrefSec.getString("username"));
+                        final EditText pass_userPW = (EditText) dialogView.findViewById(R.id.pass_userPW);
+                        pass_userPW.setText(sharedPrefSec.getString("password"));
 
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    String inputTag = input.getText().toString().trim();
-                                    sharedPrefSec.put("username", inputTag);
-                                }
-                            })
-                            .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+                        builder.setView(dialogView);
+                        builder.setTitle(R.string.action_username);
+                        builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
 
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    dialog.cancel();
-                                }
-                            });
-                    dialog.show();
+                            public void onClick(DialogInterface dialog, int whichButton) {
+
+                                String inputTag = pass_userName.getText().toString().trim();
+                                sharedPrefSec.put("username", inputTag);
+
+                                String inputTag2 = pass_userPW.getText().toString().trim();
+                                sharedPrefSec.put("protect_PW", inputTag2);
+                            }
+                        });
+                        builder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                dialog.cancel();
+                            }
+                        });
+
+                        final AlertDialog dialog2 = builder.create();
+                        // Display the custom alert dialog on interface
+                        dialog2.show();
+
+                        new Handler().postDelayed(new Runnable() {
+                            public void run() {
+                                helper_main.showKeyboard(getActivity(), pass_userName);
+                            }
+                        }, 200);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
 
                     return true;
                 }
@@ -490,7 +446,6 @@ public class Activity_settings extends AppCompatActivity {
             addChangelogListener();
             addOpenSettingsListener();
             addProblemsListener();
-            addPasswordListener();
             addUsernameListener();
             addProtectListener();
             addBackup_dbListener();
@@ -530,6 +485,7 @@ public class Activity_settings extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == android.R.id.home) {
+            helper_main.isOpened(Activity_settings.this);
             helper_main.switchToActivity(Activity_settings.this, HHS_MainScreen.class, "", true);
         }
 

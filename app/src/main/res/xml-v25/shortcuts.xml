@@ -3,7 +3,7 @@
     <shortcut
         android:shortcutId="calendar"
         android:enabled="true"
-        android:icon="@mipmap/ic_calendar"
+        android:icon="@drawable/qc_calendar"
         android:shortcutShortLabel="@string/menu_calendar"
         android:shortcutLongLabel="@string/menu_calendar"
         android:shortcutDisabledMessage="@string/menu_calendar">
@@ -20,7 +20,7 @@
     <shortcut
         android:shortcutId="moodle"
         android:enabled="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/qc_moodle"
         android:shortcutShortLabel="@string/title_info"
         android:shortcutLongLabel="@string/title_info"
         android:shortcutDisabledMessage="@string/title_info">
@@ -37,7 +37,7 @@
     <shortcut
         android:shortcutId="bookmarks"
         android:enabled="true"
-        android:icon="@mipmap/ic_bookmark"
+        android:icon="@drawable/qc_bookmarks"
         android:shortcutShortLabel="@string/title_bookmarks"
         android:shortcutLongLabel="@string/title_bookmarks"
         android:shortcutDisabledMessage="@string/title_bookmarks">
@@ -54,7 +54,7 @@
     <shortcut
         android:shortcutId="notes"
         android:enabled="true"
-        android:icon="@mipmap/ic_note"
+        android:icon="@drawable/qc_note"
         android:shortcutShortLabel="@string/title_notes"
         android:shortcutLongLabel="@string/title_notes"
         android:shortcutDisabledMessage="@string/title_notes">
@@ -71,7 +71,7 @@
     <shortcut
         android:shortcutId="compose"
         android:enabled="true"
-        android:icon="@mipmap/ic_note_plus"
+        android:icon="@drawable/qc_note_plus"
         android:shortcutShortLabel="@string/bookmark_createNote"
         android:shortcutLongLabel="@string/bookmark_createNote"
         android:shortcutDisabledMessage="@string/bookmark_createNote">

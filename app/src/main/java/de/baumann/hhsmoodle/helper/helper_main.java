@@ -264,6 +264,7 @@ public class helper_main {
         });
 
         android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(from)
+                .setTitle(R.string.note_edit)
                 .setView(dialogView)
                 .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
 
@@ -499,6 +500,7 @@ public class helper_main {
     public static void showKeyboard(Activity from, EditText editText) {
         InputMethodManager imm = (InputMethodManager) from.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
+        editText.setSelection(editText.length());
     }
 
     public static void openFilePicker (final Activity activity, final View view, final String startDir) {

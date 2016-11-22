@@ -121,34 +121,47 @@ public class FragmentBookmarks extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialog, int item) {
                                 if (options[item].equals(getString(R.string.bookmark_edit_title))) {
-                                    new Handler().postDelayed(new Runnable() {
-                                        public void run() {
-                                            helper_main.showKeyboard(getActivity(),input);
-                                        }
-                                    }, 200);
                                     try {
+
                                         final Database_Browser db = new Database_Browser(getActivity());
-                                        input.setText(title);
-                                        final AlertDialog.Builder dialog2 = new AlertDialog.Builder(getActivity())
-                                                .setView(layout)
-                                                .setMessage(R.string.bookmark_edit_title)
-                                                .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
 
-                                                    public void onClick(DialogInterface dialog, int whichButton) {
-                                                        String inputTag = input.getText().toString().trim();
-                                                        db.deleteBookmark((Integer.parseInt(seqnoStr)));
-                                                        db.addBookmark(inputTag, url, icon);
-                                                        db.close();
-                                                        setBookmarkList();
-                                                    }
-                                                })
-                                                .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                        View dialogView = View.inflate(getActivity(), R.layout.dialog_edit, null);
 
-                                                    public void onClick(DialogInterface dialog, int whichButton) {
-                                                        dialog.cancel();
-                                                    }
-                                                });
+                                        final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
+                                        edit_title.setHint(R.string.bookmark_edit_title);
+                                        edit_title.setText(title);
+
+                                        builder.setView(dialogView);
+                                        builder.setTitle(R.string.bookmark_edit_title);
+                                        builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+
+                                            public void onClick(DialogInterface dialog, int whichButton) {
+
+                                                String inputTag = edit_title.getText().toString().trim();
+                                                db.deleteBookmark((Integer.parseInt(seqnoStr)));
+                                                db.addBookmark(inputTag, url, icon);
+                                                db.close();
+                                                setBookmarkList();
+                                                Snackbar.make(listView, R.string.bookmark_added, Snackbar.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                        builder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                                            public void onClick(DialogInterface dialog, int whichButton) {
+                                                dialog.cancel();
+                                            }
+                                        });
+
+                                        final AlertDialog dialog2 = builder.create();
+                                        // Display the custom alert dialog on interface
                                         dialog2.show();
+
+                                        new Handler().postDelayed(new Runnable() {
+                                            public void run() {
+                                                helper_main.showKeyboard(getActivity(),edit_title);
+                                            }
+                                        }, 200);
 
                                     } catch (Exception e) {
                                         e.printStackTrace();
@@ -352,6 +365,13 @@ public class FragmentBookmarks extends Fragment {
 
                             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
                             // ...Irrelevant code for customizing the buttons and title
+                            dialogBuilder.setTitle(R.string.bookmark_edit_icon);
+                            dialogBuilder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    dialog.cancel();
+                                }
+                            });
 
                             if (convertView == null) {
                                 LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -547,4 +567,6 @@ public class FragmentBookmarks extends Fragment {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
 }

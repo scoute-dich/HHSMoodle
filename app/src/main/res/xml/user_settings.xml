@@ -2,22 +2,12 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-        android:title="@string/pref_4">
+        android:title="@string/pref_5">
 
         <Preference
             android:title="@string/action_username"
             android:summary="@string/action_username_summary"
             android:key="username" />
-
-        <Preference
-            android:title="@string/action_password"
-            android:summary="@string/action_password_summary"
-            android:key="password" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:title="@string/pref_5">
 
         <Preference
             android:title="@string/action_protect"

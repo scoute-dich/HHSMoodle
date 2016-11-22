@@ -43,7 +43,9 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import de.baumann.hhsmoodle.R;
+import de.baumann.hhsmoodle.helper.Activity_password;
 import de.baumann.hhsmoodle.helper.class_OnSwipeTouchListener;
+import de.baumann.hhsmoodle.helper.class_SecurePreferences;
 import de.baumann.hhsmoodle.helper.helper_main;
 
 @SuppressWarnings("ResultOfMethodCallIgnored")
@@ -69,12 +71,22 @@ public class Popup_calendar extends AppCompatActivity  {
             WebView.enableSlowWholeDocumentDraw();
         }
 
-        setContentView(R.layout.activity_popup_calendar);
+        class_SecurePreferences sharedPrefSec = new class_SecurePreferences(Popup_calendar.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
+        String pw = sharedPrefSec.getString("protect_PW");
 
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+
+        if (pw != null  && pw.length() > 0) {
+            if (sharedPref.getBoolean("isOpened", true)) {
+                helper_main.switchToActivity(Popup_calendar.this, Activity_password.class, "", false);
+            }
+        }
+
         String fontSizeST = sharedPref.getString("font", "100");
         int fontSize = Integer.parseInt(fontSizeST);
+
+        setContentView(R.layout.activity_popup_calendar);
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
@@ -214,7 +226,26 @@ public class Popup_calendar extends AppCompatActivity  {
         if (mWebView.canGoBack()) {
             mWebView.goBack();
         } else {
+            helper_main.isClosed(Popup_calendar.this);
             finish();
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();    //To change body of overridden methods use File | Settings | File Templates.
+        helper_main.isOpened(Popup_calendar.this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
+        helper_main.isOpened(Popup_calendar.this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();    //To change body of overridden methods use File | Settings | File Templates.
+        helper_main.isClosed(Popup_calendar.this);
     }
 }

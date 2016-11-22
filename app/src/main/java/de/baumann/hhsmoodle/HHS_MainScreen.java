@@ -67,7 +67,7 @@ public class HHS_MainScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_screen_main);
+
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         class_SecurePreferences sharedPrefSec = new class_SecurePreferences(HHS_MainScreen.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
@@ -77,6 +77,8 @@ public class HHS_MainScreen extends AppCompatActivity {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
         }
+
+        setContentView(R.layout.activity_screen_main);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
@@ -205,12 +207,6 @@ public class HHS_MainScreen extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() {
-        helper_main.isClosed(HHS_MainScreen.this);
-        finish();
-    }
-
-    @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
 
         if (sharedPref.getBoolean ("help", false)){
@@ -336,5 +332,29 @@ public class HHS_MainScreen extends AppCompatActivity {
                     }).show();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        helper_main.isClosed(HHS_MainScreen.this);
+        finish();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();    //To change body of overridden methods use File | Settings | File Templates.
+        helper_main.isOpened(HHS_MainScreen.this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
+        helper_main.isOpened(HHS_MainScreen.this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();    //To change body of overridden methods use File | Settings | File Templates.
+        helper_main.isClosed(HHS_MainScreen.this);
     }
 }

@@ -35,7 +35,9 @@ import android.widget.ListView;
 
 import de.baumann.hhsmoodle.HHS_Browser;
 import de.baumann.hhsmoodle.R;
+import de.baumann.hhsmoodle.helper.Activity_password;
 import de.baumann.hhsmoodle.helper.class_CustomListAdapter;
+import de.baumann.hhsmoodle.helper.class_SecurePreferences;
 import de.baumann.hhsmoodle.helper.helper_main;
 
 public class Popup_info extends Activity {
@@ -90,9 +92,18 @@ public class Popup_info extends Activity {
                 R.drawable.ic_magnify_grey600_48dp,
         };
 
-        setContentView(R.layout.activity_popup);
+        class_SecurePreferences sharedPrefSec = new class_SecurePreferences(Popup_info.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
+        String pw = sharedPrefSec.getString("protect_PW");
+
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        if (pw != null  && pw.length() > 0) {
+            if (sharedPref.getBoolean("isOpened", true)) {
+                helper_main.switchToActivity(Popup_info.this, Activity_password.class, "", false);
+            }
+        }
+
+        setContentView(R.layout.activity_popup);
         
         class_CustomListAdapter adapter=new class_CustomListAdapter(Popup_info.this, itemTITLE, itemURL, itemDES, imgid);
         final ListView listView = (ListView) findViewById(R.id.dialogList);
@@ -168,5 +179,29 @@ public class Popup_info extends Activity {
                 return true;
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        helper_main.isClosed(Popup_info.this);
+        finish();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();    //To change body of overridden methods use File | Settings | File Templates.
+        helper_main.isOpened(Popup_info.this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
+        helper_main.isOpened(Popup_info.this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();    //To change body of overridden methods use File | Settings | File Templates.
+        helper_main.isClosed(Popup_info.this);
     }
 }

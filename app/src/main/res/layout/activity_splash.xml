@@ -15,33 +15,46 @@
         android:scaleType="centerCrop"
         android:contentDescription="@string/app_contDesc_3" />
 
-    <EditText
-        android:layout_width="fill_parent"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/editUsernameLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editUsername"
-        android:layout_above="@+id/editPassword"
+        android:layout_above="@+id/editPasswordLayout"
         android:layout_alignParentStart="true"
         android:layout_marginLeft="64dp"
         android:layout_marginRight="64dp"
-        android:hint="@string/login_user"
-        android:textColor="#ffffff"
-        android:textColorHint="#bdbdbd"
-        android:maxLines="1" />
+        app:passwordToggleEnabled="false" >
 
-    <EditText
-        android:layout_width="fill_parent"
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editUsername"
+            android:hint="@string/login_user"
+            android:inputType="text"
+            android:maxLines="1" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/editPasswordLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editPassword"
+        app:passwordToggleEnabled="true"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="64dp"
         android:layout_marginRight="64dp"
-        android:layout_marginTop="32dp"
-        android:hint="@string/login_password"
-        android:textColor="#ffffff"
-        android:textColorHint="#bdbdbd"
-        android:inputType="textPassword"
-        android:maxLines="1" />
+        android:layout_marginTop="32dp">
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editPassword"
+            android:hint="@string/login_password"
+            android:inputType="textPassword"
+            android:maxLines="1" />
+
+    </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.FloatingActionButton
         app:srcCompat="@drawable/check"
