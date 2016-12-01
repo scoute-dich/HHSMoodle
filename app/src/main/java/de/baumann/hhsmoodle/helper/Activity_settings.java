@@ -36,12 +36,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -139,23 +137,11 @@ public class Activity_settings extends AppCompatActivity {
         private void addChangelogListener() {
 
             Preference reset = findPreference("changelog");
-            reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
-            {
-                public boolean onPreferenceClick(Preference pref)
-                {
-
-                    final AlertDialog d = new AlertDialog.Builder(getActivity())
-                            .setTitle(R.string.action_changelog)
-                            .setMessage(helper_main.textSpannable(getString(R.string.changelog_text)))
-                            .setPositiveButton(getString(R.string.toast_yes),
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
-                                            dialog.cancel();
-                                        }
-                                    }).show();
-                    d.show();
-                    ((TextView)d.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
-
+            reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference pref) {
+                    Uri uri = Uri.parse("https://github.com/scoute-dich/HHSMoodle/blob/master/CHANGELOG.md"); // missing 'http://' will cause crashed
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    startActivity(intent);
                     return true;
                 }
             });
@@ -191,52 +177,56 @@ public class Activity_settings extends AppCompatActivity {
             reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference pref) {
 
-                    final LinearLayout layout = new LinearLayout(getActivity());
-                    layout.setOrientation(LinearLayout.VERTICAL);
-                    layout.setGravity(Gravity.CENTER_HORIZONTAL);
-                    final EditText input = new EditText(getActivity());
-                    input.setSingleLine(false);
-                    layout.setPadding(30, 0, 50, 0);
-                    layout.addView(input);
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                    View dialogView = View.inflate(activity, R.layout.dialog_mail, null);
+
+                    final EditText pass_userPW = (EditText) dialogView.findViewById(R.id.pass_title);
+                    pass_userPW.setText("");
+
+                    builder.setView(dialogView);
+                    builder.setTitle(R.string.action_problem);
+                    builder.setPositiveButton(R.string.action_problem_button, new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int whichButton) {
+
+                            Log.i("Send email", "");
+
+                            String[] TO = {"juergen.baumann@huebsch.karlsruhe.de"};
+                            String text = pass_userPW.getText().toString().trim();
+                            Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                            emailIntent.setData(Uri.parse("mailto:"));
+                            emailIntent.setType("text/plain");
+
+                            emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
+                            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "HHS Moodle");
+                            emailIntent.putExtra(Intent.EXTRA_TEXT, text);
+
+                            try {
+                                startActivity(Intent.createChooser(emailIntent, getString(R.string.note_share_3)));
+                            } catch (android.content.ActivityNotFoundException ex) {
+                                Toast.makeText(activity, R.string.toast_install_mail, Toast.LENGTH_SHORT).show();
+                            }
+
+
+                        }
+                    });
+                    builder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            dialog.cancel();
+                        }
+                    });
+
+                    final AlertDialog dialog2 = builder.create();
+                    // Display the custom alert dialog on interface
+                    dialog2.show();
 
                     new Handler().postDelayed(new Runnable() {
                         public void run() {
-                            helper_main.showKeyboard(getActivity(),input);
+                            helper_main.showKeyboard(activity,pass_userPW);
                         }
                     }, 200);
-
-                    final AlertDialog.Builder dialog2 = new AlertDialog.Builder(getActivity())
-                            .setView(layout)
-                            .setMessage(R.string.action_problem_text)
-                            .setPositiveButton(R.string.action_problem_button, new DialogInterface.OnClickListener() {
-
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    Log.i("Send email", "");
-
-                                    String[] TO = {"juergen.baumann@huebsch.karlsruhe.de"};
-                                    String text = input.getText().toString().trim();
-                                    Intent emailIntent = new Intent(Intent.ACTION_SEND);
-                                    emailIntent.setData(Uri.parse("mailto:"));
-                                    emailIntent.setType("text/plain");
-
-                                    emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
-                                    emailIntent.putExtra(Intent.EXTRA_SUBJECT, "HHS Moodle");
-                                    emailIntent.putExtra(Intent.EXTRA_TEXT, text);
-
-                                    try {
-                                        startActivity(Intent.createChooser(emailIntent, getString(R.string.note_share_3)));
-                                    } catch (android.content.ActivityNotFoundException ex) {
-                                        Toast.makeText(activity, R.string.toast_install_mail, Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            })
-                            .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    dialog.cancel();
-                                }
-                            });
-                    dialog2.show();
                     return true;
                 }
             });
@@ -354,84 +344,89 @@ public class Activity_settings extends AppCompatActivity {
             reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference pref) {
 
-                    try {
-                        File sd = Environment.getExternalStorageDirectory();
-                        File data = Environment.getDataDirectory();
+                    final CharSequence[] options = {
+                            getString(R.string.action_backup),
+                            getString(R.string.action_restore)};
+                    new AlertDialog.Builder(getActivity())
+                            .setItems(options, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int item) {
+                                    if (options[item].equals(getString(R.string.action_backup))) {
+                                        try {
+                                            File sd = Environment.getExternalStorageDirectory();
+                                            File data = Environment.getDataDirectory();
 
-                        if (sd.canWrite()) {
-                            String currentDBPath = "//data//" + "de.baumann.hhsmoodle"
-                                    + "//databases//" + "browser.db";
-                            String backupDBPath = "//HHS_Moodle//" + "//backup//" + "browser.db";
-                            File currentDB = new File(data, currentDBPath);
-                            File backupDB = new File(sd, backupDBPath);
+                                            if (sd.canWrite()) {
+                                                String currentDBPath = "//data//" + "de.baumann.hhsmoodle"
+                                                        + "//databases//" + "browser.db";
+                                                String backupDBPath = "//HHS_Moodle//" + "//backup//" + "browser.db";
+                                                File currentDB = new File(data, currentDBPath);
+                                                File backupDB = new File(sd, backupDBPath);
 
-                            FileChannel src = new FileInputStream(currentDB).getChannel();
-                            FileChannel dst = new FileOutputStream(backupDB).getChannel();
-                            dst.transferFrom(src, 0, src.size());
-                            src.close();
-                            dst.close();
+                                                FileChannel src = new FileInputStream(currentDB).getChannel();
+                                                FileChannel dst = new FileOutputStream(backupDB).getChannel();
+                                                dst.transferFrom(src, 0, src.size());
+                                                src.close();
+                                                dst.close();
 
-                            String currentDBPath2 = "//data//" + "de.baumann.hhsmoodle"
-                                    + "//databases//" + "notes.db";
-                            String backupDBPath2 = "//HHS_Moodle//" + "//backup//" + "notes.db";
-                            File currentDB2 = new File(data, currentDBPath2);
-                            File backupDB2 = new File(sd, backupDBPath2);
+                                                String currentDBPath2 = "//data//" + "de.baumann.hhsmoodle"
+                                                        + "//databases//" + "notes.db";
+                                                String backupDBPath2 = "//HHS_Moodle//" + "//backup//" + "notes.db";
+                                                File currentDB2 = new File(data, currentDBPath2);
+                                                File backupDB2 = new File(sd, backupDBPath2);
 
-                            FileChannel src2 = new FileInputStream(currentDB2).getChannel();
-                            FileChannel dst2 = new FileOutputStream(backupDB2).getChannel();
-                            dst2.transferFrom(src2, 0, src2.size());
-                            src2.close();
-                            dst2.close();
+                                                FileChannel src2 = new FileInputStream(currentDB2).getChannel();
+                                                FileChannel dst2 = new FileOutputStream(backupDB2).getChannel();
+                                                dst2.transferFrom(src2, 0, src2.size());
+                                                src2.close();
+                                                dst2.close();
 
-                            Toast.makeText(getActivity(), R.string.toast_backup, Toast.LENGTH_SHORT).show();
-                        }
-                    } catch (Exception e) {
-                        Toast.makeText(getActivity(), R.string.toast_backup_not, Toast.LENGTH_SHORT).show();
-                    }
-                    return true;
-                }
-            });
-        }
+                                                Toast.makeText(getActivity(), R.string.toast_backup, Toast.LENGTH_SHORT).show();
+                                            }
+                                        } catch (Exception e) {
+                                            Toast.makeText(getActivity(), R.string.toast_backup_not, Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                    if (options[item].equals(getString(R.string.action_restore))) {
 
-        private void addRestore_dbListener() {
+                                        try {
+                                            File sd = Environment.getExternalStorageDirectory();
+                                            File data = Environment.getDataDirectory();
 
-            Preference reset = findPreference("restore_db");
-            reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                public boolean onPreferenceClick(Preference pref) {
+                                            if (sd.canWrite()) {
+                                                String currentDBPath = "//data//" + "de.baumann.hhsmoodle"
+                                                        + "//databases//" + "browser.db";
+                                                String backupDBPath = "//HHS_Moodle//" + "//backup//" + "browser.db";
+                                                File currentDB = new File(data, currentDBPath);
+                                                File backupDB = new File(sd, backupDBPath);
 
-                    try {
-                        File sd = Environment.getExternalStorageDirectory();
-                        File data = Environment.getDataDirectory();
+                                                FileChannel src = new FileInputStream(backupDB).getChannel();
+                                                FileChannel dst = new FileOutputStream(currentDB).getChannel();
+                                                dst.transferFrom(src, 0, src.size());
+                                                src.close();
+                                                dst.close();
 
-                        if (sd.canWrite()) {
-                            String currentDBPath = "//data//" + "de.baumann.hhsmoodle"
-                                    + "//databases//" + "browser.db";
-                            String backupDBPath = "//HHS_Moodle//" + "//backup//" + "browser.db";
-                            File currentDB = new File(data, currentDBPath);
-                            File backupDB = new File(sd, backupDBPath);
+                                                String currentDBPath2 = "//data//" + "de.baumann.hhsmoodle"
+                                                        + "//databases//" + "notes.db";
+                                                String backupDBPath2 = "//HHS_Moodle//" + "//backup//" + "notes.db";
+                                                File currentDB2 = new File(data, currentDBPath2);
+                                                File backupDB2 = new File(sd, backupDBPath2);
 
-                            FileChannel src = new FileInputStream(backupDB).getChannel();
-                            FileChannel dst = new FileOutputStream(currentDB).getChannel();
-                            dst.transferFrom(src, 0, src.size());
-                            src.close();
-                            dst.close();
+                                                FileChannel src2 = new FileInputStream(backupDB2).getChannel();
+                                                FileChannel dst2 = new FileOutputStream(currentDB2).getChannel();
+                                                dst2.transferFrom(src2, 0, src2.size());
+                                                src2.close();
+                                                dst2.close();
+                                                Toast.makeText(getActivity(), R.string.toast_restore, Toast.LENGTH_SHORT).show();
+                                            }
+                                        } catch (Exception e) {
+                                            Toast.makeText(getActivity(), R.string.toast_restore_not, Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                }
+                            }).show();
 
-                            String currentDBPath2 = "//data//" + "de.baumann.hhsmoodle"
-                                    + "//databases//" + "notes.db";
-                            String backupDBPath2 = "//HHS_Moodle//" + "//backup//" + "notes.db";
-                            File currentDB2 = new File(data, currentDBPath2);
-                            File backupDB2 = new File(sd, backupDBPath2);
 
-                            FileChannel src2 = new FileInputStream(backupDB2).getChannel();
-                            FileChannel dst2 = new FileOutputStream(currentDB2).getChannel();
-                            dst2.transferFrom(src2, 0, src2.size());
-                            src2.close();
-                            dst2.close();
-                            Toast.makeText(getActivity(), R.string.toast_restore, Toast.LENGTH_SHORT).show();
-                        }
-                    } catch (Exception e) {
-                        Toast.makeText(getActivity(), R.string.toast_restore_not, Toast.LENGTH_SHORT).show();
-                    }
                     return true;
                 }
             });
@@ -449,7 +444,6 @@ public class Activity_settings extends AppCompatActivity {
             addUsernameListener();
             addProtectListener();
             addBackup_dbListener();
-            addRestore_dbListener();
         }
     }
 

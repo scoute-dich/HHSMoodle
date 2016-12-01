@@ -175,6 +175,7 @@ public class Activity_password extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 final AlertDialog.Builder dialog = new AlertDialog.Builder(Activity_password.this)
+                        .setTitle(R.string.app_conf)
                         .setMessage(helper_main.textSpannable(getString(R.string.pw_forgotten_dialog)))
                         .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
 

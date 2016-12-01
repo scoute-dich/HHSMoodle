@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    //License Dialog
+    // License Dialog
 
     <string name="about_title">Copyright © 2016  by Gaukler Faun</string>
     <string name="about_text">
@@ -26,85 +26,24 @@
         &lt;i>browser&lt;br>
         https://github.com/yoshihiroando/browser&lt;br>&lt;br>
 
-        &lt;i>encrypted-userprefs&lt;br>
-        https://github.com/sveinungkb/encrypted-userprefs&lt;/i>
+        encrypted-userprefs&lt;br>
+        https://github.com/sveinungkb/encrypted-userprefs&lt;br>&lt;br>
+
+        MaterialDesignIcons&lt;br>
+        https://github.com/Templarian/MaterialDesign&lt;/i>
     </string>
 
 
-    //Changelog Dialog
+    // Login Dialog
 
-    <string name="changelog_text">
-        &lt;i>For more information visit the project site on github:&lt;br>
-        https://github.com/scoute-dich/HHSMoodle&lt;/i>&lt;br>&lt;br>
-
-        &lt;b>v 2.5+:&lt;/b>&lt;br>
-        &#8226; improved: app shortcut icons&lt;br>
-        &#8226; improved: UI (dialogs)&lt;br>
-        &#8226; improved: password protection&lt;br>&lt;br>
-
-        &lt;b>v 2.4+:&lt;/b>&lt;br>
-        &#8226; maintenance release&lt;br>
-        &#8226; added: Android N support&lt;br>
-        &#8226; added: file chooser (2.4.2)&lt;br>
-        &#8226; added: arrows to navigate (2.4.3)&lt;br>
-        &#8226; added: Quick shortcuts (Android N)&lt;br>&lt;br>
-
-        &lt;b>v 2.3:&lt;/b>&lt;br>
-        &#8226; added: encryption login data&lt;br>
-        &#8226; added: backup databases&lt;br>
-        &#8226; removed: disable javascript&lt;br>
-        &#8226; improved: a few things&lt;br>&lt;br>
-
-        &lt;b>v 2.2:&lt;/b>&lt;br>
-        &#8226; fixed: links (My Moodle)&lt;br>
-        &#8226; added: edit notes (dialog)&lt;br>
-        &#8226; added: Calendar (widget -> offline)&lt;br>
-        &#8226; removed: choose tabs&lt;br>
-        &#8226; improved: upload files&lt;br>
-        &#8226; improved: password protection (pin)&lt;br>
-        &#8226; improved: saving of notes and bookmarks&lt;br>
-        &#8226; improved: code&lt;br>&lt;br>
-
-        &lt;b>v 2.1:&lt;/b>&lt;br>
-        &#8226; Choose tabs&lt;br>
-        &#8226; Bookmarks: change icons&lt;br>&lt;br>
-
-        &lt;b>v 2.0:&lt;/b>&lt;br>
-        &#8226; Removed notifications&lt;br>
-        &#8226; Create calendar event&lt;br>
-        &#8226; Priority for notes&lt;br>
-        &#8226; Settings: app start&lt;br>
-        &#8226; Widget: improvement&lt;br>
-        &#8226; Mobile view optimized&lt;br>
-        &#8226; Other improvements&lt;br>&lt;br>
-
-        &lt;b>v 1.1:&lt;/b>&lt;br>
-        &#8226; Widget for home screen&lt;br>
-        &#8226; Settings: font size&lt;br>
-        &#8226; Improved password protection&lt;br>
-        &#8226; Optional: swipe to navigate&lt;br>
-        &#8226; Problems dialog in settings&lt;br>
-        &#8226; Create shortcuts on home screen&lt;br>
-        &#8226; Minor improvements&lt;br>&lt;br>
-
-        &lt;b>v 1.0.3:&lt;/b>&lt;br>
-        &#8226; Optional: Password protection&lt;br>&lt;br>
-
-        &lt;b>v 1.0.2:&lt;/b>&lt;br>
-        &#8226; Important: Help dialog notes&lt;br>&lt;br>
-
-        &lt;b>v 1.0.1:&lt;/b>&lt;br>
-        &#8226; Make links clickable (notes/notifications)&lt;br>
-        &#8226; Reworked settings&lt;br>
-        &#8226; Notes/notifications: save on exit&lt;br>
-        &#8226; Minor improvements&lt;br>&lt;br>
-
-        &lt;b>v 1.0:&lt;/b>&lt;br>
-        &#8226; First release
+    <string name="login_title">Please wait …</string>
+    <string name="login_text">
+        You will be automatically logged in. If this does not work you must enter the correct login data in the settings.
+        This message will close when you are successfully logged in.
     </string>
 
 
-    //Help Dialogs
+    // Help Dialogs
 
     <string name="dialog_help_title">HHS Moodle - short introduction</string>
     <string name="dialog_help">
@@ -249,8 +188,24 @@
         &#8226;&lt;i> Help:&lt;/i> Opens the help dialog.
     </string>
 
-
     <string name="perm_notShow_title">Permission dialog</string>
     <string name="perm_notShow_title_summary">Show again: Permission dialog?</string>
+
+
+    // Arrays
+
+    <string-array name="listArrayNav">
+        <item>Use swipe gestures</item>
+        <item>Use arrows</item>
+        <item>Use both</item>
+        <item>Nothing</item>
+    </string-array>
+
+    <string-array name="listValuesNav">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
 
 </resources>

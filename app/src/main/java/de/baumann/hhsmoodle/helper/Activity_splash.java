@@ -45,8 +45,6 @@ public class Activity_splash extends AppCompatActivity {
 
     private EditText editUsername;
     private EditText editPassword;
-    private TextInputLayout editUsernameLayout;
-    private TextInputLayout editPasswordLayout;
     private ImageView Image;
     private SharedPreferences sharedPref;
     private class_SecurePreferences sharedPrefSec;
@@ -65,9 +63,9 @@ public class Activity_splash extends AppCompatActivity {
             getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
         }
 
-        editUsernameLayout = (TextInputLayout)findViewById(R.id.editUsernameLayout);
+        TextInputLayout editUsernameLayout = (TextInputLayout) findViewById(R.id.editUsernameLayout);
         editUsernameLayout.setVisibility(View.INVISIBLE);
-        editPasswordLayout = (TextInputLayout)findViewById(R.id.editPasswordLayout);
+        TextInputLayout editPasswordLayout = (TextInputLayout) findViewById(R.id.editPasswordLayout);
         editPasswordLayout.setVisibility(View.INVISIBLE);
 
         editUsername = (EditText) findViewById(R.id.editUsername);

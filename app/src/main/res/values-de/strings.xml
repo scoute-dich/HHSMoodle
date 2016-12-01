@@ -23,6 +23,7 @@
     <string name="app_contDesc_1">Header</string>
     <string name="app_contDesc_2">Icon</string>
     <string name="app_contDesc_3">Splashscreen</string>
+    <string name="app_conf">Bestätigung</string>
 
 
     // Login
@@ -77,7 +78,7 @@
         werden.</string>
 
     <string name="action_changelog">Änderungen</string>
-    <string name="action_changelog_summary">Was gibt es Neues …</string>
+    <string name="action_changelog_summary">Was gibt es Neues … (wird eine Internetseite öffnen)</string>
 
     <string name="action_longPress">App verlassen</string>
     <string name="action_longPress_summary">Lange auf die Titelleiste drücken um die App komplett zu verlassen.</string>
@@ -102,12 +103,9 @@
     <string name="action_protect_summary">Bestimme eine Pin um die App vor unbefugtem Zugriff zu schützen. Benutze nur Nummern.
         Leer lassen, wenn du die App nicht schützen willst (eigenes Risiko).</string>
 
-    <string name="action_swipe">Wischen</string>
-    <string name="action_swipe_summary">Nach rechts und links wischen um durch Internetseiten zu navigieren.</string>
-
-    <string name="action_problem">Probleme?</string>
+    <string name="action_problem">Kontakt</string>
     <string name="action_problem_summary">Wenn du mit der App (oder unserem Moodle) Probleme oder Verbesserungsvorschläge hast, kannst
-        du mir eine Email schicken (Oder einfach einen Fehlerbericht auf Github einreichen.).</string>
+        du mir eine Email schicken.</string>
     <string name="action_problem_button">Email senden</string>
     <string name="action_problem_text">Bitte Emailtext eingeben:</string>
 
@@ -121,14 +119,14 @@
     <string name="action_start_summary">Was möchtest du sehen: Entweder den Startschirm oder den Lesezeichenfavorit?</string>
 
     <string name="action_backup">Sicherung</string>
-    <string name="action_backup_summary">Sichere deine Notizen und Lesezeichen auf der SD-Karte. Eine neue Sicherung überschreibt
-        immer die bestehende.</string>
+    <string name="action_backup_summary">Sichere deine Notizen und Lesezeichen oder stelle eine vorherige Sicherung wieder her.
+        Eine neue Sicherung überschreibt immer die bestehende.</string>
 
     <string name="action_restore">Wiederherstellung</string>
-    <string name="action_restore_summary">Stelle deine Notizen und Lesezeichen wieder her.</string>
 
-    <string name="action_arrow">Pfeile</string>
-    <string name="action_arrow_summary">Zeige Pfeile an um durch Internetseiten zu navigieren.</string>
+    <string name="action_nav">Navigation</string>
+    <string name="action_nav_summary">Benutze Pfeile und/oder Wischgesten um zur vorherigen oder nächsten Internetseite zu
+        gelangen.</string>
 
 
     // Moodle
@@ -141,6 +139,9 @@
     <string name="text_tit_5">Einstellungen</string>
     <string name="text_tit_6">Schulhomepage</string>
     <string name="text_tit_7">Websuche</string>
+    <string name="text_tit_11">Moodle</string>
+    <string name="text_tit_9">Erledigt</string>
+    <string name="text_tit_10">Uhr</string>
 
     <string name="text_des_1">Kursübersicht, Dateien, Auszeichnungen, Termine, Kalender, …</string>
     <string name="text_des_2">Details, Berichte, Verschiedenes, Profil bearbeiten.</string>
@@ -188,7 +189,6 @@
     <string name="bookmark_createNote">Erstelle Notiz</string>
     <string name="bookmark_createEvent">Erstelle Kalendereintrag</string>
     <string name="bookmark_createShortcut">Erstelle Verknüpfung</string>
-    <string name="bookmark_edit_icon">Icon bearbeiten</string>
 
 
     // Notes
@@ -227,5 +227,6 @@
 
     <string name="choose_hint">Neuer Dateiname (ohne Dateiendung)</string>
     <string name="choose_delete">Möchtest du die Datei wirklich löschen?</string>
+    <string name="choose_title">Dateiname bearbeiten</string>
 
 </resources>

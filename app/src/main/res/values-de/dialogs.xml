@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    //License Dialog
+    // License Dialog
 
     <string name="about_title">Copyright © 2016  by Gaukler Faun</string>
     <string name="about_text">
@@ -22,88 +22,29 @@
 
         &lt;i>android-file-chooser&lt;br>
         https://github.com/hedzr/android-file-chooser&lt;br>&lt;br>
+
         &lt;i>browser&lt;br>
         https://github.com/yoshihiroando/browser&lt;br>&lt;br>
-        &lt;i>encrypted-userprefs&lt;br>
-        https://github.com/sveinungkb/encrypted-userprefs&lt;/i>
+
+        encrypted-userprefs&lt;br>
+        https://github.com/sveinungkb/encrypted-userprefs&lt;br>&lt;br>
+
+        MaterialDesignIcons&lt;br>
+        https://github.com/Templarian/MaterialDesign&lt;/i>
 
     </string>
 
 
-    //Changelog Dialog
+    // Login Dialog
 
-    <string name="changelog_text">
-        &lt;i>Für mehr Informationen besuche die Projektseite auf Github:&lt;br>
-        https://github.com/scoute-dich/HHSMoodle&lt;/i>&lt;br>&lt;br>
-
-        &lt;b>v 2.5+:&lt;/b>&lt;br>
-        &#8226; Verbessert: Schnellverknüpfungen Icons&lt;br>
-        &#8226; Verbessert: Benutzeroberfläche (Dialoge)&lt;br>
-        &#8226; Verbessert: Passwortschutz&lt;br>&lt;br>
-
-        &lt;b>v 2.4+:&lt;/b>&lt;br>
-        &#8226; Wartungsversion&lt;br>
-        &#8226; Hinzugefügt: Android N Unterstützung&lt;br>
-        &#8226; Hinzugefügt: Dateibrowser (2.4.2)&lt;br>
-        &#8226; Hinzugefügt: Pfeile zum Navigieren (2.4.3)&lt;br>
-        &#8226; Hinzugefügt: Schnellverknüpfungen (Android N)&lt;br>&lt;br>
-
-        &lt;b>v 2.3:&lt;/b>&lt;br>
-        &#8226; Hinzugefügt: Verschlüsselung Logindaten&lt;br>
-        &#8226; Hinzugefügt: Sicherung Datenbanken&lt;br>
-        &#8226; Entfernt: Javascript deaktivieren&lt;br>
-        &#8226; Verbessert: Kleinigkeiten&lt;br>&lt;br>
-
-        &lt;b>v 2.2:&lt;/b>&lt;br>
-        &#8226; Fixed: Links (My Moodle)&lt;br>
-        &#8226; Hizugefügt: Notizen bearbeiten (Dialog)&lt;br>
-        &#8226; Hizugefügt: Kalender (Widget -> offline)&lt;br>
-        &#8226; Entfernt: Tabs auswählen&lt;br>
-        &#8226; Verbessert: Dateiupload&lt;br>
-        &#8226; Verbessert: Passwortschutz (Pin)&lt;br>
-        &#8226; Verbessert: Speichern von Notizen und Leszeichen&lt;br>
-        &#8226; Verbessert: Code&lt;br>&lt;br>
-
-        &lt;b>v 2.1:&lt;/b>&lt;br>
-        &#8226; Tabs auswählen möglich&lt;br>
-        &#8226; Lesezeichen: Icon ändern&lt;br>&lt;br>
-
-        &lt;b>v 2.0:&lt;/b>&lt;br>
-        &#8226; Benachrichtigungen entfernt&lt;br>
-        &#8226; Kalendereintrag erstellen&lt;br>
-        &#8226; Notizen: Priorität&lt;br>
-        &#8226; Einstellungen: App Start&lt;br>
-        &#8226; Widget: Verbesserungen&lt;br>
-        &#8226; Mobile Ansicht optimiert&lt;br>
-        &#8226; Andere Verbesserungen&lt;br>&lt;br>
-
-        &lt;b>v 1.1:&lt;/b>&lt;br>
-        &#8226; Widget für den Homescreen&lt;br>
-        &#8226; Einstellungen: Schriftgröße&lt;br>
-        &#8226; Passwortschutz verbessert&lt;br>
-        &#8226; Optional: wischen zum Navigieren&lt;br>
-        &#8226; Problemdialog in den Einstellungen&lt;br>
-        &#8226; Verknüpfungen auf Homescreen erstellen&lt;br>
-        &#8226; Kleinere Verbesserungen&lt;br>&lt;br>
-
-        &lt;b>v 1.0.3:&lt;/b>&lt;br>
-        &#8226; Optional: Passwortschutz&lt;br>&lt;br>
-
-        &lt;b>v 1.0.2:&lt;/b>&lt;br>
-        &#8226; Wichtig: Hilfe Dialog Notizen&lt;br>&lt;br>
-
-        &lt;b>v 1.0.1:&lt;/b>&lt;br>
-        &#8226; Links klickbar (Notizen/Benachrichtigungen)&lt;br>
-        &#8226; Einstellungen überarbeitet&lt;br>
-        &#8226; Notizen/Benachrichtigungen: speichern beim Verlassen&lt;br>
-        &#8226; Kleinere Verbesserungen&lt;br>&lt;br>
-
-        &lt;b>v 1.0:&lt;/b>&lt;br>
-        &#8226; erste Version
+    <string name="login_title">Bitte warten …</string>
+    <string name="login_text">
+        Du wirst automatisch angemeldet. Wenn dies nicht funktioniert gib bitte die richtigen Logindaten in den Einstellungen ein.
+        Diese Nachricht verschwindet, wenn du erfolgreich angemeldet bist.
     </string>
 
 
-    //Help Dialogs
+    // Help Dialogs
 
     <string name="dialog_help_title">HHS Moodle - kurze Enführung</string>
     <string name="dialog_help">
@@ -263,8 +204,24 @@
         &#8226;&lt;i> Hilfe:&lt;/i> Öffnet den jeweiligen Hilfedialog.
     </string>
 
-
     <string name="perm_notShow_title">Berechtigungsdialog</string>
     <string name="perm_notShow_title_summary">Noch einmal anzeigen: Berechtigungsdialog?</string>
+
+
+    // Arrays
+
+    <string-array name="listArrayNav">
+        <item>Wischgesten benutzen</item>
+        <item>Pfeile benutzen</item>
+        <item>Beides benutzen</item>
+        <item>Nichts benutzen</item>
+    </string-array>
+
+    <string-array name="listValuesNav">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
 
 </resources>

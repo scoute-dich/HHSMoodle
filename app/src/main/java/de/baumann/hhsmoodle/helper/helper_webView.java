@@ -22,6 +22,8 @@ package de.baumann.hhsmoodle.helper;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -98,15 +100,33 @@ public class helper_webView {
 
         webView.setWebViewClient(new WebViewClient() {
 
+            final AlertDialog.Builder dialog = new AlertDialog.Builder(from)
+                    .setTitle(R.string.login_title)
+                    .setMessage(helper_main.textSpannable(from.getString(R.string.login_text)))
+                    .setNegativeButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            dialog.cancel();
+                        }
+                    });
+            final AlertDialog alert = dialog.create();
+
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
 
-                class_SecurePreferences sharedPrefSec =
-                        new class_SecurePreferences(from, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
-                String username = sharedPrefSec.getString("username");
-                String password = sharedPrefSec.getString("password");
+                if (url != null && url.contains("moodle.huebsch.ka.schule-bw.de/moodle/") && url.contains("/login/")) {
+                    alert.show();
+                } else {
+                    if (alert.isShowing()) {
+                        alert.dismiss();
+                    }
+                }
 
                 swipeRefreshLayout.setRefreshing(false);
+
+                class_SecurePreferences sharedPrefSec = new class_SecurePreferences(from, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
+                String username = sharedPrefSec.getString("username");
+                String password = sharedPrefSec.getString("password");
 
                 final String js = "javascript:" +
                         "document.getElementById('password').value = '" + password + "';"  +

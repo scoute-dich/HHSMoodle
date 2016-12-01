@@ -1,3 +1,9 @@
+### v 2.6: (WIP)
+- improved: settings screen
+- improved: automatic login
+- improved: UI (some dialogs)
+- fixed: change icons
+
 ### v 2.5+:
 - new: app shortcut icons
 - improved: UI (dialogs)

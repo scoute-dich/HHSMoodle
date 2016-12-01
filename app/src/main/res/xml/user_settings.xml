@@ -6,23 +6,21 @@
 
         <Preference
             android:title="@string/action_username"
+            android:icon="@drawable/key"
             android:summary="@string/action_username_summary"
             android:key="username" />
 
         <Preference
             android:title="@string/action_protect"
+            android:icon="@drawable/close_circle_outline"
             android:summary="@string/action_protect_summary"
             android:key="protect_PW" />
 
         <Preference
             android:title="@string/action_backup"
+            android:icon="@drawable/backup_restore"
             android:summary="@string/action_backup_summary"
             android:key="backup_db" />
-
-        <Preference
-            android:title="@string/action_restore"
-            android:summary="@string/action_restore_summary"
-            android:key="restore_db" />
 
     </PreferenceCategory>
 
@@ -31,6 +29,7 @@
 
         <ListPreference
             android:title="@string/action_tabMain"
+            android:icon="@drawable/cellphone_iphone"
             android:summary="@string/action_tabMain_summary"
             android:key="tabMain"
             android:defaultValue="1"
@@ -39,6 +38,7 @@
 
         <ListPreference
             android:title="@string/action_start"
+            android:icon="@drawable/cursor_pointer"
             android:summary="@string/action_start_summary"
             android:key="startType"
             android:defaultValue="1"
@@ -47,30 +47,30 @@
 
         <CheckBoxPreference
             android:title="@string/action_longPress"
+            android:icon="@drawable/exit_to_app"
             android:summary="@string/action_longPress_summary"
             android:key="longPress"
             android:defaultValue="true" />
 
         <CheckBoxPreference
             android:title="@string/action_links_title"
+            android:icon="@drawable/link_variant"
             android:summary="@string/action_links_summary"
             android:key="links"
             android:defaultValue="true" />
 
-        <CheckBoxPreference
-            android:title="@string/action_swipe"
-            android:summary="@string/action_swipe_summary"
-            android:key="swipe"
-            android:defaultValue="true" />
-
-        <CheckBoxPreference
-            android:title="@string/action_arrow"
-            android:summary="@string/action_arrow_summary"
-            android:key="arrow"
-            android:defaultValue="true" />
+        <ListPreference
+            android:title="@string/action_nav"
+            android:icon="@drawable/swap_horizontal"
+            android:summary="@string/action_nav_summary"
+            android:key="nav"
+            android:defaultValue="2"
+            android:entries="@array/listArrayNav"
+            android:entryValues="@array/listValuesNav" />
 
         <ListPreference
             android:title="@string/action_font"
+            android:icon="@drawable/format_size"
             android:summary="@string/action_font_summary"
             android:key="font"
             android:defaultValue="100"
@@ -79,6 +79,7 @@
 
         <Preference
             android:title="@string/action_openSettings"
+            android:icon="@drawable/settings"
             android:summary="@string/action_openSettings_summary"
             android:key="clearCache" />
 
@@ -89,24 +90,28 @@
 
         <CheckBoxPreference
             android:title="@string/action_notShow_title"
+            android:icon="@drawable/information_outline"
             android:summary="@string/action_notShow_title_summary"
             android:key="help_notShow"
             android:defaultValue="true" />
 
         <CheckBoxPreference
             android:title="@string/perm_notShow_title"
+            android:icon="@drawable/security"
             android:summary="@string/perm_notShow_title_summary"
             android:key="perm_notShow"
             android:defaultValue="true" />
 
         <CheckBoxPreference
             android:title="@string/action_help"
+            android:icon="@drawable/comment_question_outline"
             android:summary="@string/action_help_summary"
             android:key="help"
             android:defaultValue="false" />
 
         <Preference
             android:title="@string/action_problem"
+            android:icon="@drawable/email_outline"
             android:summary="@string/action_problem_summary"
             android:key="problem" />
 
@@ -117,11 +122,13 @@
 
         <Preference
             android:title="@string/action_changelog"
+            android:icon="@drawable/format_list_bulleted"
             android:summary="@string/action_changelog_summary"
             android:key="changelog" />
 
         <Preference
             android:title="@string/action_license"
+            android:icon="@drawable/copyright"
             android:summary="@string/action_license_summary"
             android:key="license" />
 

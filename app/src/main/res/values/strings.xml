@@ -20,6 +20,7 @@
     <string name="app_contDesc_1">header</string>
     <string name="app_contDesc_2">icon</string>
     <string name="app_contDesc_3">splashscreen</string>
+    <string name="app_conf">Confirmation</string>
 
 
     // Login
@@ -73,7 +74,7 @@
     <string name="action_username_summary">Please enter your Moodle username and password to get automatically logged in.</string>
 
     <string name="action_changelog">Changelog</string>
-    <string name="action_changelog_summary">See what\'s new …</string>
+    <string name="action_changelog_summary">See what\'s new … (will open a website)</string>
 
     <string name="action_longPress">App exit</string>
     <string name="action_longPress_summary">Long press title bar to exit app completely.</string>
@@ -98,12 +99,9 @@
     <string name="action_protect_summary">Set a pin to protect app against unwanted access. Only use numbers. Let empty, if you do
         not want to protect the app (own risk).</string>
 
-    <string name="action_swipe">Swipe</string>
-    <string name="action_swipe_summary">Swipe left or right to navigate through websites.</string>
-
-    <string name="action_problem">Problems?</string>
+    <string name="action_problem">Contact</string>
     <string name="action_problem_summary">If you have problems with the app (or our Moodle) or suggestions for improvements, you can
-        send me a mail (or just open an issue on Github).</string>
+        send me a mail.</string>
     <string name="action_problem_button">Send mail</string>
     <string name="action_problem_text">Please enter mail text:</string>
 
@@ -117,13 +115,12 @@
     <string name="action_start_summary">What do you want to see: Either the main screen or the bookmark list?</string>
 
     <string name="action_backup">Backup</string>
-    <string name="action_backup_summary">Backup your notes and bookmarks to sdcard. A new backup overwrites the old one.</string>
+    <string name="action_backup_summary">Backup and restore your notes and bookmarks. A new backup overwrites the old one.</string>
 
     <string name="action_restore">Restore</string>
-    <string name="action_restore_summary">Restore your notes and bookmarks from sdcard.</string>
 
-    <string name="action_arrow">Arrows</string>
-    <string name="action_arrow_summary">Display arrows to navigate through websites.</string>
+    <string name="action_nav">Navigation</string>
+    <string name="action_nav_summary">Use arrows and/or swipe gestures to navigate back and forward in your browser history.</string>
 
 
     // Moodle
@@ -136,6 +133,9 @@
     <string name="text_tit_5">Settings</string>
     <string name="text_tit_6">School homepage</string>
     <string name="text_tit_7">Web search</string>
+    <string name="text_tit_11">Moodle</string>
+    <string name="text_tit_9">Check</string>
+    <string name="text_tit_10">Clock</string>
 
     <string name="text_des_1">Course overview, files, awards, appointment, calendar, …</string>
     <string name="text_des_2">Details, reports, miscellaneous, edit profile.</string>
@@ -183,7 +183,6 @@
     <string name="bookmark_createNote">Create note</string>
     <string name="bookmark_createEvent">Create calendar event</string>
     <string name="bookmark_createShortcut">Create shortcut</string>
-    <string name="bookmark_edit_icon">Change icon</string>
 
 
     // Notes
@@ -222,5 +221,6 @@
 
     <string name="choose_hint">New filename (without file extension)</string>
     <string name="choose_delete">Do you really want to delete the file?</string>
+    <string name="choose_title">Edit filename</string>
 
 </resources>

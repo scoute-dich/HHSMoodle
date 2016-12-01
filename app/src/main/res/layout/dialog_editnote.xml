@@ -47,7 +47,7 @@
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:id="@+id/imageButtonPri"
-        android:src="@drawable/pr_green"
+        android:src="@drawable/circle_green"
         android:background="?android:selectableItemBackground"
         tools:ignore="ContentDescription"
         android:scaleType="centerCrop"

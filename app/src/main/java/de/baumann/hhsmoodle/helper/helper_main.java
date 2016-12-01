@@ -39,7 +39,6 @@ import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.util.Linkify;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +47,6 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -189,19 +187,19 @@ public class helper_main {
 
         switch (priority) {
             case "":
-                be.setImageResource(R.drawable.pr_green);
+                be.setImageResource(R.drawable.circle_green);
                 sharedPref.edit()
                         .putString("handleTextIcon", "")
                         .apply();
                 break;
             case "!":
-                be.setImageResource(R.drawable.pr_yellow);
+                be.setImageResource(R.drawable.circle_yellow);
                 sharedPref.edit()
                         .putString("handleTextIcon", "!")
                         .apply();
                 break;
             case "!!":
-                be.setImageResource(R.drawable.pr_red);
+                be.setImageResource(R.drawable.circle_red);
                 sharedPref.edit()
                         .putString("handleTextIcon", "!!")
                         .apply();
@@ -214,9 +212,9 @@ public class helper_main {
             public void onClick(View arg0) {
 
                 final helper_main.Item[] items = {
-                        new Item(from.getString(R.string.note_priority_0), R.drawable.pr_green_1),
-                        new Item(from.getString(R.string.note_priority_1), R.drawable.pr_yellow_1),
-                        new Item(from.getString(R.string.note_priority_2), R.drawable.pr_red_1),
+                        new Item(from.getString(R.string.note_priority_0), R.drawable.circle_green),
+                        new Item(from.getString(R.string.note_priority_1), R.drawable.circle_yellow),
+                        new Item(from.getString(R.string.note_priority_2), R.drawable.circle_red),
                 };
 
                 ListAdapter adapter = new ArrayAdapter<helper_main.Item>(
@@ -232,7 +230,7 @@ public class helper_main {
                         tv.setTextSize(18);
                         tv.setCompoundDrawablesWithIntrinsicBounds(items[position].icon, 0, 0, 0);
                         //Add margin between image and text (support various screen densities)
-                        int dp5 = (int) (5 * from.getResources().getDisplayMetrics().density + 0.5f);
+                        int dp5 = (int) (24 * from.getResources().getDisplayMetrics().density + 0.5f);
                         tv.setCompoundDrawablePadding(dp5);
 
                         return v;
@@ -243,17 +241,17 @@ public class helper_main {
                         .setAdapter(adapter, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int item) {
                                 if (item == 0) {
-                                    be.setImageResource(R.drawable.pr_green);
+                                    be.setImageResource(R.drawable.circle_green);
                                     sharedPref.edit()
                                             .putString("handleTextIcon", "")
                                             .apply();
                                 } else if (item == 1) {
-                                    be.setImageResource(R.drawable.pr_yellow);
+                                    be.setImageResource(R.drawable.circle_yellow);
                                     sharedPref.edit()
                                             .putString("handleTextIcon", "!")
                                             .apply();
                                 } else if (item == 2) {
-                                    be.setImageResource(R.drawable.pr_red);
+                                    be.setImageResource(R.drawable.circle_red);
                                     sharedPref.edit()
                                             .putString("handleTextIcon", "!!")
                                             .apply();
@@ -388,13 +386,13 @@ public class helper_main {
 
                     switch (icon) {
                         case "":
-                            i.setImageResource(R.drawable.pr_green);
+                            i.setImageResource(R.drawable.circle_green);
                             break;
                         case "!":
-                            i.setImageResource(R.drawable.pr_yellow);
+                            i.setImageResource(R.drawable.circle_yellow);
                             break;
                         case "!!":
-                            i.setImageResource(R.drawable.pr_red);
+                            i.setImageResource(R.drawable.circle_red);
                             break;
                     }
 
@@ -404,9 +402,9 @@ public class helper_main {
                         public void onClick(View arg0) {
 
                             final helper_main.Item[] items = {
-                                    new Item(from.getString(R.string.note_priority_0), R.drawable.pr_green_1),
-                                    new Item(from.getString(R.string.note_priority_1), R.drawable.pr_yellow_1),
-                                    new Item(from.getString(R.string.note_priority_2), R.drawable.pr_red_1),
+                                    new Item(from.getString(R.string.note_priority_0), R.drawable.circle_green),
+                                    new Item(from.getString(R.string.note_priority_1), R.drawable.circle_yellow),
+                                    new Item(from.getString(R.string.note_priority_2), R.drawable.circle_red),
                             };
 
                             ListAdapter adapter = new ArrayAdapter<helper_main.Item>(
@@ -667,6 +665,7 @@ public class helper_main {
                                 if (options[item].equals(activity.getString(R.string.choose_menu_4))) {
                                     final AlertDialog.Builder dialog2 = new AlertDialog.Builder(activity);
 
+                                    dialog2.setTitle(R.string.app_conf);
                                     dialog2.setMessage(activity.getString(R.string.choose_delete));
                                     dialog2.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
 
@@ -698,31 +697,19 @@ public class helper_main {
                                 }
                                 if (options[item].equals(activity.getString(R.string.choose_menu_3))) {
 
-                                    final LinearLayout layout = new LinearLayout(activity);
-                                    layout.setOrientation(LinearLayout.VERTICAL);
-                                    layout.setGravity(Gravity.CENTER_HORIZONTAL);
-                                    final EditText input = new EditText(activity);
-                                    input.setSingleLine(true);
-                                    input.setHint(activity.getString(R.string.choose_hint));
-                                    input.setText(fileNameWE);
-                                    layout.setPadding(30, 0, 50, 0);
-                                    layout.addView(input);
+                                    android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(activity);
+                                    View dialogView = View.inflate(activity, R.layout.dialog_edit_file, null);
 
-                                    new Handler().postDelayed(new Runnable() {
-                                        public void run() {
-                                            helper_main.showKeyboard(activity,input);
-                                        }
-                                    }, 200);
+                                    final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
+                                    edit_title.setText(fileNameWE);
 
-                                    final AlertDialog.Builder dialog2 = new AlertDialog.Builder(activity);
-
-                                    dialog2.setView(layout);
-                                    dialog2.setMessage(activity.getString(R.string.choose_hint));
-                                    dialog2.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+                                    builder.setView(dialogView);
+                                    builder.setTitle(R.string.choose_title);
+                                    builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
 
                                         public void onClick(DialogInterface dialog, int whichButton) {
 
-                                            String inputTag = input.getText().toString().trim();
+                                            String inputTag = edit_title.getText().toString().trim();
 
                                             File dir = pathFile.getParentFile();
                                             File to = new File(dir,inputTag + fileExtension);
@@ -738,13 +725,13 @@ public class helper_main {
                                             }, 500);
                                         }
                                     });
-                                    dialog2.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+                                    builder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
 
                                         public void onClick(DialogInterface dialog, int whichButton) {
                                             dialog.cancel();
                                         }
                                     });
-                                    dialog2.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                                    builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
                                         @Override
                                         public void onCancel(DialogInterface dialog) {
                                             // dialog dismiss without button press
@@ -752,7 +739,16 @@ public class helper_main {
                                             helper_main.openFilePicker(activity, view, dir);
                                         }
                                     });
+
+                                    final android.app.AlertDialog dialog2 = builder.create();
+                                    // Display the custom alert dialog on interface
                                     dialog2.show();
+
+                                    new Handler().postDelayed(new Runnable() {
+                                        public void run() {
+                                            helper_main.showKeyboard(activity,edit_title);
+                                        }
+                                    }, 200);
                                 }
                             }
                         });

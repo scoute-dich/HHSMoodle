@@ -31,6 +31,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
@@ -39,12 +40,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -349,13 +352,13 @@ public class FragmentBookmarks extends Fragment {
                             i.setImageResource(R.drawable.ic_bookmark_grey600_48dp);
                             break;
                         case "14":
-                            i.setImageResource(R.drawable.pr_green);
+                            i.setImageResource(R.drawable.circle_green);
                             break;
                         case "15":
-                            i.setImageResource(R.drawable.pr_yellow);
+                            i.setImageResource(R.drawable.circle_yellow);
                             break;
                         case "16":
-                            i.setImageResource(R.drawable.pr_red);
+                            i.setImageResource(R.drawable.circle_red);
                             break;
                     }
                     i.setOnClickListener(new View.OnClickListener() {
@@ -363,169 +366,84 @@ public class FragmentBookmarks extends Fragment {
                         @Override
                         public void onClick(View arg0) {
 
-                            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
-                            // ...Irrelevant code for customizing the buttons and title
-                            dialogBuilder.setTitle(R.string.bookmark_edit_icon);
-                            dialogBuilder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+                            final FragmentNotes.Item[] items = {
+                                    new FragmentNotes.Item(getString(R.string.text_tit_11), R.drawable.ic_school_grey600_48dp),
+                                    new FragmentNotes.Item(getString(R.string.text_tit_1), R.drawable.ic_view_dashboard_grey600_48dp),
+                                    new FragmentNotes.Item(getString(R.string.text_tit_2), R.drawable.ic_face_profile_grey600_48dp),
+                                    new FragmentNotes.Item(getString(R.string.text_tit_8), R.drawable.ic_calendar_grey600_48dp),
+                                    new FragmentNotes.Item(getString(R.string.text_tit_3), R.drawable.ic_chart_areaspline_grey600_48dp),
+                                    new FragmentNotes.Item(getString(R.string.text_tit_4), R.drawable.ic_bell_grey600_48dp),
+                                    new FragmentNotes.Item(getString(R.string.text_tit_5), R.drawable.ic_settings_grey600_48dp),
+                                    new FragmentNotes.Item(getString(R.string.text_tit_6), R.drawable.ic_web_grey600_48dp),
+                                    new FragmentNotes.Item(getString(R.string.text_tit_7), R.drawable.ic_magnify_grey600_48dp),
+                                    new FragmentNotes.Item(getString(R.string.title_notes), R.drawable.ic_pencil_grey600_48dp),
+                                    new FragmentNotes.Item(getString(R.string.text_tit_9), R.drawable.ic_check_grey600_48dp),
+                                    new FragmentNotes.Item(getString(R.string.text_tit_10), R.drawable.ic_clock_grey600_48dp),
+                                    new FragmentNotes.Item(getString(R.string.title_bookmarks), R.drawable.ic_bookmark_grey600_48dp),
+                                    new FragmentNotes.Item(getString(R.string.note_priority_0), R.drawable.circle_green),
+                                    new FragmentNotes.Item(getString(R.string.note_priority_1), R.drawable.circle_yellow),
+                                    new FragmentNotes.Item(getString(R.string.note_priority_2), R.drawable.circle_red)
+                            };
 
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    dialog.cancel();
+                            ListAdapter adapter = new ArrayAdapter<FragmentNotes.Item>(
+                                    getActivity(),
+                                    android.R.layout.select_dialog_item,
+                                    android.R.id.text1,
+                                    items){
+                                @NonNull
+                                public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+                                    //Use super class to create the View
+                                    View v = super.getView(position, convertView, parent);
+                                    TextView tv = (TextView)v.findViewById(android.R.id.text1);
+                                    tv.setTextSize(18);
+                                    tv.setCompoundDrawablesWithIntrinsicBounds(items[position].icon, 0, 0, 0);
+                                    //Add margin between image and text (support various screen densities)
+                                    int dp5 = (int) (24 * getResources().getDisplayMetrics().density + 0.5f);
+                                    tv.setCompoundDrawablePadding(dp5);
+
+                                    return v;
                                 }
-                            });
+                            };
 
-                            if (convertView == null) {
-                                LayoutInflater inflater = getActivity().getLayoutInflater();
-                                View dialogView = inflater.inflate(R.layout.dialog_icon, parent, false);
-                                dialogBuilder.setView(dialogView);
+                            new AlertDialog.Builder(getActivity())
+                                    .setAdapter(adapter, new DialogInterface.OnClickListener() {
 
-                                final AlertDialog alertDialog = dialogBuilder.create();
-                                alertDialog.show();
-
-                                ImageButton ib_1 = (ImageButton) dialogView.findViewById(R.id.imageButton5);
-                                ib_1.setOnClickListener(new View.OnClickListener() {
-
-                                    @Override
-                                    public void onClick(View arg0) {
-                                        changeIcon(seqnoStr, title, url, "1");
-                                        alertDialog.cancel();
-                                    }
-                                });
-                                ImageButton ib_2 = (ImageButton) dialogView.findViewById(R.id.imageButton6);
-                                ib_2.setOnClickListener(new View.OnClickListener() {
-
-                                    @Override
-                                    public void onClick(View arg0) {
-                                        changeIcon(seqnoStr, title, url, "2");
-                                        alertDialog.cancel();
-                                    }
-                                });
-                                ImageButton ib_3 = (ImageButton) dialogView.findViewById(R.id.imageButton7);
-                                ib_3.setOnClickListener(new View.OnClickListener() {
-
-                                    @Override
-                                    public void onClick(View arg0) {
-                                        changeIcon(seqnoStr, title, url, "3");
-                                        alertDialog.cancel();
-                                    }
-                                });
-                                ImageButton ib_4 = (ImageButton) dialogView.findViewById(R.id.imageButton8);
-                                ib_4.setOnClickListener(new View.OnClickListener() {
-
-                                    @Override
-                                    public void onClick(View arg0) {
-                                        changeIcon(seqnoStr, title, url, "4");
-                                        alertDialog.cancel();
-                                    }
-                                });
-                                ImageButton ib_5 = (ImageButton) dialogView.findViewById(R.id.imageButton9);
-                                ib_5.setOnClickListener(new View.OnClickListener() {
-
-                                    @Override
-                                    public void onClick(View arg0) {
-                                        changeIcon(seqnoStr, title, url, "5");
-                                        alertDialog.cancel();
-                                    }
-                                });
-                                ImageButton ib_6 = (ImageButton) dialogView.findViewById(R.id.imageButton10);
-                                ib_6.setOnClickListener(new View.OnClickListener() {
-
-                                    @Override
-                                    public void onClick(View arg0) {
-                                        changeIcon(seqnoStr, title, url, "6");
-                                        alertDialog.cancel();
-                                    }
-                                });
-                                ImageButton ib_7 = (ImageButton) dialogView.findViewById(R.id.imageButton11);
-                                ib_7.setOnClickListener(new View.OnClickListener() {
-
-                                    @Override
-                                    public void onClick(View arg0) {
-                                        changeIcon(seqnoStr, title, url, "7");
-                                        alertDialog.cancel();
-                                    }
-                                });
-                                ImageButton ib_8 = (ImageButton) dialogView.findViewById(R.id.imageButton12);
-                                ib_8.setOnClickListener(new View.OnClickListener() {
-
-                                    @Override
-                                    public void onClick(View arg0) {
-                                        changeIcon(seqnoStr, title, url, "8");
-                                        alertDialog.cancel();
-                                    }
-                                });
-                                ImageButton ib_9 = (ImageButton) dialogView.findViewById(R.id.imageButton13);
-                                ib_9.setOnClickListener(new View.OnClickListener() {
-
-                                    @Override
-                                    public void onClick(View arg0) {
-                                        changeIcon(seqnoStr, title, url, "9");
-                                        alertDialog.cancel();
-                                    }
-                                });
-                                ImageButton ib_10 = (ImageButton) dialogView.findViewById(R.id.imageButton14);
-                                ib_10.setOnClickListener(new View.OnClickListener() {
-
-                                    @Override
-                                    public void onClick(View arg0) {
-                                        changeIcon(seqnoStr, title, url, "10");
-                                        alertDialog.cancel();
-                                    }
-                                });
-                                ImageButton ib_11 = (ImageButton) dialogView.findViewById(R.id.imageButton15);
-                                ib_11.setOnClickListener(new View.OnClickListener() {
-
-                                    @Override
-                                    public void onClick(View arg0) {
-                                        changeIcon(seqnoStr, title, url, "11");
-                                        alertDialog.cancel();
-                                    }
-                                });
-                                ImageButton ib_12 = (ImageButton) dialogView.findViewById(R.id.imageButton16);
-                                ib_12.setOnClickListener(new View.OnClickListener() {
-
-                                    @Override
-                                    public void onClick(View arg0) {
-                                        changeIcon(seqnoStr, title, url, "12");
-                                        alertDialog.cancel();
-                                    }
-                                });
-                                ImageButton ib_13 = (ImageButton) dialogView.findViewById(R.id.imageButton17);
-                                ib_13.setOnClickListener(new View.OnClickListener() {
-
-                                    @Override
-                                    public void onClick(View arg0) {
-                                        changeIcon(seqnoStr, title, url, "13");
-                                        alertDialog.cancel();
-                                    }
-                                });
-                                ImageButton ib_14 = (ImageButton) dialogView.findViewById(R.id.imageButton18);
-                                ib_14.setOnClickListener(new View.OnClickListener() {
-
-                                    @Override
-                                    public void onClick(View arg0) {
-                                        changeIcon(seqnoStr, title, url, "14");
-                                        alertDialog.cancel();
-                                    }
-                                });
-                                ImageButton ib_15 = (ImageButton) dialogView.findViewById(R.id.imageButton19);
-                                ib_15.setOnClickListener(new View.OnClickListener() {
-
-                                    @Override
-                                    public void onClick(View arg0) {
-                                        changeIcon(seqnoStr, title, url, "15");
-                                        alertDialog.cancel();
-                                    }
-                                });
-                                ImageButton ib_16 = (ImageButton) dialogView.findViewById(R.id.imageButton20);
-                                ib_16.setOnClickListener(new View.OnClickListener() {
-
-                                    @Override
-                                    public void onClick(View arg0) {
-                                        changeIcon(seqnoStr, title, url, "16");
-                                        alertDialog.cancel();
-                                    }
-                                });
-                            }
+                                        public void onClick(DialogInterface dialog, int item) {
+                                            if (item == 0) {
+                                                changeIcon(seqnoStr, title, url, "1");
+                                            } else if (item == 1) {
+                                                changeIcon(seqnoStr, title, url, "2");
+                                            } else if (item == 2) {
+                                                changeIcon(seqnoStr, title, url, "3");
+                                            } else if (item == 3) {
+                                                changeIcon(seqnoStr, title, url, "4");
+                                            } else if (item == 4) {
+                                                changeIcon(seqnoStr, title, url, "5");
+                                            } else if (item == 5) {
+                                                changeIcon(seqnoStr, title, url, "6");
+                                            } else if (item == 6) {
+                                                changeIcon(seqnoStr, title, url, "7");
+                                            } else if (item == 7) {
+                                                changeIcon(seqnoStr, title, url, "8");
+                                            } else if (item == 8) {
+                                                changeIcon(seqnoStr, title, url, "9");
+                                            } else if (item == 9) {
+                                                changeIcon(seqnoStr, title, url, "10");
+                                            } else if (item == 10) {
+                                                changeIcon(seqnoStr, title, url, "11");
+                                            } else if (item == 11) {
+                                                changeIcon(seqnoStr, title, url, "12");
+                                            } else if (item == 12) {
+                                                changeIcon(seqnoStr, title, url, "13");
+                                            } else if (item == 13) {
+                                                changeIcon(seqnoStr, title, url, "14");
+                                            } else if (item == 14) {
+                                                changeIcon(seqnoStr, title, url, "15");
+                                            } else if (item == 15) {
+                                                changeIcon(seqnoStr, title, url, "16");
+                                            }
+                                        }
+                                    }).show();
                         }
                     });
                     return v;
@@ -567,6 +485,4 @@ public class FragmentBookmarks extends Fragment {
         }
         return super.onOptionsItemSelected(item);
     }
-
-
 }

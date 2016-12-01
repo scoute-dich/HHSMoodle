@@ -45,7 +45,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.ContextMenu;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.CookieManager;
@@ -55,7 +54,6 @@ import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.EditText;
 
@@ -188,6 +186,7 @@ public class HHS_Browser extends AppCompatActivity implements ObservableScrollVi
                 if (!actionBar.isShowing()) {
                     actionBar.show();
                 }
+                setNavArrows();
             }
         });
 
@@ -224,6 +223,7 @@ public class HHS_Browser extends AppCompatActivity implements ObservableScrollVi
                 final String url = mWebView.getUrl();
 
                 progressBar.setProgress(progress);
+                setNavArrows();
 
                 if (progress > 0 && progress <= 60) {
                     setTitle(mWebView.getTitle());
@@ -254,32 +254,6 @@ public class HHS_Browser extends AppCompatActivity implements ObservableScrollVi
 
                 if (progress == 100) {
                     progressString = "loaded";
-                }
-
-                if (sharedPref.getBoolean ("arrow", false)){
-                    if (mWebView.canGoBack()) {
-                        imageButton_left.setVisibility(View.VISIBLE);
-                    } else {
-                        imageButton_left.setVisibility(View.INVISIBLE);
-                    }
-                    imageButton_left.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            mWebView.goBack();
-                        }
-                    });
-
-                    if (mWebView.canGoForward()) {
-                        imageButton_right.setVisibility(View.VISIBLE);
-                    } else {
-                        imageButton_right.setVisibility(View.INVISIBLE);
-                    }
-                    imageButton_right.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            mWebView.goForward();
-                        }
-                    });
                 }
 
                 progressBar.setVisibility(progress == 100 ? View.GONE : View.VISIBLE);
@@ -583,6 +557,78 @@ public class HHS_Browser extends AppCompatActivity implements ObservableScrollVi
     }
 
     @Override
+    public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
+    }
+
+    @Override
+    public void onDownMotionEvent() {
+    }
+
+    @Override
+    public void onUpOrCancelMotionEvent(ScrollState scrollState) {
+        ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
+        if (scrollState == ScrollState.UP) {
+            if (progressString.equals("loaded")) {
+                imageButton.setVisibility(View.VISIBLE);
+                imageButton_left.setVisibility(View.INVISIBLE);
+                imageButton_right.setVisibility(View.INVISIBLE);
+                if (actionBar.isShowing()) {
+                    actionBar.hide();
+                }
+            }
+        } else if (scrollState == ScrollState.DOWN) {
+            if (progressString.equals("loaded")) {
+                imageButton.setVisibility(View.INVISIBLE);
+                if (!actionBar.isShowing()) {
+                    actionBar.show();
+                }
+                setNavArrows();
+            }
+        } else {
+            imageButton.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mWebView.canGoBack()) {
+            mWebView.goBack();
+        } else {
+            if (sharedPref.getString("tabPref", "").equals("")) {
+                helper_main.isClosed(HHS_Browser.this);
+                finish();
+            } else {
+                helper_main.switchToActivity(HHS_Browser.this, HHS_MainScreen.class, "", false);
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
+                        helper_main.resetStartTab(HHS_Browser.this);
+                        finish();
+                    }
+                }, 500);
+            }
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();    //To change body of overridden methods use File | Settings | File Templates.
+        helper_main.isOpened(HHS_Browser.this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
+        helper_main.isOpened(HHS_Browser.this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();    //To change body of overridden methods use File | Settings | File Templates.
+        helper_main.isClosed(HHS_Browser.this);
+    }
+
+    @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
 
         if (sharedPref.getBoolean ("help", false)){
@@ -740,6 +786,34 @@ public class HHS_Browser extends AppCompatActivity implements ObservableScrollVi
         return super.onOptionsItemSelected(item);
     }
 
+    private void setNavArrows() {
+        if (sharedPref.getString ("nav", "2").equals("2") || sharedPref.getString ("nav", "2").equals("3")){
+            if (mWebView.canGoBack()) {
+                imageButton_left.setVisibility(View.VISIBLE);
+            } else {
+                imageButton_left.setVisibility(View.INVISIBLE);
+            }
+            imageButton_left.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mWebView.goBack();
+                }
+            });
+
+            if (mWebView.canGoForward()) {
+                imageButton_right.setVisibility(View.VISIBLE);
+            } else {
+                imageButton_right.setVisibility(View.INVISIBLE);
+            }
+            imageButton_right.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mWebView.goForward();
+                }
+            });
+        }
+    }
+
     private void screenshot() {
 
         shareFile = helper_main.newFile();
@@ -787,101 +861,5 @@ public class HHS_Browser extends AppCompatActivity implements ObservableScrollVi
                 Snackbar.make(mWebView, R.string.toast_perm, Snackbar.LENGTH_SHORT).show();
             }
         }
-    }
-
-    @Override
-    public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
-    }
-
-    @Override
-    public void onDownMotionEvent() {
-    }
-
-    @Override
-    public void onUpOrCancelMotionEvent(ScrollState scrollState) {
-        ActionBar actionBar = getSupportActionBar();
-        assert actionBar != null;
-        if (scrollState == ScrollState.UP) {
-            if (progressString.equals("loaded")) {
-                imageButton.setVisibility(View.VISIBLE);
-                imageButton_left.setVisibility(View.INVISIBLE);
-                imageButton_right.setVisibility(View.INVISIBLE);
-                if (actionBar.isShowing()) {
-                    actionBar.hide();
-                }
-            }
-        } else if (scrollState == ScrollState.DOWN) {
-            if (progressString.equals("loaded")) {
-                imageButton.setVisibility(View.INVISIBLE);
-                if (!actionBar.isShowing()) {
-                    actionBar.show();
-                }
-                if (sharedPref.getBoolean ("arrow", false)){
-                    if (mWebView.canGoBack()) {
-                        imageButton_left.setVisibility(View.VISIBLE);
-                    } else {
-                        imageButton_left.setVisibility(View.INVISIBLE);
-                    }
-                    imageButton_left.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            mWebView.goBack();
-                        }
-                    });
-
-                    if (mWebView.canGoForward()) {
-                        imageButton_right.setVisibility(View.VISIBLE);
-                    } else {
-                        imageButton_right.setVisibility(View.INVISIBLE);
-                    }
-                    imageButton_right.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            mWebView.goForward();
-                        }
-                    });
-                }
-            }
-        } else {
-            imageButton.setVisibility(View.INVISIBLE);
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (mWebView.canGoBack()) {
-            mWebView.goBack();
-        } else {
-            if (sharedPref.getString("tabPref", "").equals("")) {
-                helper_main.isClosed(HHS_Browser.this);
-                finish();
-            } else {
-                helper_main.switchToActivity(HHS_Browser.this, HHS_MainScreen.class, "", false);
-                new Handler().postDelayed(new Runnable() {
-                    public void run() {
-                        helper_main.resetStartTab(HHS_Browser.this);
-                        finish();
-                    }
-                }, 500);
-            }
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();    //To change body of overridden methods use File | Settings | File Templates.
-        helper_main.isOpened(HHS_Browser.this);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
-        helper_main.isOpened(HHS_Browser.this);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();    //To change body of overridden methods use File | Settings | File Templates.
-        helper_main.isClosed(HHS_Browser.this);
     }
 }

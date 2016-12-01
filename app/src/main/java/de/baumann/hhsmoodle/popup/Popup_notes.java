@@ -281,13 +281,13 @@ public class Popup_notes extends Activity {
 
                     switch (icon) {
                         case "":
-                            i.setImageResource(R.drawable.pr_green);
+                            i.setImageResource(R.drawable.circle_green);
                             break;
                         case "!":
-                            i.setImageResource(R.drawable.pr_yellow);
+                            i.setImageResource(R.drawable.circle_yellow);
                             break;
                         case "!!":
-                            i.setImageResource(R.drawable.pr_red);
+                            i.setImageResource(R.drawable.circle_red);
                             break;
                     }
 
@@ -297,9 +297,9 @@ public class Popup_notes extends Activity {
                         public void onClick(View arg0) {
 
                             final Item[] items = {
-                                    new Item(getString(R.string.note_priority_0), R.drawable.pr_green_1),
-                                    new Item(getString(R.string.note_priority_1), R.drawable.pr_yellow_1),
-                                    new Item(getString(R.string.note_priority_2), R.drawable.pr_red_1),
+                                    new Item(getString(R.string.note_priority_0), R.drawable.circle_green),
+                                    new Item(getString(R.string.note_priority_1), R.drawable.circle_yellow),
+                                    new Item(getString(R.string.note_priority_2), R.drawable.circle_red),
                             };
 
                             ListAdapter adapter = new ArrayAdapter<Item>(
@@ -315,7 +315,7 @@ public class Popup_notes extends Activity {
                                     tv.setTextSize(18);
                                     tv.setCompoundDrawablesWithIntrinsicBounds(items[position].icon, 0, 0, 0);
                                     //Add margin between image and text (support various screen densities)
-                                    int dp5 = (int) (5 * getResources().getDisplayMetrics().density + 0.5f);
+                                    int dp5 = (int) (24 * getResources().getDisplayMetrics().density + 0.5f);
                                     tv.setCompoundDrawablePadding(dp5);
 
                                     return v;
