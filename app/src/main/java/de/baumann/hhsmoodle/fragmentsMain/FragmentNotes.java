@@ -48,12 +48,14 @@ import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.helper.Database_Notes;
 import de.baumann.hhsmoodle.helper.helper_main;
+import de.baumann.hhsmoodle.helper.helper_notes;
 
 public class FragmentNotes extends Fragment {
 
@@ -87,6 +89,7 @@ public class FragmentNotes extends Fragment {
                 final String cont = map.get("cont");
                 final String seqnoStr = map.get("seqno");
                 final String icon = map.get("icon");
+                final String attachment = map.get("attachment");
 
                 LinearLayout layout = new LinearLayout(getActivity());
                 layout.setOrientation(LinearLayout.VERTICAL);
@@ -105,6 +108,23 @@ public class FragmentNotes extends Fragment {
                 textContent.setTextSize(16);
                 textContent.setPadding(5,25,0,0);
                 layout.addView(textContent);
+
+                if (attachment.length() > 0) {
+                    final TextView textAtt = new TextView(getContext());
+                    String attName = getString(R.string.app_att) + ": " + attachment.substring(attachment.lastIndexOf("/")+1);
+                    textAtt.setText(attName);
+                    textAtt.setTextSize(16);
+                    textAtt.setTypeface(null, Typeface.BOLD);
+                    textAtt.setPadding(5,25,0,0);
+                    textAtt.setOnClickListener(new View.OnClickListener() {
+
+                        @Override
+                        public void onClick(View arg0) {
+                            openAtt(attachment);
+                        }
+                    });
+                    layout.addView(textAtt);
+                }
 
                 ScrollView sv = new ScrollView(getActivity());
                 sv.pageScroll(0);
@@ -135,8 +155,9 @@ public class FragmentNotes extends Fragment {
                                         .putString("handleTextText", cont)
                                         .putString("handleTextIcon", icon)
                                         .putString("handleTextSeqno", seqnoStr)
+                                        .putString("handleTextAttachment", attachment)
                                         .apply();
-                                helper_main.editNote(getActivity());
+                                helper_notes.editNote(getActivity());
                             }
                         });
                 dialog.show();
@@ -153,6 +174,7 @@ public class FragmentNotes extends Fragment {
                 final String title = map.get("title");
                 final String cont = map.get("cont");
                 final String icon = map.get("icon");
+                final String attachment = map.get("attachment");
 
                 final CharSequence[] options = {
                         getString(R.string.note_edit),
@@ -169,8 +191,9 @@ public class FragmentNotes extends Fragment {
                                             .putString("handleTextText", cont)
                                             .putString("handleTextIcon", icon)
                                             .putString("handleTextSeqno", seqnoStr)
+                                            .putString("handleTextAttachment", attachment)
                                             .apply();
-                                    helper_main.editNote(getActivity());
+                                    helper_notes.editNote(getActivity());
                                 }
 
                                 if (options[item].equals (getString(R.string.note_share))) {
@@ -253,6 +276,7 @@ public class FragmentNotes extends Fragment {
                 map.put("title", strAry[1]);
                 map.put("cont", strAry[2]);
                 map.put("icon", strAry[3]);
+                map.put("attachment", strAry[4]);
                 mapList.add(map);
             }
 
@@ -272,9 +296,11 @@ public class FragmentNotes extends Fragment {
                     final String cont = map.get("cont");
                     final String seqnoStr = map.get("seqno");
                     final String icon = map.get("icon");
+                    final String attachment = map.get("attachment");
 
                     View v = super.getView(position, convertView, parent);
                     ImageView i=(ImageView) v.findViewById(R.id.icon_notes);
+                    ImageView i2=(ImageView) v.findViewById(R.id.att_notes);
 
                     switch (icon) {
                         case "":
@@ -286,6 +312,19 @@ public class FragmentNotes extends Fragment {
                         case "!!":
                             i.setImageResource(R.drawable.circle_red);
                             break;
+                    }
+                    switch (attachment) {
+                        case "":
+                            i2.setVisibility(View.GONE);
+                            break;
+                        default:
+                            i2.setVisibility(View.VISIBLE);
+                            break;
+                    }
+
+                    File file = new File(attachment);
+                    if (!file.exists()) {
+                        i2.setVisibility(View.GONE);
                     }
 
                     i.setOnClickListener(new View.OnClickListener() {
@@ -327,7 +366,7 @@ public class FragmentNotes extends Fragment {
                                                 try {
                                                     final Database_Notes db = new Database_Notes(getActivity());
                                                     db.deleteNote((Integer.parseInt(seqnoStr)));
-                                                    db.addBookmark(title, cont, "");
+                                                    db.addBookmark(title, cont, "", attachment);
                                                     db.close();
                                                     setNotesList();
                                                 } catch (Exception e) {
@@ -338,7 +377,7 @@ public class FragmentNotes extends Fragment {
                                                 try {
                                                     final Database_Notes db = new Database_Notes(getActivity());
                                                     db.deleteNote((Integer.parseInt(seqnoStr)));
-                                                    db.addBookmark(title, cont, "!");
+                                                    db.addBookmark(title, cont, "!",attachment);
                                                     db.close();
                                                     setNotesList();
                                                 } catch (Exception e) {
@@ -349,7 +388,7 @@ public class FragmentNotes extends Fragment {
                                                 try {
                                                     final Database_Notes db = new Database_Notes(getActivity());
                                                     db.deleteNote((Integer.parseInt(seqnoStr)));
-                                                    db.addBookmark(title, cont, "!!");
+                                                    db.addBookmark(title, cont, "!!", attachment);
                                                     db.close();
                                                     setNotesList();
                                                 } catch (Exception e) {
@@ -360,6 +399,13 @@ public class FragmentNotes extends Fragment {
                                     }).show();
                         }
                     });
+                    i2.setOnClickListener(new View.OnClickListener() {
+
+                        @Override
+                        public void onClick(View arg0) {
+                            openAtt(attachment);
+                        }
+                    });
                     return v;
                 }
             };
@@ -368,6 +414,130 @@ public class FragmentNotes extends Fragment {
 
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void openAtt (String fileString) {
+        File file = new File(fileString);
+        final String fileExtension = file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("."));
+        String text = (getActivity().getString(R.string.toast_extension) + ": " + fileExtension);
+
+        switch (fileExtension) {
+            case ".gif":
+            case ".bmp":
+            case ".tiff":
+            case ".svg":
+            case ".png":
+            case ".jpg":
+            case ".jpeg":
+                helper_main.openFile(getActivity(), file, "image/*", listView);
+                break;
+            case ".m3u8":
+            case ".mp3":
+            case ".wma":
+            case ".midi":
+            case ".wav":
+            case ".aac":
+            case ".aif":
+            case ".amp3":
+            case ".weba":
+                helper_main.openFile(getActivity(), file, "audio/*", listView);
+                break;
+            case ".mpeg":
+            case ".mp4":
+            case ".ogg":
+            case ".webm":
+            case ".qt":
+            case ".3gp":
+            case ".3g2":
+            case ".avi":
+            case ".f4v":
+            case ".flv":
+            case ".h261":
+            case ".h263":
+            case ".h264":
+            case ".asf":
+            case ".wmv":
+                helper_main.openFile(getActivity(), file, "video/*", listView);
+                break;
+            case ".rtx":
+            case ".csv":
+            case ".txt":
+            case ".vcs":
+            case ".vcf":
+            case ".css":
+            case ".ics":
+            case ".conf":
+            case ".config":
+            case ".java":
+                helper_main.openFile(getActivity(), file, "text/*", listView);
+                break;
+            case ".html":
+                helper_main.openFile(getActivity(), file, "text/html", listView);
+                break;
+            case ".apk":
+                helper_main.openFile(getActivity(), file, "application/vnd.android.package-archive", listView);
+                break;
+            case ".pdf":
+                helper_main.openFile(getActivity(), file, "application/pdf", listView);
+                break;
+            case ".doc":
+                helper_main.openFile(getActivity(), file, "application/msword", listView);
+                break;
+            case ".xls":
+                helper_main.openFile(getActivity(), file, "application/vnd.ms-excel", listView);
+                break;
+            case ".ppt":
+                helper_main.openFile(getActivity(), file, "application/vnd.ms-powerpoint", listView);
+                break;
+            case ".docx":
+                helper_main.openFile(getActivity(), file, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", listView);
+                break;
+            case ".pptx":
+                helper_main.openFile(getActivity(), file, "application/vnd.openxmlformats-officedocument.presentationml.presentation", listView);
+                break;
+            case ".xlsx":
+                helper_main.openFile(getActivity(), file, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", listView);
+                break;
+            case ".odt":
+                helper_main.openFile(getActivity(), file, "application/vnd.oasis.opendocument.text", listView);
+                break;
+            case ".ods":
+                helper_main.openFile(getActivity(), file, "application/vnd.oasis.opendocument.spreadsheet", listView);
+                break;
+            case ".odp":
+                helper_main.openFile(getActivity(), file, "application/vnd.oasis.opendocument.presentation", listView);
+                break;
+            case ".zip":
+                helper_main.openFile(getActivity(), file, "application/zip", listView);
+                break;
+            case ".rar":
+                helper_main.openFile(getActivity(), file, "application/x-rar-compressed", listView);
+                break;
+            case ".epub":
+                helper_main.openFile(getActivity(), file, "application/epub+zip", listView);
+                break;
+            case ".cbz":
+                helper_main.openFile(getActivity(), file, "application/x-cbz", listView);
+                break;
+            case ".cbr":
+                helper_main.openFile(getActivity(), file, "application/x-cbr", listView);
+                break;
+            case ".fb2":
+                helper_main.openFile(getActivity(), file, "application/x-fb2", listView);
+                break;
+            case ".rtf":
+                helper_main.openFile(getActivity(), file, "application/rtf", listView);
+                break;
+            case ".opml":
+                helper_main.openFile(getActivity(), file, "application/opml", listView);
+                break;
+
+            default:
+                Snackbar snackbar = Snackbar
+                        .make(listView, text, Snackbar.LENGTH_LONG);
+                snackbar.show();
+                break;
         }
     }
 

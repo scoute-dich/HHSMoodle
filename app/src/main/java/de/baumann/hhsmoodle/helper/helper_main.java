@@ -32,33 +32,21 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.util.Linkify;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Locale;
 
 import de.baumann.hhsmoodle.R;
@@ -157,330 +145,6 @@ public class helper_main {
         }
     }
 
-    public static void editNote (final Activity from) {
-
-        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(from);
-        final EditText titleInput;
-        final EditText textInput;
-        final String priority = sharedPref.getString("handleTextIcon", "");
-
-        LayoutInflater inflater = from.getLayoutInflater();
-
-        final ViewGroup nullParent = null;
-        View dialogView = inflater.inflate(R.layout.dialog_editnote, nullParent);
-
-        titleInput = (EditText) dialogView.findViewById(R.id.note_title_input);
-        textInput = (EditText) dialogView.findViewById(R.id.note_text_input);
-        titleInput.setText(sharedPref.getString("handleTextTitle", ""));
-        titleInput.setSelection(titleInput.getText().length());
-        textInput.setText(sharedPref.getString("handleTextText", ""));
-        textInput.setSelection(textInput.getText().length());
-
-        new Handler().postDelayed(new Runnable() {
-            public void run() {
-                helper_main.showKeyboard(from,titleInput);
-            }
-        }, 200);
-
-        final ImageButton be = (ImageButton) dialogView.findViewById(R.id.imageButtonPri);
-        assert be != null;
-
-        switch (priority) {
-            case "":
-                be.setImageResource(R.drawable.circle_green);
-                sharedPref.edit()
-                        .putString("handleTextIcon", "")
-                        .apply();
-                break;
-            case "!":
-                be.setImageResource(R.drawable.circle_yellow);
-                sharedPref.edit()
-                        .putString("handleTextIcon", "!")
-                        .apply();
-                break;
-            case "!!":
-                be.setImageResource(R.drawable.circle_red);
-                sharedPref.edit()
-                        .putString("handleTextIcon", "!!")
-                        .apply();
-                break;
-        }
-
-        be.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-
-                final helper_main.Item[] items = {
-                        new Item(from.getString(R.string.note_priority_0), R.drawable.circle_green),
-                        new Item(from.getString(R.string.note_priority_1), R.drawable.circle_yellow),
-                        new Item(from.getString(R.string.note_priority_2), R.drawable.circle_red),
-                };
-
-                ListAdapter adapter = new ArrayAdapter<helper_main.Item>(
-                        from,
-                        android.R.layout.select_dialog_item,
-                        android.R.id.text1,
-                        items){
-                    @NonNull
-                    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-                        //Use super class to create the View
-                        View v = super.getView(position, convertView, parent);
-                        TextView tv = (TextView)v.findViewById(android.R.id.text1);
-                        tv.setTextSize(18);
-                        tv.setCompoundDrawablesWithIntrinsicBounds(items[position].icon, 0, 0, 0);
-                        //Add margin between image and text (support various screen densities)
-                        int dp5 = (int) (24 * from.getResources().getDisplayMetrics().density + 0.5f);
-                        tv.setCompoundDrawablePadding(dp5);
-
-                        return v;
-                    }
-                };
-
-                new android.app.AlertDialog.Builder(from)
-                        .setAdapter(adapter, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int item) {
-                                if (item == 0) {
-                                    be.setImageResource(R.drawable.circle_green);
-                                    sharedPref.edit()
-                                            .putString("handleTextIcon", "")
-                                            .apply();
-                                } else if (item == 1) {
-                                    be.setImageResource(R.drawable.circle_yellow);
-                                    sharedPref.edit()
-                                            .putString("handleTextIcon", "!")
-                                            .apply();
-                                } else if (item == 2) {
-                                    be.setImageResource(R.drawable.circle_red);
-                                    sharedPref.edit()
-                                            .putString("handleTextIcon", "!!")
-                                            .apply();
-                                }
-                            }
-                        }).show();
-            }
-        });
-
-        android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(from)
-                .setTitle(R.string.note_edit)
-                .setView(dialogView)
-                .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
-
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        String seqno = sharedPref.getString("handleTextSeqno", "");
-
-                        try {
-
-                            final Database_Notes db = new Database_Notes(from);
-                            String inputTitle = titleInput.getText().toString().trim();
-                            String inputContent = textInput.getText().toString().trim();
-
-                            db.addBookmark(inputTitle, inputContent, sharedPref.getString("handleTextIcon", ""));
-                            db.close();
-
-                            if (seqno.length() > 0) {
-                                db.deleteNote((Integer.parseInt(seqno)));
-                                sharedPref.edit()
-                                        .putString("handleTextSeqno", "")
-                                        .apply();
-                            }
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        sharedPref.edit()
-                                .putString("handleTextTitle", "")
-                                .putString("handleTextText", "")
-                                .putString("handleTextIcon", "")
-                                .apply();
-                        helper_main.setNotesList(from);
-                        if (sharedPref.getString("fromPopup", "").equals("0")) {
-                            sharedPref.edit()
-                                    .putString("fromPopup", "")
-                                    .apply();
-                            from.recreate();
-                        }
-
-                    }
-                })
-                .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        sharedPref.edit()
-                                .putString("handleTextTitle", "")
-                                .putString("handleTextText", "")
-                                .putString("handleTextIcon", "")
-                                .apply();
-                        dialog.cancel();
-                    }
-                });
-        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            public void onCancel(final DialogInterface dialog) {
-                if (sharedPref.getString("fromPopup", "").equals("0")) {
-                    sharedPref.edit()
-                            .putString("fromPopup", "")
-                            .apply();
-                }
-            }
-        });
-        dialog.show();
-    }
-
-    private static class Item{
-        public final String text;
-        public final int icon;
-        Item(String text, Integer icon) {
-            this.text = text;
-            this.icon = icon;
-        }
-        @Override
-        public String toString() {
-            return text;
-        }
-    }
-
-    private static void setNotesList(final Activity from) {
-
-        final ListView listView = (ListView)from.findViewById(R.id.notes);
-
-        ArrayList<HashMap<String,String>> mapList = new ArrayList<>();
-
-        try {
-            Database_Notes db = new Database_Notes(from);
-            ArrayList<String[]> bookmarkList = new ArrayList<>();
-            db.getBookmarks(bookmarkList);
-            if (bookmarkList.size() == 0) {
-                db.loadInitialData();
-                db.getBookmarks(bookmarkList);
-            }
-            db.close();
-
-            for (String[] strAry : bookmarkList) {
-                HashMap<String, String> map = new HashMap<>();
-                map.put("seqno", strAry[0]);
-                map.put("title", strAry[1]);
-                map.put("cont", strAry[2]);
-                map.put("icon", strAry[3]);
-                mapList.add(map);
-            }
-
-            SimpleAdapter simpleAdapter = new SimpleAdapter(
-                    from,
-                    mapList,
-                    R.layout.list_item_notes,
-                    new String[] {"title", "cont"},
-                    new int[] {R.id.textView_title_notes, R.id.textView_des_notes}
-            ) {
-                @Override
-                public View getView (final int position, View convertView, ViewGroup parent) {
-
-                    @SuppressWarnings("unchecked")
-                    HashMap<String,String> map = (HashMap<String,String>)listView.getItemAtPosition(position);
-                    final String title = map.get("title");
-                    final String cont = map.get("cont");
-                    final String seqnoStr = map.get("seqno");
-                    final String icon = map.get("icon");
-
-                    View v = super.getView(position, convertView, parent);
-                    ImageView i=(ImageView) v.findViewById(R.id.icon_notes);
-
-                    switch (icon) {
-                        case "":
-                            i.setImageResource(R.drawable.circle_green);
-                            break;
-                        case "!":
-                            i.setImageResource(R.drawable.circle_yellow);
-                            break;
-                        case "!!":
-                            i.setImageResource(R.drawable.circle_red);
-                            break;
-                    }
-
-                    i.setOnClickListener(new View.OnClickListener() {
-
-                        @Override
-                        public void onClick(View arg0) {
-
-                            final helper_main.Item[] items = {
-                                    new Item(from.getString(R.string.note_priority_0), R.drawable.circle_green),
-                                    new Item(from.getString(R.string.note_priority_1), R.drawable.circle_yellow),
-                                    new Item(from.getString(R.string.note_priority_2), R.drawable.circle_red),
-                            };
-
-                            ListAdapter adapter = new ArrayAdapter<helper_main.Item>(
-                                    from,
-                                    android.R.layout.select_dialog_item,
-                                    android.R.id.text1,
-                                    items){
-                                @NonNull
-                                public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-                                    //Use super class to create the View
-                                    View v = super.getView(position, convertView, parent);
-                                    TextView tv = (TextView)v.findViewById(android.R.id.text1);
-                                    tv.setTextSize(18);
-                                    tv.setCompoundDrawablesWithIntrinsicBounds(items[position].icon, 0, 0, 0);
-                                    //Add margin between image and text (support various screen densities)
-                                    int dp5 = (int) (5 * from.getResources().getDisplayMetrics().density + 0.5f);
-                                    tv.setCompoundDrawablePadding(dp5);
-
-                                    return v;
-                                }
-                            };
-
-                            new AlertDialog.Builder(from)
-                                    .setAdapter(adapter, new DialogInterface.OnClickListener() {
-
-                                        public void onClick(DialogInterface dialog, int item) {
-                                            if (item == 0) {
-                                                try {
-                                                    final Database_Notes db = new Database_Notes(from);
-                                                    db.deleteNote((Integer.parseInt(seqnoStr)));
-                                                    db.addBookmark(title, cont, "");
-                                                    db.close();
-                                                    setNotesList(from);
-                                                } catch (Exception e) {
-                                                    e.printStackTrace();
-                                                }
-
-                                            } else if (item == 1) {
-                                                try {
-                                                    final Database_Notes db = new Database_Notes(from);
-                                                    db.deleteNote((Integer.parseInt(seqnoStr)));
-                                                    db.addBookmark(title, cont, "!");
-                                                    db.close();
-                                                    setNotesList(from);
-                                                } catch (Exception e) {
-                                                    e.printStackTrace();
-                                                }
-
-                                            } else if (item == 2) {
-                                                try {
-                                                    final Database_Notes db = new Database_Notes(from);
-                                                    db.deleteNote((Integer.parseInt(seqnoStr)));
-                                                    db.addBookmark(title, cont, "!!");
-                                                    db.close();
-                                                    setNotesList(from);
-                                                } catch (Exception e) {
-                                                    e.printStackTrace();
-                                                }
-                                            }
-                                        }
-                                    }).show();
-                        }
-                    });
-                    return v;
-                }
-            };
-
-            if (listView != null) {
-                listView.setAdapter(simpleAdapter);
-            }
-
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
     public static File newFile () {
         return  new File(Environment.getExternalStorageDirectory() + newFileDest() + newFileName());
     }
@@ -511,7 +175,7 @@ public class helper_main {
 
                         final String fileExtension = pathFile.getAbsolutePath().substring(pathFile.getAbsolutePath().lastIndexOf("."));
                         final String fileName = pathFile.getAbsolutePath().substring(pathFile.getAbsolutePath().lastIndexOf("/")+1);
-                        final String  fileNameWE = fileName.substring(0, fileName.lastIndexOf("."));
+                        final String fileNameWE = fileName.substring(0, fileName.lastIndexOf("."));
 
                         final CharSequence[] options = {
                                 activity.getString(R.string.choose_menu_1),
@@ -767,7 +431,7 @@ public class helper_main {
                 .show();
     }
 
-    private static void openFile(Activity activity, File file, String string, View view) {
+    public static void openFile(Activity activity, File file, String string, View view) {
 
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_VIEW);

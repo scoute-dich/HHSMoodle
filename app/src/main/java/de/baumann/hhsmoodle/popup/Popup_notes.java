@@ -45,6 +45,7 @@ import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -53,6 +54,7 @@ import de.baumann.hhsmoodle.helper.Activity_password;
 import de.baumann.hhsmoodle.helper.Database_Notes;
 import de.baumann.hhsmoodle.helper.class_SecurePreferences;
 import de.baumann.hhsmoodle.helper.helper_main;
+import de.baumann.hhsmoodle.helper.helper_notes;
 
 public class Popup_notes extends Activity {
 
@@ -86,6 +88,7 @@ public class Popup_notes extends Activity {
                 final String cont = map.get("cont");
                 final String seqnoStr = map.get("seqno");
                 final String icon = map.get("icon");
+                final String attachment = map.get("attachment");
 
                 LinearLayout layout = new LinearLayout(Popup_notes.this);
                 layout.setOrientation(LinearLayout.VERTICAL);
@@ -104,6 +107,23 @@ public class Popup_notes extends Activity {
                 textContent.setTextSize(16);
                 textContent.setPadding(5,25,0,0);
                 layout.addView(textContent);
+
+                if (attachment.length() > 0) {
+                    final TextView textAtt = new TextView(Popup_notes.this);
+                    String attName = getString(R.string.app_att) + ": " + attachment.substring(attachment.lastIndexOf("/")+1);
+                    textAtt.setText(attName);
+                    textAtt.setTextSize(16);
+                    textAtt.setTypeface(null, Typeface.BOLD);
+                    textAtt.setPadding(5,25,0,0);
+                    textAtt.setOnClickListener(new View.OnClickListener() {
+
+                        @Override
+                        public void onClick(View arg0) {
+                            openAtt(attachment);
+                        }
+                    });
+                    layout.addView(textAtt);
+                }
 
                 ScrollView sv = new ScrollView(Popup_notes.this);
                 sv.pageScroll(0);
@@ -135,9 +155,10 @@ public class Popup_notes extends Activity {
                                         .putString("handleTextText", cont)
                                         .putString("handleTextIcon", icon)
                                         .putString("handleTextSeqno", seqnoStr)
+                                        .putString("handleTextAttachment", attachment)
                                         .putString("fromPopup", "0")
                                         .apply();
-                                helper_main.editNote(Popup_notes.this);
+                                helper_notes.editNote(Popup_notes.this);
                             }
                         });
                 dialog.show();
@@ -154,6 +175,7 @@ public class Popup_notes extends Activity {
                 final String title = map.get("title");
                 final String cont = map.get("cont");
                 final String icon = map.get("icon");
+                final String attachment = map.get("attachment");
 
                 final CharSequence[] options = {
                         getString(R.string.note_edit),
@@ -172,9 +194,10 @@ public class Popup_notes extends Activity {
                                             .putString("handleTextText", cont)
                                             .putString("handleTextIcon", icon)
                                             .putString("handleTextSeqno", seqnoStr)
+                                            .putString("handleTextAttachment", attachment)
                                             .putString("fromPopup", "0")
                                             .apply();
-                                    helper_main.editNote(Popup_notes.this);
+                                    helper_notes.editNote(Popup_notes.this);
                                 }
 
                                 if (options[item].equals (getString(R.string.note_share))) {
@@ -237,7 +260,7 @@ public class Popup_notes extends Activity {
     }
 
     private void setNotesList() {
-        
+
         ArrayList<HashMap<String,String>> mapList = new ArrayList<>();
 
         try {
@@ -256,15 +279,16 @@ public class Popup_notes extends Activity {
                 map.put("title", strAry[1]);
                 map.put("cont", strAry[2]);
                 map.put("icon", strAry[3]);
+                map.put("attachment", strAry[4]);
                 mapList.add(map);
             }
 
             SimpleAdapter simpleAdapter = new SimpleAdapter(
                     Popup_notes.this,
                     mapList,
-                    R.layout.list_item,
+                    R.layout.list_item_notes,
                     new String[] {"title", "cont"},
-                    new int[] {R.id.textView_title, R.id.textView_des}
+                    new int[] {R.id.textView_title_notes, R.id.textView_des_notes}
             ) {
                 @Override
                 public View getView (final int position, View convertView, ViewGroup parent) {
@@ -275,9 +299,12 @@ public class Popup_notes extends Activity {
                     final String cont = map.get("cont");
                     final String seqnoStr = map.get("seqno");
                     final String icon = map.get("icon");
+                    final String attachment = map.get("attachment");
 
                     View v = super.getView(position, convertView, parent);
-                    ImageView i=(ImageView) v.findViewById(R.id.icon);
+                    ImageView i=(ImageView) v.findViewById(R.id.icon_notes);
+                    ImageView i2=(ImageView) v.findViewById(R.id.att_notes);
+                    i2.setImageResource(R.drawable.ic_attachment);
 
                     switch (icon) {
                         case "":
@@ -289,6 +316,19 @@ public class Popup_notes extends Activity {
                         case "!!":
                             i.setImageResource(R.drawable.circle_red);
                             break;
+                    }
+                    switch (attachment) {
+                        case "":
+                            i2.setVisibility(View.GONE);
+                            break;
+                        default:
+                            i2.setVisibility(View.VISIBLE);
+                            break;
+                    }
+
+                    File file = new File(attachment);
+                    if (!file.exists()) {
+                        i2.setVisibility(View.GONE);
                     }
 
                     i.setOnClickListener(new View.OnClickListener() {
@@ -328,45 +368,46 @@ public class Popup_notes extends Activity {
                                         public void onClick(DialogInterface dialog, int item) {
                                             if (item == 0) {
                                                 try {
-
                                                     final Database_Notes db = new Database_Notes(Popup_notes.this);
                                                     db.deleteNote((Integer.parseInt(seqnoStr)));
-                                                    db.addBookmark(title, cont, "");
+                                                    db.addBookmark(title, cont, "", attachment);
                                                     db.close();
                                                     setNotesList();
-
                                                 } catch (Exception e) {
                                                     e.printStackTrace();
                                                 }
 
                                             } else if (item == 1) {
                                                 try {
-
                                                     final Database_Notes db = new Database_Notes(Popup_notes.this);
                                                     db.deleteNote((Integer.parseInt(seqnoStr)));
-                                                    db.addBookmark(title, cont, "!");
+                                                    db.addBookmark(title, cont, "!",attachment);
                                                     db.close();
                                                     setNotesList();
-
                                                 } catch (Exception e) {
                                                     e.printStackTrace();
                                                 }
 
                                             } else if (item == 2) {
                                                 try {
-
                                                     final Database_Notes db = new Database_Notes(Popup_notes.this);
                                                     db.deleteNote((Integer.parseInt(seqnoStr)));
-                                                    db.addBookmark(title, cont, "!!");
+                                                    db.addBookmark(title, cont, "!!", attachment);
                                                     db.close();
                                                     setNotesList();
-
                                                 } catch (Exception e) {
                                                     e.printStackTrace();
                                                 }
                                             }
                                         }
                                     }).show();
+                        }
+                    });
+                    i2.setOnClickListener(new View.OnClickListener() {
+
+                        @Override
+                        public void onClick(View arg0) {
+                            openAtt(attachment);
                         }
                     });
                     return v;
@@ -390,6 +431,131 @@ public class Popup_notes extends Activity {
         @Override
         public String toString() {
             return text;
+        }
+    }
+
+    private void openAtt (String fileString) {
+
+        File file = new File(fileString);
+        final String fileExtension = file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("."));
+        String text = (Popup_notes.this.getString(R.string.toast_extension) + ": " + fileExtension);
+
+        switch (fileExtension) {
+            case ".gif":
+            case ".bmp":
+            case ".tiff":
+            case ".svg":
+            case ".png":
+            case ".jpg":
+            case ".jpeg":
+                helper_main.openFile(Popup_notes.this, file, "image/*", listView);
+                break;
+            case ".m3u8":
+            case ".mp3":
+            case ".wma":
+            case ".midi":
+            case ".wav":
+            case ".aac":
+            case ".aif":
+            case ".amp3":
+            case ".weba":
+                helper_main.openFile(Popup_notes.this, file, "audio/*", listView);
+                break;
+            case ".mpeg":
+            case ".mp4":
+            case ".ogg":
+            case ".webm":
+            case ".qt":
+            case ".3gp":
+            case ".3g2":
+            case ".avi":
+            case ".f4v":
+            case ".flv":
+            case ".h261":
+            case ".h263":
+            case ".h264":
+            case ".asf":
+            case ".wmv":
+                helper_main.openFile(Popup_notes.this, file, "video/*", listView);
+                break;
+            case ".rtx":
+            case ".csv":
+            case ".txt":
+            case ".vcs":
+            case ".vcf":
+            case ".css":
+            case ".ics":
+            case ".conf":
+            case ".config":
+            case ".java":
+                helper_main.openFile(Popup_notes.this, file, "text/*", listView);
+                break;
+            case ".html":
+                helper_main.openFile(Popup_notes.this, file, "text/html", listView);
+                break;
+            case ".apk":
+                helper_main.openFile(Popup_notes.this, file, "application/vnd.android.package-archive", listView);
+                break;
+            case ".pdf":
+                helper_main.openFile(Popup_notes.this, file, "application/pdf", listView);
+                break;
+            case ".doc":
+                helper_main.openFile(Popup_notes.this, file, "application/msword", listView);
+                break;
+            case ".xls":
+                helper_main.openFile(Popup_notes.this, file, "application/vnd.ms-excel", listView);
+                break;
+            case ".ppt":
+                helper_main.openFile(Popup_notes.this, file, "application/vnd.ms-powerpoint", listView);
+                break;
+            case ".docx":
+                helper_main.openFile(Popup_notes.this, file, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", listView);
+                break;
+            case ".pptx":
+                helper_main.openFile(Popup_notes.this, file, "application/vnd.openxmlformats-officedocument.presentationml.presentation", listView);
+                break;
+            case ".xlsx":
+                helper_main.openFile(Popup_notes.this, file, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", listView);
+                break;
+            case ".odt":
+                helper_main.openFile(Popup_notes.this, file, "application/vnd.oasis.opendocument.text", listView);
+                break;
+            case ".ods":
+                helper_main.openFile(Popup_notes.this, file, "application/vnd.oasis.opendocument.spreadsheet", listView);
+                break;
+            case ".odp":
+                helper_main.openFile(Popup_notes.this, file, "application/vnd.oasis.opendocument.presentation", listView);
+                break;
+            case ".zip":
+                helper_main.openFile(Popup_notes.this, file, "application/zip", listView);
+                break;
+            case ".rar":
+                helper_main.openFile(Popup_notes.this, file, "application/x-rar-compressed", listView);
+                break;
+            case ".epub":
+                helper_main.openFile(Popup_notes.this, file, "application/epub+zip", listView);
+                break;
+            case ".cbz":
+                helper_main.openFile(Popup_notes.this, file, "application/x-cbz", listView);
+                break;
+            case ".cbr":
+                helper_main.openFile(Popup_notes.this, file, "application/x-cbr", listView);
+                break;
+            case ".fb2":
+                helper_main.openFile(Popup_notes.this, file, "application/x-fb2", listView);
+                break;
+            case ".rtf":
+                helper_main.openFile(Popup_notes.this, file, "application/rtf", listView);
+                break;
+            case ".opml":
+                helper_main.openFile(Popup_notes.this, file, "application/opml", listView);
+                break;
+
+            default:
+                Snackbar snackbar = Snackbar
+                        .make(listView, text, Snackbar.LENGTH_LONG);
+                snackbar.show();
+                break;
         }
     }
 

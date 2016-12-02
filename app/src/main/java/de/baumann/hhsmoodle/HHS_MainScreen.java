@@ -52,6 +52,7 @@ import de.baumann.hhsmoodle.helper.Activity_password;
 import de.baumann.hhsmoodle.helper.Activity_settings;
 import de.baumann.hhsmoodle.helper.class_SecurePreferences;
 import de.baumann.hhsmoodle.helper.helper_main;
+import de.baumann.hhsmoodle.helper.helper_notes;
 import de.baumann.hhsmoodle.popup.Popup_bookmarks;
 import de.baumann.hhsmoodle.popup.Popup_calendar;
 import de.baumann.hhsmoodle.popup.Popup_info;
@@ -154,7 +155,7 @@ public class HHS_MainScreen extends AppCompatActivity {
                     .putString("handleTextText", intent.getStringExtra(Intent.EXTRA_TEXT))
                     .putString("handleTextIcon", "")
                     .apply();
-            helper_main.editNote(HHS_MainScreen.this);
+            helper_notes.editNote(HHS_MainScreen.this);
         }
 
         File directory = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/backup/");
@@ -238,7 +239,7 @@ public class HHS_MainScreen extends AppCompatActivity {
         }
 
         if (id == R.id.action_not) {
-            helper_main.editNote(HHS_MainScreen.this);
+            helper_notes.editNote(HHS_MainScreen.this);
         }
 
         if (id == R.id.action_shortcut) {

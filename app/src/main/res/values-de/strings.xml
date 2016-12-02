@@ -24,6 +24,7 @@
     <string name="app_contDesc_2">Icon</string>
     <string name="app_contDesc_3">Splashscreen</string>
     <string name="app_conf">Bestätigung</string>
+    <string name="app_att">Anhang</string>
 
 
     // Login
@@ -105,7 +106,7 @@
 
     <string name="action_problem">Kontakt</string>
     <string name="action_problem_summary">Wenn du mit der App (oder unserem Moodle) Probleme oder Verbesserungsvorschläge hast, kannst
-        du mir eine Email schicken.</string>
+        du mir eine Email schicken. Dafür muss auf deinem Telefon ein Emailaccount eingerichtet sein.</string>
     <string name="action_problem_button">Email senden</string>
     <string name="action_problem_text">Bitte Emailtext eingeben:</string>
 
@@ -228,5 +229,14 @@
     <string name="choose_hint">Neuer Dateiname (ohne Dateiendung)</string>
     <string name="choose_delete">Möchtest du die Datei wirklich löschen?</string>
     <string name="choose_title">Dateiname bearbeiten</string>
+    <string name="choose_att">Anhang auswählen</string>
+
+
+
+    // Camera
+
+    <string name="cam_fail">Konnte Bild nicht aufnehmen</string>
+    <string name="cam_success">Bild erfolgreich aufgenommen</string>
+    <string name="cam_start">Mache ein Bild und wähle es dann als Anhang aus.</string>
 
 </resources>

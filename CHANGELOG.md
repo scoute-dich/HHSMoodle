@@ -1,8 +1,10 @@
 ### v 2.6: (WIP)
+- added: attachment for notes
+- added: new header pictures
 - improved: settings screen
 - improved: automatic login
 - improved: UI (some dialogs)
-- fixed: change icons
+- fixed: change icons (bookmarks)
 
 ### v 2.5+:
 - new: app shortcut icons

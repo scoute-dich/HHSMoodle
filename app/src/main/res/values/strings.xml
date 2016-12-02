@@ -21,6 +21,7 @@
     <string name="app_contDesc_2">icon</string>
     <string name="app_contDesc_3">splashscreen</string>
     <string name="app_conf">Confirmation</string>
+    <string name="app_att">Attachment</string>
 
 
     // Login
@@ -101,7 +102,7 @@
 
     <string name="action_problem">Contact</string>
     <string name="action_problem_summary">If you have problems with the app (or our Moodle) or suggestions for improvements, you can
-        send me a mail.</string>
+        send me a mail. You must have a configured mail account on your phone.</string>
     <string name="action_problem_button">Send mail</string>
     <string name="action_problem_text">Please enter mail text:</string>
 
@@ -222,5 +223,13 @@
     <string name="choose_hint">New filename (without file extension)</string>
     <string name="choose_delete">Do you really want to delete the file?</string>
     <string name="choose_title">Edit filename</string>
+    <string name="choose_att">Choose attachment</string>
+
+
+    // Camera
+
+    <string name="cam_fail">Failed to take picture</string>
+    <string name="cam_success">Picture saved</string>
+    <string name="cam_start">Take a picture, then choose it as attachment.</string>
 
 </resources>

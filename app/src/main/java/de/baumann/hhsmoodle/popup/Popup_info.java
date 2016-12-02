@@ -39,6 +39,7 @@ import de.baumann.hhsmoodle.helper.Activity_password;
 import de.baumann.hhsmoodle.helper.class_CustomListAdapter;
 import de.baumann.hhsmoodle.helper.class_SecurePreferences;
 import de.baumann.hhsmoodle.helper.helper_main;
+import de.baumann.hhsmoodle.helper.helper_notes;
 
 public class Popup_info extends Activity {
 
@@ -157,7 +158,7 @@ public class Popup_info extends Activity {
                                             .putString("handleTextTitle", title)
                                             .putString("handleTextText", url)
                                             .apply();
-                                    helper_main.editNote(Popup_info.this);
+                                    helper_notes.editNote(Popup_info.this);
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createShortcut))) {

@@ -78,6 +78,7 @@ import de.baumann.hhsmoodle.helper.Database_Browser;
 import de.baumann.hhsmoodle.helper.Activity_password;
 import de.baumann.hhsmoodle.helper.class_SecurePreferences;
 import de.baumann.hhsmoodle.helper.helper_main;
+import de.baumann.hhsmoodle.helper.helper_notes;
 import de.baumann.hhsmoodle.helper.helper_webView;
 import de.baumann.hhsmoodle.popup.Popup_bookmarks;
 
@@ -775,7 +776,7 @@ public class HHS_Browser extends AppCompatActivity implements ObservableScrollVi
                     .putString("handleTextTitle", title)
                     .putString("handleTextText", text)
                     .apply();
-            helper_main.editNote(HHS_Browser.this);
+            helper_notes.editNote(HHS_Browser.this);
         }
 
         if (id == R.id.action_bookmark) {

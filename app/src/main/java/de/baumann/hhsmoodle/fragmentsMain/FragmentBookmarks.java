@@ -56,6 +56,7 @@ import de.baumann.hhsmoodle.HHS_Browser;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.helper.Database_Browser;
 import de.baumann.hhsmoodle.helper.helper_main;
+import de.baumann.hhsmoodle.helper.helper_notes;
 
 public class FragmentBookmarks extends Fragment {
 
@@ -226,7 +227,7 @@ public class FragmentBookmarks extends Fragment {
                                             .putString("handleTextTitle", title)
                                             .putString("handleTextText", url)
                                             .apply();
-                                    helper_main.editNote(getActivity());
+                                    helper_notes.editNote(getActivity());
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createShortcut))) {
