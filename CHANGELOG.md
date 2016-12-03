@@ -1,4 +1,4 @@
-### v 2.6: (WIP)
+### v 2.6:
 - added: attachment for notes
 - added: new header pictures
 - improved: settings screen

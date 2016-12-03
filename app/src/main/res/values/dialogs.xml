@@ -5,6 +5,9 @@
 
     <string name="about_title">Copyright © 2016  by Gaukler Faun</string>
     <string name="about_text">
+        &lt;i>For more information about the project: &lt;br>
+        https://github.com/scoute-dich/HHSMoodle&lt;/i>&lt;br>&lt;br>
+
         This program is free software: you can redistribute it and/or modify
         it under the terms of the GNU General Public License as published by
         the Free Software Foundation, either version 3 of the License, or
