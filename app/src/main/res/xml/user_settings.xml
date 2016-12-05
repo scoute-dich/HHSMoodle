@@ -111,7 +111,7 @@
 
         <Preference
             android:title="@string/action_problem"
-            android:icon="@drawable/email_outline"
+            android:icon="@drawable/bug"
             android:summary="@string/action_problem_summary"
             android:key="problem" />
 
