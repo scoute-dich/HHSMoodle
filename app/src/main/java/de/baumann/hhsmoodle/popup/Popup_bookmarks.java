@@ -244,10 +244,10 @@ public class Popup_bookmarks extends Activity {
         try {
             Database_Browser db = new Database_Browser(Popup_bookmarks.this);
             ArrayList<String[]> bookmarkList = new ArrayList<>();
-            db.getBookmarks(bookmarkList);
+            db.getBookmarks(bookmarkList, Popup_bookmarks.this);
             if (bookmarkList.size() == 0) {
                 db.loadInitialData();
-                db.getBookmarks(bookmarkList);
+                db.getBookmarks(bookmarkList, Popup_bookmarks.this);
             }
             db.close();
 
@@ -263,9 +263,9 @@ public class Popup_bookmarks extends Activity {
             SimpleAdapter simpleAdapter = new SimpleAdapter(
                     Popup_bookmarks.this,
                     mapList,
-                    R.layout.list_item,
+                    R.layout.list_item_notes,
                     new String[] {"title", "url"},
-                    new int[] {R.id.textView_title, R.id.textView_des}
+                    new int[] {R.id.textView_title_notes, R.id.textView_des_notes}
             ){
                 @Override
                 public View getView (final int position, final View convertView, final ViewGroup parent) {
@@ -278,7 +278,7 @@ public class Popup_bookmarks extends Activity {
                     final String icon = map.get("icon");
 
                     View v = super.getView(position, convertView, parent);
-                    ImageView i=(ImageView) v.findViewById(R.id.icon);
+                    ImageView i=(ImageView) v.findViewById(R.id.icon_notes);
 
                     switch (icon) {
                         case "1":

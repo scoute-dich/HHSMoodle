@@ -52,13 +52,6 @@
             android:key="longPress"
             android:defaultValue="true" />
 
-        <CheckBoxPreference
-            android:title="@string/action_links_title"
-            android:icon="@drawable/link_variant"
-            android:summary="@string/action_links_summary"
-            android:key="links"
-            android:defaultValue="true" />
-
         <ListPreference
             android:title="@string/action_nav"
             android:icon="@drawable/swap_horizontal"

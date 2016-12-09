@@ -20,6 +20,7 @@
 package de.baumann.hhsmoodle.helper;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -31,6 +32,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -137,6 +139,8 @@ public class helper_notes {
 
             @Override
             public void onClick(View arg0) {
+                InputMethodManager imm = (InputMethodManager)from.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(titleInput.getWindowToken(), 0);
                 helper_main.switchToActivity(from, Popup_camera.class, "", false);
             }
         });
@@ -151,22 +155,29 @@ public class helper_notes {
         assert be != null;
 
         switch (priority) {
-            case "":
+            case "1":
                 be.setImageResource(R.drawable.circle_green);
                 sharedPref.edit()
-                        .putString("handleTextIcon", "")
+                        .putString("handleTextIcon", "1")
                         .apply();
                 break;
-            case "!":
+            case "2":
                 be.setImageResource(R.drawable.circle_yellow);
                 sharedPref.edit()
-                        .putString("handleTextIcon", "!")
+                        .putString("handleTextIcon", "2")
                         .apply();
                 break;
-            case "!!":
+            case "3":
                 be.setImageResource(R.drawable.circle_red);
                 sharedPref.edit()
-                        .putString("handleTextIcon", "!!")
+                        .putString("handleTextIcon", "3")
+                        .apply();
+                break;
+
+            default:
+                be.setImageResource(R.drawable.circle_green);
+                sharedPref.edit()
+                        .putString("handleTextIcon", "1")
                         .apply();
                 break;
         }
@@ -208,17 +219,17 @@ public class helper_notes {
                                 if (item == 0) {
                                     be.setImageResource(R.drawable.circle_green);
                                     sharedPref.edit()
-                                            .putString("handleTextIcon", "")
+                                            .putString("handleTextIcon", "1")
                                             .apply();
                                 } else if (item == 1) {
                                     be.setImageResource(R.drawable.circle_yellow);
                                     sharedPref.edit()
-                                            .putString("handleTextIcon", "!")
+                                            .putString("handleTextIcon", "2")
                                             .apply();
                                 } else if (item == 2) {
                                     be.setImageResource(R.drawable.circle_red);
                                     sharedPref.edit()
-                                            .putString("handleTextIcon", "!!")
+                                            .putString("handleTextIcon", "3")
                                             .apply();
                                 }
                             }
@@ -240,8 +251,9 @@ public class helper_notes {
                             String inputTitle = titleInput.getText().toString().trim();
                             String inputContent = textInput.getText().toString().trim();
                             String attachment = sharedPref.getString("handleTextAttachment", "");
+                            String create = sharedPref.getString("handleTextCreate", "");
 
-                            db.addBookmark(inputTitle, inputContent, sharedPref.getString("handleTextIcon", ""), attachment);
+                            db.addBookmark(inputTitle, inputContent, sharedPref.getString("handleTextIcon", ""), attachment, create);
                             db.close();
 
                             if (seqno.length() > 0) {
@@ -259,6 +271,7 @@ public class helper_notes {
                                 .putString("handleTextText", "")
                                 .putString("handleTextIcon", "")
                                 .putString("handleTextAttachment", "")
+                                .putString("handleTextCreate", "")
                                 .apply();
                         helper_notes.setNotesList(from);
                         if (sharedPref.getString("fromPopup", "").equals("0")) {
@@ -277,6 +290,7 @@ public class helper_notes {
                                 .putString("handleTextTitle", "")
                                 .putString("handleTextText", "")
                                 .putString("handleTextIcon", "")
+                                .putString("handleTextCreate", "")
                                 .apply();
                         dialog.cancel();
                     }
@@ -315,10 +329,10 @@ public class helper_notes {
         try {
             Database_Notes db = new Database_Notes(from);
             ArrayList<String[]> bookmarkList = new ArrayList<>();
-            db.getBookmarks(bookmarkList);
+            db.getBookmarks(bookmarkList, from);
             if (bookmarkList.size() == 0) {
                 db.loadInitialData();
-                db.getBookmarks(bookmarkList);
+                db.getBookmarks(bookmarkList, from);
             }
             db.close();
 
@@ -329,6 +343,7 @@ public class helper_notes {
                 map.put("cont", strAry[2]);
                 map.put("icon", strAry[3]);
                 map.put("attachment", strAry[4]);
+                map.put("createDate", strAry[5]);
                 mapList.add(map);
             }
 
@@ -336,8 +351,8 @@ public class helper_notes {
                     from,
                     mapList,
                     R.layout.list_item_notes,
-                    new String[] {"title", "cont"},
-                    new int[] {R.id.textView_title_notes, R.id.textView_des_notes}
+                    new String[] {"title", "cont", "createDate"},
+                    new int[] {R.id.textView_title_notes, R.id.textView_des_notes, R.id.textView_create_notes}
             ) {
                 @Override
                 public View getView (final int position, View convertView, ViewGroup parent) {
@@ -349,19 +364,20 @@ public class helper_notes {
                     final String seqnoStr = map.get("seqno");
                     final String icon = map.get("icon");
                     final String attachment = map.get("attachment");
+                    final String create = map.get("createDate");
 
                     View v = super.getView(position, convertView, parent);
                     ImageView i=(ImageView) v.findViewById(R.id.icon_notes);
                     ImageView i2=(ImageView) v.findViewById(R.id.att_notes);
 
                     switch (icon) {
-                        case "":
+                        case "1":
                             i.setImageResource(R.drawable.circle_green);
                             break;
-                        case "!":
+                        case "2":
                             i.setImageResource(R.drawable.circle_yellow);
                             break;
-                        case "!!":
+                        case "3":
                             i.setImageResource(R.drawable.circle_red);
                             break;
                     }
@@ -371,6 +387,7 @@ public class helper_notes {
                             break;
                         default:
                             i2.setVisibility(View.VISIBLE);
+                            i2.setImageResource(R.drawable.ic_attachment);
                             break;
                     }
 
@@ -418,7 +435,7 @@ public class helper_notes {
                                                 try {
                                                     final Database_Notes db = new Database_Notes(from);
                                                     db.deleteNote((Integer.parseInt(seqnoStr)));
-                                                    db.addBookmark(title, cont, "", attachment);
+                                                    db.addBookmark(title, cont, "1", attachment, create);
                                                     db.close();
                                                     setNotesList(from);
                                                 } catch (Exception e) {
@@ -429,7 +446,7 @@ public class helper_notes {
                                                 try {
                                                     final Database_Notes db = new Database_Notes(from);
                                                     db.deleteNote((Integer.parseInt(seqnoStr)));
-                                                    db.addBookmark(title, cont, "!", attachment);
+                                                    db.addBookmark(title, cont, "2", attachment, create);
                                                     db.close();
                                                     setNotesList(from);
                                                 } catch (Exception e) {
@@ -440,7 +457,7 @@ public class helper_notes {
                                                 try {
                                                     final Database_Notes db = new Database_Notes(from);
                                                     db.deleteNote((Integer.parseInt(seqnoStr)));
-                                                    db.addBookmark(title, cont, "!!", attachment);
+                                                    db.addBookmark(title, cont, "3", attachment, create);
                                                     db.close();
                                                     setNotesList(from);
                                                 } catch (Exception e) {

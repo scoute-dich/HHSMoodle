@@ -35,16 +35,14 @@ public class class_CustomListAdapter extends ArrayAdapter<String> {
 
     private final Activity context;
     private final String[] itemTITLE;
-    private final String[] itemURL;
     private final String[] itemDES;
     private final Integer[] imgid;
 
-    public class_CustomListAdapter(Activity context, String[] itemTITLE, String[] itemURL, String[] itemDES, Integer[] imgid) {
-        super(context, R.layout.list_item, itemTITLE);
+    public class_CustomListAdapter(Activity context, String[] itemTITLE, @SuppressWarnings("UnusedParameters") String[] itemURL, String[] itemDES, Integer[] imgid) {
+        super(context, R.layout.list_item_notes, itemTITLE);
 
         this.context=context;
         this.itemTITLE=itemTITLE;
-        this.itemURL=itemURL;
         this.itemDES=itemDES;
         this.imgid=imgid;
     }
@@ -55,17 +53,15 @@ public class class_CustomListAdapter extends ArrayAdapter<String> {
         if (rowView == null) {
             LayoutInflater infInflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            rowView = infInflater.inflate(R.layout.list_item, parent, false);
+            rowView = infInflater.inflate(R.layout.list_item_notes, parent, false);
         }
 
-        ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
-        TextView textTITLE = (TextView) rowView.findViewById(R.id.textView_title);
-        TextView textURL = (TextView) rowView.findViewById(R.id.textView_url);
-        TextView textDES = (TextView) rowView.findViewById(R.id.textView_des);
+        ImageView imageView = (ImageView) rowView.findViewById(R.id.icon_notes);
+        TextView textTITLE = (TextView) rowView.findViewById(R.id.textView_title_notes);
+        TextView textDES = (TextView) rowView.findViewById(R.id.textView_des_notes);
 
         imageView.setImageResource(imgid[position]);
         textTITLE.setText(itemTITLE[position]);
-        textURL.setText(itemURL[position]);
         textDES.setText(itemDES[position]);
         return rowView;
     }

@@ -10,6 +10,13 @@
         app:showAsAction="ifRoom" />
 
     <item
+        android:id="@+id/action_sort"
+        android:orderInCategory="100"
+        android:title="@string/action_sort"
+        android:icon="@drawable/sort_descending"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/action_folder"
         android:orderInCategory="100"
         android:title="@string/menu_folder"

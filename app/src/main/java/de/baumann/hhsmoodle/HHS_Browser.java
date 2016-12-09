@@ -261,6 +261,7 @@ public class HHS_Browser extends AppCompatActivity implements ObservableScrollVi
             }
 
             //For Android 4.1
+            @SuppressWarnings({"UnusedParameters", "unused"})
             public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String capture) {
                 mUploadMessage = uploadMsg;
                 Intent i = new Intent(Intent.ACTION_GET_CONTENT);
@@ -772,9 +773,14 @@ public class HHS_Browser extends AppCompatActivity implements ObservableScrollVi
             final String url = mWebView.getUrl();
             final String text = url + "";
 
+            Date date = new Date();
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+            String dateCreate = format.format(date);
+
             sharedPref.edit()
                     .putString("handleTextTitle", title)
                     .putString("handleTextText", text)
+                    .putString("handleTextCreate", dateCreate)
                     .apply();
             helper_notes.editNote(HHS_Browser.this);
         }

@@ -41,6 +41,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -49,8 +51,11 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 import de.baumann.hhsmoodle.HHS_Browser;
 import de.baumann.hhsmoodle.R;
@@ -223,9 +228,14 @@ public class FragmentBookmarks extends Fragment {
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createNote))) {
+                                    Date date = new Date();
+                                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+                                    String dateCreate = format.format(date);
+
                                     sharedPref.edit()
                                             .putString("handleTextTitle", title)
                                             .putString("handleTextText", url)
+                                            .putString("handleTextCreate", dateCreate)
                                             .apply();
                                     helper_notes.editNote(getActivity());
                                 }
@@ -276,10 +286,10 @@ public class FragmentBookmarks extends Fragment {
         try {
             Database_Browser db = new Database_Browser(getActivity());
             ArrayList<String[]> bookmarkList = new ArrayList<>();
-            db.getBookmarks(bookmarkList);
+            db.getBookmarks(bookmarkList, getActivity());
             if (bookmarkList.size() == 0) {
                 db.loadInitialData();
-                db.getBookmarks(bookmarkList);
+                db.getBookmarks(bookmarkList, getActivity());
             }
             db.close();
 
@@ -295,9 +305,9 @@ public class FragmentBookmarks extends Fragment {
             SimpleAdapter simpleAdapter = new SimpleAdapter(
                     getActivity(),
                     mapList,
-                    R.layout.list_item,
+                    R.layout.list_item_notes,
                     new String[] {"title", "url"},
-                    new int[] {R.id.textView_title, R.id.textView_des}
+                    new int[] {R.id.textView_title_notes, R.id.textView_des_notes}
             ){
                 @Override
                 public View getView (final int position, final View convertView, final ViewGroup parent) {
@@ -310,7 +320,7 @@ public class FragmentBookmarks extends Fragment {
                     final String icon = map.get("icon");
 
                     View v = super.getView(position, convertView, parent);
-                    ImageView i=(ImageView) v.findViewById(R.id.icon);
+                    ImageView i=(ImageView) v.findViewById(R.id.icon_notes);
 
                     switch (icon) {
                         case "1":
@@ -482,6 +492,110 @@ public class FragmentBookmarks extends Fragment {
                         .setMessage(helper_main.textSpannable(getString(R.string.helpBookmarks_text)))
                         .setPositiveButton(getString(R.string.toast_yes), null);
                 dialog.show();
+                return true;
+
+            case R.id.action_sort:
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                View dialogView = View.inflate(getActivity(), R.layout.dialog_sort_bookmarks, null);
+
+                final CheckBox ch_title = (CheckBox) dialogView.findViewById(R.id.checkBoxTitle);
+                final CheckBox ch_create = (CheckBox) dialogView.findViewById(R.id.checkBoxCreate);
+                final CheckBox ch_edit = (CheckBox) dialogView.findViewById(R.id.checkBoxEdit);
+                final CheckBox ch_icon = (CheckBox) dialogView.findViewById(R.id.checkBoxIcon);
+
+
+                if (sharedPref.getString("sortDBB", "title").equals("title")) {
+                    ch_title.setChecked(true);
+                } else {
+                    ch_title.setChecked(false);
+                }
+                if (sharedPref.getString("sortDBB", "title").equals("url")) {
+                    ch_create.setChecked(true);
+                } else {
+                    ch_create.setChecked(false);
+                }
+                if (sharedPref.getString("sortDBB", "title").equals("seqno")) {
+                    ch_edit.setChecked(true);
+                } else {
+                    ch_edit.setChecked(false);
+                }
+                if (sharedPref.getString("sortDBB", "title").equals("icon")) {
+                    ch_icon.setChecked(true);
+                } else {
+                    ch_icon.setChecked(false);
+                }
+
+
+                ch_title.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView,
+                                                 boolean isChecked) {
+                        if(isChecked){
+                            ch_create.setChecked(false);
+                            ch_edit.setChecked(false);
+                            ch_icon.setChecked(false);
+                            sharedPref.edit().putString("sortDBB", "title").apply();
+                            setBookmarkList();
+                        }
+                    }
+                });
+                ch_create.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView,
+                                                 boolean isChecked) {
+                        if(isChecked){
+                            ch_edit.setChecked(false);
+                            ch_icon.setChecked(false);
+                            ch_title.setChecked(false);
+                            sharedPref.edit().putString("sortDBB", "url").apply();
+                            setBookmarkList();
+                        }
+                    }
+                });
+                ch_edit.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView,
+                                                 boolean isChecked) {
+                        if(isChecked){
+                            ch_create.setChecked(false);
+                            ch_icon.setChecked(false);
+                            ch_title.setChecked(false);
+                            sharedPref.edit().putString("sortDBB", "seqno").apply();
+                            setBookmarkList();
+                        }
+                    }
+                });
+                ch_icon.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView,
+                                                 boolean isChecked) {
+                        if(isChecked){
+                            ch_create.setChecked(false);
+                            ch_edit.setChecked(false);
+                            ch_title.setChecked(false);
+                            sharedPref.edit().putString("sortDBB", "icon").apply();
+                            setBookmarkList();
+                        }
+                    }
+                });
+
+                builder.setView(dialogView);
+                builder.setTitle(R.string.action_sort);
+                builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        dialog.dismiss();
+                    }
+                });
+
+                final AlertDialog dialog2 = builder.create();
+                // Display the custom alert dialog on interface
+                dialog2.show();
                 return true;
         }
         return super.onOptionsItemSelected(item);

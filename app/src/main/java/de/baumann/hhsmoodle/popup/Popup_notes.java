@@ -25,23 +25,21 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.text.util.Linkify;
-import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
@@ -89,57 +87,60 @@ public class Popup_notes extends Activity {
                 final String seqnoStr = map.get("seqno");
                 final String icon = map.get("icon");
                 final String attachment = map.get("attachment");
+                final String create = map.get("createDate");
 
-                LinearLayout layout = new LinearLayout(Popup_notes.this);
-                layout.setOrientation(LinearLayout.VERTICAL);
-                layout.setGravity(Gravity.CENTER_HORIZONTAL);
-                layout.setPadding(50, 0, 50, 0);
+                final Button attachment2;
+                final TextView textInput;
 
-                final TextView textTitle = new TextView(Popup_notes.this);
-                textTitle.setText(title);
-                textTitle.setTextSize(24);
-                textTitle.setTypeface(null, Typeface.BOLD);
-                textTitle.setPadding(5,50,0,0);
-                layout.addView(textTitle);
+                LayoutInflater inflater = getLayoutInflater();
 
-                final TextView textContent = new TextView(Popup_notes.this);
-                textContent.setText(cont);
-                textContent.setTextSize(16);
-                textContent.setPadding(5,25,0,0);
-                layout.addView(textContent);
+                final ViewGroup nullParent = null;
+                View dialogView = inflater.inflate(R.layout.dialog_note_show, nullParent);
 
-                if (attachment.length() > 0) {
-                    final TextView textAtt = new TextView(Popup_notes.this);
-                    String attName = getString(R.string.app_att) + ": " + attachment.substring(attachment.lastIndexOf("/")+1);
-                    textAtt.setText(attName);
-                    textAtt.setTextSize(16);
-                    textAtt.setTypeface(null, Typeface.BOLD);
-                    textAtt.setPadding(5,25,0,0);
-                    textAtt.setOnClickListener(new View.OnClickListener() {
+                final String attName = attachment.substring(attachment.lastIndexOf("/")+1);
+                final String att = getString(R.string.app_att) + ": " + attName;
 
-                        @Override
-                        public void onClick(View arg0) {
-                            openAtt(attachment);
-                        }
-                    });
-                    layout.addView(textAtt);
+                attachment2 = (Button) dialogView.findViewById(R.id.button_att);
+                if (attName.equals("")) {
+                    attachment2.setVisibility(View.GONE);
+                } else {
+                    attachment2.setText(att);
+                }
+                File file2 = new File(attachment);
+                if (!file2.exists()) {
+                    attachment2.setVisibility(View.GONE);
                 }
 
-                ScrollView sv = new ScrollView(Popup_notes.this);
-                sv.pageScroll(0);
-                sv.setBackgroundColor(0);
-                sv.setScrollbarFadingEnabled(true);
-                sv.setVerticalFadingEdgeEnabled(false);
-                sv.addView(layout);
+                textInput = (TextView) dialogView.findViewById(R.id.note_text_input);
+                textInput.setText(cont);
+                Linkify.addLinks(textInput, Linkify.WEB_URLS);
 
-                if (sharedPref.getBoolean ("links", false)){
-                    Linkify.addLinks(textContent, Linkify.WEB_URLS);
-                    Linkify.addLinks(textTitle, Linkify.WEB_URLS);
+                attachment2.setOnClickListener(new View.OnClickListener() {
 
+                    @Override
+                    public void onClick(View arg0) {
+                        openAtt(attachment);
+                    }
+                });
+
+                final ImageView be = (ImageView) dialogView.findViewById(R.id.imageButtonPri);
+                assert be != null;
+
+                switch (icon) {
+                    case "1":
+                        be.setImageResource(R.drawable.circle_green);
+                        break;
+                    case "2":
+                        be.setImageResource(R.drawable.circle_yellow);
+                        break;
+                    case "3":
+                        be.setImageResource(R.drawable.circle_red);
+                        break;
                 }
 
-                final AlertDialog.Builder dialog = new AlertDialog.Builder(Popup_notes.this)
-                        .setView(sv)
+                android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(Popup_notes.this)
+                        .setTitle(title)
+                        .setView(dialogView)
                         .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
 
                             public void onClick(DialogInterface dialog, int whichButton) {
@@ -149,14 +150,13 @@ public class Popup_notes extends Activity {
                         .setNegativeButton(R.string.note_edit, new DialogInterface.OnClickListener() {
 
                             public void onClick(DialogInterface dialog, int whichButton) {
-                                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(Popup_notes.this);
                                 sharedPref.edit()
                                         .putString("handleTextTitle", title)
                                         .putString("handleTextText", cont)
                                         .putString("handleTextIcon", icon)
                                         .putString("handleTextSeqno", seqnoStr)
                                         .putString("handleTextAttachment", attachment)
-                                        .putString("fromPopup", "0")
+                                        .putString("handleTextCreate", create)
                                         .apply();
                                 helper_notes.editNote(Popup_notes.this);
                             }
@@ -176,6 +176,7 @@ public class Popup_notes extends Activity {
                 final String cont = map.get("cont");
                 final String icon = map.get("icon");
                 final String attachment = map.get("attachment");
+                final String create = map.get("createDate");
 
                 final CharSequence[] options = {
                         getString(R.string.note_edit),
@@ -195,6 +196,7 @@ public class Popup_notes extends Activity {
                                             .putString("handleTextIcon", icon)
                                             .putString("handleTextSeqno", seqnoStr)
                                             .putString("handleTextAttachment", attachment)
+                                            .putString("handleTextCreate", create)
                                             .putString("fromPopup", "0")
                                             .apply();
                                     helper_notes.editNote(Popup_notes.this);
@@ -266,10 +268,10 @@ public class Popup_notes extends Activity {
         try {
             Database_Notes db = new Database_Notes(Popup_notes.this);
             ArrayList<String[]> bookmarkList = new ArrayList<>();
-            db.getBookmarks(bookmarkList);
+            db.getBookmarks(bookmarkList, Popup_notes.this);
             if (bookmarkList.size() == 0) {
                 db.loadInitialData();
-                db.getBookmarks(bookmarkList);
+                db.getBookmarks(bookmarkList, Popup_notes.this);
             }
             db.close();
 
@@ -280,6 +282,7 @@ public class Popup_notes extends Activity {
                 map.put("cont", strAry[2]);
                 map.put("icon", strAry[3]);
                 map.put("attachment", strAry[4]);
+                map.put("createDate", strAry[5]);
                 mapList.add(map);
             }
 
@@ -287,8 +290,8 @@ public class Popup_notes extends Activity {
                     Popup_notes.this,
                     mapList,
                     R.layout.list_item_notes,
-                    new String[] {"title", "cont"},
-                    new int[] {R.id.textView_title_notes, R.id.textView_des_notes}
+                    new String[] {"title", "cont", "createDate"},
+                    new int[] {R.id.textView_title_notes, R.id.textView_des_notes, R.id.textView_create_notes}
             ) {
                 @Override
                 public View getView (final int position, View convertView, ViewGroup parent) {
@@ -300,6 +303,7 @@ public class Popup_notes extends Activity {
                     final String seqnoStr = map.get("seqno");
                     final String icon = map.get("icon");
                     final String attachment = map.get("attachment");
+                    final String create = map.get("createDate");
 
                     View v = super.getView(position, convertView, parent);
                     ImageView i=(ImageView) v.findViewById(R.id.icon_notes);
@@ -307,13 +311,13 @@ public class Popup_notes extends Activity {
                     i2.setImageResource(R.drawable.ic_attachment);
 
                     switch (icon) {
-                        case "":
+                        case "1":
                             i.setImageResource(R.drawable.circle_green);
                             break;
-                        case "!":
+                        case "2":
                             i.setImageResource(R.drawable.circle_yellow);
                             break;
-                        case "!!":
+                        case "3":
                             i.setImageResource(R.drawable.circle_red);
                             break;
                     }
@@ -323,6 +327,7 @@ public class Popup_notes extends Activity {
                             break;
                         default:
                             i2.setVisibility(View.VISIBLE);
+                            i2.setImageResource(R.drawable.ic_attachment);
                             break;
                     }
 
@@ -370,7 +375,7 @@ public class Popup_notes extends Activity {
                                                 try {
                                                     final Database_Notes db = new Database_Notes(Popup_notes.this);
                                                     db.deleteNote((Integer.parseInt(seqnoStr)));
-                                                    db.addBookmark(title, cont, "", attachment);
+                                                    db.addBookmark(title, cont, "1", attachment, create);
                                                     db.close();
                                                     setNotesList();
                                                 } catch (Exception e) {
@@ -381,7 +386,7 @@ public class Popup_notes extends Activity {
                                                 try {
                                                     final Database_Notes db = new Database_Notes(Popup_notes.this);
                                                     db.deleteNote((Integer.parseInt(seqnoStr)));
-                                                    db.addBookmark(title, cont, "!",attachment);
+                                                    db.addBookmark(title, cont, "2",attachment, create);
                                                     db.close();
                                                     setNotesList();
                                                 } catch (Exception e) {
@@ -392,7 +397,7 @@ public class Popup_notes extends Activity {
                                                 try {
                                                     final Database_Notes db = new Database_Notes(Popup_notes.this);
                                                     db.deleteNote((Integer.parseInt(seqnoStr)));
-                                                    db.addBookmark(title, cont, "!!", attachment);
+                                                    db.addBookmark(title, cont, "3", attachment, create);
                                                     db.close();
                                                     setNotesList();
                                                 } catch (Exception e) {
@@ -574,6 +579,7 @@ public class Popup_notes extends Activity {
     @Override
     protected void onResume() {
         super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
+        setNotesList();
         helper_main.isOpened(Popup_notes.this);
     }
 

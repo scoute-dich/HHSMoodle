@@ -13,7 +13,7 @@
         &#8226; Bildschirmfoto: um Bildschirmfotos von Internetseiten auf der SD-Karte zu speichern.&lt;br>&lt;br>
 
         &lt;i>Berechtigung nachträglich erteilen:&lt;/i>&lt;br>
-        Wenn du die Brechtigung verweigerst, kannst du sie nachträglich erteilen, indem du \"Einstellungen -> App Info\" öffnest und
+        Wenn du die Berechtigung verweigerst, kannst du sie nachträglich erteilen, indem du \"Einstellungen -> App Info\" öffnest und
         dort den Bereich \"Berechtigungen\" auswählst.</string>
 
     <string name="app_share_screenshot">Bildschirmfoto teilen mit:</string>
@@ -21,7 +21,6 @@
     <string name="app_share_link">Link teilen mit:</string>
     <string name="app_share_file">Datei auswählen mit:</string>
     <string name="app_contDesc_1">Header</string>
-    <string name="app_contDesc_2">Icon</string>
     <string name="app_contDesc_3">Splashscreen</string>
     <string name="app_conf">Bestätigung</string>
     <string name="app_att">Anhang</string>
@@ -55,6 +54,14 @@
     <string name="menu_bookmark">Lesezeichen hinzufügen</string>
     <string name="menu_help">Hilfe</string>
     <string name="menu_calendar">Kalender</string>
+
+    <string name="action_sort">Einträge sortieren</string>
+    <string name="action_sort_title">Sortiere nach Titel</string>
+    <string name="action_sort_edit">Sortiere nach Änderungszeit</string>
+    <string name="action_sort_icon">Sortiere nach Icon</string>
+    <string name="action_sort_create">Sortiere nach Erstellungszeit</string>
+    <string name="action_sort_url">Sortiere nach der URL</string>
+    <string name="action_sort_att">Sortiere nach Anhängen</string>
 
 
     // Context Menu
@@ -96,9 +103,6 @@
 
     <string name="action_notShow_title">Einführung</string>
     <string name="action_notShow_title_summary">Den kurzen Einführungsdialog beim Start anzeigen.</string>
-
-    <string name="action_links_title">Links</string>
-    <string name="action_links_summary">Links in Notizen hervorheben, damit sie geöffnet werden können.</string>
 
     <string name="action_protect">Pin (App Zugang)</string>
     <string name="action_protect_summary">Bestimme eine Pin um die App vor unbefugtem Zugriff zu schützen. Benutze nur Nummern.

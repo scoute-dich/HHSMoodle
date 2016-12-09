@@ -42,8 +42,11 @@ import android.view.View;
 import android.view.WindowManager;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import de.baumann.hhsmoodle.fragmentsMain.FragmentBookmarks;
 import de.baumann.hhsmoodle.fragmentsMain.FragmentInfo;
@@ -239,6 +242,11 @@ public class HHS_MainScreen extends AppCompatActivity {
         }
 
         if (id == R.id.action_not) {
+            Date date = new Date();
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+
+            String dateCreate = format.format(date);
+            sharedPref.edit().putString("handleTextCreate", dateCreate).apply();
             helper_notes.editNote(HHS_MainScreen.this);
         }
 

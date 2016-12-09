@@ -31,12 +31,17 @@ import android.provider.CalendarContract;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import de.baumann.hhsmoodle.HHS_Browser;
 import de.baumann.hhsmoodle.R;
@@ -161,9 +166,14 @@ public class FragmentInfo extends Fragment {
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createNote))) {
+                                    Date date = new Date();
+                                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+                                    String dateCreate = format.format(date);
+
                                     sharedPref.edit()
                                             .putString("handleTextTitle", title)
                                             .putString("handleTextText", url)
+                                            .putString("handleTextCreate", dateCreate)
                                             .apply();
                                     helper_notes.editNote(getActivity());
                                 }
@@ -190,7 +200,15 @@ public class FragmentInfo extends Fragment {
             }
         });
 
+        setHasOptionsMenu(true);
         return rootView;
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        super.onPrepareOptionsMenu(menu);
+        menu.findItem(R.id.action_sort).setVisible(false);
     }
 
     @Override

@@ -1,3 +1,8 @@
+### v 2.7:
+- added: notes creation time
+- added: sorting bookmarks and notes
+- improved: layout notes (view)
+
 ### v 2.6:
 - added: attachment for notes
 - added: new header pictures
