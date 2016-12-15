@@ -309,7 +309,7 @@ public class Activity_settings extends AppCompatActivity {
                                 sharedPrefSec.put("username", inputTag);
 
                                 String inputTag2 = pass_userPW.getText().toString().trim();
-                                sharedPrefSec.put("protect_PW", inputTag2);
+                                sharedPrefSec.put("password", inputTag2);
                             }
                         });
                         builder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {

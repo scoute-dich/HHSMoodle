@@ -1,3 +1,9 @@
+### v 2.7.2:
+- fixed: save password from settings
+
+### v 2.7.1:
+- fixed: F-Droid build error
+
 ### v 2.7:
 - added: notes creation time
 - added: sorting bookmarks and notes

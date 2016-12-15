@@ -9,8 +9,8 @@ android {
         vectorDrawables.useSupportLibrary = true
         minSdkVersion 17
         targetSdkVersion 25
-        versionCode 31
-        versionName "2.7.1"
+        versionCode 32
+        versionName "2.7.2"
     }
     buildTypes {
         release {
@@ -24,7 +24,7 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:25.0.1'
-    compile 'com.android.support:design:25.0.1'
+    compile 'com.android.support:appcompat-v7:25.1.0'
+    compile 'com.android.support:design:25.1.0'
     compile 'com.github.ksoichiro:android-observablescrollview:1.6.0'
 }
