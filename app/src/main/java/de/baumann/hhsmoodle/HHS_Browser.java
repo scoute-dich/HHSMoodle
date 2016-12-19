@@ -634,7 +634,7 @@ public class HHS_Browser extends AppCompatActivity implements ObservableScrollVi
     public boolean onPrepareOptionsMenu(Menu menu) {
 
         if (sharedPref.getBoolean ("help", false)){
-            menu.getItem(5).setVisible(false); // here pass the index of save menu item
+            menu.getItem(6).setVisible(false); // here pass the index of save menu item
         }
         return super.onPrepareOptionsMenu(menu);
     }
@@ -702,6 +702,11 @@ public class HHS_Browser extends AppCompatActivity implements ObservableScrollVi
         if (id == R.id.action_folder) {
             String startDir = Environment.getExternalStorageDirectory() + "/HHS_Moodle/";
             helper_main.openFilePicker(HHS_Browser.this, mWebView, startDir);
+        }
+
+        if (id == R.id.action_grades) {
+            helper_main.isOpened(HHS_Browser.this);
+            helper_main.switchToActivity(HHS_Browser.this, HHS_Grades.class, "", false);
         }
 
         if (id == android.R.id.home) {

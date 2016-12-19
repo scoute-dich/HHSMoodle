@@ -191,6 +191,16 @@
         &#8226;&lt;i> Help:&lt;/i> Opens the help dialog.
     </string>
 
+    <string name="helpGrade_title">Grade calculation</string>
+    <string name="helpGrade_text">
+        Moodle always calculates in percantage (0-100%). Grades are always in condition to this scala. If you set the maximal credits
+        to 100 you can see this scala. Moodle always calculates with the percent scale, not with the grades.&lt;br>&lt;br>
+
+        &lt;b>Maximal crdits:&lt;/b>&lt;br>
+        Here you can set the maximal credits for a test. The scored credits (middle column) will be set in relation to the maximal
+        reachable credits in percent (left column). In the right column you can see the calculatet grade.
+    </string>
+
     <string name="perm_notShow_title">Permission dialog</string>
     <string name="perm_notShow_title_summary">Show again: Permission dialog?</string>
 

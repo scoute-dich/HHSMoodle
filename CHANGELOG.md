@@ -1,3 +1,6 @@
+### v 2.8 (WIP):
+- added: grade calculation
+
 ### v 2.7.2:
 - fixed: save password from settings
 

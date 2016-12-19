@@ -98,6 +98,11 @@
         </activity>
 
         <activity
+            android:name=".HHS_Grades"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
             android:name=".helper.Activity_settings"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar" />

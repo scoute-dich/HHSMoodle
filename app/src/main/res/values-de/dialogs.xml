@@ -207,6 +207,18 @@
         &#8226;&lt;i> Hilfe:&lt;/i> Öffnet den jeweiligen Hilfedialog.
     </string>
 
+    <string name="helpGrade_title">Noten berechnen</string>
+    <string name="helpGrade_text">
+        In Moodle werden Bewertungen in einer Prozentskala angegeben (0-100%). Diesen Prozentwerten sind bestimmte Noten zugeordnet.
+        Die Zuordnung sieht man, wenn bei der maximalen Punktzahl 100 eingegeben ist. Moodle rechnet immer mit dem Prozentwert weiter,
+        nicht mit den ermittelten Noten.&lt;br>&lt;br>
+
+        &lt;b>Maximale Punktzahl:&lt;/b>&lt;br>
+        Hier kann die Anzahl der maximal in einer Klassenarbeit erreichbaren Punkte eingegeben werden. Die erreichten Punkte
+        (mittlere Spalte) werden dann in Prozent der insgesamt zu erreichenden Punkte umgerechnet (linke Spalte). Daraus wird die
+        erreichte Note (rechte Spalte) berechnet.
+    </string>
+
     <string name="perm_notShow_title">Berechtigungsdialog</string>
     <string name="perm_notShow_title_summary">Noch einmal anzeigen: Berechtigungsdialog?</string>
 

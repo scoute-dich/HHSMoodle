@@ -23,6 +23,12 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/action_grades"
+        android:orderInCategory="100"
+        android:title="@string/action_grades"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/action_shortcut"
         android:orderInCategory="100"
         android:title="@string/bookmark_createShortcut"

@@ -214,7 +214,7 @@ public class HHS_MainScreen extends AppCompatActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
 
         if (sharedPref.getBoolean ("help", false)){
-            menu.getItem(5).setVisible(false); // here pass the index of save menu item
+            menu.getItem(6).setVisible(false); // here pass the index of save menu item
         }
         return super.onPrepareOptionsMenu(menu);
     }
@@ -239,6 +239,11 @@ public class HHS_MainScreen extends AppCompatActivity {
         if (id == R.id.action_folder) {
             String startDir = Environment.getExternalStorageDirectory() + "/HHS_Moodle/";
             helper_main.openFilePicker(HHS_MainScreen.this, viewPager, startDir);
+        }
+
+        if (id == R.id.action_grades) {
+            helper_main.isOpened(HHS_MainScreen.this);
+            helper_main.switchToActivity(HHS_MainScreen.this, HHS_Grades.class, "", false);
         }
 
         if (id == R.id.action_not) {

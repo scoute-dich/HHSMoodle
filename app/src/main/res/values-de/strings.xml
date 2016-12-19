@@ -236,11 +236,21 @@
     <string name="choose_att">Anhang auswählen</string>
 
 
-
     // Camera
 
     <string name="cam_fail">Konnte Bild nicht aufnehmen</string>
     <string name="cam_success">Bild erfolgreich aufgenommen</string>
     <string name="cam_start">Mache ein Bild und wähle es dann als Anhang aus.</string>
+
+
+    // Grade
+
+    <string name="grade_100">100</string>
+    <string name="grade_hint">Maximale Punktzahl</string>
+    <string name="grade_toast">Bitte maximale Punktzahl eingeben.</string>
+    <string name="action_grades">Noten berechnen</string>
+    <string name="grade_text_percent">Prozent</string>
+    <string name="grade_text_credits">Punkte</string>
+    <string name="grade_text_grade">Note</string>
 
 </resources>
