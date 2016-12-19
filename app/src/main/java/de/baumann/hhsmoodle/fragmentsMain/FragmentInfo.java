@@ -146,6 +146,12 @@ public class FragmentInfo extends Fragment {
                         getString(R.string.bookmark_createShortcut),
                         getString(R.string.bookmark_createEvent)};
                 new AlertDialog.Builder(getActivity())
+                        .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                dialog.cancel();
+                            }
+                        })
                         .setItems(options, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int item) {

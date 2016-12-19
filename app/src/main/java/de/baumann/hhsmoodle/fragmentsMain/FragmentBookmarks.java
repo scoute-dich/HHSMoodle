@@ -126,6 +126,12 @@ public class FragmentBookmarks extends Fragment {
                         getString(R.string.bookmark_createEvent),
                         getString(R.string.bookmark_remove_bookmark)};
                 new AlertDialog.Builder(getActivity())
+                        .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                dialog.cancel();
+                            }
+                        })
                         .setItems(options, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int item) {
@@ -417,6 +423,12 @@ public class FragmentBookmarks extends Fragment {
                             };
 
                             new AlertDialog.Builder(getActivity())
+                                    .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                            dialog.cancel();
+                                        }
+                                    })
                                     .setAdapter(adapter, new DialogInterface.OnClickListener() {
 
                                         public void onClick(DialogInterface dialog, int item) {

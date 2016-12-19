@@ -731,6 +731,12 @@ public class HHS_Browser extends AppCompatActivity implements ObservableScrollVi
                     getString(R.string.menu_share_link_browser),
                     getString(R.string.menu_share_link_copy)};
             new AlertDialog.Builder(HHS_Browser.this)
+                    .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            dialog.cancel();
+                        }
+                    })
                     .setItems(options, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int item) {

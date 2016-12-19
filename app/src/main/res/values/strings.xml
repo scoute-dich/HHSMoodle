@@ -243,7 +243,7 @@
     <string name="grade_hint">Max. credits</string>
     <string name="grade_toast">Please enter maximal credits.</string>
     <string name="action_grades">Grades calculation</string>
-    <string name="grade_text_percent">Perecnt</string>
+    <string name="grade_text_percent">Percent</string>
     <string name="grade_text_credits">Credits</string>
     <string name="grade_text_grade">Grade</string>
 

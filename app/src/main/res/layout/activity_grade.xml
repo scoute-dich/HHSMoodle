@@ -648,7 +648,8 @@
                         android:text="@string/grade_100"
                         android:gravity="center_vertical|center_horizontal"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                        android:textColor="@color/colorPrimary"/>
+                        android:textColor="@color/colorPrimary"
+                        tools:ignore="TooManyViews" />
                 </LinearLayout>
 
                 <LinearLayout
