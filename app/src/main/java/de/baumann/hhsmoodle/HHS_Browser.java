@@ -221,29 +221,19 @@ public class HHS_Browser extends AppCompatActivity implements ObservableScrollVi
         mWebView.setWebChromeClient(new WebChromeClient() {
 
             public void onProgressChanged(WebView view, int progress) {
-                final String url = mWebView.getUrl();
+                String url = mWebView.getUrl();
 
                 progressBar.setProgress(progress);
                 setNavArrows();
-
-                if (progress > 0 && progress <= 60) {
-                    setTitle(mWebView.getTitle());
-                    if (url != null && url.contains("moodle.huebsch.ka.schule-bw.de")) {
-                        mWebView.loadUrl("javascript:(function() { " +
-                                "var head = document.getElementsByClassName('navbar navbar-fixed-top moodle-has-zindex')[0];" +
-                                "head.parentNode.removeChild(head);" +
-                                "})()");
-                    }
+                if (url != null && url.contains("moodle.huebsch.ka.schule-bw.de")) {
+                    mWebView.loadUrl("javascript:(function() { " +
+                            "var head = document.getElementsByClassName('navbar navbar-fixed-top moodle-has-zindex')[0];" +
+                            "head.parentNode.removeChild(head);" +
+                            "})()");
                 }
 
-                if (progress > 60) {
+                if (url != null) {
                     setTitle(mWebView.getTitle());
-                    if (url != null && url.contains("moodle.huebsch.ka.schule-bw.de")) {
-                        mWebView.loadUrl("javascript:(function() { " +
-                                "var head = document.getElementsByClassName('navbar navbar-fixed-top moodle-has-zindex')[0];" +
-                                "head.parentNode.removeChild(head);" +
-                                "})()");
-                    }
                 }
 
                 progressString = "loading";
@@ -791,6 +781,8 @@ public class HHS_Browser extends AppCompatActivity implements ObservableScrollVi
             sharedPref.edit()
                     .putString("handleTextTitle", title)
                     .putString("handleTextText", text)
+                    .putString("handleTextIcon", "")
+                    .putString("handleTextAttachment", "")
                     .putString("handleTextCreate", dateCreate)
                     .apply();
             helper_notes.editNote(HHS_Browser.this);

@@ -214,6 +214,12 @@ public class helper_notes {
                 };
 
                 new android.app.AlertDialog.Builder(from)
+                        .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                dialog.cancel();
+                            }
+                        })
                         .setAdapter(adapter, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int item) {
                                 if (item == 0) {

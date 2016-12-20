@@ -50,9 +50,9 @@ public class Activity_password extends AppCompatActivity {
             getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
         }
 
-        text = (TextView) findViewById(R.id.textView);
+        text = (TextView) findViewById(R.id.pass_userPin);
 
-        Button ib0 = (Button) findViewById(R.id.button10);
+        Button ib0 = (Button) findViewById(R.id.button0);
         assert ib0 != null;
         ib0.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,7 +61,7 @@ public class Activity_password extends AppCompatActivity {
             }
         });
 
-        Button ib1 = (Button) findViewById(R.id.button2);
+        Button ib1 = (Button) findViewById(R.id.button1);
         assert ib1 != null;
         ib1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,7 +70,7 @@ public class Activity_password extends AppCompatActivity {
             }
         });
 
-        Button ib2 = (Button) findViewById(R.id.button3);
+        Button ib2 = (Button) findViewById(R.id.button2);
         assert ib2 != null;
         ib2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +79,7 @@ public class Activity_password extends AppCompatActivity {
             }
         });
 
-        Button ib3 = (Button) findViewById(R.id.button4);
+        Button ib3 = (Button) findViewById(R.id.button3);
         assert ib3 != null;
         ib3.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,7 +88,7 @@ public class Activity_password extends AppCompatActivity {
             }
         });
 
-        Button ib4 = (Button) findViewById(R.id.button5);
+        Button ib4 = (Button) findViewById(R.id.button4);
         assert ib4 != null;
         ib4.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,7 +97,7 @@ public class Activity_password extends AppCompatActivity {
             }
         });
 
-        Button ib5 = (Button) findViewById(R.id.button6);
+        Button ib5 = (Button) findViewById(R.id.button5);
         assert ib5 != null;
         ib5.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,7 +106,7 @@ public class Activity_password extends AppCompatActivity {
             }
         });
 
-        Button ib6 = (Button) findViewById(R.id.button8);
+        Button ib6 = (Button) findViewById(R.id.button6);
         assert ib6 != null;
         ib6.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,7 +115,7 @@ public class Activity_password extends AppCompatActivity {
             }
         });
 
-        Button ib7 = (Button) findViewById(R.id.button11);
+        Button ib7 = (Button) findViewById(R.id.button7);
         assert ib7 != null;
         ib7.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,7 +124,7 @@ public class Activity_password extends AppCompatActivity {
             }
         });
 
-        Button ib8 = (Button) findViewById(R.id.button12);
+        Button ib8 = (Button) findViewById(R.id.button8);
         assert ib8 != null;
         ib8.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,7 +133,7 @@ public class Activity_password extends AppCompatActivity {
             }
         });
 
-        Button ib9 = (Button) findViewById(R.id.button13);
+        Button ib9 = (Button) findViewById(R.id.button9);
         assert ib9 != null;
         ib9.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,7 +144,7 @@ public class Activity_password extends AppCompatActivity {
 
         final String protect = sharedPrefSec.getString("protect_PW");
 
-        ImageButton enter = (ImageButton) findViewById(R.id.imageButton23);
+        ImageButton enter = (ImageButton) findViewById(R.id.imageButtonEnter);
         assert enter != null;
         enter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,7 +160,7 @@ public class Activity_password extends AppCompatActivity {
             }
         });
 
-        ImageButton cancel = (ImageButton) findViewById(R.id.imageButton22);
+        ImageButton cancel = (ImageButton) findViewById(R.id.imageButtonCancel);
         assert cancel != null;
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,7 +169,7 @@ public class Activity_password extends AppCompatActivity {
             }
         });
 
-        Button clear = (Button) findViewById(R.id.button14);
+        Button clear = (Button) findViewById(R.id.buttonReset);
         assert clear != null;
         clear.setOnClickListener(new View.OnClickListener() {
             @Override

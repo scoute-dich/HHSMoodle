@@ -1,5 +1,9 @@
 ### v 2.8 (WIP):
 - added: grade calculation
+- improved: Pin screen
+- improved: splash screen
+- improved: mobile layout
+- fixed: overwriting old notes from main screen
 
 ### v 2.7.2:
 - fixed: save password from settings

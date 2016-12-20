@@ -1013,6 +1013,10 @@ public class HHS_Grades extends AppCompatActivity {
             String dateCreate = format.format(date);
 
             sharedPref.edit()
+                    .putString("handleTextTitle", "")
+                    .putString("handleTextText", "")
+                    .putString("handleTextIcon", "")
+                    .putString("handleTextAttachment", "")
                     .putString("handleTextCreate", dateCreate)
                     .apply();
             helper_notes.editNote(HHS_Grades.this);

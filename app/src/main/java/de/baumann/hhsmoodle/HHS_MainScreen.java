@@ -251,7 +251,14 @@ public class HHS_MainScreen extends AppCompatActivity {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
 
             String dateCreate = format.format(date);
-            sharedPref.edit().putString("handleTextCreate", dateCreate).apply();
+
+            sharedPref.edit()
+                    .putString("handleTextTitle", "")
+                    .putString("handleTextText", "")
+                    .putString("handleTextIcon", "")
+                    .putString("handleTextAttachment", "")
+                    .putString("handleTextCreate", dateCreate)
+                    .apply();
             helper_notes.editNote(HHS_MainScreen.this);
         }
 

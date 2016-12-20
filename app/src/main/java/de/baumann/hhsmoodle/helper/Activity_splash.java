@@ -84,7 +84,10 @@ public class Activity_splash extends AppCompatActivity {
         final String startType = sharedPref.getString("startType", "1");
         final String startURL = sharedPref.getString("favoriteURL", "https://moodle.huebsch.ka.schule-bw.de/moodle/");
 
-        if (sharedPrefSec.getString("password") == null || sharedPrefSec.getString("username") == null) {
+        if (sharedPrefSec.getString("password") == null
+                || sharedPrefSec.getString("username") == null
+                || sharedPrefSec.getString("password").isEmpty()
+                || sharedPrefSec.getString("username").isEmpty()) {
 
             editUsernameLayout.setVisibility(View.VISIBLE);
             editPasswordLayout.setVisibility(View.VISIBLE);
