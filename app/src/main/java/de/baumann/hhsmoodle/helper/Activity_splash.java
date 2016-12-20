@@ -93,6 +93,8 @@ public class Activity_splash extends AppCompatActivity {
             editPasswordLayout.setVisibility(View.VISIBLE);
             editUsername.setVisibility(View.VISIBLE);
             editPassword.setVisibility(View.VISIBLE);
+            editUsername.setText(sharedPrefSec.getString("username"));
+            editPassword.setText(sharedPrefSec.getString("password"));
             fab.setVisibility(View.VISIBLE);
 
             fab.setOnClickListener(new View.OnClickListener() {

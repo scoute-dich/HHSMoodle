@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/editUsername"
                 android:hint="@string/login_user"
-                android:inputType="text"
+                android:inputType="textNoSuggestions"
                 android:maxLines="1" />
 
         </android.support.design.widget.TextInputLayout>

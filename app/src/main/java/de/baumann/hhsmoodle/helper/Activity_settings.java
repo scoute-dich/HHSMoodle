@@ -354,6 +354,12 @@ public class Activity_settings extends AppCompatActivity {
                                     dialog.cancel();
                                 }
                             })
+                            .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    dialog.cancel();
+                                }
+                            })
                             .setItems(options, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int item) {

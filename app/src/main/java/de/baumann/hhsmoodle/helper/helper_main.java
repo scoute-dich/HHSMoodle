@@ -185,6 +185,12 @@ public class helper_main {
 
                         final AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
 
+                        dialog.setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                dialog.cancel();
+                            }
+                        });
                         dialog.setItems(options, new DialogInterface.OnClickListener() {
                             @SuppressWarnings("ResultOfMethodCallIgnored")
                             @Override
