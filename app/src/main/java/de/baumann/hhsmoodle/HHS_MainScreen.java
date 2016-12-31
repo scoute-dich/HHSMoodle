@@ -271,6 +271,12 @@ public class HHS_MainScreen extends AppCompatActivity {
                     getString(R.string.menu_calendar)};
 
             new AlertDialog.Builder(HHS_MainScreen.this)
+                    .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            dialog.cancel();
+                        }
+                    })
                     .setItems(options, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int item) {

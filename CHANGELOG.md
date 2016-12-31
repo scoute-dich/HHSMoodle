@@ -1,4 +1,4 @@
-### v 2.8 (WIP):
+### v 2.8:
 - added: grade calculation
 - improved: Pin screen
 - improved: splash screen
