@@ -33,7 +33,10 @@
         https://github.com/sveinungkb/encrypted-userprefs&lt;br>&lt;br>
 
         MaterialDesignIcons&lt;br>
-        https://github.com/Templarian/MaterialDesign&lt;/i>
+        https://github.com/Templarian/MaterialDesign&lt;br>&lt;br>
+
+        sqlcipher&lt;br>
+        https://github.com/sqlcipher/sqlcipher&lt;/i>
     </string>
 
 
@@ -199,6 +202,26 @@
         &lt;b>Maximal credits:&lt;/b>&lt;br>
         Here you can set the maximal credits for a test. The scored credits (middle column) will be set in relation to the maximal
         reachable credits in percent (left column). In the right column you can see the calculated grade.
+    </string>
+
+    <string name="helpRandom_text">
+
+        &lt;b>Schüler auswählen:&lt;/b>&lt;br>
+
+        &#8226;&lt;i> Textdatei anlegen:&lt;/i> Lege eine Textdatei pro Klasse an. In jede Zeile schreibst du einen Namen. Die
+        Textdatei bekommt als Dateinamen den Klassennamen (z.B.: Klasse 6a).&lt;br>
+        &#8226;&lt;i> Auf das Handy kopieren:&lt;/i> Kopiere die Datei in den \"HHS_Moodle\" Ordner auf deiner SD-Karte.&lt;br>
+        &#8226;&lt;i> Datei laden:&lt;/i> Klicke den orangenen Knopf unten rechts. Im Dialog, der sich öffnet, wählst du die
+        Textdatei aus. Ein neuer Listeneintrag wird angelegt. Du kannst die Textdatei jetzt wieder löschen.&lt;br>&lt;br>
+
+        Wenn du einen Listeneintrag anklickst, öffnet sich die Liste und du kannst einen Schüler zufällig auswählen. Die Nummer und
+        der Name des Schülers werden angezeigt. Durch einen langen Klick auf einen Listeneintrag öffnet sich ein Menü um die Liste
+        bearbeiten zu können.&lt;br>&lt;br>
+
+        &lt;b>Zahl würfeln:&lt;/b>&lt;br>
+
+        Wähle den Menüeintrag \"zufällige Zahl\" (Würfelicon) aus. Es öffnet sich ein Dialog, indem du die \"Augenzahl\" des Würfels
+        angeben kannst. Anschließend kann gewürfelt werden.
     </string>
 
     <string name="perm_notShow_title">Permission dialog</string>

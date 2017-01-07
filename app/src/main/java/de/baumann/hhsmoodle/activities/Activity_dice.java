@@ -474,7 +474,7 @@ public class Activity_dice extends AppCompatActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
 
         if (sharedPref.getBoolean ("help", false)){
-            menu.getItem(2).setVisible(false); // here pass the index of save menu item
+            menu.getItem(3).setVisible(false); // here pass the index of save menu item
         }
         return super.onPrepareOptionsMenu(menu);
     }
@@ -522,8 +522,8 @@ public class Activity_dice extends AppCompatActivity {
 
         if (id == R.id.action_help) {
             final android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(Activity_dice.this)
-                    .setTitle(R.string.helpGrade_title)
-                    .setMessage(helper_main.textSpannable(getString(R.string.helpGrade_text)))
+                    .setTitle(R.string.number_title)
+                    .setMessage(helper_main.textSpannable(getString(R.string.helpRandom_text)))
                     .setPositiveButton(getString(R.string.toast_yes), null);
             dialog.show();
         }

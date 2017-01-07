@@ -100,7 +100,7 @@ public class helper_webView {
                                               final SwipeRefreshLayout swipeRefreshLayout,
                                               final WebView webView) {
 
-        //noinspection unused
+        //noinspection unused,unused
         webView.setWebViewClient(new WebViewClient() {
 
             boolean active;
