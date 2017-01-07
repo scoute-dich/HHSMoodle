@@ -1,3 +1,7 @@
+### v 2.9: (WIP)
+- added: random number generator
+- improved: Pin screen
+
 ### v 2.8:
 - added: grade calculation
 - improved: Pin screen

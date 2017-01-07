@@ -43,7 +43,7 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import de.baumann.hhsmoodle.R;
-import de.baumann.hhsmoodle.helper.Activity_password;
+import de.baumann.hhsmoodle.activities.Activity_password;
 import de.baumann.hhsmoodle.helper.class_OnSwipeTouchListener;
 import de.baumann.hhsmoodle.helper.class_SecurePreferences;
 import de.baumann.hhsmoodle.helper.helper_main;

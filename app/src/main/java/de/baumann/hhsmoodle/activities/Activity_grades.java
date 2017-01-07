@@ -17,7 +17,7 @@
     If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.baumann.hhsmoodle;
+package de.baumann.hhsmoodle.activities;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -41,12 +41,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import de.baumann.hhsmoodle.helper.Activity_password;
+import de.baumann.hhsmoodle.HHS_MainScreen;
+import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.helper.class_SecurePreferences;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.helper.helper_notes;
 
-public class HHS_Grades extends AppCompatActivity {
+public class Activity_grades extends AppCompatActivity {
 
     private SharedPreferences sharedPref;
     private EditText maxPointsText;
@@ -173,12 +174,12 @@ public class HHS_Grades extends AppCompatActivity {
 
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        class_SecurePreferences sharedPrefSec = new class_SecurePreferences(HHS_Grades.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
+        class_SecurePreferences sharedPrefSec = new class_SecurePreferences(Activity_grades.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
         String pw = sharedPrefSec.getString("protect_PW");
 
         if (pw != null  && pw.length() > 0) {
             if (sharedPref.getBoolean("isOpened", true)) {
-                helper_main.switchToActivity(HHS_Grades.this, Activity_password.class, "", false);
+                helper_main.switchToActivity(Activity_grades.this, Activity_password.class, "", false);
             }
         }
 
@@ -194,14 +195,14 @@ public class HHS_Grades extends AppCompatActivity {
                     final String startURL = sharedPref.getString("favoriteURL", "https://moodle.huebsch.ka.schule-bw.de/moodle/");
                     final String startType = sharedPref.getString("startType", "1");
 
-                    helper_main.resetStartTab(HHS_Grades.this);
+                    helper_main.resetStartTab(Activity_grades.this);
 
                     if (startType.equals("2")) {
-                        helper_main.isOpened(HHS_Grades.this);
-                        helper_main.switchToActivity(HHS_Grades.this, HHS_Grades.class, startURL, false);
+                        helper_main.isOpened(Activity_grades.this);
+                        helper_main.switchToActivity(Activity_grades.this, Activity_grades.class, startURL, false);
                     } else if (startType.equals("1")){
-                        helper_main.isOpened(HHS_Grades.this);
-                        helper_main.switchToActivity(HHS_Grades.this, HHS_MainScreen.class, "", true);
+                        helper_main.isOpened(Activity_grades.this);
+                        helper_main.switchToActivity(Activity_grades.this, HHS_MainScreen.class, "", true);
                     }
                 }
             });
@@ -210,8 +211,8 @@ public class HHS_Grades extends AppCompatActivity {
                 toolbar.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        helper_main.resetStartTab(HHS_Grades.this);
-                        helper_main.isClosed(HHS_Grades.this);
+                        helper_main.resetStartTab(Activity_grades.this);
+                        helper_main.isClosed(Activity_grades.this);
                         finishAffinity();
                         return true;
                     }
@@ -489,19 +490,19 @@ public class HHS_Grades extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();    //To change body of overridden methods use File | Settings | File Templates.
-        helper_main.isOpened(HHS_Grades.this);
+        helper_main.isOpened(Activity_grades.this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
-        helper_main.isOpened(HHS_Grades.this);
+        helper_main.isOpened(Activity_grades.this);
     }
 
     @Override
     protected void onStop() {
         super.onStop();    //To change body of overridden methods use File | Settings | File Templates.
-        helper_main.isClosed(HHS_Grades.this);
+        helper_main.isClosed(Activity_grades.this);
     }
 
     @Override
@@ -530,17 +531,17 @@ public class HHS_Grades extends AppCompatActivity {
 
         if (id == R.id.action_folder) {
             String startDir = Environment.getExternalStorageDirectory() + "/HHS_Moodle/";
-            helper_main.openFilePicker(HHS_Grades.this, maxPointsText, startDir);
+            helper_main.openFilePicker(Activity_grades.this, maxPointsText, startDir);
         }
 
         if (id == android.R.id.home) {
-            helper_main.resetStartTab(HHS_Grades.this);
-            helper_main.isOpened(HHS_Grades.this);
-            helper_main.switchToActivity(HHS_Grades.this, HHS_MainScreen.class, "", true);
+            helper_main.resetStartTab(Activity_grades.this);
+            helper_main.isOpened(Activity_grades.this);
+            helper_main.switchToActivity(Activity_grades.this, HHS_MainScreen.class, "", true);
         }
 
         if (id == R.id.action_help) {
-            final AlertDialog.Builder dialog = new AlertDialog.Builder(HHS_Grades.this)
+            final AlertDialog.Builder dialog = new AlertDialog.Builder(Activity_grades.this)
                     .setTitle(R.string.helpGrade_title)
                     .setMessage(helper_main.textSpannable(getString(R.string.helpGrade_text)))
                     .setPositiveButton(getString(R.string.toast_yes), null);
@@ -560,7 +561,7 @@ public class HHS_Grades extends AppCompatActivity {
                     .putString("handleTextAttachment", "")
                     .putString("handleTextCreate", dateCreate)
                     .apply();
-            helper_notes.editNote(HHS_Grades.this);
+            helper_notes.editNote(Activity_grades.this);
         }
 
         return super.onOptionsItemSelected(item);

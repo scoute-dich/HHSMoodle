@@ -56,21 +56,18 @@
             android:layout_margin="8dp"
             android:gravity="center_vertical|center_horizontal">
             <TextView
-                android:id="@+id/text_percent"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical|center_horizontal"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                 android:text="@string/grade_text_percent" />
             <TextView
-                android:id="@+id/text_credits"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:text="@string/grade_text_credits"
                 android:gravity="center_vertical|center_horizontal"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
             <TextView
-                android:id="@+id/text_grade"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:text="@string/grade_text_grade"
@@ -96,7 +93,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_100_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -112,7 +108,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_100_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="1"
@@ -128,7 +123,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_99_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -144,7 +138,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_99_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="1"
@@ -160,7 +153,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_98_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -176,7 +168,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_98_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="1"
@@ -192,7 +183,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_97_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -208,7 +198,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_97_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="1"
@@ -224,7 +213,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_96_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -240,7 +228,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_96_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="1"
@@ -256,7 +243,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_95_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -272,7 +258,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_95_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="1,2"
@@ -288,7 +273,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_94_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -304,7 +288,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_94_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="1,2"
@@ -320,7 +303,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_93_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -336,7 +318,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_93_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="1,2"
@@ -352,7 +333,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_92_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -368,7 +348,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_92_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="1,2"
@@ -384,7 +363,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_91_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -400,7 +378,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_91_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="1,2"
@@ -417,7 +394,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_90_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -433,7 +409,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_90_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="1,5"
@@ -449,7 +424,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_89_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -465,7 +439,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_89_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="1,5"
@@ -481,7 +454,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_88_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -497,7 +469,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_88_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="1,5"
@@ -513,7 +484,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_87_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -529,7 +499,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_87_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="1,5"
@@ -545,7 +514,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_86_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -561,7 +529,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_86_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="1,5"
@@ -577,7 +544,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_85_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -593,7 +559,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_85_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="1,7"
@@ -609,7 +574,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_84_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -625,7 +589,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_84_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="1,7"
@@ -642,7 +605,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_83_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -658,7 +620,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_83_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="1,7"
@@ -675,7 +636,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_82_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -691,7 +651,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_82_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="1,7"
@@ -707,7 +666,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_81_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -723,7 +681,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_81_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="1,7"
@@ -739,7 +696,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_80_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -755,7 +711,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_80_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="2"
@@ -772,7 +727,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_79_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -788,7 +742,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_79_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="2"
@@ -804,7 +757,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_78_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -820,7 +772,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_78_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="2"
@@ -836,7 +787,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_77_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -852,7 +802,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_77_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="2"
@@ -868,7 +817,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_76_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -884,7 +832,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_76_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="2"
@@ -900,7 +847,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_75_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -916,7 +862,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_75_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="2,2"
@@ -932,7 +877,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_74_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -948,7 +892,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_74_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="2,2"
@@ -964,7 +907,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_73_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -980,7 +922,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_73_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="2,2"
@@ -996,7 +937,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_72_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -1012,7 +952,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_72_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="2,2"
@@ -1028,7 +967,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_71_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -1044,7 +982,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_71_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="2,2"
@@ -1061,7 +998,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_70_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -1077,7 +1013,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_70_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="2,5"
@@ -1093,7 +1028,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_69_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -1109,7 +1043,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_69_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="2,5"
@@ -1125,7 +1058,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_68_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -1141,7 +1073,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_68_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="2,5"
@@ -1157,7 +1088,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_67_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -1173,7 +1103,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_67_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="2,5"
@@ -1189,7 +1118,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_66_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -1205,7 +1133,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_66_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="2,5"
@@ -1221,7 +1148,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_65_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -1237,7 +1163,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_65_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="2,7"
@@ -1253,7 +1178,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_64_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -1269,7 +1193,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_64_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="2,7"
@@ -1285,7 +1208,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_63_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -1301,7 +1223,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_63_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="2,7"
@@ -1317,7 +1238,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_62_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -1333,7 +1253,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_62_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="2,7"
@@ -1349,7 +1268,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_61_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -1365,7 +1283,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_61_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="2,7"
@@ -1381,7 +1298,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_60_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -1397,7 +1313,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_60_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="3"
@@ -1414,7 +1329,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_59_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -1430,7 +1344,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_59_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="3"
@@ -1446,7 +1359,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_58_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -1462,7 +1374,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_58_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="3"
@@ -1478,7 +1389,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_57_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -1494,7 +1404,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_57_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="3"
@@ -1510,7 +1419,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_56_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -1526,7 +1434,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_56_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="3"
@@ -1542,7 +1449,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_55_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -1558,7 +1464,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_55_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="3,2"
@@ -1574,7 +1479,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_54_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -1590,7 +1494,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_54_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="3,2"
@@ -1606,7 +1509,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_53_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -1622,7 +1524,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_53_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="3,2"
@@ -1638,7 +1539,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_52_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -1654,7 +1554,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_52_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="3,2"
@@ -1670,7 +1569,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_51_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -1686,7 +1584,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_51_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="3,2"
@@ -1703,7 +1600,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_50_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -1719,7 +1615,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_50_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="3,5"
@@ -1735,7 +1630,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_49_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -1751,7 +1645,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_49_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="3,5"
@@ -1767,7 +1660,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_48_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -1783,7 +1675,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_48_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="3,5"
@@ -1799,7 +1690,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_47_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -1815,7 +1705,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_47_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="3,5"
@@ -1831,7 +1720,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_46_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -1847,7 +1735,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_46_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="3,5"
@@ -1863,7 +1750,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_45_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -1879,7 +1765,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_45_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="3,7"
@@ -1895,7 +1780,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_44_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -1911,7 +1795,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_44_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="3,7"
@@ -1927,7 +1810,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_43_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -1943,7 +1825,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_43_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="3,7"
@@ -1959,7 +1840,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_42_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -1975,7 +1855,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_42_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="3,7"
@@ -1991,7 +1870,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_41_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -2007,7 +1885,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_41_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="3,7"
@@ -2023,7 +1900,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_40_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -2039,7 +1915,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_40_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="4"
@@ -2056,7 +1931,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_39_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -2072,7 +1946,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_39_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="4"
@@ -2088,7 +1961,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_38_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -2104,7 +1976,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_38_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="4"
@@ -2120,7 +1991,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_37_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -2136,7 +2006,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_37_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="4"
@@ -2152,7 +2021,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_36_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -2168,7 +2036,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_36_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="4"
@@ -2184,7 +2051,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_35_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -2200,7 +2066,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_35_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="4,2"
@@ -2216,7 +2081,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_34_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -2232,7 +2096,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_34_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="4,2"
@@ -2248,7 +2111,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_33_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -2264,7 +2126,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_33_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="4,2"
@@ -2280,7 +2141,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_32_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -2296,7 +2156,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_32_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="4,2"
@@ -2312,7 +2171,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_31_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -2328,7 +2186,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_31_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="4,2"
@@ -2345,7 +2202,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_30_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -2361,7 +2217,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_30_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="4,5"
@@ -2377,7 +2232,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_29_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -2393,7 +2247,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_29_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="4,5"
@@ -2409,7 +2262,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_28_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -2425,7 +2277,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_28_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="4,5"
@@ -2441,7 +2292,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_27_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -2457,7 +2307,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_27_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="4,5"
@@ -2473,7 +2322,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_26_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -2489,7 +2337,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_26_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="4,5"
@@ -2505,7 +2352,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_25_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -2521,7 +2367,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_25_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="4,7"
@@ -2537,7 +2382,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_24_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -2553,7 +2397,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_24_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="4,7"
@@ -2569,7 +2412,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_23_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -2585,7 +2427,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_23_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="4,7"
@@ -2601,7 +2442,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_22_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -2617,7 +2457,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_22_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="4,7"
@@ -2633,7 +2472,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_21_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -2649,7 +2487,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_21_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="4,7"
@@ -2665,7 +2502,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_20_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -2681,7 +2517,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_20_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="5"
@@ -2698,7 +2533,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_19_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -2714,7 +2548,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_19_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="5"
@@ -2730,7 +2563,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_18_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -2746,7 +2578,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_18_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="5"
@@ -2762,7 +2593,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_17_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -2778,7 +2608,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_17_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="5"
@@ -2794,7 +2623,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_16_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -2810,7 +2638,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_16_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="5"
@@ -2826,7 +2653,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_15_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -2842,7 +2668,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_15_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="5,2"
@@ -2858,7 +2683,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_14_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -2874,7 +2698,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_14_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="5,2"
@@ -2890,7 +2713,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_13_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -2906,7 +2728,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_13_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="5,2"
@@ -2922,7 +2743,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_12_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -2938,7 +2758,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_12_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="5,2"
@@ -2954,7 +2773,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_11_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -2970,7 +2788,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_11_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="5,2"
@@ -2987,7 +2804,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_10_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -3003,7 +2819,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorAccent"/>
                     <TextView
-                        android:id="@+id/text_10_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="5,5"
@@ -3019,7 +2834,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_09_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -3035,7 +2849,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_09_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="5,5"
@@ -3051,7 +2864,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_08_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -3067,7 +2879,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_08_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="5,5"
@@ -3083,7 +2894,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_07_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -3099,7 +2909,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_07_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="5,5"
@@ -3115,7 +2924,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_06_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -3131,7 +2939,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_06_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="5,5"
@@ -3147,7 +2954,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_05_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -3163,7 +2969,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_05_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="5,7"
@@ -3179,7 +2984,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_04_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -3195,7 +2999,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_04_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="5,7"
@@ -3211,7 +3014,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_03_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -3227,7 +3029,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_03_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="5,7"
@@ -3243,7 +3044,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_02_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -3259,7 +3059,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_02_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="5,7"
@@ -3275,7 +3074,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_01_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -3291,7 +3089,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_01_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="5,7"
@@ -3307,7 +3104,6 @@
                     android:layout_margin="4dp"
                     android:gravity="center_vertical|center_horizontal">
                     <TextView
-                        android:id="@+id/text_00_per"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
@@ -3323,7 +3119,6 @@
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/text_00_grade"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="6"

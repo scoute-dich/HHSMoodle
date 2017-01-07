@@ -16,7 +16,6 @@
         android:layout_marginStart="8dp">
 
         <TextView
-            android:id="@+id/textView_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -40,7 +39,6 @@
         android:layout_marginStart="8dp">
 
         <TextView
-            android:id="@+id/textView_create"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -64,7 +62,6 @@
         android:layout_marginStart="8dp">
 
         <TextView
-            android:id="@+id/textView_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -88,7 +85,6 @@
         android:layout_marginStart="8dp">
 
         <TextView
-            android:id="@+id/textView_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"

@@ -74,8 +74,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import de.baumann.hhsmoodle.activities.Activity_dice;
+import de.baumann.hhsmoodle.activities.Activity_grades;
 import de.baumann.hhsmoodle.helper.Database_Browser;
-import de.baumann.hhsmoodle.helper.Activity_password;
+import de.baumann.hhsmoodle.activities.Activity_password;
 import de.baumann.hhsmoodle.helper.class_SecurePreferences;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.helper.helper_notes;
@@ -694,9 +696,34 @@ public class HHS_Browser extends AppCompatActivity implements ObservableScrollVi
             helper_main.openFilePicker(HHS_Browser.this, mWebView, startDir);
         }
 
-        if (id == R.id.action_grades) {
-            helper_main.isOpened(HHS_Browser.this);
-            helper_main.switchToActivity(HHS_Browser.this, HHS_Grades.class, "", false);
+        if (id == R.id.action_tools) {
+            final CharSequence[] options = {
+                    getString(R.string.action_grades),
+                    getString(R.string.number_title)};
+
+            new AlertDialog.Builder(HHS_Browser.this)
+                    .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            dialog.cancel();
+                        }
+                    })
+                    .setItems(options, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int item) {
+
+                            if (options[item].equals (getString(R.string.action_grades))) {
+                                helper_main.isOpened(HHS_Browser.this);
+                                helper_main.switchToActivity(HHS_Browser.this, Activity_grades.class, "", false);
+                            }
+
+                            if (options[item].equals (getString(R.string.number_title))) {
+                                helper_main.isOpened(HHS_Browser.this);
+                                helper_main.switchToActivity(HHS_Browser.this, Activity_dice.class, "", false);
+                            }
+
+                        }
+                    }).show();
         }
 
         if (id == android.R.id.home) {

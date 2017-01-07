@@ -51,6 +51,7 @@
     <string name="menu_bookmark">Add bookmark</string>
     <string name="menu_help">Help</string>
     <string name="menu_calendar">Calendar</string>
+    <string name="menu_tools">Tools</string>
 
     <string name="action_sort">Sort entries</string>
     <string name="action_sort_title">Sort by title</string>
@@ -178,10 +179,10 @@
 
     // Bookmarks
 
-    <string name="bookmark_remove_confirmation">Bookmark will be removed. OK?</string>
-    <string name="bookmark_remove_cannot">You need at least one bookmark!</string>
-    <string name="bookmark_remove_bookmark">Delete bookmark</string>
-    <string name="bookmark_added">Adding bookmark.</string>
+    <string name="bookmark_remove_confirmation">Entry will be removed. OK?</string>
+    <string name="bookmark_remove_cannot">You need at least one entry!</string>
+    <string name="bookmark_remove_bookmark">Delete entry</string>
+    <string name="bookmark_added">Adding entry.</string>
     <string name="bookmark_setFav">Successfully set as favorite.</string>
     <string name="bookmark_edit_title">Edit title</string>
     <string name="bookmark_edit_fav">Set as favorite</string>
@@ -246,5 +247,16 @@
     <string name="grade_text_percent">Percent</string>
     <string name="grade_text_credits">Credits</string>
     <string name="grade_text_grade">Grade</string>
+
+
+    // Number
+
+    <string name="number_title">Random generator</string>
+    <string name="number_error">Error. Have you chosen a file?</string>
+    <string name="number_error_read">Error reading file.</string>
+    <string name="number_dice">Random number</string>
+    <string name="number_dice_hint">Enter number …</string>
+    <string name="number_dice_hint2">… then press  \"ok\".</string>
+    <string name="number_edit_entry">Edit entry</string>
 
 </resources>

@@ -17,7 +17,7 @@
     If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.baumann.hhsmoodle.helper;
+package de.baumann.hhsmoodle.activities;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -51,6 +51,8 @@ import java.nio.channels.FileChannel;
 import de.baumann.hhsmoodle.HHS_Browser;
 import de.baumann.hhsmoodle.HHS_MainScreen;
 import de.baumann.hhsmoodle.R;
+import de.baumann.hhsmoodle.helper.class_SecurePreferences;
+import de.baumann.hhsmoodle.helper.helper_main;
 
 public class Activity_settings extends AppCompatActivity {
 

@@ -10,34 +10,16 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/action_sort"
+        android:id="@+id/action_dice"
         android:orderInCategory="100"
-        android:title="@string/action_sort"
-        android:icon="@drawable/sort_descending"
+        android:title="@string/number_dice"
+        android:icon="@drawable/dice_3"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_folder"
         android:orderInCategory="100"
         android:title="@string/menu_folder"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/action_tools"
-        android:orderInCategory="100"
-        android:title="@string/menu_tools"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/action_shortcut"
-        android:orderInCategory="100"
-        android:title="@string/bookmark_createShortcut"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/menu_settings"
         app:showAsAction="never" />
 
     <item

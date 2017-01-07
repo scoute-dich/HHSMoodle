@@ -1,27 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    android:layout_width="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:descendantFocusability="blocksDescendants"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <ImageView
-        android:id="@+id/icon_notes"
-        android:layout_width="36dp"
-        android:layout_height="match_parent"
-        android:layout_marginStart="12dp"
-        android:layout_centerVertical="true"
-        app:srcCompat="@drawable/circle_green"
-        tools:ignore="ContentDescription" />
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="13dp"
-        android:layout_toEndOf="@+id/icon_notes" >
+        tools:ignore="UselessParent">
 
         <RelativeLayout
             android:layout_width="match_parent"

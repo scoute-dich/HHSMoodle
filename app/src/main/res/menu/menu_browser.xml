@@ -35,9 +35,9 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_grades"
+        android:id="@+id/action_tools"
         android:orderInCategory="100"
-        android:title="@string/action_grades"
+        android:title="@string/menu_tools"
         app:showAsAction="never" />
 
     <item

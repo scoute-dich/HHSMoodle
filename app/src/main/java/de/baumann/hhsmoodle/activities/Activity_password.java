@@ -17,7 +17,7 @@
     If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.baumann.hhsmoodle.helper;
+package de.baumann.hhsmoodle.activities;
 
 import android.content.DialogInterface;
 import android.os.Build;
@@ -33,6 +33,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import de.baumann.hhsmoodle.R;
+import de.baumann.hhsmoodle.helper.class_SecurePreferences;
+import de.baumann.hhsmoodle.helper.helper_main;
 
 public class Activity_password extends AppCompatActivity {
 

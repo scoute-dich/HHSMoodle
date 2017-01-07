@@ -54,6 +54,7 @@
     <string name="menu_bookmark">Lesezeichen hinzufügen</string>
     <string name="menu_help">Hilfe</string>
     <string name="menu_calendar">Kalender</string>
+    <string name="menu_tools">Werkzeuge</string>
 
     <string name="action_sort">Einträge sortieren</string>
     <string name="action_sort_title">Sortiere nach Titel</string>
@@ -184,10 +185,10 @@
 
     // Bookmarks
 
-    <string name="bookmark_remove_confirmation">Lesezeichen wird gelöscht. OK?</string>
-    <string name="bookmark_remove_cannot">Du brauchst mindestens ein Lesezeichen!</string>
-    <string name="bookmark_remove_bookmark">Lesezeichen löschen</string>
-    <string name="bookmark_added">Lesezeichen wird hinzugefügt.</string>
+    <string name="bookmark_remove_confirmation">Eintrag wird gelöscht. OK?</string>
+    <string name="bookmark_remove_cannot">Du brauchst mindestens einen Eintrag!</string>
+    <string name="bookmark_remove_bookmark">Eintrag löschen</string>
+    <string name="bookmark_added">Eintrag wird hinzugefügt.</string>
     <string name="bookmark_setFav">Erfolgreich als Favorit gespeichert.</string>
     <string name="bookmark_edit_title">Bearbeite Titel</string>
     <string name="bookmark_edit_fav">Als Favorit speichern</string>
@@ -252,5 +253,16 @@
     <string name="grade_text_percent">Prozent</string>
     <string name="grade_text_credits">Punkte</string>
     <string name="grade_text_grade">Note</string>
+
+
+    // Number
+
+    <string name="number_title">Zufallsgenerator</string>
+    <string name="number_error">Fehler. Hst du eine Datei ausgewählt?</string>
+    <string name="number_error_read">Fehler beim Lesen der Datei.</string>
+    <string name="number_dice">Zufällige Zahl</string>
+    <string name="number_dice_hint">Zahl eingeben …</string>
+    <string name="number_dice_hint2">… dann  \"ok\" klicken.</string>
+    <string name="number_edit_entry">Eintrag bearbeiten</string>
 
 </resources>
