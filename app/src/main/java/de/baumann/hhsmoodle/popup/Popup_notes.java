@@ -43,6 +43,8 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import net.sqlcipher.database.SQLiteDatabase;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -264,6 +266,7 @@ public class Popup_notes extends Activity {
             }
         });
 
+        SQLiteDatabase.loadLibs(getApplicationContext());
         setNotesList();
     }
 

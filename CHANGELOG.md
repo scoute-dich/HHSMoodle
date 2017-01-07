@@ -1,6 +1,8 @@
 ### v 2.9: (WIP)
 - added: random number generator
+- added: encryption of databases
 - improved: Pin screen
+- improved: icons (browser)
 
 ### v 2.8:
 - added: grade calculation

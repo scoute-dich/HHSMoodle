@@ -43,6 +43,8 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import net.sqlcipher.database.SQLiteDatabase;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -240,6 +242,7 @@ public class Popup_bookmarks extends Activity {
                 return true;
             }
         });
+        SQLiteDatabase.loadLibs(getApplicationContext());
         setBookmarkList();
     }
 

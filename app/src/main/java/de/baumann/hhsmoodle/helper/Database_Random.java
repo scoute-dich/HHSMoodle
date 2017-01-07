@@ -32,7 +32,7 @@ public class Database_Random extends SQLiteOpenHelper {
     public Database_Random(Context context)
             throws NameNotFoundException {
         super(context,
-                "number.db",
+                "number_encrypted.db",
                 null,
                 context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode);
     }

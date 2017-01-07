@@ -36,9 +36,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -372,8 +375,8 @@ public class Activity_settings extends AppCompatActivity {
 
                                             if (sd.canWrite()) {
                                                 String currentDBPath = "//data//" + "de.baumann.hhsmoodle"
-                                                        + "//databases//" + "browser.db";
-                                                String backupDBPath = "//HHS_Moodle//" + "//backup//" + "browser.db";
+                                                        + "//databases//" + "browser_encrypted.db";
+                                                String backupDBPath = "//HHS_Moodle//" + "//backup//" + "browser_encrypted.db";
                                                 File currentDB = new File(data, currentDBPath);
                                                 File backupDB = new File(sd, backupDBPath);
 
@@ -384,8 +387,8 @@ public class Activity_settings extends AppCompatActivity {
                                                 dst.close();
 
                                                 String currentDBPath2 = "//data//" + "de.baumann.hhsmoodle"
-                                                        + "//databases//" + "notes.db";
-                                                String backupDBPath2 = "//HHS_Moodle//" + "//backup//" + "notes.db";
+                                                        + "//databases//" + "notes_encrypted.db";
+                                                String backupDBPath2 = "//HHS_Moodle//" + "//backup//" + "notes_encrypted.db";
                                                 File currentDB2 = new File(data, currentDBPath2);
                                                 File backupDB2 = new File(sd, backupDBPath2);
 
@@ -395,10 +398,46 @@ public class Activity_settings extends AppCompatActivity {
                                                 src2.close();
                                                 dst2.close();
 
-                                                Toast.makeText(getActivity(), R.string.toast_backup, Toast.LENGTH_SHORT).show();
+                                                String currentDBPath3 = "//data//" + "de.baumann.hhsmoodle"
+                                                        + "//databases//" + "number_encrypted.db";
+                                                String backupDBPath3 = "//HHS_Moodle//" + "//backup//" + "number_encrypted.db";
+                                                File currentDB3 = new File(data, currentDBPath3);
+                                                File backupDB3 = new File(sd, backupDBPath3);
+
+                                                FileChannel src3 = new FileInputStream(currentDB3).getChannel();
+                                                FileChannel dst3 = new FileOutputStream(backupDB3).getChannel();
+                                                dst3.transferFrom(src3, 0, src3.size());
+                                                src3.close();
+                                                dst3.close();
+
+                                                LayoutInflater inflater = getActivity().getLayoutInflater();
+
+                                                View toastLayout = inflater.inflate(R.layout.toast,
+                                                        (ViewGroup) getActivity().findViewById(R.id.toast_root_view));
+
+                                                TextView header = (TextView) toastLayout.findViewById(R.id.toast_message);
+                                                header.setText(R.string.toast_backup);
+
+                                                Toast toast = new Toast(getActivity().getApplicationContext());
+                                                toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
+                                                toast.setDuration(Toast.LENGTH_LONG);
+                                                toast.setView(toastLayout);
+                                                toast.show();
                                             }
                                         } catch (Exception e) {
-                                            Toast.makeText(getActivity(), R.string.toast_backup_not, Toast.LENGTH_SHORT).show();
+                                            LayoutInflater inflater = getActivity().getLayoutInflater();
+
+                                            View toastLayout = inflater.inflate(R.layout.toast,
+                                                    (ViewGroup) getActivity().findViewById(R.id.toast_root_view));
+
+                                            TextView header = (TextView) toastLayout.findViewById(R.id.toast_message);
+                                            header.setText(R.string.toast_backup_not);
+
+                                            Toast toast = new Toast(getActivity().getApplicationContext());
+                                            toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
+                                            toast.setDuration(Toast.LENGTH_LONG);
+                                            toast.setView(toastLayout);
+                                            toast.show();
                                         }
                                     }
                                     if (options[item].equals(getString(R.string.action_restore))) {
@@ -409,8 +448,8 @@ public class Activity_settings extends AppCompatActivity {
 
                                             if (sd.canWrite()) {
                                                 String currentDBPath = "//data//" + "de.baumann.hhsmoodle"
-                                                        + "//databases//" + "browser.db";
-                                                String backupDBPath = "//HHS_Moodle//" + "//backup//" + "browser.db";
+                                                        + "//databases//" + "browser_encrypted.db";
+                                                String backupDBPath = "//HHS_Moodle//" + "//backup//" + "browser_encrypted.db";
                                                 File currentDB = new File(data, currentDBPath);
                                                 File backupDB = new File(sd, backupDBPath);
 
@@ -421,8 +460,8 @@ public class Activity_settings extends AppCompatActivity {
                                                 dst.close();
 
                                                 String currentDBPath2 = "//data//" + "de.baumann.hhsmoodle"
-                                                        + "//databases//" + "notes.db";
-                                                String backupDBPath2 = "//HHS_Moodle//" + "//backup//" + "notes.db";
+                                                        + "//databases//" + "notes_encrypted.db";
+                                                String backupDBPath2 = "//HHS_Moodle//" + "//backup//" + "notes_encrypted.db";
                                                 File currentDB2 = new File(data, currentDBPath2);
                                                 File backupDB2 = new File(sd, backupDBPath2);
 
@@ -431,10 +470,47 @@ public class Activity_settings extends AppCompatActivity {
                                                 dst2.transferFrom(src2, 0, src2.size());
                                                 src2.close();
                                                 dst2.close();
-                                                Toast.makeText(getActivity(), R.string.toast_restore, Toast.LENGTH_SHORT).show();
+
+                                                String currentDBPath3 = "//data//" + "de.baumann.hhsmoodle"
+                                                        + "//databases//" + "number_encrypted.db";
+                                                String backupDBPath3 = "//HHS_Moodle//" + "//backup//" + "number_encrypted.db";
+                                                File currentDB3 = new File(data, currentDBPath3);
+                                                File backupDB3 = new File(sd, backupDBPath3);
+
+                                                FileChannel src3 = new FileInputStream(backupDB3).getChannel();
+                                                FileChannel dst3 = new FileOutputStream(currentDB3).getChannel();
+                                                dst3.transferFrom(src3, 0, src3.size());
+                                                src3.close();
+                                                dst3.close();
+
+                                                LayoutInflater inflater = getActivity().getLayoutInflater();
+
+                                                View toastLayout = inflater.inflate(R.layout.toast,
+                                                        (ViewGroup) getActivity().findViewById(R.id.toast_root_view));
+
+                                                TextView header = (TextView) toastLayout.findViewById(R.id.toast_message);
+                                                header.setText(R.string.toast_restore);
+
+                                                Toast toast = new Toast(getActivity().getApplicationContext());
+                                                toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
+                                                toast.setDuration(Toast.LENGTH_LONG);
+                                                toast.setView(toastLayout);
+                                                toast.show();
                                             }
                                         } catch (Exception e) {
-                                            Toast.makeText(getActivity(), R.string.toast_restore_not, Toast.LENGTH_SHORT).show();
+                                            LayoutInflater inflater = getActivity().getLayoutInflater();
+
+                                            View toastLayout = inflater.inflate(R.layout.toast,
+                                                    (ViewGroup) getActivity().findViewById(R.id.toast_root_view));
+
+                                            TextView header = (TextView) toastLayout.findViewById(R.id.toast_message);
+                                            header.setText(R.string.toast_restore_not);
+
+                                            Toast toast = new Toast(getActivity().getApplicationContext());
+                                            toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
+                                            toast.setDuration(Toast.LENGTH_LONG);
+                                            toast.setView(toastLayout);
+                                            toast.show();
                                         }
                                     }
                                 }

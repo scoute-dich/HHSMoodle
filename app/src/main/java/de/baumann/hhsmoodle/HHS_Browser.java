@@ -95,6 +95,9 @@ public class HHS_Browser extends AppCompatActivity implements ObservableScrollVi
     private String progressString;
     private File shareFile;
 
+    @SuppressWarnings("unused")
+    private static boolean active = false;
+
     private ImageButton imageButton;
     private ImageButton imageButton_left;
     private ImageButton imageButton_right;
@@ -619,7 +622,14 @@ public class HHS_Browser extends AppCompatActivity implements ObservableScrollVi
     @Override
     protected void onStop() {
         super.onStop();    //To change body of overridden methods use File | Settings | File Templates.
+        active = false;
         helper_main.isClosed(HHS_Browser.this);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        active = true;
     }
 
     @Override

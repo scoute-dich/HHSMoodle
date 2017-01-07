@@ -96,9 +96,14 @@ public class helper_webView {
         });
     }
 
-    public static void webView_WebViewClient (final Activity from, final SwipeRefreshLayout swipeRefreshLayout, final WebView webView) {
+    public static void webView_WebViewClient (final Activity from,
+                                              final SwipeRefreshLayout swipeRefreshLayout,
+                                              final WebView webView) {
 
+        //noinspection unused
         webView.setWebViewClient(new WebViewClient() {
+
+            boolean active;
 
             final AlertDialog.Builder dialog = new AlertDialog.Builder(from)
                     .setTitle(R.string.login_title)
@@ -114,7 +119,7 @@ public class helper_webView {
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
 
-                if (url != null && url.contains("moodle.huebsch.ka.schule-bw.de/moodle/") && url.contains("/login/")) {
+                if (url != null && url.contains("moodle.huebsch.ka.schule-bw.de/moodle/") && url.contains("/login/") && active ) {
                     alert.show();
                 } else {
                     if (alert.isShowing()) {

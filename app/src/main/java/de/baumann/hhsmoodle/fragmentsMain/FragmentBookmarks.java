@@ -51,6 +51,8 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import net.sqlcipher.database.SQLiteDatabase;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -268,6 +270,7 @@ public class FragmentBookmarks extends Fragment {
             }
         });
 
+        SQLiteDatabase.loadLibs(getActivity());
         setBookmarkList();
         return rootView;
     }
