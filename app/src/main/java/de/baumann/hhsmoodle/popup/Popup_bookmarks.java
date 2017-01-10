@@ -45,8 +45,11 @@ import android.widget.TextView;
 
 import net.sqlcipher.database.SQLiteDatabase;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 import de.baumann.hhsmoodle.HHS_Browser;
 import de.baumann.hhsmoodle.R;
@@ -122,7 +125,7 @@ public class Popup_bookmarks extends Activity {
                                         final Database_Browser db = new Database_Browser(Popup_bookmarks.this);
 
                                         AlertDialog.Builder builder = new AlertDialog.Builder(Popup_bookmarks.this);
-                                        View dialogView = View.inflate(Popup_bookmarks.this, R.layout.dialog_edit, null);
+                                        View dialogView = View.inflate(Popup_bookmarks.this, R.layout.dialog_edit_title, null);
 
                                         final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
                                         edit_title.setHint(R.string.bookmark_edit_title);
@@ -215,9 +218,17 @@ public class Popup_bookmarks extends Activity {
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createNote))) {
+                                    Date date = new Date();
+                                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+                                    String dateCreate = format.format(date);
+
                                     sharedPref.edit()
                                             .putString("handleTextTitle", title)
                                             .putString("handleTextText", url)
+                                            .putString("handleTextCreate", dateCreate)
+                                            .putString("handleTextIcon", "")
+                                            .putString("handleTextAttachment", "")
+                                            .putString("handleTextSeqno", "")
                                             .apply();
                                     helper_notes.editNote(Popup_bookmarks.this);
                                 }

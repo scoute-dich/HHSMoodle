@@ -103,6 +103,7 @@ public class helper_webView {
         //noinspection unused,unused
         webView.setWebViewClient(new WebViewClient() {
 
+            @SuppressWarnings("unused")
             boolean active;
 
             final AlertDialog.Builder dialog = new AlertDialog.Builder(from)

@@ -50,6 +50,7 @@ import java.util.HashMap;
 
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.popup.Popup_camera;
+import de.baumann.hhsmoodle.popup.Popup_todo;
 import filechooser.ChooserDialog;
 
 public class helper_notes {
@@ -77,6 +78,7 @@ public class helper_notes {
         attachment = (Button) dialogView.findViewById(R.id.button_att);
         attachmentCam = (ImageButton) dialogView.findViewById(R.id.button_cam);
         attachmentCam.setImageResource(R.drawable.camera);
+
         if (attName.equals("")) {
             attachment.setText(R.string.choose_att);
             attachmentRem.setVisibility(View.GONE);
@@ -93,6 +95,12 @@ public class helper_notes {
             attachmentCam.setVisibility(View.VISIBLE);
         }
 
+        if (file.startsWith(from.getString(R.string.todo_title) + ": ")) {
+            attachment.setText(file);
+            attachmentRem.setVisibility(View.VISIBLE);
+            attachmentCam.setVisibility(View.GONE);
+        }
+
         titleInput = (EditText) dialogView.findViewById(R.id.note_title_input);
         textInput = (EditText) dialogView.findViewById(R.id.note_text_input);
         titleInput.setText(sharedPref.getString("handleTextTitle", ""));
@@ -105,22 +113,45 @@ public class helper_notes {
             @Override
             public void onClick(View arg0) {
 
-                String startDir = Environment.getExternalStorageDirectory() + "/HHS_Moodle/";
-                new ChooserDialog().with(from)
-                        .withStartFile(startDir)
-                        .withChosenListener(new ChooserDialog.Result() {
-                            @Override
-                            public void onChoosePath(final File pathFile) {
-                                final String fileName = pathFile.getAbsolutePath();
-                                String attName = fileName.substring(fileName.lastIndexOf("/")+1);
-                                attachment.setText(attName);
-                                attachmentRem.setVisibility(View.VISIBLE);
-                                attachmentCam.setVisibility(View.GONE);
-                                sharedPref.edit().putString("handleTextAttachment", fileName).apply();
+                final CharSequence[] options = {
+                        from.getString(R.string.att_file),
+                        from.getString(R.string.att_todo)};
+                new AlertDialog.Builder(from)
+                        .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                dialog.cancel();
                             }
                         })
-                        .build()
-                        .show();
+                        .setItems(options, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int item) {
+                                if (options[item].equals(from.getString(R.string.att_file))) {
+                                    String startDir = Environment.getExternalStorageDirectory() + "/HHS_Moodle/";
+                                    new ChooserDialog().with(from)
+                                            .withStartFile(startDir)
+                                            .withChosenListener(new ChooserDialog.Result() {
+                                                @Override
+                                                public void onChoosePath(final String path, final File pathFile) {
+                                                    final String fileName = pathFile.getAbsolutePath();
+                                                    String attName = fileName.substring(fileName.lastIndexOf("/")+1);
+                                                    attachment.setText(attName);
+                                                    attachmentRem.setVisibility(View.VISIBLE);
+                                                    attachmentCam.setVisibility(View.GONE);
+                                                    sharedPref.edit().putString("handleTextAttachment", fileName).apply();
+                                                }
+                                            })
+                                            .build()
+                                            .show();
+                                }
+
+                                if (options[item].equals (from.getString(R.string.att_todo))) {
+                                    helper_main.isOpened(from);
+                                    helper_main.switchToActivity(from, Popup_todo.class, "", false);
+                                }
+
+                            }
+                        }).show();
             }
         });
 
@@ -328,7 +359,7 @@ public class helper_notes {
 
     private static void setNotesList(final Activity from) {
 
-        final ListView listView = (ListView)from.findViewById(R.id.notes);
+        final ListView listView = (ListView)from.findViewById(R.id.bookmarks);
 
         ArrayList<HashMap<String,String>> mapList = new ArrayList<>();
 
@@ -400,6 +431,11 @@ public class helper_notes {
                     File file = new File(attachment);
                     if (!file.exists()) {
                         i2.setVisibility(View.GONE);
+                    }
+
+                    if (attachment.startsWith(from.getString(R.string.todo_title) + ": ")) {
+                        i2.setVisibility(View.VISIBLE);
+                        i2.setImageResource(R.drawable.playlist_check);
                     }
 
                     i.setOnClickListener(new View.OnClickListener() {

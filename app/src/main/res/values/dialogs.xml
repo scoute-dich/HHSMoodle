@@ -69,6 +69,33 @@
         You can add a widget to your homescreen, to get a faster access to the main functions of the app (calendar -> offline,
         My Moodle, bookmarks, notes, create new note).</string>
 
+    <string name="helpToDo_text">
+        Here you can create and edit todo lists.&lt;br>&lt;br>
+
+        &lt;b>The List:&lt;/b>&lt;br>
+        If you click on a list entry the will open in a new window. If you long click a list entry a popup
+        menu opens. You can change the entry icon by clicking on it.&lt;br>&lt;br>
+
+        &lt;b>Popup menu:&lt;/b>&lt;br>
+        &#8226;&lt;i> Edit title:&lt;/i> You can edit the title of the bookmark.&lt;br>
+        &#8226;&lt;i> Create note:&lt;/i> The title of the bookmark will be used as title for a new note, the url for the content.&lt;br>
+        &#8226;&lt;i> Create shortcut:&lt;/i> A shortcut to the bookmark will be created on your homescreen.&lt;br>
+        &#8226;&lt;i> Create calendar entry:&lt;/i> The name of the bookmark will be used as title for a new calendar
+        entry. Editing of this entry will take place in your calendar app.&lt;br>
+        &#8226;&lt;i> Delete bookmark:&lt;/i> At least one bookmark must remain. All others can be deleted.&lt;br>&lt;br>
+
+        &lt;b>Menu:&lt;/b>&lt;br>
+        &#8226;&lt;i> Create note (pen icon):&lt;/i> A new dialog where you can create a new note will open.&lt;br>
+        &#8226;&lt;i> Open app directory:&lt;/i> If you have a installed file manager, the directory where downloaded files
+        are stored will open.&lt;br>
+        &#8226;&lt;i> Tools:&lt;/i> you can choose between calculate grades, random number generator and course lists.&lt;br>
+        &#8226;&lt;i> Create shortcut:&lt;/i> To have a faster access to the main functions of the app, you can create
+        shortcuts on your homescreen (calendar -> offline, My Moodle, bookmarks, notes, create new note).&lt;br>
+        &#8226;&lt;i> Settings:&lt;/i> In the settings you can configure the behavior of the app. It is highly
+        recommended to protect the app with a password against unwanted access.&lt;br>
+        &#8226;&lt;i> Help:&lt;/i> Opens the help dialog.
+    </string>
+
 
     <string name="helpBookmarks_text">
         Here your saved bookmarks are shown.&lt;br>&lt;br>
@@ -91,6 +118,7 @@
         &#8226;&lt;i> Create note (pen icon):&lt;/i> A new dialog where you can create a new note will open.&lt;br>
         &#8226;&lt;i> Open app directory:&lt;/i> If you have a installed file manager, the directory where downloaded files
         are stored will open.&lt;br>
+        &#8226;&lt;i> Tools:&lt;/i> you can choose between calculate grades, random number generator and course lists.&lt;br>
         &#8226;&lt;i> Create shortcut:&lt;/i> To have a faster access to the main functions of the app, you can create
         shortcuts on your homescreen (calendar -> offline, My Moodle, bookmarks, notes, create new note).&lt;br>
         &#8226;&lt;i> Settings:&lt;/i> In the settings you can configure the behavior of the app. It is highly
@@ -119,6 +147,7 @@
         &#8226;&lt;i> Create note (pen icon):&lt;/i> A new dialog where you can create a new note will open.&lt;br>
         &#8226;&lt;i> Open app directory:&lt;/i> If you have a installed file manager, the directory where downloaded files
         are stored will open.&lt;br>
+        &#8226;&lt;i> Tools:&lt;/i> you can choose between calculate grades, random number generator and course lists.&lt;br>
         &#8226;&lt;i> Create shortcut:&lt;/i> To have a faster access to the main functions of the app, you can create
         shortcuts on your homescreen (calendar -> offline, My Moodle, bookmarks, notes, create new note).&lt;br>
         &#8226;&lt;i> Settings:&lt;/i> In the settings you can configure the behavior of the app. It is highly
@@ -147,6 +176,7 @@
         &#8226;&lt;i> Create note (pen icon):&lt;/i> A new dialog where you can create a new note will open.&lt;br>
         &#8226;&lt;i> Open app directory:&lt;/i> If you have a installed file manager, the directory where downloaded files
         are stored will open.&lt;br>
+        &#8226;&lt;i> Tools:&lt;/i> you can choose between calculate grades, random number generator and course lists.&lt;br>
         &#8226;&lt;i> Create shortcut:&lt;/i> To have a faster access to the main functions of the app, you can create
         shortcuts on your homescreen (calendar -> offline, My Moodle, bookmarks, notes, create new note).&lt;br>
         &#8226;&lt;i> Settings:&lt;/i> In the settings you can configure the behavior of the app. It is highly
@@ -208,20 +238,28 @@
 
         &lt;b>Schüler auswählen:&lt;/b>&lt;br>
 
+        Wenn du einen Listeneintrag anklickst, öffnet sich die Klassenliste und du kannst einen Schüler zufällig auswählen.
+        Durch einen langen Klick auf einen Listeneintrag öffnet sich ein Menü um die Liste bearbeiten zu können.&lt;br>&lt;br>
+
+        &lt;b>Zahl würfeln:&lt;/b>&lt;br>
+
+        Wähle den Menüeintrag \"zufällige Zahl\" (Würfelicon) aus. Es öffnet sich ein Dialog, indem du die \"Augenzahl\" des Würfels
+        angeben kannst. Anschließend kann gewürfelt werden.
+    </string>
+
+    <string name="helpCourse_text">
+
+        &lt;b>Schüler auswählen:&lt;/b>&lt;br>
+
         &#8226;&lt;i> Textdatei anlegen:&lt;/i> Lege eine Textdatei pro Klasse an. In jede Zeile schreibst du einen Namen. Die
         Textdatei bekommt als Dateinamen den Klassennamen (z.B.: Klasse 6a).&lt;br>
         &#8226;&lt;i> Auf das Handy kopieren:&lt;/i> Kopiere die Datei in den \"HHS_Moodle\" Ordner auf deiner SD-Karte.&lt;br>
         &#8226;&lt;i> Datei laden:&lt;/i> Klicke den orangenen Knopf unten rechts. Im Dialog, der sich öffnet, wählst du die
         Textdatei aus. Ein neuer Listeneintrag wird angelegt. Du kannst die Textdatei jetzt wieder löschen.&lt;br>&lt;br>
 
-        Wenn du einen Listeneintrag anklickst, öffnet sich die Liste und du kannst einen Schüler zufällig auswählen. Die Nummer und
-        der Name des Schülers werden angezeigt. Durch einen langen Klick auf einen Listeneintrag öffnet sich ein Menü um die Liste
-        bearbeiten zu können.&lt;br>&lt;br>
-
-        &lt;b>Zahl würfeln:&lt;/b>&lt;br>
-
-        Wähle den Menüeintrag \"zufällige Zahl\" (Würfelicon) aus. Es öffnet sich ein Dialog, indem du die \"Augenzahl\" des Würfels
-        angeben kannst. Anschließend kann gewürfelt werden.
+        Wenn du einen Listeneintrag anklickst, kannst du eine Notiz, eine Zufallsliste oder eine Todoliste mit den entsprechenden
+        Schülernamen anlegen. Durch einen langen Klick auf einen Listeneintrag öffnet sich ein Menü um die Liste
+        bearbeiten zu können.
     </string>
 
     <string name="perm_notShow_title">Permission dialog</string>

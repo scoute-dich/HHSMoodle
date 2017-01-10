@@ -560,6 +560,7 @@ public class Activity_grades extends AppCompatActivity {
                     .putString("handleTextIcon", "")
                     .putString("handleTextAttachment", "")
                     .putString("handleTextCreate", dateCreate)
+                    .putString("handleTextSeqno", "")
                     .apply();
             helper_notes.editNote(Activity_grades.this);
         }

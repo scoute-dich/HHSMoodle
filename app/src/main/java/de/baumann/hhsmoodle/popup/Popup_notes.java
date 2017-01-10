@@ -49,6 +49,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import de.baumann.hhsmoodle.HHS_MainScreen;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.activities.Activity_password;
 import de.baumann.hhsmoodle.helper.Database_Notes;
@@ -112,6 +113,10 @@ public class Popup_notes extends Activity {
                 if (!file2.exists()) {
                     attachment2.setVisibility(View.GONE);
                 }
+                if (attachment.startsWith(getString(R.string.todo_title) + ": ")) {
+                    attachment2.setVisibility(View.VISIBLE);
+                    attachment2.setText(att);
+                }
 
                 textInput = (TextView) dialogView.findViewById(R.id.note_text_input);
                 textInput.setText(cont);
@@ -121,7 +126,11 @@ public class Popup_notes extends Activity {
 
                     @Override
                     public void onClick(View arg0) {
-                        openAtt(attachment);
+                        if (attachment.startsWith(getString(R.string.todo_title) + ": ")) {
+                            helper_main.switchToActivity(Popup_notes.this, HHS_MainScreen.class, "", true);
+                        } else {
+                            openAtt(attachment);
+                        }
                     }
                 });
 
@@ -427,7 +436,11 @@ public class Popup_notes extends Activity {
 
                         @Override
                         public void onClick(View arg0) {
-                            openAtt(attachment);
+                            if (attachment.startsWith(getString(R.string.todo_title) + ": ")) {
+                                helper_main.switchToActivity(Popup_notes.this, HHS_MainScreen.class, "", true);
+                            } else {
+                                openAtt(attachment);
+                            }
                         }
                     });
                     return v;

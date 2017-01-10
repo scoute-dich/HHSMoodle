@@ -1,5 +1,6 @@
 ### v 2.9: (WIP)
 - added: random number generator
+- added: course lists
 - added: encryption of databases
 - improved: Pin screen
 - improved: icons (browser)

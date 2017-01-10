@@ -109,6 +109,21 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
+            android:name=".activities.Activity_todo"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".popup.Popup_todo"
+            android:launchMode="singleTask"
+            android:theme="@style/AppThemeDialog" />
+
+        <activity
+            android:name=".activities.Activity_courseList"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
             android:name=".activities.Activity_settings"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar" />

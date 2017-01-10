@@ -29,6 +29,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -39,12 +40,9 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
 import de.baumann.hhsmoodle.HHS_Browser;
 import de.baumann.hhsmoodle.R;
+import de.baumann.hhsmoodle.helper.Database_Todo;
 import de.baumann.hhsmoodle.helper.class_CustomListAdapter;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.helper.helper_notes;
@@ -143,6 +141,7 @@ public class FragmentInfo extends Fragment {
                 final CharSequence[] options = {
                         getString(R.string.bookmark_edit_fav),
                         getString(R.string.bookmark_createNote),
+                        getString(R.string.todo_menu),
                         getString(R.string.bookmark_createShortcut),
                         getString(R.string.bookmark_createEvent)};
                 new AlertDialog.Builder(getActivity())
@@ -153,6 +152,7 @@ public class FragmentInfo extends Fragment {
                             }
                         })
                         .setItems(options, new DialogInterface.OnClickListener() {
+                            @SuppressWarnings("ConstantConditions")
                             @Override
                             public void onClick(DialogInterface dialog, int item) {
 
@@ -171,15 +171,29 @@ public class FragmentInfo extends Fragment {
                                     startActivity(calIntent);
                                 }
 
+                                if (options[item].equals (getString(R.string.todo_menu))) {
+
+                                    try {
+                                        final Database_Todo db = new Database_Todo(getActivity());
+                                        db.addBookmark(title, "", "1", "", helper_main.createDate());
+                                        db.close();
+                                        TabLayout tabHost = (TabLayout) getActivity().findViewById(R.id.tabs);
+                                        tabHost.getTabAt(3).select();
+
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
                                 if (options[item].equals (getString(R.string.bookmark_createNote))) {
-                                    Date date = new Date();
-                                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
-                                    String dateCreate = format.format(date);
 
                                     sharedPref.edit()
                                             .putString("handleTextTitle", title)
                                             .putString("handleTextText", url)
-                                            .putString("handleTextCreate", dateCreate)
+                                            .putString("handleTextCreate", helper_main.createDate())
+                                            .putString("handleTextIcon", "")
+                                            .putString("handleTextAttachment", "")
+                                            .putString("handleTextSeqno", "")
                                             .apply();
                                     helper_notes.editNote(getActivity());
                                 }

@@ -661,7 +661,7 @@ public class HHS_Browser extends AppCompatActivity implements ObservableScrollVi
                 final Database_Browser db = new Database_Browser(HHS_Browser.this);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(HHS_Browser.this);
-                View dialogView = View.inflate(HHS_Browser.this, R.layout.dialog_edit, null);
+                View dialogView = View.inflate(HHS_Browser.this, R.layout.dialog_edit_title, null);
 
                 final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
                 edit_title.setHint(R.string.bookmark_edit_title);
@@ -821,6 +821,7 @@ public class HHS_Browser extends AppCompatActivity implements ObservableScrollVi
                     .putString("handleTextIcon", "")
                     .putString("handleTextAttachment", "")
                     .putString("handleTextCreate", dateCreate)
+                    .putString("handleTextSeqno", "")
                     .apply();
             helper_notes.editNote(HHS_Browser.this);
         }

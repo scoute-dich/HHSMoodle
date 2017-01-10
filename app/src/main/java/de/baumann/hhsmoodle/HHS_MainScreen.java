@@ -41,6 +41,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 
+import net.sqlcipher.database.SQLiteDatabase;
+
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -48,6 +50,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import de.baumann.hhsmoodle.activities.Activity_courseList;
 import de.baumann.hhsmoodle.activities.Activity_dice;
 import de.baumann.hhsmoodle.fragmentsMain.FragmentBookmarks;
 import de.baumann.hhsmoodle.fragmentsMain.FragmentInfo;
@@ -55,6 +58,7 @@ import de.baumann.hhsmoodle.fragmentsMain.FragmentNotes;
 import de.baumann.hhsmoodle.activities.Activity_grades;
 import de.baumann.hhsmoodle.activities.Activity_password;
 import de.baumann.hhsmoodle.activities.Activity_settings;
+import de.baumann.hhsmoodle.fragmentsMain.FragmentTodo;
 import de.baumann.hhsmoodle.helper.class_SecurePreferences;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.helper.helper_notes;
@@ -167,6 +171,7 @@ public class HHS_MainScreen extends AppCompatActivity {
         if (!directory.exists()) {
             directory.mkdirs();
         }
+        SQLiteDatabase.loadLibs(HHS_MainScreen.this);
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -178,6 +183,7 @@ public class HHS_MainScreen extends AppCompatActivity {
         adapter.addFragment(new FragmentInfo(), String.valueOf(getString(R.string.title_info)));
         adapter.addFragment(new FragmentBookmarks(), String.valueOf(getString(R.string.title_bookmarks)));
         adapter.addFragment(new FragmentNotes(), String.valueOf(getString(R.string.title_notes)));
+        adapter.addFragment(new FragmentTodo(), String.valueOf(getString(R.string.todo_title)));
 
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(startTabInt,true);
@@ -235,7 +241,7 @@ public class HHS_MainScreen extends AppCompatActivity {
 
         if (id == R.id.action_settings) {
             helper_main.isOpened(HHS_MainScreen.this);
-            helper_main.switchToActivity(HHS_MainScreen.this, Activity_settings.class, "", true);
+            helper_main.switchToActivity(HHS_MainScreen.this, Activity_settings.class, "", false);
         }
 
         if (id == R.id.action_folder) {
@@ -246,7 +252,8 @@ public class HHS_MainScreen extends AppCompatActivity {
         if (id == R.id.action_tools) {
             final CharSequence[] options = {
                     getString(R.string.action_grades),
-                    getString(R.string.number_title)};
+                    getString(R.string.number_title),
+                    getString(R.string.courseList_title)};
 
             new AlertDialog.Builder(HHS_MainScreen.this)
                     .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
@@ -269,6 +276,11 @@ public class HHS_MainScreen extends AppCompatActivity {
                                 helper_main.switchToActivity(HHS_MainScreen.this, Activity_dice.class, "", false);
                             }
 
+                            if (options[item].equals (getString(R.string.courseList_title))) {
+                                helper_main.isOpened(HHS_MainScreen.this);
+                                helper_main.switchToActivity(HHS_MainScreen.this, Activity_courseList.class, "", false);
+                            }
+
                         }
                     }).show();
         }
@@ -282,9 +294,10 @@ public class HHS_MainScreen extends AppCompatActivity {
             sharedPref.edit()
                     .putString("handleTextTitle", "")
                     .putString("handleTextText", "")
+                    .putString("handleTextCreate", dateCreate)
                     .putString("handleTextIcon", "")
                     .putString("handleTextAttachment", "")
-                    .putString("handleTextCreate", dateCreate)
+                    .putString("handleTextSeqno", "")
                     .apply();
             helper_notes.editNote(HHS_MainScreen.this);
         }

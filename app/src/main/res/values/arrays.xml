@@ -17,12 +17,14 @@
         <item>My Moodle</item>
         <item>Bookmarks</item>
         <item>Notes</item>
+        <item>Todo</item>
     </string-array>
 
     <string-array name="listValuesTabMain">
         <item>0</item>
         <item>1</item>
         <item>2</item>
+        <item>3</item>
     </string-array>
 
     <string-array name="listArrayFont">

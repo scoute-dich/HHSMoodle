@@ -70,6 +70,37 @@
         Du kannst deinem Homescreen ein Widget hinzufügen, um einen schnellen Zugriff auf alle wichtigen Funktionen der
         App zu erhalten (Kalender -> offline, Mein Moodle, Lesezeichen, Notizen, Notiz erstellen).</string>
 
+    <string name="helpToDo_text">
+        Hier kannst du Todolisten anlegen und verwalten.&lt;br>&lt;br>
+
+        &lt;b>Die Liste:&lt;/b>&lt;br>
+        Wenn du einen Listeneintrag anklickst, öffnet sich die Liste in einem neuen Fenster. Bei einem langen Klick
+        öffnet sich ein Popupmenü. Um das Icon des Eintrags zu ändern, musst du es anklicken.&lt;br>&lt;br>
+
+        &lt;b>Popup Menü:&lt;/b>&lt;br>
+        &#8226;&lt;i> Bearbeite Titel:&lt;/i> Du kannst den Titel des Lesezeichens bearbeiten.&lt;br>
+        &#8226;&lt;i> Erstelle Notiz:&lt;/i> Der Titel des Lesezeichens wird automatisch als Titel für eine neue Notiz
+        benutzt, der Link für den Inhalt.&lt;br>
+        &#8226;&lt;i> Erstelle Verknüpfung:&lt;/i> Es wird eine Verknüpfung zu deinem Lesezeichen direkt auf deinen Homescreen
+        angelegt.&lt;br>
+        &#8226;&lt;i> Erstelle Kalendereintrag:&lt;/i> Der Name des Lesezeichens wird als Name für einen neuen Kalendereintrag
+        benutzt. Die Bearbeitung findet in deiner Kalenderapp statt.&lt;br>
+        &#8226;&lt;i> Lösche Lesezeichen:&lt;/i> Es muss mindestens ein Lesezeichen vorhanden sein. Alle anderen können
+        gelöscht werden.&lt;br>&lt;br>
+
+        &lt;b>Menü:&lt;/b>&lt;br>
+        &#8226;&lt;i> Erstelle Notiz (Stifticon):&lt;/i> Es öffnet sich ein Dialogfenster, in dem du eine Notiz erstellen
+        kannst.&lt;br>
+        &#8226;&lt;i> Öffne Anwendungsordner:&lt;/i> Wenn du einen Dateimanager installiert hast, öffnet sich das Verzeichnis,
+        in dem z.B. herunter geladene Dateien gespeichert werden.&lt;br>
+        &#8226;&lt;i> Werkzeuge:&lt;/i> Noten berechnen, Zufallsgenerator und Klassenlisten stehen zur Auswahl.&lt;br>
+        &#8226;&lt;i> Erstelle Verknüpfung:&lt;/i> Um einen schnellen Zugriff auf die Funktionen dieser App zu haben, kannst
+        du Verknüpfungen auf deinem Homescreen erstellen (Kalender -> offline, Mein Moodle, Lesezeichen, Notizen, Notiz erstellen).&lt;br>
+        &#8226;&lt;i> Einstellungen:&lt;/i> In den Einstellungen kannst du das Verhalten der App deinen Bedürfnissen
+        anpassen. Auf jeden Fall wird empfohlen ein Kennwort zu setzen, um die App vor ungewolltem Zugriff zu schützen.&lt;br>
+        &#8226;&lt;i> Hilfe:&lt;/i> Öffnet den jeweiligen Hilfedialog.
+    </string>
+
 
     <string name="helpBookmarks_text">
         Hier werden die von dir gespeicherten Lesezeichen angezeigt.&lt;br>&lt;br>
@@ -96,6 +127,7 @@
         kannst.&lt;br>
         &#8226;&lt;i> Öffne Anwendungsordner:&lt;/i> Wenn du einen Dateimanager installiert hast, öffnet sich das Verzeichnis,
         in dem z.B. herunter geladene Dateien gespeichert werden.&lt;br>
+        &#8226;&lt;i> Werkzeuge:&lt;/i> Noten berechnen, Zufallsgenerator und Klassenlisten stehen zur Auswahl.&lt;br>
         &#8226;&lt;i> Erstelle Verknüpfung:&lt;/i> Um einen schnellen Zugriff auf die Funktionen dieser App zu haben, kannst
         du Verknüpfungen auf deinem Homescreen erstellen (Kalender -> offline, Mein Moodle, Lesezeichen, Notizen, Notiz erstellen).&lt;br>
         &#8226;&lt;i> Einstellungen:&lt;/i> In den Einstellungen kannst du das Verhalten der App deinen Bedürfnissen
@@ -127,6 +159,7 @@
         kannst.&lt;br>
         &#8226;&lt;i> Öffne Anwendungsordner:&lt;/i> Wenn du einen Dateimanager installiert hast, öffnet sich das Verzeichnis,
         in dem z.B. herunter geladene Dateien gespeichert werden.&lt;br>
+        &#8226;&lt;i> Werkzeuge:&lt;/i> Noten berechnen, Zufallsgenerator und Klassenlisten stehen zur Auswahl.&lt;br>
         &#8226;&lt;i> Erstelle Verknüpfung:&lt;/i> Um einen schnellen Zugriff auf die Funktionen dieser App zu haben, kannst
         du Verknüpfungen auf deinem Homescreen erstellen (Kalender -> offline, Mein Moodle, Lesezeichen, Notizen, Notiz erstellen).&lt;br>
         &#8226;&lt;i> Einstellungen:&lt;/i> In den Einstellungen kannst du das Verhalten der App deinen Bedürfnissen
@@ -159,6 +192,7 @@
         kannst.&lt;br>
         &#8226;&lt;i> Öffne Anwendungsordner:&lt;/i> Wenn du einen Dateimanager installiert hast, öffnet sich das Verzeichnis,
         in dem z.B. herunter geladene Dateien gespeichert werden.&lt;br>
+        &#8226;&lt;i> Werkzeuge:&lt;/i> Noten berechnen, Zufallsgenerator und Klassenlisten stehen zur Auswahl.&lt;br>
         &#8226;&lt;i> Erstelle Verknüpfung:&lt;/i> Um einen schnellen Zugriff auf die Funktionen dieser App zu haben, kannst
         du Verknüpfungen auf deinem Homescreen erstellen (Kalender -> offline, Mein Moodle, Lesezeichen, Notizen, Notiz erstellen).&lt;br>
         &#8226;&lt;i> Einstellungen:&lt;/i> In den Einstellungen kannst du das Verhalten der App deinen Bedürfnissen
@@ -226,20 +260,28 @@
 
         &lt;b>Schüler auswählen:&lt;/b>&lt;br>
 
+        Wenn du einen Listeneintrag anklickst, öffnet sich die Klassenliste und du kannst einen Schüler zufällig auswählen.
+        Durch einen langen Klick auf einen Listeneintrag öffnet sich ein Menü um die Liste bearbeiten zu können.&lt;br>&lt;br>
+
+        &lt;b>Zahl würfeln:&lt;/b>&lt;br>
+
+        Wähle den Menüeintrag \"zufällige Zahl\" (Würfelicon) aus. Es öffnet sich ein Dialog, indem du die \"Augenzahl\" des Würfels
+        angeben kannst. Anschließend kann gewürfelt werden.
+    </string>
+
+    <string name="helpCourse_text">
+
+        &lt;b>Schüler auswählen:&lt;/b>&lt;br>
+
         &#8226;&lt;i> Textdatei anlegen:&lt;/i> Lege eine Textdatei pro Klasse an. In jede Zeile schreibst du einen Namen. Die
         Textdatei bekommt als Dateinamen den Klassennamen (z.B.: Klasse 6a).&lt;br>
         &#8226;&lt;i> Auf das Handy kopieren:&lt;/i> Kopiere die Datei in den \"HHS_Moodle\" Ordner auf deiner SD-Karte.&lt;br>
         &#8226;&lt;i> Datei laden:&lt;/i> Klicke den orangenen Knopf unten rechts. Im Dialog, der sich öffnet, wählst du die
         Textdatei aus. Ein neuer Listeneintrag wird angelegt. Du kannst die Textdatei jetzt wieder löschen.&lt;br>&lt;br>
 
-        Wenn du einen Listeneintrag anklickst, öffnet sich die Liste und du kannst einen Schüler zufällig auswählen. Die Nummer und
-        der Name des Schülers werden angezeigt. Durch einen langen Klick auf einen Listeneintrag öffnet sich ein Menü um die Liste
-        bearbeiten zu können.&lt;br>&lt;br>
-
-        &lt;b>Zahl würfeln:&lt;/b>&lt;br>
-
-        Wähle den Menüeintrag \"zufällige Zahl\" (Würfelicon) aus. Es öffnet sich ein Dialog, indem du die \"Augenzahl\" des Würfels
-        angeben kannst. Anschließend kann gewürfelt werden.
+        Wenn du einen Listeneintrag anklickst, kannst du eine Notiz, eine Zufallsliste oder eine Todoliste mit den entsprechenden
+        Schülernamen anlegen. Durch einen langen Klick auf einen Listeneintrag öffnet sich ein Menü um die Liste
+        bearbeiten zu können.
     </string>
 
     <string name="perm_notShow_title">Berechtigungsdialog</string>

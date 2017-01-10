@@ -211,6 +211,8 @@
     <string name="note_priority_2">Hoch</string>
     <string name="title_hint">Titel</string>
     <string name="text_hint">Inhalt</string>
+    <string name="att_file">Datei hinzufügen</string>
+    <string name="att_todo">Todo hinzufügen</string>
 
 
     // Password
@@ -258,11 +260,30 @@
     // Number
 
     <string name="number_title">Zufallsgenerator</string>
-    <string name="number_error">Fehler. Hst du eine Datei ausgewählt?</string>
+    <string name="number_error">Fehler. Hast du eine Datei ausgewählt?</string>
     <string name="number_error_read">Fehler beim Lesen der Datei.</string>
     <string name="number_dice">Zufällige Zahl</string>
     <string name="number_dice_hint">Zahl eingeben …</string>
+    <string name="number_dice_error">Zuerst eine Zahl eingeben …</string>
     <string name="number_dice_hint2">… dann  \"ok\" klicken.</string>
     <string name="number_edit_entry">Eintrag bearbeiten</string>
+    <string name="number_chosen">Ausgewählt:</string>
+
+
+    // ToDo
+
+    <string name="todo_title">Todo</string>
+    <string name="todo_from_courseList">Aus Klassenliste</string>
+    <string name="todo_from_new">Eigener Titel</string>
+    <string name="todo_hint">Neuer Eintrag …</string>
+    <string name="todo_menu">Erstelle ToDo Liste</string>
+    <string name="todo_removed">Eintrag gelöscht</string>
+    <string name="todo_removed_back">Rückgängig?</string>
+
+
+    // CourseList
+
+    <string name="courseList_title">Klassenlisten</string>
+    <string name="courseList_success">Erfolgreich erstellt</string>
 
 </resources>

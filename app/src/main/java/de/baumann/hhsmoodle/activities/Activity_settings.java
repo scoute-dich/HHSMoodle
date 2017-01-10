@@ -380,11 +380,14 @@ public class Activity_settings extends AppCompatActivity {
                                                 File currentDB = new File(data, currentDBPath);
                                                 File backupDB = new File(sd, backupDBPath);
 
-                                                FileChannel src = new FileInputStream(currentDB).getChannel();
-                                                FileChannel dst = new FileOutputStream(backupDB).getChannel();
-                                                dst.transferFrom(src, 0, src.size());
-                                                src.close();
-                                                dst.close();
+                                                if (currentDB.exists()) {
+                                                    FileChannel src = new FileInputStream(currentDB).getChannel();
+                                                    FileChannel dst = new FileOutputStream(backupDB).getChannel();
+                                                    dst.transferFrom(src, 0, src.size());
+                                                    src.close();
+                                                    dst.close();
+                                                }
+
 
                                                 String currentDBPath2 = "//data//" + "de.baumann.hhsmoodle"
                                                         + "//databases//" + "notes_encrypted.db";
@@ -392,11 +395,14 @@ public class Activity_settings extends AppCompatActivity {
                                                 File currentDB2 = new File(data, currentDBPath2);
                                                 File backupDB2 = new File(sd, backupDBPath2);
 
-                                                FileChannel src2 = new FileInputStream(currentDB2).getChannel();
-                                                FileChannel dst2 = new FileOutputStream(backupDB2).getChannel();
-                                                dst2.transferFrom(src2, 0, src2.size());
-                                                src2.close();
-                                                dst2.close();
+                                                if (currentDB2.exists()) {
+                                                    FileChannel src2 = new FileInputStream(currentDB2).getChannel();
+                                                    FileChannel dst2 = new FileOutputStream(backupDB2).getChannel();
+                                                    dst2.transferFrom(src2, 0, src2.size());
+                                                    src2.close();
+                                                    dst2.close();
+                                                }
+
 
                                                 String currentDBPath3 = "//data//" + "de.baumann.hhsmoodle"
                                                         + "//databases//" + "number_encrypted.db";
@@ -404,11 +410,43 @@ public class Activity_settings extends AppCompatActivity {
                                                 File currentDB3 = new File(data, currentDBPath3);
                                                 File backupDB3 = new File(sd, backupDBPath3);
 
-                                                FileChannel src3 = new FileInputStream(currentDB3).getChannel();
-                                                FileChannel dst3 = new FileOutputStream(backupDB3).getChannel();
-                                                dst3.transferFrom(src3, 0, src3.size());
-                                                src3.close();
-                                                dst3.close();
+                                                if (currentDB3.exists()) {
+                                                    FileChannel src3 = new FileInputStream(currentDB3).getChannel();
+                                                    FileChannel dst3 = new FileOutputStream(backupDB3).getChannel();
+                                                    dst3.transferFrom(src3, 0, src3.size());
+                                                    src3.close();
+                                                    dst3.close();
+                                                }
+
+
+                                                String currentDBPath4 = "//data//" + "de.baumann.hhsmoodle"
+                                                        + "//databases//" + "todoList_encrypted.db";
+                                                String backupDBPath4 = "//HHS_Moodle//" + "//backup//" + "todoList_encrypted.db";
+                                                File currentDB4 = new File(data, currentDBPath4);
+                                                File backupDB4 = new File(sd, backupDBPath4);
+
+                                                if (currentDB4.exists()) {
+                                                    FileChannel src4 = new FileInputStream(currentDB4).getChannel();
+                                                    FileChannel dst4 = new FileOutputStream(backupDB4).getChannel();
+                                                    dst4.transferFrom(src4, 0, src4.size());
+                                                    src4.close();
+                                                    dst4.close();
+                                                }
+
+
+                                                String currentDBPath5 = "//data//" + "de.baumann.hhsmoodle"
+                                                        + "//databases//" + "course_encrypted.db";
+                                                String backupDBPath5 = "//HHS_Moodle//" + "//backup//" + "course_encrypted.db";
+                                                File currentDB5 = new File(data, currentDBPath5);
+                                                File backupDB5 = new File(sd, backupDBPath5);
+
+                                                if (currentDB5.exists()) {
+                                                    FileChannel src5 = new FileInputStream(currentDB5).getChannel();
+                                                    FileChannel dst5 = new FileOutputStream(backupDB5).getChannel();
+                                                    dst5.transferFrom(src5, 0, src5.size());
+                                                    src5.close();
+                                                    dst5.close();
+                                                }
 
                                                 LayoutInflater inflater = getActivity().getLayoutInflater();
 
@@ -453,11 +491,14 @@ public class Activity_settings extends AppCompatActivity {
                                                 File currentDB = new File(data, currentDBPath);
                                                 File backupDB = new File(sd, backupDBPath);
 
-                                                FileChannel src = new FileInputStream(backupDB).getChannel();
-                                                FileChannel dst = new FileOutputStream(currentDB).getChannel();
-                                                dst.transferFrom(src, 0, src.size());
-                                                src.close();
-                                                dst.close();
+                                                if (backupDB.exists()) {
+                                                    FileChannel src = new FileInputStream(backupDB).getChannel();
+                                                    FileChannel dst = new FileOutputStream(currentDB).getChannel();
+                                                    dst.transferFrom(src, 0, src.size());
+                                                    src.close();
+                                                    dst.close();
+                                                }
+
 
                                                 String currentDBPath2 = "//data//" + "de.baumann.hhsmoodle"
                                                         + "//databases//" + "notes_encrypted.db";
@@ -465,11 +506,14 @@ public class Activity_settings extends AppCompatActivity {
                                                 File currentDB2 = new File(data, currentDBPath2);
                                                 File backupDB2 = new File(sd, backupDBPath2);
 
-                                                FileChannel src2 = new FileInputStream(backupDB2).getChannel();
-                                                FileChannel dst2 = new FileOutputStream(currentDB2).getChannel();
-                                                dst2.transferFrom(src2, 0, src2.size());
-                                                src2.close();
-                                                dst2.close();
+                                                if (currentDB2.exists()) {
+                                                    FileChannel src2 = new FileInputStream(backupDB2).getChannel();
+                                                    FileChannel dst2 = new FileOutputStream(currentDB2).getChannel();
+                                                    dst2.transferFrom(src2, 0, src2.size());
+                                                    src2.close();
+                                                    dst2.close();
+                                                }
+
 
                                                 String currentDBPath3 = "//data//" + "de.baumann.hhsmoodle"
                                                         + "//databases//" + "number_encrypted.db";
@@ -477,11 +521,44 @@ public class Activity_settings extends AppCompatActivity {
                                                 File currentDB3 = new File(data, currentDBPath3);
                                                 File backupDB3 = new File(sd, backupDBPath3);
 
-                                                FileChannel src3 = new FileInputStream(backupDB3).getChannel();
-                                                FileChannel dst3 = new FileOutputStream(currentDB3).getChannel();
-                                                dst3.transferFrom(src3, 0, src3.size());
-                                                src3.close();
-                                                dst3.close();
+                                                if (currentDB3.exists()) {
+                                                    FileChannel src3 = new FileInputStream(backupDB3).getChannel();
+                                                    FileChannel dst3 = new FileOutputStream(currentDB3).getChannel();
+                                                    dst3.transferFrom(src3, 0, src3.size());
+                                                    src3.close();
+                                                    dst3.close();
+                                                }
+
+
+                                                String currentDBPath4 = "//data//" + "de.baumann.hhsmoodle"
+                                                        + "//databases//" + "course_encrypted.db";
+                                                String backupDBPath4 = "//HHS_Moodle//" + "//backup//" + "course_encrypted.db";
+                                                File currentDB4 = new File(data, currentDBPath4);
+                                                File backupDB4 = new File(sd, backupDBPath4);
+
+                                                if (currentDB4.exists()) {
+                                                    FileChannel src4 = new FileInputStream(backupDB4).getChannel();
+                                                    FileChannel dst4 = new FileOutputStream(currentDB4).getChannel();
+                                                    dst4.transferFrom(src4, 0, src4.size());
+                                                    src4.close();
+                                                    dst4.close();
+                                                }
+
+
+                                                String currentDBPath5 = "//data//" + "de.baumann.hhsmoodle"
+                                                        + "//databases//" + "todoList_encrypted.db";
+                                                String backupDBPath5 = "//HHS_Moodle//" + "//backup//" + "todoList_encrypted.db";
+                                                File currentDB5 = new File(data, currentDBPath5);
+                                                File backupDB5 = new File(sd, backupDBPath5);
+
+                                                if (currentDB5.exists()) {
+                                                    FileChannel src5 = new FileInputStream(backupDB5).getChannel();
+                                                    FileChannel dst5 = new FileOutputStream(currentDB5).getChannel();
+                                                    dst5.transferFrom(src5, 0, src5.size());
+                                                    src5.close();
+                                                    dst5.close();
+                                                }
+
 
                                                 LayoutInflater inflater = getActivity().getLayoutInflater();
 

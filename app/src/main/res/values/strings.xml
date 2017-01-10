@@ -205,6 +205,8 @@
     <string name="note_priority_2">High</string>
     <string name="title_hint">Title</string>
     <string name="text_hint">Content</string>
+    <string name="att_file">Add file</string>
+    <string name="att_todo">Add todo</string>
 
 
     // Password
@@ -256,7 +258,26 @@
     <string name="number_error_read">Error reading file.</string>
     <string name="number_dice">Random number</string>
     <string name="number_dice_hint">Enter number …</string>
+    <string name="number_dice_error">First enter a number …</string>
     <string name="number_dice_hint2">… then press  \"ok\".</string>
     <string name="number_edit_entry">Edit entry</string>
+    <string name="number_chosen">Chosen:</string>
+
+
+    // ToDo
+
+    <string name="todo_title">Todo</string>
+    <string name="todo_from_courseList">From course list</string>
+    <string name="todo_from_new">Custum title</string>
+    <string name="todo_hint">New entry …</string>
+    <string name="todo_menu">Create todo list</string>
+    <string name="todo_removed">Entry deleted</string>
+    <string name="todo_removed_back">Restore?</string>
+
+
+    // CourseList
+
+    <string name="courseList_title">Course lists</string>
+    <string name="courseList_success">Successfully created</string>
 
 </resources>

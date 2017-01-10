@@ -159,6 +159,12 @@ public class helper_main {
         return  dateFormat.format(date) + ".jpg";
     }
 
+    public static String createDate () {
+        Date date = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+        return  format.format(date);
+    }
+
     public static void showKeyboard(Activity from, EditText editText) {
         InputMethodManager imm = (InputMethodManager) from.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
@@ -171,7 +177,7 @@ public class helper_main {
                 .withStartFile(startDir)
                 .withChosenListener(new ChooserDialog.Result() {
                     @Override
-                    public void onChoosePath(final File pathFile) {
+                    public void onChoosePath(final String path, final File pathFile) {
 
                         final String fileExtension = pathFile.getAbsolutePath().substring(pathFile.getAbsolutePath().lastIndexOf("."));
                         final String fileName = pathFile.getAbsolutePath().substring(pathFile.getAbsolutePath().lastIndexOf("/")+1);

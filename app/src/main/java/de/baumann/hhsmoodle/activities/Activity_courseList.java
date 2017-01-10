@@ -28,50 +28,44 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Layout;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
-import android.widget.TextView;
 
 import net.sqlcipher.database.SQLiteDatabase;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
-import java.util.Random;
+import java.util.Locale;
 
 import de.baumann.hhsmoodle.HHS_MainScreen;
 import de.baumann.hhsmoodle.R;
+import de.baumann.hhsmoodle.helper.Database_CourseList;
 import de.baumann.hhsmoodle.helper.Database_Random;
+import de.baumann.hhsmoodle.helper.Database_Todo;
 import de.baumann.hhsmoodle.helper.class_SecurePreferences;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.helper.helper_notes;
+import filechooser.ChooserDialog;
 
-public class Activity_dice extends AppCompatActivity {
+public class Activity_courseList extends AppCompatActivity {
 
-    private TextView textFile;
     private ListView listView = null;
-    private ScrollView scrollView;
     private SharedPreferences sharedPref;
-    private FloatingActionButton fab_add;
-    private FloatingActionButton fab;
     private class_SecurePreferences sharedPrefSec;
-
-    private int number;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,17 +73,17 @@ public class Activity_dice extends AppCompatActivity {
 
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        sharedPrefSec = new class_SecurePreferences(Activity_dice.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
+        sharedPrefSec = new class_SecurePreferences(Activity_courseList.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
         String pw = sharedPrefSec.getString("protect_PW");
 
         if (pw != null  && pw.length() > 0) {
             if (sharedPref.getBoolean("isOpened", true)) {
-                helper_main.switchToActivity(Activity_dice.this, Activity_password.class, "", false);
+                helper_main.switchToActivity(Activity_courseList.this, Activity_password.class, "", false);
             }
         }
 
         setContentView(R.layout.activity_dice);
-        setTitle(R.string.number_title);
+        setTitle(R.string.courseList_title);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -100,14 +94,14 @@ public class Activity_dice extends AppCompatActivity {
                     final String startURL = sharedPref.getString("favoriteURL", "https://moodle.huebsch.ka.schule-bw.de/moodle/");
                     final String startType = sharedPref.getString("startType", "1");
 
-                    helper_main.resetStartTab(Activity_dice.this);
+                    helper_main.resetStartTab(Activity_courseList.this);
 
                     if (startType.equals("2")) {
-                        helper_main.isOpened(Activity_dice.this);
-                        helper_main.switchToActivity(Activity_dice.this, Activity_grades.class, startURL, false);
+                        helper_main.isOpened(Activity_courseList.this);
+                        helper_main.switchToActivity(Activity_courseList.this, Activity_grades.class, startURL, false);
                     } else if (startType.equals("1")){
-                        helper_main.isOpened(Activity_dice.this);
-                        helper_main.switchToActivity(Activity_dice.this, HHS_MainScreen.class, "", true);
+                        helper_main.isOpened(Activity_courseList.this);
+                        helper_main.switchToActivity(Activity_courseList.this, HHS_MainScreen.class, "", true);
                     }
                 }
             });
@@ -116,8 +110,8 @@ public class Activity_dice extends AppCompatActivity {
                 toolbar.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        helper_main.resetStartTab(Activity_dice.this);
-                        helper_main.isClosed(Activity_dice.this);
+                        helper_main.resetStartTab(Activity_courseList.this);
+                        helper_main.isClosed(Activity_courseList.this);
                         finishAffinity();
                         return true;
                     }
@@ -130,10 +124,7 @@ public class Activity_dice extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        fab_add = (FloatingActionButton) findViewById(R.id.fab_add);
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        scrollView = (ScrollView) findViewById(R.id.scrollView);
-        textFile = (TextView) findViewById(R.id.textFile);
+        FloatingActionButton fab_add = (FloatingActionButton) findViewById(R.id.fab_add);
         listView = (ListView)findViewById(R.id.bookmarks);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -143,12 +134,65 @@ public class Activity_dice extends AppCompatActivity {
                 final String title = map.get("title");
                 final String text = map.get("text");
 
-                listView.setVisibility(View.GONE);
-                scrollView.setVisibility(View.VISIBLE);
-                textFile.setText(String.valueOf(text));
-                fab_add.setVisibility(View.GONE);
-                fab.setVisibility(View.VISIBLE);
-                setTitle(title);
+                final CharSequence[] options = {
+                        getString(R.string.menu_rem),
+                        getString(R.string.number_title),
+                        getString(R.string.todo_title)};
+                new android.app.AlertDialog.Builder(Activity_courseList.this)
+                        .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                dialog.cancel();
+                            }
+                        })
+                        .setItems(options, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int item) {
+                                if (options[item].equals(getString(R.string.number_title))) {
+                                    try {
+
+                                        final Database_Random db = new Database_Random(Activity_courseList.this);
+                                        db.addBookmark(title, text);
+                                        db.close();
+                                        Snackbar.make(listView, R.string.courseList_success, Snackbar.LENGTH_SHORT).show();
+
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                if (options[item].equals(getString(R.string.todo_title))) {
+
+                                    try {
+                                        final Database_Todo db = new Database_Todo(Activity_courseList.this);
+                                        db.addBookmark(title, text, "1", "", helper_main.createDate());
+                                        db.close();
+                                        Snackbar.make(listView, R.string.courseList_success, Snackbar.LENGTH_SHORT).show();
+
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                if (options[item].equals(getString(R.string.menu_rem))) {
+
+                                    Date date = new Date();
+                                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+                                    String dateCreate = format.format(date);
+
+                                    sharedPref.edit()
+                                            .putString("handleTextTitle", title)
+                                            .putString("handleTextText", text)
+                                            .putString("handleTextIcon", "")
+                                            .putString("handleTextAttachment", "")
+                                            .putString("handleTextCreate", dateCreate)
+                                            .putString("handleTextSeqno", "")
+                                            .apply();
+                                    helper_notes.editNote(Activity_courseList.this);
+                                }
+
+                            }
+                        }).show();
             }
         });
 
@@ -165,7 +209,7 @@ public class Activity_dice extends AppCompatActivity {
                         getString(R.string.bookmark_edit_title),
                         getString(R.string.number_edit_entry),
                         getString(R.string.bookmark_remove_bookmark)};
-                new android.app.AlertDialog.Builder(Activity_dice.this)
+                new android.app.AlertDialog.Builder(Activity_courseList.this)
                         .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
 
                             public void onClick(DialogInterface dialog, int whichButton) {
@@ -178,10 +222,10 @@ public class Activity_dice extends AppCompatActivity {
                                 if (options[item].equals(getString(R.string.bookmark_edit_title))) {
                                     try {
 
-                                        final Database_Random db = new Database_Random(Activity_dice.this);
+                                        final Database_CourseList db = new Database_CourseList(Activity_courseList.this);
 
-                                        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(Activity_dice.this);
-                                        View dialogView = View.inflate(Activity_dice.this, R.layout.dialog_edit_title, null);
+                                        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(Activity_courseList.this);
+                                        View dialogView = View.inflate(Activity_courseList.this, R.layout.dialog_edit_title, null);
 
                                         final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
                                         edit_title.setHint(R.string.bookmark_edit_title);
@@ -214,7 +258,7 @@ public class Activity_dice extends AppCompatActivity {
 
                                         new Handler().postDelayed(new Runnable() {
                                             public void run() {
-                                                helper_main.showKeyboard(Activity_dice.this,edit_title);
+                                                helper_main.showKeyboard(Activity_courseList.this,edit_title);
                                             }
                                         }, 200);
 
@@ -227,10 +271,10 @@ public class Activity_dice extends AppCompatActivity {
 
                                     try {
 
-                                        final Database_Random db = new Database_Random(Activity_dice.this);
+                                        final Database_CourseList db = new Database_CourseList(Activity_courseList.this);
 
-                                        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(Activity_dice.this);
-                                        View dialogView = View.inflate(Activity_dice.this, R.layout.dialog_edit_text, null);
+                                        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(Activity_courseList.this);
+                                        View dialogView = View.inflate(Activity_courseList.this, R.layout.dialog_edit_text, null);
 
                                         final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
                                         edit_title.setHint(R.string.bookmark_edit_title);
@@ -264,7 +308,7 @@ public class Activity_dice extends AppCompatActivity {
 
                                         new Handler().postDelayed(new Runnable() {
                                             public void run() {
-                                                helper_main.showKeyboard(Activity_dice.this,edit_title);
+                                                helper_main.showKeyboard(Activity_courseList.this,edit_title);
                                             }
                                         }, 200);
 
@@ -275,7 +319,7 @@ public class Activity_dice extends AppCompatActivity {
 
                                 if (options[item].equals(getString(R.string.bookmark_remove_bookmark))) {
                                     try {
-                                        Database_Random db = new Database_Random(Activity_dice.this);
+                                        Database_CourseList db = new Database_CourseList(Activity_courseList.this);
                                         final int count = db.getRecordCount();
                                         db.close();
 
@@ -291,7 +335,7 @@ public class Activity_dice extends AppCompatActivity {
                                                         @Override
                                                         public void onClick(View view) {
                                                             try {
-                                                                Database_Random db = new Database_Random(Activity_dice.this);
+                                                                Database_CourseList db = new Database_CourseList(Activity_courseList.this);
                                                                 db.deleteBookmark(Integer.parseInt(seqnoStr));
                                                                 db.close();
                                                                 setBookmarkList();
@@ -319,39 +363,54 @@ public class Activity_dice extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                helper_main.isOpened(Activity_dice.this);
-                helper_main.switchToActivity(Activity_dice.this, Activity_courseList.class, "", false);
-            }
-        });
+                String startDir = Environment.getExternalStorageDirectory() + "/HHS_Moodle/";
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+                new ChooserDialog().with(Activity_courseList.this)
+                        .withStartFile(startDir)
+                        .withFilter(false, false, "txt")
+                        .withChosenListener(new ChooserDialog.Result() {
+                            @Override
+                            public void onChoosePath(final String path, final File pathFile) {
 
-                String origString = textFile.getText().toString();
+                                StringBuilder text = new StringBuilder();
+                                final String fileName = pathFile.getAbsolutePath().substring(pathFile.getAbsolutePath().lastIndexOf("/")+1);
+                                final String fileNameWE = fileName.substring(0, fileName.lastIndexOf("."));
 
-                try {
-                    Random rand = new Random();
-                    final int n = rand.nextInt(textFile.getLineCount());
+                                try {
+                                    BufferedReader br = new BufferedReader(new FileReader(pathFile));
+                                    String line;
 
-                    int startPos = textFile.getLayout().getLineStart(n);
-                    int endPos = textFile.getLayout().getLineEnd(n);
+                                    while ((line = br.readLine()) != null) {
+                                        text.append(line);
+                                        text.append('\n');
+                                    }
+                                    br.close();
+                                }
+                                catch (IOException e) {
+                                    Snackbar.make(listView, R.string.number_error_read, Snackbar.LENGTH_LONG).show();
+                                    e.printStackTrace();
+                                }
 
-                    String theLine = textFile.getText().toString().substring(startPos, endPos);
-                    String theLine2 = theLine.substring(0, theLine.length()-1);
-                    String text = getString(R.string.number_chosen) + " " + String.valueOf(n + 1) + " " + theLine2;
+                                try {
 
-                    Spannable highlight = new SpannableString(origString);
-                    highlight.setSpan(new ForegroundColorSpan(ContextCompat.getColor(Activity_dice.this, R.color.colorAccent)), startPos, endPos, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                    final Database_CourseList db = new Database_CourseList(Activity_courseList.this);
+                                    String textAdd = text.substring(0, text.length()-1);
+                                    sharedPrefSec.put(fileNameWE + "text", textAdd);
 
-                    textFile.setText(highlight);
-                    Layout layout = textFile.getLayout();
-                    scrollView.scrollTo(0, layout.getLineTop(textFile.getTop() + layout.getLineForOffset(startPos)));
-                    Snackbar.make(textFile, text, Snackbar.LENGTH_LONG).show();
-                } catch(NumberFormatException nfe) {
-                    Snackbar.make(textFile, R.string.number_error, Snackbar.LENGTH_LONG).show();
-                    nfe.printStackTrace();
-                }
+                                    if (text.length() > 0) {
+
+                                        db.addBookmark(fileNameWE, sharedPrefSec.getString(fileNameWE + "text"));
+                                        db.close();
+                                        setBookmarkList();
+                                    }
+                                } catch (Exception e) {
+                                    Snackbar.make(listView, R.string.number_error_read, Snackbar.LENGTH_LONG).show();
+                                    e.printStackTrace();
+                                }
+                            }
+                        })
+                        .build()
+                        .show();
             }
         });
 
@@ -364,7 +423,7 @@ public class Activity_dice extends AppCompatActivity {
         ArrayList<HashMap<String,String>> mapList = new ArrayList<>();
 
         try {
-            Database_Random db = new Database_Random(Activity_dice.this);
+            Database_CourseList db = new Database_CourseList(Activity_courseList.this);
             ArrayList<String[]> bookmarkList = new ArrayList<>();
             db.getBookmarks(bookmarkList);
             if (bookmarkList.size() == 0) {
@@ -382,7 +441,7 @@ public class Activity_dice extends AppCompatActivity {
             }
 
             SimpleAdapter simpleAdapter = new SimpleAdapter(
-                    Activity_dice.this,
+                    Activity_courseList.this,
                     mapList,
                     R.layout.list_item,
                     new String[] {"title", "text"},
@@ -398,41 +457,33 @@ public class Activity_dice extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (scrollView.getVisibility() == View.VISIBLE) {
-            listView.setVisibility(View.VISIBLE);
-            scrollView.setVisibility(View.GONE);
-            fab_add.setVisibility(View.VISIBLE);
-            fab.setVisibility(View.GONE);
-            setTitle(R.string.number_title);
-        } else {
-            finish();
-        }
+        finish();
     }
 
     @Override
     protected void onPause() {
         super.onPause();    //To change body of overridden methods use File | Settings | File Templates.
-        helper_main.isOpened(Activity_dice.this);
+        helper_main.isOpened(Activity_courseList.this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
         setBookmarkList();
-        helper_main.isOpened(Activity_dice.this);
+        helper_main.isOpened(Activity_courseList.this);
     }
 
     @Override
     protected void onStop() {
         super.onStop();    //To change body of overridden methods use File | Settings | File Templates.
-        helper_main.isClosed(Activity_dice.this);
+        helper_main.isClosed(Activity_courseList.this);
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
 
         if (sharedPref.getBoolean ("help", false)){
-            menu.getItem(3).setVisible(false); // here pass the index of save menu item
+            menu.getItem(2).setVisible(false); // here pass the index of save menu item
         }
         return super.onPrepareOptionsMenu(menu);
     }
@@ -440,7 +491,7 @@ public class Activity_dice extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_dice, menu);
+        getMenuInflater().inflate(R.menu.menu_courselist, menu);
         return true;
     }
 
@@ -461,80 +512,26 @@ public class Activity_dice extends AppCompatActivity {
                     .putString("handleTextCreate", helper_main.createDate())
                     .putString("handleTextSeqno", "")
                     .apply();
-            helper_notes.editNote(Activity_dice.this);
+            helper_notes.editNote(Activity_courseList.this);
         }
 
         if (id == R.id.action_folder) {
             String startDir = Environment.getExternalStorageDirectory() + "/HHS_Moodle/";
-            helper_main.openFilePicker(Activity_dice.this, textFile, startDir);
+            helper_main.openFilePicker(Activity_courseList.this, listView, startDir);
         }
 
         if (id == android.R.id.home) {
-            helper_main.resetStartTab(Activity_dice.this);
-            helper_main.isOpened(Activity_dice.this);
-            helper_main.switchToActivity(Activity_dice.this, HHS_MainScreen.class, "", true);
+            helper_main.resetStartTab(Activity_courseList.this);
+            helper_main.isOpened(Activity_courseList.this);
+            helper_main.switchToActivity(Activity_courseList.this, HHS_MainScreen.class, "", true);
         }
 
         if (id == R.id.action_help) {
-            final android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(Activity_dice.this)
-                    .setTitle(R.string.number_title)
-                    .setMessage(helper_main.textSpannable(getString(R.string.helpRandom_text)))
+            final android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(Activity_courseList.this)
+                    .setTitle(R.string.courseList_title)
+                    .setMessage(helper_main.textSpannable(getString(R.string.helpCourse_text)))
                     .setPositiveButton(getString(R.string.toast_yes), null);
             dialog.show();
-        }
-
-        if (id == R.id.action_dice) {
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(Activity_dice.this);
-            View dialogView = View.inflate(Activity_dice.this, R.layout.dialog_dice, null);
-
-            final TextView textChoose2 = (TextView) dialogView.findViewById(R.id.textChoose);
-            final EditText editNumber2 = (EditText) dialogView.findViewById(R.id.editNumber);
-            editNumber2.setHint(R.string.number_dice_hint);
-
-            builder.setView(dialogView);
-            builder.setTitle(R.string.number_dice);
-            builder.setPositiveButton(R.string.toast_yes, null);
-            builder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    dialog.cancel();
-                }
-            });
-
-            final AlertDialog dialog2 = builder.create();
-            // Display the custom alert dialog on interface
-            dialog2.setOnShowListener(new DialogInterface.OnShowListener() {
-
-                @Override
-                public void onShow(DialogInterface dialog) {
-
-                    Button b = dialog2.getButton(AlertDialog.BUTTON_POSITIVE);
-                    b.setOnClickListener(new View.OnClickListener() {
-
-                        @Override
-                        public void onClick(View view) {
-                            try {
-                                number = Integer.parseInt(editNumber2.getText().toString());
-                                Random rand = new Random();
-                                int n = rand.nextInt(number);
-                                textChoose2.setText(String.valueOf(n +1));
-                            } catch(NumberFormatException nfe) {
-                                Snackbar.make(textChoose2, R.string.number_dice_error, Snackbar.LENGTH_LONG).show();
-                                nfe.printStackTrace();
-                            }
-                        }
-                    });
-                }
-            });
-
-            dialog2.show();
-
-            new Handler().postDelayed(new Runnable() {
-                public void run() {
-                    helper_main.showKeyboard(Activity_dice.this,editNumber2);
-                }
-            }, 200);
         }
 
         return super.onOptionsItemSelected(item);

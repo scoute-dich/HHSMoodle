@@ -29,7 +29,9 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.text.util.Linkify;
 import android.view.LayoutInflater;
@@ -47,17 +49,18 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-import net.sqlcipher.database.SQLiteDatabase;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import de.baumann.hhsmoodle.R;
+import de.baumann.hhsmoodle.activities.Activity_courseList;
 import de.baumann.hhsmoodle.helper.Database_Notes;
+import de.baumann.hhsmoodle.helper.Database_Todo;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.helper.helper_notes;
 
+@SuppressWarnings("ConstantConditions")
 public class FragmentNotes extends Fragment {
 
     private ListView listView = null;
@@ -66,13 +69,13 @@ public class FragmentNotes extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_screen_notes, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_screen_todo, container, false);
 
         PreferenceManager.setDefaultValues(getActivity(), R.xml.user_settings, false);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         setHasOptionsMenu(true);
 
-        ImageView imgHeader = (ImageView) rootView.findViewById(R.id.imageView_header_notes);
+        ImageView imgHeader = (ImageView) rootView.findViewById(R.id.imageView_header);
         if(imgHeader != null) {
             TypedArray images = getResources().obtainTypedArray(R.array.splash_images);
             int choice = (int) (Math.random() * images.length());
@@ -80,7 +83,40 @@ public class FragmentNotes extends Fragment {
             images.recycle();
         }
 
-        listView = (ListView)rootView.findViewById(R.id.notes);
+
+        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                final CharSequence[] options = {
+                        getString(R.string.todo_from_courseList),
+                        getString(R.string.todo_from_new)};
+                new AlertDialog.Builder(getActivity())
+                        .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                dialog.cancel();
+                            }
+                        })
+                        .setItems(options, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int item) {
+                                if (options[item].equals(getString(R.string.todo_from_courseList))) {
+                                    helper_main.isOpened(getActivity());
+                                    helper_main.switchToActivity(getActivity(), Activity_courseList.class, "", false);
+                                }
+
+                                if (options[item].equals (getString(R.string.todo_from_new))) {
+                                    helper_notes.editNote(getActivity());
+                                }
+
+                            }
+                        }).show();
+            }
+        });
+
+        listView = (ListView)rootView.findViewById(R.id.bookmarks);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 @SuppressWarnings("unchecked")
@@ -99,7 +135,7 @@ public class FragmentNotes extends Fragment {
                 LayoutInflater inflater = getActivity().getLayoutInflater();
 
                 final ViewGroup nullParent = null;
-                View dialogView = inflater.inflate(R.layout.dialog_note_show, nullParent);
+                final View dialogView = inflater.inflate(R.layout.dialog_note_show, nullParent);
 
                 final String attName = attachment.substring(attachment.lastIndexOf("/")+1);
                 final String att = getString(R.string.app_att) + ": " + attName;
@@ -114,6 +150,10 @@ public class FragmentNotes extends Fragment {
                 if (!file2.exists()) {
                     attachment2.setVisibility(View.GONE);
                 }
+                if (attachment.startsWith(getString(R.string.todo_title) + ": ")) {
+                    attachment2.setVisibility(View.VISIBLE);
+                    attachment2.setText(att);
+                }
 
                 textInput = (TextView) dialogView.findViewById(R.id.note_text_input);
                 textInput.setText(cont);
@@ -123,7 +163,13 @@ public class FragmentNotes extends Fragment {
 
                     @Override
                     public void onClick(View arg0) {
-                        openAtt(attachment);
+
+                        if (attachment.startsWith(getString(R.string.todo_title) + ": ")) {
+                            TabLayout tabHost = (TabLayout) getActivity().findViewById(R.id.tabs);
+                            tabHost.getTabAt(3).select();
+                        } else {
+                            openAtt(attachment);
+                        }
                     }
                 });
 
@@ -185,6 +231,7 @@ public class FragmentNotes extends Fragment {
                 final CharSequence[] options = {
                         getString(R.string.note_edit),
                         getString(R.string.note_share),
+                        getString(R.string.todo_menu),
                         getString(R.string.bookmark_createEvent),
                         getString(R.string.note_remove_note)};
                 new AlertDialog.Builder(getActivity())
@@ -215,6 +262,20 @@ public class FragmentNotes extends Fragment {
                                     sharingIntent.putExtra(Intent.EXTRA_SUBJECT, title);
                                     sharingIntent.putExtra(Intent.EXTRA_TEXT, cont);
                                     startActivity(Intent.createChooser(sharingIntent, (getString(R.string.note_share_2))));
+                                }
+
+                                if (options[item].equals (getString(R.string.todo_menu))) {
+
+                                    try {
+                                        final Database_Todo db = new Database_Todo(getActivity());
+                                        db.addBookmark(title, "", "1", "", helper_main.createDate());
+                                        db.close();
+                                        TabLayout tabHost = (TabLayout) getActivity().findViewById(R.id.tabs);
+                                        tabHost.getTabAt(3).select();
+
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createEvent))) {
@@ -265,9 +326,14 @@ public class FragmentNotes extends Fragment {
             }
         });
 
-        SQLiteDatabase.loadLibs(getActivity());
         setNotesList();
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
+        setNotesList();
     }
 
     private void setNotesList() {
@@ -342,6 +408,11 @@ public class FragmentNotes extends Fragment {
                     File file = new File(attachment);
                     if (!file.exists()) {
                         i2.setVisibility(View.GONE);
+                    }
+
+                    if (attachment.startsWith(getString(R.string.todo_title) + ": ")) {
+                        i2.setVisibility(View.VISIBLE);
+                        i2.setImageResource(R.drawable.playlist_check);
                     }
 
                     i.setOnClickListener(new View.OnClickListener() {
@@ -426,7 +497,12 @@ public class FragmentNotes extends Fragment {
 
                         @Override
                         public void onClick(View arg0) {
-                            openAtt(attachment);
+                            if (attachment.startsWith(getString(R.string.todo_title) + ": ")) {
+                                TabLayout tabHost = (TabLayout) getActivity().findViewById(R.id.tabs);
+                                tabHost.getTabAt(3).select();
+                            } else {
+                                openAtt(attachment);
+                            }
                         }
                     });
                     return v;

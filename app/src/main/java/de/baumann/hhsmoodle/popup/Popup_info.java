@@ -33,6 +33,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import de.baumann.hhsmoodle.HHS_Browser;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.activities.Activity_password;
@@ -160,9 +164,17 @@ public class Popup_info extends Activity {
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createNote))) {
+                                    Date date = new Date();
+                                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+                                    String dateCreate = format.format(date);
+
                                     sharedPref.edit()
                                             .putString("handleTextTitle", title)
                                             .putString("handleTextText", url)
+                                            .putString("handleTextCreate", dateCreate)
+                                            .putString("handleTextIcon", "")
+                                            .putString("handleTextAttachment", "")
+                                            .putString("handleTextSeqno", "")
                                             .apply();
                                     helper_notes.editNote(Popup_info.this);
                                 }

@@ -19,21 +19,19 @@
 
 package de.baumann.hhsmoodle.fragmentsMain;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -50,17 +48,18 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import de.baumann.hhsmoodle.HHS_Browser;
 import de.baumann.hhsmoodle.R;
-import de.baumann.hhsmoodle.helper.Database_Browser;
+import de.baumann.hhsmoodle.activities.Activity_courseList;
+import de.baumann.hhsmoodle.activities.Activity_todo;
 import de.baumann.hhsmoodle.helper.Database_Todo;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.helper.helper_notes;
 
-public class FragmentBookmarks extends Fragment {
+public class FragmentTodo extends Fragment {
 
     private ListView listView = null;
     private SharedPreferences sharedPref;
@@ -68,7 +67,7 @@ public class FragmentBookmarks extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_screen_bookmarks, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_screen_todo, container, false);
         PreferenceManager.setDefaultValues(getActivity(), R.xml.user_settings, false);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         setHasOptionsMenu(true);
@@ -84,16 +83,22 @@ public class FragmentBookmarks extends Fragment {
         listView = (ListView)rootView.findViewById(R.id.bookmarks);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                final String startTab = sharedPref.getString("tabMain", "0");
-                sharedPref.edit()
-                        .putString("tabPref", startTab)
-                        .putString("tabMain", "1")
-                        .apply();
-
                 @SuppressWarnings("unchecked")
                 HashMap<String,String> map = (HashMap<String,String>)listView.getItemAtPosition(position);
-                helper_main.isOpened(getActivity());
-                helper_main.switchToActivity(getActivity(), HHS_Browser.class, map.get("url"), true);
+
+                final String title = map.get("title");
+                final String cont = map.get("cont");
+                final String seqnoStr = map.get("seqno");
+                final String create = map.get("createDate");
+                final String icon = map.get("icon");
+
+                sharedPref.edit().putString("toDo_title", title).apply();
+                sharedPref.edit().putString("toDo_text", cont).apply();
+                sharedPref.edit().putString("toDo_seqno", seqnoStr).apply();
+                sharedPref.edit().putString("toDo_icon", icon).apply();
+                sharedPref.edit().putString("toDo_create", create).apply();
+
+                helper_main.switchToActivity(getActivity(), Activity_todo.class, "", false);
             }
         });
 
@@ -102,17 +107,17 @@ public class FragmentBookmarks extends Fragment {
 
                 @SuppressWarnings("unchecked")
                 HashMap<String,String> map = (HashMap<String,String>)listView.getItemAtPosition(position);
+
                 final String seqnoStr = map.get("seqno");
                 final String title = map.get("title");
-                final String url = map.get("url");
+                final String cont = map.get("cont");
                 final String icon = map.get("icon");
+                final String attachment = map.get("attachment");
+                final String create = map.get("createDate");
 
                 final CharSequence[] options = {
                         getString(R.string.bookmark_edit_title),
-                        getString(R.string.bookmark_edit_fav),
                         getString(R.string.bookmark_createNote),
-                        getString(R.string.todo_menu),
-                        getString(R.string.bookmark_createShortcut),
                         getString(R.string.bookmark_createEvent),
                         getString(R.string.bookmark_remove_bookmark)};
                 new AlertDialog.Builder(getActivity())
@@ -123,13 +128,12 @@ public class FragmentBookmarks extends Fragment {
                             }
                         })
                         .setItems(options, new DialogInterface.OnClickListener() {
-                            @SuppressWarnings("ConstantConditions")
                             @Override
                             public void onClick(DialogInterface dialog, int item) {
                                 if (options[item].equals(getString(R.string.bookmark_edit_title))) {
                                     try {
 
-                                        final Database_Browser db = new Database_Browser(getActivity());
+                                        final Database_Todo db = new Database_Todo(getActivity());
 
                                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                         View dialogView = View.inflate(getActivity(), R.layout.dialog_edit_title, null);
@@ -145,10 +149,10 @@ public class FragmentBookmarks extends Fragment {
                                             public void onClick(DialogInterface dialog, int whichButton) {
 
                                                 String inputTag = edit_title.getText().toString().trim();
-                                                db.deleteBookmark((Integer.parseInt(seqnoStr)));
-                                                db.addBookmark(inputTag, url, icon);
+                                                db.deleteNote(Integer.parseInt(seqnoStr));
+                                                db.addBookmark(inputTag, cont, "1", "", create);
                                                 db.close();
-                                                setBookmarkList();
+                                                setNotesList();
                                                 Snackbar.make(listView, R.string.bookmark_added, Snackbar.LENGTH_SHORT).show();
                                             }
                                         });
@@ -174,20 +178,6 @@ public class FragmentBookmarks extends Fragment {
                                     }
                                 }
 
-                                if (options[item].equals (getString(R.string.todo_menu))) {
-
-                                    try {
-                                        final Database_Todo db = new Database_Todo(getActivity());
-                                        db.addBookmark(title, "", "1", "", helper_main.createDate());
-                                        db.close();
-                                        TabLayout tabHost = (TabLayout) getActivity().findViewById(R.id.tabs);
-                                        tabHost.getTabAt(3).select();
-
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-
                                 if (options[item].equals (getString(R.string.bookmark_createEvent))) {
                                     Intent calIntent = new Intent(Intent.ACTION_INSERT);
                                     calIntent.setType("vnd.android.cursor.item/event");
@@ -195,17 +185,9 @@ public class FragmentBookmarks extends Fragment {
                                     startActivity(calIntent);
                                 }
 
-                                if (options[item].equals (getString(R.string.bookmark_edit_fav))) {
-                                    sharedPref.edit()
-                                            .putString("favoriteURL", url)
-                                            .putString("favoriteTitle", title)
-                                            .apply();
-                                    Snackbar.make(listView, R.string.bookmark_setFav, Snackbar.LENGTH_LONG).show();
-                                }
-
                                 if (options[item].equals(getString(R.string.bookmark_remove_bookmark))) {
                                     try {
-                                        Database_Browser db = new Database_Browser(getActivity());
+                                        Database_Todo db = new Database_Todo(getActivity());
                                         final int count = db.getRecordCount();
                                         db.close();
 
@@ -221,10 +203,10 @@ public class FragmentBookmarks extends Fragment {
                                                         @Override
                                                         public void onClick(View view) {
                                                             try {
-                                                                Database_Browser db = new Database_Browser(getActivity());
-                                                                db.deleteBookmark(Integer.parseInt(seqnoStr));
+                                                                Database_Todo db = new Database_Todo(getActivity());
+                                                                db.deleteNote(Integer.parseInt(seqnoStr));
                                                                 db.close();
-                                                                setBookmarkList();
+                                                                setNotesList();
                                                             } catch (PackageManager.NameNotFoundException e) {
                                                                 e.printStackTrace();
                                                             }
@@ -242,28 +224,13 @@ public class FragmentBookmarks extends Fragment {
 
                                     sharedPref.edit()
                                             .putString("handleTextTitle", title)
-                                            .putString("handleTextText", url)
-                                            .putString("handleTextCreate", helper_main.createDate())
-                                            .putString("handleTextIcon", "")
-                                            .putString("handleTextAttachment", "")
+                                            .putString("handleTextText", cont)
+                                            .putString("handleTextCreate", create)
+                                            .putString("handleTextIcon", icon)
+                                            .putString("handleTextAttachment", attachment)
                                             .putString("handleTextSeqno", "")
                                             .apply();
                                     helper_notes.editNote(getActivity());
-                                }
-
-                                if (options[item].equals (getString(R.string.bookmark_createShortcut))) {
-                                    Intent i = new Intent();
-                                    i.setAction(Intent.ACTION_VIEW);
-                                    i.setData(Uri.parse(url));
-
-                                    Intent shortcut = new Intent();
-                                    shortcut.putExtra("android.intent.extra.shortcut.INTENT", i);
-                                    shortcut.putExtra("android.intent.extra.shortcut.NAME", "THE NAME OF SHORTCUT TO BE SHOWN");
-                                    shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, title);
-                                    shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(getActivity().getApplicationContext(), R.mipmap.ic_launcher));
-                                    shortcut.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
-                                    getActivity().sendBroadcast(shortcut);
-                                    Snackbar.make(listView, R.string.toast_shortcut, Snackbar.LENGTH_LONG).show();
                                 }
 
                             }
@@ -273,29 +240,96 @@ public class FragmentBookmarks extends Fragment {
             }
         });
 
-        setBookmarkList();
+        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                final CharSequence[] options = {
+                        getString(R.string.todo_from_courseList),
+                        getString(R.string.todo_from_new)};
+                new AlertDialog.Builder(getActivity())
+                        .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                dialog.cancel();
+                            }
+                        })
+                        .setItems(options, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int item) {
+                                if (options[item].equals(getString(R.string.todo_from_courseList))) {
+                                    helper_main.isOpened(getActivity());
+                                    helper_main.switchToActivity(getActivity(), Activity_courseList.class, "", false);
+                                }
+
+                                if (options[item].equals (getString(R.string.todo_from_new))) {
+                                    try {
+
+                                        final Database_Todo db = new Database_Todo(getActivity());
+
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                        View dialogView = View.inflate(getActivity(), R.layout.dialog_edit_title, null);
+
+                                        final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
+                                        edit_title.setHint(R.string.bookmark_edit_title);
+
+                                        builder.setView(dialogView);
+                                        builder.setTitle(R.string.bookmark_edit_title);
+                                        builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+
+                                            public void onClick(DialogInterface dialog, int whichButton) {
+
+                                                String inputTag = edit_title.getText().toString().trim();
+                                                db.addBookmark(inputTag, "", "1", "", helper_main.createDate());
+                                                db.close();
+                                                setNotesList();
+                                                Snackbar.make(listView, R.string.bookmark_added, Snackbar.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                        builder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                                            public void onClick(DialogInterface dialog, int whichButton) {
+                                                dialog.cancel();
+                                            }
+                                        });
+
+                                        final AlertDialog dialog2 = builder.create();
+                                        // Display the custom alert dialog on interface
+                                        dialog2.show();
+
+                                        new Handler().postDelayed(new Runnable() {
+                                            public void run() {
+                                                helper_main.showKeyboard(getActivity(),edit_title);
+                                            }
+                                        }, 200);
+
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                            }
+                        }).show();
+            }
+        });
+
+        setNotesList();
         return rootView;
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case 100:
-                if (resultCode == Activity.RESULT_OK) {
-                    if (data.getIntExtra("updated", 0) == 1) {
-                        setBookmarkList();
-                    }
-                }
-        }
+    public void onResume() {
+        super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
+        setNotesList();
     }
 
-    private void setBookmarkList() {
+    private void setNotesList() {
 
         ArrayList<HashMap<String,String>> mapList = new ArrayList<>();
 
         try {
-            Database_Browser db = new Database_Browser(getActivity());
+            Database_Todo db = new Database_Todo(getActivity());
             ArrayList<String[]> bookmarkList = new ArrayList<>();
             db.getBookmarks(bookmarkList, getActivity());
             if (bookmarkList.size() == 0) {
@@ -308,8 +342,10 @@ public class FragmentBookmarks extends Fragment {
                 HashMap<String, String> map = new HashMap<>();
                 map.put("seqno", strAry[0]);
                 map.put("title", strAry[1]);
-                map.put("url", strAry[2]);
+                map.put("cont", strAry[2]);
                 map.put("icon", strAry[3]);
+                map.put("attachment", strAry[4]);
+                map.put("createDate", strAry[5]);
                 mapList.add(map);
             }
 
@@ -317,97 +353,63 @@ public class FragmentBookmarks extends Fragment {
                     getActivity(),
                     mapList,
                     R.layout.list_item_notes,
-                    new String[] {"title", "url"},
-                    new int[] {R.id.textView_title_notes, R.id.textView_des_notes}
-            ){
+                    new String[] {"title", "cont", "createDate"},
+                    new int[] {R.id.textView_title_notes, R.id.textView_des_notes, R.id.textView_create_notes}
+            ) {
                 @Override
-                public View getView (final int position, final View convertView, final ViewGroup parent) {
+                public View getView (final int position, View convertView, ViewGroup parent) {
 
                     @SuppressWarnings("unchecked")
                     HashMap<String,String> map = (HashMap<String,String>)listView.getItemAtPosition(position);
                     final String title = map.get("title");
-                    final String url = map.get("url");
+                    final String cont = map.get("cont");
                     final String seqnoStr = map.get("seqno");
                     final String icon = map.get("icon");
+                    final String attachment = map.get("attachment");
+                    final String create = map.get("createDate");
 
                     View v = super.getView(position, convertView, parent);
                     ImageView i=(ImageView) v.findViewById(R.id.icon_notes);
+                    ImageView i2=(ImageView) v.findViewById(R.id.att_notes);
 
                     switch (icon) {
                         case "1":
-                            i.setImageResource(R.drawable.ic_school_grey600_48dp);
-                            break;
-                        case "2":
-                            i.setImageResource(R.drawable.ic_view_dashboard_grey600_48dp);
-                            break;
-                        case "3":
-                            i.setImageResource(R.drawable.ic_face_profile_grey600_48dp);
-                            break;
-                        case "4":
-                            i.setImageResource(R.drawable.ic_calendar_grey600_48dp);
-                            break;
-                        case "5":
-                            i.setImageResource(R.drawable.ic_chart_areaspline_grey600_48dp);
-                            break;
-                        case "6":
-                            i.setImageResource(R.drawable.ic_bell_grey600_48dp);
-                            break;
-                        case "7":
-                            i.setImageResource(R.drawable.ic_settings_grey600_48dp);
-                            break;
-                        case "8":
-                            i.setImageResource(R.drawable.ic_web_grey600_48dp);
-                            break;
-                        case "9":
-                            i.setImageResource(R.drawable.ic_magnify_grey600_48dp);
-                            break;
-                        case "10":
-                            i.setImageResource(R.drawable.ic_pencil_grey600_48dp);
-                            break;
-                        case "11":
-                            i.setImageResource(R.drawable.ic_check_grey600_48dp);
-                            break;
-                        case "12":
-                            i.setImageResource(R.drawable.ic_clock_grey600_48dp);
-                            break;
-                        case "13":
-                            i.setImageResource(R.drawable.ic_bookmark_grey600_48dp);
-                            break;
-                        case "14":
                             i.setImageResource(R.drawable.circle_green);
                             break;
-                        case "15":
+                        case "2":
                             i.setImageResource(R.drawable.circle_yellow);
                             break;
-                        case "16":
+                        case "3":
                             i.setImageResource(R.drawable.circle_red);
                             break;
                     }
+                    switch (attachment) {
+                        case "":
+                            i2.setVisibility(View.GONE);
+                            break;
+                        default:
+                            i2.setVisibility(View.VISIBLE);
+                            i2.setImageResource(R.drawable.ic_attachment);
+                            break;
+                    }
+
+                    File file = new File(attachment);
+                    if (!file.exists()) {
+                        i2.setVisibility(View.GONE);
+                    }
+
                     i.setOnClickListener(new View.OnClickListener() {
 
                         @Override
                         public void onClick(View arg0) {
 
-                            final FragmentNotes.Item[] items = {
-                                    new FragmentNotes.Item(getString(R.string.text_tit_11), R.drawable.ic_school_grey600_48dp),
-                                    new FragmentNotes.Item(getString(R.string.text_tit_1), R.drawable.ic_view_dashboard_grey600_48dp),
-                                    new FragmentNotes.Item(getString(R.string.text_tit_2), R.drawable.ic_face_profile_grey600_48dp),
-                                    new FragmentNotes.Item(getString(R.string.text_tit_8), R.drawable.ic_calendar_grey600_48dp),
-                                    new FragmentNotes.Item(getString(R.string.text_tit_3), R.drawable.ic_chart_areaspline_grey600_48dp),
-                                    new FragmentNotes.Item(getString(R.string.text_tit_4), R.drawable.ic_bell_grey600_48dp),
-                                    new FragmentNotes.Item(getString(R.string.text_tit_5), R.drawable.ic_settings_grey600_48dp),
-                                    new FragmentNotes.Item(getString(R.string.text_tit_6), R.drawable.ic_web_grey600_48dp),
-                                    new FragmentNotes.Item(getString(R.string.text_tit_7), R.drawable.ic_magnify_grey600_48dp),
-                                    new FragmentNotes.Item(getString(R.string.title_notes), R.drawable.ic_pencil_grey600_48dp),
-                                    new FragmentNotes.Item(getString(R.string.text_tit_9), R.drawable.ic_check_grey600_48dp),
-                                    new FragmentNotes.Item(getString(R.string.text_tit_10), R.drawable.ic_clock_grey600_48dp),
-                                    new FragmentNotes.Item(getString(R.string.title_bookmarks), R.drawable.ic_bookmark_grey600_48dp),
-                                    new FragmentNotes.Item(getString(R.string.note_priority_0), R.drawable.circle_green),
-                                    new FragmentNotes.Item(getString(R.string.note_priority_1), R.drawable.circle_yellow),
-                                    new FragmentNotes.Item(getString(R.string.note_priority_2), R.drawable.circle_red)
+                            final Item[] items = {
+                                    new Item(getString(R.string.note_priority_0), R.drawable.circle_green),
+                                    new Item(getString(R.string.note_priority_1), R.drawable.circle_yellow),
+                                    new Item(getString(R.string.note_priority_2), R.drawable.circle_red),
                             };
 
-                            ListAdapter adapter = new ArrayAdapter<FragmentNotes.Item>(
+                            ListAdapter adapter = new ArrayAdapter<Item>(
                                     getActivity(),
                                     android.R.layout.select_dialog_item,
                                     android.R.id.text1,
@@ -438,37 +440,37 @@ public class FragmentBookmarks extends Fragment {
 
                                         public void onClick(DialogInterface dialog, int item) {
                                             if (item == 0) {
-                                                changeIcon(seqnoStr, title, url, "1");
+                                                try {
+                                                    final Database_Todo db = new Database_Todo(getActivity());
+                                                    db.deleteNote((Integer.parseInt(seqnoStr)));
+                                                    db.addBookmark(title, cont, "1", attachment, create);
+                                                    db.close();
+                                                    setNotesList();
+                                                } catch (Exception e) {
+                                                    e.printStackTrace();
+                                                }
+
                                             } else if (item == 1) {
-                                                changeIcon(seqnoStr, title, url, "2");
+                                                try {
+                                                    final Database_Todo db = new Database_Todo(getActivity());
+                                                    db.deleteNote((Integer.parseInt(seqnoStr)));
+                                                    db.addBookmark(title, cont, "2",attachment, create);
+                                                    db.close();
+                                                    setNotesList();
+                                                } catch (Exception e) {
+                                                    e.printStackTrace();
+                                                }
+
                                             } else if (item == 2) {
-                                                changeIcon(seqnoStr, title, url, "3");
-                                            } else if (item == 3) {
-                                                changeIcon(seqnoStr, title, url, "4");
-                                            } else if (item == 4) {
-                                                changeIcon(seqnoStr, title, url, "5");
-                                            } else if (item == 5) {
-                                                changeIcon(seqnoStr, title, url, "6");
-                                            } else if (item == 6) {
-                                                changeIcon(seqnoStr, title, url, "7");
-                                            } else if (item == 7) {
-                                                changeIcon(seqnoStr, title, url, "8");
-                                            } else if (item == 8) {
-                                                changeIcon(seqnoStr, title, url, "9");
-                                            } else if (item == 9) {
-                                                changeIcon(seqnoStr, title, url, "10");
-                                            } else if (item == 10) {
-                                                changeIcon(seqnoStr, title, url, "11");
-                                            } else if (item == 11) {
-                                                changeIcon(seqnoStr, title, url, "12");
-                                            } else if (item == 12) {
-                                                changeIcon(seqnoStr, title, url, "13");
-                                            } else if (item == 13) {
-                                                changeIcon(seqnoStr, title, url, "14");
-                                            } else if (item == 14) {
-                                                changeIcon(seqnoStr, title, url, "15");
-                                            } else if (item == 15) {
-                                                changeIcon(seqnoStr, title, url, "16");
+                                                try {
+                                                    final Database_Todo db = new Database_Todo(getActivity());
+                                                    db.deleteNote((Integer.parseInt(seqnoStr)));
+                                                    db.addBookmark(title, cont, "3", attachment, create);
+                                                    db.close();
+                                                    setNotesList();
+                                                } catch (Exception e) {
+                                                    e.printStackTrace();
+                                                }
                                             }
                                         }
                                     }).show();
@@ -485,17 +487,16 @@ public class FragmentBookmarks extends Fragment {
         }
     }
 
-    private void changeIcon(String seqno, String title, String url, String icon) {
-        try {
-
-            final Database_Browser db = new Database_Browser(getActivity());
-            db.deleteBookmark((Integer.parseInt(seqno)));
-            db.addBookmark(title, url, icon);
-            db.close();
-            setBookmarkList();
-
-        } catch (Exception e) {
-            e.printStackTrace();
+    public static class Item{
+        public final String text;
+        public final int icon;
+        Item(String text, Integer icon) {
+            this.text = text;
+            this.icon = icon;
+        }
+        @Override
+        public String toString() {
+            return text;
         }
     }
 
@@ -505,8 +506,8 @@ public class FragmentBookmarks extends Fragment {
         switch (item.getItemId()) {
             case R.id.action_help:
                 final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity())
-                        .setTitle(R.string.title_bookmarks)
-                        .setMessage(helper_main.textSpannable(getString(R.string.helpBookmarks_text)))
+                        .setTitle(R.string.todo_title)
+                        .setMessage(helper_main.textSpannable(getString(R.string.helpToDo_text)))
                         .setPositiveButton(getString(R.string.toast_yes), null);
                 dialog.show();
                 return true;
@@ -514,35 +515,33 @@ public class FragmentBookmarks extends Fragment {
             case R.id.action_sort:
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                View dialogView = View.inflate(getActivity(), R.layout.dialog_sort_bookmarks, null);
+                View dialogView = View.inflate(getActivity(), R.layout.dialog_sort_todo, null);
 
                 final CheckBox ch_title = (CheckBox) dialogView.findViewById(R.id.checkBoxTitle);
                 final CheckBox ch_create = (CheckBox) dialogView.findViewById(R.id.checkBoxCreate);
                 final CheckBox ch_edit = (CheckBox) dialogView.findViewById(R.id.checkBoxEdit);
                 final CheckBox ch_icon = (CheckBox) dialogView.findViewById(R.id.checkBoxIcon);
 
-
-                if (sharedPref.getString("sortDBB", "title").equals("title")) {
+                if (sharedPref.getString("sortDBT", "title").equals("title")) {
                     ch_title.setChecked(true);
                 } else {
                     ch_title.setChecked(false);
                 }
-                if (sharedPref.getString("sortDBB", "title").equals("url")) {
+                if (sharedPref.getString("sortDBT", "title").equals("create")) {
                     ch_create.setChecked(true);
                 } else {
                     ch_create.setChecked(false);
                 }
-                if (sharedPref.getString("sortDBB", "title").equals("seqno")) {
+                if (sharedPref.getString("sortDBT", "title").equals("seqno")) {
                     ch_edit.setChecked(true);
                 } else {
                     ch_edit.setChecked(false);
                 }
-                if (sharedPref.getString("sortDBB", "title").equals("icon")) {
+                if (sharedPref.getString("sortDBT", "title").equals("icon")) {
                     ch_icon.setChecked(true);
                 } else {
                     ch_icon.setChecked(false);
                 }
-
 
                 ch_title.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
@@ -553,8 +552,8 @@ public class FragmentBookmarks extends Fragment {
                             ch_create.setChecked(false);
                             ch_edit.setChecked(false);
                             ch_icon.setChecked(false);
-                            sharedPref.edit().putString("sortDBB", "title").apply();
-                            setBookmarkList();
+                            sharedPref.edit().putString("sortDBT", "title").apply();
+                            setNotesList();
                         }
                     }
                 });
@@ -567,8 +566,8 @@ public class FragmentBookmarks extends Fragment {
                             ch_edit.setChecked(false);
                             ch_icon.setChecked(false);
                             ch_title.setChecked(false);
-                            sharedPref.edit().putString("sortDBB", "url").apply();
-                            setBookmarkList();
+                            sharedPref.edit().putString("sortDBT", "create").apply();
+                            setNotesList();
                         }
                     }
                 });
@@ -581,8 +580,8 @@ public class FragmentBookmarks extends Fragment {
                             ch_create.setChecked(false);
                             ch_icon.setChecked(false);
                             ch_title.setChecked(false);
-                            sharedPref.edit().putString("sortDBB", "seqno").apply();
-                            setBookmarkList();
+                            sharedPref.edit().putString("sortDBT", "seqno").apply();
+                            setNotesList();
                         }
                     }
                 });
@@ -595,8 +594,8 @@ public class FragmentBookmarks extends Fragment {
                             ch_create.setChecked(false);
                             ch_edit.setChecked(false);
                             ch_title.setChecked(false);
-                            sharedPref.edit().putString("sortDBB", "icon").apply();
-                            setBookmarkList();
+                            sharedPref.edit().putString("sortDBT", "icon").apply();
+                            setNotesList();
                         }
                     }
                 });

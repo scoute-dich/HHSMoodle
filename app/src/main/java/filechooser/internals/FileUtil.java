@@ -1,10 +1,25 @@
 package filechooser.internals;
 
+import java.io.File;
 import java.text.DecimalFormat;
 
 
 class FileUtil {
 
+
+    public static String getExtension(File file) {
+        if (file == null) {
+            return null;
+        }
+
+        int dot = file.getName().lastIndexOf(".");
+        if (dot >= 0) {
+            return file.getName().substring(dot);
+        } else {
+            // No extension.
+            return "";
+        }
+    }
 
     public static String getReadableFileSize(long size) {
         final int BYTES_IN_KILOBYTES = 1024;
