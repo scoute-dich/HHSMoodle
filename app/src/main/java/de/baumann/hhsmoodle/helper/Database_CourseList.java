@@ -21,11 +21,11 @@ package de.baumann.hhsmoodle.helper;
 
 import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteStatement;
 
-import net.sqlcipher.Cursor;
-import net.sqlcipher.database.SQLiteDatabase;
-import net.sqlcipher.database.SQLiteOpenHelper;
-import net.sqlcipher.database.SQLiteStatement;
 
 import java.util.ArrayList;
 
@@ -33,7 +33,7 @@ public class Database_CourseList extends SQLiteOpenHelper {
     public Database_CourseList(Context context)
             throws NameNotFoundException {
         super(context,
-                "course_encrypted.db",
+                "courseList_v2.db",
                 null,
                 context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode);
     }
@@ -60,7 +60,7 @@ public class Database_CourseList extends SQLiteOpenHelper {
     public void loadInitialData() {
         int seqno = 0;
 
-        SQLiteDatabase db = getWritableDatabase("=-zvv:='54P4G+Gmt;#L5qtSk");
+        SQLiteDatabase db = getWritableDatabase();
         db.beginTransaction();
 
         SQLiteStatement stmt = db.compileStatement("INSERT INTO bookmarks VALUES(?, ?, ?)");
@@ -75,7 +75,7 @@ public class Database_CourseList extends SQLiteOpenHelper {
     }
 
     public int getRecordCount() {
-        SQLiteDatabase db = getReadableDatabase("=-zvv:='54P4G+Gmt;#L5qtSk");
+        SQLiteDatabase db = getReadableDatabase();
 
         int ret = 0;
 
@@ -92,7 +92,7 @@ public class Database_CourseList extends SQLiteOpenHelper {
     }
 
     public void getBookmarks(ArrayList<String[]> data) {
-        SQLiteDatabase db = getReadableDatabase("=-zvv:='54P4G+Gmt;#L5qtSk");
+        SQLiteDatabase db = getReadableDatabase();
 
         String sql = "SELECT seqno,title,text FROM bookmarks ORDER BY title";
         Cursor c = db.rawQuery(sql, null);
@@ -109,7 +109,7 @@ public class Database_CourseList extends SQLiteOpenHelper {
     public void addBookmark(String title, String text) {
         int seqno;
 
-        SQLiteDatabase db = getWritableDatabase("=-zvv:='54P4G+Gmt;#L5qtSk");
+        SQLiteDatabase db = getWritableDatabase();
 
         String sql = "SELECT MAX(seqno) FROM bookmarks";
         Cursor c = db.rawQuery(sql, null);
@@ -133,7 +133,7 @@ public class Database_CourseList extends SQLiteOpenHelper {
 
     public void deleteBookmark(int seqno) {
 
-        SQLiteDatabase db = getWritableDatabase("=-zvv:='54P4G+Gmt;#L5qtSk");
+        SQLiteDatabase db = getWritableDatabase();
         db.beginTransaction();
 
         SQLiteStatement stmt = db.compileStatement("DELETE FROM bookmarks WHERE seqno = ?");

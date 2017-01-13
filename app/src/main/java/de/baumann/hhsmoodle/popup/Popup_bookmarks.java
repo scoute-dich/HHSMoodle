@@ -43,8 +43,6 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-import net.sqlcipher.database.SQLiteDatabase;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -253,7 +251,6 @@ public class Popup_bookmarks extends Activity {
                 return true;
             }
         });
-        SQLiteDatabase.loadLibs(getApplicationContext());
         setBookmarkList();
     }
 

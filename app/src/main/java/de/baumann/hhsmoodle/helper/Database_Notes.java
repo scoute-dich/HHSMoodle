@@ -22,10 +22,10 @@ package de.baumann.hhsmoodle.helper;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
-import net.sqlcipher.Cursor;
-import net.sqlcipher.database.SQLiteDatabase;
-import net.sqlcipher.database.SQLiteOpenHelper;
-import net.sqlcipher.database.SQLiteStatement;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteStatement;
 import android.preference.PreferenceManager;
 
 import java.text.SimpleDateFormat;
@@ -39,7 +39,7 @@ public class Database_Notes extends SQLiteOpenHelper {
 
     public Database_Notes(Context context)
             throws NameNotFoundException { super(context,
-            "notes_encrypted.db",
+            "notes_v2.db",
             null,
             context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode);
     }
@@ -75,7 +75,7 @@ public class Database_Notes extends SQLiteOpenHelper {
 
         int seqno = 0;
 
-        SQLiteDatabase db = getWritableDatabase("hyahKA@7p?K~4so~t{QG-(zf/");
+        SQLiteDatabase db = getWritableDatabase();
         db.beginTransaction();
 
         SQLiteStatement stmt = db.compileStatement("INSERT INTO bookmarks VALUES(?, ?, ?, ?, ?, ?)");
@@ -93,7 +93,7 @@ public class Database_Notes extends SQLiteOpenHelper {
     }
 
     public int getRecordCount() {
-        SQLiteDatabase db = getReadableDatabase("hyahKA@7p?K~4so~t{QG-(zf/");
+        SQLiteDatabase db = getReadableDatabase();
 
         int ret = 0;
 
@@ -110,7 +110,7 @@ public class Database_Notes extends SQLiteOpenHelper {
     }
 
     public void getBookmarks(ArrayList<String[]> data, Context context) {
-        SQLiteDatabase db = getReadableDatabase("hyahKA@7p?K~4so~t{QG-(zf/");
+        SQLiteDatabase db = getReadableDatabase();
 
         PreferenceManager.setDefaultValues(context, R.xml.user_settings, false);
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
@@ -176,7 +176,7 @@ public class Database_Notes extends SQLiteOpenHelper {
     public void addBookmark(String title, String cont, String icon, String attachment, String create) {
         int seqno;
 
-        SQLiteDatabase db = getWritableDatabase("hyahKA@7p?K~4so~t{QG-(zf/");
+        SQLiteDatabase db = getWritableDatabase();
 
         String sql = "SELECT MAX(seqno) FROM bookmarks";
         Cursor c = db.rawQuery(sql, null);
@@ -202,7 +202,7 @@ public class Database_Notes extends SQLiteOpenHelper {
     }
 
     public void deleteNote(int seqno) {
-        SQLiteDatabase db = getWritableDatabase("hyahKA@7p?K~4so~t{QG-(zf/");
+        SQLiteDatabase db = getWritableDatabase();
         db.beginTransaction();
 
         SQLiteStatement stmt = db.compileStatement("DELETE FROM bookmarks WHERE seqno = ?");

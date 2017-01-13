@@ -39,6 +39,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import org.apache.commons.io.FileUtils;
@@ -49,7 +50,10 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import de.baumann.hhsmoodle.HHS_MainScreen;
 import de.baumann.hhsmoodle.R;
@@ -163,12 +167,48 @@ public class Activity_todo extends AppCompatActivity {
 
         setupListViewListener();
 
+        final EditText etNewItem = (EditText) findViewById(R.id.etNewItem);
+        ImageButton ib_paste = (ImageButton) findViewById(R.id.imageButtonPaste);
+
+        ib_paste.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final CharSequence[] options = {
+                        getString(R.string.paste_date),
+                        getString(R.string.paste_time)};
+                new android.app.AlertDialog.Builder(Activity_todo.this)
+                        .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .setItems(options, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int item) {
+                                if (options[item].equals(getString(R.string.paste_date))) {
+                                    Date date = new Date();
+                                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                                    String dateNow = format.format(date);
+                                    etNewItem.getText().insert(etNewItem.getSelectionStart(), dateNow);
+                                }
+
+                                if (options[item].equals (getString(R.string.paste_time))) {
+                                    Date date = new Date();
+                                    SimpleDateFormat format = new SimpleDateFormat("HH:mm", Locale.getDefault());
+                                    String timeNow = format.format(date);
+                                    etNewItem.getText().insert(etNewItem.getSelectionStart(), timeNow);
+                                }
+                            }
+                        }).show();
+            }
+        });
+        
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                EditText etNewItem = (EditText) findViewById(R.id.etNewItem);
                 String itemText = etNewItem.getText().toString();
 
                 if (itemText.isEmpty()) {
@@ -320,6 +360,42 @@ public class Activity_todo extends AppCompatActivity {
                 View dialogView = View.inflate(Activity_todo.this, R.layout.dialog_edit_text_singleline, null);
 
                 final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
+                ImageButton ib_paste = (ImageButton) dialogView.findViewById(R.id.imageButtonPaste);
+
+                ib_paste.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View arg0) {
+                        final CharSequence[] options = {
+                                getString(R.string.paste_date),
+                                getString(R.string.paste_time)};
+                        new android.app.AlertDialog.Builder(Activity_todo.this)
+                                .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                        dialog.dismiss();
+                                    }
+                                })
+                                .setItems(options, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int item) {
+                                        if (options[item].equals(getString(R.string.paste_date))) {
+                                            Date date = new Date();
+                                            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                                            String dateNow = format.format(date);
+                                            edit_title.getText().insert(edit_title.getSelectionStart(), dateNow);
+                                        }
+
+                                        if (options[item].equals (getString(R.string.paste_time))) {
+                                            Date date = new Date();
+                                            SimpleDateFormat format = new SimpleDateFormat("HH:mm", Locale.getDefault());
+                                            String timeNow = format.format(date);
+                                            edit_title.getText().insert(edit_title.getSelectionStart(), timeNow);
+                                        }
+                                    }
+                                }).show();
+                    }
+                });
 
                 String text=(String)adapter.getItemAtPosition(pos);
                 edit_title.setText(text);
@@ -480,8 +556,8 @@ public class Activity_todo extends AppCompatActivity {
 
         if (id == R.id.action_help) {
             final android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(Activity_todo.this)
-                    .setTitle(R.string.number_title)
-                    .setMessage(helper_main.textSpannable(getString(R.string.helpRandom_text)))
+                    .setTitle(R.string.todo_title)
+                    .setMessage(helper_main.textSpannable(getString(R.string.helpToDo_activity_text)))
                     .setPositiveButton(getString(R.string.toast_yes), null);
             dialog.show();
         }

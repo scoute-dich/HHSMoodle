@@ -1,4 +1,10 @@
-### v 2.9: (WIP)
+### v 3.0:
+
+- added: fullscreen video playback
+- improved: database encryption
+- removed: swipe to navigate
+
+### v 2.9:
 - added: random number generator
 - added: course lists
 - added: encryption of databases

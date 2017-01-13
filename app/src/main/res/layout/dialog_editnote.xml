@@ -49,7 +49,8 @@
                 android:layout_width="match_parent"
                 android:layout_below="@+id/layout_title"
                 android:layout_height="wrap_content"
-                app:passwordToggleEnabled="false">
+                app:passwordToggleEnabled="false"
+                android:layout_toStartOf="@+id/imageButtonPaste">
 
                 <EditText
                     android:id="@+id/note_text_input"
@@ -63,6 +64,7 @@
             <ImageButton
                 android:layout_width="32dp"
                 android:layout_height="32dp"
+                android:layout_marginEnd="20dp"
                 android:id="@+id/imageButtonPri"
                 android:src="@drawable/circle_green"
                 android:background="?android:selectableItemBackground"
@@ -70,7 +72,20 @@
                 android:scaleType="fitCenter"
                 android:layout_marginTop="@dimen/activity_horizontal_margin"
                 android:layout_alignTop="@+id/layout_title"
-                android:layout_alignEnd="@+id/layout_cont" />
+                android:layout_alignParentEnd="true" />
+
+            <ImageButton
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="20dp"
+                android:id="@+id/imageButtonPaste"
+                app:srcCompat="@drawable/timer"
+                android:background="?android:selectableItemBackground"
+                tools:ignore="ContentDescription"
+                android:scaleType="fitCenter"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:layout_alignTop="@+id/layout_cont"
+                android:layout_alignParentEnd="true" />
 
             <Button
                 android:text="@string/choose_att"
@@ -87,25 +102,27 @@
             <ImageButton
                 android:layout_width="32dp"
                 android:layout_height="32dp"
+                android:layout_marginEnd="20dp"
                 android:id="@+id/button_rem"
                 app:srcCompat="@drawable/close_red"
                 android:background="?android:selectableItemBackground"
                 tools:ignore="ContentDescription"
                 android:scaleType="fitCenter"
                 android:layout_alignBottom="@+id/button_att"
-                android:layout_alignEnd="@+id/layout_cont"
+                android:layout_alignParentEnd="true"
                 android:layout_alignTop="@+id/button_att" />
 
             <ImageButton
                 android:layout_width="32dp"
                 android:layout_height="32dp"
+                android:layout_marginEnd="20dp"
                 android:id="@+id/button_cam"
                 app:srcCompat="@drawable/camera"
                 android:background="?android:selectableItemBackground"
                 tools:ignore="ContentDescription"
                 android:scaleType="fitCenter"
                 android:layout_alignBottom="@+id/button_att"
-                android:layout_alignEnd="@+id/layout_cont"
+                android:layout_alignParentEnd="true"
                 android:layout_alignTop="@+id/button_att" />
 
         </RelativeLayout>

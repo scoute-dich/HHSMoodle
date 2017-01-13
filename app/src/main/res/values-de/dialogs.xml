@@ -33,10 +33,7 @@
         https://github.com/sveinungkb/encrypted-userprefs&lt;br>&lt;br>
 
         MaterialDesignIcons&lt;br>
-        https://github.com/Templarian/MaterialDesign&lt;br>&lt;br>
-
-        sqlcipher&lt;br>
-        https://github.com/sqlcipher/sqlcipher&lt;/i>
+        https://github.com/Templarian/MaterialDesign&lt;/i>
 
     </string>
 
@@ -81,8 +78,8 @@
         &#8226;&lt;i> Bearbeite Titel:&lt;/i> Du kannst den Titel des Lesezeichens bearbeiten.&lt;br>
         &#8226;&lt;i> Erstelle Notiz:&lt;/i> Der Titel des Lesezeichens wird automatisch als Titel für eine neue Notiz
         benutzt, der Link für den Inhalt.&lt;br>
-        &#8226;&lt;i> Erstelle Verknüpfung:&lt;/i> Es wird eine Verknüpfung zu deinem Lesezeichen direkt auf deinen Homescreen
-        angelegt.&lt;br>
+        &#8226;&lt;i> Liste teilen:&lt;/i> Du kannst die Notiz mit jeder App teilen, die Text empfangen kann (SMS, Email,
+        …).&lt;br>
         &#8226;&lt;i> Erstelle Kalendereintrag:&lt;/i> Der Name des Lesezeichens wird als Name für einen neuen Kalendereintrag
         benutzt. Die Bearbeitung findet in deiner Kalenderapp statt.&lt;br>
         &#8226;&lt;i> Lösche Lesezeichen:&lt;/i> Es muss mindestens ein Lesezeichen vorhanden sein. Alle anderen können
@@ -91,8 +88,8 @@
         &lt;b>Menü:&lt;/b>&lt;br>
         &#8226;&lt;i> Erstelle Notiz (Stifticon):&lt;/i> Es öffnet sich ein Dialogfenster, in dem du eine Notiz erstellen
         kannst.&lt;br>
-        &#8226;&lt;i> Öffne Anwendungsordner:&lt;/i> Wenn du einen Dateimanager installiert hast, öffnet sich das Verzeichnis,
-        in dem z.B. herunter geladene Dateien gespeichert werden.&lt;br>
+        &#8226;&lt;i> Sortieren (Listenticon):&lt;/i> Verschiedene Möglichkeiten, die Liste zu sortieren.&lt;br>
+        &#8226;&lt;i> Öffne Anwendungsordner:&lt;/i> Du kannst Dateien öffnen, teilen, umbenennen und löschen.&lt;br>
         &#8226;&lt;i> Werkzeuge:&lt;/i> Noten berechnen, Zufallsgenerator und Klassenlisten stehen zur Auswahl.&lt;br>
         &#8226;&lt;i> Erstelle Verknüpfung:&lt;/i> Um einen schnellen Zugriff auf die Funktionen dieser App zu haben, kannst
         du Verknüpfungen auf deinem Homescreen erstellen (Kalender -> offline, Mein Moodle, Lesezeichen, Notizen, Notiz erstellen).&lt;br>
@@ -115,6 +112,8 @@
         der App und bei einem Klick auf die Titelleiste angezeigt werden. Dies muss in den Einstellungen aktiviert werden.&lt;br>
         &#8226;&lt;i> Erstelle Notiz:&lt;/i> Der Titel des Lesezeichens wird automatisch als Titel für eine neue Notiz
         benutzt, der Link für den Inhalt.&lt;br>
+        &#8226;&lt;i> Erstelle ToDo Liste:&lt;/i> Der Titel des Lesezeichens wird automatisch als Titel für eine neue Todo Liste
+        benutzt, der Link für den Inhalt.&lt;br>
         &#8226;&lt;i> Erstelle Verknüpfung:&lt;/i> Es wird eine Verknüpfung zu deinem Lesezeichen direkt auf deinen Homescreen
         angelegt.&lt;br>
         &#8226;&lt;i> Erstelle Kalendereintrag:&lt;/i> Der Name des Lesezeichens wird als Name für einen neuen Kalendereintrag
@@ -125,8 +124,8 @@
         &lt;b>Menü:&lt;/b>&lt;br>
         &#8226;&lt;i> Erstelle Notiz (Stifticon):&lt;/i> Es öffnet sich ein Dialogfenster, in dem du eine Notiz erstellen
         kannst.&lt;br>
-        &#8226;&lt;i> Öffne Anwendungsordner:&lt;/i> Wenn du einen Dateimanager installiert hast, öffnet sich das Verzeichnis,
-        in dem z.B. herunter geladene Dateien gespeichert werden.&lt;br>
+        &#8226;&lt;i> Sortieren (Listenticon):&lt;/i> Verschiedene Möglichkeiten, die Liste zu sortieren.&lt;br>
+        &#8226;&lt;i> Öffne Anwendungsordner:&lt;/i> Du kannst Dateien öffnen, teilen, umbenennen und löschen.&lt;br>
         &#8226;&lt;i> Werkzeuge:&lt;/i> Noten berechnen, Zufallsgenerator und Klassenlisten stehen zur Auswahl.&lt;br>
         &#8226;&lt;i> Erstelle Verknüpfung:&lt;/i> Um einen schnellen Zugriff auf die Funktionen dieser App zu haben, kannst
         du Verknüpfungen auf deinem Homescreen erstellen (Kalender -> offline, Mein Moodle, Lesezeichen, Notizen, Notiz erstellen).&lt;br>
@@ -149,6 +148,8 @@
         der App und bei einem Klick auf die Titelleiste angezeigt werden. Dies muss in den Einstellungen aktiviert werden.&lt;br>
         &#8226;&lt;i> Erstelle Notiz:&lt;/i> Der Titel des Lesezeichens wird automatisch als Titel für eine neue Notiz
         benutzt, der Link für den Inhal.&lt;br>
+        &#8226;&lt;i> Erstelle Todo Liste:&lt;/i> Der Titel des Lesezeichens wird automatisch als Titel für eine neue Todo Liste
+        benutzt, der Link für den Inhalt.&lt;br>
         &#8226;&lt;i> Erstelle Verknüpfung:&lt;/i> Es wird eine Verknüpfung zu deinem Lesezeichen direkt auf deinen Homescreen
         angelegt.&lt;br>
         &#8226;&lt;i> Erstelle Kalendereintrag:&lt;/i> Der Name des Lesezeichens wird als Name für einen neuen Kalendereintrag
@@ -157,8 +158,7 @@
         &lt;b>Menü:&lt;/b>&lt;br>
         &#8226;&lt;i> Erstelle Notiz (Stifticon):&lt;/i> Es öffnet sich ein Dialogfenster, in dem du eine Notiz erstellen
         kannst.&lt;br>
-        &#8226;&lt;i> Öffne Anwendungsordner:&lt;/i> Wenn du einen Dateimanager installiert hast, öffnet sich das Verzeichnis,
-        in dem z.B. herunter geladene Dateien gespeichert werden.&lt;br>
+        &#8226;&lt;i> Öffne Anwendungsordner:&lt;/i> Du kannst Dateien öffnen, teilen, umbenennen und löschen.&lt;br>
         &#8226;&lt;i> Werkzeuge:&lt;/i> Noten berechnen, Zufallsgenerator und Klassenlisten stehen zur Auswahl.&lt;br>
         &#8226;&lt;i> Erstelle Verknüpfung:&lt;/i> Um einen schnellen Zugriff auf die Funktionen dieser App zu haben, kannst
         du Verknüpfungen auf deinem Homescreen erstellen (Kalender -> offline, Mein Moodle, Lesezeichen, Notizen, Notiz erstellen).&lt;br>
@@ -182,6 +182,8 @@
         und den Inhalt der Notiz bearbeiten kannst.&lt;br>
         &#8226;&lt;i> Teile Notiz:&lt;/i> Du kannst die Notiz mit jeder App teilen, die Text empfangen kann (SMS, Email,
         …).&lt;br>
+        &#8226;&lt;i> Erstelle Todo Liste:&lt;/i> Der Titel des Lesezeichens wird automatisch als Titel für eine neue Todo Liste
+        benutzt, der Link für den Inhalt.&lt;br>
         &#8226;&lt;i> Erstelle Kalendereintrag:&lt;/i> Der Name der Notiz wird als Name für einen neuen Kalendereintrag
         benutzt. Die Bearbeitung findet in deiner Kalenderapp statt.&lt;br>
         &#8226;&lt;i> Lösche Notiz:&lt;/i> Es muss mindestens eine Notiz vorhanden sein. Alle anderen können gelöscht
@@ -190,8 +192,8 @@
         &lt;b>Menü:&lt;/b>&lt;br>
         &#8226;&lt;i> Erstelle Notiz (Stifticon):&lt;/i> Es öffnet sich ein Dialogfenster, in dem du eine Notiz erstellen
         kannst.&lt;br>
-        &#8226;&lt;i> Öffne Anwendungsordner:&lt;/i> Wenn du einen Dateimanager installiert hast, öffnet sich das Verzeichnis,
-        in dem z.B. herunter geladene Dateien gespeichert werden.&lt;br>
+        &#8226;&lt;i> Sortieren (Listenticon):&lt;/i> Verschiedene Möglichkeiten, die Liste zu sortieren.&lt;br>
+        &#8226;&lt;i> Öffne Anwendungsordner:&lt;/i> Du kannst Dateien öffnen, teilen, umbenennen und löschen.&lt;br>
         &#8226;&lt;i> Werkzeuge:&lt;/i> Noten berechnen, Zufallsgenerator und Klassenlisten stehen zur Auswahl.&lt;br>
         &#8226;&lt;i> Erstelle Verknüpfung:&lt;/i> Um einen schnellen Zugriff auf die Funktionen dieser App zu haben, kannst
         du Verknüpfungen auf deinem Homescreen erstellen (Kalender -> offline, Mein Moodle, Lesezeichen, Notizen, Notiz erstellen).&lt;br>
@@ -212,7 +214,7 @@
         Daten der Anwendung (Login, Lesezeichen, Notizen, …)löschen. Du kannst zur Sicherheit deine Lesezeichen und Notizen
         auf der SD-Karte sichern und später von dort wiederherstellen.&lt;br>&lt;br>
 
-        Alle anderen Einstellungen sind selbst erklärend. Wenn du Probleme hast, kannst du mir eine Mail senden (\"Probleme?\").
+        Alle anderen Einstellungen sind selbst erklärend. Wenn du Probleme hast, kannst du mir eine Mail senden (\"Kontakt\").
     </string>
 
 
@@ -222,9 +224,7 @@
         Links öffnet.&lt;br>&lt;br>
 
         &lt;b>Wischfunktionen:&lt;/b>&lt;br>
-        &#8226;&lt;i> Nach unten:&lt;/i> Seite neu zu laden.&lt;br>
-        &#8226;&lt;i> Nach rechts:&lt;/i> Eine Seite zurück.&lt;br>
-        &#8226;&lt;i> Nach links:&lt;/i> Eine Seite nach vorne.&lt;br>&lt;br>
+        &#8226;&lt;i> Nach unten:&lt;/i> Seite neu zu laden.&lt;br>&lt;br>
 
         &lt;b>Menü:&lt;/b>&lt;br>
         &#8226;&lt;i> Erstelle Notiz (Stifticon):&lt;/i> Es öffnet sich ein neues Fenster, in dem du eine Notiz erstellen
@@ -237,8 +237,8 @@
         (auch von dem Teil, der gerade nicht auf dem Bildschirm zu sehen ist). Damit dies richtig funktioniert, solltest du
         warten, bis die Internetseite komplett geladen ist, um sicherzustellen, dass die gesamte Internetseite
         aufgenommen wird.&lt;br>
-        &#8226;&lt;i> Öffne Anwendungsordner:&lt;/i> Wenn du einen Dateimanager installiert hast, öffnet sich das Verzeichnis,
-        in dem z.B. herunter geladene Dateien gespeichert werden.&lt;br>
+        &#8226;&lt;i> Öffne Anwendungsordner:&lt;/i> Du kannst Dateien öffnen, teilen, umbenennen und löschen.&lt;br>
+        &#8226;&lt;i> Werkzeuge:&lt;/i> Noten berechnen, Zufallsgenerator und Klassenlisten stehen zur Auswahl.&lt;br>
         &#8226;&lt;i> Einstellungen:&lt;/i> In den Einstellungen kannst du das Verhalten der App deinen Bedürfnissen
         anpassen. Auf jeden Fall wird empfohlen ein Kennwort zu setzen, um die App vor ungewolltem Zugriff zu schützen.&lt;br>
         &#8226;&lt;i> Hilfe:&lt;/i> Öffnet den jeweiligen Hilfedialog.
@@ -284,24 +284,18 @@
         bearbeiten zu können.
     </string>
 
+    <string name="helpToDo_activity_text">
+
+        Einfach einen neuen Eintrag eingeben und den \"+\" Knopf drücken. Bestehende Einträge können bearbeitet werden:&lt;br>&lt;br>
+
+        &lt;b>Kurz anklicken:&lt;/b>&lt;br>
+        Der Inahlt eines einzelnen Eintrags kann verändert werden.&lt;br>&lt;br>
+
+        &lt;b>Lang anklicken:&lt;/b>&lt;br>
+        Der Eintrag wird gelöscht. Es besteht kurz die Möglichkeit dies rückgängig zu machen.
+    </string>
+
     <string name="perm_notShow_title">Berechtigungsdialog</string>
     <string name="perm_notShow_title_summary">Noch einmal anzeigen: Berechtigungsdialog?</string>
-
-
-    // Arrays
-
-    <string-array name="listArrayNav">
-        <item>Wischgesten benutzen</item>
-        <item>Pfeile benutzen</item>
-        <item>Beides benutzen</item>
-        <item>Nichts benutzen</item>
-    </string-array>
-
-    <string-array name="listValuesNav">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-    </string-array>
 
 </resources>

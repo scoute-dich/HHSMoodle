@@ -30,7 +30,6 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.webkit.ValueCallback;
@@ -69,31 +68,6 @@ public class helper_webView {
         webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT); // load online by default
 
         from.registerForContextMenu(webView);
-
-        if (sharedPref.getBoolean ("swipe", false)){
-            helper_webView.webView_Touch(from, webView);
-        }
-    }
-
-
-    private static void webView_Touch(final Activity from, final WebView webView) {
-
-        webView.setOnTouchListener(new class_OnSwipeTouchListener(from) {
-            public void onSwipeRight() {
-                if (webView.canGoBack()) {
-                    webView.goBack();
-                } else {
-                    Snackbar.make(webView, R.string.toast_back, Snackbar.LENGTH_SHORT).show();
-                }
-            }
-            public void onSwipeLeft() {
-                if (webView.canGoForward()) {
-                    webView.goForward();
-                } else {
-                    Snackbar.make(webView, R.string.toast_forward, Snackbar.LENGTH_SHORT).show();
-                }
-            }
-        });
     }
 
     public static void webView_WebViewClient (final Activity from,

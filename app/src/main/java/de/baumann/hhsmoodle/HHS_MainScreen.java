@@ -19,10 +19,13 @@
 
 package de.baumann.hhsmoodle;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -36,22 +39,34 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 
-import net.sqlcipher.database.SQLiteDatabase;
-
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import javax.crypto.Cipher;
+import javax.crypto.CipherOutputStream;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.SecretKeySpec;
+
 import de.baumann.hhsmoodle.activities.Activity_courseList;
 import de.baumann.hhsmoodle.activities.Activity_dice;
+import de.baumann.hhsmoodle.activities.Activity_splash;
 import de.baumann.hhsmoodle.fragmentsMain.FragmentBookmarks;
 import de.baumann.hhsmoodle.fragmentsMain.FragmentInfo;
 import de.baumann.hhsmoodle.fragmentsMain.FragmentNotes;
@@ -62,16 +77,13 @@ import de.baumann.hhsmoodle.fragmentsMain.FragmentTodo;
 import de.baumann.hhsmoodle.helper.class_SecurePreferences;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.helper.helper_notes;
-import de.baumann.hhsmoodle.popup.Popup_bookmarks;
-import de.baumann.hhsmoodle.popup.Popup_calendar;
-import de.baumann.hhsmoodle.popup.Popup_info;
-import de.baumann.hhsmoodle.popup.Popup_notes;
 
 @SuppressWarnings("ResultOfMethodCallIgnored")
 public class HHS_MainScreen extends AppCompatActivity {
 
     private ViewPager viewPager;
     private SharedPreferences sharedPref;
+    private class_SecurePreferences sharedPrefSec;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +92,7 @@ public class HHS_MainScreen extends AppCompatActivity {
 
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        class_SecurePreferences sharedPrefSec = new class_SecurePreferences(HHS_MainScreen.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
+        sharedPrefSec = new class_SecurePreferences(HHS_MainScreen.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
         String pw = sharedPrefSec.getString("protect_PW");
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -155,23 +167,41 @@ public class HHS_MainScreen extends AppCompatActivity {
 
         helper_main.grantPermissions(HHS_MainScreen.this);
 
-        Intent intent = getIntent();
+        File directory = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/backup/");
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+        onNewIntent(getIntent());
+    }
+
+    protected void onNewIntent(final Intent intent) {
+
         String action = intent.getAction();
 
-        if (Intent.ACTION_SEND.equals(action)) {
+        if ("shortcutMyMoodle_HS".equals(action)) {
+            lockUI();
+            viewPager.setCurrentItem(0, true);
+        } else if ("shortcutBookmarks_HS".equals(action)) {
+            lockUI();
+            viewPager.setCurrentItem(1, true);
+        } else if ("shortcutNotes_HS".equals(action)) {
+            lockUI();
+            viewPager.setCurrentItem(2, true);
+        } else if ("shortcutToDo_HS".equals(action)) {
+            lockUI();
+            viewPager.setCurrentItem(3, true);
+        } else if ("shortcutNotesNew_HS".equals(action)) {
+            lockUI();
+            viewPager.setCurrentItem(2, true);
             sharedPref.edit()
                     .putString("handleTextTitle", intent.getStringExtra(Intent.EXTRA_SUBJECT))
                     .putString("handleTextText", intent.getStringExtra(Intent.EXTRA_TEXT))
                     .putString("handleTextIcon", "")
                     .apply();
             helper_notes.editNote(HHS_MainScreen.this);
+        } else {
+            helper_main.isOpened(HHS_MainScreen.this);
         }
-
-        File directory = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/backup/");
-        if (!directory.exists()) {
-            directory.mkdirs();
-        }
-        SQLiteDatabase.loadLibs(HHS_MainScreen.this);
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -307,8 +337,8 @@ public class HHS_MainScreen extends AppCompatActivity {
                     getString(R.string.title_info),
                     getString(R.string.title_bookmarks),
                     getString(R.string.title_notes),
-                    getString(R.string.bookmark_createNote),
-                    getString(R.string.menu_calendar)};
+                    getString(R.string.todo_title),
+                    getString(R.string.bookmark_createNote)};
 
             new AlertDialog.Builder(HHS_MainScreen.this)
                     .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
@@ -322,11 +352,11 @@ public class HHS_MainScreen extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int item) {
 
                             if (options[item].equals (getString(R.string.title_info))) {
-                                Intent i = new Intent(getApplicationContext(), Popup_info.class);
-                                i.setAction(Intent.ACTION_MAIN);
+                                Intent i = new Intent(getApplicationContext(), Activity_splash.class);
+                                i.setAction("shortcutMyMoodle");
 
                                 Intent shortcut = new Intent();
-                                shortcut.setAction(Intent.ACTION_MAIN);
+                                shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, i);
                                 shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, i);
                                 shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, (getString(R.string.title_info)));
                                 shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
@@ -337,11 +367,11 @@ public class HHS_MainScreen extends AppCompatActivity {
                             }
 
                             if (options[item].equals (getString(R.string.title_bookmarks))) {
-                                Intent i = new Intent(getApplicationContext(), Popup_bookmarks.class);
-                                i.setAction(Intent.ACTION_MAIN);
+                                Intent i = new Intent(getApplicationContext(), Activity_splash.class);
+                                i.setAction("shortcutBookmarks");
 
                                 Intent shortcut = new Intent();
-                                shortcut.setAction(Intent.ACTION_MAIN);
+                                shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, i);
                                 shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, i);
                                 shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, (getString(R.string.title_bookmarks)));
                                 shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
@@ -352,11 +382,10 @@ public class HHS_MainScreen extends AppCompatActivity {
                             }
 
                             if (options[item].equals (getString(R.string.title_notes))) {
-                                Intent i = new Intent(getApplicationContext(), Popup_notes.class);
-                                i.setAction(Intent.ACTION_MAIN);
+                                Intent i = new Intent(getApplicationContext(), Activity_splash.class);
+                                i.setAction("shortcutNotes");
 
                                 Intent shortcut = new Intent();
-                                shortcut.setAction(Intent.ACTION_MAIN);
                                 shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, i);
                                 shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, (getString(R.string.title_notes)));
                                 shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
@@ -366,8 +395,22 @@ public class HHS_MainScreen extends AppCompatActivity {
                                 Snackbar.make(viewPager, R.string.toast_shortcut, Snackbar.LENGTH_LONG).show();
                             }
 
+                            if (options[item].equals (getString(R.string.todo_title))) {
+                                Intent i = new Intent(getApplicationContext(), Activity_splash.class);
+                                i.setAction("shortcutToDo");
+
+                                Intent shortcut = new Intent();
+                                shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, i);
+                                shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, (getString(R.string.todo_title)));
+                                shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
+                                        Intent.ShortcutIconResource.fromContext(getApplicationContext(), R.mipmap.ic_todo));
+                                shortcut.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+                                sendBroadcast(shortcut);
+                                Snackbar.make(viewPager, R.string.toast_shortcut, Snackbar.LENGTH_LONG).show();
+                            }
+
                             if (options[item].equals (getString(R.string.bookmark_createNote))) {
-                                Intent i = new Intent(getApplicationContext(), de.baumann.hhsmoodle.HHS_MainScreen.class);
+                                Intent i = new Intent(getApplicationContext(), Activity_splash.class);
                                 i.setAction(Intent.ACTION_SEND);
 
                                 Intent shortcut = new Intent();
@@ -376,20 +419,6 @@ public class HHS_MainScreen extends AppCompatActivity {
                                 shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, (getString(R.string.bookmark_createNote)));
                                 shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
                                         Intent.ShortcutIconResource.fromContext(getApplicationContext(), R.mipmap.ic_note_plus));
-                                shortcut.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
-                                sendBroadcast(shortcut);
-                                Snackbar.make(viewPager, R.string.toast_shortcut, Snackbar.LENGTH_LONG).show();
-                            }
-
-                            if (options[item].equals (getString(R.string.menu_calendar))) {
-                                Intent i = new Intent(getApplicationContext(), Popup_calendar.class);
-
-                                Intent shortcut = new Intent();
-                                shortcut.setAction(Intent.ACTION_MAIN);
-                                shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, i);
-                                shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, (getString(R.string.menu_calendar)));
-                                shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
-                                        Intent.ShortcutIconResource.fromContext(getApplicationContext(), R.mipmap.ic_calendar));
                                 shortcut.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
                                 sendBroadcast(shortcut);
                                 Snackbar.make(viewPager, R.string.toast_shortcut, Snackbar.LENGTH_LONG).show();
@@ -404,7 +433,76 @@ public class HHS_MainScreen extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         helper_main.isClosed(HHS_MainScreen.this);
+
+        try {
+            encrypt("/databases/random_v2.db","/databases/random_v2_en.db");
+            encrypt("/databases/todo_v2.db","/databases/todo_v2_en.db");
+            encrypt("/databases/notes_v2.db","/databases/notes_v2_en.db");
+            encrypt("/databases/courseList_v2.db","/databases/courseList_v2_en.db");
+            encrypt("/databases/browser_v2.db","/databases/browser_v2_en.db");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         finish();
+    }
+
+    private void lockUI() {
+
+        String pw = sharedPrefSec.getString("protect_PW");
+        helper_main.isClosed(HHS_MainScreen.this);
+        if (pw != null && pw.length() > 0) {
+            if (sharedPref.getBoolean("isOpened", true)) {
+                helper_main.switchToActivity(HHS_MainScreen.this, Activity_password.class, "", false);
+            }
+        }
+    }
+
+    private void encrypt(String in, String out) throws IOException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {
+
+        sharedPrefSec = new class_SecurePreferences(HHS_MainScreen.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
+
+        PackageManager m = getPackageManager();
+        String s = getPackageName();
+        try {
+            PackageInfo p = m.getPackageInfo(s, 0);
+            s = p.applicationInfo.dataDir;
+
+            String pathIN = s + in;
+            String pathOUT = s + out;
+
+            FileInputStream fis = new FileInputStream(pathIN);
+            FileOutputStream fos = new FileOutputStream(pathOUT);
+
+            byte[] key = (sharedPrefSec.getString("generateDBKOK").getBytes("UTF-8"));
+            MessageDigest sha = MessageDigest.getInstance("SHA-1");
+            key = sha.digest(key);
+            key = Arrays.copyOf(key, 16); // use only first 128 bit
+
+            SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
+            // Length is 16 byte
+            // Create cipher
+            @SuppressLint("GetInstance") Cipher cipher = Cipher.getInstance("AES");
+            cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
+            // Wrap the output stream
+            CipherOutputStream cos = new CipherOutputStream(fos, cipher);
+            // Write bytes
+            int b;
+            byte[] d = new byte[8];
+            while((b = fis.read(d)) != -1) {
+                cos.write(d, 0, b);
+            }
+            // Flush and close streams.
+            cos.flush();
+            cos.close();
+            fis.close();
+
+            File fileIN = new File(pathIN);
+            fileIN.delete();
+
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.w("HHS_Moodle", "Error Package name not found ", e);
+        }
     }
 
     @Override

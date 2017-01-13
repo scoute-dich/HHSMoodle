@@ -33,10 +33,7 @@
         https://github.com/sveinungkb/encrypted-userprefs&lt;br>&lt;br>
 
         MaterialDesignIcons&lt;br>
-        https://github.com/Templarian/MaterialDesign&lt;br>&lt;br>
-
-        sqlcipher&lt;br>
-        https://github.com/sqlcipher/sqlcipher&lt;/i>
+        https://github.com/Templarian/MaterialDesign&lt;/i>
     </string>
 
 
@@ -78,16 +75,17 @@
 
         &lt;b>Popup menu:&lt;/b>&lt;br>
         &#8226;&lt;i> Edit title:&lt;/i> You can edit the title of the bookmark.&lt;br>
+        &#8226;&lt;i> Share list:&lt;/i> You can share the note with every app which is able to receive text
+        (SMS, Email,…).&lt;br>
         &#8226;&lt;i> Create note:&lt;/i> The title of the bookmark will be used as title for a new note, the url for the content.&lt;br>
-        &#8226;&lt;i> Create shortcut:&lt;/i> A shortcut to the bookmark will be created on your homescreen.&lt;br>
         &#8226;&lt;i> Create calendar entry:&lt;/i> The name of the bookmark will be used as title for a new calendar
         entry. Editing of this entry will take place in your calendar app.&lt;br>
         &#8226;&lt;i> Delete bookmark:&lt;/i> At least one bookmark must remain. All others can be deleted.&lt;br>&lt;br>
 
         &lt;b>Menu:&lt;/b>&lt;br>
         &#8226;&lt;i> Create note (pen icon):&lt;/i> A new dialog where you can create a new note will open.&lt;br>
-        &#8226;&lt;i> Open app directory:&lt;/i> If you have a installed file manager, the directory where downloaded files
-        are stored will open.&lt;br>
+        &#8226;&lt;i> Sort (list icon):&lt;/i> Different possibilities to sort the list.&lt;br>
+        &#8226;&lt;i> Open app directory:&lt;/i> You can open, share, rename und delete files.&lt;br>
         &#8226;&lt;i> Tools:&lt;/i> you can choose between calculate grades, random number generator and course lists.&lt;br>
         &#8226;&lt;i> Create shortcut:&lt;/i> To have a faster access to the main functions of the app, you can create
         shortcuts on your homescreen (calendar -> offline, My Moodle, bookmarks, notes, create new note).&lt;br>
@@ -109,6 +107,7 @@
         &#8226;&lt;i> Set as favorite:&lt;/i> If you set a bookmark as favorite, you can open it at the app start or by
         clicking on the toolbar. You can configure that in the settings.&lt;br>
         &#8226;&lt;i> Create note:&lt;/i> The title of the bookmark will be used as title for a new note, the url for the content.&lt;br>
+        &#8226;&lt;i> Create todo list:&lt;/i> The title of the bookmark will be used as title for a new todo list, the url for the content.&lt;br>
         &#8226;&lt;i> Create shortcut:&lt;/i> A shortcut to the bookmark will be created on your homescreen.&lt;br>
         &#8226;&lt;i> Create calendar entry:&lt;/i> The name of the bookmark will be used as title for a new calendar
         entry. Editing of this entry will take place in your calendar app.&lt;br>
@@ -116,8 +115,8 @@
 
         &lt;b>Menu:&lt;/b>&lt;br>
         &#8226;&lt;i> Create note (pen icon):&lt;/i> A new dialog where you can create a new note will open.&lt;br>
-        &#8226;&lt;i> Open app directory:&lt;/i> If you have a installed file manager, the directory where downloaded files
-        are stored will open.&lt;br>
+        &#8226;&lt;i> Sort (list icon):&lt;/i> Different possibilities to sort the list.&lt;br>
+        &#8226;&lt;i> Open app directory:&lt;/i> You can open, share, rename und delete files.&lt;br>
         &#8226;&lt;i> Tools:&lt;/i> you can choose between calculate grades, random number generator and course lists.&lt;br>
         &#8226;&lt;i> Create shortcut:&lt;/i> To have a faster access to the main functions of the app, you can create
         shortcuts on your homescreen (calendar -> offline, My Moodle, bookmarks, notes, create new note).&lt;br>
@@ -139,14 +138,14 @@
         &#8226;&lt;i> Set as favorite:&lt;/i> If you set a bookmark as favorite, you can open it at the app start or by
         clicking on the toolbar. You can configure that in the settings.&lt;br>
         &#8226;&lt;i> Create note:&lt;/i> The title of the bookmark will be used as title for a new note, the url for the content.&lt;br>
+        &#8226;&lt;i> Create todo list:&lt;/i> The title of the bookmark will be used as title for a new todo list, the url for the content.&lt;br>
         &#8226;&lt;i> Create shortcut:&lt;/i> A shortcut to the bookmark will be created on your homescreen.&lt;br>
         &#8226;&lt;i> Create calendar entry:&lt;/i> The name of the bookmark will be used as title for a new calendar
         entry. Editing of this entry will take place in your calendar app.&lt;br>&lt;br>
 
         &lt;b>Menu:&lt;/b>&lt;br>
         &#8226;&lt;i> Create note (pen icon):&lt;/i> A new dialog where you can create a new note will open.&lt;br>
-        &#8226;&lt;i> Open app directory:&lt;/i> If you have a installed file manager, the directory where downloaded files
-        are stored will open.&lt;br>
+        &#8226;&lt;i> Open app directory:&lt;/i> You can open, share, rename und delete files.&lt;br>
         &#8226;&lt;i> Tools:&lt;/i> you can choose between calculate grades, random number generator and course lists.&lt;br>
         &#8226;&lt;i> Create shortcut:&lt;/i> To have a faster access to the main functions of the app, you can create
         shortcuts on your homescreen (calendar -> offline, My Moodle, bookmarks, notes, create new note).&lt;br>
@@ -168,14 +167,15 @@
         open.&lt;br>
         &#8226;&lt;i> Share note:&lt;/i> You can share the note with every app which is able to receive text
         (SMS, Email,…).&lt;br>
+        &#8226;&lt;i> Create todo list:&lt;/i> The title of the bookmark will be used as title for a new todo list, the url for the content.&lt;br>
         &#8226;&lt;i> Create calendar entry:&lt;/i> The name of the note will be used as title for a new calendar
         entry. Editing of this entry will take place in your calendar app.&lt;br>
         &#8226;&lt;i> Delete note:&lt;/i> At least one note must remain. All others can be deleted.&lt;br>&lt;br>
 
         &lt;b>Menu:&lt;/b>&lt;br>
         &#8226;&lt;i> Create note (pen icon):&lt;/i> A new dialog where you can create a new note will open.&lt;br>
-        &#8226;&lt;i> Open app directory:&lt;/i> If you have a installed file manager, the directory where downloaded files
-        are stored will open.&lt;br>
+        &#8226;&lt;i> Sort (list icon):&lt;/i> Different possibilities to sort the list.&lt;br>
+        &#8226;&lt;i> Open app directory:&lt;/i> You can open, share, rename und delete files.&lt;br>
         &#8226;&lt;i> Tools:&lt;/i> you can choose between calculate grades, random number generator and course lists.&lt;br>
         &#8226;&lt;i> Create shortcut:&lt;/i> To have a faster access to the main functions of the app, you can create
         shortcuts on your homescreen (calendar -> offline, My Moodle, bookmarks, notes, create new note).&lt;br>
@@ -196,7 +196,7 @@
         settings (login, bookmarks, notes, …). You can backup your bookmarks and notes on the sd-card, and restore them
         later.&lt;br>&lt;br>
 
-        All other settings are self explanatory. If you have problems, you can write a mail (\"Problems?\").
+        All other settings are self explanatory. If you have problems, you can write a mail (\"Contact?\").
     </string>
 
     <string name="helpBrowser_title">Browser</string>
@@ -204,9 +204,7 @@
         HHS Moodle is shown in this browser. There is a context menu, which opens by long clicking a picture or link.&lt;br>&lt;br>
 
         &lt;b>Swipe:&lt;/b>&lt;br>
-        &#8226;&lt;i> Swipe down:&lt;/i> reload website.&lt;br>
-        &#8226;&lt;i> Swipe right:&lt;/i> one page back.&lt;br>
-        &#8226;&lt;i> Swipe left:&lt;/i> one page forward.&lt;br>&lt;br>
+        &#8226;&lt;i> Swipe down:&lt;/i> reload website.&lt;br>&lt;br>
 
         &lt;b>Menu:&lt;/b>&lt;br>
         &#8226;&lt;i> Create note (pen icon):&lt;/i> A new window will popup, where you can create a note. The title of the website
@@ -217,8 +215,8 @@
         &#8226;&lt;i> Share bookmark:&lt;/i> You can share the link with every app which is able to receive text
         (SMS, Email,…). You can also make and share screenshots of the whole website (even from the part, which is not on the
         screen). With that you should wait until the whole website is loaded, to avoid problems.&lt;br>
-        &#8226;&lt;i> Open app directory:&lt;/i> If you have a installed file manager, the directory where downloaded files
-        are stored will open.&lt;br>
+        &#8226;&lt;i> Open app directory:&lt;/i> You can open, share, rename und delete files.&lt;br>
+        &#8226;&lt;i> Tools:&lt;/i> you can choose between calculate grades, random number generator and course lists.&lt;br>
         &#8226;&lt;i> Settings:&lt;/i> In the settings you can configure the behavior of the app. It is highly
         recommended to protect the app with a password against unwanted access.&lt;br>
         &#8226;&lt;i> Help:&lt;/i> Opens the help dialog.
@@ -236,50 +234,43 @@
 
     <string name="helpRandom_text">
 
-        &lt;b>Schüler auswählen:&lt;/b>&lt;br>
+        &lt;b>Choose pupil:&lt;/b>&lt;br>
 
-        Wenn du einen Listeneintrag anklickst, öffnet sich die Klassenliste und du kannst einen Schüler zufällig auswählen.
-        Durch einen langen Klick auf einen Listeneintrag öffnet sich ein Menü um die Liste bearbeiten zu können.&lt;br>&lt;br>
+        If you click on list entry, the course list will open and you can choose a pupil randomly. If you long click the list
+        entry a popup menu will be shown. There you can edit the list.&lt;br>&lt;br>
 
-        &lt;b>Zahl würfeln:&lt;/b>&lt;br>
+        &lt;b>Roll a dice:&lt;/b>&lt;br>
 
-        Wähle den Menüeintrag \"zufällige Zahl\" (Würfelicon) aus. Es öffnet sich ein Dialog, indem du die \"Augenzahl\" des Würfels
-        angeben kannst. Anschließend kann gewürfelt werden.
+        Choose the menu entry \"random Number\" (Dice icon). A dialog will popup, where you can set a maximum number. Then you
+        can press \"OK\" to roll the dice.
     </string>
 
     <string name="helpCourse_text">
 
-        &lt;b>Schüler auswählen:&lt;/b>&lt;br>
+        &lt;b>Choose pupil:&lt;/b>&lt;br>
 
-        &#8226;&lt;i> Textdatei anlegen:&lt;/i> Lege eine Textdatei pro Klasse an. In jede Zeile schreibst du einen Namen. Die
-        Textdatei bekommt als Dateinamen den Klassennamen (z.B.: Klasse 6a).&lt;br>
-        &#8226;&lt;i> Auf das Handy kopieren:&lt;/i> Kopiere die Datei in den \"HHS_Moodle\" Ordner auf deiner SD-Karte.&lt;br>
-        &#8226;&lt;i> Datei laden:&lt;/i> Klicke den orangenen Knopf unten rechts. Im Dialog, der sich öffnet, wählst du die
-        Textdatei aus. Ein neuer Listeneintrag wird angelegt. Du kannst die Textdatei jetzt wieder löschen.&lt;br>&lt;br>
+        &#8226;&lt;i> Create text file:&lt;/i> Create one text file per course. In every line you can write a name. The filename
+        should be the course name (e.G..: Course 6a).&lt;br>
+        &#8226;&lt;i> Copy to phone:&lt;/i> Copy the text file in the \"HHS_Moodle\" folder on your sd-card.&lt;br>
+        &#8226;&lt;i> Load file:&lt;/i> Click on the orange button. In the opening dialog you can choose the copied file.
+        A new list entry will be created. Then you can delete the text file.&lt;br>&lt;br>
 
-        Wenn du einen Listeneintrag anklickst, kannst du eine Notiz, eine Zufallsliste oder eine Todoliste mit den entsprechenden
-        Schülernamen anlegen. Durch einen langen Klick auf einen Listeneintrag öffnet sich ein Menü um die Liste
-        bearbeiten zu können.
+        If you click on a list entry you can create a note, a random list or a todo list with the names stored in the list. By
+        long clicking you can open a menu to edit the list entry.
+    </string>
+
+    <string name="helpToDo_activity_text">
+
+        Just enter a new entry and press the \"+\" button. Existing entries can be edited:&lt;br>&lt;br>
+
+        &lt;b>Short click:&lt;/b>&lt;br>
+        The content of the entry can be edited.&lt;br>&lt;br>
+
+        &lt;b>Long click:&lt;/b>&lt;br>
+        The entry will be deleted. There is a short time period to restore it.
     </string>
 
     <string name="perm_notShow_title">Permission dialog</string>
     <string name="perm_notShow_title_summary">Show again: Permission dialog?</string>
-
-
-    // Arrays
-
-    <string-array name="listArrayNav">
-        <item>Use swipe gestures</item>
-        <item>Use arrows</item>
-        <item>Use both</item>
-        <item>Nothing</item>
-    </string-array>
-
-    <string-array name="listValuesNav">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-    </string-array>
 
 </resources>

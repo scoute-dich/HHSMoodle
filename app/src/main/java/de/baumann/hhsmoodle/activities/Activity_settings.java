@@ -19,11 +19,14 @@
 
 package de.baumann.hhsmoodle.activities;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -49,7 +52,17 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.nio.channels.FileChannel;
+import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+
+import javax.crypto.Cipher;
+import javax.crypto.CipherInputStream;
+import javax.crypto.CipherOutputStream;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.SecretKeySpec;
 
 import de.baumann.hhsmoodle.HHS_Browser;
 import de.baumann.hhsmoodle.HHS_MainScreen;
@@ -370,99 +383,26 @@ public class Activity_settings extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int item) {
                                     if (options[item].equals(getString(R.string.action_backup))) {
                                         try {
-                                            File sd = Environment.getExternalStorageDirectory();
-                                            File data = Environment.getDataDirectory();
+                                            encrypt("/browser_v2.db");
+                                            encrypt("/courseList_v2.db");
+                                            encrypt("/notes_v2.db");
+                                            encrypt("/random_v2.db");
+                                            encrypt("/todo_v2.db");
+                                            LayoutInflater inflater = getActivity().getLayoutInflater();
 
-                                            if (sd.canWrite()) {
-                                                String currentDBPath = "//data//" + "de.baumann.hhsmoodle"
-                                                        + "//databases//" + "browser_encrypted.db";
-                                                String backupDBPath = "//HHS_Moodle//" + "//backup//" + "browser_encrypted.db";
-                                                File currentDB = new File(data, currentDBPath);
-                                                File backupDB = new File(sd, backupDBPath);
+                                            View toastLayout = inflater.inflate(R.layout.toast,
+                                                    (ViewGroup) getActivity().findViewById(R.id.toast_root_view));
 
-                                                if (currentDB.exists()) {
-                                                    FileChannel src = new FileInputStream(currentDB).getChannel();
-                                                    FileChannel dst = new FileOutputStream(backupDB).getChannel();
-                                                    dst.transferFrom(src, 0, src.size());
-                                                    src.close();
-                                                    dst.close();
-                                                }
+                                            TextView header = (TextView) toastLayout.findViewById(R.id.toast_message);
+                                            header.setText(R.string.toast_backup);
 
-
-                                                String currentDBPath2 = "//data//" + "de.baumann.hhsmoodle"
-                                                        + "//databases//" + "notes_encrypted.db";
-                                                String backupDBPath2 = "//HHS_Moodle//" + "//backup//" + "notes_encrypted.db";
-                                                File currentDB2 = new File(data, currentDBPath2);
-                                                File backupDB2 = new File(sd, backupDBPath2);
-
-                                                if (currentDB2.exists()) {
-                                                    FileChannel src2 = new FileInputStream(currentDB2).getChannel();
-                                                    FileChannel dst2 = new FileOutputStream(backupDB2).getChannel();
-                                                    dst2.transferFrom(src2, 0, src2.size());
-                                                    src2.close();
-                                                    dst2.close();
-                                                }
-
-
-                                                String currentDBPath3 = "//data//" + "de.baumann.hhsmoodle"
-                                                        + "//databases//" + "number_encrypted.db";
-                                                String backupDBPath3 = "//HHS_Moodle//" + "//backup//" + "number_encrypted.db";
-                                                File currentDB3 = new File(data, currentDBPath3);
-                                                File backupDB3 = new File(sd, backupDBPath3);
-
-                                                if (currentDB3.exists()) {
-                                                    FileChannel src3 = new FileInputStream(currentDB3).getChannel();
-                                                    FileChannel dst3 = new FileOutputStream(backupDB3).getChannel();
-                                                    dst3.transferFrom(src3, 0, src3.size());
-                                                    src3.close();
-                                                    dst3.close();
-                                                }
-
-
-                                                String currentDBPath4 = "//data//" + "de.baumann.hhsmoodle"
-                                                        + "//databases//" + "todoList_encrypted.db";
-                                                String backupDBPath4 = "//HHS_Moodle//" + "//backup//" + "todoList_encrypted.db";
-                                                File currentDB4 = new File(data, currentDBPath4);
-                                                File backupDB4 = new File(sd, backupDBPath4);
-
-                                                if (currentDB4.exists()) {
-                                                    FileChannel src4 = new FileInputStream(currentDB4).getChannel();
-                                                    FileChannel dst4 = new FileOutputStream(backupDB4).getChannel();
-                                                    dst4.transferFrom(src4, 0, src4.size());
-                                                    src4.close();
-                                                    dst4.close();
-                                                }
-
-
-                                                String currentDBPath5 = "//data//" + "de.baumann.hhsmoodle"
-                                                        + "//databases//" + "course_encrypted.db";
-                                                String backupDBPath5 = "//HHS_Moodle//" + "//backup//" + "course_encrypted.db";
-                                                File currentDB5 = new File(data, currentDBPath5);
-                                                File backupDB5 = new File(sd, backupDBPath5);
-
-                                                if (currentDB5.exists()) {
-                                                    FileChannel src5 = new FileInputStream(currentDB5).getChannel();
-                                                    FileChannel dst5 = new FileOutputStream(backupDB5).getChannel();
-                                                    dst5.transferFrom(src5, 0, src5.size());
-                                                    src5.close();
-                                                    dst5.close();
-                                                }
-
-                                                LayoutInflater inflater = getActivity().getLayoutInflater();
-
-                                                View toastLayout = inflater.inflate(R.layout.toast,
-                                                        (ViewGroup) getActivity().findViewById(R.id.toast_root_view));
-
-                                                TextView header = (TextView) toastLayout.findViewById(R.id.toast_message);
-                                                header.setText(R.string.toast_backup);
-
-                                                Toast toast = new Toast(getActivity().getApplicationContext());
-                                                toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
-                                                toast.setDuration(Toast.LENGTH_LONG);
-                                                toast.setView(toastLayout);
-                                                toast.show();
-                                            }
+                                            Toast toast = new Toast(getActivity().getApplicationContext());
+                                            toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
+                                            toast.setDuration(Toast.LENGTH_LONG);
+                                            toast.setView(toastLayout);
+                                            toast.show();
                                         } catch (Exception e) {
+                                            e.printStackTrace();
                                             LayoutInflater inflater = getActivity().getLayoutInflater();
 
                                             View toastLayout = inflater.inflate(R.layout.toast,
@@ -481,100 +421,26 @@ public class Activity_settings extends AppCompatActivity {
                                     if (options[item].equals(getString(R.string.action_restore))) {
 
                                         try {
-                                            File sd = Environment.getExternalStorageDirectory();
-                                            File data = Environment.getDataDirectory();
+                                            decrypt("/browser_v2.db");
+                                            decrypt("/courseList_v2.db");
+                                            decrypt("/notes_v2.db");
+                                            decrypt("/random_v2.db");
+                                            decrypt("/todo_v2.db");
+                                            LayoutInflater inflater = getActivity().getLayoutInflater();
 
-                                            if (sd.canWrite()) {
-                                                String currentDBPath = "//data//" + "de.baumann.hhsmoodle"
-                                                        + "//databases//" + "browser_encrypted.db";
-                                                String backupDBPath = "//HHS_Moodle//" + "//backup//" + "browser_encrypted.db";
-                                                File currentDB = new File(data, currentDBPath);
-                                                File backupDB = new File(sd, backupDBPath);
+                                            View toastLayout = inflater.inflate(R.layout.toast,
+                                                    (ViewGroup) getActivity().findViewById(R.id.toast_root_view));
 
-                                                if (backupDB.exists()) {
-                                                    FileChannel src = new FileInputStream(backupDB).getChannel();
-                                                    FileChannel dst = new FileOutputStream(currentDB).getChannel();
-                                                    dst.transferFrom(src, 0, src.size());
-                                                    src.close();
-                                                    dst.close();
-                                                }
+                                            TextView header = (TextView) toastLayout.findViewById(R.id.toast_message);
+                                            header.setText(R.string.toast_restore);
 
-
-                                                String currentDBPath2 = "//data//" + "de.baumann.hhsmoodle"
-                                                        + "//databases//" + "notes_encrypted.db";
-                                                String backupDBPath2 = "//HHS_Moodle//" + "//backup//" + "notes_encrypted.db";
-                                                File currentDB2 = new File(data, currentDBPath2);
-                                                File backupDB2 = new File(sd, backupDBPath2);
-
-                                                if (currentDB2.exists()) {
-                                                    FileChannel src2 = new FileInputStream(backupDB2).getChannel();
-                                                    FileChannel dst2 = new FileOutputStream(currentDB2).getChannel();
-                                                    dst2.transferFrom(src2, 0, src2.size());
-                                                    src2.close();
-                                                    dst2.close();
-                                                }
-
-
-                                                String currentDBPath3 = "//data//" + "de.baumann.hhsmoodle"
-                                                        + "//databases//" + "number_encrypted.db";
-                                                String backupDBPath3 = "//HHS_Moodle//" + "//backup//" + "number_encrypted.db";
-                                                File currentDB3 = new File(data, currentDBPath3);
-                                                File backupDB3 = new File(sd, backupDBPath3);
-
-                                                if (currentDB3.exists()) {
-                                                    FileChannel src3 = new FileInputStream(backupDB3).getChannel();
-                                                    FileChannel dst3 = new FileOutputStream(currentDB3).getChannel();
-                                                    dst3.transferFrom(src3, 0, src3.size());
-                                                    src3.close();
-                                                    dst3.close();
-                                                }
-
-
-                                                String currentDBPath4 = "//data//" + "de.baumann.hhsmoodle"
-                                                        + "//databases//" + "course_encrypted.db";
-                                                String backupDBPath4 = "//HHS_Moodle//" + "//backup//" + "course_encrypted.db";
-                                                File currentDB4 = new File(data, currentDBPath4);
-                                                File backupDB4 = new File(sd, backupDBPath4);
-
-                                                if (currentDB4.exists()) {
-                                                    FileChannel src4 = new FileInputStream(backupDB4).getChannel();
-                                                    FileChannel dst4 = new FileOutputStream(currentDB4).getChannel();
-                                                    dst4.transferFrom(src4, 0, src4.size());
-                                                    src4.close();
-                                                    dst4.close();
-                                                }
-
-
-                                                String currentDBPath5 = "//data//" + "de.baumann.hhsmoodle"
-                                                        + "//databases//" + "todoList_encrypted.db";
-                                                String backupDBPath5 = "//HHS_Moodle//" + "//backup//" + "todoList_encrypted.db";
-                                                File currentDB5 = new File(data, currentDBPath5);
-                                                File backupDB5 = new File(sd, backupDBPath5);
-
-                                                if (currentDB5.exists()) {
-                                                    FileChannel src5 = new FileInputStream(backupDB5).getChannel();
-                                                    FileChannel dst5 = new FileOutputStream(currentDB5).getChannel();
-                                                    dst5.transferFrom(src5, 0, src5.size());
-                                                    src5.close();
-                                                    dst5.close();
-                                                }
-
-
-                                                LayoutInflater inflater = getActivity().getLayoutInflater();
-
-                                                View toastLayout = inflater.inflate(R.layout.toast,
-                                                        (ViewGroup) getActivity().findViewById(R.id.toast_root_view));
-
-                                                TextView header = (TextView) toastLayout.findViewById(R.id.toast_message);
-                                                header.setText(R.string.toast_restore);
-
-                                                Toast toast = new Toast(getActivity().getApplicationContext());
-                                                toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
-                                                toast.setDuration(Toast.LENGTH_LONG);
-                                                toast.setView(toastLayout);
-                                                toast.show();
-                                            }
+                                            Toast toast = new Toast(getActivity().getApplicationContext());
+                                            toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
+                                            toast.setDuration(Toast.LENGTH_LONG);
+                                            toast.setView(toastLayout);
+                                            toast.show();
                                         } catch (Exception e) {
+                                            e.printStackTrace();
                                             LayoutInflater inflater = getActivity().getLayoutInflater();
 
                                             View toastLayout = inflater.inflate(R.layout.toast,
@@ -589,10 +455,10 @@ public class Activity_settings extends AppCompatActivity {
                                             toast.setView(toastLayout);
                                             toast.show();
                                         }
+
                                     }
                                 }
                             }).show();
-
 
                     return true;
                 }
@@ -611,6 +477,95 @@ public class Activity_settings extends AppCompatActivity {
             addUsernameListener();
             addProtectListener();
             addBackup_dbListener();
+        }
+
+        private void decrypt(String name) throws IOException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {
+
+            PackageManager m = getActivity().getPackageManager();
+            String s = getActivity().getPackageName();
+            try {
+                PackageInfo p = m.getPackageInfo(s, 0);
+                s = p.applicationInfo.dataDir;
+
+                String pathIN = Environment.getExternalStorageDirectory() + "/HHS_Moodle/backup/" + name;
+                String pathOUT = s + "/databases/" + name;
+
+                FileInputStream fis = new FileInputStream(pathIN);
+                FileOutputStream fos = new FileOutputStream(pathOUT);
+
+                byte[] key = ("[MGq)sY6k(GV,*?i".getBytes("UTF-8"));
+                MessageDigest sha = MessageDigest.getInstance("SHA-1");
+                key = sha.digest(key);
+                key = Arrays.copyOf(key, 16); // use only first 128 bit
+
+                SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
+                // Length is 16 byte
+                // Create cipher
+                @SuppressLint("GetInstance") Cipher cipher = Cipher.getInstance("AES");
+                cipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
+                CipherInputStream cis = new CipherInputStream(fis, cipher);
+                int b;
+                byte[] d = new byte[8];
+                while((b = cis.read(d)) != -1) {
+                    fos.write(d, 0, b);
+                }
+                fos.flush();
+                fos.close();
+                cis.close();
+
+                File fileIN = new File(pathIN);
+                //noinspection ResultOfMethodCallIgnored
+                fileIN.delete();
+
+            } catch (PackageManager.NameNotFoundException e) {
+                Log.w("HHS_Moodle", "Error Package name not found ", e);
+            }
+        }
+
+        @SuppressWarnings("ResultOfMethodCallIgnored")
+        private void encrypt(String name) throws IOException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {
+
+            PackageManager m = getActivity().getPackageManager();
+            String s = getActivity().getPackageName();
+            try {
+                PackageInfo p = m.getPackageInfo(s, 0);
+                s = p.applicationInfo.dataDir;
+
+                String pathOUT = Environment.getExternalStorageDirectory() + "/HHS_Moodle/backup/" + name;
+                String pathIN = s + "/databases/" + name;
+
+                FileInputStream fis = new FileInputStream(pathIN);
+                FileOutputStream fos = new FileOutputStream(pathOUT);
+
+                byte[] key = ("[MGq)sY6k(GV,*?i".getBytes("UTF-8"));
+                MessageDigest sha = MessageDigest.getInstance("SHA-1");
+                key = sha.digest(key);
+                key = Arrays.copyOf(key, 16); // use only first 128 bit
+
+                SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
+                // Length is 16 byte
+                // Create cipher
+                @SuppressLint("GetInstance") Cipher cipher = Cipher.getInstance("AES");
+                cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
+                // Wrap the output stream
+                CipherOutputStream cos = new CipherOutputStream(fos, cipher);
+                // Write bytes
+                int b;
+                byte[] d = new byte[8];
+                while((b = fis.read(d)) != -1) {
+                    cos.write(d, 0, b);
+                }
+                // Flush and close streams.
+                cos.flush();
+                cos.close();
+                fis.close();
+
+                File fileIN = new File(pathIN);
+                fileIN.delete();
+
+            } catch (PackageManager.NameNotFoundException e) {
+                Log.w("HHS_Moodle", "Error Package name not found ", e);
+            }
         }
     }
 

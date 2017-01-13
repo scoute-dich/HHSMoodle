@@ -53,15 +53,6 @@
             android:defaultValue="true" />
 
         <ListPreference
-            android:title="@string/action_nav"
-            android:icon="@drawable/swap_horizontal"
-            android:summary="@string/action_nav_summary"
-            android:key="nav"
-            android:defaultValue="2"
-            android:entries="@array/listArrayNav"
-            android:entryValues="@array/listValuesNav" />
-
-        <ListPreference
             android:title="@string/action_font"
             android:icon="@drawable/format_size"
             android:summary="@string/action_font_summary"

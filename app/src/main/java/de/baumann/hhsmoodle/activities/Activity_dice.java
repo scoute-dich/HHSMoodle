@@ -20,6 +20,7 @@
 package de.baumann.hhsmoodle.activities;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -48,8 +49,6 @@ import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-import net.sqlcipher.database.SQLiteDatabase;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -57,6 +56,7 @@ import java.util.Random;
 import de.baumann.hhsmoodle.HHS_MainScreen;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.helper.Database_Random;
+import de.baumann.hhsmoodle.helper.Popup_courseList;
 import de.baumann.hhsmoodle.helper.class_SecurePreferences;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.helper.helper_notes;
@@ -134,7 +134,7 @@ public class Activity_dice extends AppCompatActivity {
         fab = (FloatingActionButton) findViewById(R.id.fab);
         scrollView = (ScrollView) findViewById(R.id.scrollView);
         textFile = (TextView) findViewById(R.id.textFile);
-        listView = (ListView)findViewById(R.id.bookmarks);
+        listView = (ListView)findViewById(R.id.list);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -318,9 +318,10 @@ public class Activity_dice extends AppCompatActivity {
         fab_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 helper_main.isOpened(Activity_dice.this);
-                helper_main.switchToActivity(Activity_dice.this, Activity_courseList.class, "", false);
+                Intent mainIntent = new Intent(Activity_dice.this, Popup_courseList.class);
+                mainIntent.setAction("courseList_random");
+                startActivity(mainIntent);
             }
         });
 
@@ -354,8 +355,6 @@ public class Activity_dice extends AppCompatActivity {
                 }
             }
         });
-
-        SQLiteDatabase.loadLibs(getApplicationContext());
         setBookmarkList();
     }
 

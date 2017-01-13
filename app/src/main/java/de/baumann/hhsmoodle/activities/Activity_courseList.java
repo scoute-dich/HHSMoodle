@@ -39,8 +39,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-import net.sqlcipher.database.SQLiteDatabase;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -125,7 +123,7 @@ public class Activity_courseList extends AppCompatActivity {
         }
 
         FloatingActionButton fab_add = (FloatingActionButton) findViewById(R.id.fab_add);
-        listView = (ListView)findViewById(R.id.bookmarks);
+        listView = (ListView)findViewById(R.id.list);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -241,7 +239,7 @@ public class Activity_courseList extends AppCompatActivity {
                                                 db.deleteBookmark((Integer.parseInt(seqnoStr)));
                                                 db.addBookmark(inputTag, text);
                                                 db.close();
-                                                setBookmarkList();
+                                                setCourseList();
                                                 Snackbar.make(listView, R.string.bookmark_added, Snackbar.LENGTH_SHORT).show();
                                             }
                                         });
@@ -291,7 +289,7 @@ public class Activity_courseList extends AppCompatActivity {
                                                 db.deleteBookmark((Integer.parseInt(seqnoStr)));
                                                 db.addBookmark(title, sharedPrefSec.getString(title + "text"));
                                                 db.close();
-                                                setBookmarkList();
+                                                setCourseList();
                                                 Snackbar.make(listView, R.string.bookmark_added, Snackbar.LENGTH_SHORT).show();
                                             }
                                         });
@@ -338,7 +336,7 @@ public class Activity_courseList extends AppCompatActivity {
                                                                 Database_CourseList db = new Database_CourseList(Activity_courseList.this);
                                                                 db.deleteBookmark(Integer.parseInt(seqnoStr));
                                                                 db.close();
-                                                                setBookmarkList();
+                                                                setCourseList();
                                                             } catch (PackageManager.NameNotFoundException e) {
                                                                 e.printStackTrace();
                                                             }
@@ -401,7 +399,7 @@ public class Activity_courseList extends AppCompatActivity {
 
                                         db.addBookmark(fileNameWE, sharedPrefSec.getString(fileNameWE + "text"));
                                         db.close();
-                                        setBookmarkList();
+                                        setCourseList();
                                     }
                                 } catch (Exception e) {
                                     Snackbar.make(listView, R.string.number_error_read, Snackbar.LENGTH_LONG).show();
@@ -413,12 +411,10 @@ public class Activity_courseList extends AppCompatActivity {
                         .show();
             }
         });
-
-        SQLiteDatabase.loadLibs(getApplicationContext());
-        setBookmarkList();
+        setCourseList();
     }
 
-    private void setBookmarkList() {
+    private void setCourseList() {
 
         ArrayList<HashMap<String,String>> mapList = new ArrayList<>();
 
@@ -469,7 +465,7 @@ public class Activity_courseList extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
-        setBookmarkList();
+        setCourseList();
         helper_main.isOpened(Activity_courseList.this);
     }
 

@@ -351,6 +351,7 @@ public class helper_main {
                                                 public void run() {
                                                     String dir = pathFile.getParentFile().getAbsolutePath();
                                                     helper_main.openFilePicker(activity, view, dir);
+                                                    helper_notes.setNotesList(activity);
                                                 }
                                             }, 500);
                                         }
@@ -397,6 +398,7 @@ public class helper_main {
                                                 public void run() {
                                                     String dir = pathFile.getParentFile().getAbsolutePath();
                                                     helper_main.openFilePicker(activity, view, dir);
+                                                    helper_notes.setNotesList(activity);
                                                 }
                                             }, 500);
                                         }

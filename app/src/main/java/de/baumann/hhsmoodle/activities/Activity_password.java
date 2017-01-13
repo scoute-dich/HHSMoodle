@@ -156,6 +156,7 @@ public class Activity_password extends AppCompatActivity {
                 if (Password.equals(protect)) {
                     helper_main.isOpened(Activity_password.this);
                     finish();
+                    Activity_password.this.overridePendingTransition(R.anim.fadein_fast,R.anim.fadeout_fast);
                 } else {
                     Snackbar.make(text, R.string.toast_wrongPW, Snackbar.LENGTH_LONG).show();
                 }

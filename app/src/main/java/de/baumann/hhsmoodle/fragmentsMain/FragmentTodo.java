@@ -53,9 +53,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import de.baumann.hhsmoodle.R;
-import de.baumann.hhsmoodle.activities.Activity_courseList;
 import de.baumann.hhsmoodle.activities.Activity_todo;
 import de.baumann.hhsmoodle.helper.Database_Todo;
+import de.baumann.hhsmoodle.helper.Popup_courseList;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.helper.helper_notes;
 
@@ -117,6 +117,7 @@ public class FragmentTodo extends Fragment {
 
                 final CharSequence[] options = {
                         getString(R.string.bookmark_edit_title),
+                        getString(R.string.todo_share),
                         getString(R.string.bookmark_createNote),
                         getString(R.string.bookmark_createEvent),
                         getString(R.string.bookmark_remove_bookmark)};
@@ -176,6 +177,14 @@ public class FragmentTodo extends Fragment {
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
+                                }
+
+                                if (options[item].equals (getString(R.string.todo_share))) {
+                                    Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                                    sharingIntent.setType("text/plain");
+                                    sharingIntent.putExtra(Intent.EXTRA_SUBJECT, title);
+                                    sharingIntent.putExtra(Intent.EXTRA_TEXT, cont);
+                                    startActivity(Intent.createChooser(sharingIntent, (getString(R.string.note_share_2))));
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createEvent))) {
@@ -260,7 +269,9 @@ public class FragmentTodo extends Fragment {
                             public void onClick(DialogInterface dialog, int item) {
                                 if (options[item].equals(getString(R.string.todo_from_courseList))) {
                                     helper_main.isOpened(getActivity());
-                                    helper_main.switchToActivity(getActivity(), Activity_courseList.class, "", false);
+                                    Intent mainIntent = new Intent(getActivity(), Popup_courseList.class);
+                                    mainIntent.setAction("courseList_todo");
+                                    startActivity(mainIntent);
                                 }
 
                                 if (options[item].equals (getString(R.string.todo_from_new))) {

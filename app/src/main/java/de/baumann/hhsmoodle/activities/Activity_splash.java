@@ -19,8 +19,11 @@
 
 package de.baumann.hhsmoodle.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
@@ -31,10 +34,26 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+import java.util.Random;
+
+import javax.crypto.Cipher;
+import javax.crypto.CipherInputStream;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.SecretKeySpec;
 
 import de.baumann.hhsmoodle.HHS_Browser;
 import de.baumann.hhsmoodle.HHS_MainScreen;
@@ -50,6 +69,7 @@ public class Activity_splash extends AppCompatActivity {
     private SharedPreferences sharedPref;
     private class_SecurePreferences sharedPrefSec;
 
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,10 +79,26 @@ public class Activity_splash extends AppCompatActivity {
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPrefSec = new class_SecurePreferences(Activity_splash.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
 
+        if (sharedPref.getString("generateDBK", "no").equals("no")) {
+            char[] chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!§$%&/()=?;:_-.,+#*<>".toCharArray();
+            StringBuilder sb = new StringBuilder();
+            Random random = new Random();
+            for (int i = 0; i < 16; i++) {
+                char c = chars[random.nextInt(chars.length)];
+                sb.append(c);
+            }
+            sharedPrefSec.put("generateDBKOK", sb.toString());
+            sharedPref.edit().putString("generateDBK", "yes").apply();
+        }
+
+        decryptDatabases();
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
         }
+
+
 
         TextInputLayout editUsernameLayout = (TextInputLayout) findViewById(R.id.editUsernameLayout);
         editUsernameLayout.setVisibility(View.INVISIBLE);
@@ -121,7 +157,7 @@ public class Activity_splash extends AppCompatActivity {
                                     Activity_splash.this.finish();
                                     overridePendingTransition(R.anim.fadein,R.anim.fadeout);
                                 }
-                            }, 500);
+                            }, 1000);
                         } else if (startType.equals("1")){
                             new Handler().postDelayed(new Runnable() {
                                 public void run() {
@@ -132,7 +168,7 @@ public class Activity_splash extends AppCompatActivity {
                                     Activity_splash.this.finish();
                                     overridePendingTransition(R.anim.fadein,R.anim.fadeout);
                                 }
-                            }, 500);
+                            }, 1000);
                         }
                     }
                 }
@@ -164,6 +200,127 @@ public class Activity_splash extends AppCompatActivity {
                     }
                 }, 1000);
             }
+        }
+        onNewIntent(getIntent());
+    }
+
+    protected void onNewIntent(final Intent intent) {
+
+        String action = intent.getAction();
+
+        if (Intent.ACTION_SEND.equals(action) || "shortcutNotesPlus".equals(action)) {
+            decryptDatabases();
+            new Handler().postDelayed(new Runnable() {
+                public void run() {
+                    Intent mainIntent = new Intent(Activity_splash.this, HHS_MainScreen.class);
+                    mainIntent.setAction("shortcutNotesNew_HS");
+                    mainIntent.putExtra(Intent.EXTRA_SUBJECT, intent.getStringExtra(Intent.EXTRA_SUBJECT));
+                    mainIntent.putExtra(Intent.EXTRA_TEXT, intent.getStringExtra(Intent.EXTRA_TEXT));
+                    startActivity(mainIntent);
+                    Activity_splash.this.finish();
+                    overridePendingTransition(R.anim.fadein,R.anim.fadeout);
+                }
+            }, 1000);
+        } else if ("shortcutMyMoodle".equals(action)) {
+            decryptDatabases();
+            new Handler().postDelayed(new Runnable() {
+                public void run() {
+                    Intent mainIntent = new Intent(Activity_splash.this, HHS_MainScreen.class);
+                    mainIntent.setAction("shortcutMyMoodle_HS");
+                    startActivity(mainIntent);
+                    Activity_splash.this.finish();
+                    overridePendingTransition(R.anim.fadein,R.anim.fadeout);
+                }
+            }, 1000);
+        } else if ("shortcutBookmarks".equals(action)) {
+            decryptDatabases();
+            new Handler().postDelayed(new Runnable() {
+                public void run() {
+                    Intent mainIntent = new Intent(Activity_splash.this, HHS_MainScreen.class);
+                    mainIntent.setAction("shortcutBookmarks_HS");
+                    startActivity(mainIntent);
+                    Activity_splash.this.finish();
+                    overridePendingTransition(R.anim.fadein,R.anim.fadeout);
+                }
+            }, 1000);
+        } else if ("shortcutNotes".equals(action)) {
+            decryptDatabases();
+            new Handler().postDelayed(new Runnable() {
+                public void run() {
+                    Intent mainIntent = new Intent(Activity_splash.this, HHS_MainScreen.class);
+                    mainIntent.setAction("shortcutNotes_HS");
+                    startActivity(mainIntent);
+                    Activity_splash.this.finish();
+                    overridePendingTransition(R.anim.fadein,R.anim.fadeout);
+                }
+            }, 1000);
+        } else if ("shortcutToDo".equals(action)) {
+            decryptDatabases();
+            new Handler().postDelayed(new Runnable() {
+                public void run() {
+                    Intent mainIntent = new Intent(Activity_splash.this, HHS_MainScreen.class);
+                    mainIntent.setAction("shortcutToDo_HS");
+                    startActivity(mainIntent);
+                    Activity_splash.this.finish();
+                    overridePendingTransition(R.anim.fadein,R.anim.fadeout);
+                }
+            }, 1000);
+        }
+    }
+
+    private void decrypt(String in, String out) throws IOException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {
+
+        PackageManager m = getPackageManager();
+        String s = getPackageName();
+        try {
+            PackageInfo p = m.getPackageInfo(s, 0);
+            s = p.applicationInfo.dataDir;
+
+            String pathIN = s + in;
+            String pathOUT = s + out;
+
+            FileInputStream fis = new FileInputStream(pathIN);
+            FileOutputStream fos = new FileOutputStream(pathOUT);
+
+            byte[] key = (sharedPrefSec.getString("generateDBKOK").getBytes("UTF-8"));
+            MessageDigest sha = MessageDigest.getInstance("SHA-1");
+            key = sha.digest(key);
+            key = Arrays.copyOf(key, 16); // use only first 128 bit
+
+            SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
+            // Length is 16 byte
+            // Create cipher
+            @SuppressLint("GetInstance") Cipher cipher = Cipher.getInstance("AES");
+            cipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
+            CipherInputStream cis = new CipherInputStream(fis, cipher);
+            int b;
+            byte[] d = new byte[8];
+            while((b = cis.read(d)) != -1) {
+                fos.write(d, 0, b);
+            }
+            fos.flush();
+            fos.close();
+            cis.close();
+
+            File fileIN = new File(pathIN);
+            //noinspection ResultOfMethodCallIgnored
+            fileIN.delete();
+
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.w("HHS_Moodle", "Error Package name not found ", e);
+        }
+    }
+
+    private void decryptDatabases () {
+
+        try {
+            decrypt("/databases/random_v2_en.db", "/databases/random_v2.db");
+            decrypt("/databases/todo_v2_en.db", "/databases/todo_v2.db");
+            decrypt("/databases/notes_v2_en.db", "/databases/notes_v2.db");
+            decrypt("/databases/courseList_v2_en.db", "/databases/courseList_v2.db");
+            decrypt("/databases/browser_v2_en.db", "/databases/browser_v2.db");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

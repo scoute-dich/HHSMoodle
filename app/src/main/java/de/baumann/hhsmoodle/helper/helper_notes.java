@@ -30,6 +30,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -45,8 +46,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.popup.Popup_camera;
@@ -107,6 +111,20 @@ public class helper_notes {
         titleInput.setSelection(titleInput.getText().length());
         textInput.setText(sharedPref.getString("handleTextText", ""));
         textInput.setSelection(textInput.getText().length());
+
+        titleInput.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View arg0, MotionEvent arg1) {
+                sharedPref.edit().putString("editTextFocus", "title").apply();
+                return false;
+            }
+        });
+
+        textInput.setOnTouchListener(new View.OnTouchListener(){
+            public boolean onTouch(View arg0, MotionEvent arg1) {
+                sharedPref.edit().putString("editTextFocus", "text").apply();
+                return false;
+            }
+        });
 
         attachment.setOnClickListener(new View.OnClickListener() {
 
@@ -183,6 +201,7 @@ public class helper_notes {
         }, 200);
 
         final ImageButton be = (ImageButton) dialogView.findViewById(R.id.imageButtonPri);
+        ImageButton ib_paste = (ImageButton) dialogView.findViewById(R.id.imageButtonPaste);
         assert be != null;
 
         switch (priority) {
@@ -274,6 +293,72 @@ public class helper_notes {
             }
         });
 
+        ib_paste.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                final CharSequence[] options = {
+                        from.getString(R.string.paste_date),
+                        from.getString(R.string.paste_time)};
+                new android.app.AlertDialog.Builder(from)
+                        .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .setItems(options, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int item) {
+                                if (options[item].equals(from.getString(R.string.paste_date))) {
+                                    String dateFormat = sharedPref.getString("dateFormat", "1");
+
+                                    switch (dateFormat) {
+                                        case "1":
+
+                                            Date date = new Date();
+                                            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                                            String dateNow = format.format(date);
+
+                                            if(sharedPref.getString("editTextFocus", "").equals("text")) {
+                                                textInput.getText().insert(textInput.getSelectionStart(), dateNow);
+                                            } else {
+                                                titleInput.getText().insert(titleInput.getSelectionStart(), dateNow);
+                                            }
+
+                                            break;
+
+                                        case "2":
+
+                                            Date date2 = new Date();
+                                            SimpleDateFormat format2 = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+                                            String dateNow2 = format2.format(date2);
+
+                                            if(sharedPref.getString("editTextFocus", "").equals("text")) {
+                                                textInput.getText().insert(textInput.getSelectionStart(), dateNow2);
+                                            } else {
+                                                titleInput.getText().insert(titleInput.getSelectionStart(), dateNow2);
+                                            }
+
+                                            break;
+                                    }
+                                }
+
+                                if (options[item].equals (from.getString(R.string.paste_time))) {
+                                    Date date = new Date();
+                                    SimpleDateFormat format = new SimpleDateFormat("HH:mm", Locale.getDefault());
+                                    String timeNow = format.format(date);
+                                    if(sharedPref.getString("editTextFocus", "").equals("text")) {
+                                        textInput.getText().insert(textInput.getSelectionStart(), timeNow);
+                                    } else {
+                                        titleInput.getText().insert(titleInput.getSelectionStart(), timeNow);
+                                    }
+                                }
+                            }
+                        }).show();
+            }
+        });
+
         android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(from)
                 .setTitle(R.string.note_edit)
                 .setView(dialogView)
@@ -292,6 +377,7 @@ public class helper_notes {
 
                             db.addBookmark(inputTitle, inputContent, sharedPref.getString("handleTextIcon", ""), attachment, create);
                             db.close();
+                            setNotesList(from);
 
                             if (seqno.length() > 0) {
                                 db.deleteNote((Integer.parseInt(seqno)));
@@ -309,14 +395,9 @@ public class helper_notes {
                                 .putString("handleTextIcon", "")
                                 .putString("handleTextAttachment", "")
                                 .putString("handleTextCreate", "")
+                                .putString("editTextFocus", "")
                                 .apply();
                         helper_notes.setNotesList(from);
-                        if (sharedPref.getString("fromPopup", "").equals("0")) {
-                            sharedPref.edit()
-                                    .putString("fromPopup", "")
-                                    .apply();
-                            from.recreate();
-                        }
 
                     }
                 })
@@ -327,20 +408,13 @@ public class helper_notes {
                                 .putString("handleTextTitle", "")
                                 .putString("handleTextText", "")
                                 .putString("handleTextIcon", "")
+                                .putString("handleTextAttachment", "")
                                 .putString("handleTextCreate", "")
+                                .putString("editTextFocus", "")
                                 .apply();
                         dialog.cancel();
                     }
                 });
-        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            public void onCancel(final DialogInterface dialog) {
-                if (sharedPref.getString("fromPopup", "").equals("0")) {
-                    sharedPref.edit()
-                            .putString("fromPopup", "")
-                            .apply();
-                }
-            }
-        });
         dialog.show();
     }
 
@@ -357,7 +431,7 @@ public class helper_notes {
         }
     }
 
-    private static void setNotesList(final Activity from) {
+    public static void setNotesList(final Activity from) {
 
         final ListView listView = (ListView)from.findViewById(R.id.bookmarks);
 

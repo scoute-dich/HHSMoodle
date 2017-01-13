@@ -54,9 +54,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import de.baumann.hhsmoodle.R;
-import de.baumann.hhsmoodle.activities.Activity_courseList;
 import de.baumann.hhsmoodle.helper.Database_Notes;
 import de.baumann.hhsmoodle.helper.Database_Todo;
+import de.baumann.hhsmoodle.helper.Popup_courseList;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.helper.helper_notes;
 
@@ -104,7 +104,9 @@ public class FragmentNotes extends Fragment {
                             public void onClick(DialogInterface dialog, int item) {
                                 if (options[item].equals(getString(R.string.todo_from_courseList))) {
                                     helper_main.isOpened(getActivity());
-                                    helper_main.switchToActivity(getActivity(), Activity_courseList.class, "", false);
+                                    Intent mainIntent = new Intent(getActivity(), Popup_courseList.class);
+                                    mainIntent.setAction("courseList_note");
+                                    startActivity(mainIntent);
                                 }
 
                                 if (options[item].equals (getString(R.string.todo_from_new))) {
