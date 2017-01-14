@@ -32,7 +32,7 @@
             android:icon="@drawable/cellphone_iphone"
             android:summary="@string/action_tabMain_summary"
             android:key="tabMain"
-            android:defaultValue="1"
+            android:defaultValue="0"
             android:entries="@array/listArrayTabMain"
             android:entryValues="@array/listValuesTabMain" />
 

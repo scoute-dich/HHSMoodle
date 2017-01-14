@@ -221,17 +221,6 @@ public class Activity_splash extends AppCompatActivity {
                     overridePendingTransition(R.anim.fadein,R.anim.fadeout);
                 }
             }, 1000);
-        } else if ("shortcutMyMoodle".equals(action)) {
-            decryptDatabases();
-            new Handler().postDelayed(new Runnable() {
-                public void run() {
-                    Intent mainIntent = new Intent(Activity_splash.this, HHS_MainScreen.class);
-                    mainIntent.setAction("shortcutMyMoodle_HS");
-                    startActivity(mainIntent);
-                    Activity_splash.this.finish();
-                    overridePendingTransition(R.anim.fadein,R.anim.fadeout);
-                }
-            }, 1000);
         } else if ("shortcutBookmarks".equals(action)) {
             decryptDatabases();
             new Handler().postDelayed(new Runnable() {
@@ -255,16 +244,33 @@ public class Activity_splash extends AppCompatActivity {
                 }
             }, 1000);
         } else if ("shortcutToDo".equals(action)) {
-            decryptDatabases();
-            new Handler().postDelayed(new Runnable() {
-                public void run() {
-                    Intent mainIntent = new Intent(Activity_splash.this, HHS_MainScreen.class);
-                    mainIntent.setAction("shortcutToDo_HS");
-                    startActivity(mainIntent);
-                    Activity_splash.this.finish();
-                    overridePendingTransition(R.anim.fadein,R.anim.fadeout);
-                }
-            }, 1000);
+            if (sharedPref.getString("notification_running", "false").equals("false")) {
+                decryptDatabases();
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
+                        Intent mainIntent = new Intent(Activity_splash.this, HHS_MainScreen.class);
+                        mainIntent.setAction("shortcutToDo_HS");
+                        startActivity(mainIntent);
+                        Activity_splash.this.finish();
+                        overridePendingTransition(R.anim.fadein,R.anim.fadeout);
+                    }
+                }, 1000);
+            } else {
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
+                        decryptDatabases();
+                        new Handler().postDelayed(new Runnable() {
+                            public void run() {
+                                Intent mainIntent = new Intent(Activity_splash.this, HHS_MainScreen.class);
+                                mainIntent.setAction("shortcutToDo_HS");
+                                startActivity(mainIntent);
+                                Activity_splash.this.finish();
+                                overridePendingTransition(R.anim.fadein,R.anim.fadeout);
+                            }
+                        }, 1000);
+                    }
+                }, 1000);
+            }
         }
     }
 

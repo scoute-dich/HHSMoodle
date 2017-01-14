@@ -17,7 +17,7 @@
     If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.baumann.hhsmoodle.helper;
+package de.baumann.hhsmoodle.databases;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -28,15 +28,18 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
 import android.preference.PreferenceManager;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import de.baumann.hhsmoodle.R;
 
-public class Database_Browser extends SQLiteOpenHelper {
-    public Database_Browser(Context context)
+public class Database_Todo extends SQLiteOpenHelper {
+    public Database_Todo(Context context)
             throws NameNotFoundException {
         super(context,
-                "browser_v2.db",
+                "todo_v2.db",
                 null,
                 context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode);
     }
@@ -51,27 +54,37 @@ public class Database_Browser extends SQLiteOpenHelper {
     }
 
     private void createTable(SQLiteDatabase db) {
+
         db.execSQL(
                 "CREATE TABLE bookmarks (" +
                         "seqno NUMBER NOT NULL, " +
                         "title TEXT NOT NULL, " +
-                        "url TEXT NOT NULL, " +
+                        "cont TEXT NOT NULL, " +
                         "icon TEXT NOT NULL, " +
+                        "attachment TEXT NOT NULL, " +
+                        "createDate TEXT NOT NULL, " +
                         "PRIMARY KEY(seqno))"
         );
     }
 
     public void loadInitialData() {
+
+        Date date = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+        String dateCreate = format.format(date);
+
         int seqno = 0;
 
         SQLiteDatabase db = getWritableDatabase();
         db.beginTransaction();
 
-        SQLiteStatement stmt = db.compileStatement("INSERT INTO bookmarks VALUES(?, ?, ?, ?)");
+        SQLiteStatement stmt = db.compileStatement("INSERT INTO bookmarks VALUES(?, ?, ?, ?, ?, ?)");
         stmt.bindLong(1, seqno);
-        stmt.bindString(2, "HHS Moodle");
-        stmt.bindString(3, "https://moodle.huebsch.ka.schule-bw.de/moodle/my/");
+        stmt.bindString(2, "Default entry | Standardeintrag");
+        stmt.bindString(3, "Click to open | Anklicken zum Öffnen | Long click for more options | Lange drücken für mehr Optionen");
         stmt.bindString(4, "1");
+        stmt.bindString(5, "");
+        stmt.bindString(6, dateCreate);
         stmt.executeInsert();
 
         db.setTransactionSuccessful();
@@ -102,45 +115,56 @@ public class Database_Browser extends SQLiteOpenHelper {
         PreferenceManager.setDefaultValues(context, R.xml.user_settings, false);
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
 
-        if (sp.getString("sortDBB", "title").equals("title")) {
-            String sql = "SELECT seqno,title,url,icon FROM bookmarks ORDER BY title";
+        if (sp.getString("sortDBT", "title").equals("title")) {
+            String sql = "SELECT seqno,title,cont,icon,attachment,createDate FROM bookmarks ORDER BY title";
             Cursor c = db.rawQuery(sql, null);
             c.moveToFirst();
             for (int i = 0; i < c.getCount(); i++) {
-                String[] strAry = {c.getString(0), c.getString(1), c.getString(2), c.getString(3)};
+                String[] strAry = {c.getString(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5)};
                 data.add(strAry);
                 c.moveToNext();
             }
             c.close();
             db.close();
-        } else if (sp.getString("sortDBB", "title").equals("seqno")) {
-            String sql = "SELECT seqno,title,url,icon FROM bookmarks ORDER BY seqno";
+        } else if (sp.getString("sortDBT", "title").equals("seqno")) {
+            String sql = "SELECT seqno,title,cont,icon,attachment,createDate FROM bookmarks ORDER BY seqno";
             Cursor c = db.rawQuery(sql, null);
             c.moveToFirst();
             for (int i = 0; i < c.getCount(); i++) {
-                String[] strAry = {c.getString(0), c.getString(1), c.getString(2), c.getString(3)};
+                String[] strAry = {c.getString(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5)};
                 data.add(strAry);
                 c.moveToNext();
             }
             c.close();
             db.close();
-        } else if (sp.getString("sortDBB", "title").equals("icon")) {
-            String sql = "SELECT seqno,title,url,icon FROM bookmarks ORDER BY icon";
+        } else if (sp.getString("sortDBT", "title").equals("icon")) {
+            String sql = "SELECT seqno,title,cont,icon,attachment,createDate FROM bookmarks ORDER BY icon";
             Cursor c = db.rawQuery(sql, null);
             c.moveToFirst();
             for (int i = 0; i < c.getCount(); i++) {
-                String[] strAry = {c.getString(0), c.getString(1), c.getString(2), c.getString(3)};
+                String[] strAry = {c.getString(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5)};
                 data.add(strAry);
                 c.moveToNext();
             }
             c.close();
             db.close();
-        } else if (sp.getString("sortDBB", "title").equals("url")) {
-            String sql = "SELECT seqno,title,url,icon FROM bookmarks ORDER BY url";
+        } else if (sp.getString("sortDBT", "title").equals("create")) {
+            String sql = "SELECT seqno,title,cont,icon,attachment,createDate FROM bookmarks ORDER BY createDate";
             Cursor c = db.rawQuery(sql, null);
             c.moveToFirst();
             for (int i = 0; i < c.getCount(); i++) {
-                String[] strAry = {c.getString(0), c.getString(1), c.getString(2), c.getString(3)};
+                String[] strAry = {c.getString(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5)};
+                data.add(strAry);
+                c.moveToNext();
+            }
+            c.close();
+            db.close();
+        } else if (sp.getString("sortDBT", "title").equals("attachment")) {
+            String sql = "SELECT seqno,title,cont,icon,attachment,createDate FROM bookmarks ORDER BY attachment";
+            Cursor c = db.rawQuery(sql, null);
+            c.moveToFirst();
+            for (int i = 0; i < c.getCount(); i++) {
+                String[] strAry = {c.getString(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5)};
                 data.add(strAry);
                 c.moveToNext();
             }
@@ -149,7 +173,7 @@ public class Database_Browser extends SQLiteOpenHelper {
         }
     }
 
-    public void addBookmark(String title, String url, String icon) {
+    public void addBookmark(String title, String cont, String icon, String attachment, String create) {
         int seqno;
 
         SQLiteDatabase db = getWritableDatabase();
@@ -161,11 +185,13 @@ public class Database_Browser extends SQLiteOpenHelper {
 
         db.beginTransaction();
 
-        SQLiteStatement stmt = db.compileStatement("INSERT INTO bookmarks VALUES(?, ?, ?, ?)");
+        SQLiteStatement stmt = db.compileStatement("INSERT INTO bookmarks VALUES(?, ?, ?, ?, ?, ?)");
         stmt.bindLong(1, seqno);
         stmt.bindString(2, title);
-        stmt.bindString(3, url);
+        stmt.bindString(3, cont);
         stmt.bindString(4, icon);
+        stmt.bindString(5, attachment);
+        stmt.bindString(6, create);
         stmt.executeInsert();
 
         db.setTransactionSuccessful();
@@ -175,8 +201,7 @@ public class Database_Browser extends SQLiteOpenHelper {
         c.close();
     }
 
-    public void deleteBookmark(int seqno) {
-
+    public void deleteNote(int seqno) {
         SQLiteDatabase db = getWritableDatabase();
         db.beginTransaction();
 

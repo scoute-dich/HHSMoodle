@@ -55,8 +55,8 @@ import java.util.HashMap;
 
 import de.baumann.hhsmoodle.HHS_Browser;
 import de.baumann.hhsmoodle.R;
-import de.baumann.hhsmoodle.helper.Database_Browser;
-import de.baumann.hhsmoodle.helper.Database_Todo;
+import de.baumann.hhsmoodle.databases.Database_Browser;
+import de.baumann.hhsmoodle.databases.Database_Todo;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.helper.helper_notes;
 

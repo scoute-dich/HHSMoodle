@@ -1,3 +1,10 @@
+### v 3.1:
+
+- added: notifications (Todo)
+- removed: MyMoodle
+- fixed: several small bugs
+
+
 ### v 3.0:
 
 - added: fullscreen video playback

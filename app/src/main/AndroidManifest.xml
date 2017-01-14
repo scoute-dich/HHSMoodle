@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permisson.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
         android:allowBackup="true"
@@ -17,6 +18,8 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+
+        <!-- activities main -->
 
         <activity
             android:name="de.baumann.hhsmoodle.activities.Activity_splash"
@@ -31,7 +34,6 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
-                <action android:name="shortcutMyMoodle" />
                 <action android:name="shortcutBookmarks" />
                 <action android:name="shortcutNotes" />
                 <action android:name="shortcutNotesPlus" />
@@ -43,38 +45,17 @@
         </activity>
 
         <activity
-            android:name=".popup.Popup_bookmarks"
+            android:name=".HHS_MainScreen"
             android:launchMode="singleTask"
-            android:theme="@style/AppThemeDialog"
-            android:label="@string/app_name">
+            android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".popup.Popup_camera"
-            android:launchMode="singleTask"
-            android:theme="@style/AppThemeDialog"
-            android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".popup.Popup_todo"
-            android:launchMode="singleTask"
-            android:theme="@style/AppThemeDialog" />
-
-        <activity
-            android:name=".helper.Popup_courseList"
-            android:launchMode="singleTask"
-            android:theme="@style/AppThemeDialog">
-            <intent-filter>
-                <action android:name="courseList_random" />
-                <action android:name="courseList_todo" />
-                <action android:name="courseList_note" />
+                <action android:name="shortcutBookmarks_HS" />
+                <action android:name="shortcutNotes_HS" />
+                <action android:name="shortcutNotesNew_HS" />
+                <action android:name="shortcutToDo_HS" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
 
@@ -92,6 +73,9 @@
                 <data android:host="moodle.huebsch.ka.schule-bw.de" />
             </intent-filter>
         </activity>
+
+
+        <!-- activities helper -->
 
         <activity
             android:name=".activities.Activity_grades"
@@ -121,25 +105,44 @@
         <activity
             android:name="de.baumann.hhsmoodle.activities.Activity_password"
             android:launchMode="singleTask"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
+
+        <!-- popups -->
+
         <activity
-            android:name=".HHS_MainScreen"
+            android:name=".popup.Popup_bookmarks"
             android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:theme="@style/AppThemeDialog" />
+
+        <activity
+            android:name=".popup.Popup_camera"
+            android:launchMode="singleTask"
+            android:theme="@style/AppThemeDialog" />
+
+        <activity
+            android:name=".popup.Popup_todo"
+            android:launchMode="singleTask"
+            android:theme="@style/AppThemeDialog" />
+
+        <activity
+            android:name=".popup.Popup_todo_restart"
+            android:launchMode="singleTask"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <activity
+            android:name=".popup.Popup_courseList"
+            android:launchMode="singleTask"
+            android:theme="@style/AppThemeDialog">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="shortcutMyMoodle_HS" />
-                <action android:name="shortcutBookmarks_HS" />
-                <action android:name="shortcutNotes_HS" />
-                <action android:name="shortcutNotesNew_HS" />
-                <action android:name="shortcutToDo_HS" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="text/plain" />
+                <action android:name="courseList_random" />
+                <action android:name="courseList_todo" />
+                <action android:name="courseList_note" />
             </intent-filter>
         </activity>
+
+
+        <!-- provider, receiver, service -->
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -150,6 +153,14 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths"/>
         </provider>
+
+        <service android:name="de.baumann.hhsmoodle.helper.class_NotService"/>
+
+        <receiver android:name="de.baumann.hhsmoodle.helper.RebootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
 
     </application>
 

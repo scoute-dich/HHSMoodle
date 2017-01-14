@@ -57,7 +57,7 @@ import java.util.Locale;
 
 import de.baumann.hhsmoodle.HHS_MainScreen;
 import de.baumann.hhsmoodle.R;
-import de.baumann.hhsmoodle.helper.Database_Todo;
+import de.baumann.hhsmoodle.databases.Database_Todo;
 import de.baumann.hhsmoodle.helper.class_SecurePreferences;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.helper.helper_notes;
@@ -76,6 +76,7 @@ public class Activity_todo extends AppCompatActivity {
     private String toDo_icon;
     private String toDo_create;
     private String todo_edited;
+    private String todo_attachment;
     private int toDo_seqno;
 
     @Override
@@ -89,6 +90,7 @@ public class Activity_todo extends AppCompatActivity {
         todo_edited = "false";
         toDo_icon = sharedPref.getString("toDo_icon", "");
         toDo_create = sharedPref.getString("toDo_create", "");
+        todo_attachment = sharedPref.getString("toDo_attachment", "");
         toDo_seqno = Integer.parseInt(sharedPref.getString("toDo_seqno", ""));
         class_SecurePreferences sharedPrefSec = new class_SecurePreferences(Activity_todo.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
         String pw = sharedPrefSec.getString("protect_PW");
@@ -448,7 +450,7 @@ public class Activity_todo extends AppCompatActivity {
                 final Database_Todo db = new Database_Todo(Activity_todo.this);
 
                 db.deleteNote(toDo_seqno);
-                db.addBookmark(toDo_title, getText(), toDo_icon, "", toDo_create);
+                db.addBookmark(toDo_title, getText(), toDo_icon, todo_attachment, toDo_create);
                 db.close();
 
             } catch (Exception e) {
@@ -458,6 +460,9 @@ public class Activity_todo extends AppCompatActivity {
         sharedPref.edit().putString("toDo_title", "").apply();
         sharedPref.edit().putString("toDo_text", "").apply();
         sharedPref.edit().putString("toDo_seqno", "").apply();
+        sharedPref.edit().putString("toDo_icon", "").apply();
+        sharedPref.edit().putString("toDo_create", "").apply();
+        sharedPref.edit().putString("toDo_attachment", "").apply();
         //noinspection ResultOfMethodCallIgnored
         newFile().delete();
         finish();

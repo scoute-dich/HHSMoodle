@@ -54,9 +54,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import de.baumann.hhsmoodle.R;
-import de.baumann.hhsmoodle.helper.Database_Notes;
-import de.baumann.hhsmoodle.helper.Database_Todo;
-import de.baumann.hhsmoodle.helper.Popup_courseList;
+import de.baumann.hhsmoodle.databases.Database_Notes;
+import de.baumann.hhsmoodle.databases.Database_Todo;
+import de.baumann.hhsmoodle.popup.Popup_courseList;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.helper.helper_notes;
 
@@ -69,7 +69,7 @@ public class FragmentNotes extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_screen_todo, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_screen_notes, container, false);
 
         PreferenceManager.setDefaultValues(getActivity(), R.xml.user_settings, false);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -118,7 +118,7 @@ public class FragmentNotes extends Fragment {
             }
         });
 
-        listView = (ListView)rootView.findViewById(R.id.bookmarks);
+        listView = (ListView)rootView.findViewById(R.id.listNotes);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 @SuppressWarnings("unchecked")
@@ -170,22 +170,21 @@ public class FragmentNotes extends Fragment {
                             TabLayout tabHost = (TabLayout) getActivity().findViewById(R.id.tabs);
                             tabHost.getTabAt(3).select();
                         } else {
-                            openAtt(attachment);
+                            helper_main.openAtt(getActivity(), listView, attachment);
                         }
                     }
                 });
 
                 final ImageView be = (ImageView) dialogView.findViewById(R.id.imageButtonPri);
-                assert be != null;
 
                 switch (icon) {
-                    case "":
+                    case "1":
                         be.setImageResource(R.drawable.circle_green);
                         break;
-                    case "!":
+                    case "2":
                         be.setImageResource(R.drawable.circle_yellow);
                         break;
-                    case "!!":
+                    case "3":
                         be.setImageResource(R.drawable.circle_red);
                         break;
                 }
@@ -338,7 +337,7 @@ public class FragmentNotes extends Fragment {
         setNotesList();
     }
 
-    private void setNotesList() {
+    public void setNotesList() {
 
         ArrayList<HashMap<String,String>> mapList = new ArrayList<>();
 
@@ -503,7 +502,7 @@ public class FragmentNotes extends Fragment {
                                 TabLayout tabHost = (TabLayout) getActivity().findViewById(R.id.tabs);
                                 tabHost.getTabAt(3).select();
                             } else {
-                                openAtt(attachment);
+                                helper_main.openAtt(getActivity(), listView, attachment);
                             }
                         }
                     });
@@ -515,130 +514,6 @@ public class FragmentNotes extends Fragment {
 
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
-        }
-    }
-
-    private void openAtt (String fileString) {
-        File file = new File(fileString);
-        final String fileExtension = file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("."));
-        String text = (getActivity().getString(R.string.toast_extension) + ": " + fileExtension);
-
-        switch (fileExtension) {
-            case ".gif":
-            case ".bmp":
-            case ".tiff":
-            case ".svg":
-            case ".png":
-            case ".jpg":
-            case ".jpeg":
-                helper_main.openFile(getActivity(), file, "image/*", listView);
-                break;
-            case ".m3u8":
-            case ".mp3":
-            case ".wma":
-            case ".midi":
-            case ".wav":
-            case ".aac":
-            case ".aif":
-            case ".amp3":
-            case ".weba":
-                helper_main.openFile(getActivity(), file, "audio/*", listView);
-                break;
-            case ".mpeg":
-            case ".mp4":
-            case ".ogg":
-            case ".webm":
-            case ".qt":
-            case ".3gp":
-            case ".3g2":
-            case ".avi":
-            case ".f4v":
-            case ".flv":
-            case ".h261":
-            case ".h263":
-            case ".h264":
-            case ".asf":
-            case ".wmv":
-                helper_main.openFile(getActivity(), file, "video/*", listView);
-                break;
-            case ".rtx":
-            case ".csv":
-            case ".txt":
-            case ".vcs":
-            case ".vcf":
-            case ".css":
-            case ".ics":
-            case ".conf":
-            case ".config":
-            case ".java":
-                helper_main.openFile(getActivity(), file, "text/*", listView);
-                break;
-            case ".html":
-                helper_main.openFile(getActivity(), file, "text/html", listView);
-                break;
-            case ".apk":
-                helper_main.openFile(getActivity(), file, "application/vnd.android.package-archive", listView);
-                break;
-            case ".pdf":
-                helper_main.openFile(getActivity(), file, "application/pdf", listView);
-                break;
-            case ".doc":
-                helper_main.openFile(getActivity(), file, "application/msword", listView);
-                break;
-            case ".xls":
-                helper_main.openFile(getActivity(), file, "application/vnd.ms-excel", listView);
-                break;
-            case ".ppt":
-                helper_main.openFile(getActivity(), file, "application/vnd.ms-powerpoint", listView);
-                break;
-            case ".docx":
-                helper_main.openFile(getActivity(), file, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", listView);
-                break;
-            case ".pptx":
-                helper_main.openFile(getActivity(), file, "application/vnd.openxmlformats-officedocument.presentationml.presentation", listView);
-                break;
-            case ".xlsx":
-                helper_main.openFile(getActivity(), file, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", listView);
-                break;
-            case ".odt":
-                helper_main.openFile(getActivity(), file, "application/vnd.oasis.opendocument.text", listView);
-                break;
-            case ".ods":
-                helper_main.openFile(getActivity(), file, "application/vnd.oasis.opendocument.spreadsheet", listView);
-                break;
-            case ".odp":
-                helper_main.openFile(getActivity(), file, "application/vnd.oasis.opendocument.presentation", listView);
-                break;
-            case ".zip":
-                helper_main.openFile(getActivity(), file, "application/zip", listView);
-                break;
-            case ".rar":
-                helper_main.openFile(getActivity(), file, "application/x-rar-compressed", listView);
-                break;
-            case ".epub":
-                helper_main.openFile(getActivity(), file, "application/epub+zip", listView);
-                break;
-            case ".cbz":
-                helper_main.openFile(getActivity(), file, "application/x-cbz", listView);
-                break;
-            case ".cbr":
-                helper_main.openFile(getActivity(), file, "application/x-cbr", listView);
-                break;
-            case ".fb2":
-                helper_main.openFile(getActivity(), file, "application/x-fb2", listView);
-                break;
-            case ".rtf":
-                helper_main.openFile(getActivity(), file, "application/rtf", listView);
-                break;
-            case ".opml":
-                helper_main.openFile(getActivity(), file, "application/opml", listView);
-                break;
-
-            default:
-                Snackbar snackbar = Snackbar
-                        .make(listView, text, Snackbar.LENGTH_LONG);
-                snackbar.show();
-                break;
         }
     }
 

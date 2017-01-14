@@ -43,7 +43,6 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -53,6 +52,7 @@ import java.util.HashMap;
 import java.util.Locale;
 
 import de.baumann.hhsmoodle.R;
+import de.baumann.hhsmoodle.databases.Database_Notes;
 import de.baumann.hhsmoodle.popup.Popup_camera;
 import de.baumann.hhsmoodle.popup.Popup_todo;
 import filechooser.ChooserDialog;
@@ -431,9 +431,10 @@ public class helper_notes {
         }
     }
 
+    @SuppressWarnings("WeakerAccess")
     public static void setNotesList(final Activity from) {
 
-        final ListView listView = (ListView)from.findViewById(R.id.bookmarks);
+        final ListView listView = (ListView)from.findViewById(R.id.listNotes);
 
         ArrayList<HashMap<String,String>> mapList = new ArrayList<>();
 
@@ -479,7 +480,7 @@ public class helper_notes {
 
                     View v = super.getView(position, convertView, parent);
                     ImageView i=(ImageView) v.findViewById(R.id.icon_notes);
-                    ImageView i2=(ImageView) v.findViewById(R.id.att_notes);
+                    final ImageView i2=(ImageView) v.findViewById(R.id.att_notes);
 
                     switch (icon) {
                         case "1":
@@ -590,125 +591,7 @@ public class helper_notes {
                         @Override
                         public void onClick(View arg0) {
 
-                            File file = new File(attachment);
-                            final String fileExtension = file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("."));
-                            String text = (from.getString(R.string.toast_extension) + ": " + fileExtension);
-
-                            switch (fileExtension) {
-                                case ".gif":
-                                case ".bmp":
-                                case ".tiff":
-                                case ".svg":
-                                case ".png":
-                                case ".jpg":
-                                case ".jpeg":
-                                    helper_main.openFile(from, file, "image/*", listView);
-                                    break;
-                                case ".m3u8":
-                                case ".mp3":
-                                case ".wma":
-                                case ".midi":
-                                case ".wav":
-                                case ".aac":
-                                case ".aif":
-                                case ".amp3":
-                                case ".weba":
-                                    helper_main.openFile(from, file, "audio/*", listView);
-                                    break;
-                                case ".mpeg":
-                                case ".mp4":
-                                case ".ogg":
-                                case ".webm":
-                                case ".qt":
-                                case ".3gp":
-                                case ".3g2":
-                                case ".avi":
-                                case ".f4v":
-                                case ".flv":
-                                case ".h261":
-                                case ".h263":
-                                case ".h264":
-                                case ".asf":
-                                case ".wmv":
-                                    helper_main.openFile(from, file, "video/*", listView);
-                                    break;
-                                case ".rtx":
-                                case ".csv":
-                                case ".txt":
-                                case ".vcs":
-                                case ".vcf":
-                                case ".css":
-                                case ".ics":
-                                case ".conf":
-                                case ".config":
-                                case ".java":
-                                    helper_main.openFile(from, file, "text/*", listView);
-                                    break;
-                                case ".html":
-                                    helper_main.openFile(from, file, "text/html", listView);
-                                    break;
-                                case ".apk":
-                                    helper_main.openFile(from, file, "application/vnd.android.package-archive", listView);
-                                    break;
-                                case ".pdf":
-                                    helper_main.openFile(from, file, "application/pdf", listView);
-                                    break;
-                                case ".doc":
-                                    helper_main.openFile(from, file, "application/msword", listView);
-                                    break;
-                                case ".xls":
-                                    helper_main.openFile(from, file, "application/vnd.ms-excel", listView);
-                                    break;
-                                case ".ppt":
-                                    helper_main.openFile(from, file, "application/vnd.ms-powerpoint", listView);
-                                    break;
-                                case ".docx":
-                                    helper_main.openFile(from, file, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", listView);
-                                    break;
-                                case ".pptx":
-                                    helper_main.openFile(from, file, "application/vnd.openxmlformats-officedocument.presentationml.presentation", listView);
-                                    break;
-                                case ".xlsx":
-                                    helper_main.openFile(from, file, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", listView);
-                                    break;
-                                case ".odt":
-                                    helper_main.openFile(from, file, "application/vnd.oasis.opendocument.text", listView);
-                                    break;
-                                case ".ods":
-                                    helper_main.openFile(from, file, "application/vnd.oasis.opendocument.spreadsheet", listView);
-                                    break;
-                                case ".odp":
-                                    helper_main.openFile(from, file, "application/vnd.oasis.opendocument.presentation", listView);
-                                    break;
-                                case ".zip":
-                                    helper_main.openFile(from, file, "application/zip", listView);
-                                    break;
-                                case ".rar":
-                                    helper_main.openFile(from, file, "application/x-rar-compressed", listView);
-                                    break;
-                                case ".epub":
-                                    helper_main.openFile(from, file, "application/epub+zip", listView);
-                                    break;
-                                case ".cbz":
-                                    helper_main.openFile(from, file, "application/x-cbz", listView);
-                                    break;
-                                case ".cbr":
-                                    helper_main.openFile(from, file, "application/x-cbr", listView);
-                                    break;
-                                case ".fb2":
-                                    helper_main.openFile(from, file, "application/x-fb2", listView);
-                                    break;
-                                case ".rtf":
-                                    helper_main.openFile(from, file, "application/rtf", listView);
-                                    break;
-                                case ".opml":
-                                    helper_main.openFile(from, file, "application/opml", listView);
-                                    break;
-
-                                default:
-                                    Toast.makeText(from, text, Toast.LENGTH_SHORT).show();
-                                    break;
-                            }
+                            helper_main.openAtt(from, i2, attachment);
                         }
                     });
 
@@ -723,5 +606,5 @@ public class helper_notes {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-    } 
+    }
 }

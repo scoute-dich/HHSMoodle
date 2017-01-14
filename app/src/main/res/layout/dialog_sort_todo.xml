@@ -100,4 +100,26 @@
 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@+id/checkBoxAtt"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/sort_not"
+            android:lines="1" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/checkBoxAtt" />
+
+    </RelativeLayout>
+
 </LinearLayout>

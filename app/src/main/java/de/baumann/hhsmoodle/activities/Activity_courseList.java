@@ -43,17 +43,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 
 import de.baumann.hhsmoodle.HHS_MainScreen;
 import de.baumann.hhsmoodle.R;
-import de.baumann.hhsmoodle.helper.Database_CourseList;
-import de.baumann.hhsmoodle.helper.Database_Random;
-import de.baumann.hhsmoodle.helper.Database_Todo;
+import de.baumann.hhsmoodle.databases.Database_CourseList;
 import de.baumann.hhsmoodle.helper.class_SecurePreferences;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.helper.helper_notes;
@@ -126,76 +121,6 @@ public class Activity_courseList extends AppCompatActivity {
         listView = (ListView)findViewById(R.id.list);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                @SuppressWarnings("unchecked")
-                HashMap<String,String> map = (HashMap<String,String>)listView.getItemAtPosition(position);
-                final String title = map.get("title");
-                final String text = map.get("text");
-
-                final CharSequence[] options = {
-                        getString(R.string.menu_rem),
-                        getString(R.string.number_title),
-                        getString(R.string.todo_title)};
-                new android.app.AlertDialog.Builder(Activity_courseList.this)
-                        .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                dialog.cancel();
-                            }
-                        })
-                        .setItems(options, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int item) {
-                                if (options[item].equals(getString(R.string.number_title))) {
-                                    try {
-
-                                        final Database_Random db = new Database_Random(Activity_courseList.this);
-                                        db.addBookmark(title, text);
-                                        db.close();
-                                        Snackbar.make(listView, R.string.courseList_success, Snackbar.LENGTH_SHORT).show();
-
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-
-                                if (options[item].equals(getString(R.string.todo_title))) {
-
-                                    try {
-                                        final Database_Todo db = new Database_Todo(Activity_courseList.this);
-                                        db.addBookmark(title, text, "1", "", helper_main.createDate());
-                                        db.close();
-                                        Snackbar.make(listView, R.string.courseList_success, Snackbar.LENGTH_SHORT).show();
-
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-
-                                if (options[item].equals(getString(R.string.menu_rem))) {
-
-                                    Date date = new Date();
-                                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
-                                    String dateCreate = format.format(date);
-
-                                    sharedPref.edit()
-                                            .putString("handleTextTitle", title)
-                                            .putString("handleTextText", text)
-                                            .putString("handleTextIcon", "")
-                                            .putString("handleTextAttachment", "")
-                                            .putString("handleTextCreate", dateCreate)
-                                            .putString("handleTextSeqno", "")
-                                            .apply();
-                                    helper_notes.editNote(Activity_courseList.this);
-                                }
-
-                            }
-                        }).show();
-            }
-        });
-
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
                 @SuppressWarnings("unchecked")
                 HashMap<String,String> map = (HashMap<String,String>)listView.getItemAtPosition(position);
@@ -352,8 +277,6 @@ public class Activity_courseList extends AppCompatActivity {
 
                             }
                         }).show();
-
-                return true;
             }
         });
 

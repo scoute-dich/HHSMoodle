@@ -49,7 +49,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -513,10 +512,6 @@ public class Activity_settings extends AppCompatActivity {
                 fos.close();
                 cis.close();
 
-                File fileIN = new File(pathIN);
-                //noinspection ResultOfMethodCallIgnored
-                fileIN.delete();
-
             } catch (PackageManager.NameNotFoundException e) {
                 Log.w("HHS_Moodle", "Error Package name not found ", e);
             }
@@ -559,9 +554,6 @@ public class Activity_settings extends AppCompatActivity {
                 cos.flush();
                 cos.close();
                 fis.close();
-
-                File fileIN = new File(pathIN);
-                fileIN.delete();
 
             } catch (PackageManager.NameNotFoundException e) {
                 Log.w("HHS_Moodle", "Error Package name not found ", e);

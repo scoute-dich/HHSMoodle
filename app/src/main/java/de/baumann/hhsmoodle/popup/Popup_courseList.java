@@ -17,7 +17,7 @@
     If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.baumann.hhsmoodle.helper;
+package de.baumann.hhsmoodle.popup;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -30,14 +30,17 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.activities.Activity_password;
+import de.baumann.hhsmoodle.databases.Database_CourseList;
+import de.baumann.hhsmoodle.databases.Database_Notes;
+import de.baumann.hhsmoodle.databases.Database_Random;
+import de.baumann.hhsmoodle.databases.Database_Todo;
+import de.baumann.hhsmoodle.helper.class_SecurePreferences;
+import de.baumann.hhsmoodle.helper.helper_main;
 
 public class Popup_courseList extends Activity {
 
@@ -102,14 +105,10 @@ public class Popup_courseList extends Activity {
                     final String title = map.get("title");
                     final String text = map.get("text");
 
-                    Date date = new Date();
-                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
-                    String dateCreate = format.format(date);
-
                     try {
 
                         final Database_Notes db = new Database_Notes(Popup_courseList.this);
-                        db.addBookmark(title, text, "1", "", dateCreate);
+                        db.addBookmark(title, text, "1", "", helper_main.createDate());
                         db.close();
                         finish();
 

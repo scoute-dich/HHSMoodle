@@ -70,9 +70,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import de.baumann.hhsmoodle.activities.Activity_courseList;
 import de.baumann.hhsmoodle.activities.Activity_dice;
 import de.baumann.hhsmoodle.activities.Activity_grades;
-import de.baumann.hhsmoodle.helper.Database_Browser;
+import de.baumann.hhsmoodle.databases.Database_Browser;
 import de.baumann.hhsmoodle.activities.Activity_password;
 import de.baumann.hhsmoodle.helper.class_SecurePreferences;
 import de.baumann.hhsmoodle.helper.helper_main;
@@ -591,7 +592,8 @@ public class HHS_Browser extends AppCompatActivity {
         if (id == R.id.action_tools) {
             final CharSequence[] options = {
                     getString(R.string.action_grades),
-                    getString(R.string.number_title)};
+                    getString(R.string.number_title),
+                    getString(R.string.courseList_title)};
 
             new AlertDialog.Builder(HHS_Browser.this)
                     .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
@@ -612,6 +614,11 @@ public class HHS_Browser extends AppCompatActivity {
                             if (options[item].equals (getString(R.string.number_title))) {
                                 helper_main.isOpened(HHS_Browser.this);
                                 helper_main.switchToActivity(HHS_Browser.this, Activity_dice.class, "", false);
+                            }
+
+                            if (options[item].equals (getString(R.string.courseList_title))) {
+                                helper_main.isOpened(HHS_Browser.this);
+                                helper_main.switchToActivity(HHS_Browser.this, Activity_courseList.class, "", false);
                             }
 
                         }

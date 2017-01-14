@@ -60,18 +60,15 @@
         &lt;b>Navigation&lt;/b>&lt;br>
         You reach the main screen of the app, by clicking the arrow on the left side of the toolbar. By clicking the toolbar
         you can go either back to the main screen or open your favorite bookmark (you can decide this in the settings).
-        If you long click on the toolbar, the app gets closed completely.&lt;br>&lt;br>
-
-        &lt;b>Widgets&lt;/b>&lt;br>
-        You can add a widget to your homescreen, to get a faster access to the main functions of the app (calendar -> offline,
-        My Moodle, bookmarks, notes, create new note).</string>
+        If you long click on the toolbar, the app gets closed completely.</string>
 
     <string name="helpToDo_text">
         Here you can create and edit todo lists.&lt;br>&lt;br>
 
         &lt;b>The List:&lt;/b>&lt;br>
         If you click on a list entry the will open in a new window. If you long click a list entry a popup
-        menu opens. You can change the entry icon by clicking on it.&lt;br>&lt;br>
+        menu opens. You can change the entry icon by clicking on it.  If you click on the \"exclamation mark\" icon, you
+        can create a notification which will be restored after a reboot.&lt;br>&lt;br>
 
         &lt;b>Popup menu:&lt;/b>&lt;br>
         &#8226;&lt;i> Edit title:&lt;/i> You can edit the title of the bookmark.&lt;br>
@@ -116,35 +113,6 @@
         &lt;b>Menu:&lt;/b>&lt;br>
         &#8226;&lt;i> Create note (pen icon):&lt;/i> A new dialog where you can create a new note will open.&lt;br>
         &#8226;&lt;i> Sort (list icon):&lt;/i> Different possibilities to sort the list.&lt;br>
-        &#8226;&lt;i> Open app directory:&lt;/i> You can open, share, rename und delete files.&lt;br>
-        &#8226;&lt;i> Tools:&lt;/i> you can choose between calculate grades, random number generator and course lists.&lt;br>
-        &#8226;&lt;i> Create shortcut:&lt;/i> To have a faster access to the main functions of the app, you can create
-        shortcuts on your homescreen (calendar -> offline, My Moodle, bookmarks, notes, create new note).&lt;br>
-        &#8226;&lt;i> Settings:&lt;/i> In the settings you can configure the behavior of the app. It is highly
-        recommended to protect the app with a password against unwanted access.&lt;br>
-        &#8226;&lt;i> Help:&lt;/i> Opens the help dialog.
-    </string>
-
-
-    <string name="helpInfo_text">
-        Here are bookmarks to important Moodle sites stored. Also a link to our school homepage and to a search engine.
-        This list can not be edited.&lt;br>&lt;br>
-
-        &lt;b>The list:&lt;/b>&lt;br>
-        If you click on a list entry the bookmark opens in the intern browser. If you long click a list entry a popup
-        menu opens.&lt;br>&lt;br>
-
-        &lt;b>Popup menu:&lt;/b>&lt;br>
-        &#8226;&lt;i> Set as favorite:&lt;/i> If you set a bookmark as favorite, you can open it at the app start or by
-        clicking on the toolbar. You can configure that in the settings.&lt;br>
-        &#8226;&lt;i> Create note:&lt;/i> The title of the bookmark will be used as title for a new note, the url for the content.&lt;br>
-        &#8226;&lt;i> Create todo list:&lt;/i> The title of the bookmark will be used as title for a new todo list, the url for the content.&lt;br>
-        &#8226;&lt;i> Create shortcut:&lt;/i> A shortcut to the bookmark will be created on your homescreen.&lt;br>
-        &#8226;&lt;i> Create calendar entry:&lt;/i> The name of the bookmark will be used as title for a new calendar
-        entry. Editing of this entry will take place in your calendar app.&lt;br>&lt;br>
-
-        &lt;b>Menu:&lt;/b>&lt;br>
-        &#8226;&lt;i> Create note (pen icon):&lt;/i> A new dialog where you can create a new note will open.&lt;br>
         &#8226;&lt;i> Open app directory:&lt;/i> You can open, share, rename und delete files.&lt;br>
         &#8226;&lt;i> Tools:&lt;/i> you can choose between calculate grades, random number generator and course lists.&lt;br>
         &#8226;&lt;i> Create shortcut:&lt;/i> To have a faster access to the main functions of the app, you can create
@@ -247,7 +215,7 @@
 
     <string name="helpCourse_text">
 
-        &lt;b>Choose pupil:&lt;/b>&lt;br>
+        &lt;b>Create list:&lt;/b>&lt;br>
 
         &#8226;&lt;i> Create text file:&lt;/i> Create one text file per course. In every line you can write a name. The filename
         should be the course name (e.G..: Course 6a).&lt;br>
@@ -255,8 +223,7 @@
         &#8226;&lt;i> Load file:&lt;/i> Click on the orange button. In the opening dialog you can choose the copied file.
         A new list entry will be created. Then you can delete the text file.&lt;br>&lt;br>
 
-        If you click on a list entry you can create a note, a random list or a todo list with the names stored in the list. By
-        long clicking you can open a menu to edit the list entry.
+        If you click on a list entry you can create a note, you can open a menu to edit the list entry.
     </string>
 
     <string name="helpToDo_activity_text">

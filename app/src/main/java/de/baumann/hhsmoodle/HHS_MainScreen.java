@@ -68,7 +68,6 @@ import de.baumann.hhsmoodle.activities.Activity_courseList;
 import de.baumann.hhsmoodle.activities.Activity_dice;
 import de.baumann.hhsmoodle.activities.Activity_splash;
 import de.baumann.hhsmoodle.fragmentsMain.FragmentBookmarks;
-import de.baumann.hhsmoodle.fragmentsMain.FragmentInfo;
 import de.baumann.hhsmoodle.fragmentsMain.FragmentNotes;
 import de.baumann.hhsmoodle.activities.Activity_grades;
 import de.baumann.hhsmoodle.activities.Activity_password;
@@ -178,18 +177,15 @@ public class HHS_MainScreen extends AppCompatActivity {
 
         String action = intent.getAction();
 
-        if ("shortcutMyMoodle_HS".equals(action)) {
+        if ("shortcutBookmarks_HS".equals(action)) {
             lockUI();
             viewPager.setCurrentItem(0, true);
-        } else if ("shortcutBookmarks_HS".equals(action)) {
-            lockUI();
-            viewPager.setCurrentItem(1, true);
         } else if ("shortcutNotes_HS".equals(action)) {
             lockUI();
             viewPager.setCurrentItem(2, true);
         } else if ("shortcutToDo_HS".equals(action)) {
             lockUI();
-            viewPager.setCurrentItem(3, true);
+            viewPager.setCurrentItem(1, true);
         } else if ("shortcutNotesNew_HS".equals(action)) {
             lockUI();
             viewPager.setCurrentItem(2, true);
@@ -210,10 +206,9 @@ public class HHS_MainScreen extends AppCompatActivity {
         final int startTabInt = Integer.parseInt(startTab);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        adapter.addFragment(new FragmentInfo(), String.valueOf(getString(R.string.title_info)));
         adapter.addFragment(new FragmentBookmarks(), String.valueOf(getString(R.string.title_bookmarks)));
-        adapter.addFragment(new FragmentNotes(), String.valueOf(getString(R.string.title_notes)));
         adapter.addFragment(new FragmentTodo(), String.valueOf(getString(R.string.todo_title)));
+        adapter.addFragment(new FragmentNotes(), String.valueOf(getString(R.string.title_notes)));
 
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(startTabInt,true);
@@ -334,7 +329,6 @@ public class HHS_MainScreen extends AppCompatActivity {
 
         if (id == R.id.action_shortcut) {
             final CharSequence[] options = {
-                    getString(R.string.title_info),
                     getString(R.string.title_bookmarks),
                     getString(R.string.title_notes),
                     getString(R.string.todo_title),
@@ -350,21 +344,6 @@ public class HHS_MainScreen extends AppCompatActivity {
                     .setItems(options, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int item) {
-
-                            if (options[item].equals (getString(R.string.title_info))) {
-                                Intent i = new Intent(getApplicationContext(), Activity_splash.class);
-                                i.setAction("shortcutMyMoodle");
-
-                                Intent shortcut = new Intent();
-                                shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, i);
-                                shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, i);
-                                shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, (getString(R.string.title_info)));
-                                shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
-                                        Intent.ShortcutIconResource.fromContext(getApplicationContext(), R.mipmap.ic_launcher));
-                                shortcut.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
-                                sendBroadcast(shortcut);
-                                Snackbar.make(viewPager, R.string.toast_shortcut, Snackbar.LENGTH_LONG).show();
-                            }
 
                             if (options[item].equals (getString(R.string.title_bookmarks))) {
                                 Intent i = new Intent(getApplicationContext(), Activity_splash.class);

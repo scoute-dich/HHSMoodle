@@ -55,8 +55,8 @@ import java.util.Random;
 
 import de.baumann.hhsmoodle.HHS_MainScreen;
 import de.baumann.hhsmoodle.R;
-import de.baumann.hhsmoodle.helper.Database_Random;
-import de.baumann.hhsmoodle.helper.Popup_courseList;
+import de.baumann.hhsmoodle.databases.Database_Random;
+import de.baumann.hhsmoodle.popup.Popup_courseList;
 import de.baumann.hhsmoodle.helper.class_SecurePreferences;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.helper.helper_notes;

@@ -20,6 +20,10 @@
 package de.baumann.hhsmoodle.fragmentsMain;
 
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -33,6 +37,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.NotificationCompat;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -48,16 +53,17 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.activities.Activity_todo;
-import de.baumann.hhsmoodle.helper.Database_Todo;
-import de.baumann.hhsmoodle.helper.Popup_courseList;
+import de.baumann.hhsmoodle.databases.Database_Todo;
+import de.baumann.hhsmoodle.popup.Popup_courseList;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.helper.helper_notes;
+
+import static android.content.Context.NOTIFICATION_SERVICE;
 
 public class FragmentTodo extends Fragment {
 
@@ -91,12 +97,14 @@ public class FragmentTodo extends Fragment {
                 final String seqnoStr = map.get("seqno");
                 final String create = map.get("createDate");
                 final String icon = map.get("icon");
+                final String attachment = map.get("attachment");
 
                 sharedPref.edit().putString("toDo_title", title).apply();
                 sharedPref.edit().putString("toDo_text", cont).apply();
                 sharedPref.edit().putString("toDo_seqno", seqnoStr).apply();
                 sharedPref.edit().putString("toDo_icon", icon).apply();
                 sharedPref.edit().putString("toDo_create", create).apply();
+                sharedPref.edit().putString("toDo_attachment", attachment).apply();
 
                 helper_main.switchToActivity(getActivity(), Activity_todo.class, "", false);
             }
@@ -337,6 +345,9 @@ public class FragmentTodo extends Fragment {
 
     private void setNotesList() {
 
+        NotificationManager nMgr = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+        nMgr.cancelAll();
+
         ArrayList<HashMap<String,String>> mapList = new ArrayList<>();
 
         try {
@@ -396,18 +407,68 @@ public class FragmentTodo extends Fragment {
                     }
                     switch (attachment) {
                         case "":
-                            i2.setVisibility(View.GONE);
+                            i2.setVisibility(View.VISIBLE);
+                            i2.setImageResource(R.drawable.alert_circle);
                             break;
                         default:
                             i2.setVisibility(View.VISIBLE);
-                            i2.setImageResource(R.drawable.ic_attachment);
+                            i2.setImageResource(R.drawable.alert_circle_red);
+
+                            int n = Integer.valueOf(seqnoStr);
+
+                            android.content.Intent iMain = new android.content.Intent();
+                            iMain.setAction("shortcutToDo");
+                            iMain.setClassName(getActivity(), "de.baumann.hhsmoodle.activities.Activity_splash");
+                            PendingIntent piMain = PendingIntent.getActivity(getActivity(), n, iMain, 0);
+
+                            Notification notification = new NotificationCompat.Builder(getActivity())
+                                    .setSmallIcon(R.drawable.school)
+                                    .setContentTitle(title)
+                                    .setContentText(cont)
+                                    .setContentIntent(piMain)
+                                    .setAutoCancel(true)
+                                    .setStyle(new NotificationCompat.BigTextStyle().bigText(cont))
+                                    .setPriority(Notification.PRIORITY_DEFAULT)
+                                    .setVibrate(new long[0])
+                                    .build();
+
+                            NotificationManager notificationManager = (NotificationManager) getActivity().getSystemService(NOTIFICATION_SERVICE);
+                            notificationManager.notify(n, notification);
                             break;
                     }
 
-                    File file = new File(attachment);
-                    if (!file.exists()) {
-                        i2.setVisibility(View.GONE);
-                    }
+                    i2.setOnClickListener(new View.OnClickListener() {
+
+                        @Override
+                        public void onClick(View arg0) {
+
+                            switch (attachment) {
+                                case "":
+                                    try {
+                                        final Database_Todo db = new Database_Todo(getActivity());
+                                        db.deleteNote((Integer.parseInt(seqnoStr)));
+                                        db.addBookmark(title, cont, icon, "true", create);
+                                        db.close();
+                                        setNotesList();
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                    break;
+                                default:
+                                    try {
+                                        final Database_Todo db = new Database_Todo(getActivity());
+                                        db.deleteNote((Integer.parseInt(seqnoStr)));
+                                        db.addBookmark(title, cont, icon, "", create);
+                                        db.close();
+                                        setNotesList();
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                    break;
+                            }
+
+                        }
+                    });
 
                     i.setOnClickListener(new View.OnClickListener() {
 
@@ -532,6 +593,7 @@ public class FragmentTodo extends Fragment {
                 final CheckBox ch_create = (CheckBox) dialogView.findViewById(R.id.checkBoxCreate);
                 final CheckBox ch_edit = (CheckBox) dialogView.findViewById(R.id.checkBoxEdit);
                 final CheckBox ch_icon = (CheckBox) dialogView.findViewById(R.id.checkBoxIcon);
+                final CheckBox ch_not = (CheckBox) dialogView.findViewById(R.id.checkBoxAtt);
 
                 if (sharedPref.getString("sortDBT", "title").equals("title")) {
                     ch_title.setChecked(true);
@@ -552,6 +614,11 @@ public class FragmentTodo extends Fragment {
                     ch_icon.setChecked(true);
                 } else {
                     ch_icon.setChecked(false);
+                }
+                if (sharedPref.getString("sortDBT", "title").equals("attachment")) {
+                    ch_not.setChecked(true);
+                } else {
+                    ch_not.setChecked(false);
                 }
 
                 ch_title.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -606,6 +673,21 @@ public class FragmentTodo extends Fragment {
                             ch_edit.setChecked(false);
                             ch_title.setChecked(false);
                             sharedPref.edit().putString("sortDBT", "icon").apply();
+                            setNotesList();
+                        }
+                    }
+                });
+                ch_not.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView,
+                                                 boolean isChecked) {
+                        if(isChecked){
+                            ch_create.setChecked(false);
+                            ch_edit.setChecked(false);
+                            ch_title.setChecked(false);
+                            ch_icon.setChecked(false);
+                            sharedPref.edit().putString("sortDBT", "attachment").apply();
                             setNotesList();
                         }
                     }

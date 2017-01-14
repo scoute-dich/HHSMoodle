@@ -32,7 +32,6 @@
 
     // Tab - Titles
 
-    <string name="title_info">My Moodle</string>
     <string name="title_bookmarks">Bookmarks</string>
     <string name="title_notes">Notes</string>
 
@@ -137,15 +136,6 @@
     <string name="text_tit_11">Moodle</string>
     <string name="text_tit_9">Check</string>
     <string name="text_tit_10">Clock</string>
-
-    <string name="text_des_1">Course overview, files, awards, appointment, calendar, …</string>
-    <string name="text_des_2">Details, reports, miscellaneous, edit profile.</string>
-    <string name="text_des_8">View upcoming events from your courses.</string>
-    <string name="text_des_3">Gradings and results from all your courses.</string>
-    <string name="text_des_4">Read and send personal notifications.</string>
-    <string name="text_des_5">Personal messages and contacts.</string>
-    <string name="text_des_6">Our homepage with actual news, contact information, …</string>
-    <string name="text_des_7">Startpage: a save and secure search engine.</string>
 
 
     // Snackbar
@@ -268,11 +258,11 @@
     <string name="todo_share">Share list</string>
     <string name="paste_date">Paste actual date</string>
     <string name="paste_time">Paste actual time</string>
+    <string name="sort_not">Sort by notification</string>
 
 
     // CourseList
 
     <string name="courseList_title">Course lists</string>
-    <string name="courseList_success">Successfully created</string>
 
 </resources>
