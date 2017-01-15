@@ -168,7 +168,7 @@ public class FragmentNotes extends Fragment {
 
                         if (attachment.startsWith(getString(R.string.todo_title) + ": ")) {
                             TabLayout tabHost = (TabLayout) getActivity().findViewById(R.id.tabs);
-                            tabHost.getTabAt(3).select();
+                            tabHost.getTabAt(1).select();
                         } else {
                             helper_main.openAtt(getActivity(), listView, attachment);
                         }
@@ -411,11 +411,6 @@ public class FragmentNotes extends Fragment {
                         i2.setVisibility(View.GONE);
                     }
 
-                    if (attachment.startsWith(getString(R.string.todo_title) + ": ")) {
-                        i2.setVisibility(View.VISIBLE);
-                        i2.setImageResource(R.drawable.playlist_check);
-                    }
-
                     i.setOnClickListener(new View.OnClickListener() {
 
                         @Override
@@ -498,12 +493,7 @@ public class FragmentNotes extends Fragment {
 
                         @Override
                         public void onClick(View arg0) {
-                            if (attachment.startsWith(getString(R.string.todo_title) + ": ")) {
-                                TabLayout tabHost = (TabLayout) getActivity().findViewById(R.id.tabs);
-                                tabHost.getTabAt(3).select();
-                            } else {
-                                helper_main.openAtt(getActivity(), listView, attachment);
-                            }
+                            helper_main.openAtt(getActivity(), listView, attachment);
                         }
                     });
                     return v;

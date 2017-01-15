@@ -54,7 +54,6 @@ import java.util.Locale;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.databases.Database_Notes;
 import de.baumann.hhsmoodle.popup.Popup_camera;
-import de.baumann.hhsmoodle.popup.Popup_todo;
 import filechooser.ChooserDialog;
 
 public class helper_notes {
@@ -131,45 +130,22 @@ public class helper_notes {
             @Override
             public void onClick(View arg0) {
 
-                final CharSequence[] options = {
-                        from.getString(R.string.att_file),
-                        from.getString(R.string.att_todo)};
-                new AlertDialog.Builder(from)
-                        .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                dialog.cancel();
+                String startDir = Environment.getExternalStorageDirectory() + "/HHS_Moodle/";
+                new ChooserDialog().with(from)
+                        .withStartFile(startDir)
+                        .withChosenListener(new ChooserDialog.Result() {
+                            @Override
+                            public void onChoosePath(final String path, final File pathFile) {
+                                final String fileName = pathFile.getAbsolutePath();
+                                String attName = fileName.substring(fileName.lastIndexOf("/")+1);
+                                attachment.setText(attName);
+                                attachmentRem.setVisibility(View.VISIBLE);
+                                attachmentCam.setVisibility(View.GONE);
+                                sharedPref.edit().putString("handleTextAttachment", fileName).apply();
                             }
                         })
-                        .setItems(options, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int item) {
-                                if (options[item].equals(from.getString(R.string.att_file))) {
-                                    String startDir = Environment.getExternalStorageDirectory() + "/HHS_Moodle/";
-                                    new ChooserDialog().with(from)
-                                            .withStartFile(startDir)
-                                            .withChosenListener(new ChooserDialog.Result() {
-                                                @Override
-                                                public void onChoosePath(final String path, final File pathFile) {
-                                                    final String fileName = pathFile.getAbsolutePath();
-                                                    String attName = fileName.substring(fileName.lastIndexOf("/")+1);
-                                                    attachment.setText(attName);
-                                                    attachmentRem.setVisibility(View.VISIBLE);
-                                                    attachmentCam.setVisibility(View.GONE);
-                                                    sharedPref.edit().putString("handleTextAttachment", fileName).apply();
-                                                }
-                                            })
-                                            .build()
-                                            .show();
-                                }
-
-                                if (options[item].equals (from.getString(R.string.att_todo))) {
-                                    helper_main.isOpened(from);
-                                    helper_main.switchToActivity(from, Popup_todo.class, "", false);
-                                }
-
-                            }
-                        }).show();
+                        .build()
+                        .show();
             }
         });
 
@@ -508,11 +484,6 @@ public class helper_notes {
                         i2.setVisibility(View.GONE);
                     }
 
-                    if (attachment.startsWith(from.getString(R.string.todo_title) + ": ")) {
-                        i2.setVisibility(View.VISIBLE);
-                        i2.setImageResource(R.drawable.playlist_check);
-                    }
-
                     i.setOnClickListener(new View.OnClickListener() {
 
                         @Override
@@ -590,8 +561,7 @@ public class helper_notes {
 
                         @Override
                         public void onClick(View arg0) {
-
-                            helper_main.openAtt(from, i2, attachment);
+                            helper_main.openAtt(from, listView, attachment);
                         }
                     });
 

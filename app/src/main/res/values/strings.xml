@@ -187,8 +187,6 @@
     <string name="note_priority_2">High</string>
     <string name="title_hint">Title</string>
     <string name="text_hint">Content</string>
-    <string name="att_file">Add file</string>
-    <string name="att_todo">Add todo</string>
 
 
     // Password

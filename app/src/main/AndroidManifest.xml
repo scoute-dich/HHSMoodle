@@ -121,11 +121,6 @@
             android:theme="@style/AppThemeDialog" />
 
         <activity
-            android:name=".popup.Popup_todo"
-            android:launchMode="singleTask"
-            android:theme="@style/AppThemeDialog" />
-
-        <activity
             android:name=".popup.Popup_todo_restart"
             android:launchMode="singleTask"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
