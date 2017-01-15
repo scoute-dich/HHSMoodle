@@ -411,6 +411,7 @@ public class FragmentNotes extends Fragment {
                         i2.setVisibility(View.GONE);
                     }
 
+
                     i.setOnClickListener(new View.OnClickListener() {
 
                         @Override
