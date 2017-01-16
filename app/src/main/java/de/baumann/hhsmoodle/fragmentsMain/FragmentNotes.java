@@ -56,7 +56,6 @@ import java.util.HashMap;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.databases.Database_Notes;
 import de.baumann.hhsmoodle.databases.Database_Todo;
-import de.baumann.hhsmoodle.popup.Popup_courseList;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.helper.helper_notes;
 
@@ -89,32 +88,8 @@ public class FragmentNotes extends Fragment {
             @Override
             public void onClick(View view) {
 
-                final CharSequence[] options = {
-                        getString(R.string.todo_from_courseList),
-                        getString(R.string.todo_from_new)};
-                new AlertDialog.Builder(getActivity())
-                        .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                dialog.cancel();
-                            }
-                        })
-                        .setItems(options, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int item) {
-                                if (options[item].equals(getString(R.string.todo_from_courseList))) {
-                                    helper_main.isOpened(getActivity());
-                                    Intent mainIntent = new Intent(getActivity(), Popup_courseList.class);
-                                    mainIntent.setAction("courseList_note");
-                                    startActivity(mainIntent);
-                                }
-
-                                if (options[item].equals (getString(R.string.todo_from_new))) {
-                                    helper_notes.editNote(getActivity());
-                                }
-
-                            }
-                        }).show();
+                sharedPref.edit().putString("handleTextCreate", helper_main.createDate()).apply();
+                helper_notes.editNote(getActivity());
             }
         });
 
@@ -152,10 +127,6 @@ public class FragmentNotes extends Fragment {
                 if (!file2.exists()) {
                     attachment2.setVisibility(View.GONE);
                 }
-                if (attachment.startsWith(getString(R.string.todo_title) + ": ")) {
-                    attachment2.setVisibility(View.VISIBLE);
-                    attachment2.setText(att);
-                }
 
                 textInput = (TextView) dialogView.findViewById(R.id.note_text_input);
                 textInput.setText(cont);
@@ -165,26 +136,20 @@ public class FragmentNotes extends Fragment {
 
                     @Override
                     public void onClick(View arg0) {
-
-                        if (attachment.startsWith(getString(R.string.todo_title) + ": ")) {
-                            TabLayout tabHost = (TabLayout) getActivity().findViewById(R.id.tabs);
-                            tabHost.getTabAt(1).select();
-                        } else {
-                            helper_main.openAtt(getActivity(), listView, attachment);
-                        }
+                        helper_main.openAtt(getActivity(), listView, attachment);
                     }
                 });
 
                 final ImageView be = (ImageView) dialogView.findViewById(R.id.imageButtonPri);
 
                 switch (icon) {
-                    case "1":
+                    case "3":
                         be.setImageResource(R.drawable.circle_green);
                         break;
                     case "2":
                         be.setImageResource(R.drawable.circle_yellow);
                         break;
-                    case "3":
+                    case "1":
                         be.setImageResource(R.drawable.circle_red);
                         break;
                 }
@@ -269,10 +234,10 @@ public class FragmentNotes extends Fragment {
 
                                     try {
                                         final Database_Todo db = new Database_Todo(getActivity());
-                                        db.addBookmark(title, "", "1", "", helper_main.createDate());
+                                        db.addBookmark(title, cont, "3", "true", helper_main.createDate());
                                         db.close();
                                         TabLayout tabHost = (TabLayout) getActivity().findViewById(R.id.tabs);
-                                        tabHost.getTabAt(3).select();
+                                        tabHost.getTabAt(1).select();
 
                                     } catch (Exception e) {
                                         e.printStackTrace();
@@ -332,11 +297,20 @@ public class FragmentNotes extends Fragment {
     }
 
     @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && isResumed()) {
+            setNotesList();
+        }
+    }
+
+    @Override
     public void onResume() {
         super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
         setNotesList();
     }
 
+    @SuppressWarnings("WeakerAccess")
     public void setNotesList() {
 
         ArrayList<HashMap<String,String>> mapList = new ArrayList<>();
@@ -386,13 +360,13 @@ public class FragmentNotes extends Fragment {
                     ImageView i2=(ImageView) v.findViewById(R.id.att_notes);
 
                     switch (icon) {
-                        case "1":
+                        case "3":
                             i.setImageResource(R.drawable.circle_green);
                             break;
                         case "2":
                             i.setImageResource(R.drawable.circle_yellow);
                             break;
-                        case "3":
+                        case "1":
                             i.setImageResource(R.drawable.circle_red);
                             break;
                     }
@@ -457,7 +431,7 @@ public class FragmentNotes extends Fragment {
                                                 try {
                                                     final Database_Notes db = new Database_Notes(getActivity());
                                                     db.deleteNote((Integer.parseInt(seqnoStr)));
-                                                    db.addBookmark(title, cont, "1", attachment, create);
+                                                    db.addBookmark(title, cont, "3", attachment, create);
                                                     db.close();
                                                     setNotesList();
                                                 } catch (Exception e) {
@@ -479,7 +453,7 @@ public class FragmentNotes extends Fragment {
                                                 try {
                                                     final Database_Notes db = new Database_Notes(getActivity());
                                                     db.deleteNote((Integer.parseInt(seqnoStr)));
-                                                    db.addBookmark(title, cont, "3", attachment, create);
+                                                    db.addBookmark(title, cont, "1", attachment, create);
                                                     db.close();
                                                     setNotesList();
                                                 } catch (Exception e) {

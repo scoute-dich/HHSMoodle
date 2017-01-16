@@ -34,6 +34,7 @@ import android.widget.TextView;
 
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.helper.class_SecurePreferences;
+import de.baumann.hhsmoodle.helper.helper_encryption;
 import de.baumann.hhsmoodle.helper.helper_main;
 
 public class Activity_password extends AppCompatActivity {
@@ -205,6 +206,7 @@ public class Activity_password extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        helper_encryption.encryptDatabases(Activity_password.this);
         helper_main.isClosed(Activity_password.this);
         finishAffinity();
     }

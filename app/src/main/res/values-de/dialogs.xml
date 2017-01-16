@@ -38,15 +38,6 @@
     </string>
 
 
-    // Login Dialog
-
-    <string name="login_title">Bitte warten …</string>
-    <string name="login_text">
-        Du wirst automatisch angemeldet. Wenn dies nicht funktioniert gib bitte die richtigen Logindaten in den Einstellungen ein.
-        Diese Nachricht verschwindet, wenn du erfolgreich angemeldet bist.
-    </string>
-
-
     // Help Dialogs
 
     <string name="dialog_help_title">HHS Moodle - kurze Enführung</string>

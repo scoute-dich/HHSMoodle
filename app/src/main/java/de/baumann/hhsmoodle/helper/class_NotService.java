@@ -11,7 +11,7 @@ public class class_NotService extends IntentService {
     protected void onHandleIntent(Intent intent){
         String intentType = intent.getExtras().getString("caller");
         if(intentType == null) return;
-        if(intentType.equals("RebootReceiver")) {
+        if(intentType.equals("RebootReceiver_not")) {
 
             Intent mainIntent = new Intent(class_NotService.this, Popup_todo_restart.class);
             startActivity(mainIntent);

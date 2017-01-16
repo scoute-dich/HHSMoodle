@@ -80,50 +80,13 @@ public class Activity_dice extends AppCompatActivity {
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPrefSec = new class_SecurePreferences(Activity_dice.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
-        String pw = sharedPrefSec.getString("protect_PW");
-
-        if (pw != null  && pw.length() > 0) {
-            if (sharedPref.getBoolean("isOpened", true)) {
-                helper_main.switchToActivity(Activity_dice.this, Activity_password.class, "", false);
-            }
-        }
 
         setContentView(R.layout.activity_dice);
         setTitle(R.string.number_title);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        if(toolbar != null) {
-            toolbar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    final String startURL = sharedPref.getString("favoriteURL", "https://moodle.huebsch.ka.schule-bw.de/moodle/");
-                    final String startType = sharedPref.getString("startType", "1");
-
-                    helper_main.resetStartTab(Activity_dice.this);
-
-                    if (startType.equals("2")) {
-                        helper_main.isOpened(Activity_dice.this);
-                        helper_main.switchToActivity(Activity_dice.this, Activity_grades.class, startURL, false);
-                    } else if (startType.equals("1")){
-                        helper_main.isOpened(Activity_dice.this);
-                        helper_main.switchToActivity(Activity_dice.this, HHS_MainScreen.class, "", true);
-                    }
-                }
-            });
-
-            if (sharedPref.getBoolean ("longPress", false)){
-                toolbar.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View v) {
-                        helper_main.resetStartTab(Activity_dice.this);
-                        helper_main.isClosed(Activity_dice.this);
-                        finishAffinity();
-                        return true;
-                    }
-                });
-            }
-        }
+        helper_main.onStart(Activity_dice.this);
 
         final ActionBar actionBar = getSupportActionBar();
         if(actionBar != null) {
@@ -469,7 +432,6 @@ public class Activity_dice extends AppCompatActivity {
         }
 
         if (id == android.R.id.home) {
-            helper_main.resetStartTab(Activity_dice.this);
             helper_main.isOpened(Activity_dice.this);
             helper_main.switchToActivity(Activity_dice.this, HHS_MainScreen.class, "", true);
         }

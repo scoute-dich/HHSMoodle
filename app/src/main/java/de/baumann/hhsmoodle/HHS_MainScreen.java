@@ -19,14 +19,10 @@
 
 package de.baumann.hhsmoodle;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -35,34 +31,18 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.WindowManager;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.security.InvalidKeyException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
-import javax.crypto.Cipher;
-import javax.crypto.CipherOutputStream;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.spec.SecretKeySpec;
 
 import de.baumann.hhsmoodle.activities.Activity_courseList;
 import de.baumann.hhsmoodle.activities.Activity_dice;
@@ -74,6 +54,7 @@ import de.baumann.hhsmoodle.activities.Activity_password;
 import de.baumann.hhsmoodle.activities.Activity_settings;
 import de.baumann.hhsmoodle.fragmentsMain.FragmentTodo;
 import de.baumann.hhsmoodle.helper.class_SecurePreferences;
+import de.baumann.hhsmoodle.helper.helper_encryption;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.helper.helper_notes;
 
@@ -92,12 +73,6 @@ public class HHS_MainScreen extends AppCompatActivity {
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPrefSec = new class_SecurePreferences(HHS_MainScreen.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
-        String pw = sharedPrefSec.getString("protect_PW");
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
-        }
 
         setContentView(R.layout.activity_screen_main);
 
@@ -107,42 +82,9 @@ public class HHS_MainScreen extends AppCompatActivity {
         assert tabLayout != null;
         tabLayout.setupWithViewPager(viewPager);
 
-        if (pw != null && pw.length() > 0) {
-            if (sharedPref.getBoolean("isOpened", true)) {
-                helper_main.switchToActivity(HHS_MainScreen.this, Activity_password.class, "", false);
-            }
-        }
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        if(toolbar != null) {
-            toolbar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    final String startURL = sharedPref.getString("favoriteURL", "https://moodle.huebsch.ka.schule-bw.de/moodle/");
-                    final String startType = sharedPref.getString("startType", "1");
-
-                    if (startType.equals("2")) {
-                        helper_main.isOpened(HHS_MainScreen.this);
-                        helper_main.switchToActivity(HHS_MainScreen.this, HHS_Browser.class, startURL, true);
-                    } else if (startType.equals("1")){
-                        helper_main.isOpened(HHS_MainScreen.this);
-                        helper_main.switchToActivity(HHS_MainScreen.this, HHS_MainScreen.class, "", false);
-                    }
-                }
-            });
-
-            if (sharedPref.getBoolean ("longPress", false)){
-                toolbar.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View v) {
-                        helper_main.isClosed(HHS_MainScreen.this);
-                        finishAffinity();
-                        return true;
-                    }
-                });
-            }
-        }
+        helper_main.onStart(HHS_MainScreen.this);
 
         boolean show = sharedPref.getBoolean("help_notShow", true);
 
@@ -192,7 +134,7 @@ public class HHS_MainScreen extends AppCompatActivity {
             sharedPref.edit()
                     .putString("handleTextTitle", intent.getStringExtra(Intent.EXTRA_SUBJECT))
                     .putString("handleTextText", intent.getStringExtra(Intent.EXTRA_TEXT))
-                    .putString("handleTextIcon", "")
+                    .putString("handleTextIcon", "3")
                     .apply();
             helper_notes.editNote(HHS_MainScreen.this);
         } else {
@@ -411,17 +353,9 @@ public class HHS_MainScreen extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        Snackbar.make(viewPager, getString(R.string.app_encrypt) , Snackbar.LENGTH_LONG).show();
         helper_main.isClosed(HHS_MainScreen.this);
-
-        try {
-            encrypt("/databases/random_v2.db","/databases/random_v2_en.db");
-            encrypt("/databases/todo_v2.db","/databases/todo_v2_en.db");
-            encrypt("/databases/notes_v2.db","/databases/notes_v2_en.db");
-            encrypt("/databases/courseList_v2.db","/databases/courseList_v2_en.db");
-            encrypt("/databases/browser_v2.db","/databases/browser_v2_en.db");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        helper_encryption.encryptDatabases(HHS_MainScreen.this);
 
         finish();
     }
@@ -434,53 +368,6 @@ public class HHS_MainScreen extends AppCompatActivity {
             if (sharedPref.getBoolean("isOpened", true)) {
                 helper_main.switchToActivity(HHS_MainScreen.this, Activity_password.class, "", false);
             }
-        }
-    }
-
-    private void encrypt(String in, String out) throws IOException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {
-
-        sharedPrefSec = new class_SecurePreferences(HHS_MainScreen.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
-
-        PackageManager m = getPackageManager();
-        String s = getPackageName();
-        try {
-            PackageInfo p = m.getPackageInfo(s, 0);
-            s = p.applicationInfo.dataDir;
-
-            String pathIN = s + in;
-            String pathOUT = s + out;
-
-            FileInputStream fis = new FileInputStream(pathIN);
-            FileOutputStream fos = new FileOutputStream(pathOUT);
-
-            byte[] key = (sharedPrefSec.getString("generateDBKOK").getBytes("UTF-8"));
-            MessageDigest sha = MessageDigest.getInstance("SHA-1");
-            key = sha.digest(key);
-            key = Arrays.copyOf(key, 16); // use only first 128 bit
-
-            SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
-            // Length is 16 byte
-            // Create cipher
-            @SuppressLint("GetInstance") Cipher cipher = Cipher.getInstance("AES");
-            cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
-            // Wrap the output stream
-            CipherOutputStream cos = new CipherOutputStream(fos, cipher);
-            // Write bytes
-            int b;
-            byte[] d = new byte[8];
-            while((b = fis.read(d)) != -1) {
-                cos.write(d, 0, b);
-            }
-            // Flush and close streams.
-            cos.flush();
-            cos.close();
-            fis.close();
-
-            File fileIN = new File(pathIN);
-            fileIN.delete();
-
-        } catch (PackageManager.NameNotFoundException e) {
-            Log.w("HHS_Moodle", "Error Package name not found ", e);
         }
     }
 

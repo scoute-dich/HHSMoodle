@@ -138,7 +138,8 @@ public class helper_notes {
                             public void onChoosePath(final String path, final File pathFile) {
                                 final String fileName = pathFile.getAbsolutePath();
                                 String attName = fileName.substring(fileName.lastIndexOf("/")+1);
-                                attachment.setText(attName);
+                                String att = from.getString(R.string.app_att) + ": " + attName;
+                                attachment.setText(att);
                                 attachmentRem.setVisibility(View.VISIBLE);
                                 attachmentCam.setVisibility(View.GONE);
                                 sharedPref.edit().putString("handleTextAttachment", fileName).apply();
@@ -181,10 +182,10 @@ public class helper_notes {
         assert be != null;
 
         switch (priority) {
-            case "1":
+            case "3":
                 be.setImageResource(R.drawable.circle_green);
                 sharedPref.edit()
-                        .putString("handleTextIcon", "1")
+                        .putString("handleTextIcon", "3")
                         .apply();
                 break;
             case "2":
@@ -193,17 +194,17 @@ public class helper_notes {
                         .putString("handleTextIcon", "2")
                         .apply();
                 break;
-            case "3":
+            case "1":
                 be.setImageResource(R.drawable.circle_red);
                 sharedPref.edit()
-                        .putString("handleTextIcon", "3")
+                        .putString("handleTextIcon", "1")
                         .apply();
                 break;
 
             default:
                 be.setImageResource(R.drawable.circle_green);
                 sharedPref.edit()
-                        .putString("handleTextIcon", "1")
+                        .putString("handleTextIcon", "3")
                         .apply();
                 break;
         }
@@ -251,7 +252,7 @@ public class helper_notes {
                                 if (item == 0) {
                                     be.setImageResource(R.drawable.circle_green);
                                     sharedPref.edit()
-                                            .putString("handleTextIcon", "1")
+                                            .putString("handleTextIcon", "3")
                                             .apply();
                                 } else if (item == 1) {
                                     be.setImageResource(R.drawable.circle_yellow);
@@ -261,7 +262,7 @@ public class helper_notes {
                                 } else if (item == 2) {
                                     be.setImageResource(R.drawable.circle_red);
                                     sharedPref.edit()
-                                            .putString("handleTextIcon", "3")
+                                            .putString("handleTextIcon", "1")
                                             .apply();
                                 }
                             }
@@ -301,7 +302,6 @@ public class helper_notes {
                                             } else {
                                                 titleInput.getText().insert(titleInput.getSelectionStart(), dateNow);
                                             }
-
                                             break;
 
                                         case "2":
@@ -315,7 +315,6 @@ public class helper_notes {
                                             } else {
                                                 titleInput.getText().insert(titleInput.getSelectionStart(), dateNow2);
                                             }
-
                                             break;
                                     }
                                 }
@@ -459,13 +458,13 @@ public class helper_notes {
                     final ImageView i2=(ImageView) v.findViewById(R.id.att_notes);
 
                     switch (icon) {
-                        case "1":
+                        case "3":
                             i.setImageResource(R.drawable.circle_green);
                             break;
                         case "2":
                             i.setImageResource(R.drawable.circle_yellow);
                             break;
-                        case "3":
+                        case "1":
                             i.setImageResource(R.drawable.circle_red);
                             break;
                     }
@@ -523,7 +522,7 @@ public class helper_notes {
                                                 try {
                                                     final Database_Notes db = new Database_Notes(from);
                                                     db.deleteNote((Integer.parseInt(seqnoStr)));
-                                                    db.addBookmark(title, cont, "1", attachment, create);
+                                                    db.addBookmark(title, cont, "3", attachment, create);
                                                     db.close();
                                                     setNotesList(from);
                                                 } catch (Exception e) {
@@ -545,7 +544,7 @@ public class helper_notes {
                                                 try {
                                                     final Database_Notes db = new Database_Notes(from);
                                                     db.deleteNote((Integer.parseInt(seqnoStr)));
-                                                    db.addBookmark(title, cont, "3", attachment, create);
+                                                    db.addBookmark(title, cont, "1", attachment, create);
                                                     db.close();
                                                     setNotesList(from);
                                                 } catch (Exception e) {

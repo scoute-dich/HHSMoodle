@@ -82,8 +82,8 @@ public class Database_Todo extends SQLiteOpenHelper {
         stmt.bindLong(1, seqno);
         stmt.bindString(2, "Default entry | Standardeintrag");
         stmt.bindString(3, "Click to open | Anklicken zum Öffnen | Long click for more options | Lange drücken für mehr Optionen");
-        stmt.bindString(4, "1");
-        stmt.bindString(5, "");
+        stmt.bindString(4, "3");
+        stmt.bindString(5, "true");
         stmt.bindString(6, dateCreate);
         stmt.executeInsert();
 

@@ -37,15 +37,6 @@
     </string>
 
 
-    // Login Dialog
-
-    <string name="login_title">Please wait …</string>
-    <string name="login_text">
-        You will be automatically logged in. If this does not work you must enter the correct login data in the settings.
-        This message will close when you are successfully logged in.
-    </string>
-
-
     // Help Dialogs
 
     <string name="dialog_help_title">HHS Moodle - short introduction</string>

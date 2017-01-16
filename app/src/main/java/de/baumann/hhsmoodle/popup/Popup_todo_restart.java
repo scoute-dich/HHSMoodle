@@ -24,13 +24,11 @@ import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
-import android.support.v7.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,7 +49,6 @@ import java.util.HashMap;
 
 import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
-import javax.crypto.CipherOutputStream;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 
@@ -65,19 +62,15 @@ public class Popup_todo_restart extends Activity {
 
     private ListView listView = null;
     private class_SecurePreferences sharedPrefSec;
-    private SharedPreferences sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
-        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        sharedPref.edit().putString("notification_running", "true").apply();
         sharedPrefSec = new class_SecurePreferences(Popup_todo_restart.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
 
         try {
-            decrypt("/databases/todo_v2_en.db", "/databases/todo_v2.db");
+            decrypt("/databases/todo_v2.db");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -134,10 +127,6 @@ public class Popup_todo_restart extends Activity {
 
                     switch (attachment) {
                         case "":
-
-                            break;
-                        default:
-
                             int n = Integer.valueOf(seqnoStr);
 
                             android.content.Intent iMain = new android.content.Intent();
@@ -145,30 +134,44 @@ public class Popup_todo_restart extends Activity {
                             iMain.setClassName(Popup_todo_restart.this, "de.baumann.hhsmoodle.activities.Activity_splash");
                             PendingIntent piMain = PendingIntent.getActivity(Popup_todo_restart.this, n, iMain, 0);
 
-                            Notification notification = new NotificationCompat.Builder(Popup_todo_restart.this)
+                            android.support.v4.app.NotificationCompat.Builder builderSummary =
+                                    new android.support.v4.app.NotificationCompat.Builder(Popup_todo_restart.this)
+                                            .setSmallIcon(R.drawable.school)
+                                            .setColor(ContextCompat.getColor(Popup_todo_restart.this, R.color.colorPrimary))
+                                            .setGroup("HHS_Moodle")
+                                            .setGroupSummary(true)
+                                            .setContentIntent(piMain);
+
+                            Notification notification = new android.support.v4.app.NotificationCompat.Builder(Popup_todo_restart.this)
+                                    .setColor(ContextCompat.getColor(Popup_todo_restart.this, R.color.colorPrimary))
                                     .setSmallIcon(R.drawable.school)
                                     .setContentTitle(title)
                                     .setContentText(cont)
                                     .setContentIntent(piMain)
                                     .setAutoCancel(true)
-                                    .setStyle(new NotificationCompat.BigTextStyle().bigText(cont))
+                                    .setGroup("HHS_Moodle")
+                                    .setStyle(new android.support.v4.app.NotificationCompat.BigTextStyle().bigText(cont))
                                     .setPriority(Notification.PRIORITY_DEFAULT)
                                     .setVibrate(new long[0])
                                     .build();
 
                             NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                             notificationManager.notify(n, notification);
+                            notificationManager.notify(0, builderSummary.build());
+                            break;
+
+                        default:
+                            Log.w("HHS_Moodle", "No pending notifications");
                             break;
                     }
 
                     new Handler().postDelayed(new Runnable() {
                         public void run() {
                             try {
-                                encrypt("/databases/todo_v2.db","/databases/todo_v2_en.db");
+                                encrypt("/databases/todo_v2.db");
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
-                            sharedPref.edit().putString("notification_running", "false").apply();
                             finish();
                         }
                     }, 1000);
@@ -185,7 +188,7 @@ public class Popup_todo_restart extends Activity {
     }
 
     @SuppressWarnings("UnusedParameters")
-    private void decrypt(String in, String out) throws IOException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {
+    private void decrypt(String out) throws IOException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {
 
         PackageManager m = getPackageManager();
         String s = getPackageName();
@@ -219,17 +222,13 @@ public class Popup_todo_restart extends Activity {
             fos.close();
             cis.close();
 
-            File fileIN = new File(pathIN);
-            //noinspection ResultOfMethodCallIgnored
-            fileIN.delete();
-
         } catch (PackageManager.NameNotFoundException e) {
             Log.w("HHS_Moodle", "Error Package name not found ", e);
         }
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
-    private void encrypt(String in, String out) throws IOException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {
+    private void encrypt(String in) {
 
         PackageManager m = getPackageManager();
         String s = getPackageName();
@@ -238,34 +237,6 @@ public class Popup_todo_restart extends Activity {
             s = p.applicationInfo.dataDir;
 
             String pathIN = s + in;
-            String pathOUT = s + out;
-
-            FileInputStream fis = new FileInputStream(pathIN);
-            FileOutputStream fos = new FileOutputStream(pathOUT);
-
-            byte[] key = (sharedPrefSec.getString("generateDBKOK").getBytes("UTF-8"));
-            MessageDigest sha = MessageDigest.getInstance("SHA-1");
-            key = sha.digest(key);
-            key = Arrays.copyOf(key, 16); // use only first 128 bit
-
-            SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
-            // Length is 16 byte
-            // Create cipher
-            @SuppressLint("GetInstance") Cipher cipher = Cipher.getInstance("AES");
-            cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
-            // Wrap the output stream
-            CipherOutputStream cos = new CipherOutputStream(fos, cipher);
-            // Write bytes
-            int b;
-            byte[] d = new byte[8];
-            while((b = fis.read(d)) != -1) {
-                cos.write(d, 0, b);
-            }
-            // Flush and close streams.
-            cos.flush();
-            cos.close();
-            fis.close();
-
             File fileIN = new File(pathIN);
             fileIN.delete();
 

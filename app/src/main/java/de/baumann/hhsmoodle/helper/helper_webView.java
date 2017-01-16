@@ -22,16 +22,16 @@ package de.baumann.hhsmoodle.helper;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
+import android.view.View;
 import android.webkit.ValueCallback;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -41,6 +41,7 @@ import android.webkit.WebViewClient;
 import java.net.URISyntaxException;
 
 import de.baumann.hhsmoodle.R;
+import de.baumann.hhsmoodle.activities.Activity_settings;
 
 import static android.content.ContentValues.TAG;
 
@@ -74,32 +75,23 @@ public class helper_webView {
                                               final SwipeRefreshLayout swipeRefreshLayout,
                                               final WebView webView) {
 
-        //noinspection unused,unused
         webView.setWebViewClient(new WebViewClient() {
-
-            @SuppressWarnings("unused")
-            boolean active;
-
-            final AlertDialog.Builder dialog = new AlertDialog.Builder(from)
-                    .setTitle(R.string.login_title)
-                    .setMessage(helper_main.textSpannable(from.getString(R.string.login_text)))
-                    .setNegativeButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
-
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            dialog.cancel();
-                        }
-                    });
-            final AlertDialog alert = dialog.create();
 
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
 
-                if (url != null && url.contains("moodle.huebsch.ka.schule-bw.de/moodle/") && url.contains("/login/") && active ) {
-                    alert.show();
-                } else {
-                    if (alert.isShowing()) {
-                        alert.dismiss();
-                    }
+                if (url != null
+                        && url.contains("moodle.huebsch.ka.schule-bw.de/moodle/")
+                        && url.contains("/login/")) {
+                    Snackbar snackbar = Snackbar
+                            .make(webView, from.getString(R.string.login_text), Snackbar.LENGTH_LONG)
+                            .setAction(from.getString(R.string.toast_yes), new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    helper_main.switchToActivity(from, Activity_settings.class, "", true);
+                                }
+                            });
+                    snackbar.show();
                 }
 
                 swipeRefreshLayout.setRefreshing(false);

@@ -67,50 +67,13 @@ public class Activity_courseList extends AppCompatActivity {
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPrefSec = new class_SecurePreferences(Activity_courseList.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
-        String pw = sharedPrefSec.getString("protect_PW");
-
-        if (pw != null  && pw.length() > 0) {
-            if (sharedPref.getBoolean("isOpened", true)) {
-                helper_main.switchToActivity(Activity_courseList.this, Activity_password.class, "", false);
-            }
-        }
 
         setContentView(R.layout.activity_dice);
         setTitle(R.string.courseList_title);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        if(toolbar != null) {
-            toolbar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    final String startURL = sharedPref.getString("favoriteURL", "https://moodle.huebsch.ka.schule-bw.de/moodle/");
-                    final String startType = sharedPref.getString("startType", "1");
-
-                    helper_main.resetStartTab(Activity_courseList.this);
-
-                    if (startType.equals("2")) {
-                        helper_main.isOpened(Activity_courseList.this);
-                        helper_main.switchToActivity(Activity_courseList.this, Activity_grades.class, startURL, false);
-                    } else if (startType.equals("1")){
-                        helper_main.isOpened(Activity_courseList.this);
-                        helper_main.switchToActivity(Activity_courseList.this, HHS_MainScreen.class, "", true);
-                    }
-                }
-            });
-
-            if (sharedPref.getBoolean ("longPress", false)){
-                toolbar.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View v) {
-                        helper_main.resetStartTab(Activity_courseList.this);
-                        helper_main.isClosed(Activity_courseList.this);
-                        finishAffinity();
-                        return true;
-                    }
-                });
-            }
-        }
+        helper_main.onStart(Activity_courseList.this);
 
         final ActionBar actionBar = getSupportActionBar();
         if(actionBar != null) {
@@ -440,7 +403,6 @@ public class Activity_courseList extends AppCompatActivity {
         }
 
         if (id == android.R.id.home) {
-            helper_main.resetStartTab(Activity_courseList.this);
             helper_main.isOpened(Activity_courseList.this);
             helper_main.switchToActivity(Activity_courseList.this, HHS_MainScreen.class, "", true);
         }

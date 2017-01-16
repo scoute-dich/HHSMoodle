@@ -66,6 +66,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+                <action android:name="shortcutFavorite_Browser" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="http" />
@@ -151,7 +152,7 @@
 
         <service android:name="de.baumann.hhsmoodle.helper.class_NotService"/>
 
-        <receiver android:name="de.baumann.hhsmoodle.helper.RebootReceiver">
+        <receiver android:name="de.baumann.hhsmoodle.helper.RebootReceiver_not">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>

@@ -129,7 +129,7 @@ public class Popup_courseList extends Activity {
 
                     try {
                         final Database_Todo db = new Database_Todo(Popup_courseList.this);
-                        db.addBookmark(title, text, "1", "", helper_main.createDate());
+                        db.addBookmark(title, text, "3", "true", helper_main.createDate());
                         db.close();
                         finish();
 

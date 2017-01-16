@@ -1,9 +1,12 @@
 ### v 3.1:
 
-- added: notifications (Todo)
-- removed: MyMoodle
+- added: bundeld notifications (Todo)
+- improved: database encryption
+- fixed: delete todo list on start
+- fixed: sorting of todo and notes list
+- fixed: force closes of build in file manager
 - fixed: several small bugs
-
+- removed: MyMoodle
 
 ### v 3.0:
 

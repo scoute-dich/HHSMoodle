@@ -84,16 +84,10 @@ public class FragmentBookmarks extends Fragment {
         listView = (ListView)rootView.findViewById(R.id.bookmarks);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                final String startTab = sharedPref.getString("tabMain", "0");
-                sharedPref.edit()
-                        .putString("tabPref", startTab)
-                        .putString("tabMain", "1")
-                        .apply();
-
                 @SuppressWarnings("unchecked")
                 HashMap<String,String> map = (HashMap<String,String>)listView.getItemAtPosition(position);
                 helper_main.isOpened(getActivity());
-                helper_main.switchToActivity(getActivity(), HHS_Browser.class, map.get("url"), true);
+                helper_main.switchToActivity(getActivity(), HHS_Browser.class, map.get("url"), false);
             }
         });
 
@@ -178,10 +172,10 @@ public class FragmentBookmarks extends Fragment {
 
                                     try {
                                         final Database_Todo db = new Database_Todo(getActivity());
-                                        db.addBookmark(title, "", "1", "", helper_main.createDate());
+                                        db.addBookmark(title, "", "3", "true", helper_main.createDate());
                                         db.close();
                                         TabLayout tabHost = (TabLayout) getActivity().findViewById(R.id.tabs);
-                                        tabHost.getTabAt(3).select();
+                                        tabHost.getTabAt(1).select();
 
                                     } catch (Exception e) {
                                         e.printStackTrace();
@@ -290,6 +284,20 @@ public class FragmentBookmarks extends Fragment {
         }
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && isResumed()) {
+            setBookmarkList();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
+        setBookmarkList();
+    }
+
     private void setBookmarkList() {
 
         ArrayList<HashMap<String,String>> mapList = new ArrayList<>();
@@ -334,53 +342,53 @@ public class FragmentBookmarks extends Fragment {
                     ImageView i=(ImageView) v.findViewById(R.id.icon_notes);
 
                     switch (icon) {
-                        case "1":
-                            i.setImageResource(R.drawable.ic_school_grey600_48dp);
+                        case "01":
+                            i.setImageResource(R.drawable.circle_red);
                             break;
-                        case "2":
-                            i.setImageResource(R.drawable.ic_view_dashboard_grey600_48dp);
-                            break;
-                        case "3":
-                            i.setImageResource(R.drawable.ic_face_profile_grey600_48dp);
-                            break;
-                        case "4":
-                            i.setImageResource(R.drawable.ic_calendar_grey600_48dp);
-                            break;
-                        case "5":
-                            i.setImageResource(R.drawable.ic_chart_areaspline_grey600_48dp);
-                            break;
-                        case "6":
-                            i.setImageResource(R.drawable.ic_bell_grey600_48dp);
-                            break;
-                        case "7":
-                            i.setImageResource(R.drawable.ic_settings_grey600_48dp);
-                            break;
-                        case "8":
-                            i.setImageResource(R.drawable.ic_web_grey600_48dp);
-                            break;
-                        case "9":
-                            i.setImageResource(R.drawable.ic_magnify_grey600_48dp);
-                            break;
-                        case "10":
-                            i.setImageResource(R.drawable.ic_pencil_grey600_48dp);
-                            break;
-                        case "11":
-                            i.setImageResource(R.drawable.ic_check_grey600_48dp);
-                            break;
-                        case "12":
-                            i.setImageResource(R.drawable.ic_clock_grey600_48dp);
-                            break;
-                        case "13":
-                            i.setImageResource(R.drawable.ic_bookmark_grey600_48dp);
-                            break;
-                        case "14":
-                            i.setImageResource(R.drawable.circle_green);
-                            break;
-                        case "15":
+                        case "02":
                             i.setImageResource(R.drawable.circle_yellow);
                             break;
+                        case "03":
+                            i.setImageResource(R.drawable.circle_green);
+                            break;
+                        case "04":
+                            i.setImageResource(R.drawable.ic_school_grey600_48dp);
+                            break;
+                        case "05":
+                            i.setImageResource(R.drawable.ic_view_dashboard_grey600_48dp);
+                            break;
+                        case "06":
+                            i.setImageResource(R.drawable.ic_face_profile_grey600_48dp);
+                            break;
+                        case "07":
+                            i.setImageResource(R.drawable.ic_calendar_grey600_48dp);
+                            break;
+                        case "08":
+                            i.setImageResource(R.drawable.ic_chart_areaspline_grey600_48dp);
+                            break;
+                        case "09":
+                            i.setImageResource(R.drawable.ic_bell_grey600_48dp);
+                            break;
+                        case "10":
+                            i.setImageResource(R.drawable.ic_settings_grey600_48dp);
+                            break;
+                        case "11":
+                            i.setImageResource(R.drawable.ic_web_grey600_48dp);
+                            break;
+                        case "12":
+                            i.setImageResource(R.drawable.ic_magnify_grey600_48dp);
+                            break;
+                        case "13":
+                            i.setImageResource(R.drawable.ic_pencil_grey600_48dp);
+                            break;
+                        case "14":
+                            i.setImageResource(R.drawable.ic_check_grey600_48dp);
+                            break;
+                        case "15":
+                            i.setImageResource(R.drawable.ic_clock_grey600_48dp);
+                            break;
                         case "16":
-                            i.setImageResource(R.drawable.circle_red);
+                            i.setImageResource(R.drawable.ic_bookmark_grey600_48dp);
                             break;
                     }
                     i.setOnClickListener(new View.OnClickListener() {
@@ -389,6 +397,9 @@ public class FragmentBookmarks extends Fragment {
                         public void onClick(View arg0) {
 
                             final FragmentNotes.Item[] items = {
+                                    new FragmentNotes.Item(getString(R.string.note_priority_2), R.drawable.circle_red),
+                                    new FragmentNotes.Item(getString(R.string.note_priority_1), R.drawable.circle_yellow),
+                                    new FragmentNotes.Item(getString(R.string.note_priority_0), R.drawable.circle_green),
                                     new FragmentNotes.Item(getString(R.string.text_tit_11), R.drawable.ic_school_grey600_48dp),
                                     new FragmentNotes.Item(getString(R.string.text_tit_1), R.drawable.ic_view_dashboard_grey600_48dp),
                                     new FragmentNotes.Item(getString(R.string.text_tit_2), R.drawable.ic_face_profile_grey600_48dp),
@@ -402,9 +413,6 @@ public class FragmentBookmarks extends Fragment {
                                     new FragmentNotes.Item(getString(R.string.text_tit_9), R.drawable.ic_check_grey600_48dp),
                                     new FragmentNotes.Item(getString(R.string.text_tit_10), R.drawable.ic_clock_grey600_48dp),
                                     new FragmentNotes.Item(getString(R.string.title_bookmarks), R.drawable.ic_bookmark_grey600_48dp),
-                                    new FragmentNotes.Item(getString(R.string.note_priority_0), R.drawable.circle_green),
-                                    new FragmentNotes.Item(getString(R.string.note_priority_1), R.drawable.circle_yellow),
-                                    new FragmentNotes.Item(getString(R.string.note_priority_2), R.drawable.circle_red)
                             };
 
                             ListAdapter adapter = new ArrayAdapter<FragmentNotes.Item>(
@@ -438,23 +446,23 @@ public class FragmentBookmarks extends Fragment {
 
                                         public void onClick(DialogInterface dialog, int item) {
                                             if (item == 0) {
-                                                changeIcon(seqnoStr, title, url, "1");
+                                                changeIcon(seqnoStr, title, url, "01");
                                             } else if (item == 1) {
-                                                changeIcon(seqnoStr, title, url, "2");
+                                                changeIcon(seqnoStr, title, url, "02");
                                             } else if (item == 2) {
-                                                changeIcon(seqnoStr, title, url, "3");
+                                                changeIcon(seqnoStr, title, url, "03");
                                             } else if (item == 3) {
-                                                changeIcon(seqnoStr, title, url, "4");
+                                                changeIcon(seqnoStr, title, url, "04");
                                             } else if (item == 4) {
-                                                changeIcon(seqnoStr, title, url, "5");
+                                                changeIcon(seqnoStr, title, url, "05");
                                             } else if (item == 5) {
-                                                changeIcon(seqnoStr, title, url, "6");
+                                                changeIcon(seqnoStr, title, url, "06");
                                             } else if (item == 6) {
-                                                changeIcon(seqnoStr, title, url, "7");
+                                                changeIcon(seqnoStr, title, url, "07");
                                             } else if (item == 7) {
-                                                changeIcon(seqnoStr, title, url, "8");
+                                                changeIcon(seqnoStr, title, url, "08");
                                             } else if (item == 8) {
-                                                changeIcon(seqnoStr, title, url, "9");
+                                                changeIcon(seqnoStr, title, url, "09");
                                             } else if (item == 9) {
                                                 changeIcon(seqnoStr, title, url, "10");
                                             } else if (item == 10) {
@@ -542,7 +550,6 @@ public class FragmentBookmarks extends Fragment {
                 } else {
                     ch_icon.setChecked(false);
                 }
-
 
                 ch_title.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 

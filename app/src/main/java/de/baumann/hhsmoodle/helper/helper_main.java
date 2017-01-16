@@ -33,12 +33,15 @@ import android.os.Environment;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.util.Linkify;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
@@ -48,8 +51,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import de.baumann.hhsmoodle.HHS_Browser;
+import de.baumann.hhsmoodle.HHS_MainScreen;
 import de.baumann.hhsmoodle.R;
-import de.baumann.hhsmoodle.fragmentsMain.FragmentNotes;
+import de.baumann.hhsmoodle.activities.Activity_password;
 import filechooser.ChooserDialog;
 
 public class helper_main {
@@ -110,6 +115,55 @@ public class helper_main {
         return s;
     }
 
+    public static void onStart (final Activity activity) {
+
+        PreferenceManager.setDefaultValues(activity, R.xml.user_settings, false);
+        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(activity);
+        class_SecurePreferences sharedPrefSec = new class_SecurePreferences(activity, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
+        String pw = sharedPrefSec.getString("protect_PW");
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            activity.getWindow().setStatusBarColor(ContextCompat.getColor(activity, R.color.colorPrimaryDark));
+        }
+
+        if (pw != null && pw.length() > 0) {
+            if (sharedPref.getBoolean("isOpened", true)) {
+                helper_main.switchToActivity(activity, Activity_password.class, "", false);
+            }
+        }
+
+        Toolbar toolbar = (Toolbar) activity.findViewById(R.id.toolbar);
+        if(toolbar != null) {
+            toolbar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    final String startURL = sharedPref.getString("favoriteURL", "https://moodle.huebsch.ka.schule-bw.de/moodle/");
+                    final String startType = sharedPref.getString("startType", "1");
+
+                    if (startType.equals("2")) {
+                        helper_main.isOpened(activity);
+                        helper_main.switchToActivity(activity, HHS_Browser.class, startURL, true);
+                    } else if (startType.equals("1")){
+                        helper_main.isOpened(activity);
+                        helper_main.switchToActivity(activity, HHS_MainScreen.class, "", false);
+                    }
+                }
+            });
+
+            if (sharedPref.getBoolean ("longPress", false)){
+                toolbar.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        helper_main.isClosed(activity);
+                        activity.finishAffinity();
+                        return true;
+                    }
+                });
+            }
+        }
+    }
+
     public static void switchToActivity(Activity from, Class to, String Extra, boolean finishFromActivity) {
         Intent intent = new Intent(from, to);
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -132,17 +186,6 @@ public class helper_main {
         sharedPref.edit()
                 .putBoolean("isOpened", true)
                 .apply();
-    }
-
-    public static void resetStartTab (Activity from) {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(from);
-        String tabPref = sharedPref.getString("tabPref", "");
-        if (tabPref.length() > 0) {
-            sharedPref.edit()
-                    .putString("tabPref", "")
-                    .putString("tabMain", tabPref)
-                    .apply();
-        }
     }
 
     public static File newFile () {
@@ -172,9 +215,6 @@ public class helper_main {
     }
 
     public static void openFilePicker (final Activity activity, final View view, final String startDir) {
-
-        final FragmentNotes FragmentNotes;
-        FragmentNotes = new FragmentNotes();
 
         new ChooserDialog().with(activity)
                 .withStartFile(startDir)
@@ -237,7 +277,6 @@ public class helper_main {
                                                 public void run() {
                                                     String dir = pathFile.getParentFile().getAbsolutePath();
                                                     helper_main.openFilePicker(activity, view, dir);
-                                                    FragmentNotes.setNotesList();
                                                 }
                                             }, 500);
                                         }
@@ -284,7 +323,6 @@ public class helper_main {
                                                 public void run() {
                                                     String dir = pathFile.getParentFile().getAbsolutePath();
                                                     helper_main.openFilePicker(activity, view, dir);
-                                                    FragmentNotes.setNotesList();
                                                 }
                                             }, 500);
                                         }

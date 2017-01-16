@@ -24,6 +24,8 @@
     <string name="app_contDesc_3">Splashscreen</string>
     <string name="app_conf">Bestätigung</string>
     <string name="app_att">Anhang</string>
+    <string name="app_encrypt">Verschlüssle Datenbanken …</string>
+    <string name="app_fav">Favorit</string>
 
 
     // Login
@@ -31,6 +33,7 @@
     <string name="login_user">Benutzername</string>
     <string name="login_password">Passwort</string>
     <string name="login_hint">Bitte Benutzername und Passwort eingeben.</string>
+    <string name="login_text">Automatische Anmeldung. Klappt nicht: Logindaten überarbeiten?</string>
 
 
     // Tab - Titles

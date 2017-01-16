@@ -63,7 +63,6 @@ import javax.crypto.CipherOutputStream;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 
-import de.baumann.hhsmoodle.HHS_Browser;
 import de.baumann.hhsmoodle.HHS_MainScreen;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.helper.class_SecurePreferences;
@@ -77,47 +76,11 @@ public class Activity_settings extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
-        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        class_SecurePreferences sharedPrefSec = new class_SecurePreferences(Activity_settings.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
-        String pw = sharedPrefSec.getString("protect_PW");
         setTitle(R.string.menu_settings);
-
-        if (pw != null && pw.length() > 0) {
-            if (sharedPref.getBoolean("isOpened", true)) {
-                helper_main.switchToActivity(Activity_settings.this, Activity_password.class, "", false);
-            }
-        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        if(toolbar != null) {
-            toolbar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    final String startURL = sharedPref.getString("favoriteURL", "https://moodle.huebsch.ka.schule-bw.de/moodle/");
-                    final String startType = sharedPref.getString("startType", "1");
-
-                    if (startType.equals("2")) {
-                        helper_main.isOpened(Activity_settings.this);
-                        helper_main.switchToActivity(Activity_settings.this, HHS_Browser.class, startURL, true);
-                    } else if (startType.equals("1")){
-                        helper_main.isOpened(Activity_settings.this);
-                        helper_main.switchToActivity(Activity_settings.this, HHS_MainScreen.class, "", true);
-                    }
-                }
-            });
-
-            if (sharedPref.getBoolean ("longPress", false)){
-                toolbar.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View v) {
-                        helper_main.isClosed(Activity_settings.this);
-                        finishAffinity();
-                        return true;
-                    }
-                });
-            }
-        }
+        helper_main.onStart(Activity_settings.this);
 
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         if(actionBar != null) {

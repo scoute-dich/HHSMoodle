@@ -19,11 +19,8 @@
 
 package de.baumann.hhsmoodle.activities;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
@@ -34,31 +31,19 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.security.InvalidKeyException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 import java.util.Random;
-
-import javax.crypto.Cipher;
-import javax.crypto.CipherInputStream;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.spec.SecretKeySpec;
 
 import de.baumann.hhsmoodle.HHS_Browser;
 import de.baumann.hhsmoodle.HHS_MainScreen;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.helper.class_SecurePreferences;
+import de.baumann.hhsmoodle.helper.helper_encryption;
+import de.baumann.hhsmoodle.helper.helper_main;
 
 
 public class Activity_splash extends AppCompatActivity {
@@ -91,7 +76,7 @@ public class Activity_splash extends AppCompatActivity {
             sharedPref.edit().putString("generateDBK", "yes").apply();
         }
 
-        decryptDatabases();
+        helper_encryption.decryptDatabases(Activity_splash.this);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -157,7 +142,7 @@ public class Activity_splash extends AppCompatActivity {
                                     Activity_splash.this.finish();
                                     overridePendingTransition(R.anim.fadein,R.anim.fadeout);
                                 }
-                            }, 1000);
+                            }, 1500);
                         } else if (startType.equals("1")){
                             new Handler().postDelayed(new Runnable() {
                                 public void run() {
@@ -168,7 +153,7 @@ public class Activity_splash extends AppCompatActivity {
                                     Activity_splash.this.finish();
                                     overridePendingTransition(R.anim.fadein,R.anim.fadeout);
                                 }
-                            }, 1000);
+                            }, 1500);
                         }
                     }
                 }
@@ -187,7 +172,7 @@ public class Activity_splash extends AppCompatActivity {
                         Activity_splash.this.finish();
                         overridePendingTransition(R.anim.fadein,R.anim.fadeout);
                     }
-                }, 1000);
+                }, 1500);
             } else if (startType.equals("1")){
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
@@ -198,7 +183,7 @@ public class Activity_splash extends AppCompatActivity {
                         Activity_splash.this.finish();
                         overridePendingTransition(R.anim.fadein,R.anim.fadeout);
                     }
-                }, 1000);
+                }, 1500);
             }
         }
         onNewIntent(getIntent());
@@ -209,20 +194,21 @@ public class Activity_splash extends AppCompatActivity {
         String action = intent.getAction();
 
         if (Intent.ACTION_SEND.equals(action) || "shortcutNotesPlus".equals(action)) {
-            decryptDatabases();
+            helper_encryption.decryptDatabases(Activity_splash.this);
             new Handler().postDelayed(new Runnable() {
                 public void run() {
                     Intent mainIntent = new Intent(Activity_splash.this, HHS_MainScreen.class);
                     mainIntent.setAction("shortcutNotesNew_HS");
                     mainIntent.putExtra(Intent.EXTRA_SUBJECT, intent.getStringExtra(Intent.EXTRA_SUBJECT));
                     mainIntent.putExtra(Intent.EXTRA_TEXT, intent.getStringExtra(Intent.EXTRA_TEXT));
+                    sharedPref.edit().putString("handleTextCreate", helper_main.createDate()).apply();
                     startActivity(mainIntent);
                     Activity_splash.this.finish();
                     overridePendingTransition(R.anim.fadein,R.anim.fadeout);
                 }
-            }, 1000);
+            }, 1500);
         } else if ("shortcutBookmarks".equals(action)) {
-            decryptDatabases();
+            helper_encryption.decryptDatabases(Activity_splash.this);
             new Handler().postDelayed(new Runnable() {
                 public void run() {
                     Intent mainIntent = new Intent(Activity_splash.this, HHS_MainScreen.class);
@@ -231,9 +217,9 @@ public class Activity_splash extends AppCompatActivity {
                     Activity_splash.this.finish();
                     overridePendingTransition(R.anim.fadein,R.anim.fadeout);
                 }
-            }, 1000);
+            }, 1500);
         } else if ("shortcutNotes".equals(action)) {
-            decryptDatabases();
+            helper_encryption.decryptDatabases(Activity_splash.this);
             new Handler().postDelayed(new Runnable() {
                 public void run() {
                     Intent mainIntent = new Intent(Activity_splash.this, HHS_MainScreen.class);
@@ -242,99 +228,29 @@ public class Activity_splash extends AppCompatActivity {
                     Activity_splash.this.finish();
                     overridePendingTransition(R.anim.fadein,R.anim.fadeout);
                 }
-            }, 1000);
+            }, 1500);
         } else if ("shortcutToDo".equals(action)) {
-            if (sharedPref.getString("notification_running", "false").equals("false")) {
-                decryptDatabases();
-                new Handler().postDelayed(new Runnable() {
-                    public void run() {
-                        Intent mainIntent = new Intent(Activity_splash.this, HHS_MainScreen.class);
-                        mainIntent.setAction("shortcutToDo_HS");
-                        startActivity(mainIntent);
-                        Activity_splash.this.finish();
-                        overridePendingTransition(R.anim.fadein,R.anim.fadeout);
-                    }
-                }, 1000);
-            } else {
-                new Handler().postDelayed(new Runnable() {
-                    public void run() {
-                        decryptDatabases();
-                        new Handler().postDelayed(new Runnable() {
-                            public void run() {
-                                Intent mainIntent = new Intent(Activity_splash.this, HHS_MainScreen.class);
-                                mainIntent.setAction("shortcutToDo_HS");
-                                startActivity(mainIntent);
-                                Activity_splash.this.finish();
-                                overridePendingTransition(R.anim.fadein,R.anim.fadeout);
-                            }
-                        }, 1000);
-                    }
-                }, 1000);
-            }
-        }
-    }
-
-    private void decrypt(String in, String out) throws IOException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {
-
-        PackageManager m = getPackageManager();
-        String s = getPackageName();
-        try {
-            PackageInfo p = m.getPackageInfo(s, 0);
-            s = p.applicationInfo.dataDir;
-
-            String pathIN = s + in;
-            String pathOUT = s + out;
-
-            FileInputStream fis = new FileInputStream(pathIN);
-            FileOutputStream fos = new FileOutputStream(pathOUT);
-
-            byte[] key = (sharedPrefSec.getString("generateDBKOK").getBytes("UTF-8"));
-            MessageDigest sha = MessageDigest.getInstance("SHA-1");
-            key = sha.digest(key);
-            key = Arrays.copyOf(key, 16); // use only first 128 bit
-
-            SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
-            // Length is 16 byte
-            // Create cipher
-            @SuppressLint("GetInstance") Cipher cipher = Cipher.getInstance("AES");
-            cipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
-            CipherInputStream cis = new CipherInputStream(fis, cipher);
-            int b;
-            byte[] d = new byte[8];
-            while((b = cis.read(d)) != -1) {
-                fos.write(d, 0, b);
-            }
-            fos.flush();
-            fos.close();
-            cis.close();
-
-            File fileIN = new File(pathIN);
-            //noinspection ResultOfMethodCallIgnored
-            fileIN.delete();
-
-        } catch (PackageManager.NameNotFoundException e) {
-            Log.w("HHS_Moodle", "Error Package name not found ", e);
-        }
-    }
-
-    private void decryptDatabases () {
-
-        try {
-            decrypt("/databases/random_v2_en.db", "/databases/random_v2.db");
-            decrypt("/databases/todo_v2_en.db", "/databases/todo_v2.db");
-            decrypt("/databases/notes_v2_en.db", "/databases/notes_v2.db");
-            decrypt("/databases/courseList_v2_en.db", "/databases/courseList_v2.db");
-            decrypt("/databases/browser_v2_en.db", "/databases/browser_v2.db");
-        } catch (Exception e) {
-            e.printStackTrace();
+            helper_encryption.decryptDatabases(Activity_splash.this);
+            new Handler().postDelayed(new Runnable() {
+                public void run() {
+                    new Handler().postDelayed(new Runnable() {
+                        public void run() {
+                            Intent mainIntent = new Intent(Activity_splash.this, HHS_MainScreen.class);
+                            mainIntent.setAction("shortcutToDo_HS");
+                            startActivity(mainIntent);
+                            Activity_splash.this.finish();
+                            overridePendingTransition(R.anim.fadein,R.anim.fadeout);
+                        }
+                    }, 1500);
+                }
+            }, 1500);
         }
     }
 
     @Override
     public void onBackPressed() {
-        sharedPref.edit()
-                .putBoolean("isOpened", true)
-                .apply();
+        helper_encryption.encryptDatabases(Activity_splash.this);
+        sharedPref.edit().putBoolean("isOpened", true).apply();
         finishAffinity();
     }
 }

@@ -21,6 +21,8 @@
     <string name="app_contDesc_3">splashscreen</string>
     <string name="app_conf">Confirmation</string>
     <string name="app_att">Attachment</string>
+    <string name="app_encrypt">Encrypting databases …</string>
+    <string name="app_fav">Favorite</string>
 
 
     // Login
@@ -28,6 +30,7 @@
     <string name="login_user">Username</string>
     <string name="login_password">Password</string>
     <string name="login_hint">Please enter username and password.</string>
+    <string name="login_text">Automatic login. Does not work: edit login data?</string>
 
 
     // Tab - Titles

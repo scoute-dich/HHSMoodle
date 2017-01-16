@@ -35,6 +35,23 @@
     </shortcut>
 
     <shortcut
+        android:shortcutId="shortcutToDo"
+        android:enabled="true"
+        android:icon="@drawable/qc_todo"
+        android:shortcutShortLabel="@string/todo_title"
+        android:shortcutLongLabel="@string/todo_title"
+        android:shortcutDisabledMessage="@string/todo_title">
+        <intent
+            android:action="shortcutToDo"
+            android:targetPackage="de.baumann.hhsmoodle"
+            android:targetClass="de.baumann.hhsmoodle.activities.Activity_splash" />
+        <!-- If your shortcut is associated with multiple intents, include them
+             here. The last intent in the list is what the user sees when they
+             launch this shortcut. -->
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+
+    <shortcut
         android:shortcutId="shortcutNotesPlus"
         android:enabled="true"
         android:icon="@drawable/qc_note_plus"
@@ -52,16 +69,17 @@
     </shortcut>
 
     <shortcut
-        android:shortcutId="shortcutToDo"
+        android:shortcutId="shortcutFavorite"
         android:enabled="true"
-        android:icon="@drawable/qc_todo"
-        android:shortcutShortLabel="@string/todo_title"
-        android:shortcutLongLabel="@string/todo_title"
-        android:shortcutDisabledMessage="@string/todo_title">
+        android:icon="@drawable/qc_fav"
+        android:shortcutShortLabel="@string/app_fav"
+        android:shortcutLongLabel="@string/app_fav"
+        android:shortcutDisabledMessage="@string/app_fav">
+
         <intent
-            android:action="shortcutToDo"
+            android:action="shortcutFavorite_Browser"
             android:targetPackage="de.baumann.hhsmoodle"
-            android:targetClass="de.baumann.hhsmoodle.activities.Activity_splash" />
+            android:targetClass="de.baumann.hhsmoodle.HHS_Browser" />
         <!-- If your shortcut is associated with multiple intents, include them
              here. The last intent in the list is what the user sees when they
              launch this shortcut. -->

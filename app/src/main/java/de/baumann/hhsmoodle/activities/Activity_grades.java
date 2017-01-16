@@ -43,7 +43,6 @@ import java.util.Locale;
 
 import de.baumann.hhsmoodle.HHS_MainScreen;
 import de.baumann.hhsmoodle.R;
-import de.baumann.hhsmoodle.helper.class_SecurePreferences;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.helper.helper_notes;
 
@@ -174,51 +173,13 @@ public class Activity_grades extends AppCompatActivity {
 
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        class_SecurePreferences sharedPrefSec = new class_SecurePreferences(Activity_grades.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
-        String pw = sharedPrefSec.getString("protect_PW");
-
-        if (pw != null  && pw.length() > 0) {
-            if (sharedPref.getBoolean("isOpened", true)) {
-                helper_main.switchToActivity(Activity_grades.this, Activity_password.class, "", false);
-            }
-        }
 
         setContentView(R.layout.activity_grade);
         setTitle(R.string.action_grades);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        if(toolbar != null) {
-            toolbar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    final String startURL = sharedPref.getString("favoriteURL", "https://moodle.huebsch.ka.schule-bw.de/moodle/");
-                    final String startType = sharedPref.getString("startType", "1");
-
-                    helper_main.resetStartTab(Activity_grades.this);
-
-                    if (startType.equals("2")) {
-                        helper_main.isOpened(Activity_grades.this);
-                        helper_main.switchToActivity(Activity_grades.this, Activity_grades.class, startURL, false);
-                    } else if (startType.equals("1")){
-                        helper_main.isOpened(Activity_grades.this);
-                        helper_main.switchToActivity(Activity_grades.this, HHS_MainScreen.class, "", true);
-                    }
-                }
-            });
-
-            if (sharedPref.getBoolean ("longPress", false)){
-                toolbar.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View v) {
-                        helper_main.resetStartTab(Activity_grades.this);
-                        helper_main.isClosed(Activity_grades.this);
-                        finishAffinity();
-                        return true;
-                    }
-                });
-            }
-        }
+        helper_main.onStart(Activity_grades.this);
 
         final ActionBar actionBar = getSupportActionBar();
         if(actionBar != null) {
@@ -535,7 +496,6 @@ public class Activity_grades extends AppCompatActivity {
         }
 
         if (id == android.R.id.home) {
-            helper_main.resetStartTab(Activity_grades.this);
             helper_main.isOpened(Activity_grades.this);
             helper_main.switchToActivity(Activity_grades.this, HHS_MainScreen.class, "", true);
         }

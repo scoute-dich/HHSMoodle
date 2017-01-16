@@ -37,7 +37,8 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -300,7 +301,7 @@ public class FragmentTodo extends Fragment {
                                             public void onClick(DialogInterface dialog, int whichButton) {
 
                                                 String inputTag = edit_title.getText().toString().trim();
-                                                db.addBookmark(inputTag, "", "1", "", helper_main.createDate());
+                                                db.addBookmark(inputTag, "", "3", "true", helper_main.createDate());
                                                 db.close();
                                                 setNotesList();
                                                 Snackbar.make(listView, R.string.bookmark_added, Snackbar.LENGTH_SHORT).show();
@@ -335,6 +336,14 @@ public class FragmentTodo extends Fragment {
 
         setNotesList();
         return rootView;
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && isResumed()) {
+            setNotesList();
+        }
     }
 
     @Override
@@ -395,18 +404,18 @@ public class FragmentTodo extends Fragment {
                     ImageView i2=(ImageView) v.findViewById(R.id.att_notes);
 
                     switch (icon) {
-                        case "1":
+                        case "3":
                             i.setImageResource(R.drawable.circle_green);
                             break;
                         case "2":
                             i.setImageResource(R.drawable.circle_yellow);
                             break;
-                        case "3":
+                        case "1":
                             i.setImageResource(R.drawable.circle_red);
                             break;
                     }
                     switch (attachment) {
-                        case "":
+                        case "true":
                             i2.setVisibility(View.VISIBLE);
                             i2.setImageResource(R.drawable.alert_circle);
                             break;
@@ -421,12 +430,22 @@ public class FragmentTodo extends Fragment {
                             iMain.setClassName(getActivity(), "de.baumann.hhsmoodle.activities.Activity_splash");
                             PendingIntent piMain = PendingIntent.getActivity(getActivity(), n, iMain, 0);
 
+                            NotificationCompat.Builder builderSummary =
+                                    new NotificationCompat.Builder(getActivity())
+                                            .setSmallIcon(R.drawable.school)
+                                            .setColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary))
+                                            .setGroup("HHS_Moodle")
+                                            .setGroupSummary(true)
+                                            .setContentIntent(piMain);
+
                             Notification notification = new NotificationCompat.Builder(getActivity())
+                                    .setColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary))
                                     .setSmallIcon(R.drawable.school)
                                     .setContentTitle(title)
                                     .setContentText(cont)
                                     .setContentIntent(piMain)
                                     .setAutoCancel(true)
+                                    .setGroup("HHS_Moodle")
                                     .setStyle(new NotificationCompat.BigTextStyle().bigText(cont))
                                     .setPriority(Notification.PRIORITY_DEFAULT)
                                     .setVibrate(new long[0])
@@ -434,6 +453,7 @@ public class FragmentTodo extends Fragment {
 
                             NotificationManager notificationManager = (NotificationManager) getActivity().getSystemService(NOTIFICATION_SERVICE);
                             notificationManager.notify(n, notification);
+                            notificationManager.notify(0, builderSummary.build());
                             break;
                     }
 
@@ -443,11 +463,11 @@ public class FragmentTodo extends Fragment {
                         public void onClick(View arg0) {
 
                             switch (attachment) {
-                                case "":
+                                case "true":
                                     try {
                                         final Database_Todo db = new Database_Todo(getActivity());
                                         db.deleteNote((Integer.parseInt(seqnoStr)));
-                                        db.addBookmark(title, cont, icon, "true", create);
+                                        db.addBookmark(title, cont, icon, "", create);
                                         db.close();
                                         setNotesList();
                                     } catch (Exception e) {
@@ -458,7 +478,7 @@ public class FragmentTodo extends Fragment {
                                     try {
                                         final Database_Todo db = new Database_Todo(getActivity());
                                         db.deleteNote((Integer.parseInt(seqnoStr)));
-                                        db.addBookmark(title, cont, icon, "", create);
+                                        db.addBookmark(title, cont, icon, "true", create);
                                         db.close();
                                         setNotesList();
                                     } catch (Exception e) {
@@ -515,7 +535,7 @@ public class FragmentTodo extends Fragment {
                                                 try {
                                                     final Database_Todo db = new Database_Todo(getActivity());
                                                     db.deleteNote((Integer.parseInt(seqnoStr)));
-                                                    db.addBookmark(title, cont, "1", attachment, create);
+                                                    db.addBookmark(title, cont, "3", attachment, create);
                                                     db.close();
                                                     setNotesList();
                                                 } catch (Exception e) {
@@ -537,7 +557,7 @@ public class FragmentTodo extends Fragment {
                                                 try {
                                                     final Database_Todo db = new Database_Todo(getActivity());
                                                     db.deleteNote((Integer.parseInt(seqnoStr)));
-                                                    db.addBookmark(title, cont, "3", attachment, create);
+                                                    db.addBookmark(title, cont, "1", attachment, create);
                                                     db.close();
                                                     setNotesList();
                                                 } catch (Exception e) {
@@ -644,6 +664,7 @@ public class FragmentTodo extends Fragment {
                             ch_edit.setChecked(false);
                             ch_icon.setChecked(false);
                             ch_title.setChecked(false);
+                            ch_not.setChecked(false);
                             sharedPref.edit().putString("sortDBT", "create").apply();
                             setNotesList();
                         }
@@ -658,6 +679,7 @@ public class FragmentTodo extends Fragment {
                             ch_create.setChecked(false);
                             ch_icon.setChecked(false);
                             ch_title.setChecked(false);
+                            ch_not.setChecked(false);
                             sharedPref.edit().putString("sortDBT", "seqno").apply();
                             setNotesList();
                         }
@@ -672,6 +694,7 @@ public class FragmentTodo extends Fragment {
                             ch_create.setChecked(false);
                             ch_edit.setChecked(false);
                             ch_title.setChecked(false);
+                            ch_not.setChecked(false);
                             sharedPref.edit().putString("sortDBT", "icon").apply();
                             setNotesList();
                         }

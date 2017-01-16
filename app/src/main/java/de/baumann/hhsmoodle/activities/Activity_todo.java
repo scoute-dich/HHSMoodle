@@ -58,7 +58,6 @@ import java.util.Locale;
 import de.baumann.hhsmoodle.HHS_MainScreen;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.databases.Database_Todo;
-import de.baumann.hhsmoodle.helper.class_SecurePreferences;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.helper.helper_notes;
 import filechooser.ChooserDialog;
@@ -75,7 +74,6 @@ public class Activity_todo extends AppCompatActivity {
     private String toDo_title;
     private String toDo_icon;
     private String toDo_create;
-    private String todo_edited;
     private String todo_attachment;
     private int toDo_seqno;
 
@@ -87,33 +85,24 @@ public class Activity_todo extends AppCompatActivity {
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         toDo_title = sharedPref.getString("toDo_title", "");
         String toDo_text = sharedPref.getString("toDo_text", "");
-        todo_edited = "false";
         toDo_icon = sharedPref.getString("toDo_icon", "");
         toDo_create = sharedPref.getString("toDo_create", "");
         todo_attachment = sharedPref.getString("toDo_attachment", "");
         toDo_seqno = Integer.parseInt(sharedPref.getString("toDo_seqno", ""));
-        class_SecurePreferences sharedPrefSec = new class_SecurePreferences(Activity_todo.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
-        String pw = sharedPrefSec.getString("protect_PW");
-
-        if (pw != null  && pw.length() > 0) {
-            if (sharedPref.getBoolean("isOpened", true)) {
-                helper_main.switchToActivity(Activity_todo.this, Activity_password.class, "", false);
-            }
-        }
 
         setContentView(R.layout.activity_todo);
         setTitle(toDo_title);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        helper_main.onStart(Activity_todo.this);
+
         if(toolbar != null) {
             toolbar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     final String startURL = sharedPref.getString("favoriteURL", "https://moodle.huebsch.ka.schule-bw.de/moodle/");
                     final String startType = sharedPref.getString("startType", "1");
-
-                    helper_main.resetStartTab(Activity_todo.this);
 
                     if (startType.equals("2")) {
                         helper_main.isOpened(Activity_todo.this);
@@ -129,7 +118,6 @@ public class Activity_todo extends AppCompatActivity {
                 toolbar.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        helper_main.resetStartTab(Activity_todo.this);
                         helper_main.isClosed(Activity_todo.this);
                         finishAffinity();
                         return true;
@@ -171,6 +159,36 @@ public class Activity_todo extends AppCompatActivity {
 
         final EditText etNewItem = (EditText) findViewById(R.id.etNewItem);
         ImageButton ib_paste = (ImageButton) findViewById(R.id.imageButtonPaste);
+        final ImageButton ib_not = (ImageButton) findViewById(R.id.imageButtonNot);
+
+        switch (todo_attachment) {
+            case "true":
+                ib_not.setImageResource(R.drawable.alert_circle);
+                break;
+            case "":
+                ib_not.setImageResource(R.drawable.alert_circle_red);
+                break;
+        }
+
+        ib_not.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                switch (todo_attachment) {
+                    case "true":
+                        ib_not.setImageResource(R.drawable.alert_circle_red);
+                        sharedPref.edit().putString("toDo_attachment", "").apply();
+                        todo_attachment = sharedPref.getString("toDo_attachment", "");
+                        break;
+                    case "":
+                        ib_not.setImageResource(R.drawable.alert_circle);
+                        sharedPref.edit().putString("toDo_attachment", "true").apply();
+                        todo_attachment = sharedPref.getString("toDo_attachment", "");
+                        break;
+                }
+
+            }
+        });
 
         ib_paste.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -290,7 +308,6 @@ public class Activity_todo extends AppCompatActivity {
     private void writeItems() {
         try {
             FileUtils.writeLines(newFile(), items);
-            todo_edited = "true";
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -435,9 +452,6 @@ public class Activity_todo extends AppCompatActivity {
                         helper_main.showKeyboard(Activity_todo.this,edit_title);
                     }
                 }, 200);
-
-
-
             }
         });
     }
@@ -445,17 +459,15 @@ public class Activity_todo extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        if (todo_edited.equals("true")) {
-            try {
-                final Database_Todo db = new Database_Todo(Activity_todo.this);
+        try {
+            final Database_Todo db = new Database_Todo(Activity_todo.this);
 
-                db.deleteNote(toDo_seqno);
-                db.addBookmark(toDo_title, getText(), toDo_icon, todo_attachment, toDo_create);
-                db.close();
+            db.deleteNote(toDo_seqno);
+            db.addBookmark(toDo_title, getText(), toDo_icon, todo_attachment, toDo_create);
+            db.close();
 
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         sharedPref.edit().putString("toDo_title", "").apply();
         sharedPref.edit().putString("toDo_text", "").apply();
@@ -537,24 +549,23 @@ public class Activity_todo extends AppCompatActivity {
         }
 
         if (id == android.R.id.home) {
-            if (todo_edited.equals("true")) {
+            try {
+                final Database_Todo db = new Database_Todo(Activity_todo.this);
+                db.deleteNote(toDo_seqno);
+                db.addBookmark(toDo_title, getText(), toDo_icon, todo_attachment, toDo_create);
+                db.close();
 
-                try {
-                    final Database_Todo db = new Database_Todo(Activity_todo.this);
-                    db.deleteNote(toDo_seqno);
-                    db.addBookmark(toDo_title, getText(), toDo_icon, "", toDo_create);
-                    db.close();
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
             sharedPref.edit().putString("toDo_title", "").apply();
             sharedPref.edit().putString("toDo_text", "").apply();
             sharedPref.edit().putString("toDo_seqno", "").apply();
+            sharedPref.edit().putString("toDo_icon", "").apply();
+            sharedPref.edit().putString("toDo_create", "").apply();
+            sharedPref.edit().putString("toDo_attachment", "").apply();
             //noinspection ResultOfMethodCallIgnored
             newFile().delete();
-            helper_main.resetStartTab(Activity_todo.this);
             helper_main.isOpened(Activity_todo.this);
             helper_main.switchToActivity(Activity_todo.this, HHS_MainScreen.class, "", true);
         }
