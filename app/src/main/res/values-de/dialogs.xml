@@ -40,21 +40,6 @@
 
     // Help Dialogs
 
-    <string name="dialog_help_title">HHS Moodle - kurze Enführung</string>
-    <string name="dialog_help">
-        Du erreichst einen kurzen Hilfe Dialog auf jedem Schirm, indem du \"Menu -> Hilfe\" drückst.&lt;br>&lt;br>
-
-        &lt;b>Wichtig&lt;/b>&lt;br>
-        Wenn dein Moodlepasswort oder -Anmeldename geändert wird, musst du dies auch in den Einstellungen der App ändern.
-        Es wird außerdem dringend empfohlen die App mit einer Pin gegen ungewollten Zugriff zu schützen. Dies und
-        andere Einstellungen erreichst du über das \"Menü -> Einstellungen\".&lt;br>&lt;br>
-
-        &lt;b>Navigation&lt;/b>&lt;br>
-        Du erreichst den Hauptschirm der Anwendung, indem du den Pfeil oben links in der Titelleiste anklickst. Ein Klick
-        auf die Titelleiste bringt dich entweder zum Hauptschirm, oder zu deinem Lesezeichenfavorit (kann in den
-        Einstellungen bestimmt werden). Wenn du lange auf die Titelleiste klickst, wird die App komplett beendet.
-    </string>
-
     <string name="helpToDo_text">
         Hier kannst du Todolisten anlegen und verwalten.&lt;br>&lt;br>
 

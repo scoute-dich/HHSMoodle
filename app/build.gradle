@@ -28,4 +28,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.android.support:design:25.1.0'
     compile 'org.apache.commons:commons-io:1.3.2'
+    compile 'com.github.chyrta:AndroidOnboarder:0.6'
 }

@@ -25,6 +25,37 @@
     <string name="app_fav">Favorite</string>
 
 
+    // IntroScreen
+
+    <string name="intro1_title">HHS Moodle</string>
+    <string name="intro1_text">Please read the following introduction carefully.</string>
+
+    <string name="intro2_title">Bookmarks</string>
+    <string name="intro2_text">Create your own personal bookmarks for each visited site.</string>
+
+    <string name="intro3_title">Todo lists</string>
+    <string name="intro3_text">Create todo lists. Sort them by priority or let you show notifications in the status bar.</string>
+
+    <string name="intro4_title">Notes</string>
+    <string name="intro4_text">Create notes. You can also receive text (e.g. links) from other apps.</string>
+
+    <string name="intro5_title">Tools</string>
+    <string name="intro5_text">Calculate your grades, create course lists or choose a random course participant.</string>
+
+    <string name="intro6_title">Help</string>
+    <string name="intro6_text">Over the menu you can reach a help dialog on every screen.</string>
+
+    <string name="intro7_title">Settings</string>
+    <string name="intro7_text">Configure the app to your fittings.</string>
+
+    <string name="intro8_title">Security</string>
+    <string name="intro8_text">All databases and your login data are decrypted. Create a pin to protect the app against unwanted usage.</string>
+
+    <string name="intro9_title">Login</string>
+    <string name="intro9_text">Enter your Moodle login data on the next screen. You will be logged in automatically in future. You
+        can edit your login data in the settings.</string>
+
+
     // Login
 
     <string name="login_user">Username</string>
@@ -98,8 +129,8 @@
     <string name="action_tabMain">Main screen</string>
     <string name="action_tabMain_summary">Which tab should be displayed as default on the main screen?</string>
 
-    <string name="action_notShow_title">Introduction dialog</string>
-    <string name="action_notShow_title_summary">Show the short introduction dialog on start.</string>
+    <string name="action_notShow_title">Introduction</string>
+    <string name="action_notShow_title_summary">Show the introduction dialog again.</string>
 
     <string name="action_protect">Pin (App access)</string>
     <string name="action_protect_summary">Set a pin to protect app against unwanted access. Only use numbers. Let empty, if you do
@@ -121,7 +152,10 @@
     <string name="action_start_summary">What do you want to see: Either the main screen or the bookmark list?</string>
 
     <string name="action_backup">Backup</string>
-    <string name="action_backup_summary">Backup and restore your notes and bookmarks. A new backup overwrites the old one.</string>
+    <string name="action_backup_summary">Backup and restore your databases (notes, bookmarks, …). A new backup overwrites the old one.</string>
+
+    <string name="action_backupAut">Automatic backup</string>
+    <string name="action_backupAut_summary">Always backup all databases (Todo, bookmarks, …), when leaving the app.</string>
 
     <string name="action_restore">Restore</string>
 

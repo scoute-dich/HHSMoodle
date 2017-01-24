@@ -39,20 +39,6 @@
 
     // Help Dialogs
 
-    <string name="dialog_help_title">HHS Moodle - short introduction</string>
-    <string name="dialog_help">
-        On every screen you can reach a help dialog, by clicking \"Menu -> Help\".&lt;br>&lt;br>
-
-        &lt;b>Important&lt;/b>&lt;br>
-        If your moodle username or password gets changed, you must change this also in the settings.
-        It is highly recommended to protect the app with a pin against unwanted access. This and other settings
-        you can reach by pressing \"Menu -> Settings\".&lt;br>&lt;br>
-
-        &lt;b>Navigation&lt;/b>&lt;br>
-        You reach the main screen of the app, by clicking the arrow on the left side of the toolbar. By clicking the toolbar
-        you can go either back to the main screen or open your favorite bookmark (you can decide this in the settings).
-        If you long click on the toolbar, the app gets closed completely.</string>
-
     <string name="helpToDo_text">
         Here you can create and edit todo lists.&lt;br>&lt;br>
 

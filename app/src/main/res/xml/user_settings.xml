@@ -22,6 +22,13 @@
             android:summary="@string/action_backup_summary"
             android:key="backup_db" />
 
+        <CheckBoxPreference
+            android:title="@string/action_backupAut"
+            android:icon="@drawable/restore"
+            android:summary="@string/action_backupAut_summary"
+            android:key="backup_aut"
+            android:defaultValue="true" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -72,11 +79,11 @@
     <PreferenceCategory
         android:title="@string/pref_3">
 
-        <CheckBoxPreference
+        <Preference
             android:title="@string/action_notShow_title"
             android:icon="@drawable/information_outline"
             android:summary="@string/action_notShow_title_summary"
-            android:key="help_notShow"
+            android:key="intro_show"
             android:defaultValue="true" />
 
         <CheckBoxPreference

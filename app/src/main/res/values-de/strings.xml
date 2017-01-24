@@ -28,6 +28,38 @@
     <string name="app_fav">Favorit</string>
 
 
+    // IntroScreen
+
+    <string name="intro1_title">HHS Moodle</string>
+    <string name="intro1_text">Bitte lies die folgende kurze Einführung aufmerksam durch.</string>
+
+    <string name="intro2_title">Lesezeichen</string>
+    <string name="intro2_text">Erstelle für jede aufgerufene Seite deine eigenen Lesezeichen.</string>
+
+    <string name="intro3_title">Todo Listen</string>
+    <string name="intro3_text">Erstelle Todo Listen. Setze Prioritäten und lasse dir Benachrichtigungen in der Statusleiste anzeigen.</string>
+
+    <string name="intro4_title">Notizen</string>
+    <string name="intro4_text">Erstelle Notizen. Du kannst auch Text (z.B. einen Link) aus einer anderen Anwendung in die App teilen.</string>
+
+    <string name="intro5_title">Werkzeuge</string>
+    <string name="intro5_text">Berechne Noten, erstelle Teilnehmerlisten oder wähle zufällig Kursteilnehmer aus.</string>
+
+    <string name="intro6_title">Hilfe</string>
+    <string name="intro6_text">Auf jedem Schirm erreichst du über das Menü einen kurzen Hilfedialog.</string>
+
+    <string name="intro7_title">Einstellungen</string>
+    <string name="intro7_text">Passe die App deinen Bedürfnissen an.</string>
+
+    <string name="intro8_title">Sicherheit</string>
+    <string name="intro8_text">Alle Datenbanken und die Logindaten sind verschlüsselt. Setze eine Pin, um die App vor ungewolltem
+    Zugriff zu schützen.</string>
+
+    <string name="intro9_title">Anmeldung</string>
+    <string name="intro9_text">Gib auf dem folgenden Schirm deine Moodle Anmeldedaten ein. Du wirst dann immer automatisch
+    angemeldet. Ändern kannst du deine Anmeldedaten in den Einstellungen.</string>
+
+
     // Login
 
     <string name="login_user">Benutzername</string>
@@ -103,7 +135,7 @@
     <string name="action_tabMain_summary">Welcher Tab soll standardmäßig auf dem Startschirm geöffnet werden?</string>
 
     <string name="action_notShow_title">Einführung</string>
-    <string name="action_notShow_title_summary">Den kurzen Einführungsdialog beim Start anzeigen.</string>
+    <string name="action_notShow_title_summary">Den Einführungsdialog noch einmal anzeigen.</string>
 
     <string name="action_protect">Pin (App Zugang)</string>
     <string name="action_protect_summary">Bestimme eine Pin um die App vor unbefugtem Zugriff zu schützen. Benutze nur Nummern.
@@ -125,8 +157,12 @@
     <string name="action_start_summary">Was möchtest du sehen: Entweder den Startschirm oder den Lesezeichenfavorit?</string>
 
     <string name="action_backup">Sicherung</string>
-    <string name="action_backup_summary">Sichere deine Notizen und Lesezeichen oder stelle eine vorherige Sicherung wieder her.
-        Eine neue Sicherung überschreibt immer die bestehende.</string>
+    <string name="action_backup_summary">Sichere alle Datenbanken (Notizen, Lesezeichen, …) oder stelle eine vorherige Sicherung
+        wieder her. Eine neue Sicherung überschreibt immer die bestehende.</string>
+
+    <string name="action_backupAut">Automatische Sicherung</string>
+    <string name="action_backupAut_summary">Sichere immer alle Datenbanken (Notizen, Lesezeichen, …), bevor die App geschlossen
+        wird.</string>
 
     <string name="action_restore">Wiederherstellung</string>
 

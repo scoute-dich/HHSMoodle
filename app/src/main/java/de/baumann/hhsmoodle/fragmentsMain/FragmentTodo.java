@@ -160,7 +160,7 @@ public class FragmentTodo extends Fragment {
 
                                                 String inputTag = edit_title.getText().toString().trim();
                                                 db.deleteNote(Integer.parseInt(seqnoStr));
-                                                db.addBookmark(inputTag, cont, "1", "", create);
+                                                db.addBookmark(inputTag, cont, icon, attachment, create);
                                                 db.close();
                                                 setNotesList();
                                                 Snackbar.make(listView, R.string.bookmark_added, Snackbar.LENGTH_SHORT).show();

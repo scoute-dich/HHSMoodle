@@ -34,8 +34,14 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -85,27 +91,6 @@ public class HHS_MainScreen extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         helper_main.onStart(HHS_MainScreen.this);
-
-        boolean show = sharedPref.getBoolean("help_notShow", true);
-
-        if (show){
-            final AlertDialog.Builder dialog = new AlertDialog.Builder(HHS_MainScreen.this)
-                    .setTitle(R.string.dialog_help_title)
-                    .setMessage(helper_main.textSpannable(getString(R.string.dialog_help)))
-                    .setPositiveButton(getString(R.string.toast_yes), null)
-                    .setNegativeButton(getString(R.string.toast_notAgain), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplication());
-                            dialog.cancel();
-                            sharedPref.edit()
-                                    .putBoolean("help_notShow", false)
-                                    .apply();
-                        }
-                    });
-            dialog.show();
-        }
-
         helper_main.grantPermissions(HHS_MainScreen.this);
 
         File directory = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/backup/");
@@ -355,8 +340,43 @@ public class HHS_MainScreen extends AppCompatActivity {
     public void onBackPressed() {
         Snackbar.make(viewPager, getString(R.string.app_encrypt) , Snackbar.LENGTH_LONG).show();
         helper_main.isClosed(HHS_MainScreen.this);
-        helper_encryption.encryptDatabases(HHS_MainScreen.this);
 
+        if (sharedPref.getBoolean ("backup_aut", false)){
+            try {
+                LayoutInflater inflater = HHS_MainScreen.this.getLayoutInflater();
+                View toastLayout = inflater.inflate(R.layout.toast,
+                        (ViewGroup) HHS_MainScreen.this.findViewById(R.id.toast_root_view));
+                TextView header = (TextView) toastLayout.findViewById(R.id.toast_message);
+                header.setText(R.string.toast_backup);
+                Toast toast = new Toast(HHS_MainScreen.this.getApplicationContext());
+                toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
+                toast.setDuration(Toast.LENGTH_LONG);
+                toast.setView(toastLayout);
+                toast.show();
+
+                helper_encryption.encryptBackup(HHS_MainScreen.this,"/browser_v2.db");
+                helper_encryption.encryptBackup(HHS_MainScreen.this,"/courseList_v2.db");
+                helper_encryption.encryptBackup(HHS_MainScreen.this,"/notes_v2.db");
+                helper_encryption.encryptBackup(HHS_MainScreen.this,"/random_v2.db");
+                helper_encryption.encryptBackup(HHS_MainScreen.this,"/todo_v2.db");
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                LayoutInflater inflater = HHS_MainScreen.this.getLayoutInflater();
+
+                View toastLayout = inflater.inflate(R.layout.toast,
+                        (ViewGroup) HHS_MainScreen.this.findViewById(R.id.toast_root_view));
+                TextView header = (TextView) toastLayout.findViewById(R.id.toast_message);
+                header.setText(R.string.toast_backup_not);
+                Toast toast = new Toast(HHS_MainScreen.this.getApplicationContext());
+                toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
+                toast.setDuration(Toast.LENGTH_LONG);
+                toast.setView(toastLayout);
+                toast.show();
+            }
+        }
+            
+        helper_encryption.encryptDatabases(HHS_MainScreen.this);
         finish();
     }
 

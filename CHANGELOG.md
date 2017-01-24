@@ -1,6 +1,11 @@
+### v 3.2: (WIP)
+- added: Intro screen
+- added: automatic backup
+- fixed: editing todo title
+
 ### v 3.1:
 
-- added: bundeld notifications (Todo)
+- added: bundled notifications (Todo)
 - improved: database encryption
 - fixed: delete todo list on start
 - fixed: sorting of todo and notes list
@@ -9,7 +14,6 @@
 - removed: MyMoodle
 
 ### v 3.0:
-
 - added: fullscreen video playback
 - improved: database encryption
 - removed: swipe to navigate

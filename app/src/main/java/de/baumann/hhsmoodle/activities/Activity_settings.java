@@ -59,13 +59,13 @@ import java.util.Arrays;
 
 import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
-import javax.crypto.CipherOutputStream;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 
 import de.baumann.hhsmoodle.HHS_MainScreen;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.helper.class_SecurePreferences;
+import de.baumann.hhsmoodle.helper.helper_encryption;
 import de.baumann.hhsmoodle.helper.helper_main;
 
 public class Activity_settings extends AppCompatActivity {
@@ -98,16 +98,27 @@ public class Activity_settings extends AppCompatActivity {
             final Activity activity = getActivity();
             Preference reset = findPreference("clearCache");
 
-            reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
-            {
-                public boolean onPreferenceClick(Preference pref)
-                {
+            reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference pref) {
 
                     Intent intent = new Intent();
                     intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                     Uri uri = Uri.fromParts("package", activity.getPackageName(), null);
                     intent.setData(uri);
                     getActivity().startActivity(intent);
+
+                    return true;
+                }
+            });
+        }
+
+        private void addIntroListener() {
+
+            Preference reset = findPreference("intro_show");
+            reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference pref) {
+
+                    helper_main.switchToActivity(getActivity(), Activity_intro.class, "", true);
 
                     return true;
                 }
@@ -204,7 +215,7 @@ public class Activity_settings extends AppCompatActivity {
 
                     new Handler().postDelayed(new Runnable() {
                         public void run() {
-                            helper_main.showKeyboard(activity,pass_userPW);
+                            helper_main.showKeyboard(activity, pass_userPW);
                         }
                     }, 200);
                     return true;
@@ -252,7 +263,7 @@ public class Activity_settings extends AppCompatActivity {
 
                     new Handler().postDelayed(new Runnable() {
                         public void run() {
-                            helper_main.showKeyboard(activity,pass_userPW);
+                            helper_main.showKeyboard(activity, pass_userPW);
                         }
                     }, 200);
 
@@ -345,11 +356,11 @@ public class Activity_settings extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int item) {
                                     if (options[item].equals(getString(R.string.action_backup))) {
                                         try {
-                                            encrypt("/browser_v2.db");
-                                            encrypt("/courseList_v2.db");
-                                            encrypt("/notes_v2.db");
-                                            encrypt("/random_v2.db");
-                                            encrypt("/todo_v2.db");
+                                            helper_encryption.encryptBackup(getActivity(),"/browser_v2.db");
+                                            helper_encryption.encryptBackup(getActivity(),"/courseList_v2.db");
+                                            helper_encryption.encryptBackup(getActivity(),"/notes_v2.db");
+                                            helper_encryption.encryptBackup(getActivity(),"/random_v2.db");
+                                            helper_encryption.encryptBackup(getActivity(),"/todo_v2.db");
                                             LayoutInflater inflater = getActivity().getLayoutInflater();
 
                                             View toastLayout = inflater.inflate(R.layout.toast,
@@ -439,6 +450,7 @@ public class Activity_settings extends AppCompatActivity {
             addUsernameListener();
             addProtectListener();
             addBackup_dbListener();
+            addIntroListener();
         }
 
         private void decrypt(String name) throws IOException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {
@@ -468,55 +480,12 @@ public class Activity_settings extends AppCompatActivity {
                 CipherInputStream cis = new CipherInputStream(fis, cipher);
                 int b;
                 byte[] d = new byte[8];
-                while((b = cis.read(d)) != -1) {
+                while ((b = cis.read(d)) != -1) {
                     fos.write(d, 0, b);
                 }
                 fos.flush();
                 fos.close();
                 cis.close();
-
-            } catch (PackageManager.NameNotFoundException e) {
-                Log.w("HHS_Moodle", "Error Package name not found ", e);
-            }
-        }
-
-        @SuppressWarnings("ResultOfMethodCallIgnored")
-        private void encrypt(String name) throws IOException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {
-
-            PackageManager m = getActivity().getPackageManager();
-            String s = getActivity().getPackageName();
-            try {
-                PackageInfo p = m.getPackageInfo(s, 0);
-                s = p.applicationInfo.dataDir;
-
-                String pathOUT = Environment.getExternalStorageDirectory() + "/HHS_Moodle/backup/" + name;
-                String pathIN = s + "/databases/" + name;
-
-                FileInputStream fis = new FileInputStream(pathIN);
-                FileOutputStream fos = new FileOutputStream(pathOUT);
-
-                byte[] key = ("[MGq)sY6k(GV,*?i".getBytes("UTF-8"));
-                MessageDigest sha = MessageDigest.getInstance("SHA-1");
-                key = sha.digest(key);
-                key = Arrays.copyOf(key, 16); // use only first 128 bit
-
-                SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
-                // Length is 16 byte
-                // Create cipher
-                @SuppressLint("GetInstance") Cipher cipher = Cipher.getInstance("AES");
-                cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
-                // Wrap the output stream
-                CipherOutputStream cos = new CipherOutputStream(fos, cipher);
-                // Write bytes
-                int b;
-                byte[] d = new byte[8];
-                while((b = fis.read(d)) != -1) {
-                    cos.write(d, 0, b);
-                }
-                // Flush and close streams.
-                cos.flush();
-                cos.close();
-                fis.close();
 
             } catch (PackageManager.NameNotFoundException e) {
                 Log.w("HHS_Moodle", "Error Package name not found ", e);

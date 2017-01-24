@@ -73,10 +73,7 @@ import java.util.Locale;
 import de.baumann.hhsmoodle.activities.Activity_courseList;
 import de.baumann.hhsmoodle.activities.Activity_dice;
 import de.baumann.hhsmoodle.activities.Activity_grades;
-import de.baumann.hhsmoodle.activities.Activity_password;
 import de.baumann.hhsmoodle.databases.Database_Browser;
-import de.baumann.hhsmoodle.helper.class_SecurePreferences;
-import de.baumann.hhsmoodle.helper.helper_encryption;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.helper.helper_notes;
 import de.baumann.hhsmoodle.helper.helper_webView;
@@ -118,7 +115,6 @@ public class HHS_Browser extends AppCompatActivity {
     private boolean inCustomView() {
         return (mCustomView != null);
     }
-
 
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -215,36 +211,7 @@ public class HHS_Browser extends AppCompatActivity {
     }
 
     protected void onNewIntent(Intent intent) {
-        String action = intent.getAction();
-
-        if (Intent.ACTION_VIEW.equals(action)) {
-            helper_encryption.decryptDatabases(HHS_Browser.this);
-            sharedPref.edit().putString("mustDecrypt", "true").apply();
-            lockUI();
-            Uri data = intent.getData();
-            String link = data.toString();
-            mWebView.loadUrl(link);
-        } else if ("shortcutFavorite_Browser".equals(action)) {
-            helper_encryption.decryptDatabases(HHS_Browser.this);
-            sharedPref.edit().putString("mustDecrypt", "true").apply();
-            lockUI();
-            String startURL = sharedPref.getString("favoriteURL", "https://moodle.huebsch.ka.schule-bw.de/moodle/");
-            mWebView.loadUrl(startURL);
-        } else {
-            mWebView.loadUrl(intent.getStringExtra("url"));
-        }
-    }
-
-    private void lockUI() {
-
-        class_SecurePreferences sharedPrefSec = new class_SecurePreferences(HHS_Browser.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
-        String pw = sharedPrefSec.getString("protect_PW");
-        helper_main.isClosed(HHS_Browser.this);
-        if (pw != null && pw.length() > 0) {
-            if (sharedPref.getBoolean("isOpened", true)) {
-                helper_main.switchToActivity(HHS_Browser.this, Activity_password.class, "", false);
-            }
-        }
+        mWebView.loadUrl(intent.getStringExtra("url"));
     }
 
     private File createImageFile() throws IOException {
@@ -454,13 +421,6 @@ public class HHS_Browser extends AppCompatActivity {
             hideCustomView();
         } else if ((mCustomView == null) && mWebView.canGoBack()) {
             mWebView.goBack();
-        } else if (sharedPref.getString("mustDecrypt", "true").equals("true")){
-            Snackbar.make(mWebView, getString(R.string.app_encrypt) , Snackbar.LENGTH_LONG).show();
-            mWebView.stopLoading();
-            sharedPref.edit().putString("mustDecrypt", "false").apply();
-            helper_encryption.encryptDatabases(HHS_Browser.this);
-            helper_main.isClosed(HHS_Browser.this);
-            finish();
         } else {
             mWebView.stopLoading();
             helper_main.isClosed(HHS_Browser.this);

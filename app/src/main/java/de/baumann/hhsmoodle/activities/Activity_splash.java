@@ -22,6 +22,7 @@ package de.baumann.hhsmoodle.activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -83,8 +84,6 @@ public class Activity_splash extends AppCompatActivity {
             getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
         }
 
-
-
         TextInputLayout editUsernameLayout = (TextInputLayout) findViewById(R.id.editUsernameLayout);
         editUsernameLayout.setVisibility(View.INVISIBLE);
         TextInputLayout editPasswordLayout = (TextInputLayout) findViewById(R.id.editPasswordLayout);
@@ -106,86 +105,97 @@ public class Activity_splash extends AppCompatActivity {
         final String startType = sharedPref.getString("startType", "1");
         final String startURL = sharedPref.getString("favoriteURL", "https://moodle.huebsch.ka.schule-bw.de/moodle/");
 
-        if (sharedPrefSec.getString("password") == null
-                || sharedPrefSec.getString("username") == null
-                || sharedPrefSec.getString("password").isEmpty()
-                || sharedPrefSec.getString("username").isEmpty()) {
+        boolean show = sharedPref.getBoolean("introShowDo_notShow", true);
 
-            editUsernameLayout.setVisibility(View.VISIBLE);
-            editPasswordLayout.setVisibility(View.VISIBLE);
-            editUsername.setVisibility(View.VISIBLE);
-            editPassword.setVisibility(View.VISIBLE);
-            editUsername.setText(sharedPrefSec.getString("username"));
-            editPassword.setText(sharedPrefSec.getString("password"));
-            fab.setVisibility(View.VISIBLE);
+        if (show){
+            Intent mainIntent = new Intent(Activity_splash.this, Activity_intro.class);
+            startActivity(mainIntent);
+            Activity_splash.this.finish();
+            overridePendingTransition(R.anim.fadein,R.anim.fadeout);
+        } else {
+            if (sharedPrefSec.getString("password") == null
+                    || sharedPrefSec.getString("username") == null
+                    || sharedPrefSec.getString("password").isEmpty()
+                    || sharedPrefSec.getString("username").isEmpty()) {
 
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    String Username = editUsername.getText().toString().trim();
-                    String Password = editPassword.getText().toString().trim();
+                editUsernameLayout.setVisibility(View.VISIBLE);
+                editPasswordLayout.setVisibility(View.VISIBLE);
+                editUsername.setVisibility(View.VISIBLE);
+                editPassword.setVisibility(View.VISIBLE);
+                editUsername.setText(sharedPrefSec.getString("username"));
+                editPassword.setText(sharedPrefSec.getString("password"));
+                fab.setVisibility(View.VISIBLE);
 
-                    if (Username.isEmpty() || Password.isEmpty()) {
-                        Snackbar.make(Image, R.string.login_hint, Snackbar.LENGTH_LONG).show();
-                    } else {
-                        sharedPrefSec.put("username", Username);
-                        sharedPrefSec.put("password", Password);
+                fab.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String Username = editUsername.getText().toString().trim();
+                        String Password = editPassword.getText().toString().trim();
 
-                        if (startType.equals("2")) {
+                        if (Username.isEmpty() || Password.isEmpty()) {
+                            Snackbar.make(Image, R.string.login_hint, Snackbar.LENGTH_LONG).show();
+                        } else {
+                            sharedPrefSec.put("username", Username);
+                            sharedPrefSec.put("password", Password);
 
-                            new Handler().postDelayed(new Runnable() {
-                                public void run() {
-                                    Intent mainIntent = new Intent(Activity_splash.this, HHS_Browser.class);
-                                    mainIntent.putExtra("id", "1");
-                                    mainIntent.putExtra("url", startURL);
-                                    startActivity(mainIntent);
-                                    Activity_splash.this.finish();
-                                    overridePendingTransition(R.anim.fadein,R.anim.fadeout);
-                                }
-                            }, 1500);
-                        } else if (startType.equals("1")){
-                            new Handler().postDelayed(new Runnable() {
-                                public void run() {
+                            if (startType.equals("2")) {
 
-                                    Intent mainIntent = new Intent(Activity_splash.this, HHS_MainScreen.class);
-                                    mainIntent.putExtra("id", "1");
-                                    startActivity(mainIntent);
-                                    Activity_splash.this.finish();
-                                    overridePendingTransition(R.anim.fadein,R.anim.fadeout);
-                                }
-                            }, 1500);
+                                new Handler().postDelayed(new Runnable() {
+                                    public void run() {
+                                        Intent mainIntent = new Intent(Activity_splash.this, HHS_Browser.class);
+                                        mainIntent.putExtra("id", "1");
+                                        mainIntent.putExtra("url", startURL);
+                                        startActivity(mainIntent);
+                                        Activity_splash.this.finish();
+                                        overridePendingTransition(R.anim.fadein,R.anim.fadeout);
+                                    }
+                                }, 1500);
+                            } else if (startType.equals("1")){
+                                new Handler().postDelayed(new Runnable() {
+                                    public void run() {
+
+                                        Intent mainIntent = new Intent(Activity_splash.this, HHS_MainScreen.class);
+                                        mainIntent.putExtra("id", "1");
+                                        startActivity(mainIntent);
+                                        Activity_splash.this.finish();
+                                        overridePendingTransition(R.anim.fadein,R.anim.fadeout);
+                                    }
+                                }, 1500);
+                            }
                         }
                     }
+                });
+
+            } else {
+                if (startType.equals("2")) {
+
+                    new Handler().postDelayed(new Runnable() {
+                        public void run() {
+
+                            Intent mainIntent = new Intent(Activity_splash.this, HHS_Browser.class);
+                            mainIntent.putExtra("id", "1");
+                            mainIntent.putExtra("url", startURL);
+                            startActivity(mainIntent);
+                            Activity_splash.this.finish();
+                            overridePendingTransition(R.anim.fadein,R.anim.fadeout);
+                        }
+                    }, 1500);
+                } else if (startType.equals("1")){
+                    new Handler().postDelayed(new Runnable() {
+                        public void run() {
+
+                            Intent mainIntent = new Intent(Activity_splash.this, HHS_MainScreen.class);
+                            mainIntent.putExtra("id", "1");
+                            startActivity(mainIntent);
+                            Activity_splash.this.finish();
+                            overridePendingTransition(R.anim.fadein,R.anim.fadeout);
+                        }
+                    }, 1500);
                 }
-            });
-
-        } else {
-            if (startType.equals("2")) {
-
-                new Handler().postDelayed(new Runnable() {
-                    public void run() {
-
-                        Intent mainIntent = new Intent(Activity_splash.this, HHS_Browser.class);
-                        mainIntent.putExtra("id", "1");
-                        mainIntent.putExtra("url", startURL);
-                        startActivity(mainIntent);
-                        Activity_splash.this.finish();
-                        overridePendingTransition(R.anim.fadein,R.anim.fadeout);
-                    }
-                }, 1500);
-            } else if (startType.equals("1")){
-                new Handler().postDelayed(new Runnable() {
-                    public void run() {
-
-                        Intent mainIntent = new Intent(Activity_splash.this, HHS_MainScreen.class);
-                        mainIntent.putExtra("id", "1");
-                        startActivity(mainIntent);
-                        Activity_splash.this.finish();
-                        overridePendingTransition(R.anim.fadein,R.anim.fadeout);
-                    }
-                }, 1500);
             }
         }
+
+
         onNewIntent(getIntent());
     }
 
@@ -233,15 +243,28 @@ public class Activity_splash extends AppCompatActivity {
             helper_encryption.decryptDatabases(Activity_splash.this);
             new Handler().postDelayed(new Runnable() {
                 public void run() {
-                    new Handler().postDelayed(new Runnable() {
-                        public void run() {
-                            Intent mainIntent = new Intent(Activity_splash.this, HHS_MainScreen.class);
-                            mainIntent.setAction("shortcutToDo_HS");
-                            startActivity(mainIntent);
-                            Activity_splash.this.finish();
-                            overridePendingTransition(R.anim.fadein,R.anim.fadeout);
-                        }
-                    }, 1500);
+                    Intent mainIntent = new Intent(Activity_splash.this, HHS_MainScreen.class);
+                    mainIntent.setAction("shortcutToDo_HS");
+                    startActivity(mainIntent);
+                    Activity_splash.this.finish();
+                    overridePendingTransition(R.anim.fadein,R.anim.fadeout);
+                }
+            }, 1500);
+        } else if ("shortcutFavorite_Browser".equals(action)) {
+            helper_encryption.decryptDatabases(Activity_splash.this);
+            new Handler().postDelayed(new Runnable() {
+                public void run() {
+                    String startURL = sharedPref.getString("favoriteURL", "https://moodle.huebsch.ka.schule-bw.de/moodle/");
+                    helper_main.switchToActivity(Activity_splash.this, HHS_Browser.class, startURL, true);
+                }
+            }, 1500);
+        } else if (Intent.ACTION_VIEW.equals(action)) {
+            helper_encryption.decryptDatabases(Activity_splash.this);
+            new Handler().postDelayed(new Runnable() {
+                public void run() {
+                    Uri data = intent.getData();
+                    String link = data.toString();
+                    helper_main.switchToActivity(Activity_splash.this, HHS_Browser.class, link, true);
                 }
             }, 1500);
         }
