@@ -37,7 +37,6 @@ import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -64,6 +63,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 import de.baumann.hhsmoodle.HHS_MainScreen;
 import de.baumann.hhsmoodle.R;
+import de.baumann.hhsmoodle.about.About_activity;
 import de.baumann.hhsmoodle.helper.class_SecurePreferences;
 import de.baumann.hhsmoodle.helper.helper_encryption;
 import de.baumann.hhsmoodle.helper.helper_main;
@@ -118,106 +118,7 @@ public class Activity_settings extends AppCompatActivity {
             reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference pref) {
 
-                    helper_main.switchToActivity(getActivity(), Activity_intro.class, "", true);
-
-                    return true;
-                }
-            });
-        }
-
-        private void addChangelogListener() {
-
-            Preference reset = findPreference("changelog");
-            reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                public boolean onPreferenceClick(Preference pref) {
-                    Uri uri = Uri.parse("https://github.com/scoute-dich/HHSMoodle/blob/master/CHANGELOG.md"); // missing 'http://' will cause crashed
-                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                    startActivity(intent);
-                    return true;
-                }
-            });
-        }
-
-        private void addLicenseListener() {
-
-            Preference reset = findPreference("license");
-            reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                public boolean onPreferenceClick(Preference pref) {
-
-                    final AlertDialog d = new AlertDialog.Builder(getActivity())
-                            .setTitle(R.string.about_title)
-                            .setMessage(helper_main.textSpannable(getString(R.string.about_text)))
-                            .setPositiveButton(getString(R.string.toast_yes),
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
-                                            dialog.cancel();
-                                        }
-                                    }).show();
-                    d.show();
-                    ((TextView) d.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
-
-                    return true;
-                }
-            });
-        }
-
-        private void addProblemsListener() {
-
-            final Activity activity = getActivity();
-            Preference reset = findPreference("problem");
-            reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                public boolean onPreferenceClick(Preference pref) {
-
-
-                    AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-                    View dialogView = View.inflate(activity, R.layout.dialog_mail, null);
-
-                    final EditText pass_userPW = (EditText) dialogView.findViewById(R.id.pass_title);
-                    pass_userPW.setText("");
-
-                    builder.setView(dialogView);
-                    builder.setTitle(R.string.action_problem);
-                    builder.setPositiveButton(R.string.action_problem_button, new DialogInterface.OnClickListener() {
-
-                        public void onClick(DialogInterface dialog, int whichButton) {
-
-                            Log.i("Send email", "");
-
-                            String[] TO = {"juergen.baumann@huebsch.karlsruhe.de"};
-                            String text = pass_userPW.getText().toString().trim();
-                            Intent emailIntent = new Intent(Intent.ACTION_SEND);
-                            emailIntent.setData(Uri.parse("mailto:"));
-                            emailIntent.setType("text/plain");
-
-                            emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
-                            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "HHS Moodle");
-                            emailIntent.putExtra(Intent.EXTRA_TEXT, text);
-
-                            try {
-                                startActivity(Intent.createChooser(emailIntent, getString(R.string.note_share_3)));
-                            } catch (android.content.ActivityNotFoundException ex) {
-                                Toast.makeText(activity, R.string.toast_install_mail, Toast.LENGTH_SHORT).show();
-                            }
-
-
-                        }
-                    });
-                    builder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            dialog.cancel();
-                        }
-                    });
-
-                    final AlertDialog dialog2 = builder.create();
-                    // Display the custom alert dialog on interface
-                    dialog2.show();
-
-                    new Handler().postDelayed(new Runnable() {
-                        public void run() {
-                            helper_main.showKeyboard(activity, pass_userPW);
-                        }
-                    }, 200);
+                    helper_main.switchToActivity(getActivity(), About_activity.class, "", false);
                     return true;
                 }
             });
@@ -443,10 +344,7 @@ public class Activity_settings extends AppCompatActivity {
             super.onCreate(savedInstanceState);
 
             addPreferencesFromResource(R.xml.user_settings);
-            addLicenseListener();
-            addChangelogListener();
             addOpenSettingsListener();
-            addProblemsListener();
             addUsernameListener();
             addProtectListener();
             addBackup_dbListener();

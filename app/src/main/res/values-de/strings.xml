@@ -28,6 +28,33 @@
     <string name="app_fav">Favorit</string>
 
 
+    // About
+
+    <string name="about_title_main">Über HHS Moodle</string>
+    <string name="about_title_dev">Entwickler</string>
+    <string name="about_title_libs">Benutzte Open Source Bibliotheken</string>
+
+    <string name="about_changelog">Änderungen</string>
+    <string name="about_changelog_summary">Öffne die Github Seite und schaue, was es Neues gibt … (braucht eine Internetverbindung)</string>
+
+    <string name="about_license">Lizenz</string>
+    <string name="about_license_summary">Die App steht unter der GPL Lizenz und ist komplett frei (wie in Freiheit). Der Quellcode kann
+        eingesehen werden.</string>
+
+    <string name="about_dev">Gaukler Faun</string>
+    <string name="about_dev_summary">Öffne mein Github Profil (braucht eine Internetverbindung).</string>
+
+    <string name="about_intro">Einführung</string>
+    <string name="about_intro_summary">Zeige noch einmal die Einführung an.</string>
+
+    <string name="about_license_1">Gebraucht für den Dateimanager.</string>
+    <string name="about_license_3">Gebraucht um die Einführung anzuzeigen.</string>
+    <string name="about_license_4">Der Anfang von allem. Wird hauptsächlich für die Datenbanken benutzt.</string>
+    <string name="about_license_5">Gebraucht um die Pin und den Schlüssel für die Logindaten zu verschlüsseln.</string>
+    <string name="about_license_7">Gebraucht um den \"Über Schirm\" zu erstellen.</string>
+    <string name="about_license_8">Die Quelle von fast allen Icons.</string>
+
+
     // IntroScreen
 
     <string name="intro1_title">HHS Moodle</string>
@@ -109,23 +136,16 @@
 
     // Settings
 
-    <string name="pref_1">Über die Appp</string>
     <string name="pref_2">App Einstellungen</string>
-    <string name="pref_3">Hilfe</string>
+    <string name="pref_3">Über | Hilfe</string>
     <string name="pref_5">Sicherheit</string>
 
     <string name="action_username">Logindaten (Moodle)</string>
     <string name="action_username_summary">Bitte gib deinen Moodle Benutzernamen und dein Passwort an, um automatisch angemeldet zu
         werden.</string>
 
-    <string name="action_changelog">Änderungen</string>
-    <string name="action_changelog_summary">Was gibt es Neues … (wird eine Internetseite öffnen)</string>
-
     <string name="action_longPress">App verlassen</string>
     <string name="action_longPress_summary">Lange auf die Titelleiste drücken um die App komplett zu verlassen.</string>
-
-    <string name="action_license">Lizenz</string>
-    <string name="action_license_summary">Die App ist komplett frei (Open Source) und unter der GPL3-Lizenz lizenziert.</string>
 
     <string name="action_openSettings">App Info</string>
     <string name="action_openSettings_summary">Öffne über die Systemeinstellungen die App Info der App. Je nach Androidversion
@@ -134,18 +154,14 @@
     <string name="action_tabMain">Startschirm</string>
     <string name="action_tabMain_summary">Welcher Tab soll standardmäßig auf dem Startschirm geöffnet werden?</string>
 
-    <string name="action_notShow_title">Einführung</string>
-    <string name="action_notShow_title_summary">Den Einführungsdialog noch einmal anzeigen.</string>
+    <string name="action_notShow_title">Über</string>
+    <string name="action_notShow_title_summary">Erfahre mehr über die App (Changelog, Lizenz, benutzte Bibliotheken, …).</string>
 
     <string name="action_protect">Pin (App Zugang)</string>
     <string name="action_protect_summary">Bestimme eine Pin um die App vor unbefugtem Zugriff zu schützen. Benutze nur Nummern.
         Leer lassen, wenn du die App nicht schützen willst (eigenes Risiko).</string>
 
-    <string name="action_problem">Kontakt</string>
-    <string name="action_problem_summary">Wenn du mit der App (oder unserem Moodle) Probleme oder Verbesserungsvorschläge hast, kannst
-        du mir eine Email schicken. Dafür muss auf deinem Telefon ein Emailaccount eingerichtet sein.</string>
-    <string name="action_problem_button">Email senden</string>
-    <string name="action_problem_text">Bitte Emailtext eingeben:</string>
+    <string name="action_problem_summary">Probleme? Schicke mir eine Mail.</string>
 
     <string name="action_font">Schriftgröße</string>
     <string name="action_font_summary">Ändere die Schriftgröße für Internetseiten.</string>
@@ -192,7 +208,6 @@
     <string name="toast_perm">Berechtigungen gewährt?</string>
     <string name="toast_wrongPW">Uuups. Falsches Passwort.</string>
     <string name="toast_shortcut">Verknüpfung erfolgreich erstellt.</string>
-    <string name="toast_install_mail">Bitte eine Emailapp installieren.</string>
     <string name="toast_backup">Sicherung erfolgreich.</string>
     <string name="toast_restore">Wiederherstellung erfolgreich.</string>
     <string name="toast_backup_not">Sicherung fehlgeschlagen.</string>
@@ -225,7 +240,6 @@
     <string name="note_edit">Notiz bearbeiten</string>
     <string name="note_share">Notiz teilen</string>
     <string name="note_share_2">Notiz teilen mit:</string>
-    <string name="note_share_3">Email senden mit:</string>
     <string name="note_priority_0">Niedrig</string>
     <string name="note_priority_1">Normal</string>
     <string name="note_priority_2">Hoch</string>

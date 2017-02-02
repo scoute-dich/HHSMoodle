@@ -27,10 +27,12 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize"
             android:theme="@style/Login">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <action android:name="shortcutBookmarks" />
@@ -78,6 +80,11 @@
         <!-- activities helper -->
 
         <activity
+            android:name=".about.About_activity"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar"  />
+
+        <activity
             android:name=".activities.Activity_intro"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar"  />
@@ -117,21 +124,29 @@
 
         <activity
             android:name=".popup.Popup_bookmarks"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
             android:launchMode="singleTask"
             android:theme="@style/AppThemeDialog" />
 
         <activity
             android:name=".popup.Popup_camera"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
             android:launchMode="singleTask"
             android:theme="@style/AppThemeDialog" />
 
         <activity
             android:name=".popup.Popup_todo_restart"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
             android:launchMode="singleTask"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <activity
             android:name=".popup.Popup_courseList"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
             android:launchMode="singleTask"
             android:theme="@style/AppThemeDialog">
             <intent-filter>

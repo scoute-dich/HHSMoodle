@@ -1,7 +1,9 @@
-### v 3.2: (WIP)
+### v 3.2:
 - added: Intro screen
+- added: About screen
 - added: automatic backup
 - fixed: editing todo title
+- fixed: remove popup activities from recent apps list
 
 ### v 3.1:
 

@@ -25,6 +25,32 @@
     <string name="app_fav">Favorite</string>
 
 
+    // About
+
+    <string name="about_title_main">About HHS Moodle</string>
+    <string name="about_title_dev">Developer</string>
+    <string name="about_title_libs">Used open source libraries</string>
+
+    <string name="about_changelog">Changelog</string>
+    <string name="about_changelog_summary">Open Github site and see what\'s new … (needs internet connection)</string>
+
+    <string name="about_license">License</string>
+    <string name="about_license_summary">The app is licensed under GPL and completely open source and free (as in freedom).</string>
+
+    <string name="about_dev">Gaukler Faun</string>
+    <string name="about_dev_summary">Open my profile on Github (needs internet connection).</string>
+
+    <string name="about_intro">Intro</string>
+    <string name="about_intro_summary">Show the intro screen one more time.</string>
+
+    <string name="about_license_1">Used for the file picker.</string>
+    <string name="about_license_3">Used to build the intro screen.</string>
+    <string name="about_license_4">The beginning of all. Mainly used for the databases.</string>
+    <string name="about_license_5">Used to encrypt pin (for app protection).</string>
+    <string name="about_license_7">Used to create the \"About screen\".</string>
+    <string name="about_license_8">The source of nearly all icons.</string>
+
+
     // IntroScreen
 
     <string name="intro1_title">HHS Moodle</string>
@@ -105,22 +131,15 @@
 
     // Settings
 
-    <string name="pref_1">About the app</string>
     <string name="pref_2">App settings</string>
-    <string name="pref_3">Help</string>
+    <string name="pref_3">About | Help</string>
     <string name="pref_5">Security</string>
 
     <string name="action_username">Login data (Moodle)</string>
     <string name="action_username_summary">Please enter your Moodle username and password to get automatically logged in.</string>
 
-    <string name="action_changelog">Changelog</string>
-    <string name="action_changelog_summary">See what\'s new … (will open a website)</string>
-
     <string name="action_longPress">App exit</string>
     <string name="action_longPress_summary">Long press title bar to exit app completely.</string>
-
-    <string name="action_license">License</string>
-    <string name="action_license_summary">The app is completely open source and licensed under GPL3.</string>
 
     <string name="action_openSettings">App info</string>
     <string name="action_openSettings_summary">Open via the system settings the app info of the app. There you can,
@@ -129,18 +148,14 @@
     <string name="action_tabMain">Main screen</string>
     <string name="action_tabMain_summary">Which tab should be displayed as default on the main screen?</string>
 
-    <string name="action_notShow_title">Introduction</string>
-    <string name="action_notShow_title_summary">Show the introduction dialog again.</string>
+    <string name="action_notShow_title">About</string>
+    <string name="action_notShow_title_summary">Learn more about the app (changelog, license, used libraries, …).</string>
 
     <string name="action_protect">Pin (App access)</string>
     <string name="action_protect_summary">Set a pin to protect app against unwanted access. Only use numbers. Let empty, if you do
         not want to protect the app (own risk).</string>
 
-    <string name="action_problem">Contact</string>
-    <string name="action_problem_summary">If you have problems with the app (or our Moodle) or suggestions for improvements, you can
-        send me a mail. You must have a configured mail account on your phone.</string>
-    <string name="action_problem_button">Send mail</string>
-    <string name="action_problem_text">Please enter mail text:</string>
+    <string name="action_problem_summary">Problems? Send me a mail.</string>
 
     <string name="action_font">Font size</string>
     <string name="action_font_summary">Change font size for websites.</string>
@@ -186,7 +201,6 @@
     <string name="toast_perm">Permissions granted?</string>
     <string name="toast_wrongPW">Uuups. Wrong password.</string>
     <string name="toast_shortcut">Shortcut successfully created.</string>
-    <string name="toast_install_mail">Please install a mail client.</string>
     <string name="toast_backup">Backup successfully.</string>
     <string name="toast_restore">Restore successfully.</string>
     <string name="toast_backup_not">Backup failed.</string>
@@ -218,7 +232,6 @@
     <string name="note_edit">Edit note</string>
     <string name="note_share">Share note</string>
     <string name="note_share_2">Share note using:</string>
-    <string name="note_share_3">Send mail using:</string>
     <string name="note_priority_0">Normal</string>
     <string name="note_priority_1">Low</string>
     <string name="note_priority_2">High</string>

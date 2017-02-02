@@ -137,6 +137,7 @@ public class Popup_todo_restart extends Activity {
                             android.support.v4.app.NotificationCompat.Builder builderSummary =
                                     new android.support.v4.app.NotificationCompat.Builder(Popup_todo_restart.this)
                                             .setSmallIcon(R.drawable.school)
+                                            .setAutoCancel(true)
                                             .setColor(ContextCompat.getColor(Popup_todo_restart.this, R.color.colorPrimary))
                                             .setGroup("HHS_Moodle")
                                             .setGroupSummary(true)
