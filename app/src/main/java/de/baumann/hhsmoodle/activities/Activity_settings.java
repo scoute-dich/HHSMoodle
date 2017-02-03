@@ -112,6 +112,146 @@ public class Activity_settings extends AppCompatActivity {
             });
         }
 
+        private void addShortcutListener() {
+
+            final Activity activity = getActivity();
+            Preference reset = findPreference("shortcuts");
+
+            reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference pref) {
+
+                    final CharSequence[] options = {
+                            getString(R.string.title_bookmarks),
+                            getString(R.string.title_notes),
+                            getString(R.string.todo_title),
+                            getString(R.string.bookmark_createNote)};
+
+                    new AlertDialog.Builder(activity)
+                            .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    dialog.cancel();
+                                }
+                            })
+                            .setItems(options, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int item) {
+
+                                    if (options[item].equals (getString(R.string.title_bookmarks))) {
+                                        Intent i = new Intent(activity.getApplicationContext(), Activity_splash.class);
+                                        i.setAction("shortcutBookmarks");
+
+                                        Intent shortcut = new Intent();
+                                        shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, i);
+                                        shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, i);
+                                        shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, (getString(R.string.title_bookmarks)));
+                                        shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
+                                                Intent.ShortcutIconResource.fromContext(activity.getApplicationContext(), R.mipmap.ic_bookmark));
+                                        shortcut.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+                                        activity.sendBroadcast(shortcut);
+
+                                        LayoutInflater inflater = getActivity().getLayoutInflater();
+                                        View toastLayout = inflater.inflate(R.layout.toast,
+                                                (ViewGroup) getActivity().findViewById(R.id.toast_root_view));
+
+                                        TextView header = (TextView) toastLayout.findViewById(R.id.toast_message);
+                                        header.setText(R.string.toast_shortcut);
+
+                                        Toast toast = new Toast(getActivity().getApplicationContext());
+                                        toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
+                                        toast.setDuration(Toast.LENGTH_LONG);
+                                        toast.setView(toastLayout);
+                                        toast.show();
+                                    }
+
+                                    if (options[item].equals (getString(R.string.title_notes))) {
+                                        Intent i = new Intent(activity.getApplicationContext(), Activity_splash.class);
+                                        i.setAction("shortcutNotes");
+
+                                        Intent shortcut = new Intent();
+                                        shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, i);
+                                        shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, (getString(R.string.title_notes)));
+                                        shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
+                                                Intent.ShortcutIconResource.fromContext(activity.getApplicationContext(), R.mipmap.ic_note));
+                                        shortcut.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+                                        activity.sendBroadcast(shortcut);
+
+                                        LayoutInflater inflater = getActivity().getLayoutInflater();
+                                        View toastLayout = inflater.inflate(R.layout.toast,
+                                                (ViewGroup) getActivity().findViewById(R.id.toast_root_view));
+
+                                        TextView header = (TextView) toastLayout.findViewById(R.id.toast_message);
+                                        header.setText(R.string.toast_shortcut);
+
+                                        Toast toast = new Toast(getActivity().getApplicationContext());
+                                        toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
+                                        toast.setDuration(Toast.LENGTH_LONG);
+                                        toast.setView(toastLayout);
+                                        toast.show();
+                                    }
+
+                                    if (options[item].equals (getString(R.string.todo_title))) {
+                                        Intent i = new Intent(activity.getApplicationContext(), Activity_splash.class);
+                                        i.setAction("shortcutToDo");
+
+                                        Intent shortcut = new Intent();
+                                        shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, i);
+                                        shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, (getString(R.string.todo_title)));
+                                        shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
+                                                Intent.ShortcutIconResource.fromContext(activity.getApplicationContext(), R.mipmap.ic_todo));
+                                        shortcut.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+                                        activity.sendBroadcast(shortcut);
+
+                                        LayoutInflater inflater = getActivity().getLayoutInflater();
+                                        View toastLayout = inflater.inflate(R.layout.toast,
+                                                (ViewGroup) getActivity().findViewById(R.id.toast_root_view));
+
+                                        TextView header = (TextView) toastLayout.findViewById(R.id.toast_message);
+                                        header.setText(R.string.toast_shortcut);
+
+                                        Toast toast = new Toast(getActivity().getApplicationContext());
+                                        toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
+                                        toast.setDuration(Toast.LENGTH_LONG);
+                                        toast.setView(toastLayout);
+                                        toast.show();
+                                    }
+
+                                    if (options[item].equals (getString(R.string.bookmark_createNote))) {
+                                        Intent i = new Intent(activity.getApplicationContext(), Activity_splash.class);
+                                        i.setAction(Intent.ACTION_SEND);
+
+                                        Intent shortcut = new Intent();
+                                        shortcut.setAction(Intent.ACTION_MAIN);
+                                        shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, i);
+                                        shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, (getString(R.string.bookmark_createNote)));
+                                        shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
+                                                Intent.ShortcutIconResource.fromContext(activity.getApplicationContext(), R.mipmap.ic_note_plus));
+                                        shortcut.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+                                        activity.sendBroadcast(shortcut);
+
+                                        LayoutInflater inflater = getActivity().getLayoutInflater();
+
+                                        View toastLayout = inflater.inflate(R.layout.toast,
+                                                (ViewGroup) getActivity().findViewById(R.id.toast_root_view));
+
+                                        TextView header = (TextView) toastLayout.findViewById(R.id.toast_message);
+                                        header.setText(R.string.toast_shortcut);
+
+                                        Toast toast = new Toast(getActivity().getApplicationContext());
+                                        toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
+                                        toast.setDuration(Toast.LENGTH_LONG);
+                                        toast.setView(toastLayout);
+                                        toast.show();
+                                    }
+
+                                }
+                            }).show();
+
+                    return true;
+                }
+            });
+        }
+
         private void addIntroListener() {
 
             Preference reset = findPreference("intro_show");
@@ -349,6 +489,7 @@ public class Activity_settings extends AppCompatActivity {
             addProtectListener();
             addBackup_dbListener();
             addIntroListener();
+            addShortcutListener();
         }
 
         private void decrypt(String name) throws IOException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {

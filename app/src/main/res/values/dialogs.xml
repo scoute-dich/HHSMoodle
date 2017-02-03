@@ -200,6 +200,33 @@
         The entry will be deleted. There is a short time period to restore it.
     </string>
 
+    <string name="helpInfo_text">
+        Here are bookmarks to important Moodle sites stored. Also a link to our school homepage and to a search engine.
+        This list can not be edited.&lt;br>&lt;br>
+
+        &lt;b>The list:&lt;/b>&lt;br>
+        If you click on a list entry the bookmark opens in the intern browser. If you long click a list entry a popup
+        menu opens.&lt;br>&lt;br>
+
+        &lt;b>Popup menu:&lt;/b>&lt;br>
+        &#8226;&lt;i> Set as favorite:&lt;/i> If you set a bookmark as favorite, you can open it at the app start or by
+        clicking on the toolbar. You can configure that in the settings.&lt;br>
+        &#8226;&lt;i> Create note:&lt;/i> The title of the bookmark will be used as title for a new note, the url for the content.&lt;br>
+        &#8226;&lt;i> Create shortcut:&lt;/i> A shortcut to the bookmark will be created on your homescreen.&lt;br>
+        &#8226;&lt;i> Create calendar entry:&lt;/i> The name of the bookmark will be used as title for a new calendar
+        entry. Editing of this entry will take place in your calendar app.&lt;br>&lt;br>
+
+        &lt;b>Menu:&lt;/b>&lt;br>
+        &#8226;&lt;i> Create note (pen icon):&lt;/i> A new dialog where you can create a new note will open.&lt;br>
+        &#8226;&lt;i> Open app directory:&lt;/i> If you have a installed file manager, the directory where downloaded files
+        are stored will open.&lt;br>
+        &#8226;&lt;i> Create shortcut:&lt;/i> To have a faster access to the main functions of the app, you can create
+        shortcuts on your homescreen (calendar -> offline, My Moodle, bookmarks, notes, create new note).&lt;br>
+        &#8226;&lt;i> Settings:&lt;/i> In the settings you can configure the behavior of the app. It is highly
+        recommended to protect the app with a password against unwanted access.&lt;br>
+        &#8226;&lt;i> Help:&lt;/i> Opens the help dialog.
+    </string>
+
     <string name="perm_notShow_title">Permission dialog</string>
     <string name="perm_notShow_title_summary">Show again: Permission dialog?</string>
 

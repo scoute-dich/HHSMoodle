@@ -55,6 +55,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import de.baumann.hhsmoodle.HHS_Browser;
 import de.baumann.hhsmoodle.HHS_MainScreen;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.databases.Database_Todo;
@@ -106,7 +107,7 @@ public class Activity_todo extends AppCompatActivity {
 
                     if (startType.equals("2")) {
                         helper_main.isOpened(Activity_todo.this);
-                        helper_main.switchToActivity(Activity_todo.this, Activity_grades.class, startURL, false);
+                        helper_main.switchToActivity(Activity_todo.this, HHS_Browser.class, startURL, false);
                     } else if (startType.equals("1")){
                         helper_main.isOpened(Activity_todo.this);
                         helper_main.switchToActivity(Activity_todo.this, HHS_MainScreen.class, "", true);

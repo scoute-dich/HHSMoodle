@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="@string/app_myMoodle">
+        <menu>
+            <item
+                android:id="@+id/nav_title_info"
+                android:icon="@drawable/school_dark"
+                android:title="@string/title_info" />
+            <item
+                android:id="@+id/nav_bookmarks"
+                android:icon="@drawable/ic_bookmark_grey600_48dp"
+                android:title="@string/title_bookmarks" />
+            <item
+                android:id="@+id/nav_todo"
+                android:icon="@drawable/format_list_bulleted"
+                android:title="@string/todo_title" />
+            <item
+                android:id="@+id/nav_notes"
+                android:icon="@drawable/pencil"
+                android:title="@string/title_notes" />
+        </menu>
+    </item>
+
+    <item android:title="@string/menu_tools">
+        <menu>
+            <item
+                android:id="@+id/nav_random"
+                android:icon="@drawable/dice_3_dark"
+                android:title="@string/number_title" />
+            <item
+                android:id="@+id/nav_grades"
+                android:icon="@drawable/calculator"
+                android:title="@string/action_grades" />
+            <item
+                android:id="@+id/nav_courseList"
+                android:icon="@drawable/account_multiple"
+                android:title="@string/courseList_title" />
+            <item
+                android:id="@+id/nav_settings"
+                android:icon="@drawable/settings"
+                android:title="@string/menu_settings" />
+        </menu>
+    </item>
+
+</menu>

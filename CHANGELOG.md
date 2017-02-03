@@ -1,3 +1,8 @@
+### v3.3: (WIP)
+- added: Navigation Drawer
+- added: My Moodle
+- removed: tab layout
+
 ### v 3.2:
 - added: Intro screen
 - added: About screen

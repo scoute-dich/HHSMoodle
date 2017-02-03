@@ -70,9 +70,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import de.baumann.hhsmoodle.activities.Activity_courseList;
-import de.baumann.hhsmoodle.activities.Activity_dice;
-import de.baumann.hhsmoodle.activities.Activity_grades;
 import de.baumann.hhsmoodle.databases.Database_Browser;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.helper.helper_notes;
@@ -458,7 +455,7 @@ public class HHS_Browser extends AppCompatActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
 
         if (sharedPref.getBoolean ("help", false)){
-            menu.getItem(6).setVisible(false); // here pass the index of save menu item
+            menu.getItem(0).setVisible(false); // here pass the index of save menu item
         }
         return super.onPrepareOptionsMenu(menu);
     }
@@ -526,42 +523,6 @@ public class HHS_Browser extends AppCompatActivity {
         if (id == R.id.action_folder) {
             String startDir = Environment.getExternalStorageDirectory() + "/HHS_Moodle/";
             helper_main.openFilePicker(HHS_Browser.this, mWebView, startDir);
-        }
-
-        if (id == R.id.action_tools) {
-            final CharSequence[] options = {
-                    getString(R.string.action_grades),
-                    getString(R.string.number_title),
-                    getString(R.string.courseList_title)};
-
-            new AlertDialog.Builder(HHS_Browser.this)
-                    .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            dialog.cancel();
-                        }
-                    })
-                    .setItems(options, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int item) {
-
-                            if (options[item].equals (getString(R.string.action_grades))) {
-                                helper_main.isOpened(HHS_Browser.this);
-                                helper_main.switchToActivity(HHS_Browser.this, Activity_grades.class, "", false);
-                            }
-
-                            if (options[item].equals (getString(R.string.number_title))) {
-                                helper_main.isOpened(HHS_Browser.this);
-                                helper_main.switchToActivity(HHS_Browser.this, Activity_dice.class, "", false);
-                            }
-
-                            if (options[item].equals (getString(R.string.courseList_title))) {
-                                helper_main.isOpened(HHS_Browser.this);
-                                helper_main.switchToActivity(HHS_Browser.this, Activity_courseList.class, "", false);
-                            }
-
-                        }
-                    }).show();
         }
 
         if (id == android.R.id.home) {

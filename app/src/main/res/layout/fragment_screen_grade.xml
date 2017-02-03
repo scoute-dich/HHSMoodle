@@ -6,23 +6,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:elevation="0dp"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
-
-    </android.support.design.widget.AppBarLayout>
-
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -610,7 +593,8 @@
                         android:gravity="center_vertical|center_horizontal"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:text="83"
-                        android:textColor="@color/colorPrimary"/>
+                        android:textColor="@color/colorPrimary"
+                        tools:ignore="TooManyViews" />
                     <TextView
                         android:id="@+id/text_83_points"
                         android:layout_width="100dp"

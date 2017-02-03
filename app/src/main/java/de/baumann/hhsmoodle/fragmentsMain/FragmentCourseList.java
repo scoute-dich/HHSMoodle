@@ -17,25 +17,25 @@
     If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.baumann.hhsmoodle.activities;
+package de.baumann.hhsmoodle.fragmentsMain;
 
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -46,42 +46,35 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import de.baumann.hhsmoodle.HHS_MainScreen;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.databases.Database_CourseList;
 import de.baumann.hhsmoodle.helper.class_SecurePreferences;
 import de.baumann.hhsmoodle.helper.helper_main;
-import de.baumann.hhsmoodle.helper.helper_notes;
 import filechooser.ChooserDialog;
 
-public class Activity_courseList extends AppCompatActivity {
+@SuppressWarnings("ConstantConditions")
+public class FragmentCourseList extends Fragment {
 
     private ListView listView = null;
-    private SharedPreferences sharedPref;
     private class_SecurePreferences sharedPrefSec;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_screen_dice, container, false);
 
-        PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
-        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        sharedPrefSec = new class_SecurePreferences(Activity_courseList.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
-
-        setContentView(R.layout.activity_dice);
-        setTitle(R.string.courseList_title);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        helper_main.onStart(Activity_courseList.this);
-
-        final ActionBar actionBar = getSupportActionBar();
-        if(actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
+        ImageView imgHeader = (ImageView) rootView.findViewById(R.id.imageView_header);
+        if(imgHeader != null) {
+            TypedArray images = getResources().obtainTypedArray(R.array.splash_images);
+            int choice = (int) (Math.random() * images.length());
+            imgHeader.setImageResource(images.getResourceId(choice, R.drawable.splash1));
+            images.recycle();
         }
 
-        FloatingActionButton fab_add = (FloatingActionButton) findViewById(R.id.fab_add);
-        listView = (ListView)findViewById(R.id.list);
+        sharedPrefSec = new class_SecurePreferences(getActivity(), "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
+
+        FloatingActionButton fab_add = (FloatingActionButton) rootView.findViewById(R.id.fab_add);
+        listView = (ListView)rootView.findViewById(R.id.list);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -95,7 +88,7 @@ public class Activity_courseList extends AppCompatActivity {
                         getString(R.string.bookmark_edit_title),
                         getString(R.string.number_edit_entry),
                         getString(R.string.bookmark_remove_bookmark)};
-                new android.app.AlertDialog.Builder(Activity_courseList.this)
+                new android.app.AlertDialog.Builder(getActivity())
                         .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
 
                             public void onClick(DialogInterface dialog, int whichButton) {
@@ -108,10 +101,10 @@ public class Activity_courseList extends AppCompatActivity {
                                 if (options[item].equals(getString(R.string.bookmark_edit_title))) {
                                     try {
 
-                                        final Database_CourseList db = new Database_CourseList(Activity_courseList.this);
+                                        final Database_CourseList db = new Database_CourseList(getActivity());
 
-                                        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(Activity_courseList.this);
-                                        View dialogView = View.inflate(Activity_courseList.this, R.layout.dialog_edit_title, null);
+                                        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getActivity());
+                                        View dialogView = View.inflate(getActivity(), R.layout.dialog_edit_title, null);
 
                                         final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
                                         edit_title.setHint(R.string.bookmark_edit_title);
@@ -144,7 +137,7 @@ public class Activity_courseList extends AppCompatActivity {
 
                                         new Handler().postDelayed(new Runnable() {
                                             public void run() {
-                                                helper_main.showKeyboard(Activity_courseList.this,edit_title);
+                                                helper_main.showKeyboard(getActivity(),edit_title);
                                             }
                                         }, 200);
 
@@ -157,10 +150,10 @@ public class Activity_courseList extends AppCompatActivity {
 
                                     try {
 
-                                        final Database_CourseList db = new Database_CourseList(Activity_courseList.this);
+                                        final Database_CourseList db = new Database_CourseList(getActivity());
 
-                                        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(Activity_courseList.this);
-                                        View dialogView = View.inflate(Activity_courseList.this, R.layout.dialog_edit_text, null);
+                                        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getActivity());
+                                        View dialogView = View.inflate(getActivity(), R.layout.dialog_edit_text, null);
 
                                         final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
                                         edit_title.setHint(R.string.bookmark_edit_title);
@@ -194,7 +187,7 @@ public class Activity_courseList extends AppCompatActivity {
 
                                         new Handler().postDelayed(new Runnable() {
                                             public void run() {
-                                                helper_main.showKeyboard(Activity_courseList.this,edit_title);
+                                                helper_main.showKeyboard(getActivity(),edit_title);
                                             }
                                         }, 200);
 
@@ -205,7 +198,7 @@ public class Activity_courseList extends AppCompatActivity {
 
                                 if (options[item].equals(getString(R.string.bookmark_remove_bookmark))) {
                                     try {
-                                        Database_CourseList db = new Database_CourseList(Activity_courseList.this);
+                                        Database_CourseList db = new Database_CourseList(getActivity());
                                         final int count = db.getRecordCount();
                                         db.close();
 
@@ -221,7 +214,7 @@ public class Activity_courseList extends AppCompatActivity {
                                                         @Override
                                                         public void onClick(View view) {
                                                             try {
-                                                                Database_CourseList db = new Database_CourseList(Activity_courseList.this);
+                                                                Database_CourseList db = new Database_CourseList(getActivity());
                                                                 db.deleteBookmark(Integer.parseInt(seqnoStr));
                                                                 db.close();
                                                                 setCourseList();
@@ -249,7 +242,7 @@ public class Activity_courseList extends AppCompatActivity {
 
                 String startDir = Environment.getExternalStorageDirectory() + "/HHS_Moodle/";
 
-                new ChooserDialog().with(Activity_courseList.this)
+                new ChooserDialog().with(getActivity())
                         .withStartFile(startDir)
                         .withFilter(false, false, "txt")
                         .withChosenListener(new ChooserDialog.Result() {
@@ -277,7 +270,7 @@ public class Activity_courseList extends AppCompatActivity {
 
                                 try {
 
-                                    final Database_CourseList db = new Database_CourseList(Activity_courseList.this);
+                                    final Database_CourseList db = new Database_CourseList(getActivity());
                                     String textAdd = text.substring(0, text.length()-1);
                                     sharedPrefSec.put(fileNameWE + "text", textAdd);
 
@@ -298,6 +291,9 @@ public class Activity_courseList extends AppCompatActivity {
             }
         });
         setCourseList();
+        setHasOptionsMenu(true);
+
+        return rootView;
     }
 
     private void setCourseList() {
@@ -305,7 +301,7 @@ public class Activity_courseList extends AppCompatActivity {
         ArrayList<HashMap<String,String>> mapList = new ArrayList<>();
 
         try {
-            Database_CourseList db = new Database_CourseList(Activity_courseList.this);
+            Database_CourseList db = new Database_CourseList(getActivity());
             ArrayList<String[]> bookmarkList = new ArrayList<>();
             db.getBookmarks(bookmarkList);
             if (bookmarkList.size() == 0) {
@@ -323,7 +319,7 @@ public class Activity_courseList extends AppCompatActivity {
             }
 
             SimpleAdapter simpleAdapter = new SimpleAdapter(
-                    Activity_courseList.this,
+                    getActivity(),
                     mapList,
                     R.layout.list_item,
                     new String[] {"title", "text"},
@@ -338,83 +334,41 @@ public class Activity_courseList extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() {
-        finish();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();    //To change body of overridden methods use File | Settings | File Templates.
-        helper_main.isOpened(Activity_courseList.this);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
-        setCourseList();
-        helper_main.isOpened(Activity_courseList.this);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();    //To change body of overridden methods use File | Settings | File Templates.
-        helper_main.isClosed(Activity_courseList.this);
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-
-        if (sharedPref.getBoolean ("help", false)){
-            menu.getItem(2).setVisible(false); // here pass the index of save menu item
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && isResumed()) {
+            getActivity().setTitle(R.string.courseList_title);
+            setCourseList();
         }
-        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public void onResume() {
+        super.onResume();
+        setCourseList();
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_courselist, menu);
-        return true;
+        super.onPrepareOptionsMenu(menu);
+        menu.findItem(R.id.action_sort).setVisible(false);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        switch (id) {
 
-        if (id == R.id.action_not) {
-
-            sharedPref.edit()
-                    .putString("handleTextTitle", "")
-                    .putString("handleTextText", "")
-                    .putString("handleTextIcon", "")
-                    .putString("handleTextAttachment", "")
-                    .putString("handleTextCreate", helper_main.createDate())
-                    .putString("handleTextSeqno", "")
-                    .apply();
-            helper_notes.editNote(Activity_courseList.this);
+            case R.id.action_help:
+                final android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(getActivity())
+                        .setTitle(R.string.courseList_title)
+                        .setMessage(helper_main.textSpannable(getString(R.string.helpCourse_text)))
+                        .setPositiveButton(getString(R.string.toast_yes), null);
+                dialog.show();
+                return true;
         }
 
-        if (id == R.id.action_folder) {
-            String startDir = Environment.getExternalStorageDirectory() + "/HHS_Moodle/";
-            helper_main.openFilePicker(Activity_courseList.this, listView, startDir);
-        }
-
-        if (id == android.R.id.home) {
-            helper_main.isOpened(Activity_courseList.this);
-            helper_main.switchToActivity(Activity_courseList.this, HHS_MainScreen.class, "", true);
-        }
-
-        if (id == R.id.action_help) {
-            final android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(Activity_courseList.this)
-                    .setTitle(R.string.courseList_title)
-                    .setMessage(helper_main.textSpannable(getString(R.string.helpCourse_text)))
-                    .setPositiveButton(getString(R.string.toast_yes), null);
-            dialog.show();
-        }
-
-        return super.onOptionsItemSelected(item);
+        return false;
     }
 }

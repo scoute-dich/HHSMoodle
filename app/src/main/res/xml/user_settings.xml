@@ -39,13 +39,13 @@
             android:icon="@drawable/cellphone_iphone"
             android:summary="@string/action_tabMain_summary"
             android:key="tabMain"
-            android:defaultValue="0"
+            android:defaultValue="1"
             android:entries="@array/listArrayTabMain"
             android:entryValues="@array/listValuesTabMain" />
 
         <ListPreference
             android:title="@string/action_start"
-            android:icon="@drawable/cursor_pointer"
+            android:icon="@drawable/gesture_tap"
             android:summary="@string/action_start_summary"
             android:key="startType"
             android:defaultValue="1"
@@ -67,6 +67,12 @@
             android:defaultValue="100"
             android:entries="@array/listArrayFont"
             android:entryValues="@array/listValuesFont" />
+
+        <Preference
+            android:title="@string/action_shortcut"
+            android:icon="@drawable/arrow_top_right"
+            android:summary="@string/action_shortcut_summary"
+            android:key="shortcuts" />
 
         <Preference
             android:title="@string/action_openSettings"

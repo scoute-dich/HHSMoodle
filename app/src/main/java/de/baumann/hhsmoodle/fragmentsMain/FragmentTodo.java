@@ -342,13 +342,14 @@ public class FragmentTodo extends Fragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser && isResumed()) {
+            getActivity().setTitle(R.string.todo_title);
             setNotesList();
         }
     }
 
     @Override
     public void onResume() {
-        super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
+        super.onResume();
         setNotesList();
     }
 

@@ -105,7 +105,7 @@ public class Activity_splash extends AppCompatActivity {
         final String startType = sharedPref.getString("startType", "1");
         final String startURL = sharedPref.getString("favoriteURL", "https://moodle.huebsch.ka.schule-bw.de/moodle/");
 
-        boolean show = sharedPref.getBoolean("introShowDo_notShow", true);
+        boolean show = sharedPref.getBoolean("showIntroScreen_notShow", true);
 
         if (show){
             Intent mainIntent = new Intent(Activity_splash.this, Activity_intro.class);

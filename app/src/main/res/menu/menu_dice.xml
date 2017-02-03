@@ -3,29 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_not"
-        android:orderInCategory="100"
-        android:title="@string/menu_rem"
-        android:icon="@drawable/pencil"
-        app:showAsAction="ifRoom" />
-
-    <item
         android:id="@+id/action_dice"
         android:orderInCategory="100"
         android:title="@string/number_dice"
         android:icon="@drawable/dice_3"
         app:showAsAction="ifRoom" />
-
-    <item
-        android:id="@+id/action_folder"
-        android:orderInCategory="100"
-        android:title="@string/menu_folder"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/action_help"
-        android:orderInCategory="100"
-        android:title="@string/menu_help"
-        app:showAsAction="never" />
 
 </menu>

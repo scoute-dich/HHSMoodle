@@ -33,8 +33,8 @@ import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -174,8 +174,9 @@ public class FragmentBookmarks extends Fragment {
                                         final Database_Todo db = new Database_Todo(getActivity());
                                         db.addBookmark(title, "", "3", "true", helper_main.createDate());
                                         db.close();
-                                        TabLayout tabHost = (TabLayout) getActivity().findViewById(R.id.tabs);
-                                        tabHost.getTabAt(1).select();
+
+                                        ViewPager viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
+                                        viewPager.setCurrentItem(2, true);
 
                                     } catch (Exception e) {
                                         e.printStackTrace();
@@ -288,13 +289,14 @@ public class FragmentBookmarks extends Fragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser && isResumed()) {
+            getActivity().setTitle(R.string.title_bookmarks);
             setBookmarkList();
         }
     }
 
     @Override
     public void onResume() {
-        super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
+        super.onResume();
         setBookmarkList();
     }
 

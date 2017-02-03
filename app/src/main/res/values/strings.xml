@@ -3,6 +3,9 @@
 
     // Application
 
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
     <string name="app_name">HHS Moodle</string>
     <string name="app_permissions_title">Used permissions</string>
     <string name="app_permissions">
@@ -23,6 +26,31 @@
     <string name="app_att">Attachment</string>
     <string name="app_encrypt">Encrypting databases …</string>
     <string name="app_fav">Favorite</string>
+    <string name="app_myMoodle">My Moodle</string>
+
+
+    // Moodle
+
+    <string name="text_tit_1">Dashboard</string>
+    <string name="text_tit_2">Profile</string>
+    <string name="text_tit_8">Calendar</string>
+    <string name="text_tit_3">Ratings</string>
+    <string name="text_tit_4">Notifications</string>
+    <string name="text_tit_5">Settings</string>
+    <string name="text_tit_6">School homepage</string>
+    <string name="text_tit_7">Web search</string>
+    <string name="text_tit_11">Moodle</string>
+    <string name="text_tit_9">Check</string>
+    <string name="text_tit_10">Clock</string>
+
+    <string name="text_des_1">Course overview, files, awards, appointment, calendar, …</string>
+    <string name="text_des_2">Details, reports, miscellaneous, edit profile.</string>
+    <string name="text_des_8">View upcoming events from your courses.</string>
+    <string name="text_des_3">Gradings and results from all your courses.</string>
+    <string name="text_des_4">Read and send personal notifications.</string>
+    <string name="text_des_5">Personal messages and contacts.</string>
+    <string name="text_des_6">Our homepage with actual news, contact information, …</string>
+    <string name="text_des_7">Startpage: a save and secure search engine.</string>
 
 
     // About
@@ -54,7 +82,8 @@
     // IntroScreen
 
     <string name="intro1_title">HHS Moodle</string>
-    <string name="intro1_text">Please read the following introduction carefully.</string>
+    <string name="intro1_text">Thanks for choosing HHS Moodle. Please read the following introduction carefully. You can reach
+        all important functions by swiping from the left to the middle of your screen.</string>
 
     <string name="intro2_title">Bookmarks</string>
     <string name="intro2_text">Create your own personal bookmarks for each visited site.</string>
@@ -94,6 +123,7 @@
 
     <string name="title_bookmarks">Bookmarks</string>
     <string name="title_notes">Notes</string>
+    <string name="title_info">My Moodle</string>
 
 
     // Menu Items
@@ -172,22 +202,11 @@
     <string name="action_backupAut">Automatic backup</string>
     <string name="action_backupAut_summary">Always backup all databases (Todo, bookmarks, …), when leaving the app.</string>
 
+    <string name="action_shortcut">Shortcuts</string>
+    <string name="action_shortcut_summary">Create shortcuts on your desktop for fast access to main functions of the app (Bookmarks,
+        todo lists, …).</string>
+
     <string name="action_restore">Restore</string>
-
-
-    // Moodle
-
-    <string name="text_tit_1">Dashboard</string>
-    <string name="text_tit_2">Profile</string>
-    <string name="text_tit_8">Calendar</string>
-    <string name="text_tit_3">Ratings</string>
-    <string name="text_tit_4">Notifications</string>
-    <string name="text_tit_5">Settings</string>
-    <string name="text_tit_6">School homepage</string>
-    <string name="text_tit_7">Web search</string>
-    <string name="text_tit_11">Moodle</string>
-    <string name="text_tit_9">Check</string>
-    <string name="text_tit_10">Clock</string>
 
 
     // Snackbar

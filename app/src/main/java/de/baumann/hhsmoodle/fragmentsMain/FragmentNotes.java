@@ -31,8 +31,8 @@ import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -236,8 +236,9 @@ public class FragmentNotes extends Fragment {
                                         final Database_Todo db = new Database_Todo(getActivity());
                                         db.addBookmark(title, cont, "3", "true", helper_main.createDate());
                                         db.close();
-                                        TabLayout tabHost = (TabLayout) getActivity().findViewById(R.id.tabs);
-                                        tabHost.getTabAt(1).select();
+
+                                        ViewPager viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
+                                        viewPager.setCurrentItem(2, true);
 
                                     } catch (Exception e) {
                                         e.printStackTrace();
@@ -300,13 +301,14 @@ public class FragmentNotes extends Fragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser && isResumed()) {
+            getActivity().setTitle(R.string.title_notes);
             setNotesList();
         }
     }
 
     @Override
     public void onResume() {
-        super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
+        super.onResume();
         setNotesList();
     }
 
