@@ -17,17 +17,17 @@
     If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.baumann.hhsmoodle.helper;
+package de.baumann.hhsmoodle.data_notes;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.os.Environment;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -38,27 +38,22 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Locale;
 
 import de.baumann.hhsmoodle.R;
-import de.baumann.hhsmoodle.databases.Database_Notes;
+import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.popup.Popup_camera;
 import filechooser.ChooserDialog;
 
-public class helper_notes {
+public class Notes_helper {
 
-    public static void editNote (final Activity from) {
+    public static void newNote (final Activity from) {
 
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(from);
         final Button attachment;
@@ -165,6 +160,16 @@ public class helper_notes {
 
             @Override
             public void onClick(View arg0) {
+
+                File f = helper_main.newFile();
+                final String fileName = f.getAbsolutePath();
+                String attName = fileName.substring(fileName.lastIndexOf("/")+1);
+                String att = from.getString(R.string.app_att) + ": " + attName;
+                attachment.setText(att);
+                attachmentRem.setVisibility(View.VISIBLE);
+                attachmentCam.setVisibility(View.GONE);
+                sharedPref.edit().putString("handleTextAttachment", fileName).apply();
+
                 InputMethodManager imm = (InputMethodManager)from.getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(titleInput.getWindowToken(), 0);
                 helper_main.switchToActivity(from, Popup_camera.class, "", false);
@@ -214,13 +219,13 @@ public class helper_notes {
             @Override
             public void onClick(View arg0) {
 
-                final helper_notes.Item[] items = {
+                final Notes_helper.Item[] items = {
                         new Item(from.getString(R.string.note_priority_0), R.drawable.circle_green),
                         new Item(from.getString(R.string.note_priority_1), R.drawable.circle_yellow),
                         new Item(from.getString(R.string.note_priority_2), R.drawable.circle_red),
                 };
 
-                ListAdapter adapter = new ArrayAdapter<helper_notes.Item>(
+                ListAdapter adapter = new ArrayAdapter<Notes_helper.Item>(
                         from,
                         android.R.layout.select_dialog_item,
                         android.R.id.text1,
@@ -334,45 +339,12 @@ public class helper_notes {
             }
         });
 
-        android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(from)
-                .setTitle(R.string.note_edit)
-                .setView(dialogView)
-                .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(from);
+        builder.setTitle(R.string.note_edit);
+        builder.setView(dialogView);
+        builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        String seqno = sharedPref.getString("handleTextSeqno", "");
-
-                        try {
-
-                            final Database_Notes db = new Database_Notes(from);
-                            String inputTitle = titleInput.getText().toString().trim();
-                            String inputContent = textInput.getText().toString().trim();
-                            String attachment = sharedPref.getString("handleTextAttachment", "");
-                            String create = sharedPref.getString("handleTextCreate", "");
-
-                            db.addBookmark(inputTitle, inputContent, sharedPref.getString("handleTextIcon", ""), attachment, create);
-                            db.close();
-                            setNotesList(from);
-
-                            if (seqno.length() > 0) {
-                                db.deleteNote((Integer.parseInt(seqno)));
-                                sharedPref.edit()
-                                        .putString("handleTextSeqno", "")
-                                        .apply();
-                            }
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        sharedPref.edit()
-                                .putString("handleTextTitle", "")
-                                .putString("handleTextText", "")
-                                .putString("handleTextIcon", "")
-                                .putString("handleTextAttachment", "")
-                                .putString("handleTextCreate", "")
-                                .putString("editTextFocus", "")
-                                .apply();
-                        helper_notes.setNotesList(from);
 
                     }
                 })
@@ -390,7 +362,31 @@ public class helper_notes {
                         dialog.cancel();
                     }
                 });
+
+        final AlertDialog dialog = builder.create();
         dialog.show();
+
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Do stuff, possibly set wantToCloseDialog to true then...
+
+                Notes_DbAdapter db = new Notes_DbAdapter(from);
+                db.open();
+
+                String inputTitle = titleInput.getText().toString().trim();
+                String inputContent = textInput.getText().toString().trim();
+                String attachment = sharedPref.getString("handleTextAttachment", "");
+                String create = sharedPref.getString("handleTextCreate", "");
+
+                if(db.isExist(inputTitle)){
+                    Snackbar.make(titleInput, from.getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
+                }else{
+                    db.insert(inputTitle, inputContent, sharedPref.getString("handleTextIcon", ""), attachment, create);
+                    dialog.dismiss();
+                }
+            }
+        });
     }
 
     private static class Item{
@@ -403,177 +399,6 @@ public class helper_notes {
         @Override
         public String toString() {
             return text;
-        }
-    }
-
-    @SuppressWarnings("WeakerAccess")
-    public static void setNotesList(final Activity from) {
-
-        final ListView listView = (ListView)from.findViewById(R.id.listNotes);
-
-        ArrayList<HashMap<String,String>> mapList = new ArrayList<>();
-
-        try {
-            Database_Notes db = new Database_Notes(from);
-            ArrayList<String[]> bookmarkList = new ArrayList<>();
-            db.getBookmarks(bookmarkList, from);
-            if (bookmarkList.size() == 0) {
-                db.loadInitialData();
-                db.getBookmarks(bookmarkList, from);
-            }
-            db.close();
-
-            for (String[] strAry : bookmarkList) {
-                HashMap<String, String> map = new HashMap<>();
-                map.put("seqno", strAry[0]);
-                map.put("title", strAry[1]);
-                map.put("cont", strAry[2]);
-                map.put("icon", strAry[3]);
-                map.put("attachment", strAry[4]);
-                map.put("createDate", strAry[5]);
-                mapList.add(map);
-            }
-
-            SimpleAdapter simpleAdapter = new SimpleAdapter(
-                    from,
-                    mapList,
-                    R.layout.list_item_notes,
-                    new String[] {"title", "cont", "createDate"},
-                    new int[] {R.id.textView_title_notes, R.id.textView_des_notes, R.id.textView_create_notes}
-            ) {
-                @Override
-                public View getView (final int position, View convertView, ViewGroup parent) {
-
-                    @SuppressWarnings("unchecked")
-                    HashMap<String,String> map = (HashMap<String,String>)listView.getItemAtPosition(position);
-                    final String title = map.get("title");
-                    final String cont = map.get("cont");
-                    final String seqnoStr = map.get("seqno");
-                    final String icon = map.get("icon");
-                    final String attachment = map.get("attachment");
-                    final String create = map.get("createDate");
-
-                    View v = super.getView(position, convertView, parent);
-                    ImageView i=(ImageView) v.findViewById(R.id.icon_notes);
-                    final ImageView i2=(ImageView) v.findViewById(R.id.att_notes);
-
-                    switch (icon) {
-                        case "3":
-                            i.setImageResource(R.drawable.circle_green);
-                            break;
-                        case "2":
-                            i.setImageResource(R.drawable.circle_yellow);
-                            break;
-                        case "1":
-                            i.setImageResource(R.drawable.circle_red);
-                            break;
-                    }
-                    switch (attachment) {
-                        case "":
-                            i2.setVisibility(View.GONE);
-                            break;
-                        default:
-                            i2.setVisibility(View.VISIBLE);
-                            i2.setImageResource(R.drawable.ic_attachment);
-                            break;
-                    }
-
-                    File file = new File(attachment);
-                    if (!file.exists()) {
-                        i2.setVisibility(View.GONE);
-                    }
-
-                    i.setOnClickListener(new View.OnClickListener() {
-
-                        @Override
-                        public void onClick(View arg0) {
-
-                            final helper_notes.Item[] items = {
-                                    new Item(from.getString(R.string.note_priority_0), R.drawable.circle_green),
-                                    new Item(from.getString(R.string.note_priority_1), R.drawable.circle_yellow),
-                                    new Item(from.getString(R.string.note_priority_2), R.drawable.circle_red),
-                            };
-
-                            ListAdapter adapter = new ArrayAdapter<helper_notes.Item>(
-                                    from,
-                                    android.R.layout.select_dialog_item,
-                                    android.R.id.text1,
-                                    items){
-                                @NonNull
-                                public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-                                    //Use super class to create the View
-                                    View v = super.getView(position, convertView, parent);
-                                    TextView tv = (TextView)v.findViewById(android.R.id.text1);
-                                    tv.setTextSize(18);
-                                    tv.setCompoundDrawablesWithIntrinsicBounds(items[position].icon, 0, 0, 0);
-                                    //Add margin between image and text (support various screen densities)
-                                    int dp5 = (int) (5 * from.getResources().getDisplayMetrics().density + 0.5f);
-                                    tv.setCompoundDrawablePadding(dp5);
-
-                                    return v;
-                                }
-                            };
-
-                            new AlertDialog.Builder(from)
-                                    .setAdapter(adapter, new DialogInterface.OnClickListener() {
-
-                                        public void onClick(DialogInterface dialog, int item) {
-                                            if (item == 0) {
-                                                try {
-                                                    final Database_Notes db = new Database_Notes(from);
-                                                    db.deleteNote((Integer.parseInt(seqnoStr)));
-                                                    db.addBookmark(title, cont, "3", attachment, create);
-                                                    db.close();
-                                                    setNotesList(from);
-                                                } catch (Exception e) {
-                                                    e.printStackTrace();
-                                                }
-
-                                            } else if (item == 1) {
-                                                try {
-                                                    final Database_Notes db = new Database_Notes(from);
-                                                    db.deleteNote((Integer.parseInt(seqnoStr)));
-                                                    db.addBookmark(title, cont, "2", attachment, create);
-                                                    db.close();
-                                                    setNotesList(from);
-                                                } catch (Exception e) {
-                                                    e.printStackTrace();
-                                                }
-
-                                            } else if (item == 2) {
-                                                try {
-                                                    final Database_Notes db = new Database_Notes(from);
-                                                    db.deleteNote((Integer.parseInt(seqnoStr)));
-                                                    db.addBookmark(title, cont, "1", attachment, create);
-                                                    db.close();
-                                                    setNotesList(from);
-                                                } catch (Exception e) {
-                                                    e.printStackTrace();
-                                                }
-                                            }
-                                        }
-                                    }).show();
-                        }
-                    });
-
-                    i2.setOnClickListener(new View.OnClickListener() {
-
-                        @Override
-                        public void onClick(View arg0) {
-                            helper_main.openAtt(from, listView, attachment);
-                        }
-                    });
-
-                    return v;
-                }
-            };
-
-            if (listView != null) {
-                listView.setAdapter(simpleAdapter);
-            }
-
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
         }
     }
 }

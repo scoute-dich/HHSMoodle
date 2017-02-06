@@ -1,6 +1,9 @@
 ### v3.3: (WIP)
 - added: Navigation Drawer
-- added: My Moodle
+- added: default Bookmarks
+- added: search in notes, todo list, bookmarks
+- improved: database model
+- fixed: save captured picture as attachment
 - removed: tab layout
 
 ### v 3.2:
@@ -11,7 +14,6 @@
 - fixed: remove popup activities from recent apps list
 
 ### v 3.1:
-
 - added: bundled notifications (Todo)
 - improved: database encryption
 - fixed: delete todo list on start
@@ -99,7 +101,6 @@
 - Mobile view optimized
 - Other improvements
 
-
 ### v 1.1
 - widget for home screen
 - improved password protection
@@ -107,21 +108,17 @@
 - problems dialog in settings
 - create shortcuts on home screen
 
-
 ### v 1.0.3
 - Optional: Password protection
 
-
 ### v 1.0.2
 - Important: Help dialog notes
-
 
 ### v 1.0.1
 - make links clickable
 - reworked settings
 - notes/notifications: save on exit
 - minor improvements
-
 
 ### v 1.0
 - first release

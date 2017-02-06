@@ -36,14 +36,18 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.util.Linkify;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -51,8 +55,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import de.baumann.hhsmoodle.HHS_Browser;
-import de.baumann.hhsmoodle.HHS_MainScreen;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.activities.Activity_password;
 import filechooser.ChooserDialog;
@@ -132,42 +134,29 @@ public class helper_main {
                 helper_main.switchToActivity(activity, Activity_password.class, "", false);
             }
         }
-
-        Toolbar toolbar = (Toolbar) activity.findViewById(R.id.toolbar);
-        if(toolbar != null) {
-            toolbar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    final String startURL = sharedPref.getString("favoriteURL", "https://moodle.huebsch.ka.schule-bw.de/moodle/");
-                    final String startType = sharedPref.getString("startType", "1");
-
-                    if (startType.equals("2")) {
-                        helper_main.isOpened(activity);
-                        helper_main.switchToActivity(activity, HHS_Browser.class, startURL, true);
-                    } else if (startType.equals("1")){
-                        helper_main.isOpened(activity);
-                        helper_main.switchToActivity(activity, HHS_MainScreen.class, "", false);
-                    }
-                }
-            });
-
-            if (sharedPref.getBoolean ("longPress", false)){
-                toolbar.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View v) {
-                        helper_main.isClosed(activity);
-                        activity.finishAffinity();
-                        return true;
-                    }
-                });
-            }
-        }
     }
 
+    public static void makeToast(Activity activity, String Text) {
+        LayoutInflater inflater = activity.getLayoutInflater();
+
+        View toastLayout = inflater.inflate(R.layout.toast,
+                (ViewGroup) activity.findViewById(R.id.toast_root_view));
+
+        TextView header = (TextView) toastLayout.findViewById(R.id.toast_message);
+        header.setText(Text);
+
+        Toast toast = new Toast(activity.getApplicationContext());
+        toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
+        toast.setDuration(Toast.LENGTH_LONG);
+        toast.setView(toastLayout);
+        toast.show();
+    }
+
+    @SuppressWarnings("SameParameterValue")
     public static void switchToActivity(Activity from, Class to, String Extra, boolean finishFromActivity) {
         Intent intent = new Intent(from, to);
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        intent.putExtra("url", Extra);
+        intent.putExtra("url", "");
         from.startActivity(intent);
         if (finishFromActivity) {
             from.finish();
@@ -208,10 +197,14 @@ public class helper_main {
         return  format.format(date);
     }
 
-    public static void showKeyboard(Activity from, EditText editText) {
-        InputMethodManager imm = (InputMethodManager) from.getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
-        editText.setSelection(editText.length());
+    public static void showKeyboard(final Activity from, final EditText editText) {
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                InputMethodManager imm = (InputMethodManager) from.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
+                editText.setSelection(editText.length());
+            }
+        }, 200);
     }
 
     public static void openFilePicker (final Activity activity, final View view, final String startDir) {

@@ -39,9 +39,9 @@ import android.widget.ImageView;
 
 import java.util.Random;
 
-import de.baumann.hhsmoodle.HHS_Browser;
 import de.baumann.hhsmoodle.HHS_MainScreen;
 import de.baumann.hhsmoodle.R;
+import de.baumann.hhsmoodle.data_Bookmarks.Bookmarks_helper;
 import de.baumann.hhsmoodle.helper.class_SecurePreferences;
 import de.baumann.hhsmoodle.helper.helper_encryption;
 import de.baumann.hhsmoodle.helper.helper_main;
@@ -65,7 +65,7 @@ public class Activity_splash extends AppCompatActivity {
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPrefSec = new class_SecurePreferences(Activity_splash.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
 
-        if (sharedPref.getString("generateDBK", "no").equals("no")) {
+        if (sharedPref.getString("key_generated_01", "no").equals("no")) {
             char[] chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!§$%&/()=?;:_-.,+#*<>".toCharArray();
             StringBuilder sb = new StringBuilder();
             Random random = new Random();
@@ -73,8 +73,9 @@ public class Activity_splash extends AppCompatActivity {
                 char c = chars[random.nextInt(chars.length)];
                 sb.append(c);
             }
-            sharedPrefSec.put("generateDBKOK", sb.toString());
-            sharedPref.edit().putString("generateDBK", "yes").apply();
+            Bookmarks_helper.insertDefaultBookmarks(Activity_splash.this);
+            sharedPrefSec.put("key_encryption_01", sb.toString());
+            sharedPref.edit().putString("key_generated_01", "yes").apply();
         }
 
         helper_encryption.decryptDatabases(Activity_splash.this);
@@ -101,9 +102,6 @@ public class Activity_splash extends AppCompatActivity {
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         assert fab != null;
         fab.setVisibility(View.INVISIBLE);
-
-        final String startType = sharedPref.getString("startType", "1");
-        final String startURL = sharedPref.getString("favoriteURL", "https://moodle.huebsch.ka.schule-bw.de/moodle/");
 
         boolean show = sharedPref.getBoolean("showIntroScreen_notShow", true);
 
@@ -138,63 +136,33 @@ public class Activity_splash extends AppCompatActivity {
                             sharedPrefSec.put("username", Username);
                             sharedPrefSec.put("password", Password);
 
-                            if (startType.equals("2")) {
+                            new Handler().postDelayed(new Runnable() {
+                                public void run() {
 
-                                new Handler().postDelayed(new Runnable() {
-                                    public void run() {
-                                        Intent mainIntent = new Intent(Activity_splash.this, HHS_Browser.class);
-                                        mainIntent.putExtra("id", "1");
-                                        mainIntent.putExtra("url", startURL);
-                                        startActivity(mainIntent);
-                                        Activity_splash.this.finish();
-                                        overridePendingTransition(R.anim.fadein,R.anim.fadeout);
-                                    }
-                                }, 1500);
-                            } else if (startType.equals("1")){
-                                new Handler().postDelayed(new Runnable() {
-                                    public void run() {
-
-                                        Intent mainIntent = new Intent(Activity_splash.this, HHS_MainScreen.class);
-                                        mainIntent.putExtra("id", "1");
-                                        startActivity(mainIntent);
-                                        Activity_splash.this.finish();
-                                        overridePendingTransition(R.anim.fadein,R.anim.fadeout);
-                                    }
-                                }, 1500);
-                            }
+                                    Intent mainIntent = new Intent(Activity_splash.this, HHS_MainScreen.class);
+                                    mainIntent.putExtra("id", "1");
+                                    startActivity(mainIntent);
+                                    Activity_splash.this.finish();
+                                    overridePendingTransition(R.anim.fadein,R.anim.fadeout);
+                                }
+                            }, 1500);
                         }
                     }
                 });
 
             } else {
-                if (startType.equals("2")) {
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
 
-                    new Handler().postDelayed(new Runnable() {
-                        public void run() {
-
-                            Intent mainIntent = new Intent(Activity_splash.this, HHS_Browser.class);
-                            mainIntent.putExtra("id", "1");
-                            mainIntent.putExtra("url", startURL);
-                            startActivity(mainIntent);
-                            Activity_splash.this.finish();
-                            overridePendingTransition(R.anim.fadein,R.anim.fadeout);
-                        }
-                    }, 1500);
-                } else if (startType.equals("1")){
-                    new Handler().postDelayed(new Runnable() {
-                        public void run() {
-
-                            Intent mainIntent = new Intent(Activity_splash.this, HHS_MainScreen.class);
-                            mainIntent.putExtra("id", "1");
-                            startActivity(mainIntent);
-                            Activity_splash.this.finish();
-                            overridePendingTransition(R.anim.fadein,R.anim.fadeout);
-                        }
-                    }, 1500);
-                }
+                        Intent mainIntent = new Intent(Activity_splash.this, HHS_MainScreen.class);
+                        mainIntent.putExtra("id", "1");
+                        startActivity(mainIntent);
+                        Activity_splash.this.finish();
+                        overridePendingTransition(R.anim.fadein,R.anim.fadeout);
+                    }
+                }, 1500);
             }
         }
-
 
         onNewIntent(getIntent());
     }
@@ -254,8 +222,11 @@ public class Activity_splash extends AppCompatActivity {
             helper_encryption.decryptDatabases(Activity_splash.this);
             new Handler().postDelayed(new Runnable() {
                 public void run() {
-                    String startURL = sharedPref.getString("favoriteURL", "https://moodle.huebsch.ka.schule-bw.de/moodle/");
-                    helper_main.switchToActivity(Activity_splash.this, HHS_Browser.class, startURL, true);
+                    Intent mainIntent = new Intent(Activity_splash.this, HHS_MainScreen.class);
+                    mainIntent.setAction("shortcutURLFAV_HS");
+                    startActivity(mainIntent);
+                    Activity_splash.this.finish();
+                    overridePendingTransition(R.anim.fadein,R.anim.fadeout);
                 }
             }, 1500);
         } else if (Intent.ACTION_VIEW.equals(action)) {
@@ -264,7 +235,12 @@ public class Activity_splash extends AppCompatActivity {
                 public void run() {
                     Uri data = intent.getData();
                     String link = data.toString();
-                    helper_main.switchToActivity(Activity_splash.this, HHS_Browser.class, link, true);
+                    sharedPref.edit().putString("loadURL", link).apply();
+                    Intent mainIntent = new Intent(Activity_splash.this, HHS_MainScreen.class);
+                    mainIntent.setAction("shortcutURL_HS");
+                    startActivity(mainIntent);
+                    Activity_splash.this.finish();
+                    overridePendingTransition(R.anim.fadein,R.anim.fadeout);
                 }
             }, 1500);
         }

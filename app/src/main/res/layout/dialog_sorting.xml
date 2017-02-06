@@ -55,29 +55,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:layout_marginStart="8dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_toStartOf="@+id/checkBoxEdit"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/action_sort_edit"
-            android:lines="1" />
-
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:id="@+id/checkBoxEdit" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
+        android:id="@+id/layout_sortByIcon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
@@ -101,11 +79,13 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/layout_sortByAtt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp">
 
         <TextView
+            android:id="@+id/text_sortAttachment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"

@@ -43,15 +43,6 @@
     <string name="text_tit_9">Check</string>
     <string name="text_tit_10">Clock</string>
 
-    <string name="text_des_1">Course overview, files, awards, appointment, calendar, …</string>
-    <string name="text_des_2">Details, reports, miscellaneous, edit profile.</string>
-    <string name="text_des_8">View upcoming events from your courses.</string>
-    <string name="text_des_3">Gradings and results from all your courses.</string>
-    <string name="text_des_4">Read and send personal notifications.</string>
-    <string name="text_des_5">Personal messages and contacts.</string>
-    <string name="text_des_6">Our homepage with actual news, contact information, …</string>
-    <string name="text_des_7">Startpage: a save and secure search engine.</string>
-
 
     // About
 
@@ -73,7 +64,6 @@
 
     <string name="about_license_1">Used for the file picker.</string>
     <string name="about_license_3">Used to build the intro screen.</string>
-    <string name="about_license_4">The beginning of all. Mainly used for the databases.</string>
     <string name="about_license_5">Used to encrypt pin (for app protection).</string>
     <string name="about_license_7">Used to create the \"About screen\".</string>
     <string name="about_license_8">The source of nearly all icons.</string>
@@ -123,7 +113,6 @@
 
     <string name="title_bookmarks">Bookmarks</string>
     <string name="title_notes">Notes</string>
-    <string name="title_info">My Moodle</string>
 
 
     // Menu Items
@@ -136,18 +125,22 @@
     <string name="menu_save_screenshot">Save screenshot</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_folder">Open app folder</string>
-    <string name="menu_rem">Create note</string>
     <string name="menu_bookmark">Add bookmark</string>
     <string name="menu_help">Help</string>
     <string name="menu_tools">Tools</string>
 
     <string name="action_sort">Sort entries</string>
     <string name="action_sort_title">Sort by title</string>
-    <string name="action_sort_edit">Sort by editing</string>
     <string name="action_sort_icon">Sort by icon</string>
     <string name="action_sort_create">Sort by creation</string>
-    <string name="action_sort_url">Sort by URL</string>
     <string name="action_sort_att">Sort by Attachment</string>
+    <string name="action_sort_notification">Sort by notification</string>
+
+    <string name="action_filter_title">Search in titles</string>
+    <string name="action_filter_cont">Search in content</string>
+    <string name="action_filter_create">Search in creation dates</string>
+    <string name="action_filter_url">Search in URLs</string>
+    <string name="action_filter_att">Search in attachments</string>
 
 
     // Context Menu
@@ -167,9 +160,6 @@
 
     <string name="action_username">Login data (Moodle)</string>
     <string name="action_username_summary">Please enter your Moodle username and password to get automatically logged in.</string>
-
-    <string name="action_longPress">App exit</string>
-    <string name="action_longPress_summary">Long press title bar to exit app completely.</string>
 
     <string name="action_openSettings">App info</string>
     <string name="action_openSettings_summary">Open via the system settings the app info of the app. There you can,
@@ -192,9 +182,6 @@
 
     <string name="action_help">Help menu</string>
     <string name="action_help_summary">Disable all help menus in the app.</string>
-
-    <string name="action_start">App start and title bar click</string>
-    <string name="action_start_summary">What do you want to see: Either the main screen or the bookmark list?</string>
 
     <string name="action_backup">Backup</string>
     <string name="action_backup_summary">Backup and restore your databases (notes, bookmarks, …). A new backup overwrites the old one.</string>
@@ -227,17 +214,16 @@
     <string name="toast_screenshot_failed">Failed to create screenshot.</string>
     <string name="toast_extension">No supported file extension</string>
     <string name="toast_install_app">Please install an app to perform action.</string>
+    <string name="toast_newTitle">Title already exists.</string>
 
 
     // Bookmarks
 
-    <string name="bookmark_remove_confirmation">Entry will be removed. OK?</string>
-    <string name="bookmark_remove_cannot">You need at least one entry!</string>
     <string name="bookmark_remove_bookmark">Delete entry</string>
     <string name="bookmark_added">Adding entry.</string>
     <string name="bookmark_setFav">Successfully set as favorite.</string>
+    <string name="bookmark_setFav_not">You can only choose one favorite.</string>
     <string name="bookmark_edit_title">Edit title</string>
-    <string name="bookmark_edit_fav">Set as favorite</string>
     <string name="bookmark_createNote">Create note</string>
     <string name="bookmark_createEvent">Create calendar event</string>
     <string name="bookmark_createShortcut">Create shortcut</string>
@@ -246,7 +232,6 @@
     // Notes
 
     <string name="note_remove_confirmation">Note will be removed. OK?</string>
-    <string name="note_remove_cannot">You need at least one note!</string>
     <string name="note_remove_note">Delete note</string>
     <string name="note_edit">Edit note</string>
     <string name="note_share">Share note</string>
@@ -286,7 +271,6 @@
 
     <string name="cam_fail">Failed to take picture</string>
     <string name="cam_success">Picture saved</string>
-    <string name="cam_start">Take a picture, then choose it as attachment.</string>
 
 
     // Grade
@@ -311,6 +295,7 @@
     <string name="number_dice_hint2">… then press  \"ok\".</string>
     <string name="number_edit_entry">Edit entry</string>
     <string name="number_chosen">Chosen:</string>
+    <string name="number_enterData">Please enter data to the list.</string>
 
 
     // ToDo
@@ -325,11 +310,11 @@
     <string name="todo_share">Share list</string>
     <string name="paste_date">Paste actual date</string>
     <string name="paste_time">Paste actual time</string>
-    <string name="sort_not">Sort by notification</string>
 
 
     // CourseList
 
     <string name="courseList_title">Course lists</string>
+    <string name="courseList_fromText">From text file</string>
 
 </resources>

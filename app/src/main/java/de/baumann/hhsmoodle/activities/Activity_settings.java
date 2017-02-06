@@ -38,16 +38,12 @@ import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -149,19 +145,7 @@ public class Activity_settings extends AppCompatActivity {
                                                 Intent.ShortcutIconResource.fromContext(activity.getApplicationContext(), R.mipmap.ic_bookmark));
                                         shortcut.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
                                         activity.sendBroadcast(shortcut);
-
-                                        LayoutInflater inflater = getActivity().getLayoutInflater();
-                                        View toastLayout = inflater.inflate(R.layout.toast,
-                                                (ViewGroup) getActivity().findViewById(R.id.toast_root_view));
-
-                                        TextView header = (TextView) toastLayout.findViewById(R.id.toast_message);
-                                        header.setText(R.string.toast_shortcut);
-
-                                        Toast toast = new Toast(getActivity().getApplicationContext());
-                                        toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
-                                        toast.setDuration(Toast.LENGTH_LONG);
-                                        toast.setView(toastLayout);
-                                        toast.show();
+                                        helper_main.makeToast(activity, getString(R.string.toast_shortcut));
                                     }
 
                                     if (options[item].equals (getString(R.string.title_notes))) {
@@ -175,19 +159,7 @@ public class Activity_settings extends AppCompatActivity {
                                                 Intent.ShortcutIconResource.fromContext(activity.getApplicationContext(), R.mipmap.ic_note));
                                         shortcut.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
                                         activity.sendBroadcast(shortcut);
-
-                                        LayoutInflater inflater = getActivity().getLayoutInflater();
-                                        View toastLayout = inflater.inflate(R.layout.toast,
-                                                (ViewGroup) getActivity().findViewById(R.id.toast_root_view));
-
-                                        TextView header = (TextView) toastLayout.findViewById(R.id.toast_message);
-                                        header.setText(R.string.toast_shortcut);
-
-                                        Toast toast = new Toast(getActivity().getApplicationContext());
-                                        toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
-                                        toast.setDuration(Toast.LENGTH_LONG);
-                                        toast.setView(toastLayout);
-                                        toast.show();
+                                        helper_main.makeToast(activity, getString(R.string.toast_shortcut));
                                     }
 
                                     if (options[item].equals (getString(R.string.todo_title))) {
@@ -201,19 +173,7 @@ public class Activity_settings extends AppCompatActivity {
                                                 Intent.ShortcutIconResource.fromContext(activity.getApplicationContext(), R.mipmap.ic_todo));
                                         shortcut.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
                                         activity.sendBroadcast(shortcut);
-
-                                        LayoutInflater inflater = getActivity().getLayoutInflater();
-                                        View toastLayout = inflater.inflate(R.layout.toast,
-                                                (ViewGroup) getActivity().findViewById(R.id.toast_root_view));
-
-                                        TextView header = (TextView) toastLayout.findViewById(R.id.toast_message);
-                                        header.setText(R.string.toast_shortcut);
-
-                                        Toast toast = new Toast(getActivity().getApplicationContext());
-                                        toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
-                                        toast.setDuration(Toast.LENGTH_LONG);
-                                        toast.setView(toastLayout);
-                                        toast.show();
+                                        helper_main.makeToast(activity, getString(R.string.toast_shortcut));
                                     }
 
                                     if (options[item].equals (getString(R.string.bookmark_createNote))) {
@@ -228,20 +188,7 @@ public class Activity_settings extends AppCompatActivity {
                                                 Intent.ShortcutIconResource.fromContext(activity.getApplicationContext(), R.mipmap.ic_note_plus));
                                         shortcut.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
                                         activity.sendBroadcast(shortcut);
-
-                                        LayoutInflater inflater = getActivity().getLayoutInflater();
-
-                                        View toastLayout = inflater.inflate(R.layout.toast,
-                                                (ViewGroup) getActivity().findViewById(R.id.toast_root_view));
-
-                                        TextView header = (TextView) toastLayout.findViewById(R.id.toast_message);
-                                        header.setText(R.string.toast_shortcut);
-
-                                        Toast toast = new Toast(getActivity().getApplicationContext());
-                                        toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
-                                        toast.setDuration(Toast.LENGTH_LONG);
-                                        toast.setView(toastLayout);
-                                        toast.show();
+                                        helper_main.makeToast(activity, getString(R.string.toast_shortcut));
                                     }
 
                                 }
@@ -259,6 +206,27 @@ public class Activity_settings extends AppCompatActivity {
                 public boolean onPreferenceClick(Preference pref) {
 
                     helper_main.switchToActivity(getActivity(), About_activity.class, "", false);
+                    return true;
+                }
+            });
+        }
+
+        private void addPermissionListener() {
+
+            Preference reset = findPreference("perm_notShow");
+            reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference pref) {
+
+                    if (android.os.Build.VERSION.SDK_INT >= 23) {
+
+                        Intent intent = new Intent();
+                        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        Uri uri = Uri.fromParts("package", getActivity().getPackageName(), null);
+                        intent.setData(uri);
+                        getActivity().startActivity(intent);
+                        helper_main.makeToast(getActivity(), getActivity().getString(R.string.perm_notShow_toast));
+                    }
+
                     return true;
                 }
             });
@@ -396,80 +364,18 @@ public class Activity_settings extends AppCompatActivity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int item) {
                                     if (options[item].equals(getString(R.string.action_backup))) {
-                                        try {
-                                            helper_encryption.encryptBackup(getActivity(),"/browser_v2.db");
-                                            helper_encryption.encryptBackup(getActivity(),"/courseList_v2.db");
-                                            helper_encryption.encryptBackup(getActivity(),"/notes_v2.db");
-                                            helper_encryption.encryptBackup(getActivity(),"/random_v2.db");
-                                            helper_encryption.encryptBackup(getActivity(),"/todo_v2.db");
-                                            LayoutInflater inflater = getActivity().getLayoutInflater();
-
-                                            View toastLayout = inflater.inflate(R.layout.toast,
-                                                    (ViewGroup) getActivity().findViewById(R.id.toast_root_view));
-
-                                            TextView header = (TextView) toastLayout.findViewById(R.id.toast_message);
-                                            header.setText(R.string.toast_backup);
-
-                                            Toast toast = new Toast(getActivity().getApplicationContext());
-                                            toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
-                                            toast.setDuration(Toast.LENGTH_LONG);
-                                            toast.setView(toastLayout);
-                                            toast.show();
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
-                                            LayoutInflater inflater = getActivity().getLayoutInflater();
-
-                                            View toastLayout = inflater.inflate(R.layout.toast,
-                                                    (ViewGroup) getActivity().findViewById(R.id.toast_root_view));
-
-                                            TextView header = (TextView) toastLayout.findViewById(R.id.toast_message);
-                                            header.setText(R.string.toast_backup_not);
-
-                                            Toast toast = new Toast(getActivity().getApplicationContext());
-                                            toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
-                                            toast.setDuration(Toast.LENGTH_LONG);
-                                            toast.setView(toastLayout);
-                                            toast.show();
-                                        }
+                                        try {helper_encryption.encryptBackup(getActivity(),"/bookmarks_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                        try {helper_encryption.encryptBackup(getActivity(),"/courses_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                        try {helper_encryption.encryptBackup(getActivity(),"/notes_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                        try {helper_encryption.encryptBackup(getActivity(),"/random_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                        try {helper_encryption.encryptBackup(getActivity(),"/todo_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
                                     }
                                     if (options[item].equals(getString(R.string.action_restore))) {
-
-                                        try {
-                                            decrypt("/browser_v2.db");
-                                            decrypt("/courseList_v2.db");
-                                            decrypt("/notes_v2.db");
-                                            decrypt("/random_v2.db");
-                                            decrypt("/todo_v2.db");
-                                            LayoutInflater inflater = getActivity().getLayoutInflater();
-
-                                            View toastLayout = inflater.inflate(R.layout.toast,
-                                                    (ViewGroup) getActivity().findViewById(R.id.toast_root_view));
-
-                                            TextView header = (TextView) toastLayout.findViewById(R.id.toast_message);
-                                            header.setText(R.string.toast_restore);
-
-                                            Toast toast = new Toast(getActivity().getApplicationContext());
-                                            toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
-                                            toast.setDuration(Toast.LENGTH_LONG);
-                                            toast.setView(toastLayout);
-                                            toast.show();
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
-                                            LayoutInflater inflater = getActivity().getLayoutInflater();
-
-                                            View toastLayout = inflater.inflate(R.layout.toast,
-                                                    (ViewGroup) getActivity().findViewById(R.id.toast_root_view));
-
-                                            TextView header = (TextView) toastLayout.findViewById(R.id.toast_message);
-                                            header.setText(R.string.toast_restore_not);
-
-                                            Toast toast = new Toast(getActivity().getApplicationContext());
-                                            toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
-                                            toast.setDuration(Toast.LENGTH_LONG);
-                                            toast.setView(toastLayout);
-                                            toast.show();
-                                        }
-
+                                        try {decrypt("/bookmarks_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                        try {decrypt("/courses_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                        try {decrypt("/notes_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                        try {decrypt("/random_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                        try {decrypt("/todo_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
                                     }
                                 }
                             }).show();
@@ -490,6 +396,7 @@ public class Activity_settings extends AppCompatActivity {
             addBackup_dbListener();
             addIntroListener();
             addShortcutListener();
+            addPermissionListener();
         }
 
         private void decrypt(String name) throws IOException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {
@@ -502,32 +409,38 @@ public class Activity_settings extends AppCompatActivity {
 
                 String pathIN = Environment.getExternalStorageDirectory() + "/HHS_Moodle/backup/" + name;
                 String pathOUT = s + "/databases/" + name;
+                File fileIN = new File(pathIN);
 
-                FileInputStream fis = new FileInputStream(pathIN);
-                FileOutputStream fos = new FileOutputStream(pathOUT);
+                if (fileIN.exists()) {
 
-                byte[] key = ("[MGq)sY6k(GV,*?i".getBytes("UTF-8"));
-                MessageDigest sha = MessageDigest.getInstance("SHA-1");
-                key = sha.digest(key);
-                key = Arrays.copyOf(key, 16); // use only first 128 bit
+                    FileInputStream fis = new FileInputStream(pathIN);
+                    FileOutputStream fos = new FileOutputStream(pathOUT);
 
-                SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
-                // Length is 16 byte
-                // Create cipher
-                @SuppressLint("GetInstance") Cipher cipher = Cipher.getInstance("AES");
-                cipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
-                CipherInputStream cis = new CipherInputStream(fis, cipher);
-                int b;
-                byte[] d = new byte[8];
-                while ((b = cis.read(d)) != -1) {
-                    fos.write(d, 0, b);
+                    byte[] key = ("[MGq)sY6k(GV,*?i".getBytes("UTF-8"));
+                    MessageDigest sha = MessageDigest.getInstance("SHA-1");
+                    key = sha.digest(key);
+                    key = Arrays.copyOf(key, 16); // use only first 128 bit
+
+                    SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
+                    // Length is 16 byte
+                    // Create cipher
+                    @SuppressLint("GetInstance") Cipher cipher = Cipher.getInstance("AES");
+                    cipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
+                    CipherInputStream cis = new CipherInputStream(fis, cipher);
+                    int b;
+                    byte[] d = new byte[8];
+                    while ((b = cis.read(d)) != -1) {
+                        fos.write(d, 0, b);
+                    }
+                    fos.flush();
+                    fos.close();
+                    cis.close();
+                    helper_main.makeToast(getActivity(), getActivity().getString(R.string.toast_restore));
                 }
-                fos.flush();
-                fos.close();
-                cis.close();
 
             } catch (PackageManager.NameNotFoundException e) {
                 Log.w("HHS_Moodle", "Error Package name not found ", e);
+                helper_main.makeToast(getActivity(), getActivity().getString(R.string.toast_restore_not));
             }
         }
     }

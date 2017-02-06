@@ -123,13 +123,6 @@ class About_content {
                 .build());
 
         convenienceCardBuilder.addItem(new MaterialAboutActionItem.Builder()
-                .text("Browser")
-                .subText(R.string.about_license_4)
-                .icon(R.drawable.github_circle)
-                .setOnClickListener(ConvenienceBuilder.createWebViewDialogOnClickAction(c, "Browser", "https://github.com/yoshihiroando/browser", true, false))
-                .build());
-
-        convenienceCardBuilder.addItem(new MaterialAboutActionItem.Builder()
                 .text("Encrypted Userprefs")
                 .subText(R.string.about_license_5)
                 .icon(R.drawable.github_circle)

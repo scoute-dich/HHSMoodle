@@ -14,12 +14,14 @@
     </array>
 
     <string-array name="listArrayTabMain">
+        <item>Browser</item>
         <item>Lesezeichen</item>
         <item>Todo</item>
         <item>Notizen</item>
     </string-array>
 
     <string-array name="listValuesTabMain">
+        <item>0</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>
@@ -35,16 +37,6 @@
         <item>70</item>
         <item>100</item>
         <item>130</item>
-    </string-array>
-
-    <string-array name="listArrayStart">
-        <item>Startschirm</item>
-        <item>Lesezeichenfavorit</item>
-    </string-array>
-
-    <string-array name="listValuesStart">
-        <item>1</item>
-        <item>2</item>
     </string-array>
 
 </resources>

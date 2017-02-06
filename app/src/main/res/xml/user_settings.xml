@@ -44,22 +44,6 @@
             android:entryValues="@array/listValuesTabMain" />
 
         <ListPreference
-            android:title="@string/action_start"
-            android:icon="@drawable/gesture_tap"
-            android:summary="@string/action_start_summary"
-            android:key="startType"
-            android:defaultValue="1"
-            android:entries="@array/listArrayStart"
-            android:entryValues="@array/listValuesStart" />
-
-        <CheckBoxPreference
-            android:title="@string/action_longPress"
-            android:icon="@drawable/exit_to_app"
-            android:summary="@string/action_longPress_summary"
-            android:key="longPress"
-            android:defaultValue="true" />
-
-        <ListPreference
             android:title="@string/action_font"
             android:icon="@drawable/format_size"
             android:summary="@string/action_font_summary"
@@ -92,7 +76,7 @@
             android:key="intro_show"
             android:defaultValue="true" />
 
-        <CheckBoxPreference
+        <Preference
             android:title="@string/perm_notShow_title"
             android:icon="@drawable/security"
             android:summary="@string/perm_notShow_title_summary"

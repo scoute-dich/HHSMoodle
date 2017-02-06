@@ -29,6 +29,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.View;
@@ -79,6 +80,14 @@ public class helper_webView {
 
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
+
+                ViewPager viewPager = (class_CustomViewPager) from.findViewById(R.id.viewpager);
+
+                if (viewPager.getCurrentItem() == 0) {
+                    if (url != null) {
+                        from.setTitle(webView.getTitle());
+                    }
+                }
 
                 if (url != null
                         && url.contains("moodle.huebsch.ka.schule-bw.de/moodle/")

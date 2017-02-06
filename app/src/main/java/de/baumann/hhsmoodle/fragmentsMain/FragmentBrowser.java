@@ -17,15 +17,17 @@
     If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.baumann.hhsmoodle;
+package de.baumann.hhsmoodle.fragmentsMain;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -34,33 +36,32 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.CookieManager;
 import android.webkit.DownloadListener;
 import android.webkit.URLUtil;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
-import android.widget.EditText;
-
-import android.app.Activity;
-import android.content.DialogInterface;
-import android.os.Bundle;
-import android.view.View;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -70,16 +71,18 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import de.baumann.hhsmoodle.databases.Database_Browser;
+import de.baumann.hhsmoodle.HHS_MainScreen;
+import de.baumann.hhsmoodle.R;
+import de.baumann.hhsmoodle.data_Bookmarks.Bookmarks_DbAdapter;
+import de.baumann.hhsmoodle.helper.helper_encryption;
 import de.baumann.hhsmoodle.helper.helper_main;
-import de.baumann.hhsmoodle.helper.helper_notes;
 import de.baumann.hhsmoodle.helper.helper_webView;
 import de.baumann.hhsmoodle.popup.Popup_bookmarks;
 
+import static android.content.Context.DOWNLOAD_SERVICE;
 import static de.baumann.hhsmoodle.helper.helper_main.newFileDest;
 
-@SuppressWarnings("ResultOfMethodCallIgnored")
-public class HHS_Browser extends AppCompatActivity {
+public class FragmentBrowser extends Fragment implements HHS_MainScreen.OnBackPressedListener {
 
     private WebView mWebView;
     private ProgressBar progressBar;
@@ -102,7 +105,6 @@ public class HHS_Browser extends AppCompatActivity {
 
     private String shareString;
     private String mCameraPhotoPath;
-    private final String TAG = HHS_Browser.class.getSimpleName();
 
     private static final int REQUEST_CODE_LOLLIPOP = 1;
 
@@ -113,35 +115,29 @@ public class HHS_Browser extends AppCompatActivity {
         return (mCustomView != null);
     }
 
-
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     @SuppressLint("SetJavaScriptEnabled")
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        ((HHS_MainScreen) getActivity()).setOnBackPressedListener(this);
+
+        View rootView = inflater.inflate(R.layout.fragment_screen_browser, container, false);
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             WebView.enableSlowWholeDocumentDraw();
         }
 
-        PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
-        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        PreferenceManager.setDefaultValues(getActivity(), R.xml.user_settings, false);
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         sharedPref.edit().putString("browserStarted", "true").apply();
 
-        setContentView(R.layout.activity_browser);
+        customViewContainer = (FrameLayout) rootView.findViewById(R.id.customViewContainer);
+        progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
 
-        customViewContainer = (FrameLayout) findViewById(R.id.customViewContainer);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        helper_main.onStart(HHS_Browser.this);
-
-        final android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-        if(actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
-
-        SwipeRefreshLayout swipeView = (SwipeRefreshLayout) findViewById(R.id.swipe);
+        SwipeRefreshLayout swipeView = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe);
         assert swipeView != null;
         swipeView.setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent);
         swipeView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -151,12 +147,12 @@ public class HHS_Browser extends AppCompatActivity {
             }
         });
 
-        mWebView = (WebView) findViewById(R.id.webView);
+        mWebView = (WebView) rootView.findViewById(R.id.webView);
         mWebChromeClient = new myWebChromeClient();
         mWebView.setWebChromeClient(mWebChromeClient);
 
-        imageButton_left = (ImageButton) findViewById(R.id.imageButton_left);
-        imageButton_right = (ImageButton) findViewById(R.id.imageButton_right);
+        imageButton_left = (ImageButton) rootView.findViewById(R.id.imageButton_left);
+        imageButton_right = (ImageButton) rootView.findViewById(R.id.imageButton_right);
 
         if (sharedPref.getBoolean ("arrow", false)){
             imageButton_left.setVisibility(View.VISIBLE);
@@ -166,8 +162,8 @@ public class HHS_Browser extends AppCompatActivity {
             imageButton_right.setVisibility(View.INVISIBLE);
         }
 
-        helper_webView.webView_Settings(HHS_Browser.this, mWebView);
-        helper_webView.webView_WebViewClient(HHS_Browser.this, swipeView, mWebView);
+        helper_webView.webView_Settings(getActivity(), mWebView);
+        helper_webView.webView_WebViewClient(getActivity(), swipeView, mWebView);
 
         mWebView.setDownloadListener(new DownloadListener() {
 
@@ -186,29 +182,19 @@ public class HHS_Browser extends AppCompatActivity {
                                 request.allowScanningByMediaScanner();
                                 request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED); //Notify client once download is completed!
                                 request.setDestinationInExternalPublicDir(newFileDest(), filename);
-                                DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+                                DownloadManager dm = (DownloadManager) getActivity().getSystemService(DOWNLOAD_SERVICE);
                                 dm.enqueue(request);
 
                                 Snackbar.make(mWebView, getString(R.string.toast_download) + " " + filename , Snackbar.LENGTH_LONG).show();
-                                registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+                                getActivity().registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
                             }
                         });
                 snackbar.show();
             }
         });
 
-        onNewIntent(getIntent());
-
-        helper_main.grantPermissions(HHS_Browser.this);
-
-        File directory = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/backup/");
-        if (!directory.exists()) {
-            directory.mkdirs();
-        }
-    }
-
-    protected void onNewIntent(Intent intent) {
-        mWebView.loadUrl(intent.getStringExtra("url"));
+        setHasOptionsMenu(true);
+        return rootView;
     }
 
     private File createImageFile() throws IOException {
@@ -268,11 +254,11 @@ public class HHS_Browser extends AppCompatActivity {
                     .setAction(getString(R.string.toast_yes), new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            helper_main.openFilePicker(HHS_Browser.this,mWebView, Environment.getExternalStorageDirectory() + newFileDest());
+                            helper_main.openFilePicker(getActivity(),mWebView, Environment.getExternalStorageDirectory() + newFileDest());
                         }
                     });
             snackbar.show();
-            unregisterReceiver(onComplete);
+            getActivity().unregisterReceiver(onComplete);
         }
     };
 
@@ -287,8 +273,8 @@ public class HHS_Browser extends AppCompatActivity {
             sharingIntent.setType("image/*");
             sharingIntent.putExtra(Intent.EXTRA_STREAM, myUri);
             sharingIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            HHS_Browser.this.startActivity(Intent.createChooser(sharingIntent, (getString(R.string.app_share_image))));
-            unregisterReceiver(onComplete2);
+            getActivity().startActivity(Intent.createChooser(sharingIntent, (getString(R.string.app_share_image))));
+            getActivity().unregisterReceiver(onComplete2);
         }
     };
 
@@ -305,7 +291,7 @@ public class HHS_Browser extends AppCompatActivity {
                     getString(R.string.context_saveImage),
                     getString(R.string.context_shareImage),
                     getString(R.string.context_externalBrowser)};
-            new AlertDialog.Builder(HHS_Browser.this)
+            new AlertDialog.Builder(getActivity())
                     .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
 
                         public void onClick(DialogInterface dialog, int whichButton) {
@@ -324,10 +310,10 @@ public class HHS_Browser extends AppCompatActivity {
                                         request.allowScanningByMediaScanner();
                                         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED); //Notify client once download is completed!
                                         request.setDestinationInExternalPublicDir(newFileDest(), helper_main.newFileName());
-                                        DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+                                        DownloadManager dm = (DownloadManager) getActivity().getSystemService(DOWNLOAD_SERVICE);
                                         dm.enqueue(request);
                                         Snackbar.make(mWebView, getString(R.string.context_saveImage_toast) + " " + helper_main.newFileName(), Snackbar.LENGTH_SHORT).show();
-                                        registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+                                        getActivity().registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                         Snackbar.make(mWebView, R.string.toast_perm , Snackbar.LENGTH_SHORT).show();
@@ -347,11 +333,11 @@ public class HHS_Browser extends AppCompatActivity {
                                         request.allowScanningByMediaScanner();
                                         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED); //Notify client once download is completed!
                                         request.setDestinationInExternalPublicDir(newFileDest(), helper_main.newFileName());
-                                        DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+                                        DownloadManager dm = (DownloadManager) getActivity().getSystemService(DOWNLOAD_SERVICE);
                                         dm.enqueue(request);
 
                                         Snackbar.make(mWebView, getString(R.string.context_saveImage_toast) + " " + helper_main.newFileName(), Snackbar.LENGTH_SHORT).show();
-                                        registerReceiver(onComplete2, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+                                        getActivity().registerReceiver(onComplete2, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                         Snackbar.make(mWebView, R.string.toast_perm , Snackbar.LENGTH_SHORT).show();
@@ -361,7 +347,7 @@ public class HHS_Browser extends AppCompatActivity {
                             if (options[item].equals(getString(R.string.context_externalBrowser))) {
                                 if (url != null) {
                                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                                    HHS_Browser.this.startActivity(intent);
+                                    getActivity().startActivity(intent);
                                 }
                             }
                         }
@@ -373,7 +359,7 @@ public class HHS_Browser extends AppCompatActivity {
                     getString(R.string.menu_share_link_copy),
                     getString(R.string.menu_share_link),
                     getString(R.string.context_externalBrowser)};
-            new AlertDialog.Builder(HHS_Browser.this)
+            new AlertDialog.Builder(getActivity())
                     .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
 
                         public void onClick(DialogInterface dialog, int whichButton) {
@@ -385,7 +371,7 @@ public class HHS_Browser extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int item) {
                             if (options[item].equals(getString(R.string.menu_share_link_copy))) {
                                 if (url != null) {
-                                    ClipboardManager clipboard = (ClipboardManager) HHS_Browser.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                                    ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
                                     clipboard.setPrimaryClip(ClipData.newPlainText("text", url));
                                     Snackbar.make(mWebView, R.string.context_linkCopy_toast, Snackbar.LENGTH_SHORT).show();
                                 }
@@ -396,14 +382,14 @@ public class HHS_Browser extends AppCompatActivity {
                                     sendIntent.setAction(Intent.ACTION_SEND);
                                     sendIntent.putExtra(Intent.EXTRA_TEXT, url);
                                     sendIntent.setType("text/plain");
-                                    HHS_Browser.this.startActivity(Intent.createChooser(sendIntent, getResources()
+                                    getActivity().startActivity(Intent.createChooser(sendIntent, getResources()
                                             .getString(R.string.app_share_link)));
                                 }
                             }
                             if (options[item].equals(getString(R.string.context_externalBrowser))) {
                                 if (url != null) {
                                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                                    HHS_Browser.this.startActivity(intent);
+                                    getActivity().startActivity(intent);
                                 }
                             }
                         }
@@ -412,75 +398,99 @@ public class HHS_Browser extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() {
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && isResumed()) {
+            getActivity().setTitle(R.string.app_name);
+            refresh();
+        }
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        refresh();
+    }
+
+    @Override
+    public void doBack() {
+        //BackPressed in activity will call this;
         if (inCustomView()) {
             hideCustomView();
         } else if ((mCustomView == null) && mWebView.canGoBack()) {
             mWebView.goBack();
         } else {
             mWebView.stopLoading();
-            helper_main.isClosed(HHS_Browser.this);
-            finish();
+            if (sharedPref.getBoolean ("backup_aut", false)){
+                try {helper_encryption.encryptBackup(getActivity(),"/bookmarks_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                try {helper_encryption.encryptBackup(getActivity(),"/courses_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                try {helper_encryption.encryptBackup(getActivity(),"/notes_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                try {helper_encryption.encryptBackup(getActivity(),"/random_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                try {helper_encryption.encryptBackup(getActivity(),"/todo_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+            }
+
+            sharedPref.edit().putString("loadURL", "").apply();
+            helper_main.isClosed(getActivity());
+            Snackbar.make(mWebView, getString(R.string.app_encrypt) , Snackbar.LENGTH_LONG).show();
+            helper_encryption.encryptDatabases(getActivity());
+            getActivity().finish();
+        }
+    }
+
+
+    private void refresh () {
+        String URLtoOpen  = sharedPref.getString("loadURL", "");
+
+        if (URLtoOpen.isEmpty()) {
+            mWebView.loadUrl(sharedPref.getString("favoriteURL", "https://moodle.huebsch.ka.schule-bw.de/moodle/my/"));
+        } else {
+            new Handler().postDelayed(new Runnable() {
+                public void run() {
+                    mWebView.loadUrl(sharedPref.getString("loadURL", ""));
+                    sharedPref.edit().putString("loadURL", "").apply();
+                }
+            }, 200);
         }
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();    //To change body of overridden methods use File | Settings | File Templates.
-        helper_main.isOpened(HHS_Browser.this);
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_browser, menu);
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
-        helper_main.isOpened(HHS_Browser.this);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();    //To change body of overridden methods use File | Settings | File Templates.
-        if (inCustomView()) {
-            hideCustomView();
-        }
-        helper_main.isClosed(HHS_Browser.this);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-
-        if (sharedPref.getBoolean ("help", false)){
-            menu.getItem(0).setVisible(false); // here pass the index of save menu item
-        }
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public void onPrepareOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_browser, menu);
-        return true;
+        super.onPrepareOptionsMenu(menu);
+        menu.findItem(R.id.action_sort).setVisible(false);
+        menu.findItem(R.id.action_filter).setVisible(false);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        switch (id) {
 
-        if (id == R.id.action_saveBookmark) {
-            try {
+            case R.id.action_help:
+                final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity())
+                        .setTitle(R.string.helpBrowser_title)
+                        .setMessage(helper_main.textSpannable(getString(R.string.helpBrowser_text)))
+                        .setPositiveButton(getString(R.string.toast_yes), null);
+                dialog.show();
+                return true;
 
-                final Database_Browser db = new Database_Browser(HHS_Browser.this);
+            case R.id.action_bookmark:
+                helper_main.isOpened(getActivity());
+                helper_main.switchToActivity(getActivity(), Popup_bookmarks.class, "", false);
+                return true;
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(HHS_Browser.this);
-                View dialogView = View.inflate(HHS_Browser.this, R.layout.dialog_edit_title, null);
+            case R.id.action_saveBookmark:
+
+                final Bookmarks_DbAdapter db = new Bookmarks_DbAdapter(getActivity());
+                db.open();
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                View dialogView = View.inflate(getActivity(), R.layout.dialog_edit_title, null);
 
                 final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
                 edit_title.setHint(R.string.bookmark_edit_title);
@@ -493,9 +503,14 @@ public class HHS_Browser extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int whichButton) {
 
                         String inputTag = edit_title.getText().toString().trim();
-                        db.addBookmark(inputTag, mWebView.getUrl(), "4");
-                        db.close();
-                        Snackbar.make(mWebView, R.string.bookmark_added, Snackbar.LENGTH_LONG).show();
+
+                        if(db.isExist(inputTag)){
+                            Snackbar.make(edit_title, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
+                        }else{
+                            db.insert(inputTag, mWebView.getUrl(), "04", "", helper_main.createDate());
+                            dialog.dismiss();
+                            Snackbar.make(mWebView, R.string.bookmark_added, Snackbar.LENGTH_LONG).show();
+                        }
                     }
                 });
                 builder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
@@ -511,115 +526,72 @@ public class HHS_Browser extends AppCompatActivity {
 
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
-                        helper_main.showKeyboard(HHS_Browser.this,edit_title);
+                        helper_main.showKeyboard(getActivity(),edit_title);
                     }
                 }, 200);
 
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
 
-        if (id == R.id.action_folder) {
-            String startDir = Environment.getExternalStorageDirectory() + "/HHS_Moodle/";
-            helper_main.openFilePicker(HHS_Browser.this, mWebView, startDir);
-        }
+                return true;
 
-        if (id == android.R.id.home) {
-            helper_main.isOpened(HHS_Browser.this);
-            helper_main.switchToActivity(HHS_Browser.this, HHS_MainScreen.class, "", true);
-        }
+            case R.id.action_share:
 
-        if (id == R.id.action_help) {
-            final AlertDialog.Builder dialog = new AlertDialog.Builder(HHS_Browser.this)
-                    .setTitle(R.string.helpBrowser_title)
-                    .setMessage(helper_main.textSpannable(getString(R.string.helpBrowser_text)))
-                    .setPositiveButton(getString(R.string.toast_yes), null);
-            dialog.show();
-        }
+                final CharSequence[] options = {
+                        getString(R.string.menu_share_screenshot),
+                        getString(R.string.menu_save_screenshot),
+                        getString(R.string.menu_share_link),
+                        getString(R.string.menu_share_link_browser),
+                        getString(R.string.menu_share_link_copy)};
+                new AlertDialog.Builder(getActivity())
+                        .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
 
-        if (id == R.id.action_share) {
-            final CharSequence[] options = {
-                    getString(R.string.menu_share_screenshot),
-                    getString(R.string.menu_save_screenshot),
-                    getString(R.string.menu_share_link),
-                    getString(R.string.menu_share_link_browser),
-                    getString(R.string.menu_share_link_copy)};
-            new AlertDialog.Builder(HHS_Browser.this)
-                    .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            dialog.cancel();
-                        }
-                    })
-                    .setItems(options, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int item) {
-                            if (options[item].equals(getString(R.string.menu_share_link))) {
-                                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-                                sharingIntent.setType("text/plain");
-                                sharingIntent.putExtra(Intent.EXTRA_SUBJECT, mWebView.getTitle());
-                                sharingIntent.putExtra(Intent.EXTRA_TEXT, mWebView.getUrl());
-                                startActivity(Intent.createChooser(sharingIntent, (getString(R.string.app_share_link))));
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                dialog.cancel();
                             }
-                            if (options[item].equals(getString(R.string.menu_share_screenshot))) {
-                                screenshot();
-
-                                if (shareFile.exists()) {
+                        })
+                        .setItems(options, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int item) {
+                                if (options[item].equals(getString(R.string.menu_share_link))) {
                                     Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-                                    sharingIntent.setType("image/png");
+                                    sharingIntent.setType("text/plain");
                                     sharingIntent.putExtra(Intent.EXTRA_SUBJECT, mWebView.getTitle());
                                     sharingIntent.putExtra(Intent.EXTRA_TEXT, mWebView.getUrl());
-                                    Uri bmpUri = Uri.fromFile(shareFile);
-                                    sharingIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
-                                    startActivity(Intent.createChooser(sharingIntent, (getString(R.string.app_share_screenshot))));
+                                    startActivity(Intent.createChooser(sharingIntent, (getString(R.string.app_share_link))));
+                                }
+                                if (options[item].equals(getString(R.string.menu_share_screenshot))) {
+                                    screenshot();
+
+                                    if (shareFile.exists()) {
+                                        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                                        sharingIntent.setType("image/png");
+                                        sharingIntent.putExtra(Intent.EXTRA_SUBJECT, mWebView.getTitle());
+                                        sharingIntent.putExtra(Intent.EXTRA_TEXT, mWebView.getUrl());
+                                        Uri bmpUri = Uri.fromFile(shareFile);
+                                        sharingIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
+                                        startActivity(Intent.createChooser(sharingIntent, (getString(R.string.app_share_screenshot))));
+                                    }
+                                }
+                                if (options[item].equals(getString(R.string.menu_save_screenshot))) {
+                                    screenshot();
+                                }
+                                if (options[item].equals(getString(R.string.menu_share_link_browser))) {
+                                    String  url = mWebView.getUrl();
+                                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                                    getActivity().startActivity(intent);
+                                }
+                                if (options[item].equals(getString(R.string.menu_share_link_copy))) {
+                                    String  url = mWebView.getUrl();
+                                    ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                                    clipboard.setPrimaryClip(ClipData.newPlainText("text", url));
+                                    Snackbar.make(mWebView, R.string.context_linkCopy_toast, Snackbar.LENGTH_LONG).show();
                                 }
                             }
-                            if (options[item].equals(getString(R.string.menu_save_screenshot))) {
-                                screenshot();
-                            }
-                            if (options[item].equals(getString(R.string.menu_share_link_browser))) {
-                                String  url = mWebView.getUrl();
-                                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                                HHS_Browser.this.startActivity(intent);
-                            }
-                            if (options[item].equals(getString(R.string.menu_share_link_copy))) {
-                                String  url = mWebView.getUrl();
-                                ClipboardManager clipboard = (ClipboardManager) HHS_Browser.this.getSystemService(Context.CLIPBOARD_SERVICE);
-                                clipboard.setPrimaryClip(ClipData.newPlainText("text", url));
-                                Snackbar.make(mWebView, R.string.context_linkCopy_toast, Snackbar.LENGTH_LONG).show();
-                            }
-                        }
-                    }).show();
+                        }).show();
+
+
+                return true;
         }
-
-        if (id == R.id.action_not) {
-
-            final String title = mWebView.getTitle();
-            final String url = mWebView.getUrl();
-            final String text = url + "";
-
-            Date date = new Date();
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
-            String dateCreate = format.format(date);
-
-            sharedPref.edit()
-                    .putString("handleTextTitle", title)
-                    .putString("handleTextText", text)
-                    .putString("handleTextIcon", "")
-                    .putString("handleTextAttachment", "")
-                    .putString("handleTextCreate", dateCreate)
-                    .putString("handleTextSeqno", "")
-                    .apply();
-            helper_notes.editNote(HHS_Browser.this);
-        }
-
-        if (id == R.id.action_bookmark) {
-            helper_main.isOpened(HHS_Browser.this);
-            helper_main.switchToActivity(HHS_Browser.this, Popup_bookmarks.class, "", false);
-        }
-
-        return super.onOptionsItemSelected(item);
+        return false;
     }
 
     private void setNavArrows() {
@@ -664,10 +636,6 @@ public class HHS_Browser extends AppCompatActivity {
                         "})()");
             }
 
-            if (url != null) {
-                setTitle(mWebView.getTitle());
-            }
-
             progressBar.setVisibility(progress == 100 ? View.GONE : View.VISIBLE);
         }
 
@@ -692,7 +660,7 @@ public class HHS_Browser extends AppCompatActivity {
             mFilePathCallback = filePathCallback;
 
             Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
                 // Create the File where the photo should go
                 File photoFile = null;
                 try {
@@ -700,6 +668,7 @@ public class HHS_Browser extends AppCompatActivity {
                     takePictureIntent.putExtra("PhotoPath", mCameraPhotoPath);
                 } catch (IOException ex) {
                     // Error occurred while creating the File
+                    String TAG = "HHS_Moodle_Browser";
                     Log.e(TAG, "Unable to create Image File", ex);
                 }
                 // Continue only if the File was successfully created
@@ -808,7 +777,7 @@ public class HHS_Browser extends AppCompatActivity {
 
                 Uri uri = Uri.fromFile(shareFile);
                 Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri);
-                sendBroadcast(intent);
+                getActivity().sendBroadcast(intent);
 
             } catch (Exception e) {
                 e.printStackTrace();

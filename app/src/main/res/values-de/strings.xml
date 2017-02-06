@@ -46,15 +46,6 @@
     <string name="text_tit_9">Erledigt</string>
     <string name="text_tit_10">Uhr</string>
 
-    <string name="text_des_1">Kursübersicht, Dateien, Auszeichnungen, Termine, Kalender, …</string>
-    <string name="text_des_2">Details, Berichte, Verschiedenes, Profil bearbeiten.</string>
-    <string name="text_des_8">Anstehende Termine deiner Kurse.</string>
-    <string name="text_des_3">Alle Bewertungen und Ergebnisse deiner Kurse.</string>
-    <string name="text_des_4">Persönliche Mitteilungen und Kontakte.</string>
-    <string name="text_des_5">Nutzerkonto, Blogs, Auszeichnungen.</string>
-    <string name="text_des_6">Unsere Homepage mit aktuellen Infos, Kontaktdaten, …</string>
-    <string name="text_des_7">Startpage: eine sichere und auf Privatshäre bedachte Suchmaschiene.</string>
-
 
     // About
 
@@ -77,7 +68,6 @@
 
     <string name="about_license_1">Gebraucht für den Dateimanager.</string>
     <string name="about_license_3">Gebraucht um die Einführung anzuzeigen.</string>
-    <string name="about_license_4">Der Anfang von allem. Wird hauptsächlich für die Datenbanken benutzt.</string>
     <string name="about_license_5">Gebraucht um die Pin und den Schlüssel für die Logindaten zu verschlüsseln.</string>
     <string name="about_license_7">Gebraucht um den \"Über Schirm\" zu erstellen.</string>
     <string name="about_license_8">Die Quelle von fast allen Icons.</string>
@@ -128,7 +118,6 @@
 
     <string name="title_bookmarks">Lesezeichen</string>
     <string name="title_notes">Notizen</string>
-    <string name="title_info">Mein Moodle</string>
 
 
     // Menu Items
@@ -141,18 +130,22 @@
     <string name="menu_save_screenshot">Bildschirmfoto speichern</string>
     <string name="menu_settings">Einstellungen</string>
     <string name="menu_folder">Öffne Anwendungsordner</string>
-    <string name="menu_rem">Erstelle Notiz</string>
     <string name="menu_bookmark">Lesezeichen hinzufügen</string>
     <string name="menu_help">Hilfe</string>
     <string name="menu_tools">Werkzeuge</string>
 
     <string name="action_sort">Einträge sortieren</string>
     <string name="action_sort_title">Sortiere nach Titel</string>
-    <string name="action_sort_edit">Sortiere nach Änderungszeit</string>
     <string name="action_sort_icon">Sortiere nach Icon</string>
     <string name="action_sort_create">Sortiere nach Erstellungszeit</string>
-    <string name="action_sort_url">Sortiere nach der URL</string>
     <string name="action_sort_att">Sortiere nach Anhängen</string>
+    <string name="action_sort_notification">Sortiere nach Benachrichtigungen</string>
+
+    <string name="action_filter_title">Suche in Titeln</string>
+    <string name="action_filter_cont">Suche in Inhalten</string>
+    <string name="action_filter_create">Suche nach Datum</string>
+    <string name="action_filter_url">Suche nach URL</string>
+    <string name="action_filter_att">Suche nach Anhang</string>
 
 
     // Context Menu
@@ -173,9 +166,6 @@
     <string name="action_username">Logindaten (Moodle)</string>
     <string name="action_username_summary">Bitte gib deinen Moodle Benutzernamen und dein Passwort an, um automatisch angemeldet zu
         werden.</string>
-
-    <string name="action_longPress">App verlassen</string>
-    <string name="action_longPress_summary">Lange auf die Titelleiste drücken um die App komplett zu verlassen.</string>
 
     <string name="action_openSettings">App Info</string>
     <string name="action_openSettings_summary">Öffne über die Systemeinstellungen die App Info der App. Je nach Androidversion
@@ -199,9 +189,6 @@
     <string name="action_help">Hilfemenü</string>
     <string name="action_help_summary">Deaktiviere das Hilfemenü in der gesamten App.</string>
 
-    <string name="action_start">App Start und Titelleiste-Klick</string>
-    <string name="action_start_summary">Was möchtest du sehen: Entweder den Startschirm oder den Lesezeichenfavorit?</string>
-
     <string name="action_backup">Sicherung</string>
     <string name="action_backup_summary">Sichere alle Datenbanken (Notizen, Lesezeichen, …) oder stelle eine vorherige Sicherung
         wieder her. Eine neue Sicherung überschreibt immer die bestehende.</string>
@@ -211,11 +198,10 @@
         wird.</string>
 
     <string name="action_shortcut">Verknüpfungen</string>
-    <string name="action_shortcut_summary">Erstelle auf deinen Desktop Verknüpfungen um einen schnellen Zugriff auf wichtige
+    <string name="action_shortcut_summary">Erstelle auf deinen Desktop Verknüpfungen, um einen schnellen Zugriff auf wichtige
         Funktionen der App zu erhalten (Lesezeichen, Notizen, …).</string>
 
     <string name="action_restore">Wiederherstellung</string>
-
 
 
     // Snackbar
@@ -236,17 +222,16 @@
     <string name="toast_screenshot_failed">Konnte Screenshot nicht erstellen.</string>
     <string name="toast_extension">Kein unterstützter Dateityp</string>
     <string name="toast_install_app">Please install an app to perform action.</string>
+    <string name="toast_newTitle">Titel existiert bereits.</string>
 
 
     // Bookmarks
 
-    <string name="bookmark_remove_confirmation">Eintrag wird gelöscht. OK?</string>
-    <string name="bookmark_remove_cannot">Du brauchst mindestens einen Eintrag!</string>
     <string name="bookmark_remove_bookmark">Eintrag löschen</string>
     <string name="bookmark_added">Eintrag wird hinzugefügt.</string>
     <string name="bookmark_setFav">Erfolgreich als Favorit gespeichert.</string>
+    <string name="bookmark_setFav_not">Du kannst nur einen Favorit auswählen.</string>
     <string name="bookmark_edit_title">Bearbeite Titel</string>
-    <string name="bookmark_edit_fav">Als Favorit speichern</string>
     <string name="bookmark_createNote">Erstelle Notiz</string>
     <string name="bookmark_createEvent">Erstelle Kalendereintrag</string>
     <string name="bookmark_createShortcut">Erstelle Verknüpfung</string>
@@ -255,7 +240,6 @@
     // Notes
 
     <string name="note_remove_confirmation">Notiz wird entfernt. OK?</string>
-    <string name="note_remove_cannot">Du brauchst mindestens eine Notiz!</string>
     <string name="note_remove_note">Lösche Notiz</string>
     <string name="note_edit">Notiz bearbeiten</string>
     <string name="note_share">Notiz teilen</string>
@@ -295,7 +279,6 @@
 
     <string name="cam_fail">Konnte Bild nicht aufnehmen</string>
     <string name="cam_success">Bild erfolgreich aufgenommen</string>
-    <string name="cam_start">Mache ein Bild und wähle es dann als Anhang aus.</string>
 
 
     // Grade
@@ -320,6 +303,7 @@
     <string name="number_dice_hint2">… dann  \"ok\" klicken.</string>
     <string name="number_edit_entry">Eintrag bearbeiten</string>
     <string name="number_chosen">Ausgewählt:</string>
+    <string name="number_enterData">Bitte der Liste Daten hinzufügen.</string>
 
 
     // ToDo
@@ -334,11 +318,11 @@
     <string name="todo_share">Liste teilen</string>
     <string name="paste_date">Aktuelles Datum einfügen</string>
     <string name="paste_time">Aktuelle Zeit einfügen</string>
-    <string name="sort_not">Sortiere nach Benachrichtigung</string>
 
 
     // CourseList
 
     <string name="courseList_title">Klassenlisten</string>
+    <string name="courseList_fromText">Aus Textdatei</string>
 
 </resources>

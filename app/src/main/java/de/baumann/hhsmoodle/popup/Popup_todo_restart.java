@@ -24,17 +24,20 @@ import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
+import android.widget.SimpleCursorAdapter;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -43,9 +46,7 @@ import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 
 import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
@@ -53,15 +54,16 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 
 import de.baumann.hhsmoodle.R;
-import de.baumann.hhsmoodle.databases.Database_Todo;
+import de.baumann.hhsmoodle.data_todo.Todo_DbAdapter;
 import de.baumann.hhsmoodle.helper.class_SecurePreferences;
 import de.baumann.hhsmoodle.helper.helper_main;
 
 @SuppressWarnings("SameParameterValue")
 public class Popup_todo_restart extends Activity {
 
-    private ListView listView = null;
     private class_SecurePreferences sharedPrefSec;
+    private Todo_DbAdapter db;
+    private ListView lv = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,125 +72,107 @@ public class Popup_todo_restart extends Activity {
         sharedPrefSec = new class_SecurePreferences(Popup_todo_restart.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
 
         try {
-            decrypt("/databases/todo_v2.db");
+            decrypt("/databases/todo_DB_v01.db");
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         setContentView(R.layout.activity_popup_restart);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        listView = (ListView)findViewById(R.id.dialogList);
-        setNotesList();
+        lv = (ListView)findViewById(R.id.dialogList);
+        //calling Notes_DbAdapter
+        db = new Todo_DbAdapter(Popup_todo_restart.this);
+        db.open();
+        setTodoList();
     }
 
-    private void setNotesList() {
+    private void setTodoList() {
 
-        ArrayList<HashMap<String,String>> mapList = new ArrayList<>();
+        NotificationManager nMgr = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        nMgr.cancelAll();
 
-        try {
-            Database_Todo db = new Database_Todo(Popup_todo_restart.this);
-            ArrayList<String[]> bookmarkList = new ArrayList<>();
-            db.getBookmarks(bookmarkList, Popup_todo_restart.this);
-            if (bookmarkList.size() == 0) {
-                db.loadInitialData();
-                db.getBookmarks(bookmarkList, Popup_todo_restart.this);
-            }
-            db.close();
+        //display data
+        final int layoutstyle=R.layout.list_item_notes;
+        int[] xml_id = new int[] {
+                R.id.textView_title_notes,
+                R.id.textView_des_notes,
+                R.id.textView_create_notes
+        };
+        String[] column = new String[] {
+                "todo_title",
+                "todo_content",
+                "todo_creation"
+        };
+        final Cursor row = db.fetchAllData(Popup_todo_restart.this);
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(Popup_todo_restart.this, layoutstyle,row,column, xml_id, 0) {
+            @Override
+            public View getView (final int position, View convertView, ViewGroup parent) {
 
-            for (String[] strAry : bookmarkList) {
-                HashMap<String, String> map = new HashMap<>();
-                map.put("seqno", strAry[0]);
-                map.put("title", strAry[1]);
-                map.put("cont", strAry[2]);
-                map.put("icon", strAry[3]);
-                map.put("attachment", strAry[4]);
-                map.put("createDate", strAry[5]);
-                mapList.add(map);
-            }
+                Cursor row2 = (Cursor) lv.getItemAtPosition(position);
+                final String _id = row2.getString(row2.getColumnIndexOrThrow("_id"));
+                final String todo_title = row2.getString(row2.getColumnIndexOrThrow("todo_title"));
+                final String todo_content = row2.getString(row2.getColumnIndexOrThrow("todo_content"));
+                final String todo_attachment = row2.getString(row2.getColumnIndexOrThrow("todo_attachment"));
 
-            SimpleAdapter simpleAdapter = new SimpleAdapter(
-                    Popup_todo_restart.this,
-                    mapList,
-                    R.layout.list_item_notes,
-                    new String[] {"title", "cont", "createDate"},
-                    new int[] {R.id.textView_title_notes, R.id.textView_des_notes, R.id.textView_create_notes}
-            ) {
-                @Override
-                public View getView (final int position, View convertView, ViewGroup parent) {
+                View v = super.getView(position, convertView, parent);
 
-                    @SuppressWarnings("unchecked")
-                    HashMap<String,String> map = (HashMap<String,String>)listView.getItemAtPosition(position);
-                    final String title = map.get("title");
-                    final String cont = map.get("cont");
-                    final String seqnoStr = map.get("seqno");
-                    final String attachment = map.get("attachment");
+                switch (todo_attachment) {
+                    case "true":
+                        Log.w("HHS_Moodle", "No pending notifications");
+                        break;
+                    default:
 
-                    View v = super.getView(position, convertView, parent);
+                        int n = Integer.valueOf(_id);
 
-                    switch (attachment) {
-                        case "":
-                            int n = Integer.valueOf(seqnoStr);
+                        android.content.Intent iMain = new android.content.Intent();
+                        iMain.setAction("shortcutToDo");
+                        iMain.setClassName(Popup_todo_restart.this, "de.baumann.hhsmoodle.activities.Activity_splash");
+                        PendingIntent piMain = PendingIntent.getActivity(Popup_todo_restart.this, n, iMain, 0);
 
-                            android.content.Intent iMain = new android.content.Intent();
-                            iMain.setAction("shortcutToDo");
-                            iMain.setClassName(Popup_todo_restart.this, "de.baumann.hhsmoodle.activities.Activity_splash");
-                            PendingIntent piMain = PendingIntent.getActivity(Popup_todo_restart.this, n, iMain, 0);
+                        NotificationCompat.Builder builderSummary =
+                                new NotificationCompat.Builder(Popup_todo_restart.this)
+                                        .setSmallIcon(R.drawable.school)
+                                        .setColor(ContextCompat.getColor(Popup_todo_restart.this, R.color.colorPrimary))
+                                        .setGroup("HHS_Moodle")
+                                        .setGroupSummary(true)
+                                        .setContentIntent(piMain);
 
-                            android.support.v4.app.NotificationCompat.Builder builderSummary =
-                                    new android.support.v4.app.NotificationCompat.Builder(Popup_todo_restart.this)
-                                            .setSmallIcon(R.drawable.school)
-                                            .setAutoCancel(true)
-                                            .setColor(ContextCompat.getColor(Popup_todo_restart.this, R.color.colorPrimary))
-                                            .setGroup("HHS_Moodle")
-                                            .setGroupSummary(true)
-                                            .setContentIntent(piMain);
+                        Notification notification = new NotificationCompat.Builder(Popup_todo_restart.this)
+                                .setColor(ContextCompat.getColor(Popup_todo_restart.this, R.color.colorPrimary))
+                                .setSmallIcon(R.drawable.school)
+                                .setContentTitle(todo_title)
+                                .setContentText(todo_content)
+                                .setContentIntent(piMain)
+                                .setAutoCancel(true)
+                                .setGroup("HHS_Moodle")
+                                .setStyle(new NotificationCompat.BigTextStyle().bigText(todo_content))
+                                .setPriority(Notification.PRIORITY_DEFAULT)
+                                .setVibrate(new long[0])
+                                .build();
 
-                            Notification notification = new android.support.v4.app.NotificationCompat.Builder(Popup_todo_restart.this)
-                                    .setColor(ContextCompat.getColor(Popup_todo_restart.this, R.color.colorPrimary))
-                                    .setSmallIcon(R.drawable.school)
-                                    .setContentTitle(title)
-                                    .setContentText(cont)
-                                    .setContentIntent(piMain)
-                                    .setAutoCancel(true)
-                                    .setGroup("HHS_Moodle")
-                                    .setStyle(new android.support.v4.app.NotificationCompat.BigTextStyle().bigText(cont))
-                                    .setPriority(Notification.PRIORITY_DEFAULT)
-                                    .setVibrate(new long[0])
-                                    .build();
-
-                            NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                            notificationManager.notify(n, notification);
-                            notificationManager.notify(0, builderSummary.build());
-                            break;
-
-                        default:
-                            Log.w("HHS_Moodle", "No pending notifications");
-                            break;
-                    }
-
-                    new Handler().postDelayed(new Runnable() {
-                        public void run() {
-                            try {
-                                encrypt("/databases/todo_v2.db");
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                            finish();
-                        }
-                    }, 1000);
-
-                    return v;
+                        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                        notificationManager.notify(n, notification);
+                        notificationManager.notify(0, builderSummary.build());
+                        break;
                 }
-            };
+                return v;
+            }
+        };
 
-            listView.setAdapter(simpleAdapter);
-
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
+        lv.setAdapter(adapter);
+        //onClick function
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                try {
+                    encrypt("/databases/todo_DB_v01.db");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                finish();
+            }
+        }, 1000);
     }
 
-    @SuppressWarnings("UnusedParameters")
     private void decrypt(String out) throws IOException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {
 
         PackageManager m = getPackageManager();
@@ -197,7 +181,7 @@ public class Popup_todo_restart extends Activity {
             PackageInfo p = m.getPackageInfo(s, 0);
             s = p.applicationInfo.dataDir;
 
-            String pathIN = s + "/databases/todo_v2_en.db";
+            String pathIN = s + "/databases/todo_DB_v01_en.db";
             String pathOUT = s + out;
 
             FileInputStream fis = new FileInputStream(pathIN);

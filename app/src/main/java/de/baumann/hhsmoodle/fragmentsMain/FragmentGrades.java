@@ -440,6 +440,7 @@ public class FragmentGrades extends Fragment {
         // Inflate the menu; this adds items to the action bar if it is present.
         super.onPrepareOptionsMenu(menu);
         menu.findItem(R.id.action_sort).setVisible(false);
+        menu.findItem(R.id.action_filter).setVisible(false);
     }
 
     @Override

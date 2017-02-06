@@ -9,17 +9,17 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_not"
-        android:orderInCategory="100"
-        android:title="@string/menu_rem"
-        android:icon="@drawable/pencil"
-        app:showAsAction="ifRoom" />
-
-    <item
         android:id="@+id/action_sort"
         android:orderInCategory="100"
         android:title="@string/action_sort"
         android:icon="@drawable/sort_descending"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_filter"
+        android:orderInCategory="100"
+        android:title="@string/action_sort"
+        android:icon="@drawable/ic_magnify"
         app:showAsAction="ifRoom" />
 
     <item

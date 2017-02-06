@@ -22,29 +22,30 @@ package de.baumann.hhsmoodle.popup;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
-
-import java.util.ArrayList;
-import java.util.HashMap;
+import android.widget.SimpleCursorAdapter;
 
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.activities.Activity_password;
-import de.baumann.hhsmoodle.databases.Database_CourseList;
-import de.baumann.hhsmoodle.databases.Database_Notes;
-import de.baumann.hhsmoodle.databases.Database_Random;
-import de.baumann.hhsmoodle.databases.Database_Todo;
+import de.baumann.hhsmoodle.data_Random.Random_DbAdapter;
+import de.baumann.hhsmoodle.data_courses.Courses_DbAdapter;
+import de.baumann.hhsmoodle.data_notes.Notes_DbAdapter;
+import de.baumann.hhsmoodle.data_todo.Todo_DbAdapter;
 import de.baumann.hhsmoodle.helper.class_SecurePreferences;
 import de.baumann.hhsmoodle.helper.helper_main;
 
 public class Popup_courseList extends Activity {
 
-    private ListView listView = null;
+    private ListView lv = null;
+    private Courses_DbAdapter db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,10 +64,13 @@ public class Popup_courseList extends Activity {
 
         setContentView(R.layout.activity_popup);
 
-        listView = (ListView)findViewById(R.id.dialogList);
+        lv = (ListView)findViewById(R.id.dialogList);
+
+        db = new Courses_DbAdapter(Popup_courseList.this);
+        db.open();
 
         onNewIntent(getIntent());
-        setCourseList();
+        setCoursesList();
     }
 
     protected void onNewIntent(final Intent intent) {
@@ -76,106 +80,96 @@ public class Popup_courseList extends Activity {
 
         if ("courseList_random".equals(action)) {
 
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                    @SuppressWarnings("unchecked")
-                    HashMap<String,String> map = (HashMap<String,String>)listView.getItemAtPosition(position);
-                    final String title = map.get("title");
-                    final String text = map.get("text");
+                    Cursor row2 = (Cursor) lv.getItemAtPosition(position);
+                    final String courses_title = row2.getString(row2.getColumnIndexOrThrow("courses_title"));
+                    final String courses_content = row2.getString(row2.getColumnIndexOrThrow("courses_content"));
 
-                    try {
-                        final Database_Random db = new Database_Random(Popup_courseList.this);
-                        db.addBookmark(title, text);
-                        db.close();
+                    Random_DbAdapter db = new Random_DbAdapter(Popup_courseList.this);
+                    db.open();
+
+                    if(db.isExist(courses_title)){
+                        Snackbar.make(lv, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
+                    } else {
+                        db.insert(courses_title, courses_content, "", "", helper_main.createDate());
                         finish();
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
                     }
                 }
             });
         } else if ("courseList_note".equals(action)) {
 
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                    @SuppressWarnings("unchecked")
-                    HashMap<String,String> map = (HashMap<String,String>)listView.getItemAtPosition(position);
-                    final String title = map.get("title");
-                    final String text = map.get("text");
+                    Cursor row2 = (Cursor) lv.getItemAtPosition(position);
+                    final String courses_title = row2.getString(row2.getColumnIndexOrThrow("courses_title"));
+                    final String courses_content = row2.getString(row2.getColumnIndexOrThrow("courses_content"));
 
-                    try {
+                    Notes_DbAdapter db = new Notes_DbAdapter(Popup_courseList.this);
+                    db.open();
 
-                        final Database_Notes db = new Database_Notes(Popup_courseList.this);
-                        db.addBookmark(title, text, "1", "", helper_main.createDate());
-                        db.close();
+                    if(db.isExist(courses_title)){
+                        Snackbar.make(lv, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
+                    } else {
+                        db.insert(courses_title, courses_content, "1", "", helper_main.createDate());
                         finish();
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
                     }
                 }
             });
         } else if ("courseList_todo".equals(action)) {
 
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                    @SuppressWarnings("unchecked")
-                    HashMap<String,String> map = (HashMap<String,String>)listView.getItemAtPosition(position);
-                    final String title = map.get("title");
-                    final String text = map.get("text");
+                    Cursor row2 = (Cursor) lv.getItemAtPosition(position);
+                    final String courses_title = row2.getString(row2.getColumnIndexOrThrow("courses_title"));
+                    final String courses_content = row2.getString(row2.getColumnIndexOrThrow("courses_content"));
 
-                    try {
-                        final Database_Todo db = new Database_Todo(Popup_courseList.this);
-                        db.addBookmark(title, text, "3", "true", helper_main.createDate());
-                        db.close();
+                    Todo_DbAdapter db = new Todo_DbAdapter(Popup_courseList.this);
+                    db.open();
+
+                    if(db.isExist(courses_title)){
+                        Snackbar.make(lv, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
+                    } else {
+                        db.insert(courses_title, courses_content, "3", "true", helper_main.createDate());
                         finish();
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
                     }
                 }
             });
         }
     }
 
-    private void setCourseList() {
+    private void setCoursesList() {
 
-        ArrayList<HashMap<String,String>> mapList = new ArrayList<>();
+        //display data
+        final int layoutstyle=R.layout.list_item_notes;
+        int[] xml_id = new int[] {
+                R.id.textView_title_notes,
+                R.id.textView_des_notes,
+                R.id.textView_create_notes
+        };
+        String[] column = new String[] {
+                "courses_title",
+                "courses_content",
+                "courses_creation"
+        };
+        final Cursor row = db.fetchAllData(Popup_courseList.this);
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(Popup_courseList.this, layoutstyle, row, column, xml_id, 0) {
+            @Override
+            public View getView(final int position, View convertView, ViewGroup parent) {
 
-        try {
-            Database_CourseList db = new Database_CourseList(Popup_courseList.this);
-            ArrayList<String[]> bookmarkList = new ArrayList<>();
-            db.getBookmarks(bookmarkList);
-            if (bookmarkList.size() == 0) {
-                db.loadInitialData();
-                db.getBookmarks(bookmarkList);
+                View v = super.getView(position, convertView, parent);
+                ImageView iv_icon = (ImageView) v.findViewById(R.id.icon_notes);
+                iv_icon.setVisibility(View.GONE);
+
+                return v;
             }
-            db.close();
+        };
 
-            for (String[] strAry : bookmarkList) {
-                HashMap<String, String> map = new HashMap<>();
-                map.put("seqno", strAry[0]);
-                map.put("title", strAry[1]);
-                map.put("text", strAry[2]);
-                mapList.add(map);
-            }
+        lv.setAdapter(adapter);
 
-            SimpleAdapter simpleAdapter = new SimpleAdapter(
-                    Popup_courseList.this,
-                    mapList,
-                    R.layout.list_item,
-                    new String[] {"title", "text"},
-                    new int[] {R.id.textView_title_notes, R.id.textView_des_notes}
-            );
-
-            listView.setAdapter(simpleAdapter);
-
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override

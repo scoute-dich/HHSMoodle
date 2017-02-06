@@ -37,36 +37,29 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
-import de.baumann.hhsmoodle.fragmentsMain.FragmentBookmarks;
-import de.baumann.hhsmoodle.fragmentsMain.FragmentCourseList;
-import de.baumann.hhsmoodle.fragmentsMain.FragmentDice;
+import de.baumann.hhsmoodle.data_Bookmarks.Bookmarks_Fragment;
+import de.baumann.hhsmoodle.data_Random.Random_Fragment;
+import de.baumann.hhsmoodle.data_courses.Courses_Fragment;
+import de.baumann.hhsmoodle.data_notes.Notes_Fragment;
+import de.baumann.hhsmoodle.data_notes.Notes_helper;
+import de.baumann.hhsmoodle.data_todo.Todo_Fragment;
+import de.baumann.hhsmoodle.fragmentsMain.FragmentBrowser;
 import de.baumann.hhsmoodle.fragmentsMain.FragmentGrades;
-import de.baumann.hhsmoodle.fragmentsMain.FragmentInfo;
-import de.baumann.hhsmoodle.fragmentsMain.FragmentNotes;
 import de.baumann.hhsmoodle.activities.Activity_password;
 import de.baumann.hhsmoodle.activities.Activity_settings;
-import de.baumann.hhsmoodle.fragmentsMain.FragmentTodo;
 import de.baumann.hhsmoodle.helper.class_CustomViewPager;
 import de.baumann.hhsmoodle.helper.class_SecurePreferences;
 import de.baumann.hhsmoodle.helper.helper_encryption;
 import de.baumann.hhsmoodle.helper.helper_main;
-import de.baumann.hhsmoodle.helper.helper_notes;
 
 @SuppressWarnings("ResultOfMethodCallIgnored")
 public class HHS_MainScreen extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -75,6 +68,16 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
     private SharedPreferences sharedPref;
     private class_SecurePreferences sharedPrefSec;
 
+    private OnBackPressedListener onBackPressedListener;
+
+    public interface OnBackPressedListener {
+        void doBack();
+    }
+
+    public void setOnBackPressedListener(OnBackPressedListener onBackPressedListener) {
+        this.onBackPressedListener = onBackPressedListener;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -82,6 +85,7 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
 
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPref.edit().putString("browserLoad", "").apply();
         sharedPrefSec = new class_SecurePreferences(HHS_MainScreen.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
 
         setContentView(R.layout.activity_screen_main);
@@ -125,22 +129,28 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
 
         if ("shortcutBookmarks_HS".equals(action)) {
             lockUI();
-            viewPager.setCurrentItem(1, true);
+            viewPager.setCurrentItem(0, true);
         } else if ("shortcutNotes_HS".equals(action)) {
             lockUI();
-            viewPager.setCurrentItem(3, true);
+            viewPager.setCurrentItem(2, true);
         } else if ("shortcutToDo_HS".equals(action)) {
             lockUI();
-            viewPager.setCurrentItem(2, true);
+            viewPager.setCurrentItem(1, true);
         } else if ("shortcutNotesNew_HS".equals(action)) {
             lockUI();
-            viewPager.setCurrentItem(3, true);
+            viewPager.setCurrentItem(2, true);
             sharedPref.edit()
                     .putString("handleTextTitle", intent.getStringExtra(Intent.EXTRA_SUBJECT))
                     .putString("handleTextText", intent.getStringExtra(Intent.EXTRA_TEXT))
                     .putString("handleTextIcon", "3")
                     .apply();
-            helper_notes.editNote(HHS_MainScreen.this);
+            Notes_helper.newNote(HHS_MainScreen.this);
+        } else if ("shortcutURL_HS".equals(action)) {
+            lockUI();
+            viewPager.setCurrentItem(0, true);
+        } else if ("shortcutURLFAV_HS".equals(action)) {
+            lockUI();
+            viewPager.setCurrentItem(0, true);
         } else {
             helper_main.isOpened(HHS_MainScreen.this);
         }
@@ -148,17 +158,17 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
 
     private void setupViewPager(ViewPager viewPager) {
 
-        final String startTab = sharedPref.getString("tabMain", "0");
+        final String startTab = sharedPref.getString("tabMain", "1");
         final int startTabInt = Integer.parseInt(startTab);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        adapter.addFragment(new FragmentInfo(), String.valueOf(getString(R.string.title_info)));
-        adapter.addFragment(new FragmentBookmarks(), String.valueOf(getString(R.string.title_bookmarks)));
-        adapter.addFragment(new FragmentTodo(), String.valueOf(getString(R.string.todo_title)));
-        adapter.addFragment(new FragmentNotes(), String.valueOf(getString(R.string.title_notes)));
-        adapter.addFragment(new FragmentDice(), String.valueOf(getString(R.string.number_title)));
+        adapter.addFragment(new FragmentBrowser(), String.valueOf(getString(R.string.app_name)));
+        adapter.addFragment(new Bookmarks_Fragment(), String.valueOf(getString(R.string.title_bookmarks)));
+        adapter.addFragment(new Todo_Fragment(), String.valueOf(getString(R.string.todo_title)));
+        adapter.addFragment(new Notes_Fragment(), String.valueOf(getString(R.string.title_notes)));
+        adapter.addFragment(new Random_Fragment(), String.valueOf(getString(R.string.number_title)));
         adapter.addFragment(new FragmentGrades(), String.valueOf(getString(R.string.action_grades)));
-        adapter.addFragment(new FragmentCourseList(), String.valueOf(getString(R.string.courseList_title)));
+        adapter.addFragment(new Courses_Fragment(), String.valueOf(getString(R.string.courseList_title)));
 
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(startTabInt,true);
@@ -219,74 +229,43 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
             helper_main.openFilePicker(HHS_MainScreen.this, viewPager, startDir);
         }
 
-        if (id == R.id.action_not) {
-            Date date = new Date();
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
-
-            String dateCreate = format.format(date);
-
-            sharedPref.edit()
-                    .putString("handleTextTitle", "")
-                    .putString("handleTextText", "")
-                    .putString("handleTextCreate", dateCreate)
-                    .putString("handleTextIcon", "")
-                    .putString("handleTextAttachment", "")
-                    .putString("handleTextSeqno", "")
-                    .apply();
-            helper_notes.editNote(HHS_MainScreen.this);
-        }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onBackPressed() {
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+        if (onBackPressedListener != null) {
+            onBackPressedListener.doBack();
         } else {
-            Snackbar.make(viewPager, getString(R.string.app_encrypt) , Snackbar.LENGTH_LONG).show();
-            helper_main.isClosed(HHS_MainScreen.this);
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            if (drawer.isDrawerOpen(GravityCompat.START)) {
+                drawer.closeDrawer(GravityCompat.START);
+            } else {
 
-            if (sharedPref.getBoolean ("backup_aut", false)){
-                try {
-                    LayoutInflater inflater = HHS_MainScreen.this.getLayoutInflater();
-                    View toastLayout = inflater.inflate(R.layout.toast,
-                            (ViewGroup) HHS_MainScreen.this.findViewById(R.id.toast_root_view));
-                    TextView header = (TextView) toastLayout.findViewById(R.id.toast_message);
-                    header.setText(R.string.toast_backup);
-                    Toast toast = new Toast(HHS_MainScreen.this.getApplicationContext());
-                    toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
-                    toast.setDuration(Toast.LENGTH_LONG);
-                    toast.setView(toastLayout);
-                    toast.show();
-
-                    helper_encryption.encryptBackup(HHS_MainScreen.this,"/browser_v2.db");
-                    helper_encryption.encryptBackup(HHS_MainScreen.this,"/courseList_v2.db");
-                    helper_encryption.encryptBackup(HHS_MainScreen.this,"/notes_v2.db");
-                    helper_encryption.encryptBackup(HHS_MainScreen.this,"/random_v2.db");
-                    helper_encryption.encryptBackup(HHS_MainScreen.this,"/todo_v2.db");
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    LayoutInflater inflater = HHS_MainScreen.this.getLayoutInflater();
-
-                    View toastLayout = inflater.inflate(R.layout.toast,
-                            (ViewGroup) HHS_MainScreen.this.findViewById(R.id.toast_root_view));
-                    TextView header = (TextView) toastLayout.findViewById(R.id.toast_message);
-                    header.setText(R.string.toast_backup_not);
-                    Toast toast = new Toast(HHS_MainScreen.this.getApplicationContext());
-                    toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
-                    toast.setDuration(Toast.LENGTH_LONG);
-                    toast.setView(toastLayout);
-                    toast.show();
+                if (sharedPref.getBoolean ("backup_aut", false)){
+                    try {helper_encryption.encryptBackup(HHS_MainScreen.this,"/bookmarks_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                    try {helper_encryption.encryptBackup(HHS_MainScreen.this,"/courses_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                    try {helper_encryption.encryptBackup(HHS_MainScreen.this,"/notes_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                    try {helper_encryption.encryptBackup(HHS_MainScreen.this,"/random_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                    try {helper_encryption.encryptBackup(HHS_MainScreen.this,"/todo_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
                 }
-            }
 
-            helper_encryption.encryptDatabases(HHS_MainScreen.this);
-            finish();
+                sharedPref.edit().putString("loadURL", "").apply();
+                helper_main.isClosed(HHS_MainScreen.this);
+                Snackbar.make(viewPager, getString(R.string.app_encrypt) , Snackbar.LENGTH_LONG).show();
+                helper_encryption.encryptDatabases(HHS_MainScreen.this);
+                finish();
+            }
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        onBackPressedListener = null;
+        super.onDestroy();
+    }
+
+
 
     private void lockUI() {
 
@@ -322,9 +301,9 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_title_info) {
+        if (id == R.id.nav_browser) {
             viewPager.setCurrentItem(0, true);
-            setTitle(R.string.title_info);
+            setTitle(R.string.app_name);
         } else if (id == R.id.nav_bookmarks) {
             viewPager.setCurrentItem(1, true);
             setTitle(R.string.title_bookmarks);

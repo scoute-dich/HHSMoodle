@@ -22,6 +22,8 @@ import javax.crypto.CipherOutputStream;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 
+import de.baumann.hhsmoodle.R;
+
 
 public class helper_encryption {
 
@@ -38,32 +40,39 @@ public class helper_encryption {
             String pathIN = s + in;
             String pathOUT = s + out;
 
-            FileInputStream fis = new FileInputStream(pathIN);
-            FileOutputStream fos = new FileOutputStream(pathOUT);
-
-            byte[] key = (sharedPrefSec.getString("generateDBKOK").getBytes("UTF-8"));
-            MessageDigest sha = MessageDigest.getInstance("SHA-1");
-            key = sha.digest(key);
-            key = Arrays.copyOf(key, 16); // use only first 128 bit
-
-            SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
-            // Length is 16 byte
-            // Create cipher
-            @SuppressLint("GetInstance") Cipher cipher = Cipher.getInstance("AES");
-            cipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
-            CipherInputStream cis = new CipherInputStream(fis, cipher);
-            int b;
-            byte[] d = new byte[8];
-            while((b = cis.read(d)) != -1) {
-                fos.write(d, 0, b);
-            }
-            fos.flush();
-            fos.close();
-            cis.close();
-
             File fileIN = new File(pathIN);
-            //noinspection ResultOfMethodCallIgnored
-            fileIN.delete();
+
+            if (fileIN.exists()) {
+                FileInputStream fis = new FileInputStream(pathIN);
+                FileOutputStream fos = new FileOutputStream(pathOUT);
+
+                byte[] key = (sharedPrefSec.getString("key_encryption_01").getBytes("UTF-8"));
+                MessageDigest sha = MessageDigest.getInstance("SHA-1");
+                key = sha.digest(key);
+                key = Arrays.copyOf(key, 16); // use only first 128 bit
+
+                SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
+                // Length is 16 byte
+                // Create cipher
+                @SuppressLint("GetInstance") Cipher cipher = Cipher.getInstance("AES");
+                cipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
+                CipherInputStream cis = new CipherInputStream(fis, cipher);
+                int b;
+                byte[] d = new byte[8];
+                while((b = cis.read(d)) != -1) {
+                    fos.write(d, 0, b);
+                }
+                fos.flush();
+                fos.close();
+                cis.close();
+                Log.w("HHS_Moodle", "DB decrypted");
+
+                //noinspection ResultOfMethodCallIgnored
+                fileIN.delete();
+                Log.w("HHS_Moodle", "DB deleted");
+            }
+
+
 
         } catch (PackageManager.NameNotFoundException e) {
             Log.w("HHS_Moodle", "Error Package name not found ", e);
@@ -71,16 +80,11 @@ public class helper_encryption {
     }
 
     public static void decryptDatabases (Activity activity) {
-
-        try {
-            decrypt(activity, "/databases/random_v2_en.db", "/databases/random_v2.db");
-            decrypt(activity, "/databases/todo_v2_en.db", "/databases/todo_v2.db");
-            decrypt(activity, "/databases/notes_v2_en.db", "/databases/notes_v2.db");
-            decrypt(activity, "/databases/courseList_v2_en.db", "/databases/courseList_v2.db");
-            decrypt(activity, "/databases/browser_v2_en.db", "/databases/browser_v2.db");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        try {decrypt(activity, "/databases/random_DB_v01_en.db", "/databases/random_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+        try {decrypt(activity, "/databases/todo_DB_v01_en.db", "/databases/todo_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+        try {decrypt(activity, "/databases/notes_DB_v01_en.db", "/databases/notes_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+        try {decrypt(activity, "/databases/courses_DB_v01_en.db", "/databases/courses_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+        try {decrypt(activity, "/databases/bookmarks_DB_v01_en.db", "/databases/bookmarks_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
     }
 
     private static void encrypt(Activity activity, String in, String out) throws IOException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {
@@ -89,6 +93,7 @@ public class helper_encryption {
 
         PackageManager m = activity.getPackageManager();
         String s = activity.getPackageName();
+
         try {
             PackageInfo p = m.getPackageInfo(s, 0);
             s = p.applicationInfo.dataDir;
@@ -96,35 +101,42 @@ public class helper_encryption {
             String pathIN = s + in;
             String pathOUT = s + out;
 
-            FileInputStream fis = new FileInputStream(pathIN);
-            FileOutputStream fos = new FileOutputStream(pathOUT);
-
-            byte[] key = (sharedPrefSec.getString("generateDBKOK").getBytes("UTF-8"));
-            MessageDigest sha = MessageDigest.getInstance("SHA-1");
-            key = sha.digest(key);
-            key = Arrays.copyOf(key, 16); // use only first 128 bit
-
-            SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
-            // Length is 16 byte
-            // Create cipher
-            @SuppressLint("GetInstance") Cipher cipher = Cipher.getInstance("AES");
-            cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
-            // Wrap the output stream
-            CipherOutputStream cos = new CipherOutputStream(fos, cipher);
-            // Write bytes
-            int b;
-            byte[] d = new byte[8];
-            while((b = fis.read(d)) != -1) {
-                cos.write(d, 0, b);
-            }
-            // Flush and close streams.
-            cos.flush();
-            cos.close();
-            fis.close();
-
             File fileIN = new File(pathIN);
-            //noinspection ResultOfMethodCallIgnored
-            fileIN.delete();
+
+            if (fileIN.exists()) {
+                FileInputStream fis = new FileInputStream(pathIN);
+                FileOutputStream fos = new FileOutputStream(pathOUT);
+
+                byte[] key = (sharedPrefSec.getString("key_encryption_01").getBytes("UTF-8"));
+                MessageDigest sha = MessageDigest.getInstance("SHA-1");
+                key = sha.digest(key);
+                key = Arrays.copyOf(key, 16); // use only first 128 bit
+
+                SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
+                // Length is 16 byte
+                // Create cipher
+                @SuppressLint("GetInstance") Cipher cipher = Cipher.getInstance("AES");
+                cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
+                // Wrap the output stream
+                CipherOutputStream cos = new CipherOutputStream(fos, cipher);
+                // Write bytes
+                int b;
+                byte[] d = new byte[8];
+                while((b = fis.read(d)) != -1) {
+                    cos.write(d, 0, b);
+                }
+                // Flush and close streams.
+                cos.flush();
+                cos.close();
+                fis.close();
+                Log.w("HHS_Moodle", "DB encrypted");
+
+                //noinspection ResultOfMethodCallIgnored
+                fileIN.delete();
+                Log.w("HHS_Moodle", "DB deleted");
+            }
+
+
 
         } catch (PackageManager.NameNotFoundException e) {
             Log.w("HHS_Moodle", "Error Package name not found ", e);
@@ -132,23 +144,18 @@ public class helper_encryption {
     }
 
     public static void encryptDatabases (Activity activity) {
-
-        try {
-            encrypt(activity, "/databases/random_v2.db","/databases/random_v2_en.db");
-            encrypt(activity, "/databases/todo_v2.db","/databases/todo_v2_en.db");
-            encrypt(activity, "/databases/notes_v2.db","/databases/notes_v2_en.db");
-            encrypt(activity, "/databases/courseList_v2.db","/databases/courseList_v2_en.db");
-            encrypt(activity, "/databases/browser_v2.db","/databases/browser_v2_en.db");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        try {encrypt(activity, "/databases/random_DB_v01.db","/databases/random_DB_v01_en.db");} catch (Exception e) {e.printStackTrace();}
+        try {encrypt(activity, "/databases/todo_DB_v01.db","/databases/todo_DB_v01_en.db");} catch (Exception e) {e.printStackTrace();}
+        try {encrypt(activity, "/databases/notes_DB_v01.db","/databases/notes_DB_v01_en.db");} catch (Exception e) {e.printStackTrace();}
+        try {encrypt(activity, "/databases/courses_DB_v01.db","/databases/courses_DB_v01_en.db");} catch (Exception e) {e.printStackTrace();}
+        try {encrypt(activity, "/databases/bookmarks_DB_v01.db","/databases/bookmarks_DB_v01_en.db");} catch (Exception e) {e.printStackTrace();}
     }
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     public static void encryptBackup (Activity activity, String name) throws IOException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {
 
         PackageManager m = activity.getPackageManager();
         String s = activity.getPackageName();
+
         try {
             PackageInfo p = m.getPackageInfo(s, 0);
             s = p.applicationInfo.dataDir;
@@ -156,34 +163,42 @@ public class helper_encryption {
             String pathOUT = Environment.getExternalStorageDirectory() + "/HHS_Moodle/backup/" + name;
             String pathIN = s + "/databases/" + name;
 
-            FileInputStream fis = new FileInputStream(pathIN);
-            FileOutputStream fos = new FileOutputStream(pathOUT);
+            File fileIN = new File(pathIN);
 
-            byte[] key = ("[MGq)sY6k(GV,*?i".getBytes("UTF-8"));
-            MessageDigest sha = MessageDigest.getInstance("SHA-1");
-            key = sha.digest(key);
-            key = Arrays.copyOf(key, 16); // use only first 128 bit
+            if (fileIN.exists()) {
+                FileInputStream fis = new FileInputStream(pathIN);
+                FileOutputStream fos = new FileOutputStream(pathOUT);
 
-            SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
-            // Length is 16 byte
-            // Create cipher
-            @SuppressLint("GetInstance") Cipher cipher = Cipher.getInstance("AES");
-            cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
-            // Wrap the output stream
-            CipherOutputStream cos = new CipherOutputStream(fos, cipher);
-            // Write bytes
-            int b;
-            byte[] d = new byte[8];
-            while((b = fis.read(d)) != -1) {
-                cos.write(d, 0, b);
+                byte[] key = ("[MGq)sY6k(GV,*?i".getBytes("UTF-8"));
+                MessageDigest sha = MessageDigest.getInstance("SHA-1");
+                key = sha.digest(key);
+                key = Arrays.copyOf(key, 16); // use only first 128 bit
+
+                SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
+                // Length is 16 byte
+                // Create cipher
+                @SuppressLint("GetInstance") Cipher cipher = Cipher.getInstance("AES");
+                cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
+                // Wrap the output stream
+                CipherOutputStream cos = new CipherOutputStream(fos, cipher);
+                // Write bytes
+                int b;
+                byte[] d = new byte[8];
+                while((b = fis.read(d)) != -1) {
+                    cos.write(d, 0, b);
+                }
+                // Flush and close streams.
+                cos.flush();
+                cos.close();
+                fis.close();
+                Log.w("HHS_Moodle", "DB backup");
+                helper_main.makeToast(activity, activity.getString(R.string.toast_backup));
             }
-            // Flush and close streams.
-            cos.flush();
-            cos.close();
-            fis.close();
+
 
         } catch (PackageManager.NameNotFoundException e) {
             Log.w("HHS_Moodle", "Error Package name not found ", e);
+            helper_main.makeToast(activity, activity.getString(R.string.toast_backup_not));
         }
     }
 }

@@ -55,12 +55,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-import de.baumann.hhsmoodle.HHS_Browser;
 import de.baumann.hhsmoodle.HHS_MainScreen;
 import de.baumann.hhsmoodle.R;
-import de.baumann.hhsmoodle.databases.Database_Todo;
+import de.baumann.hhsmoodle.data_todo.Todo_DbAdapter;
 import de.baumann.hhsmoodle.helper.helper_main;
-import de.baumann.hhsmoodle.helper.helper_notes;
 import filechooser.ChooserDialog;
 
 import static de.baumann.hhsmoodle.helper.helper_main.newFileDest;
@@ -97,35 +95,6 @@ public class Activity_todo extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         helper_main.onStart(Activity_todo.this);
-
-        if(toolbar != null) {
-            toolbar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    final String startURL = sharedPref.getString("favoriteURL", "https://moodle.huebsch.ka.schule-bw.de/moodle/");
-                    final String startType = sharedPref.getString("startType", "1");
-
-                    if (startType.equals("2")) {
-                        helper_main.isOpened(Activity_todo.this);
-                        helper_main.switchToActivity(Activity_todo.this, HHS_Browser.class, startURL, false);
-                    } else if (startType.equals("1")){
-                        helper_main.isOpened(Activity_todo.this);
-                        helper_main.switchToActivity(Activity_todo.this, HHS_MainScreen.class, "", true);
-                    }
-                }
-            });
-
-            if (sharedPref.getBoolean ("longPress", false)){
-                toolbar.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View v) {
-                        helper_main.isClosed(Activity_todo.this);
-                        finishAffinity();
-                        return true;
-                    }
-                });
-            }
-        }
 
         final ActionBar actionBar = getSupportActionBar();
         if(actionBar != null) {
@@ -460,16 +429,10 @@ public class Activity_todo extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        try {
-            final Database_Todo db = new Database_Todo(Activity_todo.this);
+        Todo_DbAdapter db = new Todo_DbAdapter(Activity_todo.this);
+        db.open();
+        db.update(toDo_seqno, toDo_title, getText(), toDo_icon, todo_attachment, toDo_create);
 
-            db.deleteNote(toDo_seqno);
-            db.addBookmark(toDo_title, getText(), toDo_icon, todo_attachment, toDo_create);
-            db.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         sharedPref.edit().putString("toDo_title", "").apply();
         sharedPref.edit().putString("toDo_text", "").apply();
         sharedPref.edit().putString("toDo_seqno", "").apply();
@@ -522,19 +485,6 @@ public class Activity_todo extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if (id == R.id.action_not) {
-
-            sharedPref.edit()
-                    .putString("handleTextTitle", toDo_title)
-                    .putString("handleTextText", getText())
-                    .putString("handleTextIcon", "")
-                    .putString("handleTextAttachment", "")
-                    .putString("handleTextCreate", helper_main.createDate())
-                    .putString("handleTextSeqno", "")
-                    .apply();
-            helper_notes.editNote(Activity_todo.this);
-        }
-
         if (id == R.id.action_share) {
 
             Intent sharingIntent = new Intent(Intent.ACTION_SEND);
@@ -550,15 +500,10 @@ public class Activity_todo extends AppCompatActivity {
         }
 
         if (id == android.R.id.home) {
-            try {
-                final Database_Todo db = new Database_Todo(Activity_todo.this);
-                db.deleteNote(toDo_seqno);
-                db.addBookmark(toDo_title, getText(), toDo_icon, todo_attachment, toDo_create);
-                db.close();
+            Todo_DbAdapter db = new Todo_DbAdapter(Activity_todo.this);
+            db.open();
+            db.update(toDo_seqno, toDo_title, getText(), toDo_icon, todo_attachment, toDo_create);
 
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
             sharedPref.edit().putString("toDo_title", "").apply();
             sharedPref.edit().putString("toDo_text", "").apply();
             sharedPref.edit().putString("toDo_seqno", "").apply();

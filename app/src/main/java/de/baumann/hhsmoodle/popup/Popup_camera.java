@@ -22,9 +22,11 @@ package de.baumann.hhsmoodle.popup;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.widget.Toast;
@@ -32,7 +34,6 @@ import android.widget.Toast;
 import java.io.File;
 
 import de.baumann.hhsmoodle.R;
-import de.baumann.hhsmoodle.helper.helper_main;
 
 public class Popup_camera extends Activity {
 
@@ -41,10 +42,10 @@ public class Popup_camera extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Toast.makeText(Popup_camera.this, R.string.cam_start, Toast.LENGTH_LONG).show();
-
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        File f = helper_main.newFile();
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        File f = new File(sharedPref.getString("handleTextAttachment", ""));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             Uri contentUri = FileProvider.getUriForFile(Popup_camera.this, getApplicationContext().getPackageName() + ".provider", f);

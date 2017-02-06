@@ -59,42 +59,6 @@
     </string>
 
 
-    <string name="helpBookmarks_text">
-        Hier werden die von dir gespeicherten Lesezeichen angezeigt.&lt;br>&lt;br>
-
-        &lt;b>Die Liste:&lt;/b>&lt;br>
-        Wenn du einen Listeneintrag anklickst, öffnet sich das Lesezeichen im internen Browser. Bei einem langen Klick
-        öffnet sich ein Popupmenü. Um das Icon des Lesezeichens zu ändern, musst du es anklicken.&lt;br>&lt;br>
-
-        &lt;b>Popup Menü:&lt;/b>&lt;br>
-        &#8226;&lt;i> Bearbeite Titel:&lt;/i> Du kannst den Titel des Lesezeichens bearbeiten.&lt;br>
-        &#8226;&lt;i> Als Favorit speichern:&lt;/i> Wenn du ein Lesezeichen als Favorit speicherst, kann es sofort beim Start
-        der App und bei einem Klick auf die Titelleiste angezeigt werden. Dies muss in den Einstellungen aktiviert werden.&lt;br>
-        &#8226;&lt;i> Erstelle Notiz:&lt;/i> Der Titel des Lesezeichens wird automatisch als Titel für eine neue Notiz
-        benutzt, der Link für den Inhalt.&lt;br>
-        &#8226;&lt;i> Erstelle ToDo Liste:&lt;/i> Der Titel des Lesezeichens wird automatisch als Titel für eine neue Todo Liste
-        benutzt, der Link für den Inhalt.&lt;br>
-        &#8226;&lt;i> Erstelle Verknüpfung:&lt;/i> Es wird eine Verknüpfung zu deinem Lesezeichen direkt auf deinen Homescreen
-        angelegt.&lt;br>
-        &#8226;&lt;i> Erstelle Kalendereintrag:&lt;/i> Der Name des Lesezeichens wird als Name für einen neuen Kalendereintrag
-        benutzt. Die Bearbeitung findet in deiner Kalenderapp statt.&lt;br>
-        &#8226;&lt;i> Lösche Lesezeichen:&lt;/i> Es muss mindestens ein Lesezeichen vorhanden sein. Alle anderen können
-        gelöscht werden.&lt;br>&lt;br>
-
-        &lt;b>Menü:&lt;/b>&lt;br>
-        &#8226;&lt;i> Erstelle Notiz (Stifticon):&lt;/i> Es öffnet sich ein Dialogfenster, in dem du eine Notiz erstellen
-        kannst.&lt;br>
-        &#8226;&lt;i> Sortieren (Listenticon):&lt;/i> Verschiedene Möglichkeiten, die Liste zu sortieren.&lt;br>
-        &#8226;&lt;i> Öffne Anwendungsordner:&lt;/i> Du kannst Dateien öffnen, teilen, umbenennen und löschen.&lt;br>
-        &#8226;&lt;i> Werkzeuge:&lt;/i> Noten berechnen, Zufallsgenerator und Klassenlisten stehen zur Auswahl.&lt;br>
-        &#8226;&lt;i> Erstelle Verknüpfung:&lt;/i> Um einen schnellen Zugriff auf die Funktionen dieser App zu haben, kannst
-        du Verknüpfungen auf deinem Homescreen erstellen (Kalender -> offline, Mein Moodle, Lesezeichen, Notizen, Notiz erstellen).&lt;br>
-        &#8226;&lt;i> Einstellungen:&lt;/i> In den Einstellungen kannst du das Verhalten der App deinen Bedürfnissen
-        anpassen. Auf jeden Fall wird empfohlen ein Kennwort zu setzen, um die App vor ungewolltem Zugriff zu schützen.&lt;br>
-        &#8226;&lt;i> Hilfe:&lt;/i> Öffnet den jeweiligen Hilfedialog.
-    </string>
-
-
     <string name="helpNotes_text">
         Hier werden deine Notizen angezeigt. Du kannst Notizen erstellen, indem du den entsprechenden Eintrag im Menu
         (Stifticon) anklickst.&lt;br>&lt;br>
@@ -183,19 +147,6 @@
         erreichte Note (rechte Spalte) berechnet.
     </string>
 
-    <string name="helpRandom_text">
-
-        &lt;b>Schüler auswählen:&lt;/b>&lt;br>
-
-        Wenn du einen Listeneintrag anklickst, öffnet sich die Klassenliste und du kannst einen Schüler zufällig auswählen.
-        Durch einen langen Klick auf einen Listeneintrag öffnet sich ein Menü um die Liste bearbeiten zu können.&lt;br>&lt;br>
-
-        &lt;b>Zahl würfeln:&lt;/b>&lt;br>
-
-        Wähle den Menüeintrag \"zufällige Zahl\" (Würfelicon) aus. Es öffnet sich ein Dialog, indem du die \"Augenzahl\" des Würfels
-        angeben kannst. Anschließend kann gewürfelt werden.
-    </string>
-
     <string name="helpCourse_text">
 
         &lt;b>Liste anlegen:&lt;/b>&lt;br>
@@ -221,37 +172,9 @@
         Der Eintrag wird gelöscht. Es besteht kurz die Möglichkeit dies rückgängig zu machen.
     </string>
 
-    <string name="helpInfo_text">
-        Hier werden Lesezeichen von voreingestellten, wichtigen Moodleseiten gezeigt. Außerdem ein Link zu unserer Schulhomepage
-        und zu einer Suchmaschine. Diese Liste kann nicht bearbeitet werden.&lt;br>&lt;br>
-
-        &lt;b>Die Liste:&lt;/b>&lt;br>
-        Wenn du einen Listeneintrag anklickst, öffnet sich das Lesezeichen im internen Browser. Bei einem langen Klick
-        öffnet sich ein Popupmenü.&lt;br>&lt;br>
-
-        &lt;b>Popup Menü:&lt;/b>&lt;br>
-        &#8226;&lt;i> Als Favorit speichern:&lt;/i> Wenn du ein Lesezeichen als Favorit speicherst, kann es sofort beim Start
-        der App und bei einem Klick auf die Titelleiste angezeigt werden. Dies muss in den Einstellungen aktiviert werden.&lt;br>
-        &#8226;&lt;i> Erstelle Notiz:&lt;/i> Der Titel des Lesezeichens wird automatisch als Titel für eine neue Notiz
-        benutzt, der Link für den Inhal.&lt;br>
-        &#8226;&lt;i> Erstelle Verknüpfung:&lt;/i> Es wird eine Verknüpfung zu deinem Lesezeichen direkt auf deinen Homescreen
-        angelegt.&lt;br>
-        &#8226;&lt;i> Erstelle Kalendereintrag:&lt;/i> Der Name des Lesezeichens wird als Name für einen neuen Kalendereintrag
-        benutzt. Die Bearbeitung findet in deiner Kalenderapp statt.&lt;br>&lt;br>
-
-        &lt;b>Menü:&lt;/b>&lt;br>
-        &#8226;&lt;i> Erstelle Notiz (Stifticon):&lt;/i> Es öffnet sich ein Dialogfenster, in dem du eine Notiz erstellen
-        kannst.&lt;br>
-        &#8226;&lt;i> Öffne Anwendungsordner:&lt;/i> Wenn du einen Dateimanager installiert hast, öffnet sich das Verzeichnis,
-        in dem z.B. herunter geladene Dateien gespeichert werden.&lt;br>
-        &#8226;&lt;i> Erstelle Verknüpfung:&lt;/i> Um einen schnellen Zugriff auf die Funktionen dieser App zu haben, kannst
-        du Verknüpfungen auf deinem Homescreen erstellen (Kalender -> offline, Mein Moodle, Lesezeichen, Notizen, Notiz erstellen).&lt;br>
-        &#8226;&lt;i> Einstellungen:&lt;/i> In den Einstellungen kannst du das Verhalten der App deinen Bedürfnissen
-        anpassen. Auf jeden Fall wird empfohlen ein Kennwort zu setzen, um die App vor ungewolltem Zugriff zu schützen.&lt;br>
-        &#8226;&lt;i> Hilfe:&lt;/i> Öffnet den jeweiligen Hilfedialog.
-    </string>
-
-    <string name="perm_notShow_title">Berechtigungsdialog</string>
-    <string name="perm_notShow_title_summary">Noch einmal anzeigen: Berechtigungsdialog?</string>
+    <string name="perm_notShow_title">Berechtigungen</string>
+    <string name="perm_notShow_title_summary">Gewähre erforderliche Berechtigungen, indem du im folgenden Fenster
+        \"Berechtigungen\" öffnest. Danach die App neu starten.</string>
+    <string name="perm_notShow_toast">Bitte \"Berechtigungen\" öffnen.</string>
 
 </resources>
