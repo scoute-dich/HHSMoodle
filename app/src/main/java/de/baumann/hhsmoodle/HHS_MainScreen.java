@@ -116,8 +116,6 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
         headerView.setBackgroundResource(images.getResourceId(choice, R.drawable.splash1));
         images.recycle();
 
-        helper_main.grantPermissions(HHS_MainScreen.this);
-
         File directory = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/backup/");
         if (!directory.exists()) {
             directory.mkdirs();
