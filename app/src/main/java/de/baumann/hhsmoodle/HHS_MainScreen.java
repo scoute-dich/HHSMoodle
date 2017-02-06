@@ -116,6 +116,8 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
         headerView.setBackgroundResource(images.getResourceId(choice, R.drawable.splash1));
         images.recycle();
 
+        helper_main.grantPermissions(HHS_MainScreen.this);
+
         File directory = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/backup/");
         if (!directory.exists()) {
             directory.mkdirs();
@@ -129,16 +131,16 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
 
         if ("shortcutBookmarks_HS".equals(action)) {
             lockUI();
-            viewPager.setCurrentItem(0, true);
+            viewPager.setCurrentItem(1, true);
         } else if ("shortcutNotes_HS".equals(action)) {
             lockUI();
-            viewPager.setCurrentItem(2, true);
+            viewPager.setCurrentItem(3, true);
         } else if ("shortcutToDo_HS".equals(action)) {
             lockUI();
-            viewPager.setCurrentItem(1, true);
+            viewPager.setCurrentItem(2, true);
         } else if ("shortcutNotesNew_HS".equals(action)) {
             lockUI();
-            viewPager.setCurrentItem(2, true);
+            viewPager.setCurrentItem(3, true);
             sharedPref.edit()
                     .putString("handleTextTitle", intent.getStringExtra(Intent.EXTRA_SUBJECT))
                     .putString("handleTextText", intent.getStringExtra(Intent.EXTRA_TEXT))

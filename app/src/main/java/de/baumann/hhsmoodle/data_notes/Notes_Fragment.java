@@ -1364,12 +1364,11 @@ public class Notes_Fragment extends Fragment {
                 String inputTitle = titleInput.getText().toString().trim();
                 String inputContent = textInput.getText().toString().trim();
                 String attachment = sharedPref.getString("handleTextAttachment", "");
-                String create = sharedPref.getString("handleTextCreate", "");
 
                 if(db.isExist(inputTitle)){
                     Snackbar.make(titleInput, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
                 }else{
-                    db.insert(inputTitle, inputContent, sharedPref.getString("handleTextIcon", ""), attachment, create);
+                    db.insert(inputTitle, inputContent, sharedPref.getString("handleTextIcon", ""), attachment, helper_main.createDate());
                     dialog.dismiss();
                     setNotesList();
                 }

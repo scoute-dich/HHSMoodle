@@ -122,9 +122,7 @@ public class FragmentBrowser extends Fragment implements HHS_MainScreen.OnBackPr
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         ((HHS_MainScreen) getActivity()).setOnBackPressedListener(this);
-
         View rootView = inflater.inflate(R.layout.fragment_screen_browser, container, false);
-
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             WebView.enableSlowWholeDocumentDraw();

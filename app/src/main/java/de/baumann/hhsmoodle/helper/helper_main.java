@@ -68,7 +68,7 @@ public class helper_main {
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(from);
 
         if (android.os.Build.VERSION.SDK_INT >= 23) {
-            if (sharedPref.getBoolean ("perm_notShow", false)){
+            if (sharedPref.getString ("show_permission", "true").equals("true")){
                 int hasWRITE_EXTERNAL_STORAGE = from.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
                 if (hasWRITE_EXTERNAL_STORAGE != PackageManager.PERMISSION_GRANTED) {
                     if (!from.shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
@@ -81,7 +81,7 @@ public class helper_main {
                                     public void onClick(DialogInterface dialog, int which) {
                                         dialog.cancel();
                                         sharedPref.edit()
-                                                .putBoolean("perm_notShow", false)
+                                                .putString("show_permission", "false")
                                                 .apply();
                                     }
                                 })

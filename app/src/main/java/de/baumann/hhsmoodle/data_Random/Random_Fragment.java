@@ -57,12 +57,13 @@ import android.widget.TextView;
 
 import java.util.Random;
 
+import de.baumann.hhsmoodle.HHS_MainScreen;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.helper.helper_encryption;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.popup.Popup_courseList;
 
-public class Random_Fragment extends Fragment {
+public class Random_Fragment extends Fragment implements HHS_MainScreen.OnBackPressedListener {
 
     //calling variables
     private Random_DbAdapter db;
@@ -79,6 +80,8 @@ public class Random_Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        ((HHS_MainScreen) getActivity()).setOnBackPressedListener(this);
         View rootView = inflater.inflate(R.layout.fragment_screen_dice, container, false);
 
         PreferenceManager.setDefaultValues(getActivity(), R.xml.user_settings, false);
@@ -222,57 +225,42 @@ public class Random_Fragment extends Fragment {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser && isResumed()) {
             getActivity().setTitle(R.string.number_title);
-            refresh();
+            setRandomList();
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        refresh();
+        setRandomList();
     }
 
-    private void refresh () {
-        setRandomList();
-        if(getView() == null){
-            return;
-        }
-        getView().setFocusableInTouchMode(true);
-        getView().requestFocus();
-        getView().setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
+    @Override
+    public void doBack() {
+        //BackPressed in activity will call this;
+        if (scrollView.getVisibility() == View.VISIBLE) {
+            lv.setVisibility(View.VISIBLE);
+            scrollView.setVisibility(View.GONE);
+            fab_add.setVisibility(View.VISIBLE);
+            fab.setVisibility(View.GONE);
+        } else {
+            PreferenceManager.setDefaultValues(getActivity(), R.xml.user_settings, false);
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK){
-                    // handle back button's click listener
-                    if (scrollView.getVisibility() == View.VISIBLE) {
-                        lv.setVisibility(View.VISIBLE);
-                        scrollView.setVisibility(View.GONE);
-                        fab_add.setVisibility(View.VISIBLE);
-                        fab.setVisibility(View.GONE);
-                    } else {
-                        PreferenceManager.setDefaultValues(getActivity(), R.xml.user_settings, false);
-                        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-
-                        if (sharedPref.getBoolean ("backup_aut", false)){
-                            try {helper_encryption.encryptBackup(getActivity(),"/bookmarks_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                            try {helper_encryption.encryptBackup(getActivity(),"/courses_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                            try {helper_encryption.encryptBackup(getActivity(),"/notes_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                            try {helper_encryption.encryptBackup(getActivity(),"/random_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                            try {helper_encryption.encryptBackup(getActivity(),"/todo_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                        }
-
-                        sharedPref.edit().putString("loadURL", "").apply();
-                        helper_main.isClosed(getActivity());
-                        Snackbar.make(lv, getString(R.string.app_encrypt) , Snackbar.LENGTH_LONG).show();
-                        helper_encryption.encryptDatabases(getActivity());
-                        getActivity().finish();
-                    }
-                    return true;
-                }
-                return false;
+            if (sharedPref.getBoolean ("backup_aut", false)){
+                try {helper_encryption.encryptBackup(getActivity(),"/bookmarks_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                try {helper_encryption.encryptBackup(getActivity(),"/courses_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                try {helper_encryption.encryptBackup(getActivity(),"/notes_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                try {helper_encryption.encryptBackup(getActivity(),"/random_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                try {helper_encryption.encryptBackup(getActivity(),"/todo_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
             }
-        });
+
+            sharedPref.edit().putString("loadURL", "").apply();
+            helper_main.isClosed(getActivity());
+            Snackbar.make(lv, getString(R.string.app_encrypt) , Snackbar.LENGTH_LONG).show();
+            helper_encryption.encryptDatabases(getActivity());
+            getActivity().finish();
+        }
     }
 
     private void setRandomList() {
