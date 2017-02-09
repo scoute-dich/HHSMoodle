@@ -96,7 +96,7 @@ public class Todo_DbAdapter {
     }
 
     //fetch data by filter
-    Cursor fetchDataByFilter(String inputText,String filterColumn) throws SQLException {
+    public Cursor fetchDataByFilter(String inputText,String filterColumn) throws SQLException {
         Cursor row;
         String query = "SELECT * FROM "+dbTable;
         if (inputText == null  ||  inputText.length () == 0)  {

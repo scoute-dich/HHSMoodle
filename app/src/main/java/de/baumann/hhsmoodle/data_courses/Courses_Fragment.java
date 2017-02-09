@@ -20,29 +20,23 @@
 package de.baumann.hhsmoodle.data_courses;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -52,8 +46,17 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import de.baumann.hhsmoodle.R;
+import de.baumann.hhsmoodle.data_random.Random_DbAdapter;
+import de.baumann.hhsmoodle.data_notes.Notes_DbAdapter;
+import de.baumann.hhsmoodle.data_subjects.Subject_DbAdapter;
+import de.baumann.hhsmoodle.data_todo.Todo_DbAdapter;
+import de.baumann.hhsmoodle.helper.class_CustomViewPager;
 import de.baumann.hhsmoodle.helper.helper_main;
 import filechooser.ChooserDialog;
 
@@ -62,19 +65,13 @@ public class Courses_Fragment extends Fragment {
     //calling variables
     private Courses_DbAdapter db;
     private ListView lv = null;
-    private SharedPreferences sharedPref;
-    private ImageView imgHeader;
-    private RelativeLayout filter_layout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_screen_notes, container, false);
 
-        PreferenceManager.setDefaultValues(getActivity(), R.xml.user_settings, false);
-        sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-
-        imgHeader = (ImageView) rootView.findViewById(R.id.imageView_header);
+        ImageView imgHeader = (ImageView) rootView.findViewById(R.id.imageView_header);
         if(imgHeader != null) {
             TypedArray images = getResources().obtainTypedArray(R.array.splash_images);
             int choice = (int) (Math.random() * images.length());
@@ -82,21 +79,9 @@ public class Courses_Fragment extends Fragment {
             images.recycle();
         }
 
-        filter_layout = (RelativeLayout) rootView.findViewById(R.id.filter_layout);
+        RelativeLayout filter_layout = (RelativeLayout) rootView.findViewById(R.id.filter_layout);
         filter_layout.setVisibility(View.GONE);
         lv = (ListView) rootView.findViewById(R.id.listNotes);
-
-        ImageButton ib_hideKeyboard =(ImageButton) rootView.findViewById(R.id.ib_hideKeyboard);
-        ib_hideKeyboard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                imgHeader.setVisibility(View.VISIBLE);
-                filter_layout.setVisibility(View.GONE);
-                setCoursesList();
-            }
-        });
 
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
         fab.setImageResource(R.drawable.account_multiple_plus);
@@ -252,7 +237,7 @@ public class Courses_Fragment extends Fragment {
                 "courses_content",
                 "courses_creation"
         };
-        final Cursor row = db.fetchAllData(getActivity());
+        final Cursor row = db.fetchAllData();
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(getActivity(), layoutstyle, row, column, xml_id, 0) {
             @Override
             public View getView(final int position, View convertView, ViewGroup parent) {
@@ -270,6 +255,97 @@ public class Courses_Fragment extends Fragment {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterview, View view, int position, long id) {
+
+                Cursor row2 = (Cursor) lv.getItemAtPosition(position);
+                final String courses_title = row2.getString(row2.getColumnIndexOrThrow("courses_title"));
+                final String courses_content = row2.getString(row2.getColumnIndexOrThrow("courses_content"));
+
+                final CharSequence[] options = {
+                        getString(R.string.courseList_todo),
+                        getString(R.string.courseList_note),
+                        getString(R.string.courseList_random),
+                        getString(R.string.courseList_subject)};
+
+                new android.app.AlertDialog.Builder(getActivity())
+                        .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                dialog.cancel();
+                            }
+                        })
+                        .setItems(options, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int item) {
+                                if (options[item].equals(getString(R.string.courseList_random))) {
+
+                                    Random_DbAdapter db = new Random_DbAdapter(getActivity());
+                                    db.open();
+
+                                    if(db.isExist(courses_title)){
+                                        Snackbar.make(lv, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
+                                    } else {
+                                        db.insert(courses_title, courses_content, "", "", helper_main.createDate());
+                                        ViewPager viewPager = (class_CustomViewPager) getActivity().findViewById(R.id.viewpager);
+                                        viewPager.setCurrentItem(5);
+                                        getActivity().setTitle(R.string.number_title);
+                                    }
+                                }
+
+                                if (options[item].equals(getString(R.string.courseList_note))) {
+
+                                    Notes_DbAdapter db = new Notes_DbAdapter(getActivity());
+                                    db.open();
+
+                                    if(db.isExist(courses_title)){
+                                        Snackbar.make(lv, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
+                                    } else {
+                                        db.insert(courses_title, courses_content, "1", "", helper_main.createDate());
+                                        ViewPager viewPager = (class_CustomViewPager) getActivity().findViewById(R.id.viewpager);
+                                        viewPager.setCurrentItem(3);
+                                        getActivity().setTitle(R.string.title_notes);
+                                    }
+                                }
+
+                                if (options[item].equals(getString(R.string.courseList_todo))) {
+
+                                    Todo_DbAdapter db = new Todo_DbAdapter(getActivity());
+                                    db.open();
+
+                                    if(db.isExist(courses_title)){
+                                        Snackbar.make(lv, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
+                                    } else {
+                                        db.insert(courses_title, courses_content, "3", "true", helper_main.createDate());
+                                        ViewPager viewPager = (class_CustomViewPager) getActivity().findViewById(R.id.viewpager);
+                                        viewPager.setCurrentItem(2);
+                                        getActivity().setTitle(R.string.todo_title);
+                                    }
+                                }
+
+                                if (options[item].equals(getString(R.string.courseList_subject))) {
+
+                                    Subject_DbAdapter db = new Subject_DbAdapter(getActivity());
+                                    db.open();
+
+                                    if(db.isExist(courses_title)){
+                                        Snackbar.make(lv, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
+                                    } else {
+                                        Date date = new Date();
+                                        DateFormat dateFormat = new SimpleDateFormat("yy-MM-dd_HH-mm-ss", Locale.getDefault());
+                                        String creation =  dateFormat.format(date);
+                                        db.insert(courses_title, "", "3", "", creation);
+                                        ViewPager viewPager = (class_CustomViewPager) getActivity().findViewById(R.id.viewpager);
+                                        viewPager.setCurrentItem(8);
+                                        getActivity().setTitle(R.string.subjects_title);
+                                    }
+                                }
+
+                            }
+                        }).show();
+            }
+        });
+
+        lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
                 Cursor row2 = (Cursor) lv.getItemAtPosition(position);
                 final String _id = row2.getString(row2.getColumnIndexOrThrow("_id"));
@@ -387,15 +463,19 @@ public class Courses_Fragment extends Fragment {
 
                             }
                         }).show();
+                return true;
             }
         });
     }
+
+
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         super.onPrepareOptionsMenu(menu);
         menu.findItem(R.id.action_filter).setVisible(false);
+        menu.findItem(R.id.action_sort).setVisible(false);
     }
 
     @Override
@@ -409,69 +489,6 @@ public class Courses_Fragment extends Fragment {
                         .setMessage(helper_main.textSpannable(getString(R.string.helpCourse_text)))
                         .setPositiveButton(getString(R.string.toast_yes), null);
                 dialog.show();
-                return true;
-
-            case R.id.action_sort:
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                View dialogView = View.inflate(getActivity(), R.layout.dialog_sorting, null);
-
-                final CheckBox ch_title = (CheckBox) dialogView.findViewById(R.id.checkBoxTitle);
-                final CheckBox ch_create = (CheckBox) dialogView.findViewById(R.id.checkBoxCreate);
-
-                RelativeLayout layout_sortByAtt = (RelativeLayout) dialogView.findViewById(R.id.layout_sortByAtt);
-                layout_sortByAtt.setVisibility(View.GONE);
-                RelativeLayout layout_sortByIcon = (RelativeLayout) dialogView.findViewById(R.id.layout_sortByIcon);
-                layout_sortByIcon.setVisibility(View.GONE);
-
-                if (sharedPref.getString("sortDBC", "title").equals("title")) {
-                    ch_title.setChecked(true);
-                } else {
-                    ch_title.setChecked(false);
-                }
-                if (sharedPref.getString("sortDBC", "title").equals("create")) {
-                    ch_create.setChecked(true);
-                } else {
-                    ch_create.setChecked(false);
-                }
-
-                ch_title.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView,
-                                                 boolean isChecked) {
-                        if(isChecked){
-                            ch_create.setChecked(false);
-                            sharedPref.edit().putString("sortDBC", "title").apply();
-                            setCoursesList();
-                        }
-                    }
-                });
-                ch_create.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView,
-                                                 boolean isChecked) {
-                        if(isChecked){
-                            ch_title.setChecked(false);
-                            sharedPref.edit().putString("sortDBC", "create").apply();
-                            setCoursesList();
-                        }
-                    }
-                });
-
-                builder.setView(dialogView);
-                builder.setTitle(R.string.action_sort);
-                builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
-
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        dialog.dismiss();
-                    }
-                });
-
-                final AlertDialog dialog2 = builder.create();
-                // Display the custom alert dialog on interface
-                dialog2.show();
                 return true;
         }
 

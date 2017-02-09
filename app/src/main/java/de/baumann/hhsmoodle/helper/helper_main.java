@@ -80,9 +80,7 @@ public class helper_main {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         dialog.cancel();
-                                        sharedPref.edit()
-                                                .putString("show_permission", "false")
-                                                .apply();
+                                        sharedPref.edit().putString("show_permission", "false").apply();
                                     }
                                 })
                                 .setPositiveButton(from.getString(R.string.toast_yes), new DialogInterface.OnClickListener() {
@@ -131,7 +129,7 @@ public class helper_main {
 
         if (pw != null && pw.length() > 0) {
             if (sharedPref.getBoolean("isOpened", true)) {
-                helper_main.switchToActivity(activity, Activity_password.class, "", false);
+                helper_main.switchToActivity(activity, Activity_password.class, false);
             }
         }
     }
@@ -153,10 +151,9 @@ public class helper_main {
     }
 
     @SuppressWarnings("SameParameterValue")
-    public static void switchToActivity(Activity from, Class to, String Extra, boolean finishFromActivity) {
+    public static void switchToActivity(Activity from, Class to, boolean finishFromActivity) {
         Intent intent = new Intent(from, to);
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        intent.putExtra("url", "");
         from.startActivity(intent);
         if (finishFromActivity) {
             from.finish();

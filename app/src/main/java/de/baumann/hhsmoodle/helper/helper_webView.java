@@ -82,6 +82,8 @@ public class helper_webView {
                 super.onPageFinished(view, url);
 
                 ViewPager viewPager = (class_CustomViewPager) from.findViewById(R.id.viewpager);
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(from);
+                sharedPref.edit().putString("loadURL", webView.getUrl()).apply();
 
                 if (viewPager.getCurrentItem() == 0) {
                     if (url != null) {
@@ -97,7 +99,7 @@ public class helper_webView {
                             .setAction(from.getString(R.string.toast_yes), new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    helper_main.switchToActivity(from, Activity_settings.class, "", true);
+                                    helper_main.switchToActivity(from, Activity_settings.class, true);
                                 }
                             });
                     snackbar.show();

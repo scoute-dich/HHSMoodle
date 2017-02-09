@@ -41,7 +41,6 @@ import java.util.Random;
 
 import de.baumann.hhsmoodle.HHS_MainScreen;
 import de.baumann.hhsmoodle.R;
-import de.baumann.hhsmoodle.data_Bookmarks.Bookmarks_helper;
 import de.baumann.hhsmoodle.helper.class_SecurePreferences;
 import de.baumann.hhsmoodle.helper.helper_encryption;
 import de.baumann.hhsmoodle.helper.helper_main;
@@ -73,7 +72,6 @@ public class Activity_splash extends AppCompatActivity {
                 char c = chars[random.nextInt(chars.length)];
                 sb.append(c);
             }
-            Bookmarks_helper.insertDefaultBookmarks(Activity_splash.this);
             sharedPrefSec.put("key_encryption_01", sb.toString());
             sharedPref.edit().putString("key_generated_01", "yes").apply();
         }
@@ -171,7 +169,7 @@ public class Activity_splash extends AppCompatActivity {
 
         String action = intent.getAction();
 
-        if (Intent.ACTION_SEND.equals(action) || "shortcutNotesPlus".equals(action)) {
+        if (Intent.ACTION_SEND.equals(action)) {
             helper_encryption.decryptDatabases(Activity_splash.this);
             new Handler().postDelayed(new Runnable() {
                 public void run() {
@@ -180,6 +178,20 @@ public class Activity_splash extends AppCompatActivity {
                     mainIntent.putExtra(Intent.EXTRA_SUBJECT, intent.getStringExtra(Intent.EXTRA_SUBJECT));
                     mainIntent.putExtra(Intent.EXTRA_TEXT, intent.getStringExtra(Intent.EXTRA_TEXT));
                     sharedPref.edit().putString("handleTextCreate", helper_main.createDate()).apply();
+                    startActivity(mainIntent);
+                    Activity_splash.this.finish();
+                    overridePendingTransition(R.anim.fadein,R.anim.fadeout);
+                }
+            }, 1500);
+        } else if (Intent.ACTION_VIEW.equals(action)) {
+            helper_encryption.decryptDatabases(Activity_splash.this);
+            new Handler().postDelayed(new Runnable() {
+                public void run() {
+                    Uri data = intent.getData();
+                    String link = data.toString();
+                    sharedPref.edit().putString("loadURL", link).apply();
+                    Intent mainIntent = new Intent(Activity_splash.this, HHS_MainScreen.class);
+                    mainIntent.setAction("shortcutURL_HS");
                     startActivity(mainIntent);
                     Activity_splash.this.finish();
                     overridePendingTransition(R.anim.fadein,R.anim.fadeout);
@@ -218,26 +230,23 @@ public class Activity_splash extends AppCompatActivity {
                     overridePendingTransition(R.anim.fadein,R.anim.fadeout);
                 }
             }, 1500);
-        } else if ("shortcutFavorite_Browser".equals(action)) {
+        } else if ("shortcutBrowser".equals(action)) {
             helper_encryption.decryptDatabases(Activity_splash.this);
             new Handler().postDelayed(new Runnable() {
                 public void run() {
                     Intent mainIntent = new Intent(Activity_splash.this, HHS_MainScreen.class);
-                    mainIntent.setAction("shortcutURLFAV_HS");
+                    mainIntent.setAction("shortcutBrowser_HS");
                     startActivity(mainIntent);
                     Activity_splash.this.finish();
                     overridePendingTransition(R.anim.fadein,R.anim.fadeout);
                 }
             }, 1500);
-        } else if (Intent.ACTION_VIEW.equals(action)) {
+        } else if ("shortcutSchedule".equals(action)) {
             helper_encryption.decryptDatabases(Activity_splash.this);
             new Handler().postDelayed(new Runnable() {
                 public void run() {
-                    Uri data = intent.getData();
-                    String link = data.toString();
-                    sharedPref.edit().putString("loadURL", link).apply();
                     Intent mainIntent = new Intent(Activity_splash.this, HHS_MainScreen.class);
-                    mainIntent.setAction("shortcutURL_HS");
+                    mainIntent.setAction("shortcutSchedule_HS");
                     startActivity(mainIntent);
                     Activity_splash.this.finish();
                     overridePendingTransition(R.anim.fadein,R.anim.fadeout);

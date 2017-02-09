@@ -25,65 +25,6 @@
 
     // Help Dialogs
 
-    <string name="helpToDo_text">
-        Here you can create and edit todo lists.&lt;br>&lt;br>
-
-        &lt;b>The List:&lt;/b>&lt;br>
-        If you click on a list entry the will open in a new window. If you long click a list entry a popup
-        menu opens. You can change the entry icon by clicking on it.  If you click on the \"exclamation mark\" icon, you
-        can create a notification which will be restored after a reboot.&lt;br>&lt;br>
-
-        &lt;b>Popup menu:&lt;/b>&lt;br>
-        &#8226;&lt;i> Edit title:&lt;/i> You can edit the title of the bookmark.&lt;br>
-        &#8226;&lt;i> Share list:&lt;/i> You can share the note with every app which is able to receive text
-        (SMS, Email,…).&lt;br>
-        &#8226;&lt;i> Create note:&lt;/i> The title of the bookmark will be used as title for a new note, the url for the content.&lt;br>
-        &#8226;&lt;i> Create calendar entry:&lt;/i> The name of the bookmark will be used as title for a new calendar
-        entry. Editing of this entry will take place in your calendar app.&lt;br>
-        &#8226;&lt;i> Delete bookmark:&lt;/i> At least one bookmark must remain. All others can be deleted.&lt;br>&lt;br>
-
-        &lt;b>Menu:&lt;/b>&lt;br>
-        &#8226;&lt;i> Create note (pen icon):&lt;/i> A new dialog where you can create a new note will open.&lt;br>
-        &#8226;&lt;i> Sort (list icon):&lt;/i> Different possibilities to sort the list.&lt;br>
-        &#8226;&lt;i> Open app directory:&lt;/i> You can open, share, rename und delete files.&lt;br>
-        &#8226;&lt;i> Tools:&lt;/i> you can choose between calculate grades, random number generator and course lists.&lt;br>
-        &#8226;&lt;i> Create shortcut:&lt;/i> To have a faster access to the main functions of the app, you can create
-        shortcuts on your homescreen (calendar -> offline, My Moodle, bookmarks, notes, create new note).&lt;br>
-        &#8226;&lt;i> Settings:&lt;/i> In the settings you can configure the behavior of the app. It is highly
-        recommended to protect the app with a password against unwanted access.&lt;br>
-        &#8226;&lt;i> Help:&lt;/i> Opens the help dialog.
-    </string>
-
-
-    <string name="helpNotes_text">
-        Here your notes are shown. You can create a note, by clicking the menu entry (pen icon).&lt;br>&lt;br>
-
-        &lt;b>The list:&lt;/b>&lt;br>
-        If you click on a list entry the note opens in a dialog. If you long click a list entry a popup
-        menu opens. If you click on the circle on the left of a list entry, You can edit the priority of the note.&lt;br>&lt;br>
-
-        &lt;b>Popup menu:&lt;/b>&lt;br>
-        &#8226;&lt;i> Edit note:&lt;/i> A new dialog, where you can edit priority, title and content of the note, will
-        open.&lt;br>
-        &#8226;&lt;i> Share note:&lt;/i> You can share the note with every app which is able to receive text
-        (SMS, Email,…).&lt;br>
-        &#8226;&lt;i> Create todo list:&lt;/i> The title of the bookmark will be used as title for a new todo list, the url for the content.&lt;br>
-        &#8226;&lt;i> Create calendar entry:&lt;/i> The name of the note will be used as title for a new calendar
-        entry. Editing of this entry will take place in your calendar app.&lt;br>
-        &#8226;&lt;i> Delete note:&lt;/i> At least one note must remain. All others can be deleted.&lt;br>&lt;br>
-
-        &lt;b>Menu:&lt;/b>&lt;br>
-        &#8226;&lt;i> Create note (pen icon):&lt;/i> A new dialog where you can create a new note will open.&lt;br>
-        &#8226;&lt;i> Sort (list icon):&lt;/i> Different possibilities to sort the list.&lt;br>
-        &#8226;&lt;i> Open app directory:&lt;/i> You can open, share, rename und delete files.&lt;br>
-        &#8226;&lt;i> Tools:&lt;/i> you can choose between calculate grades, random number generator and course lists.&lt;br>
-        &#8226;&lt;i> Create shortcut:&lt;/i> To have a faster access to the main functions of the app, you can create
-        shortcuts on your homescreen (calendar -> offline, My Moodle, bookmarks, notes, create new note).&lt;br>
-        &#8226;&lt;i> Settings:&lt;/i> In the settings you can configure the behavior of the app. It is highly
-        recommended to protect the app with a password against unwanted access.&lt;br>
-        &#8226;&lt;i> Help:&lt;/i> Opens the help dialog.
-    </string>
-
 
     <string name="helpSettings_title">Settings</string>
     <string name="helpSettings_text">
@@ -97,29 +38,6 @@
         later.&lt;br>&lt;br>
 
         All other settings are self explanatory. If you have problems, you can write a mail (\"Contact?\").
-    </string>
-
-    <string name="helpBrowser_title">Browser</string>
-    <string name="helpBrowser_text">
-        HHS Moodle is shown in this browser. There is a context menu, which opens by long clicking a picture or link.&lt;br>&lt;br>
-
-        &lt;b>Swipe:&lt;/b>&lt;br>
-        &#8226;&lt;i> Swipe down:&lt;/i> reload website.&lt;br>&lt;br>
-
-        &lt;b>Menu:&lt;/b>&lt;br>
-        &#8226;&lt;i> Create note (pen icon):&lt;/i> A new window will popup, where you can create a note. The title of the website
-        is used for the note title. The link is used for the content.&lt;br>
-        &#8226;&lt;i> Open bookmarks (star icon):&lt;/i> A popup dialog with your bookmark list will open.&lt;br>
-        &#8226;&lt;i> Add bookmark:&lt;/i> Add the actual website to your bookmark list. A popup dialog where you can edit the title
-        of the bookmark will open.&lt;br>
-        &#8226;&lt;i> Share bookmark:&lt;/i> You can share the link with every app which is able to receive text
-        (SMS, Email,…). You can also make and share screenshots of the whole website (even from the part, which is not on the
-        screen). With that you should wait until the whole website is loaded, to avoid problems.&lt;br>
-        &#8226;&lt;i> Open app directory:&lt;/i> You can open, share, rename und delete files.&lt;br>
-        &#8226;&lt;i> Tools:&lt;/i> you can choose between calculate grades, random number generator and course lists.&lt;br>
-        &#8226;&lt;i> Settings:&lt;/i> In the settings you can configure the behavior of the app. It is highly
-        recommended to protect the app with a password against unwanted access.&lt;br>
-        &#8226;&lt;i> Help:&lt;/i> Opens the help dialog.
     </string>
 
     <string name="helpGrade_title">Grade calculation</string>
@@ -156,9 +74,13 @@
         The entry will be deleted. There is a short time period to restore it.
     </string>
 
-    <string name="perm_notShow_title">Permissions</string>
-    <string name="perm_notShow_title_summary">Grant used permissions by opening \"Permissions\" in the next window. After
-        that restart the app.</string>
+    <string name="perm_notShow_title">Grant permission</string>
+    <string name="perm_notShow_title_summary">Only for Android Marshmallow and above: Grant used permission by
+        opening \"Permissions\" in the next window. After that restart the app.</string>
     <string name="perm_notShow_toast">Please open \"Permissions\".</string>
+
+    <string name="perm_notShow_title_dist">Do not disturb</string>
+    <string name="perm_notShow_title_summary_dist">Only for Android Nougat and above: Grant used permission
+        in the next window, to bring your phone in silent mode during lessons.</string>
 
 </resources>

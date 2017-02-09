@@ -73,7 +73,7 @@ import java.util.Locale;
 
 import de.baumann.hhsmoodle.HHS_MainScreen;
 import de.baumann.hhsmoodle.R;
-import de.baumann.hhsmoodle.data_Bookmarks.Bookmarks_DbAdapter;
+import de.baumann.hhsmoodle.data_bookmarks.Bookmarks_DbAdapter;
 import de.baumann.hhsmoodle.helper.helper_encryption;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.helper.helper_webView;
@@ -148,6 +148,7 @@ public class FragmentBrowser extends Fragment implements HHS_MainScreen.OnBackPr
         mWebView = (WebView) rootView.findViewById(R.id.webView);
         mWebChromeClient = new myWebChromeClient();
         mWebView.setWebChromeClient(mWebChromeClient);
+        registerForContextMenu(mWebView);
 
         imageButton_left = (ImageButton) rootView.findViewById(R.id.imageButton_left);
         imageButton_right = (ImageButton) rootView.findViewById(R.id.imageButton_right);
@@ -191,6 +192,7 @@ public class FragmentBrowser extends Fragment implements HHS_MainScreen.OnBackPr
             }
         });
 
+        mWebView.loadUrl(sharedPref.getString("favoriteURL", "https://moodle.huebsch.ka.schule-bw.de/moodle/my/"));
         setHasOptionsMenu(true);
         return rootView;
     }
@@ -420,31 +422,41 @@ public class FragmentBrowser extends Fragment implements HHS_MainScreen.OnBackPr
         } else {
             mWebView.stopLoading();
             if (sharedPref.getBoolean ("backup_aut", false)){
+                helper_main.makeToast(getActivity(), getString(R.string.toast_backup));
                 try {helper_encryption.encryptBackup(getActivity(),"/bookmarks_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
                 try {helper_encryption.encryptBackup(getActivity(),"/courses_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
                 try {helper_encryption.encryptBackup(getActivity(),"/notes_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
                 try {helper_encryption.encryptBackup(getActivity(),"/random_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                try {helper_encryption.encryptBackup(getActivity(),"/subject_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                try {helper_encryption.encryptBackup(getActivity(),"/schedule_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
                 try {helper_encryption.encryptBackup(getActivity(),"/todo_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                sharedPref.edit().putString("loadURL", "").apply();
+                helper_main.isClosed(getActivity());
+                Snackbar.make(mWebView, getString(R.string.app_encrypt) , Snackbar.LENGTH_LONG).show();
+                helper_encryption.encryptDatabases(getActivity());
+                getActivity().finish();
+            } else {
+                sharedPref.edit().putString("loadURL", "").apply();
+                helper_main.isClosed(getActivity());
+                Snackbar.make(mWebView, getString(R.string.app_encrypt) , Snackbar.LENGTH_LONG).show();
+                helper_encryption.encryptDatabases(getActivity());
+                getActivity().finish();
             }
-
-            sharedPref.edit().putString("loadURL", "").apply();
-            helper_main.isClosed(getActivity());
-            Snackbar.make(mWebView, getString(R.string.app_encrypt) , Snackbar.LENGTH_LONG).show();
-            helper_encryption.encryptDatabases(getActivity());
-            getActivity().finish();
         }
     }
 
 
     private void refresh () {
-        String URLtoOpen  = sharedPref.getString("loadURL", "");
+
+        final String URLtoOpen  = sharedPref.getString("loadURL", "");
+        String FAVtoOpen  = sharedPref.getString("favoriteURL", "https://moodle.huebsch.ka.schule-bw.de/moodle/my/");
 
         if (URLtoOpen.isEmpty()) {
-            mWebView.loadUrl(sharedPref.getString("favoriteURL", "https://moodle.huebsch.ka.schule-bw.de/moodle/my/"));
+            mWebView.loadUrl(FAVtoOpen);
         } else {
             new Handler().postDelayed(new Runnable() {
                 public void run() {
-                    mWebView.loadUrl(sharedPref.getString("loadURL", ""));
+                    mWebView.loadUrl(URLtoOpen);
                     sharedPref.edit().putString("loadURL", "").apply();
                 }
             }, 200);
@@ -470,16 +482,12 @@ public class FragmentBrowser extends Fragment implements HHS_MainScreen.OnBackPr
         switch (id) {
 
             case R.id.action_help:
-                final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity())
-                        .setTitle(R.string.helpBrowser_title)
-                        .setMessage(helper_main.textSpannable(getString(R.string.helpBrowser_text)))
-                        .setPositiveButton(getString(R.string.toast_yes), null);
-                dialog.show();
+                helper_main.switchToActivity(getActivity(), FragmentBrowser_Help.class, false);
                 return true;
 
             case R.id.action_bookmark:
                 helper_main.isOpened(getActivity());
-                helper_main.switchToActivity(getActivity(), Popup_bookmarks.class, "", false);
+                helper_main.switchToActivity(getActivity(), Popup_bookmarks.class, false);
                 return true;
 
             case R.id.action_saveBookmark:

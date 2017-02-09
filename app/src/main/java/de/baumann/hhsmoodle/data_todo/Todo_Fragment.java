@@ -420,7 +420,7 @@ public class Todo_Fragment extends Fragment {
                 sharedPref.edit().putString("toDo_create", todo_creation).apply();
                 sharedPref.edit().putString("toDo_attachment", todo_attachment).apply();
 
-                helper_main.switchToActivity(getActivity(), Activity_todo.class, "", false);
+                helper_main.switchToActivity(getActivity(), Activity_todo.class, false);
             }
         });
 
@@ -502,6 +502,7 @@ public class Todo_Fragment extends Fragment {
                                     Intent calIntent = new Intent(Intent.ACTION_INSERT);
                                     calIntent.setType("vnd.android.cursor.item/event");
                                     calIntent.putExtra(CalendarContract.Events.TITLE, todo_title);
+                                    calIntent.putExtra(CalendarContract.Events.DESCRIPTION, todo_content);
                                     startActivity(calIntent);
                                 }
 
@@ -559,11 +560,7 @@ public class Todo_Fragment extends Fragment {
         switch (item.getItemId()) {
 
             case R.id.action_help:
-                final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity())
-                        .setTitle(R.string.todo_title)
-                        .setMessage(helper_main.textSpannable(getString(R.string.helpToDo_text)))
-                        .setPositiveButton(getString(R.string.toast_yes), null);
-                dialog.show();
+                helper_main.switchToActivity(getActivity(), Todo_Help.class, false);
                 return true;
 
             case R.id.action_filter:

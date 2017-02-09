@@ -35,9 +35,10 @@ import android.widget.SimpleCursorAdapter;
 
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.activities.Activity_password;
-import de.baumann.hhsmoodle.data_Random.Random_DbAdapter;
+import de.baumann.hhsmoodle.data_random.Random_DbAdapter;
 import de.baumann.hhsmoodle.data_courses.Courses_DbAdapter;
 import de.baumann.hhsmoodle.data_notes.Notes_DbAdapter;
+import de.baumann.hhsmoodle.data_subjects.Subject_DbAdapter;
 import de.baumann.hhsmoodle.data_todo.Todo_DbAdapter;
 import de.baumann.hhsmoodle.helper.class_SecurePreferences;
 import de.baumann.hhsmoodle.helper.helper_main;
@@ -58,7 +59,7 @@ public class Popup_courseList extends Activity {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         if (pw != null  && pw.length() > 0) {
             if (sharedPref.getBoolean("isOpened", true)) {
-                helper_main.switchToActivity(Popup_courseList.this, Activity_password.class, "", false);
+                helper_main.switchToActivity(Popup_courseList.this, Activity_password.class, false);
             }
         }
 
@@ -71,6 +72,11 @@ public class Popup_courseList extends Activity {
 
         onNewIntent(getIntent());
         setCoursesList();
+
+        if (lv.getAdapter().getCount() == 0) {
+            helper_main.makeToast(Popup_courseList.this, getString(R.string.toast_noEntry));
+            finish();
+        }
     }
 
     protected void onNewIntent(final Intent intent) {
@@ -138,6 +144,25 @@ public class Popup_courseList extends Activity {
                     }
                 }
             });
+        } else if ("courseList_subject".equals(action)) {
+
+            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    Cursor row2 = (Cursor) lv.getItemAtPosition(position);
+                    final String courses_title = row2.getString(row2.getColumnIndexOrThrow("courses_title"));
+
+                    Subject_DbAdapter db = new Subject_DbAdapter(Popup_courseList.this);
+                    db.open();
+
+                    if(db.isExist("")){
+                        Snackbar.make(lv, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
+                    } else {
+                        db.insert("", courses_title, "11", "", "");
+                        finish();
+                    }
+                }
+            });
         }
     }
 
@@ -155,7 +180,7 @@ public class Popup_courseList extends Activity {
                 "courses_content",
                 "courses_creation"
         };
-        final Cursor row = db.fetchAllData(Popup_courseList.this);
+        final Cursor row = db.fetchAllData();
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(Popup_courseList.this, layoutstyle, row, column, xml_id, 0) {
             @Override
             public View getView(final int position, View convertView, ViewGroup parent) {

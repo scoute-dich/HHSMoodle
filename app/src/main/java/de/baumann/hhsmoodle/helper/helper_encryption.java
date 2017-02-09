@@ -80,6 +80,8 @@ public class helper_encryption {
     }
 
     public static void decryptDatabases (Activity activity) {
+        try {decrypt(activity, "/databases/schedule_DB_v01_en.db", "/databases/schedule_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+        try {decrypt(activity, "/databases/subject_DB_v01_en.db", "/databases/subject_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
         try {decrypt(activity, "/databases/random_DB_v01_en.db", "/databases/random_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
         try {decrypt(activity, "/databases/todo_DB_v01_en.db", "/databases/todo_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
         try {decrypt(activity, "/databases/notes_DB_v01_en.db", "/databases/notes_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
@@ -144,6 +146,8 @@ public class helper_encryption {
     }
 
     public static void encryptDatabases (Activity activity) {
+        try {encrypt(activity, "/databases/schedule_DB_v01.db","/databases/schedule_DB_v01_en.db");} catch (Exception e) {e.printStackTrace();}
+        try {encrypt(activity, "/databases/subject_DB_v01.db","/databases/subject_DB_v01_en.db");} catch (Exception e) {e.printStackTrace();}
         try {encrypt(activity, "/databases/random_DB_v01.db","/databases/random_DB_v01_en.db");} catch (Exception e) {e.printStackTrace();}
         try {encrypt(activity, "/databases/todo_DB_v01.db","/databases/todo_DB_v01_en.db");} catch (Exception e) {e.printStackTrace();}
         try {encrypt(activity, "/databases/notes_DB_v01.db","/databases/notes_DB_v01_en.db");} catch (Exception e) {e.printStackTrace();}
@@ -192,7 +196,6 @@ public class helper_encryption {
                 cos.close();
                 fis.close();
                 Log.w("HHS_Moodle", "DB backup");
-                helper_main.makeToast(activity, activity.getString(R.string.toast_backup));
             }
 
 

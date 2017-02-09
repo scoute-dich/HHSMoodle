@@ -172,7 +172,7 @@ public class Notes_helper {
 
                 InputMethodManager imm = (InputMethodManager)from.getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(titleInput.getWindowToken(), 0);
-                helper_main.switchToActivity(from, Popup_camera.class, "", false);
+                helper_main.switchToActivity(from, Popup_camera.class, false);
             }
         });
 

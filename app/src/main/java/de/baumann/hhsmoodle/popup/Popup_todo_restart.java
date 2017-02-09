@@ -36,6 +36,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
@@ -54,6 +55,7 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 
 import de.baumann.hhsmoodle.R;
+import de.baumann.hhsmoodle.data_schedule.Schedule_helper;
 import de.baumann.hhsmoodle.data_todo.Todo_DbAdapter;
 import de.baumann.hhsmoodle.helper.class_SecurePreferences;
 import de.baumann.hhsmoodle.helper.helper_main;
@@ -91,6 +93,8 @@ public class Popup_todo_restart extends Activity {
         NotificationManager nMgr = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         nMgr.cancelAll();
 
+        Schedule_helper.setAlarm(Popup_todo_restart.this);
+
         //display data
         final int layoutstyle=R.layout.list_item_notes;
         int[] xml_id = new int[] {
@@ -115,12 +119,16 @@ public class Popup_todo_restart extends Activity {
                 final String todo_attachment = row2.getString(row2.getColumnIndexOrThrow("todo_attachment"));
 
                 View v = super.getView(position, convertView, parent);
+                ImageView iv_attachment = (ImageView) v.findViewById(R.id.att_notes);
 
                 switch (todo_attachment) {
                     case "true":
-                        Log.w("HHS_Moodle", "No pending notifications");
+                        iv_attachment.setVisibility(View.VISIBLE);
+                        iv_attachment.setImageResource(R.drawable.alert_circle);
                         break;
                     default:
+                        iv_attachment.setVisibility(View.VISIBLE);
+                        iv_attachment.setImageResource(R.drawable.alert_circle_red);
 
                         int n = Integer.valueOf(_id);
 
@@ -150,7 +158,7 @@ public class Popup_todo_restart extends Activity {
                                 .setVibrate(new long[0])
                                 .build();
 
-                        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                        NotificationManager notificationManager = (NotificationManager) Popup_todo_restart.this.getSystemService(NOTIFICATION_SERVICE);
                         notificationManager.notify(n, notification);
                         notificationManager.notify(0, builderSummary.build());
                         break;

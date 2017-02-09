@@ -7,15 +7,27 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="app_name">HHS Moodle</string>
-    <string name="app_permissions_title">Used permissions</string>
+    <string name="app_permissions_title">Used permission</string>
     <string name="app_permissions">
 
-        &lt;i>Access Storage Permission:&lt;/i>&lt;br>
+        &lt;i>\"Access storage\" permission:&lt;/i>&lt;br>
+        &#8226; Lists: creating and storing.&lt;br>
+        &#8226; Backup: backup and restore databases.&lt;br>
         &#8226; Downloads: save downloads on the sd-card.&lt;br>
         &#8226; Screenshots: save screenshots of a website on the sd-card.&lt;br>&lt;br>
 
         &lt;i>Grant permission later:&lt;/i>&lt;br>
-        If you don\'t permit this now, you can do it later. Please open then \"Settings -> App info\" and choose \"Permissions\".</string>
+        If you don\'t permit this now, you can do it later. Please open then \"Settings -> Grant permission\".</string>
+
+    <string name="app_permissions_title_dist">Used permission</string>
+    <string name="app_permissions_dist">
+
+        &lt;i>Manage \"Do not disturb\":&lt;/i>&lt;br>
+        This is used to set your phone in silent mode during lessons.&lt;br>&lt;br>
+
+        &lt;i>Grant permission later:&lt;/i>&lt;br>
+        If you don\'t permit this now, you can do it later. Please open then \"Settings -> Do not disturb\".</string>
+
     <string name="app_share_screenshot">Share screenshot using:</string>
     <string name="app_share_image">Share image using:</string>
     <string name="app_share_link">Share link using:</string>
@@ -25,7 +37,6 @@
     <string name="app_conf">Confirmation</string>
     <string name="app_att">Attachment</string>
     <string name="app_encrypt">Encrypting databases …</string>
-    <string name="app_fav">Favorite</string>
     <string name="app_myMoodle">My Moodle</string>
 
 
@@ -85,7 +96,7 @@
     <string name="intro4_text">Create notes. You can also receive text (e.g. links) from other apps.</string>
 
     <string name="intro5_title">Tools</string>
-    <string name="intro5_text">Calculate your grades, create course lists or choose a random course participant.</string>
+    <string name="intro5_text">Calculate your grades, create course lists or …</string>
 
     <string name="intro6_title">Help</string>
     <string name="intro6_text">Over the menu you can reach a help dialog on every screen.</string>
@@ -99,6 +110,9 @@
     <string name="intro9_title">Login</string>
     <string name="intro9_text">Enter your Moodle login data on the next screen. You will be logged in automatically in future. You
         can edit your login data in the settings.</string>
+
+    <string name="intro10_title">Schedule</string>
+    <string name="intro10_text">Create your schedule, so that your phone doesn\'t ring during lessons.</string>
 
 
     // Login
@@ -155,7 +169,7 @@
     // Settings
 
     <string name="pref_2">App settings</string>
-    <string name="pref_3">About | Help</string>
+    <string name="pref_3">Permissions | About | Help</string>
     <string name="pref_5">Security</string>
 
     <string name="action_username">Login data (Moodle)</string>
@@ -193,6 +207,10 @@
     <string name="action_shortcut_summary">Create shortcuts on your desktop for fast access to main functions of the app (Bookmarks,
         todo lists, …).</string>
 
+    <string name="action_silent">Silent mode</string>
+    <string name="action_silent_summary">Set your phone in silent mode during lessons. If you use Android Nougat or newer you need
+        to permit \"Do not disturb\" below.</string>
+
     <string name="action_restore">Restore</string>
 
 
@@ -207,7 +225,6 @@
     <string name="toast_perm">Permissions granted?</string>
     <string name="toast_wrongPW">Uuups. Wrong password.</string>
     <string name="toast_shortcut">Shortcut successfully created.</string>
-    <string name="toast_backup">Backup successfully.</string>
     <string name="toast_restore">Restore successfully.</string>
     <string name="toast_backup_not">Backup failed.</string>
     <string name="toast_restore_not">Restore failed.</string>
@@ -215,6 +232,8 @@
     <string name="toast_extension">No supported file extension</string>
     <string name="toast_install_app">Please install an app to perform action.</string>
     <string name="toast_newTitle">Title already exists.</string>
+    <string name="toast_backup">Backing up databases.</string>
+    <string name="toast_noEntry">There\'s no entry in the list.</string>
 
 
     // Bookmarks
@@ -316,5 +335,53 @@
 
     <string name="courseList_title">Course lists</string>
     <string name="courseList_fromText">From text file</string>
+    <string name="courseList_todo">Create todo list</string>
+    <string name="courseList_note">Create note</string>
+    <string name="courseList_random">Create random list</string>
+    <string name="courseList_course">Create course list</string>
+    <string name="courseList_subject">Create subject</string>
+
+
+    // Schedule
+
+    <string name="schedule_weekend">Weekend</string>
+    <string name="schedule_title">Schedule</string>
+    <string name="schedule_def_title">---</string>
+    <string name="schedule_def_teacher">---</string>
+
+    <string name="schedule_mon">Monday</string>
+    <string name="schedule_tue">Tuesday</string>
+    <string name="schedule_wed">Wednesday</string>
+    <string name="schedule_thu">Thursday</string>
+    <string name="schedule_fri">Friday</string>
+
+    <string name="schedule_search_teacher">Search by teachers</string>
+    <string name="schedule_search_room">Search by rooms</string>
+
+    <string name="schedule_fromSubjectList">From subject list</string>
+    <string name="schedule_todo">Show todo list</string>
+    <string name="schedule_notes">Show notes</string>
+
+
+    // Subjects
+
+    <string name="subjects_title">Subjects</string>
+    <string name="subjects_edit_title">Name</string>
+    <string name="subjects_edit_teacher">Teacher</string>
+    <string name="subjects_edit_room">Room</string>
+    <string name="subjects_edit">Edit subject</string>
+
+    <string name="subjects_color_red">Red</string>
+    <string name="subjects_color_pink">Pink</string>
+    <string name="subjects_color_purple">Purple</string>
+    <string name="subjects_color_blue">Blue</string>
+    <string name="subjects_color_teal">Teal</string>
+    <string name="subjects_color_green">Green</string>
+    <string name="subjects_color_lime">Lime</string>
+    <string name="subjects_color_yellow">Yellow</string>
+    <string name="subjects_color_orange">Orange</string>
+    <string name="subjects_color_brown">Brown</string>
+    <string name="subjects_color_grey">Grey</string>
+
 
 </resources>

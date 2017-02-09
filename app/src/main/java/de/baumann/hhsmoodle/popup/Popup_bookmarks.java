@@ -31,7 +31,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
-import de.baumann.hhsmoodle.data_Bookmarks.Bookmarks_DbAdapter;
+import de.baumann.hhsmoodle.data_bookmarks.Bookmarks_DbAdapter;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.activities.Activity_password;
 import de.baumann.hhsmoodle.helper.class_SecurePreferences;
@@ -54,7 +54,7 @@ public class Popup_bookmarks extends Activity {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         if (pw != null  && pw.length() > 0) {
             if (sharedPref.getBoolean("isOpened", true)) {
-                helper_main.switchToActivity(Popup_bookmarks.this, Activity_password.class, "", false);
+                helper_main.switchToActivity(Popup_bookmarks.this, Activity_password.class, false);
             }
         }
 
@@ -66,6 +66,11 @@ public class Popup_bookmarks extends Activity {
         db.open();
 
         setBookmarksList();
+
+        if (lv.getAdapter().getCount() == 0) {
+            helper_main.makeToast(Popup_bookmarks.this, getString(R.string.toast_noEntry));
+            finish();
+        }
     }
 
     private void setBookmarksList() {

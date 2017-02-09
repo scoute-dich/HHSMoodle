@@ -478,6 +478,7 @@ public class Notes_Fragment extends Fragment {
                                         db.insert(note_title, note_content, "3", "true", helper_main.createDate());
                                         ViewPager viewPager = (class_CustomViewPager) getActivity().findViewById(R.id.viewpager);
                                         viewPager.setCurrentItem(2);
+                                        getActivity().setTitle(R.string.todo_title);
                                         dialog.dismiss();
                                     }
                                 }
@@ -530,11 +531,7 @@ public class Notes_Fragment extends Fragment {
         switch (item.getItemId()) {
 
             case R.id.action_help:
-                final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity())
-                        .setTitle(R.string.title_notes)
-                        .setMessage(helper_main.textSpannable(getString(R.string.helpNotes_text)))
-                        .setPositiveButton(getString(R.string.toast_yes), null);
-                dialog.show();
+                helper_main.switchToActivity(getActivity(), Notes_Help.class, false);
                 return true;
 
             case R.id.action_filter:
@@ -826,7 +823,7 @@ public class Notes_Fragment extends Fragment {
 
                 InputMethodManager imm = (InputMethodManager)from.getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(titleInput.getWindowToken(), 0);
-                helper_main.switchToActivity(from, Popup_camera.class, "", false);
+                helper_main.switchToActivity(from, Popup_camera.class, false);
             }
         });
 
@@ -1159,7 +1156,7 @@ public class Notes_Fragment extends Fragment {
 
                 InputMethodManager imm = (InputMethodManager)from.getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(titleInput.getWindowToken(), 0);
-                helper_main.switchToActivity(from, Popup_camera.class, "", false);
+                helper_main.switchToActivity(from, Popup_camera.class, false);
             }
         });
 

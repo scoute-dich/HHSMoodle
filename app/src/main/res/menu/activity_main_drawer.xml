@@ -19,6 +19,10 @@
                 android:id="@+id/nav_notes"
                 android:icon="@drawable/pencil"
                 android:title="@string/title_notes" />
+            <item
+                android:id="@+id/nav_schedule"
+                android:icon="@drawable/timetable"
+                android:title="@string/schedule_title" />
         </menu>
     </item>
 
@@ -36,6 +40,10 @@
                 android:id="@+id/nav_courseList"
                 android:icon="@drawable/account_multiple"
                 android:title="@string/courseList_title" />
+            <item
+                android:id="@+id/nav_subjectList"
+                android:icon="@drawable/book_open"
+                android:title="@string/subjects_title" />
             <item
                 android:id="@+id/nav_settings"
                 android:icon="@drawable/settings"

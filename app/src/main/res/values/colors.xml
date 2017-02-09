@@ -4,5 +4,7 @@
     <color name="colorPrimary">#880e4f</color>
     <color name="colorPrimaryDark">#670e44</color>
     <color name="colorAccent">#ff9800</color>
+    <color name="colorAccent_trans">#26ff9800</color>
+    <color name="color_trans">#00ff9800</color>
 
 </resources>

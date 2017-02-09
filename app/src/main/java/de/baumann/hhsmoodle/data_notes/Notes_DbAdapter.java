@@ -60,7 +60,7 @@ public class Notes_DbAdapter {
         return row.moveToFirst();
     }
     //edit data
-    void update(int id,String note_title,String note_content,String note_icon,String note_attachment, String note_creation) {
+    public void update(int id,String note_title,String note_content,String note_icon,String note_attachment, String note_creation) {
         sqlDb.execSQL("UPDATE "+dbTable+" SET note_title='"+note_title+"', note_content='"+note_content+"', note_icon='"+note_icon+"', note_attachment='"+note_attachment+"', note_creation='"+note_creation+"'   WHERE _id=" + id);
     }
 
@@ -95,7 +95,7 @@ public class Notes_DbAdapter {
     }
 
     //fetch data by filter
-    Cursor fetchDataByFilter(String inputText,String filterColumn) throws SQLException {
+    public Cursor fetchDataByFilter(String inputText,String filterColumn) throws SQLException {
         Cursor row;
         String query = "SELECT * FROM "+dbTable;
         if (inputText == null  ||  inputText.length () == 0)  {

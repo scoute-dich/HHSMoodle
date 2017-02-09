@@ -25,11 +25,12 @@ public class Activity_intro extends OnboarderActivity {
         OnboarderPage onboarderPage2 = new OnboarderPage(getString(R.string.intro2_title), getString(R.string.intro2_text), R.drawable.screenshot_1);
         OnboarderPage onboarderPage3 = new OnboarderPage(getString(R.string.intro3_title), getString(R.string.intro3_text), R.drawable.screenshot_2);
         OnboarderPage onboarderPage4 = new OnboarderPage(getString(R.string.intro4_title), getString(R.string.intro4_text), R.drawable.screenshot_3);
-        OnboarderPage onboarderPage5 = new OnboarderPage(getString(R.string.intro5_title), getString(R.string.intro5_text), R.drawable.screenshot_4);
-        OnboarderPage onboarderPage6 = new OnboarderPage(getString(R.string.intro6_title), getString(R.string.intro6_text), R.drawable.screenshot_5);
-        OnboarderPage onboarderPage7 = new OnboarderPage(getString(R.string.intro7_title), getString(R.string.intro7_text), R.drawable.screenshot_6);
-        OnboarderPage onboarderPage8 = new OnboarderPage(getString(R.string.intro8_title), getString(R.string.intro8_text), R.drawable.screenshot_7);
-        OnboarderPage onboarderPage9 = new OnboarderPage(getString(R.string.intro9_title), getString(R.string.intro9_text), R.drawable.screenshot_8);
+        OnboarderPage onboarderPage5 = new OnboarderPage(getString(R.string.intro10_title), getString(R.string.intro10_text), R.drawable.screenshot_9);
+        OnboarderPage onboarderPage6 = new OnboarderPage(getString(R.string.intro5_title), getString(R.string.intro5_text), R.drawable.screenshot_4);
+        OnboarderPage onboarderPage7 = new OnboarderPage(getString(R.string.intro6_title), getString(R.string.intro6_text), R.drawable.screenshot_5);
+        OnboarderPage onboarderPage8 = new OnboarderPage(getString(R.string.intro7_title), getString(R.string.intro7_text), R.drawable.screenshot_6);
+        OnboarderPage onboarderPage9 = new OnboarderPage(getString(R.string.intro8_title), getString(R.string.intro8_text), R.drawable.screenshot_7);
+        OnboarderPage onboarderPage10 = new OnboarderPage(getString(R.string.intro9_title), getString(R.string.intro9_text), R.drawable.screenshot_8);
 
         // You can define title and description colors (by default white)
         // Don't forget to set background color for your page
@@ -52,6 +53,8 @@ public class Activity_intro extends OnboarderActivity {
         onboarderPage8.setTitleColor(R.color.colorAccent);
         onboarderPage9.setBackgroundColor(R.color.colorPrimaryDark);
         onboarderPage9.setTitleColor(R.color.colorAccent);
+        onboarderPage10.setBackgroundColor(R.color.colorPrimaryDark);
+        onboarderPage10.setTitleColor(R.color.colorAccent);
 
         // Add your pages to the list
         onboarderPages.add(onboarderPage1);
@@ -63,10 +66,11 @@ public class Activity_intro extends OnboarderActivity {
         onboarderPages.add(onboarderPage7);
         onboarderPages.add(onboarderPage8);
         onboarderPages.add(onboarderPage9);
+        onboarderPages.add(onboarderPage10);
 
         // And pass your pages to 'setOnboardPagesReady' method
-        setActiveIndicatorColor(android.R.color.white);
-        setInactiveIndicatorColor(android.R.color.darker_gray);
+        setActiveIndicatorColor(R.color.colorAccent);
+        setInactiveIndicatorColor(android.R.color.background_light);
         shouldDarkenButtonsLayout(true);
         shouldUseFloatingActionButton(true);
         setOnboardPagesReady(onboarderPages);

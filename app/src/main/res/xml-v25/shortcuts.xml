@@ -51,41 +51,6 @@
         <categories android:name="android.shortcut.conversation" />
     </shortcut>
 
-    <shortcut
-        android:shortcutId="shortcutNotesPlus"
-        android:enabled="true"
-        android:icon="@drawable/qc_note_plus"
-        android:shortcutShortLabel="@string/bookmark_createNote"
-        android:shortcutLongLabel="@string/bookmark_createNote"
-        android:shortcutDisabledMessage="@string/bookmark_createNote">
-        <intent
-            android:action="shortcutNotesPlus"
-            android:targetPackage="de.baumann.hhsmoodle"
-            android:targetClass="de.baumann.hhsmoodle.activities.Activity_splash" />
-        <!-- If your shortcut is associated with multiple intents, include them
-             here. The last intent in the list is what the user sees when they
-             launch this shortcut. -->
-        <categories android:name="android.shortcut.conversation" />
-    </shortcut>
-
-    <shortcut
-        android:shortcutId="shortcutFavorite"
-        android:enabled="true"
-        android:icon="@drawable/qc_fav"
-        android:shortcutShortLabel="@string/app_fav"
-        android:shortcutLongLabel="@string/app_fav"
-        android:shortcutDisabledMessage="@string/app_fav">
-
-        <intent
-            android:action="shortcutFavorite_Browser"
-            android:targetPackage="de.baumann.hhsmoodle"
-            android:targetClass="de.baumann.hhsmoodle.activities.Activity_splash" />
-        <!-- If your shortcut is associated with multiple intents, include them
-             here. The last intent in the list is what the user sees when they
-             launch this shortcut. -->
-        <categories android:name="android.shortcut.conversation" />
-    </shortcut>
-
 </shortcuts>
         
 

@@ -19,9 +19,13 @@
 
 package de.baumann.hhsmoodle;
 
+import android.app.NotificationManager;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -46,11 +50,12 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.baumann.hhsmoodle.data_Bookmarks.Bookmarks_Fragment;
-import de.baumann.hhsmoodle.data_Random.Random_Fragment;
+import de.baumann.hhsmoodle.data_bookmarks.Bookmarks_Fragment;
+import de.baumann.hhsmoodle.data_random.Random_Fragment;
 import de.baumann.hhsmoodle.data_courses.Courses_Fragment;
 import de.baumann.hhsmoodle.data_notes.Notes_Fragment;
-import de.baumann.hhsmoodle.data_notes.Notes_helper;
+import de.baumann.hhsmoodle.data_schedule.Schedule_Fragment;
+import de.baumann.hhsmoodle.data_subjects.Subjects_Fragment;
 import de.baumann.hhsmoodle.data_todo.Todo_Fragment;
 import de.baumann.hhsmoodle.fragmentsMain.FragmentBrowser;
 import de.baumann.hhsmoodle.fragmentsMain.FragmentGrades;
@@ -121,6 +126,35 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
             directory.mkdirs();
         }
         onNewIntent(getIntent());
+
+        final NotificationManager notificationManager =
+                (NotificationManager) HHS_MainScreen.this.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && !notificationManager.isNotificationPolicyAccessGranted()) {
+            if (sharedPref.getString ("show_permission_disturb", "true").equals("true")){
+                new android.app.AlertDialog.Builder(this)
+                        .setTitle(R.string.app_permissions_title_dist)
+                        .setMessage(helper_main.textSpannable(getString(R.string.app_permissions_dist)))
+                        .setNeutralButton(R.string.toast_notAgain, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                                sharedPref.edit().putString("show_permission_disturb", "false").apply();
+                            }
+                        })
+                        .setPositiveButton(getString(R.string.toast_yes), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && !notificationManager.isNotificationPolicyAccessGranted()) {
+                                    Intent intent = new Intent(android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
+                                    startActivity(intent);
+                                }
+                            }
+                        })
+                        .setNegativeButton(getString(R.string.toast_cancel), null)
+                        .show();
+            }
+        }
     }
 
     protected void onNewIntent(final Intent intent) {
@@ -136,21 +170,12 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
         } else if ("shortcutToDo_HS".equals(action)) {
             lockUI();
             viewPager.setCurrentItem(2, true);
-        } else if ("shortcutNotesNew_HS".equals(action)) {
-            lockUI();
-            viewPager.setCurrentItem(3, true);
-            sharedPref.edit()
-                    .putString("handleTextTitle", intent.getStringExtra(Intent.EXTRA_SUBJECT))
-                    .putString("handleTextText", intent.getStringExtra(Intent.EXTRA_TEXT))
-                    .putString("handleTextIcon", "3")
-                    .apply();
-            Notes_helper.newNote(HHS_MainScreen.this);
-        } else if ("shortcutURL_HS".equals(action)) {
+        } else if ("shortcutBrowser_HS".equals(action)) {
             lockUI();
             viewPager.setCurrentItem(0, true);
-        } else if ("shortcutURLFAV_HS".equals(action)) {
+        } else if ("shortcutSchedule_HS".equals(action)) {
             lockUI();
-            viewPager.setCurrentItem(0, true);
+            viewPager.setCurrentItem(4, true);
         } else {
             helper_main.isOpened(HHS_MainScreen.this);
         }
@@ -166,9 +191,11 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
         adapter.addFragment(new Bookmarks_Fragment(), String.valueOf(getString(R.string.title_bookmarks)));
         adapter.addFragment(new Todo_Fragment(), String.valueOf(getString(R.string.todo_title)));
         adapter.addFragment(new Notes_Fragment(), String.valueOf(getString(R.string.title_notes)));
+        adapter.addFragment(new Schedule_Fragment(), String.valueOf(getString(R.string.schedule_title)));
         adapter.addFragment(new Random_Fragment(), String.valueOf(getString(R.string.number_title)));
         adapter.addFragment(new FragmentGrades(), String.valueOf(getString(R.string.action_grades)));
         adapter.addFragment(new Courses_Fragment(), String.valueOf(getString(R.string.courseList_title)));
+        adapter.addFragment(new Subjects_Fragment(), String.valueOf(getString(R.string.subjects_title)));
 
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(startTabInt,true);
@@ -241,20 +268,27 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
             if (drawer.isDrawerOpen(GravityCompat.START)) {
                 drawer.closeDrawer(GravityCompat.START);
             } else {
-
                 if (sharedPref.getBoolean ("backup_aut", false)){
+                    helper_main.makeToast(HHS_MainScreen.this, getString(R.string.toast_backup));
                     try {helper_encryption.encryptBackup(HHS_MainScreen.this,"/bookmarks_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
                     try {helper_encryption.encryptBackup(HHS_MainScreen.this,"/courses_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
                     try {helper_encryption.encryptBackup(HHS_MainScreen.this,"/notes_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
                     try {helper_encryption.encryptBackup(HHS_MainScreen.this,"/random_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                    try {helper_encryption.encryptBackup(HHS_MainScreen.this,"/subject_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                    try {helper_encryption.encryptBackup(HHS_MainScreen.this,"/schedule_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
                     try {helper_encryption.encryptBackup(HHS_MainScreen.this,"/todo_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                    sharedPref.edit().putString("loadURL", "").apply();
+                    helper_main.isClosed(HHS_MainScreen.this);
+                    Snackbar.make(viewPager, getString(R.string.app_encrypt) , Snackbar.LENGTH_LONG).show();
+                    helper_encryption.encryptDatabases(HHS_MainScreen.this);
+                    finish();
+                } else {
+                    sharedPref.edit().putString("loadURL", "").apply();
+                    helper_main.isClosed(HHS_MainScreen.this);
+                    Snackbar.make(viewPager, getString(R.string.app_encrypt) , Snackbar.LENGTH_LONG).show();
+                    helper_encryption.encryptDatabases(HHS_MainScreen.this);
+                    finish();
                 }
-
-                sharedPref.edit().putString("loadURL", "").apply();
-                helper_main.isClosed(HHS_MainScreen.this);
-                Snackbar.make(viewPager, getString(R.string.app_encrypt) , Snackbar.LENGTH_LONG).show();
-                helper_encryption.encryptDatabases(HHS_MainScreen.this);
-                finish();
             }
         }
     }
@@ -273,7 +307,7 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
         helper_main.isClosed(HHS_MainScreen.this);
         if (pw != null && pw.length() > 0) {
             if (sharedPref.getBoolean("isOpened", true)) {
-                helper_main.switchToActivity(HHS_MainScreen.this, Activity_password.class, "", false);
+                helper_main.switchToActivity(HHS_MainScreen.this, Activity_password.class, false);
             }
         }
     }
@@ -313,18 +347,24 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
         } else if (id == R.id.nav_notes) {
             viewPager.setCurrentItem(3, true);
             setTitle(R.string.title_notes);
-        } else if (id == R.id.nav_random) {
+        }  else if (id == R.id.nav_schedule) {
             viewPager.setCurrentItem(4, true);
+            setTitle(R.string.schedule_title);
+        } else if (id == R.id.nav_random) {
+            viewPager.setCurrentItem(5, true);
             setTitle(R.string.number_title);
         } else if (id == R.id.nav_grades) {
-            viewPager.setCurrentItem(5, true);
+            viewPager.setCurrentItem(6, true);
             setTitle(R.string.action_grades);
         } else if (id == R.id.nav_courseList) {
-            viewPager.setCurrentItem(6, true);
+            viewPager.setCurrentItem(7, true);
             setTitle(R.string.courseList_title);
+        } else if (id == R.id.nav_subjectList) {
+            viewPager.setCurrentItem(8, true);
+            setTitle(R.string.subjects_title);
         } else if (id == R.id.nav_settings) {
             helper_main.isOpened(HHS_MainScreen.this);
-            helper_main.switchToActivity(HHS_MainScreen.this, Activity_settings.class, "", false);
+            helper_main.switchToActivity(HHS_MainScreen.this, Activity_settings.class, false);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

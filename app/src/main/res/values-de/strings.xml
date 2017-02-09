@@ -8,16 +8,26 @@
     <string name="navigation_drawer_close">Schließe Navigation Drawer</string>
 
     <string name="app_name">HHS Moodle</string>
-    <string name="app_permissions_title">Verlangte Berechtigungen</string>
+    <string name="app_permissions_title">Verlangte Berechtigung</string>
     <string name="app_permissions">
 
         &lt;i>Zugriff auf SD Karte:&lt;/i>&lt;br>
+        &#8226; Listen: erstellen und zwischenspeichern.&lt;br>
+        &#8226; Sicherung: Sicherung und Wiederherstellung von Datenbanken.&lt;br>
         &#8226; Dateien herunterladen: um heruntergeladene Datein auf der SD-Karte speichern zu können.&lt;br>
         &#8226; Bildschirmfoto: um Bildschirmfotos von Internetseiten auf der SD-Karte zu speichern.&lt;br>&lt;br>
 
         &lt;i>Berechtigung nachträglich erteilen:&lt;/i>&lt;br>
-        Wenn du die Berechtigung verweigerst, kannst du sie nachträglich erteilen, indem du \"Einstellungen -> App Info\" öffnest und
-        dort den Bereich \"Berechtigungen\" auswählst.</string>
+        Wenn du die Berechtigung verweigerst, kannst du sie nachträglich erteilen, indem du \"Einstellungen -> Berechtigung erteilen\" öffnest.</string>
+
+    <string name="app_permissions_title_dist">Verlangte Berechtigung</string>
+    <string name="app_permissions_dist">
+
+        &lt;i>\"Nicht stören\" verwalten:&lt;/i>&lt;br>
+        Wird gebraucht um dein Telefon während dem Unterricht auf lautlos zu stellen.&lt;br>&lt;br>
+
+        &lt;i>Berechtigung nachträglich erteilen:&lt;/i>&lt;br>
+        Wenn du die Berechtigung verweigerst, kannst du sie nachträglich erteilen, indem du \"Einstellungen -> Nicht stören\" öffnest.</string>
 
     <string name="app_share_screenshot">Bildschirmfoto teilen mit:</string>
     <string name="app_share_image">Bild teilen mit:</string>
@@ -28,7 +38,6 @@
     <string name="app_conf">Bestätigung</string>
     <string name="app_att">Anhang</string>
     <string name="app_encrypt">Verschlüssle Datenbanken …</string>
-    <string name="app_fav">Favorit</string>
     <string name="app_myMoodle">Mein Moodle</string>
 
 
@@ -89,7 +98,7 @@
     <string name="intro4_text">Erstelle Notizen. Du kannst auch Text (z.B. einen Link) aus einer anderen Anwendung in die App teilen.</string>
 
     <string name="intro5_title">Werkzeuge</string>
-    <string name="intro5_text">Berechne Noten, erstelle Teilnehmerlisten oder wähle zufällig Kursteilnehmer aus.</string>
+    <string name="intro5_text">Berechne Noten, erstelle Teilnehmerlisten oder …</string>
 
     <string name="intro6_title">Hilfe</string>
     <string name="intro6_text">Auf jedem Schirm erreichst du über das Menü einen kurzen Hilfedialog.</string>
@@ -104,6 +113,9 @@
     <string name="intro9_title">Anmeldung</string>
     <string name="intro9_text">Gib auf dem folgenden Schirm deine Moodle Anmeldedaten ein. Du wirst dann immer automatisch
     angemeldet. Ändern kannst du deine Anmeldedaten in den Einstellungen.</string>
+
+    <string name="intro10_title">Stundenplan</string>
+    <string name="intro10_text">Gib deinen Stundenplan ein, damit dein Telefon während dem Unterrichts nicht klingelt.</string>
 
 
     // Login
@@ -160,7 +172,7 @@
     // Settings
 
     <string name="pref_2">App Einstellungen</string>
-    <string name="pref_3">Über | Hilfe</string>
+    <string name="pref_3">Berechtigungen | Über | Hilfe</string>
     <string name="pref_5">Sicherheit</string>
 
     <string name="action_username">Logindaten (Moodle)</string>
@@ -201,6 +213,10 @@
     <string name="action_shortcut_summary">Erstelle auf deinen Desktop Verknüpfungen, um einen schnellen Zugriff auf wichtige
         Funktionen der App zu erhalten (Lesezeichen, Notizen, …).</string>
 
+    <string name="action_silent">Lautlos</string>
+    <string name="action_silent_summary">Schalte das Telefon während dem Unterricht automatisch stumm. Wenn du Android Nougat
+        oder neuer benutzt, musst du unten die Berechtigung \"Nicht stören\" gewähren.</string>
+
     <string name="action_restore">Wiederherstellung</string>
 
 
@@ -214,7 +230,6 @@
     <string name="toast_perm">Berechtigungen gewährt?</string>
     <string name="toast_wrongPW">Uuups. Falsches Passwort.</string>
     <string name="toast_shortcut">Verknüpfung erfolgreich erstellt.</string>
-    <string name="toast_backup">Sicherung erfolgreich.</string>
     <string name="toast_restore">Wiederherstellung erfolgreich.</string>
     <string name="toast_backup_not">Sicherung fehlgeschlagen.</string>
     <string name="toast_restore_not">Wiederherstellung fehlgeschlagen.</string>
@@ -223,6 +238,8 @@
     <string name="toast_extension">Kein unterstützter Dateityp</string>
     <string name="toast_install_app">Please install an app to perform action.</string>
     <string name="toast_newTitle">Titel existiert bereits.</string>
+    <string name="toast_backup">Sichere Datenbanken.</string>
+    <string name="toast_noEntry">Kein Eintrag in der Liste vorhanden.</string>
 
 
     // Bookmarks
@@ -324,5 +341,52 @@
 
     <string name="courseList_title">Klassenlisten</string>
     <string name="courseList_fromText">Aus Textdatei</string>
+    <string name="courseList_todo">Erstelle Todo Liste</string>
+    <string name="courseList_note">Erstelle Notiz</string>
+    <string name="courseList_random">Erstelle Zufallsliste</string>
+    <string name="courseList_course">Erstelle Kursliste</string>
+    <string name="courseList_subject">Erstelle Unterrichtsfach</string>
+
+
+    // Schedule
+
+    <string name="schedule_weekend">Wochenende</string>
+    <string name="schedule_title">Stundenplan</string>
+    <string name="schedule_def_title">---</string>
+    <string name="schedule_def_teacher">---</string>
+
+    <string name="schedule_mon">Montag</string>
+    <string name="schedule_tue">Dienstag</string>
+    <string name="schedule_wed">Mittwoch</string>
+    <string name="schedule_thu">Donnerstag</string>
+    <string name="schedule_fri">Freitag</string>
+
+    <string name="schedule_search_teacher">Suche nach Lehrern</string>
+    <string name="schedule_search_room">Suche nach Räumen</string>
+
+    <string name="schedule_fromSubjectList">Aus der Fächerliste</string>
+    <string name="schedule_todo">Zeige Todo Liste</string>
+    <string name="schedule_notes">Zeige Notizen</string>
+
+
+    // Subjects
+
+    <string name="subjects_title">Fächerliste</string>
+    <string name="subjects_edit_title">Name</string>
+    <string name="subjects_edit_teacher">Lehrer</string>
+    <string name="subjects_edit_room">Raum</string>
+    <string name="subjects_edit">Fach bearbeiten</string>
+
+    <string name="subjects_color_red">Rot</string>
+    <string name="subjects_color_pink">Pink</string>
+    <string name="subjects_color_purple">Lila</string>
+    <string name="subjects_color_blue">Blau</string>
+    <string name="subjects_color_teal">Teal</string>
+    <string name="subjects_color_green">Grün</string>
+    <string name="subjects_color_lime">Lime</string>
+    <string name="subjects_color_yellow">Gelb</string>
+    <string name="subjects_color_orange">Orange</string>
+    <string name="subjects_color_brown">Braun</string>
+    <string name="subjects_color_grey">Grau</string>
 
 </resources>

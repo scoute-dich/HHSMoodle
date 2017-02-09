@@ -466,7 +466,7 @@ public class Activity_todo extends AppCompatActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
 
         if (sharedPref.getBoolean ("help", false)){
-            menu.getItem(3).setVisible(false); // here pass the index of save menu item
+            menu.getItem(0).setVisible(false); // here pass the index of save menu item
         }
         return super.onPrepareOptionsMenu(menu);
     }
@@ -513,7 +513,7 @@ public class Activity_todo extends AppCompatActivity {
             //noinspection ResultOfMethodCallIgnored
             newFile().delete();
             helper_main.isOpened(Activity_todo.this);
-            helper_main.switchToActivity(Activity_todo.this, HHS_MainScreen.class, "", true);
+            helper_main.switchToActivity(Activity_todo.this, HHS_MainScreen.class, true);
         }
 
         if (id == R.id.action_help) {

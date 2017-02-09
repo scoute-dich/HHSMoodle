@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
 
     <application
         android:allowBackup="true"
@@ -43,8 +44,9 @@
             <intent-filter>
                 <action android:name="shortcutBookmarks" />
                 <action android:name="shortcutNotes" />
-                <action android:name="shortcutNotesPlus" />
                 <action android:name="shortcutToDo" />
+                <action android:name="shortcutBrowser" />
+                <action android:name="shortcutSchedule" />
             </intent-filter>
 
             <intent-filter>
@@ -69,10 +71,9 @@
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="shortcutBookmarks_HS" />
                 <action android:name="shortcutNotes_HS" />
-                <action android:name="shortcutNotesNew_HS" />
                 <action android:name="shortcutToDo_HS" />
-                <action android:name="shortcutURL_HS" />
-                <action android:name="shortcutURLFAV_HS" />
+                <action android:name="shortcutBrowser_HS" />
+                <action android:name="shortcutSchedule_HS" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="text/plain" />
             </intent-filter>
@@ -83,11 +84,6 @@
 
         <activity
             android:name=".about.About_activity"
-            android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar"  />
-
-        <activity
-            android:name=".activities.Activity_intro"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar"  />
 
@@ -106,11 +102,61 @@
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar" />
 
+        <!-- help -->
+
+        <activity
+            android:name=".activities.Activity_intro"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".fragmentsMain.FragmentBrowser_Help"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".data_bookmarks.Bookmarks_Help"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".data_todo.Todo_Help"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".data_notes.Notes_Help"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".data_schedule.Schedule_Help"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar" />
+
 
         <!-- popups -->
 
         <activity
             android:name=".popup.Popup_bookmarks"
+            android:noHistory="true"
+            android:launchMode="singleTask"
+            android:theme="@style/AppThemeDialog" />
+
+        <activity
+            android:name=".popup.Popup_subjects"
+            android:noHistory="true"
+            android:launchMode="singleTask"
+            android:theme="@style/AppThemeDialog" />
+
+        <activity
+            android:name=".popup.Popup_todo"
+            android:noHistory="true"
+            android:launchMode="singleTask"
+            android:theme="@style/AppThemeDialog" />
+
+        <activity
+            android:name=".popup.Popup_note"
             android:noHistory="true"
             android:launchMode="singleTask"
             android:theme="@style/AppThemeDialog" />
@@ -136,6 +182,18 @@
                 <action android:name="courseList_random" />
                 <action android:name="courseList_todo" />
                 <action android:name="courseList_note" />
+                <action android:name="courseList_subject" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".helper.class_AlarmService"
+            android:noHistory="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:label="@string/app_name" >
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
 

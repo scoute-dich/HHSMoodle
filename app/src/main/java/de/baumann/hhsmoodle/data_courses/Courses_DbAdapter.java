@@ -2,14 +2,10 @@ package de.baumann.hhsmoodle.data_courses;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.preference.PreferenceManager;
-
-import de.baumann.hhsmoodle.R;
 
 public class Courses_DbAdapter {
 
@@ -72,36 +68,8 @@ public class Courses_DbAdapter {
 
 
     //fetch data
-    public Cursor fetchAllData(Context context) {
-
-        PreferenceManager.setDefaultValues(context, R.xml.user_settings, false);
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-
+    public Cursor fetchAllData() {
         String[] columns = new String[]{"_id", "courses_title", "courses_content", "courses_icon","courses_attachment","courses_creation"};
-
-        if (sp.getString("sortDBC", "title").equals("title")) {
-            return sqlDb.query(dbTable, columns, null, null, null, null, "courses_title");
-
-        } else if (sp.getString("sortDBC", "title").equals("create")) {
-            return sqlDb.query(dbTable, columns, null, null, null, null, "courses_creation");
-        }
-
-        return null;
-    }
-
-    //fetch data by filter
-    Cursor fetchDataByFilter(String inputText,String filterColumn) throws SQLException {
-        Cursor row;
-        String query = "SELECT * FROM "+dbTable;
-        if (inputText == null  ||  inputText.length () == 0)  {
-            row = sqlDb.rawQuery(query, null);
-        }else {
-            query = "SELECT * FROM "+dbTable+" WHERE "+filterColumn+" like '%"+inputText+"%'";
-            row = sqlDb.rawQuery(query, null);
-        }
-        if (row != null) {
-            row.moveToFirst();
-        }
-        return row;
+        return sqlDb.query(dbTable, columns, null, null, null, null, "courses_creation");
     }
 }

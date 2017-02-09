@@ -1,10 +1,12 @@
 ### v3.3: (WIP)
-- added: Navigation Drawer
-- added: default Bookmarks
-- added: search in notes, todo list, bookmarks
-- improved: database model
-- fixed: save captured picture as attachment
-- removed: tab layout
+- neu: Stundenplan
+- neu: Fächerliste
+- neu: Navigationsleiste am Rand
+- neu: Standardlesezeichen
+- neu: Suche in Lesezeichen, Todolisten, Notizen, Stundenplan
+- verbessert: Datanbanken
+- verbessert: aufgenommene Bilder als Anhang speichern
+- entfernt: Tab Layout
 
 ### v 3.2:
 - added: Intro screen

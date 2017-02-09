@@ -22,12 +22,15 @@ package de.baumann.hhsmoodle.activities;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -117,10 +120,11 @@ public class Activity_settings extends AppCompatActivity {
                 public boolean onPreferenceClick(Preference pref) {
 
                     final CharSequence[] options = {
+                            getString(R.string.app_name),
                             getString(R.string.title_bookmarks),
-                            getString(R.string.title_notes),
                             getString(R.string.todo_title),
-                            getString(R.string.bookmark_createNote)};
+                            getString(R.string.title_notes),
+                            getString(R.string.schedule_title)};
 
                     new AlertDialog.Builder(activity)
                             .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
@@ -176,9 +180,24 @@ public class Activity_settings extends AppCompatActivity {
                                         helper_main.makeToast(activity, getString(R.string.toast_shortcut));
                                     }
 
-                                    if (options[item].equals (getString(R.string.bookmark_createNote))) {
+                                    if (options[item].equals (getString(R.string.app_name))) {
                                         Intent i = new Intent(activity.getApplicationContext(), Activity_splash.class);
-                                        i.setAction(Intent.ACTION_SEND);
+                                        i.setAction("shortcutBrowser");
+
+                                        Intent shortcut = new Intent();
+                                        shortcut.setAction(Intent.ACTION_MAIN);
+                                        shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, i);
+                                        shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, (getString(R.string.bookmark_createNote)));
+                                        shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
+                                                Intent.ShortcutIconResource.fromContext(activity.getApplicationContext(), R.mipmap.ic_launcher));
+                                        shortcut.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+                                        activity.sendBroadcast(shortcut);
+                                        helper_main.makeToast(activity, getString(R.string.toast_shortcut));
+                                    }
+
+                                    if (options[item].equals (getString(R.string.schedule_title))) {
+                                        Intent i = new Intent(activity.getApplicationContext(), Activity_splash.class);
+                                        i.setAction("shortcutSchedule");
 
                                         Intent shortcut = new Intent();
                                         shortcut.setAction(Intent.ACTION_MAIN);
@@ -205,7 +224,7 @@ public class Activity_settings extends AppCompatActivity {
             reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference pref) {
 
-                    helper_main.switchToActivity(getActivity(), About_activity.class, "", false);
+                    helper_main.switchToActivity(getActivity(), About_activity.class, false);
                     return true;
                 }
             });
@@ -225,6 +244,25 @@ public class Activity_settings extends AppCompatActivity {
                         intent.setData(uri);
                         getActivity().startActivity(intent);
                         helper_main.makeToast(getActivity(), getActivity().getString(R.string.perm_notShow_toast));
+                    }
+
+                    return true;
+                }
+            });
+        }
+
+        private void addPermissionDistListener() {
+
+            Preference reset = findPreference("perm_notShow_dist");
+            reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference pref) {
+
+                    NotificationManager notificationManager =
+                            (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && !notificationManager.isNotificationPolicyAccessGranted()) {
+                        Intent intent = new Intent(android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
+                        startActivity(intent);
                     }
 
                     return true;
@@ -368,9 +406,13 @@ public class Activity_settings extends AppCompatActivity {
                                         try {helper_encryption.encryptBackup(getActivity(),"/courses_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
                                         try {helper_encryption.encryptBackup(getActivity(),"/notes_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
                                         try {helper_encryption.encryptBackup(getActivity(),"/random_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                        try {helper_encryption.encryptBackup(getActivity(),"/subject_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                        try {helper_encryption.encryptBackup(getActivity(),"/schedule_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
                                         try {helper_encryption.encryptBackup(getActivity(),"/todo_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
                                     }
                                     if (options[item].equals(getString(R.string.action_restore))) {
+                                        try {decrypt("/schedule_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                        try {decrypt("/subject_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
                                         try {decrypt("/bookmarks_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
                                         try {decrypt("/courses_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
                                         try {decrypt("/notes_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
@@ -397,6 +439,7 @@ public class Activity_settings extends AppCompatActivity {
             addIntroListener();
             addShortcutListener();
             addPermissionListener();
+            addPermissionDistListener();
         }
 
         private void decrypt(String name) throws IOException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {
@@ -448,7 +491,7 @@ public class Activity_settings extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         helper_main.isOpened(Activity_settings.this);
-        helper_main.switchToActivity(Activity_settings.this, HHS_MainScreen.class, "", true);
+        helper_main.switchToActivity(Activity_settings.this, HHS_MainScreen.class, true);
     }
 
     @Override
@@ -478,7 +521,7 @@ public class Activity_settings extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == android.R.id.home) {
             helper_main.isOpened(Activity_settings.this);
-            helper_main.switchToActivity(Activity_settings.this, HHS_MainScreen.class, "", true);
+            helper_main.switchToActivity(Activity_settings.this, HHS_MainScreen.class, true);
         }
 
         if (id == R.id.action_help) {
