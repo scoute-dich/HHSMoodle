@@ -4,6 +4,7 @@
 - neu: Navigationsleiste am Rand
 - neu: Standardlesezeichen
 - neu: Suche in Lesezeichen, Todolisten, Notizen, Stundenplan
+- verbessert: Hilfe Dialoge
 - verbessert: Datanbanken
 - verbessert: aufgenommene Bilder als Anhang speichern
 - entfernt: Tab Layout
