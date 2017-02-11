@@ -77,6 +77,8 @@ public class Schedule_Fragment extends Fragment {
     private ImageView imgHeader;
     private RelativeLayout filter_layout;
 
+    private FloatingActionButton fab;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -105,6 +107,7 @@ public class Schedule_Fragment extends Fragment {
                 InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 imgHeader.setVisibility(View.VISIBLE);
+                fab.setVisibility(View.VISIBLE);
                 filter_layout.setVisibility(View.GONE);
                 setScheduleList();
             }
@@ -114,19 +117,14 @@ public class Schedule_Fragment extends Fragment {
         db = new Schedule_DbAdapter(getActivity());
         db.open();
 
-        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
         fab.setImageResource(R.drawable.refresh);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setScheduleList();
+                scrollToNow();
             }
         });
-
-        if (sharedPref.getString("schedule_set", "false").equals("false")) {
-            Schedule_helper.insertDefaultBookmarks(getActivity());
-            sharedPref.edit().putString("schedule_set", "true").apply();
-        }
 
         setScheduleList();
         setHasOptionsMenu(true);
@@ -608,7 +606,7 @@ public class Schedule_Fragment extends Fragment {
             }
         });
 
-        lv.setSelection(line);
+        scrollToNow();
     }
 
     public static class Item{
@@ -623,6 +621,11 @@ public class Schedule_Fragment extends Fragment {
         public String toString() {
             return text;
         }
+    }
+
+    private void scrollToNow() {
+        final int line = sharedPref.getInt("getLine", 1);
+        lv.setSelection(line);
     }
 
     @Override
@@ -662,6 +665,7 @@ public class Schedule_Fragment extends Fragment {
                                     setScheduleList();
                                     filter_layout.setVisibility(View.VISIBLE);
                                     imgHeader.setVisibility(View.GONE);
+                                    fab.setVisibility(View.GONE);
                                     filter.setText("");
                                     filter.setHint(R.string.action_filter_title);
                                     filter.requestFocus();
@@ -673,6 +677,7 @@ public class Schedule_Fragment extends Fragment {
                                     setScheduleList();
                                     filter_layout.setVisibility(View.VISIBLE);
                                     imgHeader.setVisibility(View.GONE);
+                                    fab.setVisibility(View.GONE);
                                     filter.setText("");
                                     filter.setHint(R.string.schedule_search_teacher);
                                     filter.requestFocus();
@@ -684,6 +689,7 @@ public class Schedule_Fragment extends Fragment {
                                     setScheduleList();
                                     filter_layout.setVisibility(View.VISIBLE);
                                     imgHeader.setVisibility(View.GONE);
+                                    fab.setVisibility(View.GONE);
                                     filter.setText("");
                                     filter.setHint(R.string.schedule_search_room);
                                     filter.requestFocus();

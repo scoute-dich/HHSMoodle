@@ -97,6 +97,7 @@ public class helper_encryption {
         String s = activity.getPackageName();
 
         try {
+
             PackageInfo p = m.getPackageInfo(s, 0);
             s = p.applicationInfo.dataDir;
 
@@ -145,7 +146,8 @@ public class helper_encryption {
         }
     }
 
-    public static void encryptDatabases (Activity activity) {
+    public static void encryptDatabases (final Activity activity) {
+
         try {encrypt(activity, "/databases/schedule_DB_v01.db","/databases/schedule_DB_v01_en.db");} catch (Exception e) {e.printStackTrace();}
         try {encrypt(activity, "/databases/subject_DB_v01.db","/databases/subject_DB_v01_en.db");} catch (Exception e) {e.printStackTrace();}
         try {encrypt(activity, "/databases/random_DB_v01.db","/databases/random_DB_v01_en.db");} catch (Exception e) {e.printStackTrace();}
@@ -161,6 +163,7 @@ public class helper_encryption {
         String s = activity.getPackageName();
 
         try {
+
             PackageInfo p = m.getPackageInfo(s, 0);
             s = p.applicationInfo.dataDir;
 

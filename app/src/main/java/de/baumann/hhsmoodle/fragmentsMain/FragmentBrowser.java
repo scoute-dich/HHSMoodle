@@ -421,26 +421,33 @@ public class FragmentBrowser extends Fragment implements HHS_MainScreen.OnBackPr
             mWebView.goBack();
         } else {
             mWebView.stopLoading();
-            if (sharedPref.getBoolean ("backup_aut", false)){
-                helper_main.makeToast(getActivity(), getString(R.string.toast_backup));
-                try {helper_encryption.encryptBackup(getActivity(),"/bookmarks_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                try {helper_encryption.encryptBackup(getActivity(),"/courses_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                try {helper_encryption.encryptBackup(getActivity(),"/notes_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                try {helper_encryption.encryptBackup(getActivity(),"/random_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                try {helper_encryption.encryptBackup(getActivity(),"/subject_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                try {helper_encryption.encryptBackup(getActivity(),"/schedule_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                try {helper_encryption.encryptBackup(getActivity(),"/todo_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                sharedPref.edit().putString("loadURL", "").apply();
-                helper_main.isClosed(getActivity());
-                Snackbar.make(mWebView, getString(R.string.app_encrypt) , Snackbar.LENGTH_LONG).show();
-                helper_encryption.encryptDatabases(getActivity());
-                getActivity().finish();
+            if (sharedPref.getBoolean("backup_aut", false)) {
+
+                Snackbar.make(mWebView, getString(R.string.app_close), Snackbar.LENGTH_INDEFINITE).show();
+                try {helper_encryption.encryptBackup(getActivity(), "/bookmarks_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                try {helper_encryption.encryptBackup(getActivity(), "/courses_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                try {helper_encryption.encryptBackup(getActivity(), "/notes_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                try {helper_encryption.encryptBackup(getActivity(), "/random_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                try {helper_encryption.encryptBackup(getActivity(), "/subject_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                try {helper_encryption.encryptBackup(getActivity(), "/schedule_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                try {helper_encryption.encryptBackup(getActivity(), "/todo_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+
+                Snackbar.make(mWebView, getString(R.string.app_close), Snackbar.LENGTH_INDEFINITE).show();
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
+                        Snackbar.make(mWebView, getString(R.string.app_close), Snackbar.LENGTH_INDEFINITE).show();
+                        sharedPref.edit().putString("loadURL", "").apply();
+                        helper_main.isClosed(getActivity());
+                        helper_encryption.encryptDatabases(getActivity());
+                        getActivity().finishAffinity();
+                    }
+                }, 1500);
+
             } else {
                 sharedPref.edit().putString("loadURL", "").apply();
                 helper_main.isClosed(getActivity());
-                Snackbar.make(mWebView, getString(R.string.app_encrypt) , Snackbar.LENGTH_LONG).show();
                 helper_encryption.encryptDatabases(getActivity());
-                getActivity().finish();
+                getActivity().finishAffinity();
             }
         }
     }

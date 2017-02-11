@@ -109,21 +109,9 @@
         bearbeiten zu können.
     </string>
 
-    <string name="helpToDo_activity_text">
-
-        Einfach einen neuen Eintrag eingeben und den \"+\" Knopf drücken. Bestehende Einträge können bearbeitet werden:&lt;br>&lt;br>
-
-        &lt;b>Kurz anklicken:&lt;/b>&lt;br>
-        Der Inahlt eines einzelnen Eintrags kann verändert werden.&lt;br>&lt;br>
-
-        &lt;b>Lang anklicken:&lt;/b>&lt;br>
-        Der Eintrag wird gelöscht. Es besteht kurz die Möglichkeit dies rückgängig zu machen.
-    </string>
-
     <string name="perm_notShow_title">Berechtigung erteilen</string>
     <string name="perm_notShow_title_summary">Nur für Android Marshmallow und neuere Versionen. Gewähre erforderliche
         Berechtigung, indem du im folgenden Fenster \"Berechtigungen\" öffnest. Danach die App neu starten.</string>
-    <string name="perm_notShow_toast">Bitte \"Berechtigungen\" öffnen.</string>
 
     <string name="perm_notShow_title_dist">Nicht stören</string>
     <string name="perm_notShow_title_summary_dist">Nur für Android Nougat und neuere Versionen. Gewähre erforderliche

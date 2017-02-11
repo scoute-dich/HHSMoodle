@@ -19,6 +19,7 @@
 
 package de.baumann.hhsmoodle.data_todo;
 
+import android.animation.Animator;
 import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -54,6 +55,7 @@ import android.widget.EditText;
 import android.widget.FilterQueryProvider;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -79,6 +81,11 @@ public class Todo_Fragment extends Fragment {
     private SharedPreferences sharedPref;
     private ImageView imgHeader;
     private RelativeLayout filter_layout;
+
+    private FloatingActionButton fab;
+    private LinearLayout fabLayout1;
+    private LinearLayout fabLayout2;
+    private boolean isFABOpen=false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -113,93 +120,128 @@ public class Todo_Fragment extends Fragment {
             }
         });
 
-        //calling Notes_DbAdapter
-        db = new Todo_DbAdapter(getActivity());
-        db.open();
+        fabLayout1= (LinearLayout) rootView.findViewById(R.id.fabLayout1);
+        fabLayout2= (LinearLayout) rootView.findViewById(R.id.fabLayout2);
+        fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        FloatingActionButton fab1 = (FloatingActionButton) rootView.findViewById(R.id.fab1);
+        FloatingActionButton fab2 = (FloatingActionButton) rootView.findViewById(R.id.fab2);
 
-        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(!isFABOpen){
+                    showFABMenu();
+                }else{
+                    closeFABMenu();
+                }
+            }
+        });
 
-                final CharSequence[] options = {
-                        getString(R.string.todo_from_courseList),
-                        getString(R.string.todo_from_new)};
-                new AlertDialog.Builder(getActivity())
-                        .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+        fab1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                closeFABMenu();
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                View dialogView = View.inflate(getActivity(), R.layout.dialog_edit_title, null);
+                final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
+                edit_title.setHint(R.string.bookmark_edit_title);
+                builder.setTitle(R.string.todo_from_new);
+                builder.setView(dialogView);
+                builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                    }
+                })
+                        .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
 
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 dialog.cancel();
                             }
-                        })
-                        .setItems(options, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int item) {
-                                if (options[item].equals(getString(R.string.todo_from_courseList))) {
-                                    helper_main.isOpened(getActivity());
-                                    Intent mainIntent = new Intent(getActivity(), Popup_courseList.class);
-                                    mainIntent.setAction("courseList_todo");
-                                    startActivity(mainIntent);
-                                }
+                        });
 
-                                if (options[item].equals (getString(R.string.todo_from_new))) {
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                                    View dialogView = View.inflate(getActivity(), R.layout.dialog_edit_title, null);
-                                    final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
-                                    edit_title.setHint(R.string.bookmark_edit_title);
-                                    builder.setTitle(R.string.todo_from_new);
-                                    builder.setView(dialogView);
-                                    builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+                final AlertDialog dialog2 = builder.create();
+                dialog2.show();
 
-                                        public void onClick(DialogInterface dialog, int whichButton) {
+                dialog2.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //Do stuff, possibly set wantToCloseDialog to true then...
 
-                                        }
-                                    })
-                                            .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+                        String inputTitle = edit_title.getText().toString().trim();
 
-                                                public void onClick(DialogInterface dialog, int whichButton) {
-                                                    dialog.cancel();
-                                                }
-                                            });
+                        if(db.isExist(inputTitle)){
+                            Snackbar.make(lv, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
+                        }else{
+                            db.insert(inputTitle, "", "3", "true", helper_main.createDate());
+                            dialog2.dismiss();
+                            setTodoList();
+                            Snackbar.make(lv, R.string.bookmark_added, Snackbar.LENGTH_SHORT).show();
+                        }
+                    }
+                });
 
-                                    final AlertDialog dialog2 = builder.create();
-                                    dialog2.show();
-
-                                    dialog2.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            //Do stuff, possibly set wantToCloseDialog to true then...
-
-                                            String inputTitle = edit_title.getText().toString().trim();
-
-                                            if(db.isExist(inputTitle)){
-                                                Snackbar.make(lv, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
-                                            }else{
-                                                db.insert(inputTitle, "", "3", "true", helper_main.createDate());
-                                                dialog2.dismiss();
-                                                setTodoList();
-                                                Snackbar.make(lv, R.string.bookmark_added, Snackbar.LENGTH_SHORT).show();
-                                            }
-                                        }
-                                    });
-
-                                    new Handler().postDelayed(new Runnable() {
-                                        public void run() {
-                                            helper_main.showKeyboard(getActivity(),edit_title);
-                                        }
-                                    }, 200);
-
-                                }
-
-                            }
-                        }).show();
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
+                        helper_main.showKeyboard(getActivity(),edit_title);
+                    }
+                }, 200);
             }
         });
+
+        fab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                closeFABMenu();
+                helper_main.isOpened(getActivity());
+                Intent mainIntent = new Intent(getActivity(), Popup_courseList.class);
+                mainIntent.setAction("courseList_todo");
+                startActivity(mainIntent);
+            }
+        });
+
+        //calling Notes_DbAdapter
+        db = new Todo_DbAdapter(getActivity());
+        db.open();
 
         setTodoList();
         setHasOptionsMenu(true);
 
         return rootView;
+    }
+
+    private void showFABMenu(){
+        isFABOpen=true;
+        fabLayout1.setVisibility(View.VISIBLE);
+        fabLayout2.setVisibility(View.VISIBLE);
+
+        fab.animate().rotationBy(180);
+        fabLayout1.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
+        fabLayout2.animate().translationY(-getResources().getDimension(R.dimen.standard_100));
+    }
+
+    private void closeFABMenu(){
+        isFABOpen=false;
+        fab.animate().rotationBy(-180);
+        fabLayout1.animate().translationY(0);
+        fabLayout2.animate().translationY(0).setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {}
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                if(!isFABOpen){
+                    fabLayout1.setVisibility(View.GONE);
+                    fabLayout2.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {}
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {}
+        });
     }
 
     @Override

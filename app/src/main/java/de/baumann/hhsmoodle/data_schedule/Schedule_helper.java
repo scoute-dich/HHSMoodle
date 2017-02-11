@@ -70,7 +70,7 @@ public class Schedule_helper {
         alarmMgr.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), piMain);
     }
 
-    static void insertDefaultBookmarks (Activity activity) {
+    public static void insertDefaultBookmarks (Activity activity) {
 
         Schedule_DbAdapter db = new Schedule_DbAdapter(activity);
         db.open();

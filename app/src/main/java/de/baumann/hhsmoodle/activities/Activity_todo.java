@@ -21,7 +21,6 @@ package de.baumann.hhsmoodle.activities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
@@ -485,15 +484,6 @@ public class Activity_todo extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if (id == R.id.action_share) {
-
-            Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-            sharingIntent.setType("text/plain");
-            sharingIntent.putExtra(Intent.EXTRA_SUBJECT, toDo_title);
-            sharingIntent.putExtra(Intent.EXTRA_TEXT, getText());
-            startActivity(Intent.createChooser(sharingIntent, (getString(R.string.note_share_2))));
-        }
-
         if (id == R.id.action_folder) {
             String startDir = Environment.getExternalStorageDirectory() + "/HHS_Moodle/";
             helper_main.openFilePicker(Activity_todo.this, lvItems, startDir);
@@ -514,14 +504,6 @@ public class Activity_todo extends AppCompatActivity {
             newFile().delete();
             helper_main.isOpened(Activity_todo.this);
             helper_main.switchToActivity(Activity_todo.this, HHS_MainScreen.class, true);
-        }
-
-        if (id == R.id.action_help) {
-            final android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(Activity_todo.this)
-                    .setTitle(R.string.todo_title)
-                    .setMessage(helper_main.textSpannable(getString(R.string.helpToDo_activity_text)))
-                    .setPositiveButton(getString(R.string.toast_yes), null);
-            dialog.show();
         }
 
         return super.onOptionsItemSelected(item);

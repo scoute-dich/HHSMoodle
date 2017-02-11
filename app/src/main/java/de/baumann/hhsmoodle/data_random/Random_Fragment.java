@@ -19,6 +19,7 @@
 
 package de.baumann.hhsmoodle.data_random;
 
+import android.animation.Animator;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -46,6 +47,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.SimpleCursorAdapter;
@@ -66,9 +68,13 @@ public class Random_Fragment extends Fragment implements HHS_MainScreen.OnBackPr
     private ListView lv = null;
     private TextView textFile;
     private ScrollView scrollView;
-    private FloatingActionButton fab_add;
-    private FloatingActionButton fab;
     private int number;
+
+    private FloatingActionButton fab_dice;
+    private FloatingActionButton fab;
+    private LinearLayout fabLayout1;
+    private LinearLayout fabLayout2;
+    private boolean isFABOpen=false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -85,91 +91,93 @@ public class Random_Fragment extends Fragment implements HHS_MainScreen.OnBackPr
             images.recycle();
         }
 
-        fab_add = (FloatingActionButton) rootView.findViewById(R.id.fab_add);
-        fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        fab_dice = (FloatingActionButton) rootView.findViewById(R.id.fab_dice);
         scrollView = (ScrollView) rootView.findViewById(R.id.scrollView);
         textFile = (TextView) rootView.findViewById(R.id.textFile);
         lv = (ListView) rootView.findViewById(R.id.list);
 
-        fab_add.setOnClickListener(new View.OnClickListener() {
+        fabLayout1= (LinearLayout) rootView.findViewById(R.id.fabLayout1);
+        fabLayout2= (LinearLayout) rootView.findViewById(R.id.fabLayout2);
+        fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        FloatingActionButton fab1 = (FloatingActionButton) rootView.findViewById(R.id.fab1);
+        FloatingActionButton fab2 = (FloatingActionButton) rootView.findViewById(R.id.fab2);
+
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(!isFABOpen){
+                    showFABMenu();
+                }else{
+                    closeFABMenu();
+                }
+            }
+        });
 
-                final CharSequence[] options = {
-                        getString(R.string.todo_from_courseList),
-                        getString(R.string.todo_from_new)};
-                new AlertDialog.Builder(getActivity())
-                        .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+        fab1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                closeFABMenu();
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                View dialogView = View.inflate(getActivity(), R.layout.dialog_edit_title, null);
+                final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
+                edit_title.setHint(R.string.bookmark_edit_title);
+                builder.setTitle(R.string.todo_from_new);
+                builder.setView(dialogView);
+                builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                    }
+                })
+                        .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
 
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 dialog.cancel();
                             }
-                        })
-                        .setItems(options, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int item) {
-                                if (options[item].equals(getString(R.string.todo_from_courseList))) {
-                                    helper_main.isOpened(getActivity());
-                                    Intent mainIntent = new Intent(getActivity(), Popup_courseList.class);
-                                    mainIntent.setAction("courseList_random");
-                                    startActivity(mainIntent);
-                                }
+                        });
 
-                                if (options[item].equals (getString(R.string.todo_from_new))) {
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                                    View dialogView = View.inflate(getActivity(), R.layout.dialog_edit_title, null);
-                                    final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
-                                    edit_title.setHint(R.string.bookmark_edit_title);
-                                    builder.setTitle(R.string.todo_from_new);
-                                    builder.setView(dialogView);
-                                    builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+                final AlertDialog dialog2 = builder.create();
+                dialog2.show();
 
-                                        public void onClick(DialogInterface dialog, int whichButton) {
+                dialog2.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //Do stuff, possibly set wantToCloseDialog to true then...
 
-                                        }
-                                    })
-                                            .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+                        String inputTitle = edit_title.getText().toString().trim();
 
-                                                public void onClick(DialogInterface dialog, int whichButton) {
-                                                    dialog.cancel();
-                                                }
-                                            });
+                        if(db.isExist(inputTitle)){
+                            Snackbar.make(lv, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
+                        }else{
+                            db.insert(inputTitle, "", "", "", helper_main.createDate());
+                            dialog2.dismiss();
+                            setRandomList();
+                            Snackbar.make(lv, R.string.bookmark_added, Snackbar.LENGTH_SHORT).show();
+                        }
+                    }
+                });
 
-                                    final AlertDialog dialog2 = builder.create();
-                                    dialog2.show();
-
-                                    dialog2.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            //Do stuff, possibly set wantToCloseDialog to true then...
-
-                                            String inputTitle = edit_title.getText().toString().trim();
-
-                                            if(db.isExist(inputTitle)){
-                                                Snackbar.make(lv, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
-                                            }else{
-                                                db.insert(inputTitle, "", "", "", helper_main.createDate());
-                                                dialog2.dismiss();
-                                                setRandomList();
-                                                Snackbar.make(lv, R.string.bookmark_added, Snackbar.LENGTH_SHORT).show();
-                                            }
-                                        }
-                                    });
-
-                                    new Handler().postDelayed(new Runnable() {
-                                        public void run() {
-                                            helper_main.showKeyboard(getActivity(),edit_title);
-                                        }
-                                    }, 200);
-
-                                }
-
-                            }
-                        }).show();
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
+                        helper_main.showKeyboard(getActivity(),edit_title);
+                    }
+                }, 200);
             }
         });
 
-        fab.setOnClickListener(new View.OnClickListener() {
+        fab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                closeFABMenu();
+                helper_main.isOpened(getActivity());
+                Intent mainIntent = new Intent(getActivity(), Popup_courseList.class);
+                mainIntent.setAction("courseList_random");
+                startActivity(mainIntent);
+            }
+        });
+
+
+        fab_dice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -210,6 +218,40 @@ public class Random_Fragment extends Fragment implements HHS_MainScreen.OnBackPr
         return rootView;
     }
 
+    private void showFABMenu(){
+        isFABOpen=true;
+        fabLayout1.setVisibility(View.VISIBLE);
+        fabLayout2.setVisibility(View.VISIBLE);
+
+        fab.animate().rotationBy(180);
+        fabLayout1.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
+        fabLayout2.animate().translationY(-getResources().getDimension(R.dimen.standard_100));
+    }
+
+    private void closeFABMenu(){
+        isFABOpen=false;
+        fab.animate().rotationBy(-180);
+        fabLayout1.animate().translationY(0);
+        fabLayout2.animate().translationY(0).setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {}
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                if(!isFABOpen){
+                    fabLayout1.setVisibility(View.GONE);
+                    fabLayout2.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {}
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {}
+        });
+    }
+
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
@@ -228,35 +270,46 @@ public class Random_Fragment extends Fragment implements HHS_MainScreen.OnBackPr
     @Override
     public void doBack() {
         //BackPressed in activity will call this;
-        if (scrollView.getVisibility() == View.VISIBLE) {
+        if(isFABOpen){
+            closeFABMenu();
+        }else if (scrollView.getVisibility() == View.VISIBLE) {
             lv.setVisibility(View.VISIBLE);
             scrollView.setVisibility(View.GONE);
-            fab_add.setVisibility(View.VISIBLE);
-            fab.setVisibility(View.GONE);
+            fab.setVisibility(View.VISIBLE);
+            fab_dice.setVisibility(View.GONE);
+            getActivity().setTitle(R.string.number_title);
         } else {
-            PreferenceManager.setDefaultValues(getActivity(), R.xml.user_settings, false);
-            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-            if (sharedPref.getBoolean ("backup_aut", false)){
-                helper_main.makeToast(getActivity(), getString(R.string.toast_backup));
-                try {helper_encryption.encryptBackup(getActivity(),"/bookmarks_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                try {helper_encryption.encryptBackup(getActivity(),"/courses_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                try {helper_encryption.encryptBackup(getActivity(),"/notes_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                try {helper_encryption.encryptBackup(getActivity(),"/random_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                try {helper_encryption.encryptBackup(getActivity(),"/subject_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                try {helper_encryption.encryptBackup(getActivity(),"/schedule_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                try {helper_encryption.encryptBackup(getActivity(),"/todo_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                sharedPref.edit().putString("loadURL", "").apply();
-                helper_main.isClosed(getActivity());
-                Snackbar.make(lv, getString(R.string.app_encrypt) , Snackbar.LENGTH_LONG).show();
-                helper_encryption.encryptDatabases(getActivity());
-                getActivity().finish();
+            PreferenceManager.setDefaultValues(getActivity(), R.xml.user_settings, false);
+            final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+            if (sharedPref.getBoolean("backup_aut", false)) {
+
+                Snackbar.make(lv, getString(R.string.app_close), Snackbar.LENGTH_INDEFINITE).show();
+                try {helper_encryption.encryptBackup(getActivity(), "/bookmarks_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                try {helper_encryption.encryptBackup(getActivity(), "/courses_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                try {helper_encryption.encryptBackup(getActivity(), "/notes_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                try {helper_encryption.encryptBackup(getActivity(), "/random_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                try {helper_encryption.encryptBackup(getActivity(), "/subject_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                try {helper_encryption.encryptBackup(getActivity(), "/schedule_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                try {helper_encryption.encryptBackup(getActivity(), "/todo_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+
+                Snackbar.make(lv, getString(R.string.app_close), Snackbar.LENGTH_INDEFINITE).show();
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
+                        Snackbar.make(lv, getString(R.string.app_close), Snackbar.LENGTH_INDEFINITE).show();
+                        sharedPref.edit().putString("loadURL", "").apply();
+                        helper_main.isClosed(getActivity());
+                        helper_encryption.encryptDatabases(getActivity());
+                        getActivity().finishAffinity();
+                    }
+                }, 1500);
+
             } else {
                 sharedPref.edit().putString("loadURL", "").apply();
                 helper_main.isClosed(getActivity());
-                Snackbar.make(lv, getString(R.string.app_encrypt) , Snackbar.LENGTH_LONG).show();
                 helper_encryption.encryptDatabases(getActivity());
-                getActivity().finish();
+                getActivity().finishAffinity();
             }
         }
     }
@@ -296,15 +349,17 @@ public class Random_Fragment extends Fragment implements HHS_MainScreen.OnBackPr
 
                 Cursor row2 = (Cursor) lv.getItemAtPosition(position);
                 final String random_content = row2.getString(row2.getColumnIndexOrThrow("random_content"));
+                final String random_title = row2.getString(row2.getColumnIndexOrThrow("random_title"));
 
                 if (random_content.isEmpty()) {
                     Snackbar.make(lv, getActivity().getString(R.string.number_enterData), Snackbar.LENGTH_LONG).show();
                 } else {
+                    getActivity().setTitle(random_content);
                     lv.setVisibility(View.GONE);
                     scrollView.setVisibility(View.VISIBLE);
-                    textFile.setText(String.valueOf(random_content));
-                    fab_add.setVisibility(View.GONE);
-                    fab.setVisibility(View.VISIBLE);
+                    textFile.setText(String.valueOf(random_title));
+                    fab.setVisibility(View.GONE);
+                    fab_dice.setVisibility(View.VISIBLE);
                 }
             }
         });

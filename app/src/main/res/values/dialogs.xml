@@ -63,21 +63,9 @@
         If you click on a list entry you can create a note, you can open a menu to edit the list entry.
     </string>
 
-    <string name="helpToDo_activity_text">
-
-        Just enter a new entry and press the \"+\" button. Existing entries can be edited:&lt;br>&lt;br>
-
-        &lt;b>Short click:&lt;/b>&lt;br>
-        The content of the entry can be edited.&lt;br>&lt;br>
-
-        &lt;b>Long click:&lt;/b>&lt;br>
-        The entry will be deleted. There is a short time period to restore it.
-    </string>
-
     <string name="perm_notShow_title">Grant permission</string>
     <string name="perm_notShow_title_summary">Only for Android Marshmallow and above: Grant used permission by
         opening \"Permissions\" in the next window. After that restart the app.</string>
-    <string name="perm_notShow_toast">Please open \"Permissions\".</string>
 
     <string name="perm_notShow_title_dist">Do not disturb</string>
     <string name="perm_notShow_title_summary_dist">Only for Android Nougat and above: Grant used permission

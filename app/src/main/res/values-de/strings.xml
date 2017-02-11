@@ -37,8 +37,8 @@
     <string name="app_contDesc_3">Splashscreen</string>
     <string name="app_conf">Bestätigung</string>
     <string name="app_att">Anhang</string>
-    <string name="app_encrypt">Verschlüssle Datenbanken …</string>
     <string name="app_myMoodle">Mein Moodle</string>
+    <string name="app_close">Bitte warten … App wird beendet.</string>
 
 
     // Moodle
@@ -230,7 +230,6 @@
     <string name="toast_perm">Berechtigungen gewährt?</string>
     <string name="toast_wrongPW">Uuups. Falsches Passwort.</string>
     <string name="toast_shortcut">Verknüpfung erfolgreich erstellt.</string>
-    <string name="toast_restore">Wiederherstellung erfolgreich.</string>
     <string name="toast_backup_not">Sicherung fehlgeschlagen.</string>
     <string name="toast_restore_not">Wiederherstellung fehlgeschlagen.</string>
     <string name="toast_download_2">Download vollständig. Ordner öffnen?</string>
@@ -238,7 +237,6 @@
     <string name="toast_extension">Kein unterstützter Dateityp</string>
     <string name="toast_install_app">Please install an app to perform action.</string>
     <string name="toast_newTitle">Titel existiert bereits.</string>
-    <string name="toast_backup">Sichere Datenbanken.</string>
     <string name="toast_noEntry">Kein Eintrag in der Liste vorhanden.</string>
 
 

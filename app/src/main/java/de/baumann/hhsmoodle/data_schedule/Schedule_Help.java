@@ -1,9 +1,6 @@
 package de.baumann.hhsmoodle.data_schedule;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 
 import com.chyrta.onboarder.OnboarderActivity;
 import com.chyrta.onboarder.OnboarderPage;
@@ -12,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.baumann.hhsmoodle.R;
-import de.baumann.hhsmoodle.activities.Activity_splash;
 
 public class Schedule_Help extends OnboarderActivity {
 
@@ -38,9 +34,8 @@ public class Schedule_Help extends OnboarderActivity {
         onboarderPages.add(onboarderPage2);
 
         // And pass your pages to 'setOnboardPagesReady' method
-        setActiveIndicatorColor(android.R.color.white);
-        setInactiveIndicatorColor(android.R.color.darker_gray);
-        shouldDarkenButtonsLayout(true);
+        setActiveIndicatorColor(R.color.colorAccent);
+        setInactiveIndicatorColor(R.color.colorPrimary);
         shouldUseFloatingActionButton(true);
         setOnboardPagesReady(onboarderPages);
     }
@@ -55,12 +50,6 @@ public class Schedule_Help extends OnboarderActivity {
     @Override
     public void onFinishButtonPressed() {
         // Define your actions when the user press 'Finish' button
-        PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        sharedPref.edit().putBoolean("showIntroScreen_notShow", false).apply();
-        Intent mainIntent = new Intent(Schedule_Help.this, Activity_splash.class);
-        startActivity(mainIntent);
-        Schedule_Help.this.finish();
-        overridePendingTransition(R.anim.fadein,R.anim.fadeout);
+        finish();
     }
 }

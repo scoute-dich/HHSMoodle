@@ -41,6 +41,7 @@ import java.util.Random;
 
 import de.baumann.hhsmoodle.HHS_MainScreen;
 import de.baumann.hhsmoodle.R;
+import de.baumann.hhsmoodle.data_schedule.Schedule_helper;
 import de.baumann.hhsmoodle.helper.class_SecurePreferences;
 import de.baumann.hhsmoodle.helper.helper_encryption;
 import de.baumann.hhsmoodle.helper.helper_main;
@@ -72,6 +73,7 @@ public class Activity_splash extends AppCompatActivity {
                 char c = chars[random.nextInt(chars.length)];
                 sb.append(c);
             }
+            Schedule_helper.insertDefaultBookmarks(Activity_splash.this);
             sharedPrefSec.put("key_encryption_01", sb.toString());
             sharedPref.edit().putString("key_generated_01", "yes").apply();
         }

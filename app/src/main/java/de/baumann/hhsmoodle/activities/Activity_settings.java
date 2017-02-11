@@ -22,8 +22,6 @@ package de.baumann.hhsmoodle.activities;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.NotificationManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -243,7 +241,6 @@ public class Activity_settings extends AppCompatActivity {
                         Uri uri = Uri.fromParts("package", getActivity().getPackageName(), null);
                         intent.setData(uri);
                         getActivity().startActivity(intent);
-                        helper_main.makeToast(getActivity(), getActivity().getString(R.string.perm_notShow_toast));
                     }
 
                     return true;
@@ -257,14 +254,10 @@ public class Activity_settings extends AppCompatActivity {
             reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference pref) {
 
-                    NotificationManager notificationManager =
-                            (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
-
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && !notificationManager.isNotificationPolicyAccessGranted()) {
+                   if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         Intent intent = new Intent(android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
                         startActivity(intent);
                     }
-
                     return true;
                 }
             });
@@ -478,7 +471,6 @@ public class Activity_settings extends AppCompatActivity {
                     fos.flush();
                     fos.close();
                     cis.close();
-                    helper_main.makeToast(getActivity(), getActivity().getString(R.string.toast_restore));
                 }
 
             } catch (PackageManager.NameNotFoundException e) {

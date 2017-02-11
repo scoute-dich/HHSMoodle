@@ -70,8 +70,7 @@ public class Activity_intro extends OnboarderActivity {
 
         // And pass your pages to 'setOnboardPagesReady' method
         setActiveIndicatorColor(R.color.colorAccent);
-        setInactiveIndicatorColor(android.R.color.background_light);
-        shouldDarkenButtonsLayout(true);
+        setInactiveIndicatorColor(R.color.colorPrimary);
         shouldUseFloatingActionButton(true);
         setOnboardPagesReady(onboarderPages);
     }

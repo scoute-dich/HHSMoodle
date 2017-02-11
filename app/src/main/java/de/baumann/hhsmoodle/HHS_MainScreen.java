@@ -28,6 +28,7 @@ import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -72,7 +73,6 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
     private ViewPager viewPager;
     private SharedPreferences sharedPref;
     private class_SecurePreferences sharedPrefSec;
-
     private OnBackPressedListener onBackPressedListener;
 
     public interface OnBackPressedListener {
@@ -261,34 +261,39 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
 
     @Override
     public void onBackPressed() {
-        if (onBackPressedListener != null) {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else if (onBackPressedListener != null && (viewPager.getCurrentItem() == 0 || viewPager.getCurrentItem() == 5)) {
             onBackPressedListener.doBack();
         } else {
-            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-            if (drawer.isDrawerOpen(GravityCompat.START)) {
-                drawer.closeDrawer(GravityCompat.START);
+            if (sharedPref.getBoolean("backup_aut", false)) {
+
+                Snackbar.make(viewPager, getString(R.string.app_close), Snackbar.LENGTH_INDEFINITE).show();
+                try {helper_encryption.encryptBackup(HHS_MainScreen.this, "/bookmarks_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                try {helper_encryption.encryptBackup(HHS_MainScreen.this, "/courses_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                try {helper_encryption.encryptBackup(HHS_MainScreen.this, "/notes_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                try {helper_encryption.encryptBackup(HHS_MainScreen.this, "/random_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                try {helper_encryption.encryptBackup(HHS_MainScreen.this, "/subject_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                try {helper_encryption.encryptBackup(HHS_MainScreen.this, "/schedule_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                try {helper_encryption.encryptBackup(HHS_MainScreen.this, "/todo_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+
+                Snackbar.make(viewPager, getString(R.string.app_close), Snackbar.LENGTH_INDEFINITE).show();
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
+                        Snackbar.make(viewPager, getString(R.string.app_close), Snackbar.LENGTH_INDEFINITE).show();
+                        sharedPref.edit().putString("loadURL", "").apply();
+                        helper_main.isClosed(HHS_MainScreen.this);
+                        helper_encryption.encryptDatabases(HHS_MainScreen.this);
+                        finishAffinity();
+                    }
+                }, 1500);
+
             } else {
-                if (sharedPref.getBoolean ("backup_aut", false)){
-                    helper_main.makeToast(HHS_MainScreen.this, getString(R.string.toast_backup));
-                    try {helper_encryption.encryptBackup(HHS_MainScreen.this,"/bookmarks_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                    try {helper_encryption.encryptBackup(HHS_MainScreen.this,"/courses_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                    try {helper_encryption.encryptBackup(HHS_MainScreen.this,"/notes_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                    try {helper_encryption.encryptBackup(HHS_MainScreen.this,"/random_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                    try {helper_encryption.encryptBackup(HHS_MainScreen.this,"/subject_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                    try {helper_encryption.encryptBackup(HHS_MainScreen.this,"/schedule_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                    try {helper_encryption.encryptBackup(HHS_MainScreen.this,"/todo_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                    sharedPref.edit().putString("loadURL", "").apply();
-                    helper_main.isClosed(HHS_MainScreen.this);
-                    Snackbar.make(viewPager, getString(R.string.app_encrypt) , Snackbar.LENGTH_LONG).show();
-                    helper_encryption.encryptDatabases(HHS_MainScreen.this);
-                    finish();
-                } else {
-                    sharedPref.edit().putString("loadURL", "").apply();
-                    helper_main.isClosed(HHS_MainScreen.this);
-                    Snackbar.make(viewPager, getString(R.string.app_encrypt) , Snackbar.LENGTH_LONG).show();
-                    helper_encryption.encryptDatabases(HHS_MainScreen.this);
-                    finish();
-                }
+                sharedPref.edit().putString("loadURL", "").apply();
+                helper_main.isClosed(HHS_MainScreen.this);
+                helper_encryption.encryptDatabases(HHS_MainScreen.this);
+                finishAffinity();
             }
         }
     }
@@ -298,8 +303,6 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
         onBackPressedListener = null;
         super.onDestroy();
     }
-
-
 
     private void lockUI() {
 

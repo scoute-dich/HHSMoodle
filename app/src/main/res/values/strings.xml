@@ -36,8 +36,8 @@
     <string name="app_contDesc_3">splashscreen</string>
     <string name="app_conf">Confirmation</string>
     <string name="app_att">Attachment</string>
-    <string name="app_encrypt">Encrypting databases …</string>
     <string name="app_myMoodle">My Moodle</string>
+    <string name="app_close">Please wait … Closing app.</string>
 
 
     // Moodle
@@ -112,7 +112,7 @@
         can edit your login data in the settings.</string>
 
     <string name="intro10_title">Schedule</string>
-    <string name="intro10_text">Create your schedule, so that your phone doesn\'t ring during lessons.</string>
+    <string name="intro10_text">Create your schedule, so that your phone does not ring during lessons.</string>
 
 
     // Login
@@ -225,14 +225,12 @@
     <string name="toast_perm">Permissions granted?</string>
     <string name="toast_wrongPW">Uuups. Wrong password.</string>
     <string name="toast_shortcut">Shortcut successfully created.</string>
-    <string name="toast_restore">Restore successfully.</string>
     <string name="toast_backup_not">Backup failed.</string>
     <string name="toast_restore_not">Restore failed.</string>
     <string name="toast_screenshot_failed">Failed to create screenshot.</string>
     <string name="toast_extension">No supported file extension</string>
     <string name="toast_install_app">Please install an app to perform action.</string>
     <string name="toast_newTitle">Title already exists.</string>
-    <string name="toast_backup">Backing up databases.</string>
     <string name="toast_noEntry">There\'s no entry in the list.</string>
 
 

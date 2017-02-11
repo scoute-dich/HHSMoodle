@@ -34,9 +34,8 @@ public class FragmentBrowser_Help extends OnboarderActivity {
         onboarderPages.add(onboarderPage2);
 
         // And pass your pages to 'setOnboardPagesReady' method
-        setActiveIndicatorColor(android.R.color.white);
-        setInactiveIndicatorColor(android.R.color.darker_gray);
-        shouldDarkenButtonsLayout(true);
+        setActiveIndicatorColor(R.color.colorAccent);
+        setInactiveIndicatorColor(R.color.colorPrimary);
         shouldUseFloatingActionButton(true);
         setOnboardPagesReady(onboarderPages);
     }

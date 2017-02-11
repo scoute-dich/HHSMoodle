@@ -19,6 +19,7 @@
 
 package de.baumann.hhsmoodle.data_notes;
 
+import android.animation.Animator;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -55,6 +56,7 @@ import android.widget.EditText;
 import android.widget.FilterQueryProvider;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -85,6 +87,11 @@ public class Notes_Fragment extends Fragment {
     private SharedPreferences sharedPref;
     private ImageView imgHeader;
     private RelativeLayout filter_layout;
+
+    private FloatingActionButton fab;
+    private LinearLayout fabLayout1;
+    private LinearLayout fabLayout2;
+    private boolean isFABOpen=false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -119,51 +126,42 @@ public class Notes_Fragment extends Fragment {
             }
         });
 
-        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        fabLayout1= (LinearLayout) rootView.findViewById(R.id.fabLayout1);
+        fabLayout2= (LinearLayout) rootView.findViewById(R.id.fabLayout2);
+        fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        FloatingActionButton fab1 = (FloatingActionButton) rootView.findViewById(R.id.fab1);
+        FloatingActionButton fab2 = (FloatingActionButton) rootView.findViewById(R.id.fab2);
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(!isFABOpen){
+                    showFABMenu();
+                }else{
+                    closeFABMenu();
+                }
+            }
+        });
 
+        fab1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                closeFABMenu();
                 sharedPref.edit().putString("handleTextCreate", helper_main.createDate()).apply();
                 newNote(getActivity());
             }
         });
 
-        fab.setOnClickListener(new View.OnClickListener() {
+        fab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                final CharSequence[] options = {
-                        getString(R.string.todo_from_courseList),
-                        getString(R.string.todo_from_new)};
-                new AlertDialog.Builder(getActivity())
-                        .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                dialog.cancel();
-                            }
-                        })
-                        .setItems(options, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int item) {
-                                if (options[item].equals(getString(R.string.todo_from_courseList))) {
-                                    helper_main.isOpened(getActivity());
-                                    Intent mainIntent = new Intent(getActivity(), Popup_courseList.class);
-                                    mainIntent.setAction("courseList_note");
-                                    startActivity(mainIntent);
-                                }
-
-                                if (options[item].equals (getString(R.string.todo_from_new))) {
-                                    sharedPref.edit().putString("handleTextCreate", helper_main.createDate()).apply();
-                                    newNote(getActivity());
-                                }
-
-                            }
-                        }).show();
+                closeFABMenu();
+                helper_main.isOpened(getActivity());
+                Intent mainIntent = new Intent(getActivity(), Popup_courseList.class);
+                mainIntent.setAction("courseList_note");
+                startActivity(mainIntent);
             }
         });
-
-
 
         //calling Notes_DbAdapter
         db = new Notes_DbAdapter(getActivity());
@@ -173,6 +171,40 @@ public class Notes_Fragment extends Fragment {
         setHasOptionsMenu(true);
 
         return rootView;
+    }
+
+    private void showFABMenu(){
+        isFABOpen=true;
+        fabLayout1.setVisibility(View.VISIBLE);
+        fabLayout2.setVisibility(View.VISIBLE);
+
+        fab.animate().rotationBy(180);
+        fabLayout1.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
+        fabLayout2.animate().translationY(-getResources().getDimension(R.dimen.standard_100));
+    }
+
+    private void closeFABMenu(){
+        isFABOpen=false;
+        fab.animate().rotationBy(-180);
+        fabLayout1.animate().translationY(0);
+        fabLayout2.animate().translationY(0).setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {}
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                if(!isFABOpen){
+                    fabLayout1.setVisibility(View.GONE);
+                    fabLayout2.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {}
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {}
+        });
     }
 
     @Override
