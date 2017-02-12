@@ -24,6 +24,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.view.View;
@@ -74,8 +75,12 @@ public class Popup_courseList extends Activity {
         setCoursesList();
 
         if (lv.getAdapter().getCount() == 0) {
-            helper_main.makeToast(Popup_courseList.this, getString(R.string.toast_noEntry));
-            finish();
+            Snackbar.make(lv, R.string.toast_noEntry, Snackbar.LENGTH_INDEFINITE).show();
+            new Handler().postDelayed(new Runnable() {
+                public void run() {
+                    finish();
+                }
+            }, 1000);
         }
     }
 

@@ -66,7 +66,7 @@ public class Notes_helper {
         LayoutInflater inflater = from.getLayoutInflater();
 
         final ViewGroup nullParent = null;
-        View dialogView = inflater.inflate(R.layout.dialog_editnote, nullParent);
+        View dialogView = inflater.inflate(R.layout.dialog_edit_note, nullParent);
 
         String file = sharedPref.getString("handleTextAttachment", "");
         final String attName = file.substring(file.lastIndexOf("/")+1);

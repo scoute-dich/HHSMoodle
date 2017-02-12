@@ -20,6 +20,7 @@
 package de.baumann.hhsmoodle;
 
 import android.app.NotificationManager;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -32,7 +33,6 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -255,7 +255,6 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
             String startDir = Environment.getExternalStorageDirectory() + "/HHS_Moodle/";
             helper_main.openFilePicker(HHS_MainScreen.this, viewPager, startDir);
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -269,7 +268,6 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
         } else {
             if (sharedPref.getBoolean("backup_aut", false)) {
 
-                Snackbar.make(viewPager, getString(R.string.app_close), Snackbar.LENGTH_INDEFINITE).show();
                 try {helper_encryption.encryptBackup(HHS_MainScreen.this, "/bookmarks_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
                 try {helper_encryption.encryptBackup(HHS_MainScreen.this, "/courses_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
                 try {helper_encryption.encryptBackup(HHS_MainScreen.this, "/notes_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
@@ -278,10 +276,13 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
                 try {helper_encryption.encryptBackup(HHS_MainScreen.this, "/schedule_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
                 try {helper_encryption.encryptBackup(HHS_MainScreen.this, "/todo_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
 
-                Snackbar.make(viewPager, getString(R.string.app_close), Snackbar.LENGTH_INDEFINITE).show();
+                ProgressDialog progressDialog = new ProgressDialog(this);
+                progressDialog.setMessage(getString(R.string.app_close));
+                progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                progressDialog.show();
+
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
-                        Snackbar.make(viewPager, getString(R.string.app_close), Snackbar.LENGTH_INDEFINITE).show();
                         sharedPref.edit().putString("loadURL", "").apply();
                         helper_main.isClosed(HHS_MainScreen.this);
                         helper_encryption.encryptDatabases(HHS_MainScreen.this);

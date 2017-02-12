@@ -21,6 +21,7 @@ package de.baumann.hhsmoodle.data_random;
 
 import android.animation.Animator;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -80,7 +81,6 @@ public class Random_Fragment extends Fragment implements HHS_MainScreen.OnBackPr
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        ((HHS_MainScreen) getActivity()).setOnBackPressedListener(this);
         View rootView = inflater.inflate(R.layout.fragment_screen_dice, container, false);
 
         ImageView imgHeader = (ImageView) rootView.findViewById(R.id.imageView_header);
@@ -256,6 +256,7 @@ public class Random_Fragment extends Fragment implements HHS_MainScreen.OnBackPr
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser && isResumed()) {
+            ((HHS_MainScreen) getActivity()).setOnBackPressedListener(this);
             getActivity().setTitle(R.string.number_title);
             setRandomList();
         }
@@ -285,7 +286,6 @@ public class Random_Fragment extends Fragment implements HHS_MainScreen.OnBackPr
 
             if (sharedPref.getBoolean("backup_aut", false)) {
 
-                Snackbar.make(lv, getString(R.string.app_close), Snackbar.LENGTH_INDEFINITE).show();
                 try {helper_encryption.encryptBackup(getActivity(), "/bookmarks_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
                 try {helper_encryption.encryptBackup(getActivity(), "/courses_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
                 try {helper_encryption.encryptBackup(getActivity(), "/notes_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
@@ -294,10 +294,13 @@ public class Random_Fragment extends Fragment implements HHS_MainScreen.OnBackPr
                 try {helper_encryption.encryptBackup(getActivity(), "/schedule_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
                 try {helper_encryption.encryptBackup(getActivity(), "/todo_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
 
-                Snackbar.make(lv, getString(R.string.app_close), Snackbar.LENGTH_INDEFINITE).show();
+                ProgressDialog progressDialog = new ProgressDialog(getActivity());
+                progressDialog.setMessage(getString(R.string.app_close));
+                progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                progressDialog.show();
+
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
-                        Snackbar.make(lv, getString(R.string.app_close), Snackbar.LENGTH_INDEFINITE).show();
                         sharedPref.edit().putString("loadURL", "").apply();
                         helper_main.isClosed(getActivity());
                         helper_encryption.encryptDatabases(getActivity());
@@ -354,10 +357,10 @@ public class Random_Fragment extends Fragment implements HHS_MainScreen.OnBackPr
                 if (random_content.isEmpty()) {
                     Snackbar.make(lv, getActivity().getString(R.string.number_enterData), Snackbar.LENGTH_LONG).show();
                 } else {
-                    getActivity().setTitle(random_content);
+                    getActivity().setTitle(random_title);
                     lv.setVisibility(View.GONE);
                     scrollView.setVisibility(View.VISIBLE);
-                    textFile.setText(String.valueOf(random_title));
+                    textFile.setText(String.valueOf(random_content));
                     fab.setVisibility(View.GONE);
                     fab_dice.setVisibility(View.VISIBLE);
                 }
@@ -376,7 +379,6 @@ public class Random_Fragment extends Fragment implements HHS_MainScreen.OnBackPr
                 final String random_creation = row2.getString(row2.getColumnIndexOrThrow("random_creation"));
 
                 final CharSequence[] options = {
-                        getString(R.string.bookmark_edit_title),
                         getString(R.string.number_edit_entry),
                         getString(R.string.bookmark_remove_bookmark)};
                 new android.app.AlertDialog.Builder(getActivity())
@@ -389,53 +391,19 @@ public class Random_Fragment extends Fragment implements HHS_MainScreen.OnBackPr
                         .setItems(options, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int item) {
-                                if (options[item].equals(getString(R.string.bookmark_edit_title))) {
-
-                                    android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getActivity());
-                                    View dialogView = View.inflate(getActivity(), R.layout.dialog_edit_title, null);
-
-                                    final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
-                                    edit_title.setHint(R.string.bookmark_edit_title);
-                                    edit_title.setText(random_title);
-
-                                    builder.setView(dialogView);
-                                    builder.setTitle(R.string.bookmark_edit_title);
-                                    builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
-
-                                        public void onClick(DialogInterface dialog, int whichButton) {
-
-                                            String inputTag = edit_title.getText().toString().trim();
-                                            db.update(Integer.parseInt(_id),inputTag, random_content, random_icon, random_attachment, random_creation);
-                                            setRandomList();
-                                            Snackbar.make(lv, R.string.bookmark_added, Snackbar.LENGTH_SHORT).show();
-                                        }
-                                    });
-                                    builder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                                        public void onClick(DialogInterface dialog, int whichButton) {
-                                            dialog.cancel();
-                                        }
-                                    });
-
-                                    final android.app.AlertDialog dialog2 = builder.create();
-                                    // Display the custom alert dialog on interface
-                                    dialog2.show();
-
-                                    new Handler().postDelayed(new Runnable() {
-                                        public void run() {
-                                            helper_main.showKeyboard(getActivity(),edit_title);
-                                        }
-                                    }, 200);
-                                }
 
                                 if (options[item].equals(getString(R.string.number_edit_entry))) {
 
                                     android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getActivity());
-                                    View dialogView = View.inflate(getActivity(), R.layout.dialog_edit_text, null);
+                                    View dialogView = View.inflate(getActivity(), R.layout.dialog_edit_entry, null);
 
-                                    final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
-                                    edit_title.setHint(R.string.bookmark_edit_title);
-                                    edit_title.setText(random_content);
+                                    final EditText edit_title = (EditText) dialogView.findViewById(R.id.note_title_input);
+                                    edit_title.setHint(R.string.title_hint);
+                                    edit_title.setText(random_title);
+
+                                    final EditText edit_cont = (EditText) dialogView.findViewById(R.id.note_text_input);
+                                    edit_cont.setHint(R.string.text_hint);
+                                    edit_cont.setText(random_content);
 
                                     builder.setView(dialogView);
                                     builder.setTitle(R.string.number_edit_entry);
@@ -443,8 +411,9 @@ public class Random_Fragment extends Fragment implements HHS_MainScreen.OnBackPr
 
                                         public void onClick(DialogInterface dialog, int whichButton) {
 
-                                            String inputTag = edit_title.getText().toString().trim();
-                                            db.update(Integer.parseInt(_id),random_title, inputTag, random_icon, random_attachment, random_creation);
+                                            String inputTitle = edit_title.getText().toString().trim();
+                                            String inputCont = edit_cont.getText().toString().trim();
+                                            db.update(Integer.parseInt(_id),inputTitle, inputCont, random_icon, random_attachment, random_creation);
                                             setRandomList();
                                             Snackbar.make(lv, R.string.bookmark_added, Snackbar.LENGTH_SHORT).show();
                                         }
@@ -465,8 +434,6 @@ public class Random_Fragment extends Fragment implements HHS_MainScreen.OnBackPr
                                             helper_main.showKeyboard(getActivity(),edit_title);
                                         }
                                     }, 200);
-
-
                                 }
 
                                 if (options[item].equals(getString(R.string.bookmark_remove_bookmark))) {

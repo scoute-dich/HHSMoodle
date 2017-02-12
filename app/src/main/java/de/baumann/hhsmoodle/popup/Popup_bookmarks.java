@@ -23,7 +23,9 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -68,8 +70,12 @@ public class Popup_bookmarks extends Activity {
         setBookmarksList();
 
         if (lv.getAdapter().getCount() == 0) {
-            helper_main.makeToast(Popup_bookmarks.this, getString(R.string.toast_noEntry));
-            finish();
+            Snackbar.make(lv, R.string.toast_noEntry, Snackbar.LENGTH_INDEFINITE).show();
+            new Handler().postDelayed(new Runnable() {
+                public void run() {
+                    finish();
+                }
+            }, 1000);
         }
     }
 

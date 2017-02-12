@@ -42,6 +42,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.util.Linkify;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -50,8 +51,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FilterQueryProvider;
 import android.widget.ImageButton;
@@ -465,11 +464,11 @@ public class Notes_Fragment extends Fragment {
                 final String note_creation = row2.getString(row2.getColumnIndexOrThrow("note_creation"));
 
                 final CharSequence[] options = {
-                        getString(R.string.note_edit),
-                        getString(R.string.note_share),
+                        getString(R.string.number_edit_entry),
+                        getString(R.string.bookmark_remove_bookmark),
+                        getString(R.string.todo_share),
                         getString(R.string.todo_menu),
-                        getString(R.string.bookmark_createEvent),
-                        getString(R.string.note_remove_note)};
+                        getString(R.string.bookmark_createEvent)};
                 new AlertDialog.Builder(getActivity())
                         .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
 
@@ -480,7 +479,7 @@ public class Notes_Fragment extends Fragment {
                         .setItems(options, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int item) {
-                                if (options[item].equals(getString(R.string.note_edit))) {
+                                if (options[item].equals(getString(R.string.number_edit_entry))) {
                                     sharedPref.edit()
                                             .putString("handleTextTitle", note_title)
                                             .putString("handleTextText", note_content)
@@ -492,7 +491,7 @@ public class Notes_Fragment extends Fragment {
                                     editNote(getActivity());
                                 }
 
-                                if (options[item].equals (getString(R.string.note_share))) {
+                                if (options[item].equals (getString(R.string.todo_share))) {
                                     Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                                     sharingIntent.setType("text/plain");
                                     sharingIntent.putExtra(Intent.EXTRA_SUBJECT, note_title);
@@ -523,7 +522,7 @@ public class Notes_Fragment extends Fragment {
                                     startActivity(calIntent);
                                 }
 
-                                if (options[item].equals(getString(R.string.note_remove_note))) {
+                                if (options[item].equals(getString(R.string.bookmark_remove_bookmark))) {
                                     Snackbar snackbar = Snackbar
                                             .make(lv, R.string.note_remove_confirmation, Snackbar.LENGTH_LONG)
                                             .setAction(R.string.toast_yes, new View.OnClickListener() {
@@ -558,6 +557,16 @@ public class Notes_Fragment extends Fragment {
     }
 
     @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        super.onPrepareOptionsMenu(menu);
+        menu.findItem(R.id.sort_notification).setVisible(false);
+        menu.findItem(R.id.filter_teacher).setVisible(false);
+        menu.findItem(R.id.filter_room).setVisible(false);
+        menu.findItem(R.id.filter_url).setVisible(false);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
@@ -566,171 +575,62 @@ public class Notes_Fragment extends Fragment {
                 helper_main.switchToActivity(getActivity(), Notes_Help.class, false);
                 return true;
 
-            case R.id.action_filter:
-                final CharSequence[] options = {
-                        getActivity().getString(R.string.action_filter_title),
-                        getActivity().getString(R.string.action_filter_cont),
-                        getActivity().getString(R.string.action_filter_att),
-                        getActivity().getString(R.string.action_filter_create)};
-                new AlertDialog.Builder(getActivity())
-                        .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                dialog.cancel();
-                            }
-                        })
-                        .setItems(options, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int item) {
-
-                                if (options[item].equals (getActivity().getString(R.string.action_filter_title))) {
-                                    sharedPref.edit().putString("filter_noteBY", "note_title").apply();
-                                    setNotesList();
-                                    filter_layout.setVisibility(View.VISIBLE);
-                                    imgHeader.setVisibility(View.GONE);
-                                    filter.setText("");
-                                    filter.setHint(R.string.action_filter_title);
-                                    filter.requestFocus();
-                                    helper_main.showKeyboard(getActivity(), filter);
-                                }
-
-                                if (options[item].equals(getActivity().getString(R.string.action_filter_cont))) {
-                                    sharedPref.edit().putString("filter_noteBY", "note_content").apply();
-                                    setNotesList();
-                                    filter_layout.setVisibility(View.VISIBLE);
-                                    imgHeader.setVisibility(View.GONE);
-                                    filter.setText("");
-                                    filter.setHint(R.string.action_filter_cont);
-                                    filter.requestFocus();
-                                    helper_main.showKeyboard(getActivity(), filter);
-                                }
-
-                                if (options[item].equals (getActivity().getString(R.string.action_filter_att))) {
-                                    sharedPref.edit().putString("filter_noteBY", "note_attachment").apply();
-                                    setNotesList();
-                                    filter_layout.setVisibility(View.VISIBLE);
-                                    imgHeader.setVisibility(View.GONE);
-                                    filter.setText("");
-                                    filter.setHint(R.string.action_filter_att);
-                                    filter.requestFocus();
-                                    helper_main.showKeyboard(getActivity(), filter);
-                                }
-
-                                if (options[item].equals(getActivity().getString(R.string.action_filter_create))) {
-                                    sharedPref.edit().putString("filter_noteBY", "note_create").apply();
-                                    setNotesList();
-                                    filter_layout.setVisibility(View.VISIBLE);
-                                    imgHeader.setVisibility(View.GONE);
-                                    filter.setText("");
-                                    filter.setHint(R.string.action_filter_create);
-                                    filter.requestFocus();
-                                    helper_main.showKeyboard(getActivity(), filter);
-                                }
-                            }
-                        }).show();
-
+            case R.id.filter_title:
+                sharedPref.edit().putString("filter_noteBY", "note_title").apply();
+                setNotesList();
+                filter_layout.setVisibility(View.VISIBLE);
+                imgHeader.setVisibility(View.GONE);
+                filter.setText("");
+                filter.setHint(R.string.action_filter_title);
+                filter.requestFocus();
+                helper_main.showKeyboard(getActivity(), filter);
+                return true;
+            case R.id.filter_content:
+                sharedPref.edit().putString("filter_noteBY", "note_content").apply();
+                setNotesList();
+                filter_layout.setVisibility(View.VISIBLE);
+                imgHeader.setVisibility(View.GONE);
+                filter.setText("");
+                filter.setHint(R.string.action_filter_cont);
+                filter.requestFocus();
+                helper_main.showKeyboard(getActivity(), filter);
+                return true;
+            case R.id.filter_creation:
+                sharedPref.edit().putString("filter_noteBY", "note_creation").apply();
+                setNotesList();
+                filter_layout.setVisibility(View.VISIBLE);
+                imgHeader.setVisibility(View.GONE);
+                filter.setText("");
+                filter.setHint(R.string.action_filter_create);
+                filter.requestFocus();
+                helper_main.showKeyboard(getActivity(), filter);
+                return true;
+            case R.id.filter_att:
+                sharedPref.edit().putString("filter_noteBY", "note_attachment").apply();
+                setNotesList();
+                filter_layout.setVisibility(View.VISIBLE);
+                imgHeader.setVisibility(View.GONE);
+                filter.setText("");
+                filter.setHint(R.string.action_filter_att);
+                filter.requestFocus();
+                helper_main.showKeyboard(getActivity(), filter);
                 return true;
 
-            case R.id.action_sort:
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                View dialogView = View.inflate(getActivity(), R.layout.dialog_sorting, null);
-
-                final CheckBox ch_title = (CheckBox) dialogView.findViewById(R.id.checkBoxTitle);
-                final CheckBox ch_create = (CheckBox) dialogView.findViewById(R.id.checkBoxCreate);
-                final CheckBox ch_icon = (CheckBox) dialogView.findViewById(R.id.checkBoxIcon);
-                final CheckBox ch_att = (CheckBox) dialogView.findViewById(R.id.checkBoxAtt);
-
-                if (sharedPref.getString("sortDB", "title").equals("title")) {
-                    ch_title.setChecked(true);
-                } else {
-                    ch_title.setChecked(false);
-                }
-                if (sharedPref.getString("sortDB", "title").equals("create")) {
-                    ch_create.setChecked(true);
-                } else {
-                    ch_create.setChecked(false);
-                }
-                if (sharedPref.getString("sortDB", "title").equals("icon")) {
-                    ch_icon.setChecked(true);
-                } else {
-                    ch_icon.setChecked(false);
-                }
-                if (sharedPref.getString("sortDB", "title").equals("attachment")) {
-                    ch_att.setChecked(true);
-                } else {
-                    ch_att.setChecked(false);
-                }
-
-                ch_title.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView,
-                                                 boolean isChecked) {
-                        if(isChecked){
-                            ch_create.setChecked(false);
-                            ch_icon.setChecked(false);
-                            ch_att.setChecked(false);
-                            sharedPref.edit().putString("sortDB", "title").apply();
-                            setNotesList();
-                        }
-                    }
-                });
-                ch_create.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView,
-                                                 boolean isChecked) {
-                        if(isChecked){
-                            ch_icon.setChecked(false);
-                            ch_title.setChecked(false);
-                            ch_att.setChecked(false);
-                            sharedPref.edit().putString("sortDB", "create").apply();
-                            setNotesList();
-                        }
-                    }
-                });
-                ch_icon.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView,
-                                                 boolean isChecked) {
-                        if(isChecked){
-                            ch_create.setChecked(false);
-                            ch_title.setChecked(false);
-                            ch_att.setChecked(false);
-                            sharedPref.edit().putString("sortDB", "icon").apply();
-                            setNotesList();
-                        }
-                    }
-                });
-                ch_att.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView,
-                                                 boolean isChecked) {
-                        if(isChecked){
-                            ch_create.setChecked(false);
-                            ch_title.setChecked(false);
-                            ch_icon.setChecked(false);
-                            sharedPref.edit().putString("sortDB", "attachment").apply();
-                            setNotesList();
-                        }
-                    }
-                });
-
-                builder.setView(dialogView);
-                builder.setTitle(R.string.action_sort);
-                builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
-
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        dialog.dismiss();
-                    }
-                });
-
-                final AlertDialog dialog2 = builder.create();
-                // Display the custom alert dialog on interface
-                dialog2.show();
+            case R.id.sort_title:
+                sharedPref.edit().putString("sortDB", "title").apply();
+                setNotesList();
+                return true;
+            case R.id.sort_icon:
+                sharedPref.edit().putString("sortDB", "icon").apply();
+                setNotesList();
+                return true;
+            case R.id.sort_creation:
+                sharedPref.edit().putString("sortDB", "create").apply();
+                setNotesList();
+                return true;
+            case R.id.sort_attachment:
+                sharedPref.edit().putString("sortDB", "attachment").apply();
+                setNotesList();
                 return true;
         }
 
@@ -749,7 +649,7 @@ public class Notes_Fragment extends Fragment {
         LayoutInflater inflater = from.getLayoutInflater();
 
         final ViewGroup nullParent = null;
-        View dialogView = inflater.inflate(R.layout.dialog_editnote, nullParent);
+        View dialogView = inflater.inflate(R.layout.dialog_edit_note, nullParent);
 
         String file = sharedPref.getString("handleTextAttachment", "");
         final String attName = file.substring(file.lastIndexOf("/")+1);
@@ -1082,7 +982,7 @@ public class Notes_Fragment extends Fragment {
         LayoutInflater inflater = from.getLayoutInflater();
 
         final ViewGroup nullParent = null;
-        View dialogView = inflater.inflate(R.layout.dialog_editnote, nullParent);
+        View dialogView = inflater.inflate(R.layout.dialog_edit_note, nullParent);
 
         String file = sharedPref.getString("handleTextAttachment", "");
         final String attName = file.substring(file.lastIndexOf("/")+1);

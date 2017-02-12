@@ -29,7 +29,6 @@
         If you don\'t permit this now, you can do it later. Please open then \"Settings -> Do not disturb\".</string>
 
     <string name="app_share_screenshot">Share screenshot using:</string>
-    <string name="app_share_image">Share image using:</string>
     <string name="app_share_link">Share link using:</string>
     <string name="app_share_file">Choose file with:</string>
     <string name="app_contDesc_1">header</string>
@@ -120,7 +119,9 @@
     <string name="login_user">Username</string>
     <string name="login_password">Password</string>
     <string name="login_hint">Please enter username and password.</string>
-    <string name="login_text">Automatic login. Does not work: edit login data?</string>
+    <string name="login_text">If this does not work: edit your login data in the settings and restart the app. This dialog will
+        disappear, when you are successfully logged in.</string>
+    <string name="login_title">Automatic login</string>
 
 
     // Tab - Titles
@@ -159,9 +160,6 @@
 
     // Context Menu
 
-    <string name="context_saveImage">Save image</string>
-    <string name="context_shareImage">Share image</string>
-    <string name="context_externalBrowser">Open in external browser</string>
     <string name="context_linkCopy_toast">Link successfully copied</string>
     <string name="context_saveImage_toast">Saving image as:</string>
 
@@ -324,9 +322,10 @@
     <string name="todo_menu">Create todo list</string>
     <string name="todo_removed">Entry deleted</string>
     <string name="todo_removed_back">Restore?</string>
-    <string name="todo_share">Share list</string>
+    <string name="todo_share">Share entry</string>
     <string name="paste_date">Paste actual date</string>
     <string name="paste_time">Paste actual time</string>
+    <string name="todo_enter">Please enter an item first.</string>
 
 
     // CourseList

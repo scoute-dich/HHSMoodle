@@ -19,6 +19,7 @@
 
 package de.baumann.hhsmoodle.data_courses;
 
+import android.animation.Animator;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.res.TypedArray;
@@ -38,9 +39,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -66,6 +69,11 @@ public class Courses_Fragment extends Fragment {
     private Courses_DbAdapter db;
     private ListView lv = null;
 
+    private FloatingActionButton fab;
+    private LinearLayout fabLayout1;
+    private LinearLayout fabLayout2;
+    private boolean isFABOpen=false;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -83,118 +91,121 @@ public class Courses_Fragment extends Fragment {
         filter_layout.setVisibility(View.GONE);
         lv = (ListView) rootView.findViewById(R.id.listNotes);
 
-        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
-        fab.setImageResource(R.drawable.account_multiple_plus);
+        fabLayout1= (LinearLayout) rootView.findViewById(R.id.fabLayout1);
+        fabLayout2= (LinearLayout) rootView.findViewById(R.id.fabLayout2);
+        fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        TextView fab2_text = (TextView)rootView.findViewById(R.id.text_fab2);
+        fab2_text.setText(getString(R.string.courseList_fromText));
+        FloatingActionButton fab1 = (FloatingActionButton) rootView.findViewById(R.id.fab1);
+        FloatingActionButton fab2 = (FloatingActionButton) rootView.findViewById(R.id.fab2);
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(!isFABOpen){
+                    showFABMenu();
+                }else{
+                    closeFABMenu();
+                }
+            }
+        });
 
-                final CharSequence[] options = {
-                        getString(R.string.courseList_fromText),
-                        getString(R.string.todo_from_new)};
-                new AlertDialog.Builder(getActivity())
-                        .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+        fab1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                closeFABMenu();
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                View dialogView = View.inflate(getActivity(), R.layout.dialog_edit_title, null);
+                final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
+                edit_title.setHint(R.string.bookmark_edit_title);
+                builder.setTitle(R.string.todo_from_new);
+                builder.setView(dialogView);
+                builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                    }
+                })
+                        .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
 
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 dialog.cancel();
                             }
-                        })
-                        .setItems(options, new DialogInterface.OnClickListener() {
+                        });
+
+                final AlertDialog dialog2 = builder.create();
+                dialog2.show();
+
+                dialog2.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //Do stuff, possibly set wantToCloseDialog to true then...
+
+                        String inputTitle = edit_title.getText().toString().trim();
+
+                        if(db.isExist(inputTitle)){
+                            Snackbar.make(lv, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
+                        }else{
+                            db.insert(inputTitle, "", "", "", helper_main.createDate());
+                            dialog2.dismiss();
+                            setCoursesList();
+                            Snackbar.make(lv, R.string.bookmark_added, Snackbar.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
+                        helper_main.showKeyboard(getActivity(),edit_title);
+                    }
+                }, 200);
+            }
+        });
+
+        fab2.setImageResource(R.drawable.account_multiple_plus);
+        fab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                closeFABMenu();
+                String startDir = Environment.getExternalStorageDirectory() + "/HHS_Moodle/";
+
+                new ChooserDialog().with(getActivity())
+                        .withStartFile(startDir)
+                        .withFilter(false, false, "txt")
+                        .withChosenListener(new ChooserDialog.Result() {
                             @Override
-                            public void onClick(DialogInterface dialog, int item) {
-                                if (options[item].equals(getString(R.string.courseList_fromText))) {
-                                    String startDir = Environment.getExternalStorageDirectory() + "/HHS_Moodle/";
+                            public void onChoosePath(final String path, final File pathFile) {
 
-                                    new ChooserDialog().with(getActivity())
-                                            .withStartFile(startDir)
-                                            .withFilter(false, false, "txt")
-                                            .withChosenListener(new ChooserDialog.Result() {
-                                                @Override
-                                                public void onChoosePath(final String path, final File pathFile) {
+                                StringBuilder text = new StringBuilder();
+                                final String fileName = pathFile.getAbsolutePath().substring(pathFile.getAbsolutePath().lastIndexOf("/")+1);
+                                final String fileNameWE = fileName.substring(0, fileName.lastIndexOf("."));
 
-                                                    StringBuilder text = new StringBuilder();
-                                                    final String fileName = pathFile.getAbsolutePath().substring(pathFile.getAbsolutePath().lastIndexOf("/")+1);
-                                                    final String fileNameWE = fileName.substring(0, fileName.lastIndexOf("."));
+                                try {
+                                    BufferedReader br = new BufferedReader(new FileReader(pathFile));
+                                    String line;
 
-                                                    try {
-                                                        BufferedReader br = new BufferedReader(new FileReader(pathFile));
-                                                        String line;
-
-                                                        while ((line = br.readLine()) != null) {
-                                                            text.append(line);
-                                                            text.append('\n');
-                                                        }
-                                                        br.close();
-                                                    }
-                                                    catch (IOException e) {
-                                                        Snackbar.make(lv, R.string.number_error_read, Snackbar.LENGTH_LONG).show();
-                                                        e.printStackTrace();
-                                                    }
-
-                                                    if(db.isExist(fileNameWE)){
-                                                        Snackbar.make(lv, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
-                                                    }else{
-                                                        String textAdd = text.substring(0, text.length()-1);
-                                                        db.insert(fileNameWE, textAdd, "", "", helper_main.createDate());
-                                                        setCoursesList();
-                                                    }
-                                                }
-                                            })
-                                            .build()
-                                            .show();
+                                    while ((line = br.readLine()) != null) {
+                                        text.append(line);
+                                        text.append('\n');
+                                    }
+                                    br.close();
+                                }
+                                catch (IOException e) {
+                                    Snackbar.make(lv, R.string.number_error_read, Snackbar.LENGTH_LONG).show();
+                                    e.printStackTrace();
                                 }
 
-                                if (options[item].equals (getString(R.string.todo_from_new))) {
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                                    View dialogView = View.inflate(getActivity(), R.layout.dialog_edit_title, null);
-                                    final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
-                                    edit_title.setHint(R.string.bookmark_edit_title);
-                                    builder.setTitle(R.string.todo_from_new);
-                                    builder.setView(dialogView);
-                                    builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
-
-                                        public void onClick(DialogInterface dialog, int whichButton) {
-
-                                        }
-                                    })
-                                            .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                                                public void onClick(DialogInterface dialog, int whichButton) {
-                                                    dialog.cancel();
-                                                }
-                                            });
-
-                                    final AlertDialog dialog2 = builder.create();
-                                    dialog2.show();
-
-                                    dialog2.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            //Do stuff, possibly set wantToCloseDialog to true then...
-
-                                            String inputTitle = edit_title.getText().toString().trim();
-
-                                            if(db.isExist(inputTitle)){
-                                                Snackbar.make(lv, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
-                                            }else{
-                                                db.insert(inputTitle, "", "", "", helper_main.createDate());
-                                                dialog2.dismiss();
-                                                setCoursesList();
-                                                Snackbar.make(lv, R.string.bookmark_added, Snackbar.LENGTH_SHORT).show();
-                                            }
-                                        }
-                                    });
-
-                                    new Handler().postDelayed(new Runnable() {
-                                        public void run() {
-                                            helper_main.showKeyboard(getActivity(),edit_title);
-                                        }
-                                    }, 200);
-
+                                if(db.isExist(fileNameWE)){
+                                    Snackbar.make(lv, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
+                                }else{
+                                    String textAdd = text.substring(0, text.length()-1);
+                                    db.insert(fileNameWE, textAdd, "", "", helper_main.createDate());
+                                    setCoursesList();
                                 }
-
                             }
-                        }).show();
+                        })
+                        .build()
+                        .show();
             }
         });
 
@@ -206,6 +217,40 @@ public class Courses_Fragment extends Fragment {
         setHasOptionsMenu(true);
 
         return rootView;
+    }
+
+    private void showFABMenu(){
+        isFABOpen=true;
+        fabLayout1.setVisibility(View.VISIBLE);
+        fabLayout2.setVisibility(View.VISIBLE);
+
+        fab.animate().rotationBy(180);
+        fabLayout1.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
+        fabLayout2.animate().translationY(-getResources().getDimension(R.dimen.standard_100));
+    }
+
+    private void closeFABMenu(){
+        isFABOpen=false;
+        fab.animate().rotationBy(-180);
+        fabLayout1.animate().translationY(0);
+        fabLayout2.animate().translationY(0).setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {}
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                if(!isFABOpen){
+                    fabLayout1.setVisibility(View.GONE);
+                    fabLayout2.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {}
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {}
+        });
     }
 
     @Override
@@ -356,7 +401,6 @@ public class Courses_Fragment extends Fragment {
                 final String courses_creation = row2.getString(row2.getColumnIndexOrThrow("courses_creation"));
 
                 final CharSequence[] options = {
-                        getString(R.string.bookmark_edit_title),
                         getString(R.string.number_edit_entry),
                         getString(R.string.bookmark_remove_bookmark)};
                 new android.app.AlertDialog.Builder(getActivity())
@@ -369,53 +413,19 @@ public class Courses_Fragment extends Fragment {
                         .setItems(options, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int item) {
-                                if (options[item].equals(getString(R.string.bookmark_edit_title))) {
-
-                                    android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getActivity());
-                                    View dialogView = View.inflate(getActivity(), R.layout.dialog_edit_title, null);
-
-                                    final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
-                                    edit_title.setHint(R.string.bookmark_edit_title);
-                                    edit_title.setText(courses_title);
-
-                                    builder.setView(dialogView);
-                                    builder.setTitle(R.string.bookmark_edit_title);
-                                    builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
-
-                                        public void onClick(DialogInterface dialog, int whichButton) {
-
-                                            String inputTag = edit_title.getText().toString().trim();
-                                            db.update(Integer.parseInt(_id),inputTag, courses_content, courses_icon, courses_attachment, courses_creation);
-                                            setCoursesList();
-                                            Snackbar.make(lv, R.string.bookmark_added, Snackbar.LENGTH_SHORT).show();
-                                        }
-                                    });
-                                    builder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                                        public void onClick(DialogInterface dialog, int whichButton) {
-                                            dialog.cancel();
-                                        }
-                                    });
-
-                                    final android.app.AlertDialog dialog2 = builder.create();
-                                    // Display the custom alert dialog on interface
-                                    dialog2.show();
-
-                                    new Handler().postDelayed(new Runnable() {
-                                        public void run() {
-                                            helper_main.showKeyboard(getActivity(),edit_title);
-                                        }
-                                    }, 200);
-                                }
 
                                 if (options[item].equals(getString(R.string.number_edit_entry))) {
 
                                     android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getActivity());
-                                    View dialogView = View.inflate(getActivity(), R.layout.dialog_edit_text, null);
+                                    View dialogView = View.inflate(getActivity(), R.layout.dialog_edit_entry, null);
 
-                                    final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
-                                    edit_title.setHint(R.string.bookmark_edit_title);
-                                    edit_title.setText(courses_content);
+                                    final EditText edit_title = (EditText) dialogView.findViewById(R.id.note_title_input);
+                                    edit_title.setHint(R.string.title_hint);
+                                    edit_title.setText(courses_title);
+
+                                    final EditText edit_cont = (EditText) dialogView.findViewById(R.id.note_text_input);
+                                    edit_cont.setHint(R.string.text_hint);
+                                    edit_cont.setText(courses_content);
 
                                     builder.setView(dialogView);
                                     builder.setTitle(R.string.number_edit_entry);
@@ -423,8 +433,9 @@ public class Courses_Fragment extends Fragment {
 
                                         public void onClick(DialogInterface dialog, int whichButton) {
 
-                                            String inputTag = edit_title.getText().toString().trim();
-                                            db.update(Integer.parseInt(_id),courses_title, inputTag, courses_icon, courses_attachment, courses_creation);
+                                            String inputTitle = edit_title.getText().toString().trim();
+                                            String inputCont = edit_cont.getText().toString().trim();
+                                            db.update(Integer.parseInt(_id),inputTitle, inputCont, courses_icon, courses_attachment, courses_creation);
                                             setCoursesList();
                                             Snackbar.make(lv, R.string.bookmark_added, Snackbar.LENGTH_SHORT).show();
                                         }

@@ -23,6 +23,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DownloadManager;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -45,7 +46,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -103,7 +103,6 @@ public class FragmentBrowser extends Fragment implements HHS_MainScreen.OnBackPr
     private File shareFile;
     private ValueCallback<Uri[]> mFilePathCallback;
 
-    private String shareString;
     private String mCameraPhotoPath;
 
     private static final int REQUEST_CODE_LOLLIPOP = 1;
@@ -121,7 +120,6 @@ public class FragmentBrowser extends Fragment implements HHS_MainScreen.OnBackPr
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        ((HHS_MainScreen) getActivity()).setOnBackPressedListener(this);
         View rootView = inflater.inflate(R.layout.fragment_screen_browser, container, false);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -148,7 +146,6 @@ public class FragmentBrowser extends Fragment implements HHS_MainScreen.OnBackPr
         mWebView = (WebView) rootView.findViewById(R.id.webView);
         mWebChromeClient = new myWebChromeClient();
         mWebView.setWebChromeClient(mWebChromeClient);
-        registerForContextMenu(mWebView);
 
         imageButton_left = (ImageButton) rootView.findViewById(R.id.imageButton_left);
         imageButton_right = (ImageButton) rootView.findViewById(R.id.imageButton_right);
@@ -216,14 +213,21 @@ public class FragmentBrowser extends Fragment implements HHS_MainScreen.OnBackPr
 
         switch (requestCode) {
             case RESULT_CODE_ICE_CREAM:
+                sharedPref.edit().putString("load_next", "false").apply();
                 Uri uri = null;
                 if (data != null) {
                     uri = data.getData();
                 }
                 mUploadMessage.onReceiveValue(uri);
                 mUploadMessage = null;
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
+                        sharedPref.edit().putString("load_next", "true").apply();
+                    }
+                }, 1500);
                 break;
             case REQUEST_CODE_LOLLIPOP:
+                sharedPref.edit().putString("load_next", "false").apply();
                 Uri[] results = null;
                 // Check that the response is a good one
                 if (resultCode == Activity.RESULT_OK) {
@@ -239,16 +243,19 @@ public class FragmentBrowser extends Fragment implements HHS_MainScreen.OnBackPr
                         }
                     }
                 }
-
                 mFilePathCallback.onReceiveValue(results);
                 mFilePathCallback = null;
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
+                        sharedPref.edit().putString("load_next", "true").apply();
+                    }
+                }, 1500);
                 break;
         }
     }
 
     private final BroadcastReceiver onComplete = new BroadcastReceiver() {
         public void onReceive(Context ctxt, Intent intent) {
-
             Snackbar snackbar = Snackbar
                     .make(mWebView, getString(R.string.toast_download_2), Snackbar.LENGTH_LONG)
                     .setAction(getString(R.string.toast_yes), new View.OnClickListener() {
@@ -262,145 +269,11 @@ public class FragmentBrowser extends Fragment implements HHS_MainScreen.OnBackPr
         }
     };
 
-    private final BroadcastReceiver onComplete2 = new BroadcastReceiver() {
-        public void onReceive(Context ctxt, Intent intent) {
-
-            File destinationFile = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/" +
-                    shareString);
-
-            Uri myUri= Uri.fromFile(destinationFile);
-            Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-            sharingIntent.setType("image/*");
-            sharingIntent.putExtra(Intent.EXTRA_STREAM, myUri);
-            sharingIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            getActivity().startActivity(Intent.createChooser(sharingIntent, (getString(R.string.app_share_image))));
-            getActivity().unregisterReceiver(onComplete2);
-        }
-    };
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-
-        final WebView.HitTestResult result = mWebView.getHitTestResult();
-        final String url = result.getExtra();
-
-        if(result.getType() == WebView.HitTestResult.IMAGE_TYPE){
-
-            final CharSequence[] options = {
-                    getString(R.string.context_saveImage),
-                    getString(R.string.context_shareImage),
-                    getString(R.string.context_externalBrowser)};
-            new AlertDialog.Builder(getActivity())
-                    .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            dialog.cancel();
-                        }
-                    })
-                    .setItems(options, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int item) {
-                            if (options[item].equals(getString(R.string.context_saveImage))) {
-                                if(url != null) {
-                                    try {
-                                        Uri source = Uri.parse(url);
-                                        DownloadManager.Request request = new DownloadManager.Request(source);
-                                        request.addRequestHeader("Cookie", CookieManager.getInstance().getCookie(url));
-                                        request.allowScanningByMediaScanner();
-                                        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED); //Notify client once download is completed!
-                                        request.setDestinationInExternalPublicDir(newFileDest(), helper_main.newFileName());
-                                        DownloadManager dm = (DownloadManager) getActivity().getSystemService(DOWNLOAD_SERVICE);
-                                        dm.enqueue(request);
-                                        Snackbar.make(mWebView, getString(R.string.context_saveImage_toast) + " " + helper_main.newFileName(), Snackbar.LENGTH_SHORT).show();
-                                        getActivity().registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                        Snackbar.make(mWebView, R.string.toast_perm , Snackbar.LENGTH_SHORT).show();
-                                    }
-                                }
-                            }
-                            if (options[item].equals(getString(R.string.context_shareImage))) {
-                                if(url != null) {
-
-                                    shareString = helper_main.newFileName();
-                                    shareFile = helper_main.newFile();
-
-                                    try {
-                                        Uri source = Uri.parse(url);
-                                        DownloadManager.Request request = new DownloadManager.Request(source);
-                                        request.addRequestHeader("Cookie", CookieManager.getInstance().getCookie(url));
-                                        request.allowScanningByMediaScanner();
-                                        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED); //Notify client once download is completed!
-                                        request.setDestinationInExternalPublicDir(newFileDest(), helper_main.newFileName());
-                                        DownloadManager dm = (DownloadManager) getActivity().getSystemService(DOWNLOAD_SERVICE);
-                                        dm.enqueue(request);
-
-                                        Snackbar.make(mWebView, getString(R.string.context_saveImage_toast) + " " + helper_main.newFileName(), Snackbar.LENGTH_SHORT).show();
-                                        getActivity().registerReceiver(onComplete2, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                        Snackbar.make(mWebView, R.string.toast_perm , Snackbar.LENGTH_SHORT).show();
-                                    }
-                                }
-                            }
-                            if (options[item].equals(getString(R.string.context_externalBrowser))) {
-                                if (url != null) {
-                                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                                    getActivity().startActivity(intent);
-                                }
-                            }
-                        }
-                    }).show();
-
-        } else if (result.getType() == WebView.HitTestResult.SRC_ANCHOR_TYPE) {
-
-            final CharSequence[] options = {
-                    getString(R.string.menu_share_link_copy),
-                    getString(R.string.menu_share_link),
-                    getString(R.string.context_externalBrowser)};
-            new AlertDialog.Builder(getActivity())
-                    .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            dialog.cancel();
-                        }
-                    })
-                    .setItems(options, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int item) {
-                            if (options[item].equals(getString(R.string.menu_share_link_copy))) {
-                                if (url != null) {
-                                    ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-                                    clipboard.setPrimaryClip(ClipData.newPlainText("text", url));
-                                    Snackbar.make(mWebView, R.string.context_linkCopy_toast, Snackbar.LENGTH_SHORT).show();
-                                }
-                            }
-                            if (options[item].equals(getString(R.string.menu_share_link))) {
-                                if (url != null) {
-                                    Intent sendIntent = new Intent();
-                                    sendIntent.setAction(Intent.ACTION_SEND);
-                                    sendIntent.putExtra(Intent.EXTRA_TEXT, url);
-                                    sendIntent.setType("text/plain");
-                                    getActivity().startActivity(Intent.createChooser(sendIntent, getResources()
-                                            .getString(R.string.app_share_link)));
-                                }
-                            }
-                            if (options[item].equals(getString(R.string.context_externalBrowser))) {
-                                if (url != null) {
-                                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                                    getActivity().startActivity(intent);
-                                }
-                            }
-                        }
-                    }).show();
-        }
-    }
-
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser && isResumed()) {
+            ((HHS_MainScreen) getActivity()).setOnBackPressedListener(this);
             getActivity().setTitle(R.string.app_name);
             refresh();
         }
@@ -423,7 +296,6 @@ public class FragmentBrowser extends Fragment implements HHS_MainScreen.OnBackPr
             mWebView.stopLoading();
             if (sharedPref.getBoolean("backup_aut", false)) {
 
-                Snackbar.make(mWebView, getString(R.string.app_close), Snackbar.LENGTH_INDEFINITE).show();
                 try {helper_encryption.encryptBackup(getActivity(), "/bookmarks_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
                 try {helper_encryption.encryptBackup(getActivity(), "/courses_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
                 try {helper_encryption.encryptBackup(getActivity(), "/notes_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
@@ -432,10 +304,13 @@ public class FragmentBrowser extends Fragment implements HHS_MainScreen.OnBackPr
                 try {helper_encryption.encryptBackup(getActivity(), "/schedule_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
                 try {helper_encryption.encryptBackup(getActivity(), "/todo_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
 
-                Snackbar.make(mWebView, getString(R.string.app_close), Snackbar.LENGTH_INDEFINITE).show();
+                ProgressDialog progressDialog = new ProgressDialog(getActivity());
+                progressDialog.setMessage(getString(R.string.app_close));
+                progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                progressDialog.show();
+
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
-                        Snackbar.make(mWebView, getString(R.string.app_close), Snackbar.LENGTH_INDEFINITE).show();
                         sharedPref.edit().putString("loadURL", "").apply();
                         helper_main.isClosed(getActivity());
                         helper_encryption.encryptDatabases(getActivity());
@@ -455,18 +330,21 @@ public class FragmentBrowser extends Fragment implements HHS_MainScreen.OnBackPr
 
     private void refresh () {
 
-        final String URLtoOpen  = sharedPref.getString("loadURL", "");
-        String FAVtoOpen  = sharedPref.getString("favoriteURL", "https://moodle.huebsch.ka.schule-bw.de/moodle/my/");
+        if (sharedPref.getString ("load_next", "").equals("true")){
 
-        if (URLtoOpen.isEmpty()) {
-            mWebView.loadUrl(FAVtoOpen);
-        } else {
-            new Handler().postDelayed(new Runnable() {
-                public void run() {
-                    mWebView.loadUrl(URLtoOpen);
-                    sharedPref.edit().putString("loadURL", "").apply();
-                }
-            }, 200);
+            final String URLtoOpen  = sharedPref.getString("loadURL", "");
+            String FAVtoOpen  = sharedPref.getString("favoriteURL", "https://moodle.huebsch.ka.schule-bw.de/moodle/my/");
+
+            if (URLtoOpen.isEmpty()) {
+                mWebView.loadUrl(FAVtoOpen);
+            } else {
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
+                        mWebView.loadUrl(URLtoOpen);
+                        sharedPref.edit().putString("loadURL", "").apply();
+                    }
+                }, 200);
+            }
         }
     }
 
@@ -667,6 +545,7 @@ public class FragmentBrowser extends Fragment implements HHS_MainScreen.OnBackPr
         public boolean onShowFileChooser(
                 WebView webView, ValueCallback<Uri[]> filePathCallback,
                 FileChooserParams fileChooserParams) {
+
             if (mFilePathCallback != null) {
                 mFilePathCallback.onReceiveValue(null);
             }

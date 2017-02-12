@@ -98,8 +98,12 @@ public class Popup_note extends Activity {
         setNotesList();
 
         if (lv.getAdapter().getCount() == 0) {
-            helper_main.makeToast(Popup_note.this, getString(R.string.toast_noEntry));
-            finish();
+            Snackbar.make(lv, R.string.toast_noEntry, Snackbar.LENGTH_INDEFINITE).show();
+            new Handler().postDelayed(new Runnable() {
+                public void run() {
+                    finish();
+                }
+            }, 1000);
         }
     }
 
@@ -434,7 +438,7 @@ public class Popup_note extends Activity {
         LayoutInflater inflater = from.getLayoutInflater();
 
         final ViewGroup nullParent = null;
-        View dialogView = inflater.inflate(R.layout.dialog_editnote, nullParent);
+        View dialogView = inflater.inflate(R.layout.dialog_edit_note, nullParent);
 
         String file = sharedPref.getString("handleTextAttachment", "");
         final String attName = file.substring(file.lastIndexOf("/")+1);

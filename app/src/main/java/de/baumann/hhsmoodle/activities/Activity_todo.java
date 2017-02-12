@@ -58,9 +58,6 @@ import de.baumann.hhsmoodle.HHS_MainScreen;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.data_todo.Todo_DbAdapter;
 import de.baumann.hhsmoodle.helper.helper_main;
-import filechooser.ChooserDialog;
-
-import static de.baumann.hhsmoodle.helper.helper_main.newFileDest;
 
 public class Activity_todo extends AppCompatActivity {
 
@@ -104,7 +101,6 @@ public class Activity_todo extends AppCompatActivity {
             FileOutputStream fOut = new FileOutputStream(newFile());
             OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
             myOutWriter.append(toDo_text);
-
             myOutWriter.close();
 
             fOut.flush();
@@ -201,57 +197,7 @@ public class Activity_todo extends AppCompatActivity {
                 String itemText = etNewItem.getText().toString();
 
                 if (itemText.isEmpty()) {
-                    String startDir = Environment.getExternalStorageDirectory() + "/HHS_Moodle/";
-
-                    new ChooserDialog().with(Activity_todo.this)
-                            .withFilter(false, false, "txt")
-                            .withStartFile(startDir)
-                            .withChosenListener(new ChooserDialog.Result() {
-                                @Override
-                                public void onChoosePath(final String path, final File pathFile) {
-                                    StringBuilder text = new StringBuilder();
-
-                                    try {
-                                        BufferedReader br = new BufferedReader(new FileReader(pathFile));
-                                        String line;
-
-                                        while ((line = br.readLine()) != null) {
-                                            text.append(line);
-                                            text.append('\n');
-                                        }
-                                        br.close();
-
-                                    } catch (IOException e) {
-                                        Snackbar.make(lvItems, R.string.number_error_read, Snackbar.LENGTH_LONG).show();
-                                        e.printStackTrace();
-                                    }
-
-                                    try {
-
-                                        if (text.length() > 0) {
-
-                                            String text2 = text.toString();
-                                            String textAdd = text2.substring(0, text2.length()-1);
-                                            itemsAdapter.add(textAdd);
-                                            writeItems();
-                                            items = new ArrayList<>();
-                                            readItems();
-                                            itemsAdapter = new ArrayAdapter<>(Activity_todo.this,
-                                                    android.R.layout.simple_list_item_1, items);
-                                            lvItems.setAdapter(itemsAdapter);
-                                            lvItems.post(new Runnable(){
-                                                public void run() {
-                                                    lvItems.setSelection(lvItems.getCount() - 1);
-                                                }});
-                                        }
-                                    } catch (Exception e) {
-                                        Snackbar.make(lvItems, R.string.number_error_read, Snackbar.LENGTH_LONG).show();
-                                        e.printStackTrace();
-                                    }
-                                }
-                            })
-                            .build()
-                            .show();
+                    Snackbar.make(lvItems, R.string.todo_enter, Snackbar.LENGTH_LONG).show();
                 } else {
                     itemsAdapter.add(itemText);
                     etNewItem.setText("");
@@ -282,7 +228,7 @@ public class Activity_todo extends AppCompatActivity {
         }
     }
 
-    private static String getText() {
+    private String getText() {
         StringBuilder text = new StringBuilder();
 
         try {
@@ -302,8 +248,8 @@ public class Activity_todo extends AppCompatActivity {
         return  text.toString();
     }
 
-    private static File newFile() {
-        return  new File(Environment.getExternalStorageDirectory() + newFileDest() + "todo.txt");
+    private File newFile() {
+        return  new File(Activity_todo.this.getFilesDir() + "todo.txt");
     }
 
     // Attaches a long click listener to the listView

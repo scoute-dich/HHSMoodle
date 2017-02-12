@@ -87,8 +87,12 @@ public class Popup_todo extends Activity {
         setTodoList();
 
         if (lv.getAdapter().getCount() == 0) {
-            helper_main.makeToast(Popup_todo.this, getString(R.string.toast_noEntry));
-            finish();
+            Snackbar.make(lv, R.string.toast_noEntry, Snackbar.LENGTH_INDEFINITE).show();
+            new Handler().postDelayed(new Runnable() {
+                public void run() {
+                    finish();
+                }
+            }, 1000);
         }
     }
 

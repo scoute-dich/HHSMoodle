@@ -39,14 +39,13 @@ import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FilterQueryProvider;
 import android.widget.ImageButton;
@@ -416,12 +415,12 @@ public class Bookmarks_Fragment extends Fragment {
                 final String bookmarks_creation = row2.getString(row2.getColumnIndexOrThrow("bookmarks_creation"));
 
                 final CharSequence[] options = {
-                        getString(R.string.bookmark_edit_title),
+                        getString(R.string.number_edit_entry),
+                        getString(R.string.bookmark_remove_bookmark),
                         getString(R.string.todo_menu),
                         getString(R.string.bookmark_createNote),
                         getString(R.string.bookmark_createShortcut),
-                        getString(R.string.bookmark_createEvent),
-                        getString(R.string.bookmark_remove_bookmark)};
+                        getString(R.string.bookmark_createEvent)};
                 new AlertDialog.Builder(getActivity())
                         .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
 
@@ -433,7 +432,7 @@ public class Bookmarks_Fragment extends Fragment {
                             @SuppressWarnings("ConstantConditions")
                             @Override
                             public void onClick(DialogInterface dialog, int item) {
-                                if (options[item].equals(getString(R.string.bookmark_edit_title))) {
+                                if (options[item].equals(getString(R.string.number_edit_entry))) {
 
                                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                     View dialogView = View.inflate(getActivity(), R.layout.dialog_edit_title, null);
@@ -561,6 +560,18 @@ public class Bookmarks_Fragment extends Fragment {
     }
 
     @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        super.onPrepareOptionsMenu(menu);
+        menu.findItem(R.id.sort_attachment).setVisible(false);
+        menu.findItem(R.id.sort_notification).setVisible(false);
+        menu.findItem(R.id.filter_content).setVisible(false);
+        menu.findItem(R.id.filter_att).setVisible(false);
+        menu.findItem(R.id.filter_teacher).setVisible(false);
+        menu.findItem(R.id.filter_room).setVisible(false);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
@@ -569,139 +580,48 @@ public class Bookmarks_Fragment extends Fragment {
                 helper_main.switchToActivity(getActivity(), Bookmarks_Help.class, false);
                 return true;
 
-            case R.id.action_filter:
-                final CharSequence[] options = {
-                        getActivity().getString(R.string.action_filter_title),
-                        getActivity().getString(R.string.action_filter_url),
-                        getActivity().getString(R.string.action_filter_create)};
-                new AlertDialog.Builder(getActivity())
-                        .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                dialog.cancel();
-                            }
-                        })
-                        .setItems(options, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int item) {
-
-                                if (options[item].equals (getActivity().getString(R.string.action_filter_title))) {
-                                    sharedPref.edit().putString("filter_bookmarksBY", "bookmarks_title").apply();
-                                    setBookmarksList();
-                                    filter_layout.setVisibility(View.VISIBLE);
-                                    imgHeader.setVisibility(View.GONE);
-                                    filter.setText("");
-                                    filter.setHint(R.string.action_filter_title);
-                                    filter.requestFocus();
-                                    helper_main.showKeyboard(getActivity(), filter);
-                                }
-
-                                if (options[item].equals(getActivity().getString(R.string.action_filter_url))) {
-                                    sharedPref.edit().putString("filter_bookmarksBY", "bookmarks_content").apply();
-                                    setBookmarksList();
-                                    filter_layout.setVisibility(View.VISIBLE);
-                                    imgHeader.setVisibility(View.GONE);
-                                    filter.setText("");
-                                    filter.setHint(R.string.action_filter_url);
-                                    filter.requestFocus();
-                                    helper_main.showKeyboard(getActivity(), filter);
-                                }
-
-                                if (options[item].equals(getActivity().getString(R.string.action_filter_create))) {
-                                    sharedPref.edit().putString("filter_bookmarksBY", "bookmarks_create").apply();
-                                    setBookmarksList();
-                                    filter_layout.setVisibility(View.VISIBLE);
-                                    imgHeader.setVisibility(View.GONE);
-                                    filter.setText("");
-                                    filter.setHint(R.string.action_filter_create);
-                                    filter.requestFocus();
-                                    helper_main.showKeyboard(getActivity(), filter);
-                                }
-                            }
-                        }).show();
-
+            case R.id.filter_title:
+                sharedPref.edit().putString("filter_bookmarksBY", "bookmarks_title").apply();
+                setBookmarksList();
+                filter_layout.setVisibility(View.VISIBLE);
+                imgHeader.setVisibility(View.GONE);
+                filter.setText("");
+                filter.setHint(R.string.action_filter_title);
+                filter.requestFocus();
+                helper_main.showKeyboard(getActivity(), filter);
+                return true;
+            case R.id.filter_url:
+                sharedPref.edit().putString("filter_bookmarksBY", "bookmarks_content").apply();
+                setBookmarksList();
+                filter_layout.setVisibility(View.VISIBLE);
+                imgHeader.setVisibility(View.GONE);
+                filter.setText("");
+                filter.setHint(R.string.action_filter_url);
+                filter.requestFocus();
+                helper_main.showKeyboard(getActivity(), filter);
+                return true;
+            case R.id.filter_creation:
+                sharedPref.edit().putString("filter_bookmarksBY", "bookmarks_create").apply();
+                setBookmarksList();
+                filter_layout.setVisibility(View.VISIBLE);
+                imgHeader.setVisibility(View.GONE);
+                filter.setText("");
+                filter.setHint(R.string.action_filter_create);
+                filter.requestFocus();
+                helper_main.showKeyboard(getActivity(), filter);
                 return true;
 
-            case R.id.action_sort:
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                View dialogView = View.inflate(getActivity(), R.layout.dialog_sorting, null);
-
-                final CheckBox ch_title = (CheckBox) dialogView.findViewById(R.id.checkBoxTitle);
-                final CheckBox ch_create = (CheckBox) dialogView.findViewById(R.id.checkBoxCreate);
-                final CheckBox ch_icon = (CheckBox) dialogView.findViewById(R.id.checkBoxIcon);
-
-                RelativeLayout layout_sortByAtt = (RelativeLayout) dialogView.findViewById(R.id.layout_sortByAtt);
-                layout_sortByAtt.setVisibility(View.GONE);
-
-                if (sharedPref.getString("sortDBB", "title").equals("title")) {
-                    ch_title.setChecked(true);
-                } else {
-                    ch_title.setChecked(false);
-                }
-                if (sharedPref.getString("sortDBB", "title").equals("create")) {
-                    ch_create.setChecked(true);
-                } else {
-                    ch_create.setChecked(false);
-                }
-                if (sharedPref.getString("sortDBB", "title").equals("icon")) {
-                    ch_icon.setChecked(true);
-                } else {
-                    ch_icon.setChecked(false);
-                }
-
-                ch_title.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView,
-                                                 boolean isChecked) {
-                        if(isChecked){
-                            ch_create.setChecked(false);
-                            ch_icon.setChecked(false);
-                            sharedPref.edit().putString("sortDBB", "title").apply();
-                            setBookmarksList();
-                        }
-                    }
-                });
-                ch_create.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView,
-                                                 boolean isChecked) {
-                        if(isChecked){
-                            ch_icon.setChecked(false);
-                            ch_title.setChecked(false);
-                            sharedPref.edit().putString("sortDBB", "create").apply();
-                            setBookmarksList();
-                        }
-                    }
-                });
-                ch_icon.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView,
-                                                 boolean isChecked) {
-                        if(isChecked){
-                            ch_create.setChecked(false);
-                            ch_title.setChecked(false);
-                            sharedPref.edit().putString("sortDBB", "icon").apply();
-                            setBookmarksList();
-                        }
-                    }
-                });
-
-                builder.setView(dialogView);
-                builder.setTitle(R.string.action_sort);
-                builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
-
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        dialog.dismiss();
-                    }
-                });
-
-                final AlertDialog dialog2 = builder.create();
-                // Display the custom alert dialog on interface
-                dialog2.show();
+            case R.id.sort_title:
+                sharedPref.edit().putString("sortDBB", "title").apply();
+                setBookmarksList();
+                return true;
+            case R.id.sort_icon:
+                sharedPref.edit().putString("sortDBB", "icon").apply();
+                setBookmarksList();
+                return true;
+            case R.id.sort_creation:
+                sharedPref.edit().putString("sortDBB", "create").apply();
+                setBookmarksList();
                 return true;
         }
 

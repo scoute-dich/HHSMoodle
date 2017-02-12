@@ -195,7 +195,7 @@ public class Popup_todo_restart extends Activity {
             FileInputStream fis = new FileInputStream(pathIN);
             FileOutputStream fos = new FileOutputStream(pathOUT);
 
-            byte[] key = (sharedPrefSec.getString("generateDBKOK").getBytes("UTF-8"));
+            byte[] key = (sharedPrefSec.getString("key_encryption_01").getBytes("UTF-8"));
             MessageDigest sha = MessageDigest.getInstance("SHA-1");
             key = sha.digest(key);
             key = Arrays.copyOf(key, 16); // use only first 128 bit

@@ -4,6 +4,7 @@
 - neu: Navigationsleiste am Rand
 - neu: Standardlesezeichen
 - neu: Suche in Lesezeichen, Todolisten, Notizen, Stundenplan
+- neu: FAB Menu
 - verbessert: Hilfe Dialoge
 - verbessert: Datanbanken
 - verbessert: aufgenommene Bilder als Anhang speichern

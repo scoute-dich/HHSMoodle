@@ -26,8 +26,10 @@ public class Notes_Help extends OnboarderActivity {
 
         onboarderPage1.setBackgroundColor(R.color.colorPrimaryDark);
         onboarderPage1.setTitleColor(R.color.colorAccent);
+        onboarderPage1.setDescriptionColor(R.color.color_light);
         onboarderPage2.setBackgroundColor(R.color.colorPrimaryDark);
         onboarderPage2.setTitleColor(R.color.colorAccent);
+        onboarderPage2.setDescriptionColor(R.color.color_light);
 
         // Add your pages to the list
         onboarderPages.add(onboarderPage1);
@@ -35,7 +37,7 @@ public class Notes_Help extends OnboarderActivity {
 
         // And pass your pages to 'setOnboardPagesReady' method
         setActiveIndicatorColor(R.color.colorAccent);
-        setInactiveIndicatorColor(R.color.colorPrimary);
+        setInactiveIndicatorColor(R.color.color_light);
         shouldUseFloatingActionButton(true);
         setOnboardPagesReady(onboarderPages);
     }

@@ -25,6 +25,50 @@
 
     // Help Dialogs
 
+    <string name="hhs_help1">HHS Moodle</string>
+    <string name="hhs_help_text1">This is the Browser shows you our school Moodle platform.</string>
+
+    <string name="hhs_help2">Functionality</string>
+    <string name="hhs_help_text2">You can save every website as a bookmark or share it. If you click on the star, your bookmarks
+        will be shown. Just try all the menu entries.</string>
+
+
+    <string name="bookmark_help1">Bookmarks</string>
+    <string name="bookmark_help_text1">Here all your saved bookmarks are shown. If you click on the star the bookmark will be saved
+        as your favorite and will load, when you open the browser.</string>
+
+    <string name="bookmark_help2">Menus</string>
+    <string name="bookmark_help_text2">Check the menu (also the toolbar), change the icons. A long click on an entry will also open
+        a menu.</string>
+
+
+    <string name="todo_help1">Todo list</string>
+    <string name="todo_help_text1">Click on an entry to open it. Click on the exclamation mark and you will get a notification in
+        your statusbar. You can also change the priority of an entry. A long click opens a menu.</string>
+
+    <string name="todo_help2">The list</string>
+    <string name="todo_help_text2">A short click will delete the entry, with a long click you can edit it.</string>
+
+
+    <string name="note_help1">Notes</string>
+    <string name="note_help_text1">Here you can create notes with attachments.</string>
+
+    <string name="note_help2">Practically</string>
+    <string name="note_help_text2">You can also receive text from other apps to create a note. A short click on an entry will
+        open the note, a long click will open (as always) a menu.</string>
+
+
+    <string name="schedule_help1">Schedule</string>
+    <string name="schedule_help_text1">Here you can edit your schedule. Click on an entry to see all todo entries or notes for a
+        subject.</string>
+
+    <string name="schedule_help2">A long click …</string>
+    <string name="schedule_help_text2">… opens here also a menu.</string>
+
+
+
+
+
 
     <string name="helpSettings_title">Settings</string>
     <string name="helpSettings_text">

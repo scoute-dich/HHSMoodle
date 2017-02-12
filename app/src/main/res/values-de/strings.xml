@@ -30,7 +30,6 @@
         Wenn du die Berechtigung verweigerst, kannst du sie nachträglich erteilen, indem du \"Einstellungen -> Nicht stören\" öffnest.</string>
 
     <string name="app_share_screenshot">Bildschirmfoto teilen mit:</string>
-    <string name="app_share_image">Bild teilen mit:</string>
     <string name="app_share_link">Link teilen mit:</string>
     <string name="app_share_file">Datei auswählen mit:</string>
     <string name="app_contDesc_1">Header</string>
@@ -123,7 +122,9 @@
     <string name="login_user">Benutzername</string>
     <string name="login_password">Passwort</string>
     <string name="login_hint">Bitte Benutzername und Passwort eingeben.</string>
-    <string name="login_text">Automatische Anmeldung. Klappt nicht: Logindaten überarbeiten?</string>
+    <string name="login_title">Automatische Anmeldung</string>
+    <string name="login_text">Wenn das nicht funktioniert, gib bitte die richtigen Logindaten in den Einstellungen an und starte
+        die Anwendung neu. Dieser Dialog verschwindet, wenn du erfolgreich eingeloggt bist.</string>
 
 
     // Tab - Titles
@@ -162,9 +163,6 @@
 
     // Context Menu
 
-    <string name="context_saveImage">Bild speichern</string>
-    <string name="context_shareImage">Bild teilen</string>
-    <string name="context_externalBrowser">Im Browser öffnen</string>
     <string name="context_linkCopy_toast">Link erfolgreich kopiert</string>
     <string name="context_saveImage_toast">Speichere Bild als:</string>
 
@@ -246,7 +244,7 @@
     <string name="bookmark_added">Eintrag wird hinzugefügt.</string>
     <string name="bookmark_setFav">Erfolgreich als Favorit gespeichert.</string>
     <string name="bookmark_setFav_not">Du kannst nur einen Favorit auswählen.</string>
-    <string name="bookmark_edit_title">Bearbeite Titel</string>
+    <string name="bookmark_edit_title">Titel bearbeiten</string>
     <string name="bookmark_createNote">Erstelle Notiz</string>
     <string name="bookmark_createEvent">Erstelle Kalendereintrag</string>
     <string name="bookmark_createShortcut">Erstelle Verknüpfung</string>
@@ -330,9 +328,10 @@
     <string name="todo_menu">Erstelle ToDo Liste</string>
     <string name="todo_removed">Eintrag gelöscht</string>
     <string name="todo_removed_back">Rückgängig?</string>
-    <string name="todo_share">Liste teilen</string>
+    <string name="todo_share">Eintrag teilen</string>
     <string name="paste_date">Aktuelles Datum einfügen</string>
     <string name="paste_time">Aktuelle Zeit einfügen</string>
+    <string name="todo_enter">Bitte zuerst einen Eintrag eingeben.</string>
 
 
     // CourseList

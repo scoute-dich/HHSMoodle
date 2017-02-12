@@ -22,17 +22,16 @@ package de.baumann.hhsmoodle.helper;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
-import android.view.View;
 import android.webkit.ValueCallback;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -42,7 +41,6 @@ import android.webkit.WebViewClient;
 import java.net.URISyntaxException;
 
 import de.baumann.hhsmoodle.R;
-import de.baumann.hhsmoodle.activities.Activity_settings;
 
 import static android.content.ContentValues.TAG;
 
@@ -68,8 +66,6 @@ public class helper_webView {
         webView.getSettings().setLoadWithOverviewMode(true);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT); // load online by default
-
-        from.registerForContextMenu(webView);
     }
 
     public static void webView_WebViewClient (final Activity from,
@@ -77,6 +73,8 @@ public class helper_webView {
                                               final WebView webView) {
 
         webView.setWebViewClient(new WebViewClient() {
+
+            ProgressDialog progressDialog;
 
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
@@ -94,15 +92,14 @@ public class helper_webView {
                 if (url != null
                         && url.contains("moodle.huebsch.ka.schule-bw.de/moodle/")
                         && url.contains("/login/")) {
-                    Snackbar snackbar = Snackbar
-                            .make(webView, from.getString(R.string.login_text), Snackbar.LENGTH_LONG)
-                            .setAction(from.getString(R.string.toast_yes), new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    helper_main.switchToActivity(from, Activity_settings.class, true);
-                                }
-                            });
-                    snackbar.show();
+
+                    progressDialog = new ProgressDialog(from);
+                    progressDialog.setTitle(from.getString(R.string.login_title));
+                    progressDialog.setMessage(from.getString(R.string.login_text));
+                    progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                    progressDialog.show();
+                } else if (progressDialog != null && progressDialog.isShowing()) {
+                    progressDialog.cancel();
                 }
 
                 swipeRefreshLayout.setRefreshing(false);
