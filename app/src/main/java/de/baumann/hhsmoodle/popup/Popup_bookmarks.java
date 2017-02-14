@@ -20,12 +20,12 @@
 package de.baumann.hhsmoodle.popup;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -68,15 +68,6 @@ public class Popup_bookmarks extends Activity {
         db.open();
 
         setBookmarksList();
-
-        if (lv.getAdapter().getCount() == 0) {
-            Snackbar.make(lv, R.string.toast_noEntry, Snackbar.LENGTH_INDEFINITE).show();
-            new Handler().postDelayed(new Runnable() {
-                public void run() {
-                    finish();
-                }
-            }, 1000);
-        }
     }
 
     private void setBookmarksList() {
@@ -155,7 +146,6 @@ public class Popup_bookmarks extends Activity {
                 return v;
             }
         };
-        
 
         lv.setAdapter(adapter);
         //onClick function
@@ -168,12 +158,30 @@ public class Popup_bookmarks extends Activity {
 
                 PreferenceManager.setDefaultValues(Popup_bookmarks.this, R.xml.user_settings, false);
                 SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(Popup_bookmarks.this);
+                sharedPref.edit().putString("load_next", "true").apply();
                 sharedPref.edit().putString("loadURL", bookmarks_content).apply();
 
                 helper_main.isOpened(Popup_bookmarks.this);
                 Popup_bookmarks.this.finish();
             }
         });
+
+        if (lv.getAdapter().getCount() == 0) {
+            new android.app.AlertDialog.Builder(this)
+                    .setMessage(helper_main.textSpannable(getString(R.string.toast_noEntry)))
+                    .setPositiveButton(this.getString(R.string.toast_yes),
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    finish();
+                                }
+                            })
+                    .show();
+            new Handler().postDelayed(new Runnable() {
+                public void run() {
+                    finish();
+                }
+            }, 2000);
+        }
     }
 
     @Override

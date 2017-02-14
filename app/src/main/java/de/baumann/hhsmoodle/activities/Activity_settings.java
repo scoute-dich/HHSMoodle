@@ -31,7 +31,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
@@ -90,24 +89,6 @@ public class Activity_settings extends AppCompatActivity {
 
     public static class SettingsFragment extends PreferenceFragment {
 
-        private void addOpenSettingsListener() {
-
-            final Activity activity = getActivity();
-            Preference reset = findPreference("clearCache");
-
-            reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                public boolean onPreferenceClick(Preference pref) {
-
-                    Intent intent = new Intent();
-                    intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                    Uri uri = Uri.fromParts("package", activity.getPackageName(), null);
-                    intent.setData(uri);
-                    getActivity().startActivity(intent);
-
-                    return true;
-                }
-            });
-        }
 
         private void addShortcutListener() {
 
@@ -135,6 +116,21 @@ public class Activity_settings extends AppCompatActivity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int item) {
 
+                                    if (options[item].equals (getString(R.string.app_name))) {
+                                        Intent i = new Intent(activity.getApplicationContext(), Activity_splash.class);
+                                        i.setAction("shortcutBrowser");
+
+                                        Intent shortcut = new Intent();
+                                        shortcut.setAction(Intent.ACTION_MAIN);
+                                        shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, i);
+                                        shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, (getString(R.string.bookmark_createNote)));
+                                        shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
+                                                Intent.ShortcutIconResource.fromContext(activity.getApplicationContext(), R.drawable.qc_moodle));
+                                        shortcut.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+                                        activity.sendBroadcast(shortcut);
+                                        helper_main.makeToast(activity, getString(R.string.toast_shortcut));
+                                    }
+
                                     if (options[item].equals (getString(R.string.title_bookmarks))) {
                                         Intent i = new Intent(activity.getApplicationContext(), Activity_splash.class);
                                         i.setAction("shortcutBookmarks");
@@ -144,21 +140,7 @@ public class Activity_settings extends AppCompatActivity {
                                         shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, i);
                                         shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, (getString(R.string.title_bookmarks)));
                                         shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
-                                                Intent.ShortcutIconResource.fromContext(activity.getApplicationContext(), R.mipmap.ic_bookmark));
-                                        shortcut.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
-                                        activity.sendBroadcast(shortcut);
-                                        helper_main.makeToast(activity, getString(R.string.toast_shortcut));
-                                    }
-
-                                    if (options[item].equals (getString(R.string.title_notes))) {
-                                        Intent i = new Intent(activity.getApplicationContext(), Activity_splash.class);
-                                        i.setAction("shortcutNotes");
-
-                                        Intent shortcut = new Intent();
-                                        shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, i);
-                                        shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, (getString(R.string.title_notes)));
-                                        shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
-                                                Intent.ShortcutIconResource.fromContext(activity.getApplicationContext(), R.mipmap.ic_note));
+                                                Intent.ShortcutIconResource.fromContext(activity.getApplicationContext(), R.drawable.qc_fav));
                                         shortcut.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
                                         activity.sendBroadcast(shortcut);
                                         helper_main.makeToast(activity, getString(R.string.toast_shortcut));
@@ -172,22 +154,21 @@ public class Activity_settings extends AppCompatActivity {
                                         shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, i);
                                         shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, (getString(R.string.todo_title)));
                                         shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
-                                                Intent.ShortcutIconResource.fromContext(activity.getApplicationContext(), R.mipmap.ic_todo));
+                                                Intent.ShortcutIconResource.fromContext(activity.getApplicationContext(), R.drawable.qc_todo));
                                         shortcut.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
                                         activity.sendBroadcast(shortcut);
                                         helper_main.makeToast(activity, getString(R.string.toast_shortcut));
                                     }
 
-                                    if (options[item].equals (getString(R.string.app_name))) {
+                                    if (options[item].equals (getString(R.string.title_notes))) {
                                         Intent i = new Intent(activity.getApplicationContext(), Activity_splash.class);
-                                        i.setAction("shortcutBrowser");
+                                        i.setAction("shortcutNotes");
 
                                         Intent shortcut = new Intent();
-                                        shortcut.setAction(Intent.ACTION_MAIN);
                                         shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, i);
-                                        shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, (getString(R.string.bookmark_createNote)));
+                                        shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, (getString(R.string.title_notes)));
                                         shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
-                                                Intent.ShortcutIconResource.fromContext(activity.getApplicationContext(), R.mipmap.ic_launcher));
+                                                Intent.ShortcutIconResource.fromContext(activity.getApplicationContext(), R.drawable.qc_note));
                                         shortcut.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
                                         activity.sendBroadcast(shortcut);
                                         helper_main.makeToast(activity, getString(R.string.toast_shortcut));
@@ -202,7 +183,7 @@ public class Activity_settings extends AppCompatActivity {
                                         shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, i);
                                         shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, (getString(R.string.bookmark_createNote)));
                                         shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
-                                                Intent.ShortcutIconResource.fromContext(activity.getApplicationContext(), R.mipmap.ic_note_plus));
+                                                Intent.ShortcutIconResource.fromContext(activity.getApplicationContext(), R.drawable.qc_schedule));
                                         shortcut.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
                                         activity.sendBroadcast(shortcut);
                                         helper_main.makeToast(activity, getString(R.string.toast_shortcut));
@@ -300,12 +281,7 @@ public class Activity_settings extends AppCompatActivity {
                     final AlertDialog dialog2 = builder.create();
                     // Display the custom alert dialog on interface
                     dialog2.show();
-
-                    new Handler().postDelayed(new Runnable() {
-                        public void run() {
-                            helper_main.showKeyboard(activity, pass_userPW);
-                        }
-                    }, 200);
+                    helper_main.showKeyboard(activity, pass_userPW);
 
                     return true;
                 }
@@ -353,12 +329,7 @@ public class Activity_settings extends AppCompatActivity {
                         final AlertDialog dialog2 = builder.create();
                         // Display the custom alert dialog on interface
                         dialog2.show();
-
-                        new Handler().postDelayed(new Runnable() {
-                            public void run() {
-                                helper_main.showKeyboard(getActivity(), pass_userName);
-                            }
-                        }, 200);
+                        helper_main.showKeyboard(getActivity(), pass_userName);
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -425,7 +396,6 @@ public class Activity_settings extends AppCompatActivity {
             super.onCreate(savedInstanceState);
 
             addPreferencesFromResource(R.xml.user_settings);
-            addOpenSettingsListener();
             addUsernameListener();
             addProtectListener();
             addBackup_dbListener();
@@ -517,11 +487,7 @@ public class Activity_settings extends AppCompatActivity {
         }
 
         if (id == R.id.action_help) {
-            final AlertDialog.Builder dialog = new AlertDialog.Builder(Activity_settings.this)
-                    .setTitle(R.string.helpSettings_title)
-                    .setMessage(helper_main.textSpannable(getString(R.string.helpSettings_text)))
-                    .setPositiveButton(getString(R.string.toast_yes), null);
-            dialog.show();
+            helper_main.switchToActivity(Activity_settings.this, Activity_settings_Help.class, false);
         }
 
         return super.onOptionsItemSelected(item);

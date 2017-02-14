@@ -35,11 +35,11 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,8 +58,7 @@ import android.widget.TextView;
 
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.data_notes.Notes_helper;
-import de.baumann.hhsmoodle.data_todo.Todo_DbAdapter;
-import de.baumann.hhsmoodle.helper.class_CustomViewPager;
+import de.baumann.hhsmoodle.data_todo.Todo_helper;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.popup.Popup_note;
 import de.baumann.hhsmoodle.popup.Popup_subjects;
@@ -443,12 +442,7 @@ public class Schedule_Fragment extends Fragment {
                                                         final EditText roomInput = (EditText) dialogView.findViewById(R.id.subject_room);
                                                         roomInput.setText(schedule_attachment);
 
-                                                        new Handler().postDelayed(new Runnable() {
-                                                            public void run() {
-                                                                helper_main.showKeyboard(getActivity(),titleInput);
-                                                            }
-                                                        }, 200);
-
+                                                        helper_main.showKeyboard(getActivity(),titleInput);
 
                                                         final ImageButton be = (ImageButton) dialogView.findViewById(R.id.imageButtonPri);
                                                         assert be != null;
@@ -577,25 +571,21 @@ public class Schedule_Fragment extends Fragment {
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_remove_bookmark))) {
-                                    db.update(Integer.parseInt(_id), getString(R.string.schedule_def_teacher), getString(R.string.schedule_def_teacher), "11", getString(R.string.schedule_def_teacher), schedule_creation, schedule_id);
-                                    setScheduleList();
-                                    lv.setSelection(Integer.parseInt(schedule_id) -1);
+                                    Snackbar snackbar = Snackbar
+                                            .make(lv, R.string.note_remove_confirmation, Snackbar.LENGTH_LONG)
+                                            .setAction(R.string.toast_yes, new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                    db.update(Integer.parseInt(_id), getString(R.string.schedule_def_teacher), getString(R.string.schedule_def_teacher), "11", getString(R.string.schedule_def_teacher), schedule_creation, schedule_id);
+                                                    setScheduleList();
+                                                    lv.setSelection(Integer.parseInt(schedule_id) -1);
+                                                }
+                                            });
+                                    snackbar.show();
                                 }
 
                                 if (options[item].equals (getString(R.string.todo_menu))) {
-
-                                    Todo_DbAdapter db = new Todo_DbAdapter(getActivity());
-                                    db.open();
-
-                                    if(db.isExist(schedule_title)){
-                                        Snackbar.make(lv, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
-                                    } else {
-                                        db.insert(schedule_title, "", "3", "true", helper_main.createDate());
-                                        ViewPager viewPager = (class_CustomViewPager) getActivity().findViewById(R.id.viewpager);
-                                        viewPager.setCurrentItem(2);
-                                        getActivity().setTitle(R.string.todo_title);
-                                        dialog.dismiss();
-                                    }
+                                    Todo_helper.newTodo(getActivity(), schedule_title, schedule_content, getActivity().getString(R.string.note_content));
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createEvent))) {
@@ -603,20 +593,12 @@ public class Schedule_Fragment extends Fragment {
                                     calIntent.setType("vnd.android.cursor.item/event");
                                     calIntent.putExtra(CalendarContract.Events.TITLE, schedule_title);
                                     calIntent.putExtra(CalendarContract.Events.DESCRIPTION, schedule_content);
+                                    calIntent.putExtra(CalendarContract.Events.EVENT_LOCATION, schedule_attachment);
                                     startActivity(calIntent);
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createNote))) {
-
-                                    sharedPref.edit()
-                                            .putString("handleTextTitle", schedule_title)
-                                            .putString("handleTextText", "")
-                                            .putString("handleTextCreate", helper_main.createDate())
-                                            .putString("handleTextIcon", "")
-                                            .putString("handleTextAttachment", "")
-                                            .putString("handleTextSeqno", "")
-                                            .apply();
-                                    Notes_helper.newNote(getActivity());
+                                    Notes_helper.newNote(getActivity(), schedule_title, schedule_content);
                                 }
 
                             }
@@ -648,6 +630,11 @@ public class Schedule_Fragment extends Fragment {
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_schedule, menu);
+    }
+
+    @Override
     public void onPrepareOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         super.onPrepareOptionsMenu(menu);
@@ -656,6 +643,12 @@ public class Schedule_Fragment extends Fragment {
         menu.findItem(R.id.filter_creation).setVisible(false);
         menu.findItem(R.id.filter_url).setVisible(false);
         menu.findItem(R.id.filter_att).setVisible(false);
+
+        if (sharedPref.getBoolean ("silent_mode", false)){
+            menu.findItem(R.id.action_silent).setIcon(R.drawable.bell_off_light);
+        } else {
+            menu.findItem(R.id.action_silent).setIcon(R.drawable.bell_ring_light);
+        }
     }
 
     @Override
@@ -699,6 +692,16 @@ public class Schedule_Fragment extends Fragment {
                 filter.setHint(R.string.schedule_search_room);
                 filter.requestFocus();
                 helper_main.showKeyboard(getActivity(), filter);
+                return true;
+
+            case R.id.action_silent:
+                if (sharedPref.getBoolean ("silent_mode", false)){
+                    sharedPref.edit().putBoolean("silent_mode", false).apply();
+                    getActivity().invalidateOptionsMenu();
+                } else {
+                    sharedPref.edit().putBoolean("silent_mode", true).apply();
+                    getActivity().invalidateOptionsMenu();
+                }
                 return true;
         }
 

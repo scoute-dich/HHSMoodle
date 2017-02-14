@@ -28,7 +28,6 @@ import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
@@ -58,7 +57,7 @@ import android.widget.TextView;
 
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.data_notes.Notes_helper;
-import de.baumann.hhsmoodle.data_todo.Todo_DbAdapter;
+import de.baumann.hhsmoodle.data_todo.Todo_helper;
 import de.baumann.hhsmoodle.helper.class_CustomViewPager;
 import de.baumann.hhsmoodle.helper.helper_main;
 
@@ -395,6 +394,7 @@ public class Bookmarks_Fragment extends Fragment {
 
                 Cursor row2 = (Cursor) lv.getItemAtPosition(position);
                 final String bookmarks_content = row2.getString(row2.getColumnIndexOrThrow("bookmarks_content"));
+                sharedPref.edit().putString("load_next", "true").apply();
                 sharedPref.edit().putString("loadURL", bookmarks_content).apply();
 
                 ViewPager viewPager = (class_CustomViewPager) getActivity().findViewById(R.id.viewpager);
@@ -463,28 +463,11 @@ public class Bookmarks_Fragment extends Fragment {
                                     final AlertDialog dialog2 = builder.create();
                                     // Display the custom alert dialog on interface
                                     dialog2.show();
-
-                                    new Handler().postDelayed(new Runnable() {
-                                        public void run() {
-                                            helper_main.showKeyboard(getActivity(),edit_title);
-                                        }
-                                    }, 200);
+                                    helper_main.showKeyboard(getActivity(),edit_title);
                                 }
 
                                 if (options[item].equals (getString(R.string.todo_menu))) {
-
-                                    Todo_DbAdapter db = new Todo_DbAdapter(getActivity());
-                                    db.open();
-
-                                    if(db.isExist(bookmarks_title)){
-                                        Snackbar.make(lv, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
-                                    } else {
-                                        db.insert(bookmarks_title, "", "3", "true", helper_main.createDate());
-                                        ViewPager viewPager = (class_CustomViewPager) getActivity().findViewById(R.id.viewpager);
-                                        viewPager.setCurrentItem(2);
-                                        getActivity().setTitle(R.string.todo_title);
-                                        dialog.dismiss();
-                                    }
+                                    Todo_helper.newTodo(getActivity(), bookmarks_title, "", "");
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createEvent))) {
@@ -496,7 +479,6 @@ public class Bookmarks_Fragment extends Fragment {
                                 }
 
                                 if (options[item].equals(getString(R.string.bookmark_remove_bookmark))) {
-
                                     Snackbar snackbar = Snackbar
                                             .make(lv, R.string.note_remove_confirmation, Snackbar.LENGTH_LONG)
                                             .setAction(R.string.toast_yes, new View.OnClickListener() {
@@ -510,16 +492,7 @@ public class Bookmarks_Fragment extends Fragment {
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createNote))) {
-
-                                    sharedPref.edit()
-                                            .putString("handleTextTitle", bookmarks_title)
-                                            .putString("handleTextText", bookmarks_content)
-                                            .putString("handleTextCreate", helper_main.createDate())
-                                            .putString("handleTextIcon", "")
-                                            .putString("handleTextAttachment", "")
-                                            .putString("handleTextSeqno", "")
-                                            .apply();
-                                    Notes_helper.newNote(getActivity());
+                                    Notes_helper.newNote(getActivity(), bookmarks_title, bookmarks_content);
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createShortcut))) {
@@ -565,6 +538,7 @@ public class Bookmarks_Fragment extends Fragment {
         super.onPrepareOptionsMenu(menu);
         menu.findItem(R.id.sort_attachment).setVisible(false);
         menu.findItem(R.id.sort_notification).setVisible(false);
+        menu.findItem(R.id.sort_pri).setVisible(false);
         menu.findItem(R.id.filter_content).setVisible(false);
         menu.findItem(R.id.filter_att).setVisible(false);
         menu.findItem(R.id.filter_teacher).setVisible(false);

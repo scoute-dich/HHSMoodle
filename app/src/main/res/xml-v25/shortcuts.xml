@@ -1,14 +1,48 @@
 <shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
 
     <shortcut
+        android:shortcutId="shortcutBrowser"
+        android:enabled="true"
+        android:icon="@drawable/qc_moodle"
+        android:shortcutShortLabel="@string/app_name"
+        android:shortcutLongLabel="@string/app_name"
+        android:shortcutDisabledMessage="@string/app_name">
+        <intent
+            android:action="shortcutBrowser"
+            android:targetPackage="de.baumann.hhsmoodle"
+            android:targetClass="de.baumann.hhsmoodle.activities.Activity_splash" />
+        <!-- If your shortcut is associated with multiple intents, include them
+             here. The last intent in the list is what the user sees when they
+             launch this shortcut. -->
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+
+    <shortcut
         android:shortcutId="shortcutBookmarks"
         android:enabled="true"
-        android:icon="@drawable/qc_bookmarks"
+        android:icon="@drawable/qc_fav"
         android:shortcutShortLabel="@string/title_bookmarks"
         android:shortcutLongLabel="@string/title_bookmarks"
         android:shortcutDisabledMessage="@string/title_bookmarks">
         <intent
             android:action="shortcutBookmarks"
+            android:targetPackage="de.baumann.hhsmoodle"
+            android:targetClass="de.baumann.hhsmoodle.activities.Activity_splash" />
+        <!-- If your shortcut is associated with multiple intents, include them
+             here. The last intent in the list is what the user sees when they
+             launch this shortcut. -->
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="shortcutToDo"
+        android:enabled="true"
+        android:icon="@drawable/qc_todo"
+        android:shortcutShortLabel="@string/todo_title"
+        android:shortcutLongLabel="@string/todo_title"
+        android:shortcutDisabledMessage="@string/todo_title">
+        <intent
+            android:action="shortcutToDo"
             android:targetPackage="de.baumann.hhsmoodle"
             android:targetClass="de.baumann.hhsmoodle.activities.Activity_splash" />
         <!-- If your shortcut is associated with multiple intents, include them
@@ -35,14 +69,14 @@
     </shortcut>
 
     <shortcut
-        android:shortcutId="shortcutToDo"
+        android:shortcutId="shortcutSchedule"
         android:enabled="true"
-        android:icon="@drawable/qc_todo"
-        android:shortcutShortLabel="@string/todo_title"
-        android:shortcutLongLabel="@string/todo_title"
-        android:shortcutDisabledMessage="@string/todo_title">
+        android:icon="@drawable/qc_schedule"
+        android:shortcutShortLabel="@string/schedule_title"
+        android:shortcutLongLabel="@string/schedule_title"
+        android:shortcutDisabledMessage="@string/schedule_title">
         <intent
-            android:action="shortcutToDo"
+            android:action="shortcutSchedule"
             android:targetPackage="de.baumann.hhsmoodle"
             android:targetClass="de.baumann.hhsmoodle.activities.Activity_splash" />
         <!-- If your shortcut is associated with multiple intents, include them
@@ -50,6 +84,8 @@
              launch this shortcut. -->
         <categories android:name="android.shortcut.conversation" />
     </shortcut>
+
+
 
 </shortcuts>
         

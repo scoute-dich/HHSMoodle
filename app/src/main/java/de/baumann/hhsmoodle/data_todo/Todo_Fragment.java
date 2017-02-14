@@ -31,7 +31,6 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
@@ -140,51 +139,7 @@ public class Todo_Fragment extends Fragment {
             @Override
             public void onClick(View view) {
                 closeFABMenu();
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                View dialogView = View.inflate(getActivity(), R.layout.dialog_edit_title, null);
-                final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
-                edit_title.setHint(R.string.bookmark_edit_title);
-                builder.setTitle(R.string.todo_from_new);
-                builder.setView(dialogView);
-                builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
-
-                    public void onClick(DialogInterface dialog, int whichButton) {
-
-                    }
-                })
-                        .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                dialog.cancel();
-                            }
-                        });
-
-                final AlertDialog dialog2 = builder.create();
-                dialog2.show();
-
-                dialog2.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //Do stuff, possibly set wantToCloseDialog to true then...
-
-                        String inputTitle = edit_title.getText().toString().trim();
-
-                        if(db.isExist(inputTitle)){
-                            Snackbar.make(lv, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
-                        }else{
-                            db.insert(inputTitle, "", "3", "true", helper_main.createDate());
-                            dialog2.dismiss();
-                            setTodoList();
-                            Snackbar.make(lv, R.string.bookmark_added, Snackbar.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-
-                new Handler().postDelayed(new Runnable() {
-                    public void run() {
-                        helper_main.showKeyboard(getActivity(),edit_title);
-                    }
-                }, 200);
+                Todo_helper.newTodo(getActivity(), "", "", "");
             }
         });
 
@@ -256,6 +211,15 @@ public class Todo_Fragment extends Fragment {
     public void onResume() {
         super.onResume();
         setTodoList();
+    }
+
+    public void doBack() {
+        //BackPressed in activity will call this;
+        if(isFABOpen){
+            closeFABMenu();
+        } else {
+            helper_main.onClose(getActivity());
+        }
     }
 
     private void setTodoList() {
@@ -523,12 +487,7 @@ public class Todo_Fragment extends Fragment {
                                     final AlertDialog dialog2 = builder.create();
                                     // Display the custom alert dialog on interface
                                     dialog2.show();
-
-                                    new Handler().postDelayed(new Runnable() {
-                                        public void run() {
-                                            helper_main.showKeyboard(getActivity(),edit_title);
-                                        }
-                                    }, 200);
+                                    helper_main.showKeyboard(getActivity(),edit_title);
                                 }
 
                                 if (options[item].equals (getString(R.string.todo_share))) {
@@ -561,16 +520,7 @@ public class Todo_Fragment extends Fragment {
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createNote))) {
-
-                                    sharedPref.edit()
-                                            .putString("handleTextTitle", todo_title)
-                                            .putString("handleTextText", todo_content)
-                                            .putString("handleTextCreate", todo_creation)
-                                            .putString("handleTextIcon", todo_icon)
-                                            .putString("handleTextAttachment", todo_icon)
-                                            .putString("handleTextSeqno", "")
-                                            .apply();
-                                    Notes_helper.newNote(getActivity());
+                                    Notes_helper.newNote(getActivity(),todo_title, todo_content);
                                 }
 
                             }
@@ -600,6 +550,7 @@ public class Todo_Fragment extends Fragment {
         // Inflate the menu; this adds items to the action bar if it is present.
         super.onPrepareOptionsMenu(menu);
         menu.findItem(R.id.sort_attachment).setVisible(false);
+        menu.findItem(R.id.sort_icon).setVisible(false);
         menu.findItem(R.id.filter_att).setVisible(false);
         menu.findItem(R.id.filter_url).setVisible(false);
         menu.findItem(R.id.filter_teacher).setVisible(false);
@@ -650,7 +601,7 @@ public class Todo_Fragment extends Fragment {
                 sharedPref.edit().putString("sortDBT", "title").apply();
                 setTodoList();
                 return true;
-            case R.id.sort_icon:
+            case R.id.sort_pri:
                 sharedPref.edit().putString("sortDBT", "icon").apply();
                 setTodoList();
                 return true;

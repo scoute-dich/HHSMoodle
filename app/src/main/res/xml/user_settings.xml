@@ -43,13 +43,6 @@
             android:entries="@array/listArrayTabMain"
             android:entryValues="@array/listValuesTabMain" />
 
-        <CheckBoxPreference
-            android:title="@string/action_silent"
-            android:icon="@drawable/bell_off"
-            android:summary="@string/action_silent_summary"
-            android:key="silent_mode"
-            android:defaultValue="false" />
-
         <ListPreference
             android:title="@string/action_font"
             android:icon="@drawable/format_size"
@@ -65,11 +58,19 @@
             android:summary="@string/action_shortcut_summary"
             android:key="shortcuts" />
 
-        <Preference
-            android:title="@string/action_openSettings"
-            android:icon="@drawable/settings"
-            android:summary="@string/action_openSettings_summary"
-            android:key="clearCache" />
+        <CheckBoxPreference
+            android:title="@string/action_silent"
+            android:icon="@drawable/bell_off"
+            android:summary="@string/action_silent_summary"
+            android:key="silent_mode"
+            android:defaultValue="false" />
+
+        <CheckBoxPreference
+            android:title="@string/action_help"
+            android:icon="@drawable/comment_question_outline"
+            android:summary="@string/action_help_summary"
+            android:key="help"
+            android:defaultValue="false" />
 
     </PreferenceCategory>
 
@@ -82,13 +83,6 @@
             android:summary="@string/action_notShow_title_summary"
             android:key="intro_show"
             android:defaultValue="true" />
-
-        <CheckBoxPreference
-            android:title="@string/action_help"
-            android:icon="@drawable/comment_question_outline"
-            android:summary="@string/action_help_summary"
-            android:key="help"
-            android:defaultValue="false" />
 
         <Preference
             android:title="@string/perm_notShow_title"

@@ -80,7 +80,7 @@ public class Schedule_helper {
 
         // Monday
         db.insert(activity.getString(R.string.schedule_def_title), activity.getString(R.string.schedule_def_teacher), "11", activity.getString(R.string.schedule_def_teacher), "1. " + activity.getString(R.string.schedule_mon) + " " + "07:45 - 08:30", "01");
-        db.insert(activity.getString(R.string.schedule_def_title), activity.getString(R.string.schedule_def_teacher), "11", activity.getString(R.string.schedule_def_teacher), "2. " + activity.getString(R.string.schedule_mon) + " " + "08:45 - 09:15", "02");
+        db.insert(activity.getString(R.string.schedule_def_title), activity.getString(R.string.schedule_def_teacher), "11", activity.getString(R.string.schedule_def_teacher), "2. " + activity.getString(R.string.schedule_mon) + " " + "08:30 - 09:15", "02");
         db.insert(activity.getString(R.string.schedule_def_title), activity.getString(R.string.schedule_def_teacher), "11", activity.getString(R.string.schedule_def_teacher), "3. " + activity.getString(R.string.schedule_mon) + " " + "09:35 - 10:20", "03");
         db.insert(activity.getString(R.string.schedule_def_title), activity.getString(R.string.schedule_def_teacher), "11", activity.getString(R.string.schedule_def_teacher), "4. " + activity.getString(R.string.schedule_mon) + " " + "10:20 - 11:05", "04");
         db.insert(activity.getString(R.string.schedule_def_title), activity.getString(R.string.schedule_def_teacher), "11", activity.getString(R.string.schedule_def_teacher), "5. " + activity.getString(R.string.schedule_mon) + " " + "11:25 - 12:10", "05");

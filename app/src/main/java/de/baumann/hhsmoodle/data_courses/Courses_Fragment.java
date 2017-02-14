@@ -20,13 +20,16 @@
 package de.baumann.hhsmoodle.data_courses;
 
 import android.animation.Animator;
-import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
+import android.preference.PreferenceManager;
+import android.provider.CalendarContract;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -37,9 +40,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SimpleCursorAdapter;
@@ -55,10 +61,10 @@ import java.util.Date;
 import java.util.Locale;
 
 import de.baumann.hhsmoodle.R;
+import de.baumann.hhsmoodle.data_notes.Notes_helper;
 import de.baumann.hhsmoodle.data_random.Random_DbAdapter;
-import de.baumann.hhsmoodle.data_notes.Notes_DbAdapter;
 import de.baumann.hhsmoodle.data_subjects.Subject_DbAdapter;
-import de.baumann.hhsmoodle.data_todo.Todo_DbAdapter;
+import de.baumann.hhsmoodle.data_todo.Todo_helper;
 import de.baumann.hhsmoodle.helper.class_CustomViewPager;
 import de.baumann.hhsmoodle.helper.helper_main;
 import filechooser.ChooserDialog;
@@ -73,6 +79,11 @@ public class Courses_Fragment extends Fragment {
     private LinearLayout fabLayout1;
     private LinearLayout fabLayout2;
     private boolean isFABOpen=false;
+    private SharedPreferences sharedPref;
+
+    private EditText titleInput;
+    private EditText teacherInput;
+    private EditText roomInput;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -86,6 +97,9 @@ public class Courses_Fragment extends Fragment {
             imgHeader.setImageResource(images.getResourceId(choice, R.drawable.splash1));
             images.recycle();
         }
+
+        PreferenceManager.setDefaultValues(getActivity(), R.xml.user_settings, false);
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         RelativeLayout filter_layout = (RelativeLayout) rootView.findViewById(R.id.filter_layout);
         filter_layout.setVisibility(View.GONE);
@@ -114,51 +128,46 @@ public class Courses_Fragment extends Fragment {
             @Override
             public void onClick(View view) {
                 closeFABMenu();
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                View dialogView = View.inflate(getActivity(), R.layout.dialog_edit_title, null);
-                final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
-                edit_title.setHint(R.string.bookmark_edit_title);
-                builder.setTitle(R.string.todo_from_new);
+
+                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getActivity());
+                View dialogView = View.inflate(getActivity(), R.layout.dialog_edit_entry, null);
+
+                final EditText edit_title = (EditText) dialogView.findViewById(R.id.note_title_input);
+                edit_title.setHint(R.string.title_hint);
+
+                final EditText edit_cont = (EditText) dialogView.findViewById(R.id.note_text_input);
+                edit_cont.setHint(R.string.text_hint);
+
                 builder.setView(dialogView);
+                builder.setTitle(R.string.number_edit_entry);
                 builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int whichButton) {
 
-                    }
-                })
-                        .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                dialog.cancel();
-                            }
-                        });
-
-                final AlertDialog dialog2 = builder.create();
-                dialog2.show();
-
-                dialog2.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //Do stuff, possibly set wantToCloseDialog to true then...
-
                         String inputTitle = edit_title.getText().toString().trim();
+                        String inputCont = edit_cont.getText().toString().trim();
 
                         if(db.isExist(inputTitle)){
                             Snackbar.make(lv, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
                         }else{
-                            db.insert(inputTitle, "", "", "", helper_main.createDate());
-                            dialog2.dismiss();
+                            db.insert(inputTitle, inputCont, "", "", helper_main.createDate());
+                            dialog.dismiss();
                             setCoursesList();
                             Snackbar.make(lv, R.string.bookmark_added, Snackbar.LENGTH_SHORT).show();
                         }
                     }
                 });
+                builder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
 
-                new Handler().postDelayed(new Runnable() {
-                    public void run() {
-                        helper_main.showKeyboard(getActivity(),edit_title);
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        dialog.cancel();
                     }
-                }, 200);
+                });
+
+                final android.app.AlertDialog dialog2 = builder.create();
+                // Display the custom alert dialog on interface
+                dialog2.show();
+                helper_main.showKeyboard(getActivity(),edit_title);
             }
         });
 
@@ -268,6 +277,15 @@ public class Courses_Fragment extends Fragment {
         setCoursesList();
     }
 
+    public void doBack() {
+        //BackPressed in activity will call this;
+        if(isFABOpen){
+            closeFABMenu();
+        } else {
+            helper_main.onClose(getActivity());
+        }
+    }
+
     private void setCoursesList() {
 
         //display data
@@ -309,7 +327,8 @@ public class Courses_Fragment extends Fragment {
                         getString(R.string.courseList_todo),
                         getString(R.string.courseList_note),
                         getString(R.string.courseList_random),
-                        getString(R.string.courseList_subject)};
+                        getString(R.string.courseList_subject),
+                        getString(R.string.bookmark_createEvent)};
 
                 new android.app.AlertDialog.Builder(getActivity())
                         .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
@@ -323,65 +342,223 @@ public class Courses_Fragment extends Fragment {
                             public void onClick(DialogInterface dialog, int item) {
                                 if (options[item].equals(getString(R.string.courseList_random))) {
 
-                                    Random_DbAdapter db = new Random_DbAdapter(getActivity());
-                                    db.open();
+                                    android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getActivity());
+                                    View dialogView = View.inflate(getActivity(), R.layout.dialog_edit_entry, null);
 
-                                    if(db.isExist(courses_title)){
-                                        Snackbar.make(lv, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
-                                    } else {
-                                        db.insert(courses_title, courses_content, "", "", helper_main.createDate());
-                                        ViewPager viewPager = (class_CustomViewPager) getActivity().findViewById(R.id.viewpager);
-                                        viewPager.setCurrentItem(5);
-                                        getActivity().setTitle(R.string.number_title);
-                                    }
+                                    final EditText edit_title = (EditText) dialogView.findViewById(R.id.note_title_input);
+                                    edit_title.setHint(R.string.title_hint);
+                                    edit_title.setText(courses_title);
+
+                                    final EditText edit_cont = (EditText) dialogView.findViewById(R.id.note_text_input);
+                                    edit_cont.setHint(R.string.text_hint);
+                                    edit_cont.setText(courses_content);
+
+                                    builder.setView(dialogView);
+                                    builder.setTitle(R.string.number_edit_entry);
+                                    builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+
+                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                        }
+                                    });
+                                    builder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                            dialog.cancel();
+                                        }
+                                    });
+
+                                    final android.app.AlertDialog dialog2 = builder.create();
+                                    // Display the custom alert dialog on interface
+                                    dialog2.show();
+
+                                    dialog2.getButton(android.support.v7.app.AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            //Do stuff, possibly set wantToCloseDialog to true then...
+                                            Random_DbAdapter db = new Random_DbAdapter(getActivity());
+                                            db.open();
+
+                                            if(db.isExist(courses_title)){
+                                                Snackbar.make(lv, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
+                                            } else {
+
+                                                String inputTitle = edit_title.getText().toString().trim();
+                                                String inputCont = edit_cont.getText().toString().trim();
+
+                                                db.insert(inputTitle, inputCont, "", "", helper_main.createDate());
+                                                ViewPager viewPager = (class_CustomViewPager) getActivity().findViewById(R.id.viewpager);
+                                                viewPager.setCurrentItem(5);
+                                                getActivity().setTitle(R.string.number_title);
+                                                dialog2.dismiss();
+                                            }
+                                        }
+                                    });
+                                    helper_main.showKeyboard(getActivity(),edit_title);
                                 }
 
                                 if (options[item].equals(getString(R.string.courseList_note))) {
-
-                                    Notes_DbAdapter db = new Notes_DbAdapter(getActivity());
-                                    db.open();
-
-                                    if(db.isExist(courses_title)){
-                                        Snackbar.make(lv, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
-                                    } else {
-                                        db.insert(courses_title, courses_content, "1", "", helper_main.createDate());
-                                        ViewPager viewPager = (class_CustomViewPager) getActivity().findViewById(R.id.viewpager);
-                                        viewPager.setCurrentItem(3);
-                                        getActivity().setTitle(R.string.title_notes);
-                                    }
+                                    Notes_helper.newNote(getActivity(), courses_title, "");
                                 }
 
                                 if (options[item].equals(getString(R.string.courseList_todo))) {
-
-                                    Todo_DbAdapter db = new Todo_DbAdapter(getActivity());
-                                    db.open();
-
-                                    if(db.isExist(courses_title)){
-                                        Snackbar.make(lv, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
-                                    } else {
-                                        db.insert(courses_title, courses_content, "3", "true", helper_main.createDate());
-                                        ViewPager viewPager = (class_CustomViewPager) getActivity().findViewById(R.id.viewpager);
-                                        viewPager.setCurrentItem(2);
-                                        getActivity().setTitle(R.string.todo_title);
-                                    }
+                                    Todo_helper.newTodo(getActivity(), courses_title, courses_content, getActivity().getString(R.string.note_content));
                                 }
 
                                 if (options[item].equals(getString(R.string.courseList_subject))) {
 
-                                    Subject_DbAdapter db = new Subject_DbAdapter(getActivity());
-                                    db.open();
+                                    LayoutInflater inflater = getActivity().getLayoutInflater();
 
-                                    if(db.isExist(courses_title)){
-                                        Snackbar.make(lv, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
-                                    } else {
-                                        Date date = new Date();
-                                        DateFormat dateFormat = new SimpleDateFormat("yy-MM-dd_HH-mm-ss", Locale.getDefault());
-                                        String creation =  dateFormat.format(date);
-                                        db.insert(courses_title, "", "3", "", creation);
-                                        ViewPager viewPager = (class_CustomViewPager) getActivity().findViewById(R.id.viewpager);
-                                        viewPager.setCurrentItem(8);
-                                        getActivity().setTitle(R.string.subjects_title);
-                                    }
+                                    final ViewGroup nullParent = null;
+                                    View dialogView = inflater.inflate(R.layout.dialog_edit_subject, nullParent);
+
+                                    titleInput = (EditText) dialogView.findViewById(R.id.subject_title_);
+                                    titleInput.setSelection(titleInput.getText().length());
+                                    titleInput.setText("");
+                                    teacherInput = (EditText) dialogView.findViewById(R.id.subject_teacher);
+                                    teacherInput.setText(courses_title);
+                                    roomInput = (EditText) dialogView.findViewById(R.id.subject_room);
+                                    roomInput.setText("");
+                                    helper_main.showKeyboard(getActivity(),titleInput);
+
+                                    final ImageButton be = (ImageButton) dialogView.findViewById(R.id.imageButtonPri);
+                                    assert be != null;
+                                    be.setImageResource(R.drawable.circle_grey);
+                                    sharedPref.edit().putString("subject_color", "11").apply();
+
+                                    be.setOnClickListener(new View.OnClickListener() {
+
+                                        @Override
+                                        public void onClick(View arg0) {
+
+                                            final Item[] items = {
+                                                    new Item(getString(R.string.subjects_color_red), R.drawable.circle_red),
+                                                    new Item(getString(R.string.subjects_color_pink), R.drawable.circle_pink),
+                                                    new Item(getString(R.string.subjects_color_purple), R.drawable.circle_purple),
+                                                    new Item(getString(R.string.subjects_color_blue), R.drawable.circle_blue),
+                                                    new Item(getString(R.string.subjects_color_teal), R.drawable.circle_teal),
+                                                    new Item(getString(R.string.subjects_color_green), R.drawable.circle_green),
+                                                    new Item(getString(R.string.subjects_color_lime), R.drawable.circle_lime),
+                                                    new Item(getString(R.string.subjects_color_yellow), R.drawable.circle_yellow),
+                                                    new Item(getString(R.string.subjects_color_orange), R.drawable.circle_orange),
+                                                    new Item(getString(R.string.subjects_color_brown), R.drawable.circle_brown),
+                                                    new Item(getString(R.string.subjects_color_grey), R.drawable.circle_grey),
+                                            };
+
+                                            ListAdapter adapter = new ArrayAdapter<Item>(
+                                                    getActivity(),
+                                                    android.R.layout.select_dialog_item,
+                                                    android.R.id.text1,
+                                                    items){
+                                                @NonNull
+                                                public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+                                                    //Use super class to create the View
+                                                    View v = super.getView(position, convertView, parent);
+                                                    TextView tv = (TextView)v.findViewById(android.R.id.text1);
+                                                    tv.setTextSize(18);
+                                                    tv.setCompoundDrawablesWithIntrinsicBounds(items[position].icon, 0, 0, 0);
+                                                    //Add margin between image and text (support various screen densities)
+                                                    int dp5 = (int) (24 * getActivity().getResources().getDisplayMetrics().density + 0.5f);
+                                                    tv.setCompoundDrawablePadding(dp5);
+
+                                                    return v;
+                                                }
+                                            };
+
+                                            new android.app.AlertDialog.Builder(getActivity())
+                                                    .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                                            dialog.cancel();
+                                                        }
+                                                    })
+                                                    .setAdapter(adapter, new DialogInterface.OnClickListener() {
+                                                        public void onClick(DialogInterface dialog, int item) {
+                                                            if (item == 0) {
+                                                                be.setImageResource(R.drawable.circle_red);
+                                                                sharedPref.edit().putString("subject_color", "1").apply();
+                                                            } else if (item == 1) {
+                                                                be.setImageResource(R.drawable.circle_pink);
+                                                                sharedPref.edit().putString("subject_color", "2").apply();
+                                                            } else if (item == 2) {
+                                                                be.setImageResource(R.drawable.circle_purple);
+                                                                sharedPref.edit().putString("subject_color", "3").apply();
+                                                            } else if (item == 3) {
+                                                                be.setImageResource(R.drawable.circle_blue);
+                                                                sharedPref.edit().putString("subject_color", "4").apply();
+                                                            } else if (item == 4) {
+                                                                be.setImageResource(R.drawable.circle_teal);
+                                                                sharedPref.edit().putString("subject_color", "5").apply();
+                                                            } else if (item == 5) {
+                                                                be.setImageResource(R.drawable.circle_green);
+                                                                sharedPref.edit().putString("subject_color", "6").apply();
+                                                            } else if (item == 6) {
+                                                                be.setImageResource(R.drawable.circle_lime);
+                                                                sharedPref.edit().putString("subject_color", "7").apply();
+                                                            } else if (item == 7) {
+                                                                be.setImageResource(R.drawable.circle_yellow);
+                                                                sharedPref.edit().putString("subject_color", "8").apply();
+                                                            } else if (item == 8) {
+                                                                be.setImageResource(R.drawable.circle_orange);
+                                                                sharedPref.edit().putString("subject_color", "9").apply();
+                                                            } else if (item == 9) {
+                                                                be.setImageResource(R.drawable.circle_brown);
+                                                                sharedPref.edit().putString("subject_color", "10").apply();
+                                                            } else if (item == 10) {
+                                                                be.setImageResource(R.drawable.circle_grey);
+                                                                sharedPref.edit().putString("subject_color", "11").apply();
+                                                            }
+                                                        }
+                                                    }).show();
+                                        }
+                                    });
+
+                                    android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getActivity());
+                                    builder.setTitle(R.string.subjects_edit);
+                                    builder.setView(dialogView);
+                                    builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+
+                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                            Subject_DbAdapter db = new Subject_DbAdapter(getActivity());
+                                            db.open();
+
+                                            String inputTitle = titleInput.getText().toString().trim();
+                                            String inputTeacher = teacherInput.getText().toString().trim();
+                                            String inputRoom = roomInput.getText().toString().trim();
+
+                                            Date date = new Date();
+                                            DateFormat dateFormat = new SimpleDateFormat("yy-MM-dd_HH-mm-ss", Locale.getDefault());
+                                            String creation =  dateFormat.format(date);
+
+                                            if(db.isExist(inputTitle)){
+                                                Snackbar.make(titleInput, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
+                                            }else{
+                                                db.insert(inputTitle, inputTeacher, sharedPref.getString("subject_color", ""), inputRoom, creation);
+                                                dialog.dismiss();
+
+                                                ViewPager viewPager = (class_CustomViewPager) getActivity().findViewById(R.id.viewpager);
+                                                viewPager.setCurrentItem(8);
+                                                getActivity().setTitle(R.string.number_title);
+                                            }
+
+                                        }
+                                    });
+                                    builder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                            dialog.cancel();
+                                        }
+                                    });
+
+                                    final android.support.v7.app.AlertDialog dialog2 = builder.create();
+                                    dialog2.show();
+                                }
+
+                                if (options[item].equals (getString(R.string.bookmark_createEvent))) {
+                                    Intent calIntent = new Intent(Intent.ACTION_INSERT);
+                                    calIntent.setType("vnd.android.cursor.item/event");
+                                    calIntent.putExtra(CalendarContract.Events.TITLE, courses_title);
+                                    calIntent.putExtra(CalendarContract.Events.DESCRIPTION, courses_content);
+                                    startActivity(calIntent);
                                 }
 
                             }
@@ -450,12 +627,7 @@ public class Courses_Fragment extends Fragment {
                                     final android.app.AlertDialog dialog2 = builder.create();
                                     // Display the custom alert dialog on interface
                                     dialog2.show();
-
-                                    new Handler().postDelayed(new Runnable() {
-                                        public void run() {
-                                            helper_main.showKeyboard(getActivity(),edit_title);
-                                        }
-                                    }, 200);
+                                    helper_main.showKeyboard(getActivity(),edit_title);
                                 }
 
                                 if (options[item].equals(getString(R.string.bookmark_remove_bookmark))) {
@@ -479,6 +651,20 @@ public class Courses_Fragment extends Fragment {
         });
     }
 
+    public static class Item{
+        public final String text;
+        public final int icon;
+        Item(String text, Integer icon) {
+            this.text = text;
+            this.icon = icon;
+        }
+
+        @Override
+        public String toString() {
+            return text;
+        }
+    }
+
 
 
     @Override
@@ -495,11 +681,7 @@ public class Courses_Fragment extends Fragment {
         switch (item.getItemId()) {
 
             case R.id.action_help:
-                final android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(getActivity())
-                        .setTitle(R.string.courseList_title)
-                        .setMessage(helper_main.textSpannable(getString(R.string.helpCourse_text)))
-                        .setPositiveButton(getString(R.string.toast_yes), null);
-                dialog.show();
+                helper_main.switchToActivity(getActivity(), Courses_Help.class, false);
                 return true;
         }
 

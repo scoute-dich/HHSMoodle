@@ -153,6 +153,7 @@
     <string name="action_sort_create">Sortiere nach Erstellungszeit</string>
     <string name="action_sort_att">Sortiere nach Anhängen</string>
     <string name="action_sort_notification">Sortiere nach Benachrichtigungen</string>
+    <string name="action_sort_priority">Sortiere nach Dringlichkeit</string>
 
     <string name="action_filter_title">Suche in Titeln</string>
     <string name="action_filter_cont">Suche in Inhalten</string>
@@ -170,16 +171,12 @@
     // Settings
 
     <string name="pref_2">App Einstellungen</string>
-    <string name="pref_3">Berechtigungen | Über | Hilfe</string>
+    <string name="pref_3">Berechtigungen | Über</string>
     <string name="pref_5">Sicherheit</string>
 
     <string name="action_username">Logindaten (Moodle)</string>
     <string name="action_username_summary">Bitte gib deinen Moodle Benutzernamen und dein Passwort an, um automatisch angemeldet zu
         werden.</string>
-
-    <string name="action_openSettings">App Info</string>
-    <string name="action_openSettings_summary">Öffne über die Systemeinstellungen die App Info der App. Je nach Androidversion
-        kannst du dort verschiedene Einstellungen vornehmen (Speicherplatz, Netzwerkverkehr, Berechtigungen, …).</string>
 
     <string name="action_tabMain">Startschirm</string>
     <string name="action_tabMain_summary">Welcher Tab soll standardmäßig auf dem Startschirm geöffnet werden?</string>
@@ -212,7 +209,7 @@
         Funktionen der App zu erhalten (Lesezeichen, Notizen, …).</string>
 
     <string name="action_silent">Lautlos</string>
-    <string name="action_silent_summary">Schalte das Telefon während dem Unterricht automatisch stumm. Wenn du Android Nougat
+    <string name="action_silent_summary">Schalte das Telefon während des Unterrichts automatisch stumm. Wenn du Android Nougat
         oder neuer benutzt, musst du unten die Berechtigung \"Nicht stören\" gewähren.</string>
 
     <string name="action_restore">Wiederherstellung</string>
@@ -236,6 +233,7 @@
     <string name="toast_install_app">Please install an app to perform action.</string>
     <string name="toast_newTitle">Titel existiert bereits.</string>
     <string name="toast_noEntry">Kein Eintrag in der Liste vorhanden.</string>
+    <string name="toast_notSave">Kann Eintrag nicht speichern.</string>
 
 
     // Bookmarks
@@ -262,6 +260,7 @@
     <string name="note_priority_2">Hoch</string>
     <string name="title_hint">Titel</string>
     <string name="text_hint">Inhalt</string>
+    <string name="note_content">+ Inhalt</string>
 
 
     // Password
@@ -343,6 +342,7 @@
     <string name="courseList_random">Erstelle Zufallsliste</string>
     <string name="courseList_course">Erstelle Kursliste</string>
     <string name="courseList_subject">Erstelle Unterrichtsfach</string>
+    <string name="courseList_content">+ Teilnehmer</string>
 
 
     // Schedule
@@ -373,6 +373,7 @@
     <string name="subjects_edit_teacher">Lehrer</string>
     <string name="subjects_edit_room">Raum</string>
     <string name="subjects_edit">Fach bearbeiten</string>
+    <string name="subjects_copy">Eintrag kopieren</string>
 
     <string name="subjects_color_red">Rot</string>
     <string name="subjects_color_pink">Pink</string>

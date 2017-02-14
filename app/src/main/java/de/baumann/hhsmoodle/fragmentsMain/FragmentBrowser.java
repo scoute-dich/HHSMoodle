@@ -23,7 +23,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DownloadManager;
-import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -71,10 +70,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import de.baumann.hhsmoodle.HHS_MainScreen;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.data_bookmarks.Bookmarks_DbAdapter;
-import de.baumann.hhsmoodle.helper.helper_encryption;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.helper.helper_webView;
 import de.baumann.hhsmoodle.popup.Popup_bookmarks;
@@ -82,7 +79,7 @@ import de.baumann.hhsmoodle.popup.Popup_bookmarks;
 import static android.content.Context.DOWNLOAD_SERVICE;
 import static de.baumann.hhsmoodle.helper.helper_main.newFileDest;
 
-public class FragmentBrowser extends Fragment implements HHS_MainScreen.OnBackPressedListener {
+public class FragmentBrowser extends Fragment {
 
     private WebView mWebView;
     private ProgressBar progressBar;
@@ -273,7 +270,6 @@ public class FragmentBrowser extends Fragment implements HHS_MainScreen.OnBackPr
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser && isResumed()) {
-            ((HHS_MainScreen) getActivity()).setOnBackPressedListener(this);
             getActivity().setTitle(R.string.app_name);
             refresh();
         }
@@ -285,7 +281,6 @@ public class FragmentBrowser extends Fragment implements HHS_MainScreen.OnBackPr
         refresh();
     }
 
-    @Override
     public void doBack() {
         //BackPressed in activity will call this;
         if (inCustomView()) {
@@ -294,36 +289,7 @@ public class FragmentBrowser extends Fragment implements HHS_MainScreen.OnBackPr
             mWebView.goBack();
         } else {
             mWebView.stopLoading();
-            if (sharedPref.getBoolean("backup_aut", false)) {
-
-                try {helper_encryption.encryptBackup(getActivity(), "/bookmarks_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                try {helper_encryption.encryptBackup(getActivity(), "/courses_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                try {helper_encryption.encryptBackup(getActivity(), "/notes_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                try {helper_encryption.encryptBackup(getActivity(), "/random_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                try {helper_encryption.encryptBackup(getActivity(), "/subject_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                try {helper_encryption.encryptBackup(getActivity(), "/schedule_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                try {helper_encryption.encryptBackup(getActivity(), "/todo_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-
-                ProgressDialog progressDialog = new ProgressDialog(getActivity());
-                progressDialog.setMessage(getString(R.string.app_close));
-                progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                progressDialog.show();
-
-                new Handler().postDelayed(new Runnable() {
-                    public void run() {
-                        sharedPref.edit().putString("loadURL", "").apply();
-                        helper_main.isClosed(getActivity());
-                        helper_encryption.encryptDatabases(getActivity());
-                        getActivity().finishAffinity();
-                    }
-                }, 1500);
-
-            } else {
-                sharedPref.edit().putString("loadURL", "").apply();
-                helper_main.isClosed(getActivity());
-                helper_encryption.encryptDatabases(getActivity());
-                getActivity().finishAffinity();
-            }
+            helper_main.onClose(getActivity());
         }
     }
 
@@ -414,13 +380,7 @@ public class FragmentBrowser extends Fragment implements HHS_MainScreen.OnBackPr
                 final AlertDialog dialog2 = builder.create();
                 // Display the custom alert dialog on interface
                 dialog2.show();
-
-                new Handler().postDelayed(new Runnable() {
-                    public void run() {
-                        helper_main.showKeyboard(getActivity(),edit_title);
-                    }
-                }, 200);
-
+                helper_main.showKeyboard(getActivity(),edit_title);
 
                 return true;
 

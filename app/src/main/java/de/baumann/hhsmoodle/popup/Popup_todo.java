@@ -85,15 +85,6 @@ public class Popup_todo extends Activity {
         db.open();
 
         setTodoList();
-
-        if (lv.getAdapter().getCount() == 0) {
-            Snackbar.make(lv, R.string.toast_noEntry, Snackbar.LENGTH_INDEFINITE).show();
-            new Handler().postDelayed(new Runnable() {
-                public void run() {
-                    finish();
-                }
-            }, 1000);
-        }
     }
 
     private void setTodoList() {
@@ -348,12 +339,7 @@ public class Popup_todo extends Activity {
                                     final AlertDialog dialog2 = builder.create();
                                     // Display the custom alert dialog on interface
                                     dialog2.show();
-
-                                    new Handler().postDelayed(new Runnable() {
-                                        public void run() {
-                                            helper_main.showKeyboard(Popup_todo.this,edit_title);
-                                        }
-                                    }, 200);
+                                    helper_main.showKeyboard(Popup_todo.this,edit_title);
                                 }
 
                                 if (options[item].equals (getString(R.string.todo_share))) {
@@ -386,16 +372,7 @@ public class Popup_todo extends Activity {
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createNote))) {
-
-                                    sharedPref.edit()
-                                            .putString("handleTextTitle", todo_title)
-                                            .putString("handleTextText", todo_content)
-                                            .putString("handleTextCreate", todo_creation)
-                                            .putString("handleTextIcon", todo_icon)
-                                            .putString("handleTextAttachment", todo_icon)
-                                            .putString("handleTextSeqno", "")
-                                            .apply();
-                                    Notes_helper.newNote(Popup_todo.this);
+                                    Notes_helper.newNote(Popup_todo.this, todo_title, todo_content);
                                 }
 
                             }
@@ -404,6 +381,23 @@ public class Popup_todo extends Activity {
                 return true;
             }
         });
+
+        if (lv.getAdapter().getCount() == 0) {
+            new android.app.AlertDialog.Builder(this)
+                    .setMessage(helper_main.textSpannable(getString(R.string.toast_noEntry)))
+                    .setPositiveButton(this.getString(R.string.toast_yes),
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    finish();
+                                }
+                            })
+                    .show();
+            new Handler().postDelayed(new Runnable() {
+                public void run() {
+                    finish();
+                }
+            }, 2000);
+        }
     }
 
     public static class Item{

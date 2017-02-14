@@ -24,7 +24,6 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -54,7 +53,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-import de.baumann.hhsmoodle.HHS_MainScreen;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.data_todo.Todo_DbAdapter;
 import de.baumann.hhsmoodle.helper.helper_main;
@@ -83,7 +81,9 @@ public class Activity_todo extends AppCompatActivity {
         toDo_icon = sharedPref.getString("toDo_icon", "");
         toDo_create = sharedPref.getString("toDo_create", "");
         todo_attachment = sharedPref.getString("toDo_attachment", "");
-        toDo_seqno = Integer.parseInt(sharedPref.getString("toDo_seqno", ""));
+        if (!sharedPref.getString("toDo_seqno", "").isEmpty()) {
+            toDo_seqno = Integer.parseInt(sharedPref.getString("toDo_seqno", ""));
+        }
 
         setContentView(R.layout.activity_todo);
         setTitle(toDo_title);
@@ -361,12 +361,7 @@ public class Activity_todo extends AppCompatActivity {
                 final AlertDialog dialog2 = builder.create();
                 // Display the custom alert dialog on interface
                 dialog2.show();
-
-                new Handler().postDelayed(new Runnable() {
-                    public void run() {
-                        helper_main.showKeyboard(Activity_todo.this,edit_title);
-                    }
-                }, 200);
+                helper_main.showKeyboard(Activity_todo.this,edit_title);
             }
         });
     }
@@ -376,7 +371,16 @@ public class Activity_todo extends AppCompatActivity {
 
         Todo_DbAdapter db = new Todo_DbAdapter(Activity_todo.this);
         db.open();
-        db.update(toDo_seqno, toDo_title, getText(), toDo_icon, todo_attachment, toDo_create);
+
+        if (!sharedPref.getString("toDo_seqno", "").isEmpty()) {
+            db.update(toDo_seqno, toDo_title, getText(), toDo_icon, todo_attachment, toDo_create);
+        } else {
+            if(db.isExist(toDo_title)){
+                Snackbar.make(lvItems, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
+            } else {
+                db.insert(toDo_title, getText(), toDo_icon, todo_attachment, toDo_create);
+            }
+        }
 
         sharedPref.edit().putString("toDo_title", "").apply();
         sharedPref.edit().putString("toDo_text", "").apply();
@@ -438,7 +442,16 @@ public class Activity_todo extends AppCompatActivity {
         if (id == android.R.id.home) {
             Todo_DbAdapter db = new Todo_DbAdapter(Activity_todo.this);
             db.open();
-            db.update(toDo_seqno, toDo_title, getText(), toDo_icon, todo_attachment, toDo_create);
+
+            if (!sharedPref.getString("toDo_seqno", "").isEmpty()) {
+                db.update(toDo_seqno, toDo_title, getText(), toDo_icon, todo_attachment, toDo_create);
+            } else {
+                if(db.isExist(toDo_title)){
+                    Snackbar.make(lvItems, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
+                } else {
+                    db.insert(toDo_title, getText(), toDo_icon, todo_attachment, toDo_create);
+                }
+            }
 
             sharedPref.edit().putString("toDo_title", "").apply();
             sharedPref.edit().putString("toDo_text", "").apply();
@@ -449,7 +462,7 @@ public class Activity_todo extends AppCompatActivity {
             //noinspection ResultOfMethodCallIgnored
             newFile().delete();
             helper_main.isOpened(Activity_todo.this);
-            helper_main.switchToActivity(Activity_todo.this, HHS_MainScreen.class, true);
+            finish();
         }
 
         return super.onOptionsItemSelected(item);

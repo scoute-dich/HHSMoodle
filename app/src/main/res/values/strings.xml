@@ -150,6 +150,7 @@
     <string name="action_sort_create">Sort by creation</string>
     <string name="action_sort_att">Sort by Attachment</string>
     <string name="action_sort_notification">Sort by notification</string>
+    <string name="action_sort_priority">Sort by priority</string>
 
     <string name="action_filter_title">Search in titles</string>
     <string name="action_filter_cont">Search in content</string>
@@ -167,15 +168,11 @@
     // Settings
 
     <string name="pref_2">App settings</string>
-    <string name="pref_3">Permissions | About | Help</string>
+    <string name="pref_3">Permissions | About</string>
     <string name="pref_5">Security</string>
 
     <string name="action_username">Login data (Moodle)</string>
     <string name="action_username_summary">Please enter your Moodle username and password to get automatically logged in.</string>
-
-    <string name="action_openSettings">App info</string>
-    <string name="action_openSettings_summary">Open via the system settings the app info of the app. There you can,
-        depending on your Android version, manage several things (Storage, network traffic, permissions, …).</string>
 
     <string name="action_tabMain">Main screen</string>
     <string name="action_tabMain_summary">Which tab should be displayed as default on the main screen?</string>
@@ -230,6 +227,7 @@
     <string name="toast_install_app">Please install an app to perform action.</string>
     <string name="toast_newTitle">Title already exists.</string>
     <string name="toast_noEntry">There\'s no entry in the list.</string>
+    <string name="toast_notSave">Can not save entry.</string>
 
 
     // Bookmarks
@@ -256,6 +254,7 @@
     <string name="note_priority_2">High</string>
     <string name="title_hint">Title</string>
     <string name="text_hint">Content</string>
+    <string name="note_content">+ Content</string>
 
 
     // Password
@@ -337,6 +336,7 @@
     <string name="courseList_random">Create random list</string>
     <string name="courseList_course">Create course list</string>
     <string name="courseList_subject">Create subject</string>
+    <string name="courseList_content">+ course members</string>
 
 
     // Schedule
@@ -367,6 +367,7 @@
     <string name="subjects_edit_teacher">Teacher</string>
     <string name="subjects_edit_room">Room</string>
     <string name="subjects_edit">Edit subject</string>
+    <string name="subjects_copy">Copy entry</string>
 
     <string name="subjects_color_red">Red</string>
     <string name="subjects_color_pink">Pink</string>

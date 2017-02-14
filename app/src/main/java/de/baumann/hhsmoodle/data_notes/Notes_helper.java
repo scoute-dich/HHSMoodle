@@ -24,7 +24,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Environment;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -53,7 +52,7 @@ import filechooser.ChooserDialog;
 
 public class Notes_helper {
 
-    public static void newNote (final Activity from) {
+    public static void newNote (final Activity from, String title, String content) {
 
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(from);
         final Button attachment;
@@ -61,15 +60,17 @@ public class Notes_helper {
         final ImageButton attachmentCam;
         final EditText titleInput;
         final EditText textInput;
-        final String priority = sharedPref.getString("handleTextIcon", "");
+
+        sharedPref.edit()
+                .putString("handleTextTitle", title)
+                .putString("handleTextText", content)
+                .apply();
 
         LayoutInflater inflater = from.getLayoutInflater();
 
         final ViewGroup nullParent = null;
         View dialogView = inflater.inflate(R.layout.dialog_edit_note, nullParent);
 
-        String file = sharedPref.getString("handleTextAttachment", "");
-        final String attName = file.substring(file.lastIndexOf("/")+1);
 
         attachmentRem = (ImageButton) dialogView.findViewById(R.id.button_rem);
         attachmentRem.setImageResource(R.drawable.close_red);
@@ -77,27 +78,9 @@ public class Notes_helper {
         attachmentCam = (ImageButton) dialogView.findViewById(R.id.button_cam);
         attachmentCam.setImageResource(R.drawable.camera);
 
-        if (attName.equals("")) {
-            attachment.setText(R.string.choose_att);
-            attachmentRem.setVisibility(View.GONE);
-            attachmentCam.setVisibility(View.VISIBLE);
-        } else {
-            attachment.setText(attName);
-            attachmentRem.setVisibility(View.VISIBLE);
-            attachmentCam.setVisibility(View.GONE);
-        }
-        File file2 = new File(file);
-        if (!file2.exists()) {
-            attachment.setText(R.string.choose_att);
-            attachmentRem.setVisibility(View.GONE);
-            attachmentCam.setVisibility(View.VISIBLE);
-        }
-
-        if (file.startsWith(from.getString(R.string.todo_title) + ": ")) {
-            attachment.setText(file);
-            attachmentRem.setVisibility(View.VISIBLE);
-            attachmentCam.setVisibility(View.GONE);
-        }
+        attachment.setText(R.string.choose_att);
+        attachmentRem.setVisibility(View.GONE);
+        attachmentCam.setVisibility(View.VISIBLE);
 
         titleInput = (EditText) dialogView.findViewById(R.id.note_title_input);
         textInput = (EditText) dialogView.findViewById(R.id.note_text_input);
@@ -175,44 +158,13 @@ public class Notes_helper {
                 helper_main.switchToActivity(from, Popup_camera.class, false);
             }
         });
-
-        new Handler().postDelayed(new Runnable() {
-            public void run() {
-                helper_main.showKeyboard(from,titleInput);
-            }
-        }, 200);
+        helper_main.showKeyboard(from,titleInput);
 
         final ImageButton be = (ImageButton) dialogView.findViewById(R.id.imageButtonPri);
         ImageButton ib_paste = (ImageButton) dialogView.findViewById(R.id.imageButtonPaste);
         assert be != null;
-
-        switch (priority) {
-            case "3":
-                be.setImageResource(R.drawable.circle_green);
-                sharedPref.edit()
-                        .putString("handleTextIcon", "3")
-                        .apply();
-                break;
-            case "2":
-                be.setImageResource(R.drawable.circle_yellow);
-                sharedPref.edit()
-                        .putString("handleTextIcon", "2")
-                        .apply();
-                break;
-            case "1":
-                be.setImageResource(R.drawable.circle_red);
-                sharedPref.edit()
-                        .putString("handleTextIcon", "1")
-                        .apply();
-                break;
-
-            default:
-                be.setImageResource(R.drawable.circle_green);
-                sharedPref.edit()
-                        .putString("handleTextIcon", "3")
-                        .apply();
-                break;
-        }
+        be.setImageResource(R.drawable.circle_green);
+        sharedPref.edit().putString("handleTextIcon", "3").apply();
 
         be.setOnClickListener(new View.OnClickListener() {
 
@@ -359,7 +311,14 @@ public class Notes_helper {
                                 .putString("handleTextCreate", "")
                                 .putString("editTextFocus", "")
                                 .apply();
-                        dialog.cancel();
+                        if (sharedPref.getString("fromCourseList", "false").equals("true")) {
+                            sharedPref.edit().putString("fromCourseList", "false").apply();
+                            dialog.cancel();
+                            from.finish();
+                        } else {
+                            sharedPref.edit().putString("fromCourseList", "false").apply();
+                            dialog.cancel();
+                        }
                     }
                 });
 
@@ -377,13 +336,27 @@ public class Notes_helper {
                 String inputTitle = titleInput.getText().toString().trim();
                 String inputContent = textInput.getText().toString().trim();
                 String attachment = sharedPref.getString("handleTextAttachment", "");
-                String create = sharedPref.getString("handleTextCreate", "");
 
                 if(db.isExist(inputTitle)){
                     Snackbar.make(titleInput, from.getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
                 }else{
-                    db.insert(inputTitle, inputContent, sharedPref.getString("handleTextIcon", ""), attachment, create);
-                    dialog.dismiss();
+                    db.insert(inputTitle, inputContent, sharedPref.getString("handleTextIcon", ""), attachment, helper_main.createDate());
+                    sharedPref.edit()
+                            .putString("handleTextTitle", "")
+                            .putString("handleTextText", "")
+                            .putString("handleTextIcon", "")
+                            .putString("handleTextAttachment", "")
+                            .putString("handleTextCreate", "")
+                            .putString("editTextFocus", "")
+                            .apply();
+                    if (sharedPref.getString("fromCourseList", "false").equals("true")) {
+                        sharedPref.edit().putString("fromCourseList", "false").apply();
+                        dialog.cancel();
+                        from.finish();
+                    } else {
+                        sharedPref.edit().putString("fromCourseList", "false").apply();
+                        dialog.cancel();
+                    }
                 }
             }
         });

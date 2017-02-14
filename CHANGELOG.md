@@ -1,6 +1,7 @@
 ### v3.3: (WIP)
 - neu: Stundenplan
 - neu: Fächerliste
+- neu: Lautlos während Unterricht
 - neu: Navigationsleiste am Rand
 - neu: Standardlesezeichen
 - neu: Suche in Lesezeichen, Todolisten, Notizen, Stundenplan

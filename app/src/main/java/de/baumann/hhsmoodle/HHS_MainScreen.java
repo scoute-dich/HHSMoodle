@@ -20,7 +20,6 @@
 package de.baumann.hhsmoodle;
 
 import android.app.NotificationManager;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -29,7 +28,6 @@ import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -42,6 +40,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -64,7 +63,6 @@ import de.baumann.hhsmoodle.activities.Activity_password;
 import de.baumann.hhsmoodle.activities.Activity_settings;
 import de.baumann.hhsmoodle.helper.class_CustomViewPager;
 import de.baumann.hhsmoodle.helper.class_SecurePreferences;
-import de.baumann.hhsmoodle.helper.helper_encryption;
 import de.baumann.hhsmoodle.helper.helper_main;
 
 @SuppressWarnings("ResultOfMethodCallIgnored")
@@ -73,15 +71,6 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
     private ViewPager viewPager;
     private SharedPreferences sharedPref;
     private class_SecurePreferences sharedPrefSec;
-    private OnBackPressedListener onBackPressedListener;
-
-    public interface OnBackPressedListener {
-        void doBack();
-    }
-
-    public void setOnBackPressedListener(OnBackPressedListener onBackPressedListener) {
-        this.onBackPressedListener = onBackPressedListener;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -165,6 +154,14 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
             lockUI();
             viewPager.setCurrentItem(1, true);
         } else if ("shortcutNotes_HS".equals(action)) {
+            lockUI();
+            viewPager.setCurrentItem(3, true);
+        }  else if ("shortcutNotesNew_HS".equals(action)) {
+            Log.w("HHS_Moodle", "HHS_Main receiving intent");
+            String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
+            sharedPref.edit()
+                    .putString("newIntent", "true")
+                    .putString("handleTextText", sharedText).apply();
             lockUI();
             viewPager.setCurrentItem(3, true);
         } else if ("shortcutToDo_HS".equals(action)) {
@@ -263,50 +260,33 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else if (onBackPressedListener != null && (viewPager.getCurrentItem() == 0 || viewPager.getCurrentItem() == 5)) {
-            onBackPressedListener.doBack();
+        } else if(viewPager.getCurrentItem() == 0) {
+            FragmentBrowser fragmentBrowser = (FragmentBrowser) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
+            fragmentBrowser.doBack();
+        } else if(viewPager.getCurrentItem() == 2) {
+            Todo_Fragment todo_Fragment = (Todo_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
+            todo_Fragment.doBack();
+        } else if(viewPager.getCurrentItem() == 3) {
+            Notes_Fragment notes_Fragment = (Notes_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
+            notes_Fragment.doBack();
+        } else if(viewPager.getCurrentItem() == 5) {
+            Random_Fragment random_Fragment = (Random_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
+            random_Fragment.doBack();
+        } else if(viewPager.getCurrentItem() == 7) {
+            Courses_Fragment courses_Fragment = (Courses_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
+            courses_Fragment.doBack();
         } else {
-            if (sharedPref.getBoolean("backup_aut", false)) {
-
-                try {helper_encryption.encryptBackup(HHS_MainScreen.this, "/bookmarks_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                try {helper_encryption.encryptBackup(HHS_MainScreen.this, "/courses_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                try {helper_encryption.encryptBackup(HHS_MainScreen.this, "/notes_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                try {helper_encryption.encryptBackup(HHS_MainScreen.this, "/random_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                try {helper_encryption.encryptBackup(HHS_MainScreen.this, "/subject_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                try {helper_encryption.encryptBackup(HHS_MainScreen.this, "/schedule_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                try {helper_encryption.encryptBackup(HHS_MainScreen.this, "/todo_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-
-                ProgressDialog progressDialog = new ProgressDialog(this);
-                progressDialog.setMessage(getString(R.string.app_close));
-                progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                progressDialog.show();
-
-                new Handler().postDelayed(new Runnable() {
-                    public void run() {
-                        sharedPref.edit().putString("loadURL", "").apply();
-                        helper_main.isClosed(HHS_MainScreen.this);
-                        helper_encryption.encryptDatabases(HHS_MainScreen.this);
-                        finishAffinity();
-                    }
-                }, 1500);
-
-            } else {
-                sharedPref.edit().putString("loadURL", "").apply();
-                helper_main.isClosed(HHS_MainScreen.this);
-                helper_encryption.encryptDatabases(HHS_MainScreen.this);
-                finishAffinity();
-            }
+            helper_main.onClose(HHS_MainScreen.this);
         }
     }
 
     @Override
     protected void onDestroy() {
-        onBackPressedListener = null;
+        helper_main.isClosed(HHS_MainScreen.this);
         super.onDestroy();
     }
 
     private void lockUI() {
-
         String pw = sharedPrefSec.getString("protect_PW");
         helper_main.isClosed(HHS_MainScreen.this);
         if (pw != null && pw.length() > 0) {
@@ -368,7 +348,7 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
             setTitle(R.string.subjects_title);
         } else if (id == R.id.nav_settings) {
             helper_main.isOpened(HHS_MainScreen.this);
-            helper_main.switchToActivity(HHS_MainScreen.this, Activity_settings.class, false);
+            helper_main.switchToActivity(HHS_MainScreen.this, Activity_settings.class, true);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

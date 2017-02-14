@@ -134,6 +134,31 @@
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar" />
 
+        <activity
+            android:name=".fragmentsMain.FragmentGrades_Help"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".data_courses.Courses_Help"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".data_random.Random_Help"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".data_subjects.Subjects_Help"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".activities.Activity_settings_Help"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar" />
+
 
         <!-- popups -->
 

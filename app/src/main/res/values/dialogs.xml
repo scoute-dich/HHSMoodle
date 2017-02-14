@@ -66,46 +66,45 @@
     <string name="schedule_help_text2">… opens here also a menu.</string>
 
 
+    <string name="random_help1">Random generator</string>
+    <string name="random_help_text1">You can just roll a dice (\"dice icon\") or choose somebody randomly from a list.</string>
+
+    <string name="random_help2">Create a list</string>
+    <string name="random_help_text2">You can create a list on your own, or import from the course list.</string>
 
 
+    <string name="grade_help1">Grade calculation</string>
+    <string name="grade_help_text1">Moodle calculates grades in percentage. It uses the percentage of the maximum reachable
+        points.</string>
+
+    <string name="grade_help2">Grade table</string>
+    <string name="grade_help_text2">Enter the maximum of reachable points. Then you can see your grade ant the percentage of the
+        reachable points.</string>
 
 
-    <string name="helpSettings_title">Settings</string>
-    <string name="helpSettings_text">
-        &lt;b>Login:&lt;/b>&lt;br>
-        If your moodle username or password gets changed, you must change this also in the here. Otherwise the app can not
-        connect you to our Moodle site.&lt;br>&lt;br>
+    <string name="course_help1">Course lists</string>
+    <string name="course_help_text1">From a course list you can create a random or a todo list. All members of the list are in
+        the new generated list.</string>
 
-        &lt;b>Security:&lt;/b>&lt;br>
-        Here you can set a pin to protect the app against unwanted access. If you forget it, you can delete all personal
-        settings (login, bookmarks, notes, …). You can backup your bookmarks and notes on the sd-card, and restore them
-        later.&lt;br>&lt;br>
+    <string name="course_help2">Import list</string>
+    <string name="course_help_text2">Copy a text file in the \"HHS_Moodle-Folder\" of your sd-card. In every line should be the
+        name of a member of the new course list.</string>
 
-        All other settings are self explanatory. If you have problems, you can write a mail (\"Contact?\").
-    </string>
 
-    <string name="helpGrade_title">Grade calculation</string>
-    <string name="helpGrade_text">
-        Moodle always calculates in percentage (0-100%). Grades are always in condition to this scala. If you set the maximal credits
-        to 100 you can see this scala. Moodle always calculates with the percent scale, not with the grades.&lt;br>&lt;br>
+    <string name="subject_help1">Subject list</string>
+    <string name="subject_help_text1">The subject list is mainly used to edit the schedule.</string>
 
-        &lt;b>Maximal credits:&lt;/b>&lt;br>
-        Here you can set the maximal credits for a test. The scored credits (middle column) will be set in relation to the maximal
-        reachable credits in percent (left column). In the right column you can see the calculated grade.
-    </string>
+    <string name="subject_help2">Practical</string>
+    <string name="subject_help_text2">Just try also here a short or a long press on a list entry.</string>
 
-    <string name="helpCourse_text">
 
-        &lt;b>Create list:&lt;/b>&lt;br>
+    <string name="settings_help1">Settings</string>
+    <string name="settings_help_text1">Here you can change your login data, if they are not actual.
+        You can also change the behavior of the app.</string>
 
-        &#8226;&lt;i> Create text file:&lt;/i> Create one text file per course. In every line you can write a name. The filename
-        should be the course name (e.G..: Course 6a).&lt;br>
-        &#8226;&lt;i> Copy to phone:&lt;/i> Copy the text file in the \"HHS_Moodle\" folder on your sd-card.&lt;br>
-        &#8226;&lt;i> Load file:&lt;/i> Click on the orange button. In the opening dialog you can choose the copied file.
-        A new list entry will be created. Then you can delete the text file.&lt;br>&lt;br>
+    <string name="settings_help2">Security</string>
+    <string name="settings_help_text2">It is highly recommended to protect the app with a pin against unwanted access.</string>
 
-        If you click on a list entry you can create a note, you can open a menu to edit the list entry.
-    </string>
 
     <string name="perm_notShow_title">Grant permission</string>
     <string name="perm_notShow_title_summary">Only for Android Marshmallow and above: Grant used permission by

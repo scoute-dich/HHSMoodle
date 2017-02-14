@@ -21,6 +21,7 @@ package de.baumann.hhsmoodle.helper;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -131,6 +132,42 @@ public class helper_main {
             if (sharedPref.getBoolean("isOpened", true)) {
                 helper_main.switchToActivity(activity, Activity_password.class, false);
             }
+        }
+    }
+
+    public static void onClose (final Activity activity) {
+        PreferenceManager.setDefaultValues(activity, R.xml.user_settings, false);
+        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(activity);
+
+        if (sharedPref.getBoolean("backup_aut", false)) {
+
+            try {helper_encryption.encryptBackup(activity, "/bookmarks_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+            try {helper_encryption.encryptBackup(activity, "/courses_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+            try {helper_encryption.encryptBackup(activity, "/notes_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+            try {helper_encryption.encryptBackup(activity, "/random_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+            try {helper_encryption.encryptBackup(activity, "/subject_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+            try {helper_encryption.encryptBackup(activity, "/schedule_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+            try {helper_encryption.encryptBackup(activity, "/todo_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+
+            ProgressDialog progressDialog = new ProgressDialog(activity);
+            progressDialog.setMessage(activity.getString(R.string.app_close));
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.show();
+
+            new Handler().postDelayed(new Runnable() {
+                public void run() {
+                    sharedPref.edit().putString("loadURL", "").apply();
+                    helper_main.isClosed(activity);
+                    helper_encryption.encryptDatabases(activity);
+                    activity.finishAffinity();
+                }
+            }, 1500);
+
+        } else {
+            sharedPref.edit().putString("loadURL", "").apply();
+            helper_main.isClosed(activity);
+            helper_encryption.encryptDatabases(activity);
+            activity.finishAffinity();
         }
     }
 
@@ -335,12 +372,7 @@ public class helper_main {
                                     final android.app.AlertDialog dialog2 = builder.create();
                                     // Display the custom alert dialog on interface
                                     dialog2.show();
-
-                                    new Handler().postDelayed(new Runnable() {
-                                        public void run() {
-                                            helper_main.showKeyboard(activity,edit_title);
-                                        }
-                                    }, 200);
+                                    helper_main.showKeyboard(activity,edit_title);
                                 }
                             }
                         });

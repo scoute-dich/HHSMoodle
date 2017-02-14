@@ -5,15 +5,15 @@
         <menu>
             <item
                 android:id="@+id/nav_browser"
-                android:icon="@drawable/ic_web_grey600_48dp"
+                android:icon="@drawable/school_grey_dark"
                 android:title="@string/app_name" />
             <item
                 android:id="@+id/nav_bookmarks"
-                android:icon="@drawable/ic_bookmark_grey600_48dp"
+                android:icon="@drawable/star_grey"
                 android:title="@string/title_bookmarks" />
             <item
                 android:id="@+id/nav_todo"
-                android:icon="@drawable/format_list_bulleted"
+                android:icon="@drawable/playlist_check"
                 android:title="@string/todo_title" />
             <item
                 android:id="@+id/nav_notes"

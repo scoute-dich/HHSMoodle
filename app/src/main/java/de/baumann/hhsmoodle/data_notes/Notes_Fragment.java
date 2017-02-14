@@ -30,17 +30,16 @@ import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.util.Linkify;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -68,8 +67,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import de.baumann.hhsmoodle.R;
-import de.baumann.hhsmoodle.data_todo.Todo_DbAdapter;
-import de.baumann.hhsmoodle.helper.class_CustomViewPager;
+import de.baumann.hhsmoodle.data_todo.Todo_helper;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.popup.Popup_camera;
 import de.baumann.hhsmoodle.popup.Popup_courseList;
@@ -212,6 +210,9 @@ public class Notes_Fragment extends Fragment {
         if (isVisibleToUser && isResumed()) {
             getActivity().setTitle(R.string.title_notes);
             setNotesList();
+            if (sharedPref.getString("newIntent", "false").equals("true")) {
+                newNote(getActivity());
+            }
         }
     }
 
@@ -219,6 +220,18 @@ public class Notes_Fragment extends Fragment {
     public void onResume() {
         super.onResume();
         setNotesList();
+        if (sharedPref.getString("newIntent", "false").equals("true")) {
+            newNote(getActivity());
+        }
+    }
+
+    public void doBack() {
+        //BackPressed in activity will call this;
+        if(isFABOpen){
+            closeFABMenu();
+        } else {
+            helper_main.onClose(getActivity());
+        }
     }
 
     private void setNotesList() {
@@ -500,18 +513,7 @@ public class Notes_Fragment extends Fragment {
                                 }
 
                                 if (options[item].equals (getString(R.string.todo_menu))) {
-
-                                    Todo_DbAdapter db = new Todo_DbAdapter(getActivity());
-                                    db.open();
-                                    if(db.isExist(note_title)){
-                                        Snackbar.make(lv, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
-                                    }else{
-                                        db.insert(note_title, note_content, "3", "true", helper_main.createDate());
-                                        ViewPager viewPager = (class_CustomViewPager) getActivity().findViewById(R.id.viewpager);
-                                        viewPager.setCurrentItem(2);
-                                        getActivity().setTitle(R.string.todo_title);
-                                        dialog.dismiss();
-                                    }
+                                    Todo_helper.newTodo(getActivity(), note_title, note_content, getActivity().getString(R.string.note_content));
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createEvent))) {
@@ -561,6 +563,7 @@ public class Notes_Fragment extends Fragment {
         // Inflate the menu; this adds items to the action bar if it is present.
         super.onPrepareOptionsMenu(menu);
         menu.findItem(R.id.sort_notification).setVisible(false);
+        menu.findItem(R.id.sort_icon).setVisible(false);
         menu.findItem(R.id.filter_teacher).setVisible(false);
         menu.findItem(R.id.filter_room).setVisible(false);
         menu.findItem(R.id.filter_url).setVisible(false);
@@ -620,7 +623,7 @@ public class Notes_Fragment extends Fragment {
                 sharedPref.edit().putString("sortDB", "title").apply();
                 setNotesList();
                 return true;
-            case R.id.sort_icon:
+            case R.id.sort_pri:
                 sharedPref.edit().putString("sortDB", "icon").apply();
                 setNotesList();
                 return true;
@@ -758,12 +761,7 @@ public class Notes_Fragment extends Fragment {
                 helper_main.switchToActivity(from, Popup_camera.class, false);
             }
         });
-
-        new Handler().postDelayed(new Runnable() {
-            public void run() {
-                helper_main.showKeyboard(from,titleInput);
-            }
-        }, 200);
+        helper_main.showKeyboard(from,titleInput);
 
         final ImageButton be = (ImageButton) dialogView.findViewById(R.id.imageButtonPri);
         ImageButton ib_paste = (ImageButton) dialogView.findViewById(R.id.imageButtonPaste);
@@ -970,13 +968,17 @@ public class Notes_Fragment extends Fragment {
         final EditText textInput;
         final String priority = sharedPref.getString("handleTextIcon", "");
 
+        if (!sharedPref.getString("newIntent", "false").equals("true")) {
+            sharedPref.edit().putString("handleTextText", "").apply();
+        }
+
         sharedPref.edit()
                 .putString("handleTextTitle", "")
-                .putString("handleTextText", "")
                 .putString("handleTextIcon", "")
                 .putString("handleTextAttachment", "")
                 .putString("handleTextCreate", "")
                 .putString("editTextFocus", "")
+                .putString("newIntent", "false")
                 .apply();
 
         LayoutInflater inflater = from.getLayoutInflater();
@@ -1091,12 +1093,7 @@ public class Notes_Fragment extends Fragment {
                 helper_main.switchToActivity(from, Popup_camera.class, false);
             }
         });
-
-        new Handler().postDelayed(new Runnable() {
-            public void run() {
-                helper_main.showKeyboard(from,titleInput);
-            }
-        }, 200);
+        helper_main.showKeyboard(from,titleInput);
 
         final ImageButton be = (ImageButton) dialogView.findViewById(R.id.imageButtonPri);
         ImageButton ib_paste = (ImageButton) dialogView.findViewById(R.id.imageButtonPaste);
@@ -1274,6 +1271,7 @@ public class Notes_Fragment extends Fragment {
                                 .putString("handleTextAttachment", "")
                                 .putString("handleTextCreate", "")
                                 .putString("editTextFocus", "")
+                                .putString("newIntent", "false")
                                 .apply();
                         dialog.cancel();
                     }
@@ -1294,12 +1292,19 @@ public class Notes_Fragment extends Fragment {
                 String inputContent = textInput.getText().toString().trim();
                 String attachment = sharedPref.getString("handleTextAttachment", "");
 
-                if(db.isExist(inputTitle)){
-                    Snackbar.make(titleInput, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
-                }else{
-                    db.insert(inputTitle, inputContent, sharedPref.getString("handleTextIcon", ""), attachment, helper_main.createDate());
-                    dialog.dismiss();
-                    setNotesList();
+                try {
+                    if(db.isExist(inputTitle)){
+                        Snackbar.make(titleInput, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
+                    }else{
+                        db.insert(inputTitle, inputContent, sharedPref.getString("handleTextIcon", ""), attachment, helper_main.createDate());
+                        dialog.dismiss();
+                        setNotesList();
+                    }
+                } catch (Exception e) {
+                    Log.w("HHS_Moodle", "Error Package name not found ", e);
+                    Snackbar snackbar = Snackbar
+                            .make(titleInput, R.string.toast_notSave, Snackbar.LENGTH_LONG);
+                    snackbar.show();
                 }
             }
         });

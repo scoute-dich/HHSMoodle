@@ -20,6 +20,7 @@
 package de.baumann.hhsmoodle.popup;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -36,11 +37,10 @@ import android.widget.SimpleCursorAdapter;
 
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.activities.Activity_password;
+import de.baumann.hhsmoodle.data_notes.Notes_helper;
 import de.baumann.hhsmoodle.data_random.Random_DbAdapter;
 import de.baumann.hhsmoodle.data_courses.Courses_DbAdapter;
-import de.baumann.hhsmoodle.data_notes.Notes_DbAdapter;
-import de.baumann.hhsmoodle.data_subjects.Subject_DbAdapter;
-import de.baumann.hhsmoodle.data_todo.Todo_DbAdapter;
+import de.baumann.hhsmoodle.data_todo.Todo_helper;
 import de.baumann.hhsmoodle.helper.class_SecurePreferences;
 import de.baumann.hhsmoodle.helper.helper_main;
 
@@ -73,24 +73,15 @@ public class Popup_courseList extends Activity {
 
         onNewIntent(getIntent());
         setCoursesList();
-
-        if (lv.getAdapter().getCount() == 0) {
-            Snackbar.make(lv, R.string.toast_noEntry, Snackbar.LENGTH_INDEFINITE).show();
-            new Handler().postDelayed(new Runnable() {
-                public void run() {
-                    finish();
-                }
-            }, 1000);
-        }
     }
 
     protected void onNewIntent(final Intent intent) {
 
         String action = intent.getAction();
-
+        PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
+        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 
         if ("courseList_random".equals(action)) {
-
             lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -109,63 +100,26 @@ public class Popup_courseList extends Activity {
                     }
                 }
             });
+
         } else if ("courseList_note".equals(action)) {
-
             lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                    sharedPref.edit().putString("fromCourseList", "true").apply();
+
                     Cursor row2 = (Cursor) lv.getItemAtPosition(position);
                     final String courses_title = row2.getString(row2.getColumnIndexOrThrow("courses_title"));
-                    final String courses_content = row2.getString(row2.getColumnIndexOrThrow("courses_content"));
-
-                    Notes_DbAdapter db = new Notes_DbAdapter(Popup_courseList.this);
-                    db.open();
-
-                    if(db.isExist(courses_title)){
-                        Snackbar.make(lv, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
-                    } else {
-                        db.insert(courses_title, courses_content, "1", "", helper_main.createDate());
-                        finish();
-                    }
+                    Notes_helper.newNote(Popup_courseList.this, courses_title, "");
                 }
             });
+
         } else if ("courseList_todo".equals(action)) {
-
             lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                     Cursor row2 = (Cursor) lv.getItemAtPosition(position);
                     final String courses_title = row2.getString(row2.getColumnIndexOrThrow("courses_title"));
                     final String courses_content = row2.getString(row2.getColumnIndexOrThrow("courses_content"));
-
-                    Todo_DbAdapter db = new Todo_DbAdapter(Popup_courseList.this);
-                    db.open();
-
-                    if(db.isExist(courses_title)){
-                        Snackbar.make(lv, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
-                    } else {
-                        db.insert(courses_title, courses_content, "3", "true", helper_main.createDate());
-                        finish();
-                    }
-                }
-            });
-        } else if ("courseList_subject".equals(action)) {
-
-            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                    Cursor row2 = (Cursor) lv.getItemAtPosition(position);
-                    final String courses_title = row2.getString(row2.getColumnIndexOrThrow("courses_title"));
-
-                    Subject_DbAdapter db = new Subject_DbAdapter(Popup_courseList.this);
-                    db.open();
-
-                    if(db.isExist("")){
-                        Snackbar.make(lv, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
-                    } else {
-                        db.insert("", courses_title, "11", "", "");
-                        finish();
-                    }
+                    Todo_helper.newTodo(Popup_courseList.this, courses_title, courses_content, getString(R.string.courseList_content));
                 }
             });
         }
@@ -200,6 +154,22 @@ public class Popup_courseList extends Activity {
 
         lv.setAdapter(adapter);
 
+        if (lv.getAdapter().getCount() == 0) {
+            new android.app.AlertDialog.Builder(this)
+                    .setMessage(helper_main.textSpannable(getString(R.string.toast_noEntry)))
+                    .setPositiveButton(this.getString(R.string.toast_yes),
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    finish();
+                                }
+                            })
+                    .show();
+            new Handler().postDelayed(new Runnable() {
+                public void run() {
+                    finish();
+                }
+            }, 2000);
+        }
     }
 
     @Override

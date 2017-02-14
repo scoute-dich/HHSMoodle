@@ -20,16 +20,11 @@
 package de.baumann.hhsmoodle.data_random;
 
 import android.animation.Animator;
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -56,13 +51,11 @@ import android.widget.TextView;
 
 import java.util.Random;
 
-import de.baumann.hhsmoodle.HHS_MainScreen;
 import de.baumann.hhsmoodle.R;
-import de.baumann.hhsmoodle.helper.helper_encryption;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.popup.Popup_courseList;
 
-public class Random_Fragment extends Fragment implements HHS_MainScreen.OnBackPressedListener {
+public class Random_Fragment extends Fragment {
 
     //calling variables
     private Random_DbAdapter db;
@@ -117,51 +110,46 @@ public class Random_Fragment extends Fragment implements HHS_MainScreen.OnBackPr
             @Override
             public void onClick(View view) {
                 closeFABMenu();
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                View dialogView = View.inflate(getActivity(), R.layout.dialog_edit_title, null);
-                final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
-                edit_title.setHint(R.string.bookmark_edit_title);
-                builder.setTitle(R.string.todo_from_new);
+
+                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getActivity());
+                View dialogView = View.inflate(getActivity(), R.layout.dialog_edit_entry, null);
+
+                final EditText edit_title = (EditText) dialogView.findViewById(R.id.note_title_input);
+                edit_title.setHint(R.string.title_hint);
+
+                final EditText edit_cont = (EditText) dialogView.findViewById(R.id.note_text_input);
+                edit_cont.setHint(R.string.text_hint);
+
                 builder.setView(dialogView);
+                builder.setTitle(R.string.number_edit_entry);
                 builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int whichButton) {
 
-                    }
-                })
-                        .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                dialog.cancel();
-                            }
-                        });
-
-                final AlertDialog dialog2 = builder.create();
-                dialog2.show();
-
-                dialog2.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //Do stuff, possibly set wantToCloseDialog to true then...
-
                         String inputTitle = edit_title.getText().toString().trim();
+                        String inputCont = edit_cont.getText().toString().trim();
 
                         if(db.isExist(inputTitle)){
                             Snackbar.make(lv, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
                         }else{
-                            db.insert(inputTitle, "", "", "", helper_main.createDate());
-                            dialog2.dismiss();
+                            db.insert(inputTitle, inputCont, "", "", helper_main.createDate());
+                            dialog.dismiss();
                             setRandomList();
                             Snackbar.make(lv, R.string.bookmark_added, Snackbar.LENGTH_SHORT).show();
                         }
                     }
                 });
+                builder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
 
-                new Handler().postDelayed(new Runnable() {
-                    public void run() {
-                        helper_main.showKeyboard(getActivity(),edit_title);
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        dialog.cancel();
                     }
-                }, 200);
+                });
+
+                final android.app.AlertDialog dialog2 = builder.create();
+                // Display the custom alert dialog on interface
+                dialog2.show();
+                helper_main.showKeyboard(getActivity(),edit_title);
             }
         });
 
@@ -256,7 +244,6 @@ public class Random_Fragment extends Fragment implements HHS_MainScreen.OnBackPr
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser && isResumed()) {
-            ((HHS_MainScreen) getActivity()).setOnBackPressedListener(this);
             getActivity().setTitle(R.string.number_title);
             setRandomList();
         }
@@ -268,7 +255,6 @@ public class Random_Fragment extends Fragment implements HHS_MainScreen.OnBackPr
         setRandomList();
     }
 
-    @Override
     public void doBack() {
         //BackPressed in activity will call this;
         if(isFABOpen){
@@ -280,40 +266,7 @@ public class Random_Fragment extends Fragment implements HHS_MainScreen.OnBackPr
             fab_dice.setVisibility(View.GONE);
             getActivity().setTitle(R.string.number_title);
         } else {
-
-            PreferenceManager.setDefaultValues(getActivity(), R.xml.user_settings, false);
-            final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-
-            if (sharedPref.getBoolean("backup_aut", false)) {
-
-                try {helper_encryption.encryptBackup(getActivity(), "/bookmarks_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                try {helper_encryption.encryptBackup(getActivity(), "/courses_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                try {helper_encryption.encryptBackup(getActivity(), "/notes_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                try {helper_encryption.encryptBackup(getActivity(), "/random_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                try {helper_encryption.encryptBackup(getActivity(), "/subject_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                try {helper_encryption.encryptBackup(getActivity(), "/schedule_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                try {helper_encryption.encryptBackup(getActivity(), "/todo_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-
-                ProgressDialog progressDialog = new ProgressDialog(getActivity());
-                progressDialog.setMessage(getString(R.string.app_close));
-                progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                progressDialog.show();
-
-                new Handler().postDelayed(new Runnable() {
-                    public void run() {
-                        sharedPref.edit().putString("loadURL", "").apply();
-                        helper_main.isClosed(getActivity());
-                        helper_encryption.encryptDatabases(getActivity());
-                        getActivity().finishAffinity();
-                    }
-                }, 1500);
-
-            } else {
-                sharedPref.edit().putString("loadURL", "").apply();
-                helper_main.isClosed(getActivity());
-                helper_encryption.encryptDatabases(getActivity());
-                getActivity().finishAffinity();
-            }
+            helper_main.onClose(getActivity());
         }
     }
 
@@ -428,12 +381,7 @@ public class Random_Fragment extends Fragment implements HHS_MainScreen.OnBackPr
                                     final android.app.AlertDialog dialog2 = builder.create();
                                     // Display the custom alert dialog on interface
                                     dialog2.show();
-
-                                    new Handler().postDelayed(new Runnable() {
-                                        public void run() {
-                                            helper_main.showKeyboard(getActivity(),edit_title);
-                                        }
-                                    }, 200);
+                                    helper_main.showKeyboard(getActivity(),edit_title);
                                 }
 
                                 if (options[item].equals(getString(R.string.bookmark_remove_bookmark))) {
@@ -476,11 +424,7 @@ public class Random_Fragment extends Fragment implements HHS_MainScreen.OnBackPr
         switch (item.getItemId()) {
 
             case R.id.action_help:
-                final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity())
-                        .setTitle(R.string.courseList_title)
-                        .setMessage(helper_main.textSpannable(getString(R.string.helpCourse_text)))
-                        .setPositiveButton(getString(R.string.toast_yes), null);
-                dialog.show();
+                helper_main.switchToActivity(getActivity(), Random_Help.class, false);
                 return true;
 
             case R.id.action_dice:
@@ -528,12 +472,7 @@ public class Random_Fragment extends Fragment implements HHS_MainScreen.OnBackPr
                 });
 
                 dialog2.show();
-
-                new Handler().postDelayed(new Runnable() {
-                    public void run() {
-                        helper_main.showKeyboard(getActivity(),editNumber2);
-                    }
-                }, 200);
+                helper_main.showKeyboard(getActivity(),editNumber2);
                 return true;
         }
 

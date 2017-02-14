@@ -68,46 +68,46 @@
     <string name="schedule_help_text2">… öffnet auch hier ein Menü.</string>
 
 
-    <string name="helpSettings_title">Einstellungen</string>
-    <string name="helpSettings_text">
-        &lt;b>Anmeldung:&lt;/b>&lt;br>
-        Wenn dein Moodlepasswort oder dein Benutzername geändert wird, musst du das hier auch tun, sonst kann die App dich
-        nicht anmelden.&lt;br>&lt;br>
+    <string name="random_help1">Zufallsgenerator</string>
+    <string name="random_help_text1">Du kannst entweder einfach würfeln (\"Würfelicon\"), oder zufällig jemanden aus einer Liste
+        auswählen lassen.</string>
 
-        &lt;b>Sicherheit:&lt;/b>&lt;br>
-        Hier kannst du eine Pin setzen, um die App vor ungewolltem Zugriff zu schützen. Wenn du sie vergisst, kannst du alle
-        Daten der Anwendung (Login, Lesezeichen, Notizen, …)löschen. Du kannst zur Sicherheit deine Lesezeichen und Notizen
-        auf der SD-Karte sichern und später von dort wiederherstellen.&lt;br>&lt;br>
-
-        Alle anderen Einstellungen sind selbst erklärend. Wenn du Probleme hast, kannst du mir eine Mail senden (\"Kontakt\").
-    </string>
+    <string name="random_help2">Liste anlegen</string>
+    <string name="random_help_text2">Eine Liste kannst du entweder frei anlegen, oder aus einer Klassenliste importieren.</string>
 
 
-    <string name="helpGrade_title">Noten berechnen</string>
-    <string name="helpGrade_text">
-        In Moodle werden Bewertungen in einer Prozentskala angegeben (0-100%). Diesen Prozentwerten sind bestimmte Noten zugeordnet.
-        Die Zuordnung sieht man, wenn bei der maximalen Punktzahl 100 eingegeben ist. Moodle rechnet immer mit dem Prozentwert weiter,
-        nicht mit den ermittelten Noten.&lt;br>&lt;br>
+    <string name="grade_help1">Noten berechnen</string>
+    <string name="grade_help_text1">Moodle berechnet die Noten auf Basis von Prozentwerten. Es wird immer der erreichte
+        Prozentwert der maximal möglichen Punkte benutzt.</string>
 
-        &lt;b>Maximale Punktzahl:&lt;/b>&lt;br>
-        Hier kann die Anzahl der maximal in einer Klassenarbeit erreichbaren Punkte eingegeben werden. Die erreichten Punkte
-        (mittlere Spalte) werden dann in Prozent der insgesamt zu erreichenden Punkte umgerechnet (linke Spalte). Daraus wird die
-        erreichte Note (rechte Spalte) berechnet.
-    </string>
+    <string name="grade_help2">Notentabelle</string>
+    <string name="grade_help_text2">Gib die maximal zu erreichenden Punkte an. Anschließend kannst du deine Note und den
+    Prozentwert der maximal zu erreichenden Punkte ablesen.</string>
 
-    <string name="helpCourse_text">
 
-        &lt;b>Liste anlegen:&lt;/b>&lt;br>
+    <string name="course_help1">Klassenlisten</string>
+    <string name="course_help_text1">Aus einer Klassenliste kannst du schnell eine Zufallsliste oder eine Todoliste erstellen.
+    Alle Teilnehmer die in der Liste stehen werden dabei übernommen.</string>
 
-        &#8226;&lt;i> Textdatei anlegen:&lt;/i> Lege eine Textdatei pro Klasse an. In jede Zeile schreibst du einen Namen. Die
-        Textdatei bekommt als Dateinamen den Klassennamen (z.B.: Klasse 6a).&lt;br>
-        &#8226;&lt;i> Auf das Handy kopieren:&lt;/i> Kopiere die Datei in den \"HHS_Moodle\" Ordner auf deiner SD-Karte.&lt;br>
-        &#8226;&lt;i> Datei laden:&lt;/i> Klicke den orangenen Knopf unten rechts. Im Dialog, der sich öffnet, wählst du die
-        Textdatei aus. Ein neuer Listeneintrag wird angelegt. Du kannst die Textdatei jetzt wieder löschen.&lt;br>&lt;br>
+    <string name="course_help2">Liste importieren</string>
+    <string name="course_help_text2">Kopiere eine Textdatei in den \"HHS_Moodle-Ordner\" auf deiner SD-Karte. In jeder Zeile dieser
+        Datei soll ein Name stehen.</string>
 
-        Wenn du einen Listeneintrag anklickst, öffnet sich ein Menü um die Liste
-        bearbeiten zu können.
-    </string>
+
+    <string name="subject_help1">Fächerliste</string>
+    <string name="subject_help_text1">Die Fächerliste dient in erster Linie dazu den Stundenplan schnell bearbeiten zu können.</string>
+
+    <string name="subject_help2">Praktisch</string>
+    <string name="subject_help_text2">Probiere auch hier einen kurzen und einen langen Klick auf einen Eintrag aus.</string>
+
+
+    <string name="settings_help1">Einstellungen</string>
+    <string name="settings_help_text1">Hier kannst du deine Logindaten ändern, wenn sie nicht mehr aktuell sind.
+        Passe außerdem die App deinen Bedürfnissen an und erfahre mehr über die App.</string>
+
+    <string name="settings_help2">Sicherheit</string>
+    <string name="settings_help_text2">Es wird dringend empfohlen die App mit einer Pin vor ungewollten Zugriff zu schützen.</string>
+
 
     <string name="perm_notShow_title">Berechtigung erteilen</string>
     <string name="perm_notShow_title_summary">Nur für Android Marshmallow und neuere Versionen. Gewähre erforderliche

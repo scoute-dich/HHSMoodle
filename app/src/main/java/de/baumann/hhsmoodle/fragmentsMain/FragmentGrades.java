@@ -19,7 +19,6 @@
 
 package de.baumann.hhsmoodle.fragmentsMain;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -449,11 +448,7 @@ public class FragmentGrades extends Fragment {
         switch (id) {
 
             case R.id.action_help:
-                final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity())
-                        .setTitle(R.string.helpGrade_title)
-                        .setMessage(helper_main.textSpannable(getString(R.string.helpGrade_text)))
-                        .setPositiveButton(getString(R.string.toast_yes), null);
-                dialog.show();
+                helper_main.switchToActivity(getActivity(), FragmentGrades_Help.class, false);
                 return true;
         }
         return false;

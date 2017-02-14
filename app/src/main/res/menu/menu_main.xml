@@ -20,6 +20,8 @@
                 android:title="@string/action_sort_title" />
             <item android:id="@+id/sort_icon"
                 android:title="@string/action_sort_icon" />
+            <item android:id="@+id/sort_pri"
+                android:title="@string/action_sort_priority" />
             <item android:id="@+id/sort_attachment"
                 android:title="@string/action_sort_att" />
             <item android:id="@+id/sort_notification"

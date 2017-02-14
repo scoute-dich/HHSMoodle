@@ -96,15 +96,6 @@ public class Popup_note extends Activity {
         db.open();
 
         setNotesList();
-
-        if (lv.getAdapter().getCount() == 0) {
-            Snackbar.make(lv, R.string.toast_noEntry, Snackbar.LENGTH_INDEFINITE).show();
-            new Handler().postDelayed(new Runnable() {
-                public void run() {
-                    finish();
-                }
-            }, 1000);
-        }
     }
 
     private void setNotesList() {
@@ -410,6 +401,23 @@ public class Popup_note extends Activity {
                 return true;
             }
         });
+
+        if (lv.getAdapter().getCount() == 0) {
+            new android.app.AlertDialog.Builder(this)
+                    .setMessage(helper_main.textSpannable(getString(R.string.toast_noEntry)))
+                    .setPositiveButton(this.getString(R.string.toast_yes),
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    finish();
+                                }
+                            })
+                    .show();
+            new Handler().postDelayed(new Runnable() {
+                public void run() {
+                    finish();
+                }
+            }, 2000);
+        }
     }
 
     public static class Item{
@@ -548,11 +556,7 @@ public class Popup_note extends Activity {
             }
         });
 
-        new Handler().postDelayed(new Runnable() {
-            public void run() {
-                helper_main.showKeyboard(from,titleInput);
-            }
-        }, 200);
+        helper_main.showKeyboard(from,titleInput);
 
         final ImageButton be = (ImageButton) dialogView.findViewById(R.id.imageButtonPri);
         ImageButton ib_paste = (ImageButton) dialogView.findViewById(R.id.imageButtonPaste);

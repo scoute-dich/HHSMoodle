@@ -27,7 +27,7 @@ public class class_AlarmService extends Activity {
 
         if (day == Calendar.MONDAY) {
             alarms(1,2,3,4,5,6,7,8,9,10,11,12,
-                    "hour_1","hour_2","hour_3","hour_4","hour_5","hour_6","hour_7","hour_8","hour_9","hour_10","hour_11");
+                    "hour_01","hour_02","hour_03","hour_04","hour_05","hour_06","hour_07","hour_08","hour_09","hour_10","hour_11");
         }
 
         if (day == Calendar.TUESDAY) {
@@ -74,7 +74,7 @@ public class class_AlarmService extends Activity {
                     audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
                 }
             }
-            Log.w("HHS_Moodle", "Alarm Yeah");
+            Log.w("HHS_Moodle", "Alarm Yeah 1");
         }
 
         // 2. hour
@@ -89,17 +89,17 @@ public class class_AlarmService extends Activity {
                     audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
                 }
             }
-            Log.w("HHS_Moodle", "Alarm Yeah");
+            Log.w("HHS_Moodle", "Alarm Yeah 2");
         }
 
         // Break
-        if ((hour == 9  && minute >= 15) || (hour == 9 && minute < 35)) {
+        if ((hour == 9  && (minute >= 15 || minute < 35))) {
             sharedPref.edit().putInt("getLine", hour_3).apply();
             if (sharedPref.getBoolean ("silent_mode", false)){
                 AudioManager audioManager = (AudioManager)class_AlarmService.this.getSystemService(Context.AUDIO_SERVICE);
                 audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
             }
-            Log.w("HHS_Moodle", "Alarm Yeah");
+            Log.w("HHS_Moodle", "Alarm Yeah B1");
         }
 
         // 3. hour
@@ -114,7 +114,7 @@ public class class_AlarmService extends Activity {
                     audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
                 }
             }
-            Log.w("HHS_Moodle", "Alarm Yeah");
+            Log.w("HHS_Moodle", "Alarm Yeah 3");
         }
 
         // 4. hour
@@ -129,17 +129,17 @@ public class class_AlarmService extends Activity {
                     audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
                 }
             }
-            Log.w("HHS_Moodle", "Alarm Yeah");
+            Log.w("HHS_Moodle", "Alarm Yeah 4");
         }
 
         // Break
-        if ((hour == 11  && minute >= 5) || (hour == 11 && minute < 25)) {
+        if ((hour == 11  && (minute >= 5 || minute < 25))) {
             sharedPref.edit().putInt("getLine", hour_5).apply();
             if (sharedPref.getBoolean ("silent_mode", false)){
                 AudioManager audioManager = (AudioManager)class_AlarmService.this.getSystemService(Context.AUDIO_SERVICE);
                 audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
             }
-            Log.w("HHS_Moodle", "Alarm Yeah");
+            Log.w("HHS_Moodle", "Alarm Yeah B2");
         }
 
         // 5. hour
@@ -154,7 +154,7 @@ public class class_AlarmService extends Activity {
                     audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
                 }
             }
-            Log.w("HHS_Moodle", "Alarm Yeah");
+            Log.w("HHS_Moodle", "Alarm Yeah 5");
         }
 
         // 6. hour
@@ -169,7 +169,7 @@ public class class_AlarmService extends Activity {
                     audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
                 }
             }
-            Log.w("HHS_Moodle", "Alarm Yeah");
+            Log.w("HHS_Moodle", "Alarm Yeah 6");
         }
 
         // Break
@@ -179,7 +179,7 @@ public class class_AlarmService extends Activity {
                 AudioManager audioManager = (AudioManager)class_AlarmService.this.getSystemService(Context.AUDIO_SERVICE);
                 audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
             }
-            Log.w("HHS_Moodle", "Alarm Yeah");
+            Log.w("HHS_Moodle", "Alarm Yeah B3");
         }
 
         // 7. hour
@@ -195,11 +195,11 @@ public class class_AlarmService extends Activity {
                 }
 
             }
-            Log.w("HHS_Moodle", "Alarm Yeah");
+            Log.w("HHS_Moodle", "Alarm Yeah 7");
         }
 
         // 8. hour
-        if ((hour == 14  && minute >= 5) || (hour == 14 && minute < 50)) {
+        if ((hour == 14  && (minute >= 5 || minute < 50))) {
             sharedPref.edit().putInt("getLine", hour_8).apply();
             if (sharedPref.getBoolean ("silent_mode", false)){
                 if (sharedPref.getString(hour_8s, "false").equals("true")) {
@@ -210,7 +210,7 @@ public class class_AlarmService extends Activity {
                     audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
                 }
             }
-            Log.w("HHS_Moodle", "Alarm Yeah");
+            Log.w("HHS_Moodle", "Alarm Yeah 8");
         }
 
         // Break
@@ -220,11 +220,11 @@ public class class_AlarmService extends Activity {
                 AudioManager audioManager = (AudioManager)class_AlarmService.this.getSystemService(Context.AUDIO_SERVICE);
                 audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
             }
-            Log.w("HHS_Moodle", "Alarm Yeah");
+            Log.w("HHS_Moodle", "Alarm Yeah B4");
         }
 
         // 9. hour
-        if ((hour == 15  && minute >= 5) || (hour == 15 && minute < 50)) {
+        if ((hour == 15  && (minute >= 5 || minute < 50))) {
             sharedPref.edit().putInt("getLine", hour_9).apply();
             if (sharedPref.getBoolean ("silent_mode", false)){
                 if (sharedPref.getString(hour_9s, "false").equals("true")) {
@@ -235,7 +235,7 @@ public class class_AlarmService extends Activity {
                     audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
                 }
             }
-            Log.w("HHS_Moodle", "Alarm Yeah");
+            Log.w("HHS_Moodle", "Alarm Yeah 9");
         }
 
         // 10. hour
@@ -250,17 +250,17 @@ public class class_AlarmService extends Activity {
                     audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
                 }
             }
-            Log.w("HHS_Moodle", "Alarm Yeah");
+            Log.w("HHS_Moodle", "Alarm Yeah 10");
         }
 
         // Break
-        if ((hour == 16  && minute >= 35) || (hour == 16 && minute < 45)) {
+        if ((hour == 16  && (minute >= 35 || minute < 45))) {
             sharedPref.edit().putInt("getLine", hour_11).apply();
             if (sharedPref.getBoolean ("silent_mode", false)){
                 AudioManager audioManager = (AudioManager)class_AlarmService.this.getSystemService(Context.AUDIO_SERVICE);
                 audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
             }
-            Log.w("HHS_Moodle", "Alarm Yeah");
+            Log.w("HHS_Moodle", "Alarm Yeah B5");
         }
 
         // 11. hour
@@ -276,17 +276,17 @@ public class class_AlarmService extends Activity {
                     audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
                 }
             }
-            Log.w("HHS_Moodle", "Alarm Yeah");
+            Log.w("HHS_Moodle", "Alarm Yeah 11");
         }
 
         // End
-        if ((hour == 17  && minute >= 30) || (hour == 17 && minute < 59)) {
+        if ((hour == 17  && (minute >= 30 || minute < 59))) {
             sharedPref.edit().putInt("getLine", hour_12).apply();
             if (sharedPref.getBoolean ("silent_mode", false)){
                 AudioManager audioManager = (AudioManager)class_AlarmService.this.getSystemService(Context.AUDIO_SERVICE);
                 audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
             }
-            Log.w("HHS_Moodle", "Alarm Yeah");
+            Log.w("HHS_Moodle", "Alarm Yeah End");
         }
     }
 }

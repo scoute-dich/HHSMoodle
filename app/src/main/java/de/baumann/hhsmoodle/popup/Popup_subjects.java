@@ -20,12 +20,12 @@
 package de.baumann.hhsmoodle.popup;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -69,15 +69,6 @@ public class Popup_subjects extends Activity {
         db.open();
 
         setSubjectsList();
-
-        if (lv.getAdapter().getCount() == 0) {
-            Snackbar.make(lv, R.string.toast_noEntry, Snackbar.LENGTH_INDEFINITE).show();
-            new Handler().postDelayed(new Runnable() {
-                public void run() {
-                    finish();
-                }
-            }, 1000);
-        }
     }
 
     private void setSubjectsList() {
@@ -154,6 +145,23 @@ public class Popup_subjects extends Activity {
                 finish();
             }
         });
+
+        if (lv.getAdapter().getCount() == 0) {
+            new android.app.AlertDialog.Builder(this)
+                    .setMessage(helper_main.textSpannable(getString(R.string.toast_noEntry)))
+                    .setPositiveButton(this.getString(R.string.toast_yes),
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    finish();
+                                }
+                            })
+                    .show();
+            new Handler().postDelayed(new Runnable() {
+                public void run() {
+                    finish();
+                }
+            }, 2000);
+        }
     }
 
     @Override
