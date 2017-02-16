@@ -65,7 +65,6 @@ import de.baumann.hhsmoodle.data_notes.Notes_helper;
 import de.baumann.hhsmoodle.data_random.Random_DbAdapter;
 import de.baumann.hhsmoodle.data_subjects.Subject_DbAdapter;
 import de.baumann.hhsmoodle.data_todo.Todo_helper;
-import de.baumann.hhsmoodle.helper.class_CustomViewPager;
 import de.baumann.hhsmoodle.helper.helper_main;
 import filechooser.ChooserDialog;
 
@@ -386,7 +385,7 @@ public class Courses_Fragment extends Fragment {
                                                 String inputCont = edit_cont.getText().toString().trim();
 
                                                 db.insert(inputTitle, inputCont, "", "", helper_main.createDate());
-                                                ViewPager viewPager = (class_CustomViewPager) getActivity().findViewById(R.id.viewpager);
+                                                ViewPager viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
                                                 viewPager.setCurrentItem(5);
                                                 getActivity().setTitle(R.string.number_title);
                                                 dialog2.dismiss();
@@ -535,7 +534,7 @@ public class Courses_Fragment extends Fragment {
                                                 db.insert(inputTitle, inputTeacher, sharedPref.getString("subject_color", ""), inputRoom, creation);
                                                 dialog.dismiss();
 
-                                                ViewPager viewPager = (class_CustomViewPager) getActivity().findViewById(R.id.viewpager);
+                                                ViewPager viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
                                                 viewPager.setCurrentItem(8);
                                                 getActivity().setTitle(R.string.number_title);
                                             }

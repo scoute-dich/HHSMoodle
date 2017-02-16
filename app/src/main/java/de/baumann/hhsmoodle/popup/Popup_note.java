@@ -60,7 +60,6 @@ import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.activities.Activity_password;
 import de.baumann.hhsmoodle.data_notes.Notes_DbAdapter;
 import de.baumann.hhsmoodle.data_todo.Todo_DbAdapter;
-import de.baumann.hhsmoodle.helper.class_CustomViewPager;
 import de.baumann.hhsmoodle.helper.class_SecurePreferences;
 import de.baumann.hhsmoodle.helper.helper_main;
 import filechooser.ChooserDialog;
@@ -368,7 +367,7 @@ public class Popup_note extends Activity {
                                         Snackbar.make(lv, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
                                     }else{
                                         db.insert(note_title, note_content, "3", "true", helper_main.createDate());
-                                        ViewPager viewPager = (class_CustomViewPager) Popup_note.this.findViewById(R.id.viewpager);
+                                        ViewPager viewPager = (ViewPager) Popup_note.this.findViewById(R.id.viewpager);
                                         viewPager.setCurrentItem(2);
                                         Popup_note.this.setTitle(R.string.todo_title);
                                         dialog.dismiss();

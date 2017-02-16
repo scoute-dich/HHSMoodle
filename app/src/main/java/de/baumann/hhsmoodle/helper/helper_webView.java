@@ -79,7 +79,7 @@ public class helper_webView {
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
 
-                ViewPager viewPager = (class_CustomViewPager) from.findViewById(R.id.viewpager);
+                ViewPager viewPager = (ViewPager) from.findViewById(R.id.viewpager);
                 SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(from);
                 sharedPref.edit().putString("loadURL", webView.getUrl()).apply();
 
@@ -93,11 +93,14 @@ public class helper_webView {
                         && url.contains("moodle.huebsch.ka.schule-bw.de/moodle/")
                         && url.contains("/login/")) {
 
-                    progressDialog = new ProgressDialog(from);
-                    progressDialog.setTitle(from.getString(R.string.login_title));
-                    progressDialog.setMessage(from.getString(R.string.login_text));
-                    progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                    progressDialog.show();
+                    if (viewPager.getCurrentItem() == 0) {
+                        progressDialog = new ProgressDialog(from);
+                        progressDialog.setTitle(from.getString(R.string.login_title));
+                        progressDialog.setMessage(from.getString(R.string.login_text));
+                        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                        progressDialog.show();
+                    }
+
                 } else if (progressDialog != null && progressDialog.isShowing()) {
                     progressDialog.cancel();
                 }

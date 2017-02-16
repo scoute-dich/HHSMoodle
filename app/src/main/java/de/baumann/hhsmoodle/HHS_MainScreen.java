@@ -61,7 +61,6 @@ import de.baumann.hhsmoodle.fragmentsMain.FragmentBrowser;
 import de.baumann.hhsmoodle.fragmentsMain.FragmentGrades;
 import de.baumann.hhsmoodle.activities.Activity_password;
 import de.baumann.hhsmoodle.activities.Activity_settings;
-import de.baumann.hhsmoodle.helper.class_CustomViewPager;
 import de.baumann.hhsmoodle.helper.class_SecurePreferences;
 import de.baumann.hhsmoodle.helper.helper_main;
 
@@ -84,11 +83,20 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
 
         setContentView(R.layout.activity_screen_main);
 
-        viewPager = (class_CustomViewPager) findViewById(R.id.viewpager);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        toolbar.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                helper_main.onClose(HHS_MainScreen.this);
+                return true;
+            }
+        });
+
         helper_main.onStart(HHS_MainScreen.this);
         helper_main.grantPermissions(HHS_MainScreen.this);
 
@@ -184,15 +192,15 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
         final int startTabInt = Integer.parseInt(startTab);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        adapter.addFragment(new FragmentBrowser(), String.valueOf(getString(R.string.app_name)));
+        adapter.addFragment(new FragmentBrowser(), String.valueOf(getString(R.string.title_browser)));
         adapter.addFragment(new Bookmarks_Fragment(), String.valueOf(getString(R.string.title_bookmarks)));
         adapter.addFragment(new Todo_Fragment(), String.valueOf(getString(R.string.todo_title)));
         adapter.addFragment(new Notes_Fragment(), String.valueOf(getString(R.string.title_notes)));
         adapter.addFragment(new Schedule_Fragment(), String.valueOf(getString(R.string.schedule_title)));
         adapter.addFragment(new Random_Fragment(), String.valueOf(getString(R.string.number_title)));
-        adapter.addFragment(new FragmentGrades(), String.valueOf(getString(R.string.action_grades)));
         adapter.addFragment(new Courses_Fragment(), String.valueOf(getString(R.string.courseList_title)));
         adapter.addFragment(new Subjects_Fragment(), String.valueOf(getString(R.string.subjects_title)));
+        adapter.addFragment(new FragmentGrades(), String.valueOf(getString(R.string.action_grades)));
 
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(startTabInt,true);
@@ -321,7 +329,7 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
 
         if (id == R.id.nav_browser) {
             viewPager.setCurrentItem(0, true);
-            setTitle(R.string.app_name);
+            setTitle(R.string.title_browser);
         } else if (id == R.id.nav_bookmarks) {
             viewPager.setCurrentItem(1, true);
             setTitle(R.string.title_bookmarks);
@@ -337,15 +345,15 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
         } else if (id == R.id.nav_random) {
             viewPager.setCurrentItem(5, true);
             setTitle(R.string.number_title);
-        } else if (id == R.id.nav_grades) {
-            viewPager.setCurrentItem(6, true);
-            setTitle(R.string.action_grades);
         } else if (id == R.id.nav_courseList) {
-            viewPager.setCurrentItem(7, true);
+            viewPager.setCurrentItem(6, true);
             setTitle(R.string.courseList_title);
         } else if (id == R.id.nav_subjectList) {
-            viewPager.setCurrentItem(8, true);
+            viewPager.setCurrentItem(7, true);
             setTitle(R.string.subjects_title);
+        } else if (id == R.id.nav_grades) {
+            viewPager.setCurrentItem(8, true);
+            setTitle(R.string.action_grades);
         } else if (id == R.id.nav_settings) {
             helper_main.isOpened(HHS_MainScreen.this);
             helper_main.switchToActivity(HHS_MainScreen.this, Activity_settings.class, true);

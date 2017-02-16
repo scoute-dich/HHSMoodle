@@ -55,7 +55,6 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 
 import de.baumann.hhsmoodle.R;
-import de.baumann.hhsmoodle.data_schedule.Schedule_helper;
 import de.baumann.hhsmoodle.data_todo.Todo_DbAdapter;
 import de.baumann.hhsmoodle.helper.class_SecurePreferences;
 import de.baumann.hhsmoodle.helper.helper_main;
@@ -92,8 +91,6 @@ public class Popup_todo_restart extends Activity {
 
         NotificationManager nMgr = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         nMgr.cancelAll();
-
-        Schedule_helper.setAlarm(Popup_todo_restart.this);
 
         //display data
         final int layoutstyle=R.layout.list_item_notes;

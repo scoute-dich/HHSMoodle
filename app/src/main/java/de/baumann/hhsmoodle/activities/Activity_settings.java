@@ -99,7 +99,7 @@ public class Activity_settings extends AppCompatActivity {
                 public boolean onPreferenceClick(Preference pref) {
 
                     final CharSequence[] options = {
-                            getString(R.string.app_name),
+                            getString(R.string.title_browser),
                             getString(R.string.title_bookmarks),
                             getString(R.string.todo_title),
                             getString(R.string.title_notes),
@@ -116,14 +116,14 @@ public class Activity_settings extends AppCompatActivity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int item) {
 
-                                    if (options[item].equals (getString(R.string.app_name))) {
+                                    if (options[item].equals (getString(R.string.title_browser))) {
                                         Intent i = new Intent(activity.getApplicationContext(), Activity_splash.class);
                                         i.setAction("shortcutBrowser");
 
                                         Intent shortcut = new Intent();
                                         shortcut.setAction(Intent.ACTION_MAIN);
                                         shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, i);
-                                        shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, (getString(R.string.bookmark_createNote)));
+                                        shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, (getString(R.string.title_browser)));
                                         shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
                                                 Intent.ShortcutIconResource.fromContext(activity.getApplicationContext(), R.drawable.qc_moodle));
                                         shortcut.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
@@ -181,7 +181,7 @@ public class Activity_settings extends AppCompatActivity {
                                         Intent shortcut = new Intent();
                                         shortcut.setAction(Intent.ACTION_MAIN);
                                         shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, i);
-                                        shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, (getString(R.string.bookmark_createNote)));
+                                        shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, (getString(R.string.schedule_title)));
                                         shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
                                                 Intent.ShortcutIconResource.fromContext(activity.getApplicationContext(), R.drawable.qc_schedule));
                                         shortcut.setAction("com.android.launcher.action.INSTALL_SHORTCUT");

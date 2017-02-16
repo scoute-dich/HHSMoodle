@@ -58,7 +58,6 @@ import android.widget.TextView;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.data_notes.Notes_helper;
 import de.baumann.hhsmoodle.data_todo.Todo_helper;
-import de.baumann.hhsmoodle.helper.class_CustomViewPager;
 import de.baumann.hhsmoodle.helper.helper_main;
 
 public class Bookmarks_Fragment extends Fragment {
@@ -397,7 +396,7 @@ public class Bookmarks_Fragment extends Fragment {
                 sharedPref.edit().putString("load_next", "true").apply();
                 sharedPref.edit().putString("loadURL", bookmarks_content).apply();
 
-                ViewPager viewPager = (class_CustomViewPager) getActivity().findViewById(R.id.viewpager);
+                ViewPager viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
                 viewPager.setCurrentItem(0);
 
             }
@@ -575,7 +574,7 @@ public class Bookmarks_Fragment extends Fragment {
                 helper_main.showKeyboard(getActivity(), filter);
                 return true;
             case R.id.filter_creation:
-                sharedPref.edit().putString("filter_bookmarksBY", "bookmarks_create").apply();
+                sharedPref.edit().putString("filter_bookmarksBY", "bookmarks_creation").apply();
                 setBookmarksList();
                 filter_layout.setVisibility(View.VISIBLE);
                 imgHeader.setVisibility(View.GONE);

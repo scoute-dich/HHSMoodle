@@ -42,117 +42,19 @@ public class FragmentGrades extends Fragment {
 
     private EditText maxPointsText;
 
-    private TextView text_100_points;
+    private TextView
 
-    private TextView text_99_points;
-    private TextView text_98_points;
-    private TextView text_97_points;
-    private TextView text_96_points;
-    private TextView text_95_points;
-    private TextView text_94_points;
-    private TextView text_93_points;
-    private TextView text_92_points;
-    private TextView text_91_points;
-    private TextView text_90_points;
-
-    private TextView text_89_points;
-    private TextView text_88_points;
-    private TextView text_87_points;
-    private TextView text_86_points;
-    private TextView text_85_points;
-    private TextView text_84_points;
-    private TextView text_83_points;
-    private TextView text_82_points;
-    private TextView text_81_points;
-    private TextView text_80_points;
-
-    private TextView text_79_points;
-    private TextView text_78_points;
-    private TextView text_77_points;
-    private TextView text_76_points;
-    private TextView text_75_points;
-    private TextView text_74_points;
-    private TextView text_73_points;
-    private TextView text_72_points;
-    private TextView text_71_points;
-    private TextView text_70_points;
-
-    private TextView text_69_points;
-    private TextView text_68_points;
-    private TextView text_67_points;
-    private TextView text_66_points;
-    private TextView text_65_points;
-    private TextView text_64_points;
-    private TextView text_63_points;
-    private TextView text_62_points;
-    private TextView text_61_points;
-    private TextView text_60_points;
-
-    private TextView text_59_points;
-    private TextView text_58_points;
-    private TextView text_57_points;
-    private TextView text_56_points;
-    private TextView text_55_points;
-    private TextView text_54_points;
-    private TextView text_53_points;
-    private TextView text_52_points;
-    private TextView text_51_points;
-    private TextView text_50_points;
-
-    private TextView text_49_points;
-    private TextView text_48_points;
-    private TextView text_47_points;
-    private TextView text_46_points;
-    private TextView text_45_points;
-    private TextView text_44_points;
-    private TextView text_43_points;
-    private TextView text_42_points;
-    private TextView text_41_points;
-    private TextView text_40_points;
-
-    private TextView text_39_points;
-    private TextView text_38_points;
-    private TextView text_37_points;
-    private TextView text_36_points;
-    private TextView text_35_points;
-    private TextView text_34_points;
-    private TextView text_33_points;
-    private TextView text_32_points;
-    private TextView text_31_points;
-    private TextView text_30_points;
-
-    private TextView text_29_points;
-    private TextView text_28_points;
-    private TextView text_27_points;
-    private TextView text_26_points;
-    private TextView text_25_points;
-    private TextView text_24_points;
-    private TextView text_23_points;
-    private TextView text_22_points;
-    private TextView text_21_points;
-    private TextView text_20_points;
-
-    private TextView text_19_points;
-    private TextView text_18_points;
-    private TextView text_17_points;
-    private TextView text_16_points;
-    private TextView text_15_points;
-    private TextView text_14_points;
-    private TextView text_13_points;
-    private TextView text_12_points;
-    private TextView text_11_points;
-    private TextView text_10_points;
-
-    private TextView text_09_points;
-    private TextView text_08_points;
-    private TextView text_07_points;
-    private TextView text_06_points;
-    private TextView text_05_points;
-    private TextView text_04_points;
-    private TextView text_03_points;
-    private TextView text_02_points;
-    private TextView text_01_points;
-    private TextView text_00_points;
+    text_100_points,
+    text_99_points,text_98_points,text_97_points,text_96_points,text_95_points,text_94_points,text_93_points,text_92_points,text_91_points,text_90_points,
+    text_89_points,text_88_points,text_87_points,text_86_points,text_85_points,text_84_points,text_83_points,text_82_points,text_81_points,text_80_points,
+    text_79_points,text_78_points,text_77_points,text_76_points,text_75_points,text_74_points,text_73_points,text_72_points, text_71_points,text_70_points,
+    text_69_points,text_68_points,text_67_points,text_66_points,text_65_points,text_64_points,text_63_points,text_62_points, text_61_points,text_60_points,
+    text_59_points,text_58_points,text_57_points,text_56_points,text_55_points,text_54_points,text_53_points,text_52_points, text_51_points,text_50_points,
+    text_49_points,text_48_points,text_47_points,text_46_points,text_45_points,text_44_points,text_43_points, text_42_points,text_41_points,text_40_points,
+    text_39_points,text_38_points,text_37_points,text_36_points,text_35_points,text_34_points,text_33_points,text_32_points, text_31_points,text_30_points,
+    text_29_points,text_28_points,text_27_points,text_26_points,text_25_points,text_24_points,text_23_points,text_22_points, text_21_points,text_20_points,
+    text_19_points,text_18_points,text_17_points,text_16_points,text_15_points,text_14_points,text_13_points,text_12_points, text_11_points,text_10_points,
+    text_09_points,text_08_points,text_07_points,text_06_points,text_05_points,text_04_points,text_03_points,text_02_points, text_01_points,text_00_points;
 
     private double maxPoints;
     private String maxPointsString;

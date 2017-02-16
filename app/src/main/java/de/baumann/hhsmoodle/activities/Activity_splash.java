@@ -45,6 +45,7 @@ import de.baumann.hhsmoodle.data_schedule.Schedule_helper;
 import de.baumann.hhsmoodle.helper.class_SecurePreferences;
 import de.baumann.hhsmoodle.helper.helper_encryption;
 import de.baumann.hhsmoodle.helper.helper_main;
+import de.baumann.hhsmoodle.popup.Popup_alarms;
 
 
 public class Activity_splash extends AppCompatActivity {
@@ -59,6 +60,9 @@ public class Activity_splash extends AppCompatActivity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Intent mainIntent2 = new Intent(Activity_splash.this, Popup_alarms.class);
+        startActivity(mainIntent2);
 
         setContentView(R.layout.activity_splash);
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);

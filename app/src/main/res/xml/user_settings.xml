@@ -66,6 +66,13 @@
             android:defaultValue="false" />
 
         <CheckBoxPreference
+            android:title="@string/action_airplane"
+            android:icon="@drawable/airplane"
+            android:summary="@string/action_airplane_summary"
+            android:key="airplane_mode"
+            android:defaultValue="false" />
+
+        <CheckBoxPreference
             android:title="@string/action_help"
             android:icon="@drawable/comment_question_outline"
             android:summary="@string/action_help_summary"

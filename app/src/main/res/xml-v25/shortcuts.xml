@@ -4,9 +4,9 @@
         android:shortcutId="shortcutBrowser"
         android:enabled="true"
         android:icon="@drawable/qc_moodle"
-        android:shortcutShortLabel="@string/app_name"
-        android:shortcutLongLabel="@string/app_name"
-        android:shortcutDisabledMessage="@string/app_name">
+        android:shortcutShortLabel="@string/title_browser"
+        android:shortcutLongLabel="@string/title_browser"
+        android:shortcutDisabledMessage="@string/title_browser">
         <intent
             android:action="shortcutBrowser"
             android:targetPackage="de.baumann.hhsmoodle"
