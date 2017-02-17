@@ -2,7 +2,6 @@
 - neu: Stundenplan
 - neu: Fächerliste
 - neu: Lautlos während Unterricht
-- neu: Flugmodus während Unterricht (Root)
 - neu: Navigationsleiste am Rand
 - neu: Standardlesezeichen
 - neu: Suche in Lesezeichen, Todolisten, Notizen, Stundenplan

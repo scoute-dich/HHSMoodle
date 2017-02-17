@@ -138,7 +138,6 @@ public class helper_main {
     public static void onClose (final Activity activity) {
         PreferenceManager.setDefaultValues(activity, R.xml.user_settings, false);
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(activity);
-        final ProgressDialog progressDialog;
 
         if (sharedPref.getBoolean("backup_aut", false)) {
 
@@ -150,7 +149,7 @@ public class helper_main {
             try {helper_encryption.encryptBackup(activity, "/schedule_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
             try {helper_encryption.encryptBackup(activity, "/todo_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
 
-            progressDialog = new ProgressDialog(activity);
+            ProgressDialog progressDialog = new ProgressDialog(activity);
             progressDialog.setMessage(activity.getString(R.string.app_close));
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progressDialog.show();
@@ -160,7 +159,6 @@ public class helper_main {
                     sharedPref.edit().putString("loadURL", "").apply();
                     helper_main.isClosed(activity);
                     helper_encryption.encryptDatabases(activity);
-                    progressDialog.cancel();
                     activity.finishAffinity();
                 }
             }, 1500);

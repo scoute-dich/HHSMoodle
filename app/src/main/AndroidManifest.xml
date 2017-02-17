@@ -199,12 +199,6 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <activity
-            android:name=".popup.Popup_alarms"
-            android:noHistory="true"
-            android:launchMode="singleTask"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
-        <activity
             android:name=".popup.Popup_courseList"
             android:noHistory="true"
             android:launchMode="singleTask"

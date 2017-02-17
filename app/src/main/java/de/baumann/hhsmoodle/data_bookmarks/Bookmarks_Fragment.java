@@ -574,7 +574,7 @@ public class Bookmarks_Fragment extends Fragment {
                 helper_main.showKeyboard(getActivity(), filter);
                 return true;
             case R.id.filter_creation:
-                sharedPref.edit().putString("filter_bookmarksBY", "bookmarks_creation").apply();
+                sharedPref.edit().putString("filter_bookmarksBY", "bookmarks_create").apply();
                 setBookmarksList();
                 filter_layout.setVisibility(View.VISIBLE);
                 imgHeader.setVisibility(View.GONE);

@@ -84,9 +84,8 @@
     // IntroScreen
 
     <string name="intro1_title">HHS Moodle</string>
-    <string name="intro1_text">Danke, dass du dich für HHS Moodle entschieden hast. Alle wichtigen Funktionen erreichst du,
-        indem du vom linken Bildschirmrand zur Mitte wischst. Um zwischen ihnen zu wechseln, kannst auch nach rechts
-    oder links wischen.</string>
+    <string name="intro1_text">Danke, dass du dich für HHS Moodle entschieden hast. Bitte lies die folgende kurze Einführung
+        aufmerksam durch. Alle wichtigen Funktionen erreichst du, indem du vom linken Bildschirmrand zur Mitte wischst.</string>
 
     <string name="intro2_title">Lesezeichen</string>
     <string name="intro2_text">Erstelle für jede aufgerufene Seite deine eigenen Lesezeichen.</string>
@@ -100,9 +99,8 @@
     <string name="intro5_title">Werkzeuge</string>
     <string name="intro5_text">Berechne Noten, erstelle Teilnehmerlisten oder …</string>
 
-    <string name="intro6_title">Praktisch</string>
-    <string name="intro6_text">Auf jedem Schirm erreichst du über das Menü einen kurzen Hilfedialog. Drücke lange auf die Titelleiste
-    um die App sofort zu verlassen.</string>
+    <string name="intro6_title">Hilfe</string>
+    <string name="intro6_text">Auf jedem Schirm erreichst du über das Menü einen kurzen Hilfedialog.</string>
 
     <string name="intro7_title">Einstellungen</string>
     <string name="intro7_text">Passe die App deinen Bedürfnissen an.</string>
@@ -153,7 +151,7 @@
     <string name="action_sort">Einträge sortieren</string>
     <string name="action_sort_title">Sortiere nach Titel</string>
     <string name="action_sort_icon">Sortiere nach Icon</string>
-    <string name="action_sort_create">Sortiere nach Datum</string>
+    <string name="action_sort_create">Sortiere nach Erstellungszeit</string>
     <string name="action_sort_att">Sortiere nach Anhängen</string>
     <string name="action_sort_notification">Sortiere nach Benachrichtigungen</string>
     <string name="action_sort_priority">Sortiere nach Dringlichkeit</string>
@@ -241,7 +239,6 @@
     <string name="toast_newTitle">Titel existiert bereits.</string>
     <string name="toast_noEntry">Kein Eintrag in der Liste vorhanden.</string>
     <string name="toast_notSave">Kann Eintrag nicht speichern.</string>
-    <string name="toast_exit">Möchtest du die App verlassen?</string>
 
 
     // Bookmarks

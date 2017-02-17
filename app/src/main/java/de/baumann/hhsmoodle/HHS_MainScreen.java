@@ -88,15 +88,6 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        toolbar.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                helper_main.onClose(HHS_MainScreen.this);
-                return true;
-            }
-        });
-
         helper_main.onStart(HHS_MainScreen.this);
         helper_main.grantPermissions(HHS_MainScreen.this);
 

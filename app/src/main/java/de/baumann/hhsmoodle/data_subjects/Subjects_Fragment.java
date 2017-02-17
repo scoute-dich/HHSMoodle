@@ -673,27 +673,27 @@ public class Subjects_Fragment extends Fragment {
                                                     .setAdapter(adapter, new DialogInterface.OnClickListener() {
                                                         public void onClick(DialogInterface dialog, int item) {
                                                             if (item == 0) {
-                                                                be.setImageResource(R.drawable.circle_red);sharedPref.edit().putString("subject_color", "1").apply();
+                                                                be.setImageResource(R.drawable.circle_green);sharedPref.edit().putString("subject_color", "1").apply();
                                                             } else if (item == 1) {
-                                                                be.setImageResource(R.drawable.circle_pink);sharedPref.edit().putString("subject_color", "2").apply();
+                                                                be.setImageResource(R.drawable.circle_yellow);sharedPref.edit().putString("subject_color", "2").apply();
                                                             } else if (item == 2) {
-                                                                be.setImageResource(R.drawable.circle_purple);sharedPref.edit().putString("subject_color", "3").apply();
+                                                                be.setImageResource(R.drawable.circle_red);sharedPref.edit().putString("subject_color", "3").apply();
                                                             } else if (item == 3) {
-                                                                be.setImageResource(R.drawable.circle_blue);sharedPref.edit().putString("subject_color", "4").apply();
+                                                                be.setImageResource(R.drawable.circle_yellow);sharedPref.edit().putString("subject_color", "4").apply();
                                                             } else if (item == 4) {
-                                                                be.setImageResource(R.drawable.circle_teal);sharedPref.edit().putString("subject_color", "5").apply();
+                                                                be.setImageResource(R.drawable.circle_red);sharedPref.edit().putString("subject_color", "5").apply();
                                                             } else if (item == 5) {
-                                                                be.setImageResource(R.drawable.circle_green);sharedPref.edit().putString("subject_color", "6").apply();
+                                                                be.setImageResource(R.drawable.circle_yellow);sharedPref.edit().putString("subject_color", "6").apply();
                                                             } else if (item == 6) {
-                                                                be.setImageResource(R.drawable.circle_lime);sharedPref.edit().putString("subject_color", "7").apply();
+                                                                be.setImageResource(R.drawable.circle_red);sharedPref.edit().putString("subject_color", "7").apply();
                                                             } else if (item == 7) {
                                                                 be.setImageResource(R.drawable.circle_yellow);sharedPref.edit().putString("subject_color", "8").apply();
                                                             } else if (item == 8) {
-                                                                be.setImageResource(R.drawable.circle_orange);sharedPref.edit().putString("subject_color", "9").apply();
+                                                                be.setImageResource(R.drawable.circle_red);sharedPref.edit().putString("subject_color", "9").apply();
                                                             } else if (item == 9) {
-                                                                be.setImageResource(R.drawable.circle_brown);sharedPref.edit().putString("subject_color", "10").apply();
+                                                                be.setImageResource(R.drawable.circle_yellow);sharedPref.edit().putString("subject_color", "10").apply();
                                                             } else if (item == 10) {
-                                                                be.setImageResource(R.drawable.circle_grey);sharedPref.edit().putString("subject_color", "11").apply();
+                                                                be.setImageResource(R.drawable.circle_red);sharedPref.edit().putString("subject_color", "11").apply();
                                                             }
                                                         }
                                                     }).show();
@@ -713,7 +713,7 @@ public class Subjects_Fragment extends Fragment {
                                             String inputTeacher = teacherInput.getText().toString().trim();
                                             String inputRoom = roomInput.getText().toString().trim();
 
-                                            db.update(Integer.parseInt(_id), inputTitle, inputTeacher, sharedPref.getString("subject_color", ""), inputRoom, helper_main.createDate());
+                                            db.update(Integer.parseInt(_id), inputTitle, inputTeacher, sharedPref.getString("subject_color", ""), inputRoom, "");
                                             dialog.dismiss();
                                             setSubjectsList();
                                             Snackbar.make(lv, R.string.bookmark_added, Snackbar.LENGTH_SHORT).show();

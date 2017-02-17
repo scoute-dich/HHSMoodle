@@ -61,14 +61,14 @@ public class class_AlarmService extends Activity {
 
     // executes a command on the system
     private  boolean canExecuteCommand(String command) {
-        boolean executedSuccessfully;
+        boolean executedSuccesfully;
         try {
             Runtime.getRuntime().exec(command);
-            executedSuccessfully = true;
+            executedSuccesfully = true;
         } catch (Exception e) {
-            executedSuccessfully = false;
+            executedSuccesfully = false;
         }
-        return executedSuccessfully;
+        return executedSuccesfully;
     }
 
     private void executeCommandWithoutWait(String command) {
@@ -137,7 +137,7 @@ public class class_AlarmService extends Activity {
         int minute = calendar.get(Calendar.MINUTE);
 
         // 1. hour
-        if ((hour == 7 && minute >= 45) || (hour == 8 && minute < 30)) {
+        if ((hour == 7  && minute >= 45) || (hour == 8 && minute < 30)) {
             sharedPref.edit().putInt("getLine", hour_1).apply();
             if (sharedPref.getBoolean ("silent_mode", false)){
                 if (sharedPref.getString(hour_1s, "false").equals("true")) {
@@ -154,7 +154,7 @@ public class class_AlarmService extends Activity {
         }
 
         // 2. hour
-        if ((hour == 8 && minute >= 30) || (hour == 9 && minute < 15)) {
+        if ((hour == 8  && minute >= 30) || (hour == 9 && minute < 15)) {
             sharedPref.edit().putInt("getLine", hour_2).apply();
             if (sharedPref.getBoolean ("silent_mode", false)){
                 if (sharedPref.getString(hour_2s, "false").equals("true")) {
@@ -171,7 +171,7 @@ public class class_AlarmService extends Activity {
         }
 
         // Break
-        if ((hour == 9  && (minute >= 15 && minute < 30))) {
+        if ((hour == 9  && (minute >= 15 || minute < 30))) {
             sharedPref.edit().putInt("getLine", hour_3).apply();
             if (sharedPref.getBoolean ("silent_mode", false)){
                 if (sharedPref.getBoolean ("airplane_mode", false)) {setFlightModeOff();}
@@ -182,7 +182,7 @@ public class class_AlarmService extends Activity {
         }
 
         // 3. hour
-        if ((hour == 9 && minute >= 30) || (hour == 10 && minute < 20)) {
+        if ((hour == 9  && minute >= 30) || (hour == 10 && minute < 20)) {
             sharedPref.edit().putInt("getLine", hour_3).apply();
             if (sharedPref.getBoolean ("silent_mode", false)){
                 if (sharedPref.getString(hour_3s, "false").equals("true")) {
@@ -199,7 +199,7 @@ public class class_AlarmService extends Activity {
         }
 
         // 4. hour
-        if ((hour == 10 && minute >= 20) || (hour == 11 && minute < 5)) {
+        if ((hour == 10  && minute >= 20) || (hour == 11 && minute < 5)) {
             sharedPref.edit().putInt("getLine", hour_4).apply();
             if (sharedPref.getBoolean ("silent_mode", false)){
                 if (sharedPref.getString(hour_4s, "false").equals("true")) {
@@ -216,7 +216,7 @@ public class class_AlarmService extends Activity {
         }
 
         // Break
-        if ((hour == 11 && (minute >= 5 && minute < 20))) {
+        if ((hour == 11  && (minute >= 5 || minute < 20))) {
             sharedPref.edit().putInt("getLine", hour_5).apply();
             if (sharedPref.getBoolean ("silent_mode", false)){
                 if (sharedPref.getBoolean ("airplane_mode", false)) {setFlightModeOff();}
@@ -227,7 +227,7 @@ public class class_AlarmService extends Activity {
         }
 
         // 5. hour
-        if ((hour == 11 && minute >= 20) || (hour == 12 && minute < 10)) {
+        if ((hour == 11  && minute >= 20) || (hour == 12 && minute < 10)) {
             sharedPref.edit().putInt("getLine", hour_5).apply();
             if (sharedPref.getBoolean ("silent_mode", false)){
                 if (sharedPref.getString(hour_5s, "false").equals("true")) {
@@ -244,7 +244,7 @@ public class class_AlarmService extends Activity {
         }
 
         // 6. hour
-        if (hour == 12 && (minute >= 10 && minute < 55)) {
+        if ((hour == 12  && minute >= 10) || (hour == 13 && minute < 55)) {
             sharedPref.edit().putInt("getLine", hour_6).apply();
             if (sharedPref.getBoolean ("silent_mode", false)){
                 if (sharedPref.getString(hour_6s, "false").equals("true")) {
@@ -261,7 +261,7 @@ public class class_AlarmService extends Activity {
         }
 
         // Break
-        if ((hour == 12 && minute >= 55) || (hour == 13 && minute < 15)) {
+        if ((hour == 12  && minute >= 55) || (hour == 13 && minute < 15)) {
             sharedPref.edit().putInt("getLine", hour_7).apply();
             if (sharedPref.getBoolean ("silent_mode", false)){
                 if (sharedPref.getBoolean ("airplane_mode", false)) {setFlightModeOff();}
@@ -272,7 +272,7 @@ public class class_AlarmService extends Activity {
         }
 
         // 7. hour
-        if ((hour == 13 && minute >= 15) || (hour == 14 && minute < 5)) {
+        if ((hour == 13  && minute >= 15) || (hour == 14 && minute < 5)) {
             sharedPref.edit().putInt("getLine", hour_7).apply();
             if (sharedPref.getBoolean ("silent_mode", false)){
                 if (sharedPref.getString(hour_7s, "false").equals("true")) {
@@ -290,7 +290,7 @@ public class class_AlarmService extends Activity {
         }
 
         // 8. hour
-        if ((hour == 14 && (minute >= 5 && minute < 50))) {
+        if ((hour == 14  && (minute >= 5 || minute < 50))) {
             sharedPref.edit().putInt("getLine", hour_8).apply();
             if (sharedPref.getBoolean ("silent_mode", false)){
                 if (sharedPref.getString(hour_8s, "false").equals("true")) {
@@ -307,7 +307,7 @@ public class class_AlarmService extends Activity {
         }
 
         // Break
-        if (hour == 14 && minute >= 50) {
+        if (hour == 14  && minute >= 50) {
             sharedPref.edit().putInt("getLine", hour_9).apply();
             if (sharedPref.getBoolean ("silent_mode", false)){
                 if (sharedPref.getBoolean ("airplane_mode", false)) {setFlightModeOff();}
@@ -318,7 +318,7 @@ public class class_AlarmService extends Activity {
         }
 
         // 9. hour
-        if ((hour == 15 && (minute >= 0 && minute < 50))) {
+        if ((hour == 15  && (minute >= 0 || minute < 50))) {
             sharedPref.edit().putInt("getLine", hour_9).apply();
             if (sharedPref.getBoolean ("silent_mode", false)){
                 if (sharedPref.getString(hour_9s, "false").equals("true")) {
@@ -335,7 +335,7 @@ public class class_AlarmService extends Activity {
         }
 
         // 10. hour
-        if ((hour == 15 && minute >= 50) || (hour == 16 && minute < 35)) {
+        if ((hour == 15  && minute >= 50) || (hour == 16 && minute < 35)) {
             sharedPref.edit().putInt("getLine", hour_10).apply();
             if (sharedPref.getBoolean ("silent_mode", false)){
                 if (sharedPref.getString(hour_10s, "false").equals("true")) {
@@ -352,7 +352,7 @@ public class class_AlarmService extends Activity {
         }
 
         // Break
-        if ((hour == 16  && (minute >= 35 && minute < 40))) {
+        if ((hour == 16  && (minute >= 35 || minute < 40))) {
             sharedPref.edit().putInt("getLine", hour_11).apply();
             if (sharedPref.getBoolean ("silent_mode", false)){
                 if (sharedPref.getBoolean ("airplane_mode", false)) {setFlightModeOff();}
@@ -363,7 +363,7 @@ public class class_AlarmService extends Activity {
         }
 
         // 11. hour
-        if ((hour == 16 && minute >= 40) || (hour == 17 && minute < 30)) {
+        if ((hour == 16  && minute >= 40) || (hour == 17 && minute < 30)) {
             sharedPref.edit().putInt("getLine", hour_11).apply();
             if (sharedPref.getBoolean ("silent_mode", false)){
                 if (sharedPref.getString(hour_11s, "false").equals("true")) {
@@ -380,7 +380,7 @@ public class class_AlarmService extends Activity {
         }
 
         // End
-        if ((hour == 17 && (minute >= 30 && minute < 59))) {
+        if ((hour == 17  && (minute >= 30 || minute < 59))) {
             sharedPref.edit().putInt("getLine", hour_12).apply();
             if (sharedPref.getBoolean ("silent_mode", false)){
                 if (sharedPref.getBoolean ("airplane_mode", false)) {setFlightModeOff();}

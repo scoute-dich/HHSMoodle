@@ -82,8 +82,8 @@
     // IntroScreen
 
     <string name="intro1_title">HHS Moodle</string>
-    <string name="intro1_text">Thanks for choosing HHS Moodle. You can reach all important functions by swiping from the
-        left to the middle of your screen. You can switch between the activities also by swiping left or right.</string>
+    <string name="intro1_text">Thanks for choosing HHS Moodle. Please read the following introduction carefully. You can reach
+        all important functions by swiping from the left to the middle of your screen.</string>
 
     <string name="intro2_title">Bookmarks</string>
     <string name="intro2_text">Create your own personal bookmarks for each visited site.</string>
@@ -97,9 +97,8 @@
     <string name="intro5_title">Tools</string>
     <string name="intro5_text">Calculate your grades, create course lists or …</string>
 
-    <string name="intro6_title">Practical</string>
-    <string name="intro6_text">Over the menu you can reach a help dialog on every screen. Long press on the title bar, to exit the
-    app.</string>
+    <string name="intro6_title">Help</string>
+    <string name="intro6_text">Over the menu you can reach a help dialog on every screen.</string>
 
     <string name="intro7_title">Settings</string>
     <string name="intro7_text">Configure the app to your fittings.</string>
@@ -149,7 +148,7 @@
     <string name="action_sort">Sort entries</string>
     <string name="action_sort_title">Sort by title</string>
     <string name="action_sort_icon">Sort by icon</string>
-    <string name="action_sort_create">Sort by date</string>
+    <string name="action_sort_create">Sort by creation</string>
     <string name="action_sort_att">Sort by Attachment</string>
     <string name="action_sort_notification">Sort by notification</string>
     <string name="action_sort_priority">Sort by priority</string>
@@ -233,7 +232,6 @@
     <string name="toast_newTitle">Title already exists.</string>
     <string name="toast_noEntry">There\'s no entry in the list.</string>
     <string name="toast_notSave">Can not save entry.</string>
-    <string name="toast_exit">Do you want to exit?</string>
 
 
     // Bookmarks

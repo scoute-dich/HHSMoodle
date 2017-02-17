@@ -84,11 +84,9 @@ public class Popup_courseList extends Activity {
         if ("courseList_random".equals(action)) {
             lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                     Cursor row2 = (Cursor) lv.getItemAtPosition(position);
                     final String courses_title = row2.getString(row2.getColumnIndexOrThrow("courses_title"));
                     final String courses_content = row2.getString(row2.getColumnIndexOrThrow("courses_content"));
-
                     Random_DbAdapter db = new Random_DbAdapter(Popup_courseList.this);
                     db.open();
 
@@ -104,9 +102,7 @@ public class Popup_courseList extends Activity {
         } else if ("courseList_note".equals(action)) {
             lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                     sharedPref.edit().putString("fromCourseList", "true").apply();
-
                     Cursor row2 = (Cursor) lv.getItemAtPosition(position);
                     final String courses_title = row2.getString(row2.getColumnIndexOrThrow("courses_title"));
                     Notes_helper.newNote(Popup_courseList.this, courses_title, "");

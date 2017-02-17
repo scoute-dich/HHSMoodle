@@ -288,16 +288,8 @@ public class FragmentBrowser extends Fragment {
         } else if ((mCustomView == null) && mWebView.canGoBack()) {
             mWebView.goBack();
         } else {
-            Snackbar snackbar = Snackbar
-                    .make(mWebView, getString(R.string.toast_exit), Snackbar.LENGTH_SHORT)
-                    .setAction(getString(R.string.toast_yes), new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            mWebView.stopLoading();
-                            helper_main.onClose(getActivity());
-                        }
-                    });
-            snackbar.show();
+            mWebView.stopLoading();
+            helper_main.onClose(getActivity());
         }
     }
 

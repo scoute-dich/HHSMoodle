@@ -28,22 +28,22 @@ public class Schedule_helper {
                 day == Calendar.THURSDAY ||
                 day == Calendar.FRIDAY) {
 
-            setHours(activity, 7, 45);
+            setHours(activity, 7, 40);
             setHours(activity, 8, 30);
             setHours(activity, 9, 15);
-            setHours(activity, 9, 35);
+            setHours(activity, 9, 30);
             setHours(activity, 10, 20);
             setHours(activity, 11, 5);
-            setHours(activity, 11, 25);
+            setHours(activity, 11, 20);
             setHours(activity, 12, 10);
             setHours(activity, 12, 55);
-            setHours(activity, 13, 20);
+            setHours(activity, 13, 15);
             setHours(activity, 14, 5);
             setHours(activity, 14, 50);
-            setHours(activity, 15, 5);
+            setHours(activity, 15, 0);
             setHours(activity, 15, 50);
             setHours(activity, 16, 35);
-            setHours(activity, 16, 45);
+            setHours(activity, 16, 40);
             setHours(activity, 17, 30);
         }
     }

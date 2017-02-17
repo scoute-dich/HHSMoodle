@@ -4,7 +4,6 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
-import de.baumann.hhsmoodle.popup.Popup_alarms;
 import de.baumann.hhsmoodle.popup.Popup_todo_restart;
 
 public class class_NotService extends IntentService {
@@ -16,8 +15,6 @@ public class class_NotService extends IntentService {
 
             Intent mainIntent = new Intent(class_NotService.this, Popup_todo_restart.class);
             startActivity(mainIntent);
-            Intent mainIntent2 = new Intent(class_NotService.this, Popup_alarms.class);
-            startActivity(mainIntent2);
         }
     }
 
