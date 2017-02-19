@@ -158,9 +158,7 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
         }  else if ("shortcutNotesNew_HS".equals(action)) {
             Log.w("HHS_Moodle", "HHS_Main receiving intent");
             String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
-            sharedPref.edit()
-                    .putString("newIntent", "true")
-                    .putString("handleTextText", sharedText).apply();
+            sharedPref.edit().putString("newIntent", "true").putString("handleTextText", sharedText).apply();
             lockUI();
             viewPager.setCurrentItem(3, true);
         } else if ("shortcutToDo_HS".equals(action)) {

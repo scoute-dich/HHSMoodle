@@ -27,7 +27,7 @@ import de.baumann.hhsmoodle.R;
 
 public class helper_encryption {
 
-    private static void decrypt(Activity activity, String in, String out) throws IOException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {
+    public static void decrypt(Activity activity, String in, String out) throws IOException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {
 
         class_SecurePreferences sharedPrefSec = new class_SecurePreferences(activity, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
 
@@ -89,7 +89,7 @@ public class helper_encryption {
         try {decrypt(activity, "/databases/bookmarks_DB_v01_en.db", "/databases/bookmarks_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
     }
 
-    private static void encrypt(Activity activity, String in, String out) throws IOException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {
+    public static void encrypt(Activity activity, String in, String out) throws IOException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {
 
         class_SecurePreferences sharedPrefSec = new class_SecurePreferences(activity, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
 

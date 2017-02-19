@@ -93,6 +93,7 @@ public class Todo_helper {
             public void onClick(View v) {
                 //Do stuff, possibly set wantToCloseDialog to true then...
                 sharedPref.edit().putString("toDo_text", content).apply();
+                Snackbar.make(edit_title, activity.getString(R.string.toast_contentAdded), Snackbar.LENGTH_LONG).show();
             }
         });
 

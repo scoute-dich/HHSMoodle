@@ -186,7 +186,13 @@ public class FragmentBrowser extends Fragment {
             }
         });
 
-        mWebView.loadUrl(sharedPref.getString("favoriteURL", "https://moodle.huebsch.ka.schule-bw.de/moodle/my/"));
+        String URLtoOpen  = sharedPref.getString("loadURL", "");
+        if (URLtoOpen.isEmpty()) {
+            mWebView.loadUrl(sharedPref.getString("favoriteURL", "https://moodle.huebsch.ka.schule-bw.de/moodle/my/"));
+        } else {
+            mWebView.loadUrl(URLtoOpen);
+        }
+
         setHasOptionsMenu(true);
         return rootView;
     }

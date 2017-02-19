@@ -239,6 +239,7 @@
     <string name="toast_newTitle">Titel existiert bereits.</string>
     <string name="toast_noEntry">Kein Eintrag in der Liste vorhanden.</string>
     <string name="toast_notSave">Kann Eintrag nicht speichern.</string>
+    <string name="toast_contentAdded">Inhalt hinzugefügt.</string>
 
 
     // Bookmarks

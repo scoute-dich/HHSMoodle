@@ -193,7 +193,7 @@ public class Activity_splash extends AppCompatActivity {
                     String link = data.toString();
                     sharedPref.edit().putString("loadURL", link).apply();
                     Intent mainIntent = new Intent(Activity_splash.this, HHS_MainScreen.class);
-                    mainIntent.setAction("shortcutURL_HS");
+                    mainIntent.setAction("shortcutBrowser_HS");
                     startActivity(mainIntent);
                     Activity_splash.this.finish();
                     overridePendingTransition(R.anim.fadein,R.anim.fadeout);

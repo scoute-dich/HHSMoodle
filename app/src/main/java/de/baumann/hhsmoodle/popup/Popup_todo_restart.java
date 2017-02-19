@@ -19,20 +19,15 @@
 
 package de.baumann.hhsmoodle.popup;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -40,30 +35,15 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.security.InvalidKeyException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
-
-import javax.crypto.Cipher;
-import javax.crypto.CipherInputStream;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.spec.SecretKeySpec;
-
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.data_schedule.Schedule_helper;
 import de.baumann.hhsmoodle.data_todo.Todo_DbAdapter;
-import de.baumann.hhsmoodle.helper.class_SecurePreferences;
+import de.baumann.hhsmoodle.helper.helper_encryption;
 import de.baumann.hhsmoodle.helper.helper_main;
 
 @SuppressWarnings("SameParameterValue")
 public class Popup_todo_restart extends Activity {
 
-    private class_SecurePreferences sharedPrefSec;
     private Todo_DbAdapter db;
     private ListView lv = null;
 
@@ -71,10 +51,8 @@ public class Popup_todo_restart extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        sharedPrefSec = new class_SecurePreferences(Popup_todo_restart.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
-
         try {
-            decrypt("/databases/todo_DB_v01.db");
+            helper_encryption.decrypt(Popup_todo_restart.this, "/databases/todo_DB_v01_en.db", "/databases/todo_DB_v01.db");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -169,72 +147,10 @@ public class Popup_todo_restart extends Activity {
 
         lv.setAdapter(adapter);
         //onClick function
-        new Handler().postDelayed(new Runnable() {
-            public void run() {
-                try {
-                    encrypt("/databases/todo_DB_v01.db");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                finish();
-            }
-        }, 1000);
-    }
-
-    private void decrypt(String out) throws IOException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {
-
-        PackageManager m = getPackageManager();
-        String s = getPackageName();
         try {
-            PackageInfo p = m.getPackageInfo(s, 0);
-            s = p.applicationInfo.dataDir;
-
-            String pathIN = s + "/databases/todo_DB_v01_en.db";
-            String pathOUT = s + out;
-
-            FileInputStream fis = new FileInputStream(pathIN);
-            FileOutputStream fos = new FileOutputStream(pathOUT);
-
-            byte[] key = (sharedPrefSec.getString("key_encryption_01").getBytes("UTF-8"));
-            MessageDigest sha = MessageDigest.getInstance("SHA-1");
-            key = sha.digest(key);
-            key = Arrays.copyOf(key, 16); // use only first 128 bit
-
-            SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
-            // Length is 16 byte
-            // Create cipher
-            @SuppressLint("GetInstance") Cipher cipher = Cipher.getInstance("AES");
-            cipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
-            CipherInputStream cis = new CipherInputStream(fis, cipher);
-            int b;
-            byte[] d = new byte[8];
-            while((b = cis.read(d)) != -1) {
-                fos.write(d, 0, b);
-            }
-            fos.flush();
-            fos.close();
-            cis.close();
-
-        } catch (PackageManager.NameNotFoundException e) {
-            Log.w("HHS_Moodle", "Error Package name not found ", e);
-        }
-    }
-
-    @SuppressWarnings("ResultOfMethodCallIgnored")
-    private void encrypt(String in) {
-
-        PackageManager m = getPackageManager();
-        String s = getPackageName();
-        try {
-            PackageInfo p = m.getPackageInfo(s, 0);
-            s = p.applicationInfo.dataDir;
-
-            String pathIN = s + in;
-            File fileIN = new File(pathIN);
-            fileIN.delete();
-
-        } catch (PackageManager.NameNotFoundException e) {
-            Log.w("HHS_Moodle", "Error Package name not found ", e);
+            helper_encryption.encrypt(Popup_todo_restart.this, "/databases/todo_DB_v01.db","/databases/todo_DB_v01_en.db");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

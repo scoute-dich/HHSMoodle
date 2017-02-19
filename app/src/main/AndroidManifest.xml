@@ -75,7 +75,6 @@
                 <action android:name="shortcutBrowser_HS" />
                 <action android:name="shortcutSchedule_HS" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
 

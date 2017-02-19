@@ -1,3 +1,8 @@
+### v3.4 (WIP)
+- fix: Benachrichtigungen nach Neustart
+- fix: Lautlos Modus (Uhrzeiten)
+- fix: öffnen von Verknüpfungen
+
 ### v3.3:
 - neu: Stundenplan
 - neu: Fächerliste
