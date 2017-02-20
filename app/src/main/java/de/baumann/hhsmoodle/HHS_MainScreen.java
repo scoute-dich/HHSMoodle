@@ -269,7 +269,7 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
         } else if(viewPager.getCurrentItem() == 5) {
             Random_Fragment random_Fragment = (Random_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
             random_Fragment.doBack();
-        } else if(viewPager.getCurrentItem() == 7) {
+        } else if(viewPager.getCurrentItem() == 6) {
             Courses_Fragment courses_Fragment = (Courses_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
             courses_Fragment.doBack();
         } else {

@@ -44,7 +44,7 @@ public class Bookmarks_DbAdapter {
 
         @Override
         public void onCreate(SQLiteDatabase db) {
-            db.execSQL("CREATE TABLE IF NOT EXISTS "+dbTable+" (_id INTEGER PRIMARY KEY autoincrement, bookmarks_title, bookmarks_content, bookmarks_icon, bookmarks_attachment, bookmarks_creation, UNIQUE(bookmarks_title))");
+            db.execSQL("CREATE TABLE IF NOT EXISTS "+dbTable+" (_id INTEGER PRIMARY KEY autoincrement, bookmarks_title, bookmarks_content, bookmarks_icon, bookmarks_attachment, bookmarks_creation, UNIQUE(bookmarks_content))");
         }
 
         @Override
@@ -74,8 +74,8 @@ public class Bookmarks_DbAdapter {
         }
     }
     //check entry already in database or not
-    public boolean isExist(String bookmarks_title){
-        String query = "SELECT bookmarks_title FROM bookmarks WHERE bookmarks_title='"+bookmarks_title+"' LIMIT 1";
+    public boolean isExist(String bookmarks_content){
+        String query = "SELECT bookmarks_content FROM bookmarks WHERE bookmarks_content='"+bookmarks_content+"' LIMIT 1";
         @SuppressLint("Recycle") Cursor row = sqlDb.rawQuery(query, null);
         return row.moveToFirst();
     }

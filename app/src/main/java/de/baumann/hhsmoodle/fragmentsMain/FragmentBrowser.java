@@ -365,15 +365,6 @@ public class FragmentBrowser extends Fragment {
 
                     public void onClick(DialogInterface dialog, int whichButton) {
 
-                        String inputTag = edit_title.getText().toString().trim();
-
-                        if(db.isExist(inputTag)){
-                            Snackbar.make(edit_title, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
-                        }else{
-                            db.insert(inputTag, mWebView.getUrl(), "04", "", helper_main.createDate());
-                            dialog.dismiss();
-                            Snackbar.make(mWebView, R.string.bookmark_added, Snackbar.LENGTH_LONG).show();
-                        }
                     }
                 });
                 builder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
@@ -388,64 +379,61 @@ public class FragmentBrowser extends Fragment {
                 dialog2.show();
                 helper_main.showKeyboard(getActivity(),edit_title);
 
+                dialog2.getButton(android.app.AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //Do stuff, possibly set wantToCloseDialog to true then...
+                        String inputTag = edit_title.getText().toString().trim();
+
+                        if(db.isExist(mWebView.getUrl())){
+                            Snackbar.make(edit_title, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
+                        }else{
+                            db.insert(inputTag, mWebView.getUrl(), "04", "", helper_main.createDate());
+                            dialog2.dismiss();
+                            Snackbar.make(mWebView, R.string.bookmark_added, Snackbar.LENGTH_LONG).show();
+                        }
+                    }
+                });
+
                 return true;
 
-            case R.id.action_share:
+            case R.id.menu_share_screenshot:
+                screenshot();
 
-                final CharSequence[] options = {
-                        getString(R.string.menu_share_screenshot),
-                        getString(R.string.menu_save_screenshot),
-                        getString(R.string.menu_share_link),
-                        getString(R.string.menu_share_link_browser),
-                        getString(R.string.menu_share_link_copy)};
-                new AlertDialog.Builder(getActivity())
-                        .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+                if (shareFile.exists()) {
+                    Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                    sharingIntent.setType("image/png");
+                    sharingIntent.putExtra(Intent.EXTRA_SUBJECT, mWebView.getTitle());
+                    sharingIntent.putExtra(Intent.EXTRA_TEXT, mWebView.getUrl());
+                    Uri bmpUri = Uri.fromFile(shareFile);
+                    sharingIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
+                    startActivity(Intent.createChooser(sharingIntent, (getString(R.string.app_share_screenshot))));
+                }
+                return true;
 
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                dialog.cancel();
-                            }
-                        })
-                        .setItems(options, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int item) {
-                                if (options[item].equals(getString(R.string.menu_share_link))) {
-                                    Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-                                    sharingIntent.setType("text/plain");
-                                    sharingIntent.putExtra(Intent.EXTRA_SUBJECT, mWebView.getTitle());
-                                    sharingIntent.putExtra(Intent.EXTRA_TEXT, mWebView.getUrl());
-                                    startActivity(Intent.createChooser(sharingIntent, (getString(R.string.app_share_link))));
-                                }
-                                if (options[item].equals(getString(R.string.menu_share_screenshot))) {
-                                    screenshot();
+            case R.id.menu_save_screenshot:
+                screenshot();
+                return true;
 
-                                    if (shareFile.exists()) {
-                                        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-                                        sharingIntent.setType("image/png");
-                                        sharingIntent.putExtra(Intent.EXTRA_SUBJECT, mWebView.getTitle());
-                                        sharingIntent.putExtra(Intent.EXTRA_TEXT, mWebView.getUrl());
-                                        Uri bmpUri = Uri.fromFile(shareFile);
-                                        sharingIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
-                                        startActivity(Intent.createChooser(sharingIntent, (getString(R.string.app_share_screenshot))));
-                                    }
-                                }
-                                if (options[item].equals(getString(R.string.menu_save_screenshot))) {
-                                    screenshot();
-                                }
-                                if (options[item].equals(getString(R.string.menu_share_link_browser))) {
-                                    String  url = mWebView.getUrl();
-                                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                                    getActivity().startActivity(intent);
-                                }
-                                if (options[item].equals(getString(R.string.menu_share_link_copy))) {
-                                    String  url = mWebView.getUrl();
-                                    ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-                                    clipboard.setPrimaryClip(ClipData.newPlainText("text", url));
-                                    Snackbar.make(mWebView, R.string.context_linkCopy_toast, Snackbar.LENGTH_LONG).show();
-                                }
-                            }
-                        }).show();
+            case R.id.menu_share_link:
+                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                sharingIntent.putExtra(Intent.EXTRA_SUBJECT, mWebView.getTitle());
+                sharingIntent.putExtra(Intent.EXTRA_TEXT, mWebView.getUrl());
+                startActivity(Intent.createChooser(sharingIntent, (getString(R.string.app_share_link))));
+                return true;
 
+            case R.id.menu_share_link_browser:
+                String  url = mWebView.getUrl();
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                getActivity().startActivity(intent);
+                return true;
 
+            case R.id.menu_share_link_copy:
+                String  url2 = mWebView.getUrl();
+                ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                clipboard.setPrimaryClip(ClipData.newPlainText("text", url2));
+                Snackbar.make(mWebView, R.string.context_linkCopy_toast, Snackbar.LENGTH_LONG).show();
                 return true;
         }
         return false;
@@ -485,12 +473,15 @@ public class FragmentBrowser extends Fragment {
             String url = mWebView.getUrl();
 
             progressBar.setProgress(progress);
-            setNavArrows();
+
             if (url != null && url.contains("moodle.huebsch.ka.schule-bw.de")) {
                 mWebView.loadUrl("javascript:(function() { " +
                         "var head = document.getElementsByClassName('navbar navbar-fixed-top moodle-has-zindex')[0];" +
                         "head.parentNode.removeChild(head);" +
                         "})()");
+            }
+            if (progress == 100) {
+                setNavArrows();
             }
 
             progressBar.setVisibility(progress == 100 ? View.GONE : View.VISIBLE);

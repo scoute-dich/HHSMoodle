@@ -1,7 +1,10 @@
-### v3.4 (WIP)
+### v3.4
+- verbessert: Oberfläche (Untermenüs, Navigationspfeile)
 - fix: Benachrichtigungen nach Neustart
 - fix: Lautlos Modus (Uhrzeiten)
 - fix: öffnen von Verknüpfungen
+- fix: keine doppelten Links in den Lesezeichen
+- fix: zurück Taste (Klassenliste)
 
 ### v3.3:
 - neu: Stundenplan
