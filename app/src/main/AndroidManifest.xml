@@ -211,6 +211,17 @@
         </activity>
 
         <activity
+            android:name=".popup.Popup_files"
+            android:noHistory="true"
+            android:launchMode="singleTask"
+            android:theme="@style/AppThemeDialog">
+            <intent-filter>
+                <action android:name="file_chooseText" />
+                <action android:name="file_chooseAttachment" />
+            </intent-filter>
+        </activity>
+
+        <activity
             android:name=".helper.class_AlarmService"
             android:noHistory="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"

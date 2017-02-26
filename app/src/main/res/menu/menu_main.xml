@@ -9,29 +9,6 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_sort"
-        android:orderInCategory="100"
-        android:title="@string/action_sort"
-        android:icon="@drawable/sort_descending"
-        app:showAsAction="ifRoom" >
-        <!-- "file" submenu -->
-        <menu>
-            <item android:id="@+id/sort_title"
-                android:title="@string/action_sort_title" />
-            <item android:id="@+id/sort_icon"
-                android:title="@string/action_sort_icon" />
-            <item android:id="@+id/sort_pri"
-                android:title="@string/action_sort_priority" />
-            <item android:id="@+id/sort_attachment"
-                android:title="@string/action_sort_att" />
-            <item android:id="@+id/sort_notification"
-                android:title="@string/action_sort_notification" />
-            <item android:id="@+id/sort_creation"
-                android:title="@string/action_sort_create" />
-        </menu>
-    </item>
-
-    <item
         android:id="@+id/action_filter"
         android:orderInCategory="100"
         android:title="@string/action_sort"
@@ -45,21 +22,61 @@
                 android:title="@string/action_filter_cont" />
             <item android:id="@+id/filter_url"
                 android:title="@string/action_filter_url" />
+            <item android:id="@+id/filter_ext"
+                android:title="@string/action_filter_att" />
             <item android:id="@+id/filter_att"
                 android:title="@string/action_filter_att" />
             <item android:id="@+id/filter_teacher"
                 android:title="@string/schedule_search_teacher" />
             <item android:id="@+id/filter_room"
                 android:title="@string/schedule_search_room" />
-            <item android:id="@+id/filter_creation"
-                android:title="@string/action_filter_create" />
+            <item
+                android:id="@+id/filter_creation"
+                android:orderInCategory="100"
+                android:title="@string/action_filter_create"
+                app:showAsAction="ifRoom" >
+                <!-- "file" submenu -->
+                <menu>
+                    <item android:id="@+id/filter_clear"
+                        android:title="@string/filter_clear" />
+                    <item android:id="@+id/filter_own"
+                        android:title="@string/filter_own" />
+                    <item android:id="@+id/filter_month"
+                        android:title="@string/filter_month" />
+                    <item android:id="@+id/filter_before"
+                        android:title="@string/filter_before" />
+                    <item android:id="@+id/filter_yesterday"
+                        android:title="@string/filter_yesterday" />
+                    <item android:id="@+id/filter_today"
+                        android:title="@string/filter_today" />
+                </menu>
+            </item>
         </menu>
     </item>
 
     <item
-        android:id="@+id/action_folder"
+        android:id="@+id/action_sort"
         android:orderInCategory="100"
-        android:title="@string/menu_folder"
-        app:showAsAction="never" />
+        android:title="@string/action_sort"
+        android:icon="@drawable/sort_descending"
+        app:showAsAction="ifRoom" >
+        <!-- "file" submenu -->
+        <menu>
+            <item android:id="@+id/sort_title"
+                android:title="@string/action_sort_title" />
+            <item android:id="@+id/sort_icon"
+                android:title="@string/action_sort_icon" />
+            <item android:id="@+id/sort_ext"
+                android:title="@string/action_sort_ext" />
+            <item android:id="@+id/sort_pri"
+                android:title="@string/action_sort_priority" />
+            <item android:id="@+id/sort_attachment"
+                android:title="@string/action_sort_att" />
+            <item android:id="@+id/sort_notification"
+                android:title="@string/action_sort_notification" />
+            <item android:id="@+id/sort_creation"
+                android:title="@string/action_sort_create" />
+        </menu>
+    </item>
 
 </menu>

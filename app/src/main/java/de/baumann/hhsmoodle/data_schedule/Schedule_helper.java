@@ -21,6 +21,7 @@ public class Schedule_helper {
 
         Calendar calendar = Calendar.getInstance();
         int day = calendar.get(Calendar.DAY_OF_WEEK);
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
 
         if (day == Calendar.MONDAY ||
                 day == Calendar.TUESDAY ||
@@ -28,23 +29,125 @@ public class Schedule_helper {
                 day == Calendar.THURSDAY ||
                 day == Calendar.FRIDAY) {
 
-            setHours(activity, 7, 40);
-            setHours(activity, 8, 30);
-            setHours(activity, 9, 15);
-            setHours(activity, 9, 30);
-            setHours(activity, 10, 20);
-            setHours(activity, 11, 5);
-            setHours(activity, 11, 20);
-            setHours(activity, 12, 10);
-            setHours(activity, 12, 55);
-            setHours(activity, 13, 15);
-            setHours(activity, 14, 5);
-            setHours(activity, 14, 50);
-            setHours(activity, 15, 0);
-            setHours(activity, 15, 50);
-            setHours(activity, 16, 35);
-            setHours(activity, 16, 40);
-            setHours(activity, 17, 30);
+            if (hour <= 7) {
+                setHours(activity, 7, 40);
+                setHours(activity, 8, 30);
+                setHours(activity, 9, 15);
+                setHours(activity, 9, 30);
+                setHours(activity, 10, 20);
+                setHours(activity, 11, 5);
+                setHours(activity, 11, 20);
+                setHours(activity, 12, 10);
+                setHours(activity, 12, 55);
+                setHours(activity, 13, 15);
+                setHours(activity, 14, 5);
+                setHours(activity, 14, 50);
+                setHours(activity, 15, 0);
+                setHours(activity, 15, 50);
+                setHours(activity, 16, 35);
+                setHours(activity, 16, 40);
+                setHours(activity, 17, 30);
+            } else if (hour == 8) {
+                setHours(activity, 8, 30);
+                setHours(activity, 9, 15);
+                setHours(activity, 9, 30);
+                setHours(activity, 10, 20);
+                setHours(activity, 11, 5);
+                setHours(activity, 11, 20);
+                setHours(activity, 12, 10);
+                setHours(activity, 12, 55);
+                setHours(activity, 13, 15);
+                setHours(activity, 14, 5);
+                setHours(activity, 14, 50);
+                setHours(activity, 15, 0);
+                setHours(activity, 15, 50);
+                setHours(activity, 16, 35);
+                setHours(activity, 16, 40);
+                setHours(activity, 17, 30);
+            } else if (hour == 9) {
+                setHours(activity, 9, 15);
+                setHours(activity, 9, 30);
+                setHours(activity, 10, 20);
+                setHours(activity, 11, 5);
+                setHours(activity, 11, 20);
+                setHours(activity, 12, 10);
+                setHours(activity, 12, 55);
+                setHours(activity, 13, 15);
+                setHours(activity, 14, 5);
+                setHours(activity, 14, 50);
+                setHours(activity, 15, 0);
+                setHours(activity, 15, 50);
+                setHours(activity, 16, 35);
+                setHours(activity, 16, 40);
+                setHours(activity, 17, 30);
+            } else if (hour == 10) {
+                setHours(activity, 10, 20);
+                setHours(activity, 11, 5);
+                setHours(activity, 11, 20);
+                setHours(activity, 12, 10);
+                setHours(activity, 12, 55);
+                setHours(activity, 13, 15);
+                setHours(activity, 14, 5);
+                setHours(activity, 14, 50);
+                setHours(activity, 15, 0);
+                setHours(activity, 15, 50);
+                setHours(activity, 16, 35);
+                setHours(activity, 16, 40);
+                setHours(activity, 17, 30);
+            } else if (hour == 11) {
+                setHours(activity, 11, 5);
+                setHours(activity, 11, 20);
+                setHours(activity, 12, 10);
+                setHours(activity, 12, 55);
+                setHours(activity, 13, 15);
+                setHours(activity, 14, 5);
+                setHours(activity, 14, 50);
+                setHours(activity, 15, 0);
+                setHours(activity, 15, 50);
+                setHours(activity, 16, 35);
+                setHours(activity, 16, 40);
+                setHours(activity, 17, 30);
+            } else if (hour == 12) {
+                setHours(activity, 12, 10);
+                setHours(activity, 12, 55);
+                setHours(activity, 13, 15);
+                setHours(activity, 14, 5);
+                setHours(activity, 14, 50);
+                setHours(activity, 15, 0);
+                setHours(activity, 15, 50);
+                setHours(activity, 16, 35);
+                setHours(activity, 16, 40);
+                setHours(activity, 17, 30);
+            } else if (hour == 13) {
+                setHours(activity, 13, 15);
+                setHours(activity, 14, 5);
+                setHours(activity, 14, 50);
+                setHours(activity, 15, 0);
+                setHours(activity, 15, 50);
+                setHours(activity, 16, 35);
+                setHours(activity, 16, 40);
+                setHours(activity, 17, 30);
+            } else if (hour == 14) {
+                setHours(activity, 14, 5);
+                setHours(activity, 14, 50);
+                setHours(activity, 15, 0);
+                setHours(activity, 15, 50);
+                setHours(activity, 16, 35);
+                setHours(activity, 16, 40);
+                setHours(activity, 17, 30);
+            } else if (hour == 15) {
+                setHours(activity, 15, 0);
+                setHours(activity, 15, 50);
+                setHours(activity, 16, 35);
+                setHours(activity, 16, 40);
+                setHours(activity, 17, 30);
+            } else if (hour == 16) {
+                setHours(activity, 16, 35);
+                setHours(activity, 16, 40);
+                setHours(activity, 17, 30);
+            } else if (hour >= 17) {
+                setHours(activity, 17, 30);
+            }
         }
     }
 

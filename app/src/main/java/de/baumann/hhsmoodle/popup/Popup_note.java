@@ -27,7 +27,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
@@ -62,7 +61,6 @@ import de.baumann.hhsmoodle.data_notes.Notes_DbAdapter;
 import de.baumann.hhsmoodle.data_todo.Todo_DbAdapter;
 import de.baumann.hhsmoodle.helper.class_SecurePreferences;
 import de.baumann.hhsmoodle.helper.helper_main;
-import filechooser.ChooserDialog;
 
 public class Popup_note extends Activity {
 
@@ -504,23 +502,14 @@ public class Popup_note extends Activity {
             @Override
             public void onClick(View arg0) {
 
-                String startDir = Environment.getExternalStorageDirectory() + "/HHS_Moodle/";
-                new ChooserDialog().with(from)
-                        .withStartFile(startDir)
-                        .withChosenListener(new ChooserDialog.Result() {
-                            @Override
-                            public void onChoosePath(final String path, final File pathFile) {
-                                final String fileName = pathFile.getAbsolutePath();
-                                String attName = fileName.substring(fileName.lastIndexOf("/")+1);
-                                String att = from.getString(R.string.app_att) + ": " + attName;
-                                attachment.setText(att);
-                                attachmentRem.setVisibility(View.VISIBLE);
-                                attachmentCam.setVisibility(View.GONE);
-                                sharedPref.edit().putString("handleTextAttachment", fileName).apply();
-                            }
-                        })
-                        .build()
-                        .show();
+                helper_main.isOpened(Popup_note.this);
+                Intent mainIntent = new Intent(Popup_note.this, Popup_files.class);
+                mainIntent.setAction("file_chooseAttachment");
+                startActivity(mainIntent);
+
+                attachment.setText(getString(R.string.note_att));
+                attachmentRem.setVisibility(View.VISIBLE);
+                attachmentCam.setVisibility(View.GONE);
             }
         });
 

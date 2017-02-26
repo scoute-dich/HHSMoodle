@@ -72,7 +72,6 @@
     <string name="about_intro">Intro</string>
     <string name="about_intro_summary">Show the intro screen one more time.</string>
 
-    <string name="about_license_1">Used for the file picker.</string>
     <string name="about_license_3">Used to build the intro screen.</string>
     <string name="about_license_5">Used to encrypt pin (for app protection).</string>
     <string name="about_license_7">Used to create the \"About screen\".</string>
@@ -130,6 +129,14 @@
     <string name="title_notes">Notes</string>
     <string name="title_browser">Browser</string>
 
+    <string name="sort_title">title</string>
+    <string name="sort_date">date</string>
+    <string name="sort_extension">extension</string>
+    <string name="sort_icon">icon</string>
+    <string name="sort_not">notification</string>
+    <string name="sort_pri">priority</string>
+    <string name="sort_att">attachment</string>
+
 
     // Menu Items
 
@@ -144,20 +151,29 @@
     <string name="menu_bookmark">Add bookmark</string>
     <string name="menu_help">Help</string>
     <string name="menu_tools">Tools</string>
+    <string name="menu_picture">Show previews</string>
 
     <string name="action_sort">Sort entries</string>
     <string name="action_sort_title">Sort by title</string>
     <string name="action_sort_icon">Sort by icon</string>
-    <string name="action_sort_create">Sort by creation</string>
+    <string name="action_sort_create">Sort by date</string>
     <string name="action_sort_att">Sort by Attachment</string>
     <string name="action_sort_notification">Sort by notification</string>
     <string name="action_sort_priority">Sort by priority</string>
+    <string name="action_sort_ext">Sort by extension</string>
 
     <string name="action_filter_title">Search in titles</string>
     <string name="action_filter_cont">Search in content</string>
     <string name="action_filter_create">Search in creation dates</string>
     <string name="action_filter_url">Search in URLs</string>
     <string name="action_filter_att">Search in attachments</string>
+
+    <string name="filter_today">Today</string>
+    <string name="filter_yesterday">Yesterday</string>
+    <string name="filter_before">Day before yesterday</string>
+    <string name="filter_month">This month</string>
+    <string name="filter_own">Own search</string>
+    <string name="filter_clear">Cancel search</string>
 
 
     // Context Menu
@@ -233,6 +249,9 @@
     <string name="toast_noEntry">There\'s no entry in the list.</string>
     <string name="toast_notSave">Can not save entry.</string>
     <string name="toast_contentAdded">Content added.</string>
+    <string name="toast_directory">Can\'t open Directory. Exit app?</string>
+    <string name="toast_files">No files in directory.</string>
+    <string name="toast_textFile">Please choose text file.</string>
 
 
     // Bookmarks
@@ -249,7 +268,7 @@
 
     // Notes
 
-    <string name="note_remove_confirmation">Note will be removed. OK?</string>
+    <string name="note_remove_confirmation">Entry will be removed. OK?</string>
     <string name="note_remove_note">Delete note</string>
     <string name="note_edit">Edit note</string>
     <string name="note_share">Share note</string>
@@ -260,6 +279,7 @@
     <string name="title_hint">Title</string>
     <string name="text_hint">Content</string>
     <string name="note_content">+ Content</string>
+    <string name="note_att">File chosen. Please save.</string>
 
 
     // Password
@@ -272,16 +292,12 @@
 
     //File chooser
 
-    <string name="title_choose">Choose</string>
-    <string name="dialog_cancel">Cancel</string>
-
-    <string name="choose_menu_1">Open</string>
+    <string name="choose_titleMain">Files</string>
     <string name="choose_menu_2">Share</string>
     <string name="choose_menu_3">Rename</string>
     <string name="choose_menu_4">Delete</string>
 
-    <string name="choose_hint">New filename (without file extension)</string>
-    <string name="choose_delete">Do you really want to delete the file?</string>
+    <string name="choose_hint">New filename</string>
     <string name="choose_title">Edit filename</string>
     <string name="choose_att">Choose attachment</string>
 

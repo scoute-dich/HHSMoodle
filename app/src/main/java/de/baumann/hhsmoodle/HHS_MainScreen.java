@@ -28,6 +28,7 @@ import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -50,6 +51,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.baumann.hhsmoodle.data_files.Files_Fragment;
 import de.baumann.hhsmoodle.data_bookmarks.Bookmarks_Fragment;
 import de.baumann.hhsmoodle.data_random.Random_Fragment;
 import de.baumann.hhsmoodle.data_courses.Courses_Fragment;
@@ -85,6 +87,21 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
+
+        viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 5){
+                    new Handler().postDelayed(new Runnable() {
+                        public void run() {
+                            Files_Fragment files_Fragment = (Files_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
+                            files_Fragment.setTitle();
+                        }
+                    }, 500);
+                }
+            }
+        });
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -186,6 +203,7 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
         adapter.addFragment(new Todo_Fragment(), String.valueOf(getString(R.string.todo_title)));
         adapter.addFragment(new Notes_Fragment(), String.valueOf(getString(R.string.title_notes)));
         adapter.addFragment(new Schedule_Fragment(), String.valueOf(getString(R.string.schedule_title)));
+        adapter.addFragment(new Files_Fragment(), String.valueOf(getString(R.string.choose_titleMain)));
         adapter.addFragment(new Random_Fragment(), String.valueOf(getString(R.string.number_title)));
         adapter.addFragment(new Courses_Fragment(), String.valueOf(getString(R.string.courseList_title)));
         adapter.addFragment(new Subjects_Fragment(), String.valueOf(getString(R.string.subjects_title)));
@@ -241,18 +259,6 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-
-        if (id == R.id.action_folder) {
-            String startDir = Environment.getExternalStorageDirectory() + "/HHS_Moodle/";
-            helper_main.openFilePicker(HHS_MainScreen.this, viewPager, startDir);
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -260,16 +266,25 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
         } else if(viewPager.getCurrentItem() == 0) {
             FragmentBrowser fragmentBrowser = (FragmentBrowser) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
             fragmentBrowser.doBack();
+        } else if(viewPager.getCurrentItem() == 1) {
+            Bookmarks_Fragment bookmarks_Fragment = (Bookmarks_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
+            bookmarks_Fragment.doBack();
         } else if(viewPager.getCurrentItem() == 2) {
             Todo_Fragment todo_Fragment = (Todo_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
             todo_Fragment.doBack();
         } else if(viewPager.getCurrentItem() == 3) {
             Notes_Fragment notes_Fragment = (Notes_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
             notes_Fragment.doBack();
+        } else if(viewPager.getCurrentItem() == 4) {
+            Schedule_Fragment schedule_Fragment = (Schedule_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
+            schedule_Fragment.doBack();
         } else if(viewPager.getCurrentItem() == 5) {
+            Files_Fragment files_Fragment = (Files_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
+            files_Fragment.doBack();
+        } else if(viewPager.getCurrentItem() == 6) {
             Random_Fragment random_Fragment = (Random_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
             random_Fragment.doBack();
-        } else if(viewPager.getCurrentItem() == 6) {
+        } else if(viewPager.getCurrentItem() == 7) {
             Courses_Fragment courses_Fragment = (Courses_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
             courses_Fragment.doBack();
         } else {
@@ -328,20 +343,23 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
         } else if (id == R.id.nav_notes) {
             viewPager.setCurrentItem(3, true);
             setTitle(R.string.title_notes);
-        }  else if (id == R.id.nav_schedule) {
+        } else if (id == R.id.nav_schedule) {
             viewPager.setCurrentItem(4, true);
             setTitle(R.string.schedule_title);
-        } else if (id == R.id.nav_random) {
+        }  else if (id == R.id.nav_files) {
             viewPager.setCurrentItem(5, true);
+            setTitle(R.string.schedule_title);
+        } else if (id == R.id.nav_random) {
+            viewPager.setCurrentItem(6, true);
             setTitle(R.string.number_title);
         } else if (id == R.id.nav_courseList) {
-            viewPager.setCurrentItem(6, true);
+            viewPager.setCurrentItem(7, true);
             setTitle(R.string.courseList_title);
         } else if (id == R.id.nav_subjectList) {
-            viewPager.setCurrentItem(7, true);
+            viewPager.setCurrentItem(8, true);
             setTitle(R.string.subjects_title);
         } else if (id == R.id.nav_grades) {
-            viewPager.setCurrentItem(8, true);
+            viewPager.setCurrentItem(9, true);
             setTitle(R.string.action_grades);
         } else if (id == R.id.nav_settings) {
             helper_main.isOpened(HHS_MainScreen.this);

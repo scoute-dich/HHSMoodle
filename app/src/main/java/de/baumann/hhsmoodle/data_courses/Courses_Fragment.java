@@ -26,7 +26,6 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
@@ -51,10 +50,6 @@ import android.widget.RelativeLayout;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -66,7 +61,7 @@ import de.baumann.hhsmoodle.data_random.Random_DbAdapter;
 import de.baumann.hhsmoodle.data_subjects.Subject_DbAdapter;
 import de.baumann.hhsmoodle.data_todo.Todo_helper;
 import de.baumann.hhsmoodle.helper.helper_main;
-import filechooser.ChooserDialog;
+import de.baumann.hhsmoodle.popup.Popup_files;
 
 public class Courses_Fragment extends Fragment {
 
@@ -83,6 +78,7 @@ public class Courses_Fragment extends Fragment {
     private EditText titleInput;
     private EditText teacherInput;
     private EditText roomInput;
+    private ViewPager viewPager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -103,6 +99,7 @@ public class Courses_Fragment extends Fragment {
         RelativeLayout filter_layout = (RelativeLayout) rootView.findViewById(R.id.filter_layout);
         filter_layout.setVisibility(View.GONE);
         lv = (ListView) rootView.findViewById(R.id.listNotes);
+        viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
 
         fabLayout1= (LinearLayout) rootView.findViewById(R.id.fabLayout1);
         fabLayout2= (LinearLayout) rootView.findViewById(R.id.fabLayout2);
@@ -175,45 +172,10 @@ public class Courses_Fragment extends Fragment {
             @Override
             public void onClick(View view) {
                 closeFABMenu();
-                String startDir = Environment.getExternalStorageDirectory() + "/HHS_Moodle/";
-
-                new ChooserDialog().with(getActivity())
-                        .withStartFile(startDir)
-                        .withFilter(false, false, "txt")
-                        .withChosenListener(new ChooserDialog.Result() {
-                            @Override
-                            public void onChoosePath(final String path, final File pathFile) {
-
-                                StringBuilder text = new StringBuilder();
-                                final String fileName = pathFile.getAbsolutePath().substring(pathFile.getAbsolutePath().lastIndexOf("/")+1);
-                                final String fileNameWE = fileName.substring(0, fileName.lastIndexOf("."));
-
-                                try {
-                                    BufferedReader br = new BufferedReader(new FileReader(pathFile));
-                                    String line;
-
-                                    while ((line = br.readLine()) != null) {
-                                        text.append(line);
-                                        text.append('\n');
-                                    }
-                                    br.close();
-                                }
-                                catch (IOException e) {
-                                    Snackbar.make(lv, R.string.number_error_read, Snackbar.LENGTH_LONG).show();
-                                    e.printStackTrace();
-                                }
-
-                                if(db.isExist(fileNameWE)){
-                                    Snackbar.make(lv, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
-                                }else{
-                                    String textAdd = text.substring(0, text.length()-1);
-                                    db.insert(fileNameWE, textAdd, "", "", helper_main.createDate());
-                                    setCoursesList();
-                                }
-                            }
-                        })
-                        .build()
-                        .show();
+                helper_main.isOpened(getActivity());
+                Intent mainIntent = new Intent(getActivity(), Popup_files.class);
+                mainIntent.setAction("file_chooseText");
+                startActivity(mainIntent);
             }
         });
 
@@ -264,7 +226,7 @@ public class Courses_Fragment extends Fragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && isResumed()) {
+        if (isVisibleToUser && isResumed() && viewPager.getCurrentItem() == 7) {
             getActivity().setTitle(R.string.courseList_title);
             setCoursesList();
         }
@@ -377,17 +339,13 @@ public class Courses_Fragment extends Fragment {
                                             Random_DbAdapter db = new Random_DbAdapter(getActivity());
                                             db.open();
 
-                                            if(db.isExist(courses_title)){
+                                            String inputTitle = edit_title.getText().toString().trim();
+                                            String inputCont = edit_cont.getText().toString().trim();
+
+                                            if(db.isExist(inputTitle)){
                                                 Snackbar.make(lv, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
                                             } else {
-
-                                                String inputTitle = edit_title.getText().toString().trim();
-                                                String inputCont = edit_cont.getText().toString().trim();
-
                                                 db.insert(inputTitle, inputCont, "", "", helper_main.createDate());
-                                                ViewPager viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
-                                                viewPager.setCurrentItem(5);
-                                                getActivity().setTitle(R.string.number_title);
                                                 dialog2.dismiss();
                                             }
                                         }
@@ -533,10 +491,6 @@ public class Courses_Fragment extends Fragment {
                                             }else{
                                                 db.insert(inputTitle, inputTeacher, sharedPref.getString("subject_color", ""), inputRoom, creation);
                                                 dialog.dismiss();
-
-                                                ViewPager viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
-                                                viewPager.setCurrentItem(8);
-                                                getActivity().setTitle(R.string.number_title);
                                             }
 
                                         }

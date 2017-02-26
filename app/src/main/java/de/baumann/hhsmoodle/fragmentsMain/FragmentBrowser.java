@@ -43,6 +43,7 @@ import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -87,6 +88,7 @@ public class FragmentBrowser extends Fragment {
 
     private ImageButton imageButton_left;
     private ImageButton imageButton_right;
+    private ViewPager viewPager;
 
     private final static int RESULT_CODE_ICE_CREAM = 2;
 
@@ -129,6 +131,7 @@ public class FragmentBrowser extends Fragment {
 
         customViewContainer = (FrameLayout) rootView.findViewById(R.id.customViewContainer);
         progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
+        viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
 
         SwipeRefreshLayout swipeView = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe);
         assert swipeView != null;
@@ -264,7 +267,8 @@ public class FragmentBrowser extends Fragment {
                     .setAction(getString(R.string.toast_yes), new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            helper_main.openFilePicker(getActivity(),mWebView, Environment.getExternalStorageDirectory() + newFileDest());
+                            ViewPager viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
+                            viewPager.setCurrentItem(9, true);
                         }
                     });
             snackbar.show();
@@ -275,7 +279,7 @@ public class FragmentBrowser extends Fragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && isResumed()) {
+        if (isVisibleToUser && isResumed() && viewPager.getCurrentItem() == 0) {
             getActivity().setTitle(R.string.app_name);
             refresh();
         }

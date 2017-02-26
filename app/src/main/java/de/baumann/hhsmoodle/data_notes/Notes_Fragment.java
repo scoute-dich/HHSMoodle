@@ -29,13 +29,13 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.util.Linkify;
@@ -62,7 +62,9 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import java.io.File;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -71,7 +73,7 @@ import de.baumann.hhsmoodle.data_todo.Todo_helper;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.popup.Popup_camera;
 import de.baumann.hhsmoodle.popup.Popup_courseList;
-import filechooser.ChooserDialog;
+import de.baumann.hhsmoodle.popup.Popup_files;
 
 public class Notes_Fragment extends Fragment {
 
@@ -89,6 +91,7 @@ public class Notes_Fragment extends Fragment {
     private LinearLayout fabLayout1;
     private LinearLayout fabLayout2;
     private boolean isFABOpen=false;
+    private ViewPager viewPager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -110,6 +113,7 @@ public class Notes_Fragment extends Fragment {
         filter_layout.setVisibility(View.GONE);
         lv = (ListView) rootView.findViewById(R.id.listNotes);
         filter = (EditText) rootView.findViewById(R.id.myFilter);
+        viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
 
         ImageButton ib_hideKeyboard =(ImageButton) rootView.findViewById(R.id.ib_hideKeyboard);
         ib_hideKeyboard.setOnClickListener(new View.OnClickListener() {
@@ -207,8 +211,8 @@ public class Notes_Fragment extends Fragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && isResumed()) {
-            getActivity().setTitle(R.string.title_notes);
+        if (isVisibleToUser && isResumed() && viewPager.getCurrentItem() == 3) {
+            setTitle();
             setNotesList();
             if (sharedPref.getString("newIntent", "false").equals("true")) {
                 newNote(getActivity());
@@ -229,6 +233,12 @@ public class Notes_Fragment extends Fragment {
         //BackPressed in activity will call this;
         if(isFABOpen){
             closeFABMenu();
+        } if (filter_layout.getVisibility() == View.VISIBLE) {
+            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(filter_layout.getWindowToken(), 0);
+            imgHeader.setVisibility(View.VISIBLE);
+            filter_layout.setVisibility(View.GONE);
+            setNotesList();
         } else {
             helper_main.onClose(getActivity());
         }
@@ -564,9 +574,11 @@ public class Notes_Fragment extends Fragment {
         super.onPrepareOptionsMenu(menu);
         menu.findItem(R.id.sort_notification).setVisible(false);
         menu.findItem(R.id.sort_icon).setVisible(false);
+        menu.findItem(R.id.sort_ext).setVisible(false);
         menu.findItem(R.id.filter_teacher).setVisible(false);
         menu.findItem(R.id.filter_room).setVisible(false);
         menu.findItem(R.id.filter_url).setVisible(false);
+        menu.findItem(R.id.filter_ext).setVisible(false);
     }
 
     @Override
@@ -598,7 +610,42 @@ public class Notes_Fragment extends Fragment {
                 filter.requestFocus();
                 helper_main.showKeyboard(getActivity(), filter);
                 return true;
-            case R.id.filter_creation:
+
+            case R.id.filter_today:
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                Calendar cal = Calendar.getInstance();
+                final String search = dateFormat.format(cal.getTime());
+                sharedPref.edit().putString("filter_noteBY", "note_creation").apply();
+                setNotesList();
+                filter.setText(search);
+                return true;
+            case R.id.filter_yesterday:
+                DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                Calendar cal2 = Calendar.getInstance();
+                cal2.add(Calendar.DATE, -1);
+                final String search2 = dateFormat2.format(cal2.getTime());
+                sharedPref.edit().putString("filter_noteBY", "note_creation").apply();
+                setNotesList();
+                filter.setText(search2);
+                return true;
+            case R.id.filter_before:
+                DateFormat dateFormat3 = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                Calendar cal3 = Calendar.getInstance();
+                cal3.add(Calendar.DATE, -2);
+                final String search3 = dateFormat3.format(cal3.getTime());
+                sharedPref.edit().putString("filter_noteBY", "note_creation").apply();
+                setNotesList();
+                filter.setText(search3);
+                return true;
+            case R.id.filter_month:
+                DateFormat dateFormat4 = new SimpleDateFormat("yyyy-MM", Locale.getDefault());
+                Calendar cal4 = Calendar.getInstance();
+                final String search4 = dateFormat4.format(cal4.getTime());
+                sharedPref.edit().putString("filter_noteBY", "note_creation").apply();
+                setNotesList();
+                filter.setText(search4);
+                return true;
+            case R.id.filter_own:
                 sharedPref.edit().putString("filter_noteBY", "note_creation").apply();
                 setNotesList();
                 filter_layout.setVisibility(View.VISIBLE);
@@ -608,6 +655,11 @@ public class Notes_Fragment extends Fragment {
                 filter.requestFocus();
                 helper_main.showKeyboard(getActivity(), filter);
                 return true;
+            case R.id.filter_clear:
+                filter.setText("");
+                setNotesList();
+                return true;
+
             case R.id.filter_att:
                 sharedPref.edit().putString("filter_noteBY", "note_attachment").apply();
                 setNotesList();
@@ -621,23 +673,39 @@ public class Notes_Fragment extends Fragment {
 
             case R.id.sort_title:
                 sharedPref.edit().putString("sortDB", "title").apply();
+                setTitle();
                 setNotesList();
                 return true;
             case R.id.sort_pri:
                 sharedPref.edit().putString("sortDB", "icon").apply();
+                setTitle();
                 setNotesList();
                 return true;
             case R.id.sort_creation:
                 sharedPref.edit().putString("sortDB", "create").apply();
+                setTitle();
                 setNotesList();
                 return true;
             case R.id.sort_attachment:
                 sharedPref.edit().putString("sortDB", "attachment").apply();
+                setTitle();
                 setNotesList();
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setTitle () {
+        if (sharedPref.getString("sortDB", "title").equals("title")) {
+            getActivity().setTitle(getString(R.string.title_notes) + " | " + getString(R.string.sort_title));
+        } else if (sharedPref.getString("sortDB", "title").equals("icon")) {
+            getActivity().setTitle(getString(R.string.title_notes) + " | " + getString(R.string.sort_pri));
+        }  else if (sharedPref.getString("sortDB", "title").equals("create")) {
+            getActivity().setTitle(getString(R.string.title_notes) + " | " + getString(R.string.sort_date));
+        } else {
+            getActivity().setTitle(getString(R.string.title_notes) + " | " + getString(R.string.sort_att));
+        }
     }
 
     private void editNote(final Activity from) {
@@ -711,23 +779,14 @@ public class Notes_Fragment extends Fragment {
             @Override
             public void onClick(View arg0) {
 
-                String startDir = Environment.getExternalStorageDirectory() + "/HHS_Moodle/";
-                new ChooserDialog().with(from)
-                        .withStartFile(startDir)
-                        .withChosenListener(new ChooserDialog.Result() {
-                            @Override
-                            public void onChoosePath(final String path, final File pathFile) {
-                                final String fileName = pathFile.getAbsolutePath();
-                                String attName = fileName.substring(fileName.lastIndexOf("/")+1);
-                                String att = from.getString(R.string.app_att) + ": " + attName;
-                                attachment.setText(att);
-                                attachmentRem.setVisibility(View.VISIBLE);
-                                attachmentCam.setVisibility(View.GONE);
-                                sharedPref.edit().putString("handleTextAttachment", fileName).apply();
-                            }
-                        })
-                        .build()
-                        .show();
+                helper_main.isOpened(getActivity());
+                Intent mainIntent = new Intent(getActivity(), Popup_files.class);
+                mainIntent.setAction("file_chooseAttachment");
+                startActivity(mainIntent);
+
+                attachment.setText(getActivity().getString(R.string.note_att));
+                attachmentRem.setVisibility(View.VISIBLE);
+                attachmentCam.setVisibility(View.GONE);
             }
         });
 
@@ -1043,23 +1102,14 @@ public class Notes_Fragment extends Fragment {
             @Override
             public void onClick(View arg0) {
 
-                String startDir = Environment.getExternalStorageDirectory() + "/HHS_Moodle/";
-                new ChooserDialog().with(from)
-                        .withStartFile(startDir)
-                        .withChosenListener(new ChooserDialog.Result() {
-                            @Override
-                            public void onChoosePath(final String path, final File pathFile) {
-                                final String fileName = pathFile.getAbsolutePath();
-                                String attName = fileName.substring(fileName.lastIndexOf("/")+1);
-                                String att = from.getString(R.string.app_att) + ": " + attName;
-                                attachment.setText(att);
-                                attachmentRem.setVisibility(View.VISIBLE);
-                                attachmentCam.setVisibility(View.GONE);
-                                sharedPref.edit().putString("handleTextAttachment", fileName).apply();
-                            }
-                        })
-                        .build()
-                        .show();
+                helper_main.isOpened(getActivity());
+                Intent mainIntent = new Intent(getActivity(), Popup_files.class);
+                mainIntent.setAction("file_chooseAttachment");
+                startActivity(mainIntent);
+
+                attachment.setText(getActivity().getString(R.string.note_att));
+                attachmentRem.setVisibility(View.VISIBLE);
+                attachmentCam.setVisibility(View.GONE);
             }
         });
 

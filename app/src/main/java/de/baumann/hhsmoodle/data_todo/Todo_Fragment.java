@@ -39,6 +39,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -59,6 +60,11 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.activities.Activity_todo;
@@ -84,6 +90,7 @@ public class Todo_Fragment extends Fragment {
     private LinearLayout fabLayout1;
     private LinearLayout fabLayout2;
     private boolean isFABOpen=false;
+    private ViewPager viewPager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -105,6 +112,7 @@ public class Todo_Fragment extends Fragment {
         filter_layout.setVisibility(View.GONE);
         lv = (ListView) rootView.findViewById(R.id.listNotes);
         filter = (EditText) rootView.findViewById(R.id.myFilter);
+        viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
 
         ImageButton ib_hideKeyboard =(ImageButton) rootView.findViewById(R.id.ib_hideKeyboard);
         ib_hideKeyboard.setOnClickListener(new View.OnClickListener() {
@@ -201,8 +209,8 @@ public class Todo_Fragment extends Fragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && isResumed()) {
-            getActivity().setTitle(R.string.todo_title);
+        if (isVisibleToUser && isResumed() && viewPager.getCurrentItem() == 2) {
+            setTitle();
             setTodoList();
         }
     }
@@ -217,6 +225,12 @@ public class Todo_Fragment extends Fragment {
         //BackPressed in activity will call this;
         if(isFABOpen){
             closeFABMenu();
+        } else if (filter_layout.getVisibility() == View.VISIBLE) {
+            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(filter_layout.getWindowToken(), 0);
+            imgHeader.setVisibility(View.VISIBLE);
+            filter_layout.setVisibility(View.GONE);
+            setTodoList();
         } else {
             helper_main.onClose(getActivity());
         }
@@ -555,6 +569,7 @@ public class Todo_Fragment extends Fragment {
         menu.findItem(R.id.filter_url).setVisible(false);
         menu.findItem(R.id.filter_teacher).setVisible(false);
         menu.findItem(R.id.filter_room).setVisible(false);
+        menu.findItem(R.id.sort_ext).setVisible(false);
     }
 
     @Override
@@ -586,7 +601,42 @@ public class Todo_Fragment extends Fragment {
                 filter.requestFocus();
                 helper_main.showKeyboard(getActivity(), filter);
                 return true;
-            case R.id.filter_creation:
+
+            case R.id.filter_today:
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                Calendar cal = Calendar.getInstance();
+                final String search = dateFormat.format(cal.getTime());
+                sharedPref.edit().putString("filter_todoBY", "todo_creation").apply();
+                setTodoList();
+                filter.setText(search);
+                return true;
+            case R.id.filter_yesterday:
+                DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                Calendar cal2 = Calendar.getInstance();
+                cal2.add(Calendar.DATE, -1);
+                final String search2 = dateFormat2.format(cal2.getTime());
+                sharedPref.edit().putString("filter_todoBY", "todo_creation").apply();
+                setTodoList();
+                filter.setText(search2);
+                return true;
+            case R.id.filter_before:
+                DateFormat dateFormat3 = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                Calendar cal3 = Calendar.getInstance();
+                cal3.add(Calendar.DATE, -2);
+                final String search3 = dateFormat3.format(cal3.getTime());
+                sharedPref.edit().putString("filter_todoBY", "todo_creation").apply();
+                setTodoList();
+                filter.setText(search3);
+                return true;
+            case R.id.filter_month:
+                DateFormat dateFormat4 = new SimpleDateFormat("yyyy-MM", Locale.getDefault());
+                Calendar cal4 = Calendar.getInstance();
+                final String search4 = dateFormat4.format(cal4.getTime());
+                sharedPref.edit().putString("filter_todoBY", "todo_creation").apply();
+                setTodoList();
+                filter.setText(search4);
+                return true;
+            case R.id.filter_own:
                 sharedPref.edit().putString("filter_todoBY", "todo_creation").apply();
                 setTodoList();
                 filter_layout.setVisibility(View.VISIBLE);
@@ -596,25 +646,45 @@ public class Todo_Fragment extends Fragment {
                 filter.requestFocus();
                 helper_main.showKeyboard(getActivity(), filter);
                 return true;
+            case R.id.filter_clear:
+                filter.setText("");
+                setTodoList();
+                return true;
 
             case R.id.sort_title:
                 sharedPref.edit().putString("sortDBT", "title").apply();
+                setTitle();
                 setTodoList();
                 return true;
             case R.id.sort_pri:
                 sharedPref.edit().putString("sortDBT", "icon").apply();
+                setTitle();
                 setTodoList();
                 return true;
             case R.id.sort_creation:
                 sharedPref.edit().putString("sortDBT", "create").apply();
+                setTitle();
                 setTodoList();
                 return true;
             case R.id.sort_notification:
                 sharedPref.edit().putString("sortDBT", "attachment").apply();
+                setTitle();
                 setTodoList();
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setTitle () {
+        if (sharedPref.getString("sortDBT", "title").equals("title")) {
+            getActivity().setTitle(getString(R.string.todo_title) + " | " + getString(R.string.sort_title));
+        } else if (sharedPref.getString("sortDBT", "title").equals("icon")) {
+            getActivity().setTitle(getString(R.string.todo_title) + " | " + getString(R.string.sort_pri));
+        } else if (sharedPref.getString("sortDBT", "title").equals("create")) {
+            getActivity().setTitle(getString(R.string.todo_title) + " | " + getString(R.string.sort_date));
+        } else {
+            getActivity().setTitle(getString(R.string.todo_title) + " | " + getString(R.string.sort_not));
+        }
     }
 }

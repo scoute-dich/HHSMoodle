@@ -79,6 +79,7 @@ public class Activity_splash extends AppCompatActivity {
         }
 
         helper_encryption.decryptDatabases(Activity_splash.this);
+        Schedule_helper.setAlarm(Activity_splash.this);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);

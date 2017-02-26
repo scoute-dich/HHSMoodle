@@ -35,6 +35,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -75,6 +76,7 @@ public class Schedule_Fragment extends Fragment {
     private SharedPreferences sharedPref;
     private ImageView imgHeader;
     private RelativeLayout filter_layout;
+    private ViewPager viewPager;
 
     private FloatingActionButton fab;
 
@@ -98,6 +100,7 @@ public class Schedule_Fragment extends Fragment {
         filter_layout.setVisibility(View.GONE);
         lv = (ListView) rootView.findViewById(R.id.listNotes);
         filter = (EditText) rootView.findViewById(R.id.myFilter);
+        viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
 
         ImageButton ib_hideKeyboard =(ImageButton) rootView.findViewById(R.id.ib_hideKeyboard);
         ib_hideKeyboard.setOnClickListener(new View.OnClickListener() {
@@ -134,9 +137,9 @@ public class Schedule_Fragment extends Fragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && isResumed()) {
-            getActivity().setTitle(R.string.schedule_title);
+        if (isVisibleToUser && isResumed() && viewPager.getCurrentItem() == 4) {
             setScheduleList();
+            getActivity().setTitle(R.string.schedule_title);
             if (sharedPref.getString("edit_yes", "").equals("true")) {
                 lv.setSelection(sharedPref.getInt("scroll", 0) -1);
                 sharedPref.edit().putString("edit_yes", "").apply();
@@ -151,6 +154,18 @@ public class Schedule_Fragment extends Fragment {
         if (sharedPref.getString("edit_yes", "").equals("true")) {
             lv.setSelection(sharedPref.getInt("scroll", 0) -1);
             sharedPref.edit().putString("edit_yes", "").apply();
+        }
+    }
+
+    public void doBack() {
+        if (filter_layout.getVisibility() == View.VISIBLE) {
+            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(filter_layout.getWindowToken(), 0);
+            imgHeader.setVisibility(View.VISIBLE);
+            filter_layout.setVisibility(View.GONE);
+            setScheduleList();
+        } else {
+            helper_main.onClose(getActivity());
         }
     }
 

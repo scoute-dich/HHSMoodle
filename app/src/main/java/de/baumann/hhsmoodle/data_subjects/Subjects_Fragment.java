@@ -72,6 +72,8 @@ public class Subjects_Fragment extends Fragment {
     private EditText teacherInput;
     private EditText roomInput;
 
+    private ViewPager viewPager;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -91,6 +93,7 @@ public class Subjects_Fragment extends Fragment {
         RelativeLayout filter_layout = (RelativeLayout) rootView.findViewById(R.id.filter_layout);
         filter_layout.setVisibility(View.GONE);
         lv = (ListView) rootView.findViewById(R.id.listNotes);
+        viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
 
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -255,7 +258,7 @@ public class Subjects_Fragment extends Fragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && isResumed()) {
+        if (isVisibleToUser && isResumed() && viewPager.getCurrentItem() == 8) {
             getActivity().setTitle(R.string.subjects_title);
             setSubjectsList();
         }
@@ -474,11 +477,7 @@ public class Subjects_Fragment extends Fragment {
                                             } else {
                                                 String inputTitle = edit_title.getText().toString().trim();
                                                 String inputCont = edit_cont.getText().toString().trim();
-
                                                 db.insert(inputTitle, inputCont, "", "", helper_main.createDate());
-                                                ViewPager viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
-                                                viewPager.setCurrentItem(5);
-                                                getActivity().setTitle(R.string.number_title);
                                                 dialog2.cancel();
                                             }
                                         }
@@ -538,11 +537,7 @@ public class Subjects_Fragment extends Fragment {
                                             } else {
                                                 String inputTitle = edit_title.getText().toString().trim();
                                                 String inputCont = edit_cont.getText().toString().trim();
-
                                                 db.insert(inputTitle, inputCont, "", "", helper_main.createDate());
-                                                ViewPager viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
-                                                viewPager.setCurrentItem(7);
-                                                getActivity().setTitle(R.string.courseList_title);
                                                 dialog2.cancel();
                                             }
                                         }

@@ -29,6 +29,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.text.Layout;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -69,6 +70,7 @@ public class Random_Fragment extends Fragment {
     private LinearLayout fabLayout1;
     private LinearLayout fabLayout2;
     private boolean isFABOpen=false;
+    private ViewPager viewPager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -88,6 +90,7 @@ public class Random_Fragment extends Fragment {
         scrollView = (ScrollView) rootView.findViewById(R.id.scrollView);
         textFile = (TextView) rootView.findViewById(R.id.textFile);
         lv = (ListView) rootView.findViewById(R.id.list);
+        viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
 
         fabLayout1= (LinearLayout) rootView.findViewById(R.id.fabLayout1);
         fabLayout2= (LinearLayout) rootView.findViewById(R.id.fabLayout2);
@@ -243,7 +246,7 @@ public class Random_Fragment extends Fragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && isResumed()) {
+        if (isVisibleToUser && isResumed() && viewPager.getCurrentItem() == 6) {
             getActivity().setTitle(R.string.number_title);
             setRandomList();
         }

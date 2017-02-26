@@ -55,6 +55,11 @@ import android.widget.RelativeLayout;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.data_notes.Notes_helper;
 import de.baumann.hhsmoodle.data_todo.Todo_helper;
@@ -71,6 +76,7 @@ public class Bookmarks_Fragment extends Fragment {
     private SharedPreferences sharedPref;
     private ImageView imgHeader;
     private RelativeLayout filter_layout;
+    private ViewPager viewPager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -97,6 +103,7 @@ public class Bookmarks_Fragment extends Fragment {
         filter_layout.setVisibility(View.GONE);
         lv = (ListView) rootView.findViewById(R.id.listNotes);
         filter = (EditText) rootView.findViewById(R.id.myFilter);
+        viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
 
         ImageButton ib_hideKeyboard =(ImageButton) rootView.findViewById(R.id.ib_hideKeyboard);
         ib_hideKeyboard.setOnClickListener(new View.OnClickListener() {
@@ -126,8 +133,8 @@ public class Bookmarks_Fragment extends Fragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && isResumed()) {
-            getActivity().setTitle(R.string.title_bookmarks);
+        if (isVisibleToUser && isResumed() && viewPager.getCurrentItem() == 1) {
+            setTitle();
             setBookmarksList();
         }
     }
@@ -136,6 +143,18 @@ public class Bookmarks_Fragment extends Fragment {
     public void onResume() {
         super.onResume();
         setBookmarksList();
+    }
+
+    public void doBack() {
+        if (filter_layout.getVisibility() == View.VISIBLE) {
+            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(filter_layout.getWindowToken(), 0);
+            imgHeader.setVisibility(View.VISIBLE);
+            filter_layout.setVisibility(View.GONE);
+            setBookmarksList();
+        } else {
+            helper_main.onClose(getActivity());
+        }
     }
 
     private void setBookmarksList() {
@@ -538,10 +557,12 @@ public class Bookmarks_Fragment extends Fragment {
         menu.findItem(R.id.sort_attachment).setVisible(false);
         menu.findItem(R.id.sort_notification).setVisible(false);
         menu.findItem(R.id.sort_pri).setVisible(false);
+        menu.findItem(R.id.sort_ext).setVisible(false);
         menu.findItem(R.id.filter_content).setVisible(false);
         menu.findItem(R.id.filter_att).setVisible(false);
         menu.findItem(R.id.filter_teacher).setVisible(false);
         menu.findItem(R.id.filter_room).setVisible(false);
+        menu.findItem(R.id.filter_ext).setVisible(false);
     }
 
     @Override
@@ -573,8 +594,43 @@ public class Bookmarks_Fragment extends Fragment {
                 filter.requestFocus();
                 helper_main.showKeyboard(getActivity(), filter);
                 return true;
-            case R.id.filter_creation:
-                sharedPref.edit().putString("filter_bookmarksBY", "bookmarks_create").apply();
+
+            case R.id.filter_today:
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                Calendar cal = Calendar.getInstance();
+                final String search = dateFormat.format(cal.getTime());
+                sharedPref.edit().putString("filter_bookmarksBY", "bookmarks_creation").apply();
+                setBookmarksList();
+                filter.setText(search);
+                return true;
+            case R.id.filter_yesterday:
+                DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                Calendar cal2 = Calendar.getInstance();
+                cal2.add(Calendar.DATE, -1);
+                final String search2 = dateFormat2.format(cal2.getTime());
+                sharedPref.edit().putString("filter_bookmarksBY", "bookmarks_creation").apply();
+                setBookmarksList();
+                filter.setText(search2);
+                return true;
+            case R.id.filter_before:
+                DateFormat dateFormat3 = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                Calendar cal3 = Calendar.getInstance();
+                cal3.add(Calendar.DATE, -2);
+                final String search3 = dateFormat3.format(cal3.getTime());
+                sharedPref.edit().putString("filter_bookmarksBY", "bookmarks_creation").apply();
+                setBookmarksList();
+                filter.setText(search3);
+                return true;
+            case R.id.filter_month:
+                DateFormat dateFormat4 = new SimpleDateFormat("yyyy-MM", Locale.getDefault());
+                Calendar cal4 = Calendar.getInstance();
+                final String search4 = dateFormat4.format(cal4.getTime());
+                sharedPref.edit().putString("filter_bookmarksBY", "bookmarks_creation").apply();
+                setBookmarksList();
+                filter.setText(search4);
+                return true;
+            case R.id.filter_own:
+                sharedPref.edit().putString("filter_bookmarksBY", "bookmarks_creation").apply();
                 setBookmarksList();
                 filter_layout.setVisibility(View.VISIBLE);
                 imgHeader.setVisibility(View.GONE);
@@ -583,21 +639,38 @@ public class Bookmarks_Fragment extends Fragment {
                 filter.requestFocus();
                 helper_main.showKeyboard(getActivity(), filter);
                 return true;
+            case R.id.filter_clear:
+                filter.setText("");
+                setBookmarksList();
+                return true;
 
             case R.id.sort_title:
                 sharedPref.edit().putString("sortDBB", "title").apply();
+                setTitle();
                 setBookmarksList();
                 return true;
             case R.id.sort_icon:
                 sharedPref.edit().putString("sortDBB", "icon").apply();
+                setTitle();
                 setBookmarksList();
                 return true;
             case R.id.sort_creation:
                 sharedPref.edit().putString("sortDBB", "create").apply();
+                setTitle();
                 setBookmarksList();
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setTitle () {
+        if (sharedPref.getString("sortDBB", "title").equals("title")) {
+            getActivity().setTitle(getString(R.string.title_bookmarks) + " | " + getString(R.string.sort_title));
+        } else if (sharedPref.getString("sortDBB", "icon").equals("icon")) {
+            getActivity().setTitle(getString(R.string.title_bookmarks) + " | " + getString(R.string.sort_icon));
+        } else {
+            getActivity().setTitle(getString(R.string.title_bookmarks) + " | " + getString(R.string.sort_date));
+        }
     }
 }

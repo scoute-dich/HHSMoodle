@@ -109,13 +109,6 @@ class About_content {
         convenienceCardBuilder.title(R.string.about_title_libs);
 
         convenienceCardBuilder.addItem(new MaterialAboutActionItem.Builder()
-                .text("Android File Chooser")
-                .subText(R.string.about_license_1)
-                .icon(R.drawable.github_circle)
-                .setOnClickListener(ConvenienceBuilder.createWebViewDialogOnClickAction(c, "Android File Chooser", "https://github.com/hedzr/android-file-chooser", true, false))
-                .build());
-
-        convenienceCardBuilder.addItem(new MaterialAboutActionItem.Builder()
                 .text("Android Onboarder")
                 .subText(R.string.about_license_3)
                 .icon(R.drawable.github_circle)

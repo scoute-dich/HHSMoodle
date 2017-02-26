@@ -23,6 +23,10 @@
                 android:id="@+id/nav_schedule"
                 android:icon="@drawable/timetable"
                 android:title="@string/schedule_title" />
+            <item
+                android:id="@+id/nav_files"
+                android:icon="@drawable/file_document"
+                android:title="@string/choose_titleMain" />
         </menu>
     </item>
 

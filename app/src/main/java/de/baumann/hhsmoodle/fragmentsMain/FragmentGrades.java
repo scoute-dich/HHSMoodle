@@ -24,6 +24,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -40,8 +41,9 @@ import de.baumann.hhsmoodle.helper.helper_main;
 
 public class FragmentGrades extends Fragment {
 
-    private EditText maxPointsText;
+    private ViewPager viewPager;
 
+    private EditText maxPointsText;
     private TextView text_100_points;
 
     private TextView text_99_points;
@@ -161,6 +163,8 @@ public class FragmentGrades extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_screen_grade, container, false);
+
+        viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
 
         maxPointsText = (EditText) rootView.findViewById(R.id.maxPoints);
         maxPointsText.setText(R.string.grade_100);
@@ -429,7 +433,7 @@ public class FragmentGrades extends Fragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && isResumed()) {
+        if (isVisibleToUser && isResumed()  && viewPager.getCurrentItem() == 9) {
             getActivity().setTitle(R.string.action_grades);
         }
     }

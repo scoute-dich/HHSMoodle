@@ -74,7 +74,6 @@
     <string name="about_intro">Einführung</string>
     <string name="about_intro_summary">Zeige noch einmal die Einführung an.</string>
 
-    <string name="about_license_1">Gebraucht für den Dateimanager.</string>
     <string name="about_license_3">Gebraucht um die Einführung anzuzeigen.</string>
     <string name="about_license_5">Gebraucht um die Pin und den Schlüssel für die Logindaten zu verschlüsseln.</string>
     <string name="about_license_7">Gebraucht um den \"Über Schirm\" zu erstellen.</string>
@@ -133,6 +132,14 @@
     <string name="title_notes">Notizen</string>
     <string name="title_browser">Browser</string>
 
+    <string name="sort_title">Titel</string>
+    <string name="sort_date">Datum</string>
+    <string name="sort_extension">Erweiterung</string>
+    <string name="sort_icon">Icon</string>
+    <string name="sort_not">Benachrichtigung</string>
+    <string name="sort_pri">Dringlichkeit</string>
+    <string name="sort_att">Anhang</string>
+
 
     // Menu Items
 
@@ -147,20 +154,29 @@
     <string name="menu_bookmark">Lesezeichen hinzufügen</string>
     <string name="menu_help">Hilfe</string>
     <string name="menu_tools">Werkzeuge</string>
+    <string name="menu_picture">Zeige Vorschau</string>
 
     <string name="action_sort">Einträge sortieren</string>
     <string name="action_sort_title">Sortiere nach Titel</string>
     <string name="action_sort_icon">Sortiere nach Icon</string>
-    <string name="action_sort_create">Sortiere nach Erstellungszeit</string>
+    <string name="action_sort_create">Sortiere nach Datum</string>
     <string name="action_sort_att">Sortiere nach Anhängen</string>
     <string name="action_sort_notification">Sortiere nach Benachrichtigungen</string>
     <string name="action_sort_priority">Sortiere nach Dringlichkeit</string>
+    <string name="action_sort_ext">Sortiere nach Erweiterung</string>
 
     <string name="action_filter_title">Suche in Titeln</string>
     <string name="action_filter_cont">Suche in Inhalten</string>
     <string name="action_filter_create">Suche nach Datum</string>
     <string name="action_filter_url">Suche nach URL</string>
     <string name="action_filter_att">Suche nach Anhang</string>
+
+    <string name="filter_today">Heute</string>
+    <string name="filter_yesterday">Gestern</string>
+    <string name="filter_before">Vorgestern</string>
+    <string name="filter_month">Dieser Monat</string>
+    <string name="filter_own">Eigene Suche</string>
+    <string name="filter_clear">Suche abbrechen</string>
 
 
     // Context Menu
@@ -240,6 +256,9 @@
     <string name="toast_noEntry">Kein Eintrag in der Liste vorhanden.</string>
     <string name="toast_notSave">Kann Eintrag nicht speichern.</string>
     <string name="toast_contentAdded">Inhalt hinzugefügt.</string>
+    <string name="toast_directory">Kann Verzeichnis nicht öffnen. App verlassen?</string>
+    <string name="toast_files">Keine Dateien im Verzeichnis.</string>
+    <string name="toast_textFile">Bitte Textdatei auswählen.</string>
 
 
     // Bookmarks
@@ -256,7 +275,7 @@
 
     // Notes
 
-    <string name="note_remove_confirmation">Notiz wird entfernt. OK?</string>
+    <string name="note_remove_confirmation">Eintrag wird entfernt. OK?</string>
     <string name="note_remove_note">Lösche Notiz</string>
     <string name="note_edit">Notiz bearbeiten</string>
     <string name="note_share">Notiz teilen</string>
@@ -267,6 +286,7 @@
     <string name="title_hint">Titel</string>
     <string name="text_hint">Inhalt</string>
     <string name="note_content">+ Inhalt</string>
+    <string name="note_att">Datei ausgewählt. Bitte speichern.</string>
 
 
     // Password
@@ -279,16 +299,12 @@
 
     //File chooser
 
-    <string name="title_choose">Auswählen</string>
-    <string name="dialog_cancel">Abbrechen</string>
-
-    <string name="choose_menu_1">Öffnen</string>
+    <string name="choose_titleMain">Dateien</string>
     <string name="choose_menu_2">Teilen</string>
     <string name="choose_menu_3">Umbenennen</string>
     <string name="choose_menu_4">Löschen</string>
 
-    <string name="choose_hint">Neuer Dateiname (ohne Dateiendung)</string>
-    <string name="choose_delete">Möchtest du die Datei wirklich löschen?</string>
+    <string name="choose_hint">Neuer Dateiname</string>
     <string name="choose_title">Dateiname bearbeiten</string>
     <string name="choose_att">Anhang auswählen</string>
 
