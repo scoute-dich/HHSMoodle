@@ -78,6 +78,7 @@
     <string name="about_license_5">Gebraucht um die Pin und den Schlüssel für die Logindaten zu verschlüsseln.</string>
     <string name="about_license_7">Gebraucht um den \"Über Schirm\" zu erstellen.</string>
     <string name="about_license_8">Die Quelle von fast allen Icons.</string>
+    <string name="about_license_9">Bibliothek zum Downloaden und Anzeigen von Bildern.</string>
 
 
     // IntroScreen
@@ -150,11 +151,9 @@
     <string name="menu_share_link_copy">Link in Zwischenablage kopierenn</string>
     <string name="menu_save_screenshot">Bildschirmfoto speichern</string>
     <string name="menu_settings">Einstellungen</string>
-    <string name="menu_folder">Öffne Anwendungsordner</string>
     <string name="menu_bookmark">Lesezeichen hinzufügen</string>
     <string name="menu_help">Hilfe</string>
     <string name="menu_tools">Werkzeuge</string>
-    <string name="menu_picture">Zeige Vorschau</string>
 
     <string name="action_sort">Einträge sortieren</string>
     <string name="action_sort_title">Sortiere nach Titel</string>
@@ -256,7 +255,7 @@
     <string name="toast_noEntry">Kein Eintrag in der Liste vorhanden.</string>
     <string name="toast_notSave">Kann Eintrag nicht speichern.</string>
     <string name="toast_contentAdded">Inhalt hinzugefügt.</string>
-    <string name="toast_directory">Kann Verzeichnis nicht öffnen. App verlassen?</string>
+    <string name="toast_directory">Kann Verzeichnis nicht öffnen.</string>
     <string name="toast_files">Keine Dateien im Verzeichnis.</string>
     <string name="toast_textFile">Bitte Textdatei auswählen.</string>
 

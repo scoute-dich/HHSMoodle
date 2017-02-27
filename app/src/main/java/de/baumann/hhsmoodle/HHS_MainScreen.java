@@ -336,19 +336,23 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
             setTitle(R.string.title_browser);
         } else if (id == R.id.nav_bookmarks) {
             viewPager.setCurrentItem(1, true);
-            setTitle(R.string.title_bookmarks);
+            Bookmarks_Fragment bookmarks_Fragment = (Bookmarks_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
+            bookmarks_Fragment.setTitle();
         } else if (id == R.id.nav_todo) {
             viewPager.setCurrentItem(2, true);
-            setTitle(R.string.todo_title);
+            Todo_Fragment todo_Fragment = (Todo_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
+            todo_Fragment.setTitle();
         } else if (id == R.id.nav_notes) {
             viewPager.setCurrentItem(3, true);
-            setTitle(R.string.title_notes);
+            Notes_Fragment notes_Fragment = (Notes_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
+            notes_Fragment.setTitle();
         } else if (id == R.id.nav_schedule) {
             viewPager.setCurrentItem(4, true);
             setTitle(R.string.schedule_title);
         }  else if (id == R.id.nav_files) {
             viewPager.setCurrentItem(5, true);
-            setTitle(R.string.schedule_title);
+            Files_Fragment files_Fragment = (Files_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
+            files_Fragment.setTitle();
         } else if (id == R.id.nav_random) {
             viewPager.setCurrentItem(6, true);
             setTitle(R.string.number_title);

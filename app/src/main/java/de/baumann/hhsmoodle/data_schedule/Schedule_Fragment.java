@@ -432,7 +432,6 @@ public class Schedule_Fragment extends Fragment {
                                                         sharedPref.edit()
                                                                 .putString("edit_yes", "true")
                                                                 .putInt("scroll", Integer.parseInt(schedule_id))
-
                                                                 .putString("handleSubjectCreation", schedule_creation)
                                                                 .putString("handleSubject_id", schedule_id)
                                                                 .putString("handle_id", _id)

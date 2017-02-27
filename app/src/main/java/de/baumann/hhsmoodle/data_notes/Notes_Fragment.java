@@ -28,6 +28,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
@@ -60,6 +63,8 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -119,6 +124,7 @@ public class Notes_Fragment extends Fragment {
         ib_hideKeyboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                setTitle();
                 InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 imgHeader.setVisibility(View.VISIBLE);
@@ -400,7 +406,7 @@ public class Notes_Fragment extends Fragment {
                 final String note_attachment = row2.getString(row2.getColumnIndexOrThrow("note_attachment"));
                 final String note_creation = row2.getString(row2.getColumnIndexOrThrow("note_creation"));
 
-                final Button attachment2;
+                final Button attachment;
                 final TextView textInput;
 
                 LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -411,30 +417,62 @@ public class Notes_Fragment extends Fragment {
                 final String attName = note_attachment.substring(note_attachment.lastIndexOf("/")+1);
                 final String att = getString(R.string.app_att) + ": " + attName;
 
-                attachment2 = (Button) dialogView.findViewById(R.id.button_att);
+                attachment = (Button) dialogView.findViewById(R.id.button_att);
                 if (attName.equals("")) {
-                    attachment2.setVisibility(View.GONE);
+                    attachment.setVisibility(View.GONE);
                 } else {
-                    attachment2.setText(att);
+                    attachment.setText(att);
                 }
                 File file2 = new File(note_attachment);
                 if (!file2.exists()) {
-                    attachment2.setVisibility(View.GONE);
+                    attachment.setVisibility(View.GONE);
                 }
 
                 textInput = (TextView) dialogView.findViewById(R.id.note_text_input);
-                textInput.setText(note_content);
-                Linkify.addLinks(textInput, Linkify.WEB_URLS);
+                if (note_content.isEmpty()) {
+                    textInput.setVisibility(View.GONE);
+                } else {
+                    textInput.setText(note_content);
+                    Linkify.addLinks(textInput, Linkify.WEB_URLS);
+                }
 
-                attachment2.setOnClickListener(new View.OnClickListener() {
+                attachment.setOnClickListener(new View.OnClickListener() {
 
                     @Override
                     public void onClick(View arg0) {
-                        helper_main.openAtt(getActivity(), lv, note_attachment);
+                        helper_main.openAtt(getActivity(), textInput, note_attachment);
                     }
                 });
 
                 final ImageView be = (ImageView) dialogView.findViewById(R.id.imageButtonPri);
+                final ImageView attImage = (ImageView) dialogView.findViewById(R.id.attImage);
+
+                if (note_attachment.contains(".gif") ||
+                        note_attachment.contains(".bmp") ||
+                        note_attachment.contains(".tiff") ||
+                        note_attachment.contains(".png") ||
+                        note_attachment.contains(".jpg") ||
+                        note_attachment.contains(".JPG") ||
+                        note_attachment.contains(".jpeg")) {
+                    attImage.setVisibility(View.VISIBLE);
+                    try {
+                        final File pathFile = new File(note_attachment);
+                        Uri uri = Uri.fromFile(pathFile);
+                        Picasso.with(getActivity()).load(uri).centerCrop().into(attImage);
+                    } catch (Exception e) {
+                        Log.w("HHS_Moodle", "Error Load image", e);
+                    }
+                    Bitmap myBitmap = BitmapFactory.decodeFile(note_attachment);
+                    attImage.setImageBitmap(myBitmap);
+
+                    attImage.setOnClickListener(new View.OnClickListener() {
+
+                        @Override
+                        public void onClick(View arg0) {
+                            helper_main.openAtt(getActivity(), attImage, note_attachment);
+                        }
+                    });
+                }
 
                 switch (note_icon) {
                     case "3":
@@ -612,6 +650,7 @@ public class Notes_Fragment extends Fragment {
                 return true;
 
             case R.id.filter_today:
+                getActivity().setTitle(getString(R.string.title_notes) + " | " + getString(R.string.filter_today));
                 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                 Calendar cal = Calendar.getInstance();
                 final String search = dateFormat.format(cal.getTime());
@@ -620,6 +659,7 @@ public class Notes_Fragment extends Fragment {
                 filter.setText(search);
                 return true;
             case R.id.filter_yesterday:
+                getActivity().setTitle(getString(R.string.title_notes) + " | " + getString(R.string.filter_yesterday));
                 DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                 Calendar cal2 = Calendar.getInstance();
                 cal2.add(Calendar.DATE, -1);
@@ -629,6 +669,7 @@ public class Notes_Fragment extends Fragment {
                 filter.setText(search2);
                 return true;
             case R.id.filter_before:
+                getActivity().setTitle(getString(R.string.title_notes) + " | " + getString(R.string.filter_before));
                 DateFormat dateFormat3 = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                 Calendar cal3 = Calendar.getInstance();
                 cal3.add(Calendar.DATE, -2);
@@ -638,6 +679,7 @@ public class Notes_Fragment extends Fragment {
                 filter.setText(search3);
                 return true;
             case R.id.filter_month:
+                getActivity().setTitle(getString(R.string.title_notes) + " | " + getString(R.string.filter_month));
                 DateFormat dateFormat4 = new SimpleDateFormat("yyyy-MM", Locale.getDefault());
                 Calendar cal4 = Calendar.getInstance();
                 final String search4 = dateFormat4.format(cal4.getTime());
@@ -646,6 +688,7 @@ public class Notes_Fragment extends Fragment {
                 filter.setText(search4);
                 return true;
             case R.id.filter_own:
+                getActivity().setTitle(getString(R.string.title_notes) + " | " + getString(R.string.filter_own));
                 sharedPref.edit().putString("filter_noteBY", "note_creation").apply();
                 setNotesList();
                 filter_layout.setVisibility(View.VISIBLE);
@@ -656,6 +699,7 @@ public class Notes_Fragment extends Fragment {
                 helper_main.showKeyboard(getActivity(), filter);
                 return true;
             case R.id.filter_clear:
+                setTitle();
                 filter.setText("");
                 setNotesList();
                 return true;
@@ -696,7 +740,7 @@ public class Notes_Fragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    private void setTitle () {
+    public void setTitle () {
         if (sharedPref.getString("sortDB", "title").equals("title")) {
             getActivity().setTitle(getString(R.string.title_notes) + " | " + getString(R.string.sort_title));
         } else if (sharedPref.getString("sortDB", "title").equals("icon")) {

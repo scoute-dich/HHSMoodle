@@ -76,6 +76,7 @@
     <string name="about_license_5">Used to encrypt pin (for app protection).</string>
     <string name="about_license_7">Used to create the \"About screen\".</string>
     <string name="about_license_8">The source of nearly all icons.</string>
+    <string name="about_license_9">A powerful image downloading and caching library for Android.</string>
 
 
     // IntroScreen
@@ -147,11 +148,9 @@
     <string name="menu_share_link_copy">Copy link to clipboard</string>
     <string name="menu_save_screenshot">Save screenshot</string>
     <string name="menu_settings">Settings</string>
-    <string name="menu_folder">Open app folder</string>
     <string name="menu_bookmark">Add bookmark</string>
     <string name="menu_help">Help</string>
     <string name="menu_tools">Tools</string>
-    <string name="menu_picture">Show previews</string>
 
     <string name="action_sort">Sort entries</string>
     <string name="action_sort_title">Sort by title</string>
@@ -249,7 +248,7 @@
     <string name="toast_noEntry">There\'s no entry in the list.</string>
     <string name="toast_notSave">Can not save entry.</string>
     <string name="toast_contentAdded">Content added.</string>
-    <string name="toast_directory">Can\'t open Directory. Exit app?</string>
+    <string name="toast_directory">Can\'t open Directory.</string>
     <string name="toast_files">No files in directory.</string>
     <string name="toast_textFile">Please choose text file.</string>
 

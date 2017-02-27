@@ -23,9 +23,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.ThumbnailUtils;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -37,6 +35,8 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+
+import com.squareup.picasso.Picasso;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -109,16 +109,7 @@ public class Popup_files extends Activity {
                             sharedPref.edit().putString("files_startFolder", files_attachment).apply();
                             setFilesList();
                         } catch (Exception e) {
-                            Snackbar snackbar = Snackbar
-                                    .make(lv, R.string.toast_directory, Snackbar.LENGTH_LONG)
-                                    .setAction(R.string.toast_yes, new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View view) {
-                                            sharedPref.edit().putString("files_startFolder", files_attachment).apply();
-                                            setFilesList();
-                                        }
-                                    });
-                            snackbar.show();
+                            Snackbar.make(lv, R.string.toast_directory, Snackbar.LENGTH_LONG).show();
                         }
                     } else if(files_attachment.equals("")) {
                         try {
@@ -183,16 +174,7 @@ public class Popup_files extends Activity {
                             sharedPref.edit().putString("files_startFolder", files_attachment).apply();
                             setFilesList();
                         } catch (Exception e) {
-                            Snackbar snackbar = Snackbar
-                                    .make(lv, R.string.toast_directory, Snackbar.LENGTH_LONG)
-                                    .setAction(R.string.toast_yes, new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View view) {
-                                            sharedPref.edit().putString("files_startFolder", files_attachment).apply();
-                                            setFilesList();
-                                        }
-                                    });
-                            snackbar.show();
+                            Snackbar.make(lv, R.string.toast_directory, Snackbar.LENGTH_LONG).show();
                         }
                     } else if(files_attachment.equals("")) {
                         try {
@@ -305,15 +287,11 @@ public class Popup_files extends Activity {
                         case ".jpg":
                         case ".JPG":
                         case ".jpeg":
-                            if (sharedPref.getInt("showThumbnail", 0) == 0) {
-                                iv.setImageResource(R.drawable.file_image);
-                            } else {
-                                try {
-                                    Bitmap resized = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(pathFile.getAbsolutePath()), 76, 76);
-                                    iv.setImageBitmap(resized);
-                                } catch (Exception e) {
-                                    Log.w("HHS_Moodle", "Error Package name not found ", e);
-                                }
+                            try {
+                                Uri uri = Uri.fromFile(pathFile);
+                                Picasso.with(Popup_files.this).load(uri).resize(76, 76).centerCrop().into(iv);
+                            } catch (Exception e) {
+                                Log.w("HHS_Moodle", "Error Load image", e);
                             }
                             break;
                         case ".m3u8":

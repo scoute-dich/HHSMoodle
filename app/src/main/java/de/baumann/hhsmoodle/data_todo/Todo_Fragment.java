@@ -118,6 +118,7 @@ public class Todo_Fragment extends Fragment {
         ib_hideKeyboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                setTitle();
                 InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 imgHeader.setVisibility(View.VISIBLE);
@@ -603,6 +604,7 @@ public class Todo_Fragment extends Fragment {
                 return true;
 
             case R.id.filter_today:
+                getActivity().setTitle(getString(R.string.todo_title) + " | " + getString(R.string.filter_today));
                 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                 Calendar cal = Calendar.getInstance();
                 final String search = dateFormat.format(cal.getTime());
@@ -611,6 +613,7 @@ public class Todo_Fragment extends Fragment {
                 filter.setText(search);
                 return true;
             case R.id.filter_yesterday:
+                getActivity().setTitle(getString(R.string.todo_title) + " | " + getString(R.string.filter_yesterday));
                 DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                 Calendar cal2 = Calendar.getInstance();
                 cal2.add(Calendar.DATE, -1);
@@ -620,6 +623,7 @@ public class Todo_Fragment extends Fragment {
                 filter.setText(search2);
                 return true;
             case R.id.filter_before:
+                getActivity().setTitle(getString(R.string.todo_title) + " | " + getString(R.string.filter_before));
                 DateFormat dateFormat3 = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                 Calendar cal3 = Calendar.getInstance();
                 cal3.add(Calendar.DATE, -2);
@@ -629,6 +633,7 @@ public class Todo_Fragment extends Fragment {
                 filter.setText(search3);
                 return true;
             case R.id.filter_month:
+                getActivity().setTitle(getString(R.string.todo_title) + " | " + getString(R.string.filter_month));
                 DateFormat dateFormat4 = new SimpleDateFormat("yyyy-MM", Locale.getDefault());
                 Calendar cal4 = Calendar.getInstance();
                 final String search4 = dateFormat4.format(cal4.getTime());
@@ -637,6 +642,7 @@ public class Todo_Fragment extends Fragment {
                 filter.setText(search4);
                 return true;
             case R.id.filter_own:
+                getActivity().setTitle(getString(R.string.todo_title) + " | " + getString(R.string.filter_own));
                 sharedPref.edit().putString("filter_todoBY", "todo_creation").apply();
                 setTodoList();
                 filter_layout.setVisibility(View.VISIBLE);
@@ -647,6 +653,7 @@ public class Todo_Fragment extends Fragment {
                 helper_main.showKeyboard(getActivity(), filter);
                 return true;
             case R.id.filter_clear:
+                setTitle();
                 filter.setText("");
                 setTodoList();
                 return true;
@@ -676,7 +683,7 @@ public class Todo_Fragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    private void setTitle () {
+    public void setTitle () {
         if (sharedPref.getString("sortDBT", "title").equals("title")) {
             getActivity().setTitle(getString(R.string.todo_title) + " | " + getString(R.string.sort_title));
         } else if (sharedPref.getString("sortDBT", "title").equals("icon")) {

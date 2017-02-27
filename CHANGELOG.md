@@ -1,3 +1,9 @@
+### v3.5 (WIP)
+- neu: Bild Vorschau in Notizansicht
+- verbessert: Dateimanager
+
+
+
 ### v3.4
 - verbessert: Oberfläche (Untermenüs, Navigationspfeile)
 - fix: Benachrichtigungen nach Neustart

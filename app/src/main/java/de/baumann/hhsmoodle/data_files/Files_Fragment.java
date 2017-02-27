@@ -26,9 +26,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -42,7 +39,6 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,6 +51,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SimpleCursorAdapter;
+
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -117,6 +115,7 @@ public class Files_Fragment extends Fragment {
                 imgHeader.setVisibility(View.VISIBLE);
                 filter_layout.setVisibility(View.GONE);
                 setFilesList();
+                setTitle();
             }
         });
 
@@ -200,16 +199,7 @@ public class Files_Fragment extends Fragment {
         try {
             db.insert("...", "", "", "", "");
         } catch (Exception e) {
-            Snackbar snackbar = Snackbar
-                    .make(lv, R.string.toast_directory, Snackbar.LENGTH_LONG)
-                    .setAction(R.string.toast_yes, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            sharedPref.edit().putInt("keyboard", 0).apply();
-                            helper_main.onClose(getActivity());
-                        }
-                    });
-            snackbar.show();
+            Snackbar.make(lv, R.string.toast_directory, Snackbar.LENGTH_LONG).show();
         }
 
         //display data
@@ -246,15 +236,11 @@ public class Files_Fragment extends Fragment {
                     switch (files_icon) {
                         case ".gif":case ".bmp":case ".tiff":case ".svg":
                         case ".png":case ".jpg":case ".JPG":case ".jpeg":
-                            if (sharedPref.getInt("showThumbnail", 0) == 0) {
-                                iv.setImageResource(R.drawable.file_image);
-                            } else {
-                                try {
-                                    Bitmap resized = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(pathFile.getAbsolutePath()), 76, 76);
-                                    iv.setImageBitmap(resized);
-                                } catch (Exception e) {
-                                    Log.w("HHS_Moodle", "Error Package name not found ", e);
-                                }
+                            try {
+                                Uri uri = Uri.fromFile(pathFile);
+                                Picasso.with(getActivity()).load(uri).resize(76, 76).centerCrop().into(iv);
+                            } catch (Exception e) {
+                                Log.w("HHS_Moodle", "Error Load image", e);
                             }
                             break;
                         case ".m3u8":case ".mp3":case ".wma":case ".midi":case ".wav":case ".aac":
@@ -341,16 +327,7 @@ public class Files_Fragment extends Fragment {
                         sharedPref.edit().putString("files_startFolder", pathActual.getParent()).apply();
                         setFilesList();
                     } catch (Exception e) {
-                        Snackbar snackbar = Snackbar
-                                .make(lv, R.string.toast_directory, Snackbar.LENGTH_LONG)
-                                .setAction(R.string.toast_yes, new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        sharedPref.edit().putString("files_startFolder", files_attachment).apply();
-                                        setFilesList();
-                                    }
-                                });
-                        snackbar.show();
+                        Snackbar.make(lv, R.string.toast_directory, Snackbar.LENGTH_LONG).show();
                     }
                 } else {
                     helper_main.open(files_icon, getActivity(), pathFile, lv);
@@ -367,50 +344,51 @@ public class Files_Fragment extends Fragment {
 
                 final File pathFile = new File(files_attachment);
 
-                final CharSequence[] options = {
-                        getString(R.string.choose_menu_2),
-                        getString(R.string.choose_menu_3),
-                        getString(R.string.choose_menu_4)};
+                if (pathFile.isDirectory()) {
 
-                final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
-                dialog.setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+                    Snackbar snackbar = Snackbar
+                            .make(lv, R.string.note_remove_confirmation, Snackbar.LENGTH_LONG)
+                            .setAction(R.string.toast_yes, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    deleteRecursive(pathFile);
+                                    setFilesList();
+                                }
+                            });
+                    snackbar.show();
 
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        dialog.cancel();
-                    }
-                });
-                dialog.setItems(options, new DialogInterface.OnClickListener() {
-                    @SuppressWarnings("ResultOfMethodCallIgnored")
-                    @Override
-                    public void onClick(DialogInterface dialog, int item) {
+                } else {
 
-                        if (options[item].equals(getString(R.string.choose_menu_2))) {
+                    final CharSequence[] options = {
+                            getString(R.string.choose_menu_2),
+                            getString(R.string.choose_menu_3),
+                            getString(R.string.choose_menu_4)};
 
-                            if (pathFile.exists()) {
-                                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-                                sharingIntent.setType("image/png");
-                                sharingIntent.putExtra(Intent.EXTRA_SUBJECT, files_title);
-                                sharingIntent.putExtra(Intent.EXTRA_TEXT, files_title);
-                                Uri bmpUri = Uri.fromFile(pathFile);
-                                sharingIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
-                                startActivity(Intent.createChooser(sharingIntent, (getString(R.string.app_share_file))));
-                            }
+                    final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+                    dialog.setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            dialog.cancel();
                         }
-                        if (options[item].equals(getString(R.string.choose_menu_4))) {
+                    });
+                    dialog.setItems(options, new DialogInterface.OnClickListener() {
+                        @SuppressWarnings("ResultOfMethodCallIgnored")
+                        @Override
+                        public void onClick(DialogInterface dialog, int item) {
 
-                            if (pathFile.isDirectory()) {
-                                Snackbar snackbar = Snackbar
-                                        .make(lv, R.string.note_remove_confirmation, Snackbar.LENGTH_LONG)
-                                        .setAction(R.string.toast_yes, new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View view) {
-                                                deleteRecursive(pathFile);
-                                                setFilesList();
-                                            }
-                                        });
-                                snackbar.show();
+                            if (options[item].equals(getString(R.string.choose_menu_2))) {
 
-                            } else {
+                                if (pathFile.exists()) {
+                                    Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                                    sharingIntent.setType("image/png");
+                                    sharingIntent.putExtra(Intent.EXTRA_SUBJECT, files_title);
+                                    sharingIntent.putExtra(Intent.EXTRA_TEXT, files_title);
+                                    Uri bmpUri = Uri.fromFile(pathFile);
+                                    sharingIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
+                                    startActivity(Intent.createChooser(sharingIntent, (getString(R.string.app_share_file))));
+                                }
+                            }
+                            if (options[item].equals(getString(R.string.choose_menu_4))) {
                                 Snackbar snackbar = Snackbar
                                         .make(lv, R.string.note_remove_confirmation, Snackbar.LENGTH_LONG)
                                         .setAction(R.string.toast_yes, new View.OnClickListener() {
@@ -422,45 +400,45 @@ public class Files_Fragment extends Fragment {
                                         });
                                 snackbar.show();
                             }
+                            if (options[item].equals(getString(R.string.choose_menu_3))) {
+
+                                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getActivity());
+                                View dialogView = View.inflate(getActivity(), R.layout.dialog_edit_file, null);
+
+                                final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
+                                edit_title.setText(files_title);
+
+                                builder.setView(dialogView);
+                                builder.setTitle(R.string.choose_title);
+                                builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                                        String inputTag = edit_title.getText().toString().trim();
+
+                                        File dir = pathFile.getParentFile();
+                                        File to = new File(dir,inputTag);
+
+                                        pathFile.renameTo(to);
+                                        pathFile.delete();
+                                        setFilesList();
+                                    }
+                                });
+                                builder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                        dialog.cancel();
+                                    }
+                                });
+                                AlertDialog dialog2 = builder.create();
+                                // Display the custom alert dialog on interface
+                                dialog2.show();
+                                helper_main.showKeyboard(getActivity(),edit_title);
+                            }
                         }
-                        if (options[item].equals(getString(R.string.choose_menu_3))) {
-
-                            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getActivity());
-                            View dialogView = View.inflate(getActivity(), R.layout.dialog_edit_file, null);
-
-                            final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
-                            edit_title.setText(files_title);
-
-                            builder.setView(dialogView);
-                            builder.setTitle(R.string.choose_title);
-                            builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
-
-                                public void onClick(DialogInterface dialog, int whichButton) {
-
-                                    String inputTag = edit_title.getText().toString().trim();
-
-                                    File dir = pathFile.getParentFile();
-                                    File to = new File(dir,inputTag);
-
-                                    pathFile.renameTo(to);
-                                    pathFile.delete();
-                                    setFilesList();
-                                }
-                            });
-                            builder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    dialog.cancel();
-                                }
-                            });
-                            AlertDialog dialog2 = builder.create();
-                            // Display the custom alert dialog on interface
-                            dialog2.show();
-                            helper_main.showKeyboard(getActivity(),edit_title);
-                        }
-                    }
-                });
-                dialog.show();
+                    });
+                    dialog.show();
+                }
 
                 return true;
             }
@@ -516,17 +494,6 @@ public class Files_Fragment extends Fragment {
         menu.findItem(R.id.filter_teacher).setVisible(false);
         menu.findItem(R.id.filter_room).setVisible(false);
         menu.findItem(R.id.action_help).setVisible(false);
-
-        if (sharedPref.getInt("showThumbnail", 0) == 0) {
-            menu.findItem(R.id.action_picture).setIcon(R.drawable.image_broken_variant);
-        } else {
-            menu.findItem(R.id.action_picture).setIcon(R.drawable.image_light);
-        }
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_file, menu);
     }
 
     @Override
@@ -556,6 +523,7 @@ public class Files_Fragment extends Fragment {
                 return true;
 
             case R.id.filter_today:
+                getActivity().setTitle(getString(R.string.choose_titleMain) + " | " + getString(R.string.filter_today));
                 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                 Calendar cal = Calendar.getInstance();
                 final String search = dateFormat.format(cal.getTime());
@@ -564,6 +532,7 @@ public class Files_Fragment extends Fragment {
                 filter.setText(search);
                 return true;
             case R.id.filter_yesterday:
+                getActivity().setTitle(getString(R.string.choose_titleMain) + " | " + getString(R.string.filter_yesterday));
                 DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                 Calendar cal2 = Calendar.getInstance();
                 cal2.add(Calendar.DATE, -1);
@@ -573,6 +542,7 @@ public class Files_Fragment extends Fragment {
                 filter.setText(search2);
                 return true;
             case R.id.filter_before:
+                getActivity().setTitle(getString(R.string.choose_titleMain) + " | " + getString(R.string.filter_before));
                 DateFormat dateFormat3 = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                 Calendar cal3 = Calendar.getInstance();
                 cal3.add(Calendar.DATE, -2);
@@ -582,6 +552,7 @@ public class Files_Fragment extends Fragment {
                 filter.setText(search3);
                 return true;
             case R.id.filter_month:
+                getActivity().setTitle(getString(R.string.choose_titleMain) + " | " + getString(R.string.filter_month));
                 DateFormat dateFormat4 = new SimpleDateFormat("yyyy-MM", Locale.getDefault());
                 Calendar cal4 = Calendar.getInstance();
                 final String search4 = dateFormat4.format(cal4.getTime());
@@ -590,6 +561,7 @@ public class Files_Fragment extends Fragment {
                 filter.setText(search4);
                 return true;
             case R.id.filter_own:
+                getActivity().setTitle(getString(R.string.choose_titleMain) + " | " + getString(R.string.filter_own));
                 sharedPref.edit().putString("filter_filesBY", "files_creation").apply();
                 setFilesList();
                 filter_layout.setVisibility(View.VISIBLE);
@@ -600,6 +572,7 @@ public class Files_Fragment extends Fragment {
                 helper_main.showKeyboard(getActivity(), filter);
                 return true;
             case R.id.filter_clear:
+                setTitle();
                 filter.setText("");
                 setFilesList();
                 return true;
@@ -618,18 +591,6 @@ public class Files_Fragment extends Fragment {
                 sharedPref.edit().putString("sortDBF", "file_date").apply();
                 setTitle();
                 setFilesList();
-                return true;
-
-            case R.id.action_picture:
-                if (sharedPref.getInt("showThumbnail", 0) == 0) {
-                    sharedPref.edit().putInt("showThumbnail", 1).apply();
-                    setFilesList();
-                    getActivity().invalidateOptionsMenu();
-                } else {
-                    sharedPref.edit().putInt("showThumbnail", 0).apply();
-                    setFilesList();
-                    getActivity().invalidateOptionsMenu();
-                }
                 return true;
         }
 

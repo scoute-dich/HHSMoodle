@@ -306,6 +306,12 @@ public class Random_Fragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterview, View view, int position, long id) {
 
+                if(!isFABOpen){
+                    showFABMenu();
+                }else{
+                    closeFABMenu();
+                }
+
                 Cursor row2 = (Cursor) lv.getItemAtPosition(position);
                 final String random_content = row2.getString(row2.getColumnIndexOrThrow("random_content"));
                 final String random_title = row2.getString(row2.getColumnIndexOrThrow("random_title"));
@@ -325,6 +331,12 @@ public class Random_Fragment extends Fragment {
 
         lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                if(!isFABOpen){
+                    showFABMenu();
+                }else{
+                    closeFABMenu();
+                }
 
                 Cursor row2 = (Cursor) lv.getItemAtPosition(position);
                 final String _id = row2.getString(row2.getColumnIndexOrThrow("_id"));
