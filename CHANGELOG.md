@@ -1,8 +1,7 @@
-### v3.5 (WIP)
+### v3.5
 - neu: Bild Vorschau in Notizansicht
 - verbessert: Dateimanager
-
-
+- verbessert: Lautlos Modus
 
 ### v3.4
 - verbessert: Oberfläche (Untermenüs, Navigationspfeile)

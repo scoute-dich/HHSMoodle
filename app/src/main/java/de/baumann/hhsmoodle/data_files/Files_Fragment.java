@@ -222,6 +222,7 @@ public class Files_Fragment extends Fragment {
                 Cursor row2 = (Cursor) lv.getItemAtPosition(position);
                 final String files_icon = row2.getString(row2.getColumnIndexOrThrow("files_icon"));
                 final String files_attachment = row2.getString(row2.getColumnIndexOrThrow("files_attachment"));
+                final String files_title = row2.getString(row2.getColumnIndexOrThrow("files_title"));
 
                 final File pathFile = new File(files_attachment);
 
@@ -279,6 +280,10 @@ public class Files_Fragment extends Fragment {
                             break;
                     }
                 }
+
+                if (files_title.equals("...")) {
+                    iv.setImageResource(R.drawable.arrow_up);
+                }
                 return v;
             }
         };
@@ -330,7 +335,7 @@ public class Files_Fragment extends Fragment {
                         Snackbar.make(lv, R.string.toast_directory, Snackbar.LENGTH_LONG).show();
                     }
                 } else {
-                    helper_main.open(files_icon, getActivity(), pathFile, lv);
+                    helper_main.openAtt(getActivity(), lv, files_attachment);
                 }
             }
         });
