@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.os.Build;
 import android.util.Log;
 
 import java.util.Calendar;
@@ -170,7 +171,13 @@ public class Schedule_helper {
 
         Log.w("HHS_Moodle", "Alarm set");
 
-        alarmMgr.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), piMain);
+        int ALARM_TYPE = AlarmManager.RTC_WAKEUP;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            alarmMgr.setExactAndAllowWhileIdle(ALARM_TYPE, calendar.getTimeInMillis(), piMain);
+        else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            alarmMgr.setExact(ALARM_TYPE, calendar.getTimeInMillis(), piMain);
+        else
+            alarmMgr.set(ALARM_TYPE, calendar.getTimeInMillis(), piMain);
     }
 
     public static void insertDefaultBookmarks (Activity activity) {

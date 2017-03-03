@@ -1,3 +1,6 @@
+### v3.6
+- Fehler verbessert
+
 ### v3.5
 - neu: Bild Vorschau in Notizansicht
 - verbessert: Dateimanager
