@@ -1,3 +1,8 @@
+### v3.7
+- fix: Crash bei Tabwechsel
+- fix: Fab-Menü schließen (Zufallsgenerator)
+- fix: Gerät friert nach Neustart ein
+
 ### v3.6
 - Fehler verbessert
 

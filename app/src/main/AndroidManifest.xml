@@ -221,17 +221,6 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".helper.class_AlarmService"
-            android:noHistory="true"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:label="@string/app_name" >
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
-        </activity>
-
 
         <!-- provider, receiver, service -->
 
@@ -246,6 +235,8 @@
         </provider>
 
         <service android:name="de.baumann.hhsmoodle.helper.class_NotService"/>
+        <service android:name="de.baumann.hhsmoodle.helper.class_AlarmService"/>
+
 
         <receiver android:name="de.baumann.hhsmoodle.helper.RebootReceiver_not">
             <intent-filter>

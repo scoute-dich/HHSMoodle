@@ -93,12 +93,8 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
             @Override
             public void onPageSelected(int position) {
                 if (position == 5){
-                    new Handler().postDelayed(new Runnable() {
-                        public void run() {
-                            Files_Fragment files_Fragment = (Files_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
-                            files_Fragment.setTitle();
-                        }
-                    }, 500);
+                    Files_Fragment files_Fragment = (Files_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
+                    files_Fragment.setTitle();
                 }
             }
         });

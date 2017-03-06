@@ -24,6 +24,7 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
@@ -38,6 +39,7 @@ import android.widget.SimpleCursorAdapter;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.data_schedule.Schedule_helper;
 import de.baumann.hhsmoodle.data_todo.Todo_DbAdapter;
+import de.baumann.hhsmoodle.helper.class_AlarmService;
 import de.baumann.hhsmoodle.helper.helper_encryption;
 import de.baumann.hhsmoodle.helper.helper_main;
 
@@ -72,6 +74,9 @@ public class Popup_todo_restart extends Activity {
         nMgr.cancelAll();
 
         Schedule_helper.setAlarm(Popup_todo_restart.this);
+
+        Intent serviceIntent = new Intent(Popup_todo_restart.this, class_AlarmService.class);
+        startService(serviceIntent);
 
         //display data
         final int layoutstyle=R.layout.list_item_notes;
@@ -152,6 +157,7 @@ public class Popup_todo_restart extends Activity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        finish();
     }
 
     @Override

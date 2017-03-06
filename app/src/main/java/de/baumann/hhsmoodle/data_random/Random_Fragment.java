@@ -306,9 +306,7 @@ public class Random_Fragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterview, View view, int position, long id) {
 
-                if(!isFABOpen){
-                    showFABMenu();
-                }else{
+                if(isFABOpen){
                     closeFABMenu();
                 }
 

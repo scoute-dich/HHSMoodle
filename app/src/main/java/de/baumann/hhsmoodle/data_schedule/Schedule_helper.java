@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
 
@@ -11,6 +12,7 @@ import java.util.Calendar;
 import java.util.Random;
 
 import de.baumann.hhsmoodle.R;
+import de.baumann.hhsmoodle.helper.class_AlarmService;
 
 /**
  * Created by juergen on 06.02.17
@@ -159,9 +161,8 @@ public class Schedule_helper {
         Random rand = new Random();
         int n = rand.nextInt(1000000);
 
-        android.content.Intent iMain = new android.content.Intent();
-        iMain.setClassName(activity, "de.baumann.hhsmoodle.helper.class_AlarmService");
-        PendingIntent piMain = PendingIntent.getActivity(activity, n, iMain, 0);
+        Intent intent = new Intent(activity, class_AlarmService.class);
+        PendingIntent pendingIntent = PendingIntent.getService(activity, n, intent, 0);
 
         // Set the alarm to start at approximately 2:00 p.m.
         Calendar calendar = Calendar.getInstance();
@@ -173,11 +174,11 @@ public class Schedule_helper {
 
         int ALARM_TYPE = AlarmManager.RTC_WAKEUP;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-            alarmMgr.setExactAndAllowWhileIdle(ALARM_TYPE, calendar.getTimeInMillis(), piMain);
+            alarmMgr.setExactAndAllowWhileIdle(ALARM_TYPE, calendar.getTimeInMillis(), pendingIntent);
         else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            alarmMgr.setExact(ALARM_TYPE, calendar.getTimeInMillis(), piMain);
+            alarmMgr.setExact(ALARM_TYPE, calendar.getTimeInMillis(), pendingIntent);
         else
-            alarmMgr.set(ALARM_TYPE, calendar.getTimeInMillis(), piMain);
+            alarmMgr.set(ALARM_TYPE, calendar.getTimeInMillis(), pendingIntent);
     }
 
     public static void insertDefaultBookmarks (Activity activity) {
