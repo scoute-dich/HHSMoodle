@@ -27,6 +27,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
@@ -157,7 +158,12 @@ public class Popup_todo_restart extends Activity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        finish();
+
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                finish();
+            }
+        }, 500);
     }
 
     @Override
