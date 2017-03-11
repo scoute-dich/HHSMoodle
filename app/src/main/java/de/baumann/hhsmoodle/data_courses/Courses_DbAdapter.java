@@ -70,6 +70,6 @@ public class Courses_DbAdapter {
     //fetch data
     public Cursor fetchAllData() {
         String[] columns = new String[]{"_id", "courses_title", "courses_content", "courses_icon","courses_attachment","courses_creation"};
-        return sqlDb.query(dbTable, columns, null, null, null, null, "courses_creation");
+        return sqlDb.query(dbTable, columns, null, null, null, null, "courses_title");
     }
 }

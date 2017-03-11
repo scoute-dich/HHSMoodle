@@ -275,6 +275,10 @@ public class Random_Fragment extends Fragment {
 
     private void setRandomList() {
 
+        if(isFABOpen){
+            closeFABMenu();
+        }
+
         //display data
         final int layoutstyle=R.layout.list_item_notes;
         int[] xml_id = new int[] {
@@ -330,9 +334,7 @@ public class Random_Fragment extends Fragment {
         lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
-                if(!isFABOpen){
-                    showFABMenu();
-                }else{
+                if(isFABOpen){
                     closeFABMenu();
                 }
 

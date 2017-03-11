@@ -239,6 +239,10 @@ public class Todo_Fragment extends Fragment {
 
     private void setTodoList() {
 
+        if(isFABOpen){
+            closeFABMenu();
+        }
+
         NotificationManager nMgr = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
         nMgr.cancelAll();
 
@@ -425,6 +429,10 @@ public class Todo_Fragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterview, View view, int position, long id) {
 
+                if(isFABOpen){
+                    closeFABMenu();
+                }
+
                 Cursor row2 = (Cursor) lv.getItemAtPosition(position);
                 final String _id = row2.getString(row2.getColumnIndexOrThrow("_id"));
                 final String todo_title = row2.getString(row2.getColumnIndexOrThrow("todo_title"));
@@ -446,6 +454,10 @@ public class Todo_Fragment extends Fragment {
 
         lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                if(isFABOpen){
+                    closeFABMenu();
+                }
 
                 Cursor row2 = (Cursor) lv.getItemAtPosition(position);
                 final String _id = row2.getString(row2.getColumnIndexOrThrow("_id"));
@@ -546,7 +558,7 @@ public class Todo_Fragment extends Fragment {
         });
     }
 
-    public static class Item{
+    private static class Item{
         public final String text;
         public final int icon;
         Item(String text, Integer icon) {

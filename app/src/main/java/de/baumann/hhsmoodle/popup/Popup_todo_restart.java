@@ -163,7 +163,7 @@ public class Popup_todo_restart extends Activity {
             public void run() {
                 finish();
             }
-        }, 500);
+        }, 1000);
     }
 
     @Override

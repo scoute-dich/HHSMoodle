@@ -223,7 +223,7 @@ public class helper_main {
 
     public static String newFileName () {
         Date date = new Date();
-        DateFormat dateFormat = new SimpleDateFormat("yy-MM-dd_HH-mm-ss", Locale.getDefault());
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss", Locale.getDefault());
         return  dateFormat.format(date) + ".jpg";
     }
 

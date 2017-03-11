@@ -20,6 +20,7 @@
 package de.baumann.hhsmoodle.popup;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -31,13 +32,14 @@ import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.activities.Activity_password;
-import de.baumann.hhsmoodle.data_notes.Notes_helper;
+import de.baumann.hhsmoodle.data_notes.Notes_DbAdapter;
 import de.baumann.hhsmoodle.data_random.Random_DbAdapter;
 import de.baumann.hhsmoodle.data_courses.Courses_DbAdapter;
 import de.baumann.hhsmoodle.data_todo.Todo_helper;
@@ -105,7 +107,47 @@ public class Popup_courseList extends Activity {
                     sharedPref.edit().putString("fromCourseList", "true").apply();
                     Cursor row2 = (Cursor) lv.getItemAtPosition(position);
                     final String courses_title = row2.getString(row2.getColumnIndexOrThrow("courses_title"));
-                    Notes_helper.newNote(Popup_courseList.this, courses_title, "");
+
+                    final Notes_DbAdapter db = new Notes_DbAdapter(Popup_courseList.this);
+                    db.open();
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(Popup_courseList.this);
+                    View dialogView = View.inflate(Popup_courseList.this, R.layout.dialog_edit_title, null);
+
+                    final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
+                    edit_title.setHint(R.string.bookmark_edit_title);
+                    edit_title.setText(courses_title);
+
+                    builder.setView(dialogView);
+                    builder.setTitle(R.string.bookmark_edit_title);
+                    builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {}});
+                    builder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            dialog.cancel();
+                            finish();
+                        }
+                    });
+
+                    final AlertDialog dialog2 = builder.create();
+                    // Display the custom alert dialog on interface
+                    dialog2.show();
+
+                    dialog2.getButton(android.support.v7.app.AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //Do stuff, possibly set wantToCloseDialog to true then...
+                            String inputTag = edit_title.getText().toString().trim();
+                            if(db.isExist(inputTag)){
+                                Snackbar.make(edit_title, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
+                            } else {
+                                db.insert(courses_title, "", "3", "", helper_main.createDate());
+                                finish();
+                            }
+                        }
+                    });
+                    helper_main.showKeyboard(Popup_courseList.this,edit_title);
                 }
             });
 

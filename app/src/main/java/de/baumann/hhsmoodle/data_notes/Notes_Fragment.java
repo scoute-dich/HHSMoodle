@@ -30,7 +30,6 @@ import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
@@ -64,7 +63,7 @@ import android.widget.RelativeLayout;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -252,6 +251,10 @@ public class Notes_Fragment extends Fragment {
 
     private void setNotesList() {
 
+        if(isFABOpen){
+            closeFABMenu();
+        }
+
         //display data
         final int layoutstyle=R.layout.list_item_notes;
         int[] xml_id = new int[] {
@@ -398,6 +401,10 @@ public class Notes_Fragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterview, View view, int position, long id) {
 
+                if(isFABOpen){
+                    closeFABMenu();
+                }
+
                 Cursor row2 = (Cursor) lv.getItemAtPosition(position);
                 final String _id = row2.getString(row2.getColumnIndexOrThrow("_id"));
                 final String note_title = row2.getString(row2.getColumnIndexOrThrow("note_title"));
@@ -453,15 +460,28 @@ public class Notes_Fragment extends Fragment {
                         note_attachment.contains(".png") ||
                         note_attachment.contains(".jpg") ||
                         note_attachment.contains(".JPG") ||
-                        note_attachment.contains(".jpeg")) {
+                        note_attachment.contains(".jpeg") ||
+                        note_attachment.contains(".mpeg") ||
+                        note_attachment.contains(".mp4") ||
+                        note_attachment.contains(".3gp") ||
+                        note_attachment.contains(".3g2") ||
+                        note_attachment.contains(".avi") ||
+                        note_attachment.contains(".flv") ||
+                        note_attachment.contains(".h261") ||
+                        note_attachment.contains(".h263") ||
+                        note_attachment.contains(".h264") ||
+                        note_attachment.contains(".asf") ||
+                        note_attachment.contains(".wmv")) {
                     attImage.setVisibility(View.VISIBLE);
                     try {
-                        final File pathFile = new File(note_attachment);
-                        Uri uri = Uri.fromFile(pathFile);
-                        Picasso.with(getActivity()).load(uri).centerCrop().into(attImage);
+                        Glide.with(getActivity())
+                                .load(note_attachment) // or URI/path
+                                .into(attImage); //imageView to set thumbnail to
                     } catch (Exception e) {
-                        Log.w("HHS_Moodle", "Error Load image", e);
+                        Log.w("HHS_Moodle", "Error load thumbnail", e);
+                        attImage.setVisibility(View.GONE);
                     }
+
                     Bitmap myBitmap = BitmapFactory.decodeFile(note_attachment);
                     attImage.setImageBitmap(myBitmap);
 
@@ -515,6 +535,10 @@ public class Notes_Fragment extends Fragment {
 
         lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                if(isFABOpen){
+                    closeFABMenu();
+                }
 
                 Cursor row2 = (Cursor) lv.getItemAtPosition(position);
                 final String _id = row2.getString(row2.getColumnIndexOrThrow("_id"));
@@ -592,7 +616,7 @@ public class Notes_Fragment extends Fragment {
         });
     }
 
-    public static class Item{
+    private static class Item{
         public final String text;
         public final int icon;
         Item(String text, Integer icon) {

@@ -120,6 +120,6 @@ public class Activity_intro extends OnboarderActivity {
         Intent mainIntent = new Intent(Activity_intro.this, Activity_splash.class);
         startActivity(mainIntent);
         Activity_intro.this.finish();
-        overridePendingTransition(R.anim.fadein,R.anim.fadeout);
+        overridePendingTransition(0,0);
     }
 }

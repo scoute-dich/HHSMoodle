@@ -110,7 +110,7 @@ public class Activity_splash extends AppCompatActivity {
             Intent mainIntent = new Intent(Activity_splash.this, Activity_intro.class);
             startActivity(mainIntent);
             Activity_splash.this.finish();
-            overridePendingTransition(R.anim.fadein,R.anim.fadeout);
+            overridePendingTransition(0,0);
         } else {
             if (sharedPrefSec.getString("password") == null
                     || sharedPrefSec.getString("username") == null
@@ -144,9 +144,9 @@ public class Activity_splash extends AppCompatActivity {
                                     mainIntent.putExtra("id", "1");
                                     startActivity(mainIntent);
                                     Activity_splash.this.finish();
-                                    overridePendingTransition(R.anim.fadein,R.anim.fadeout);
+                                    overridePendingTransition(0,0);
                                 }
-                            }, 1500);
+                            }, 500);
                         }
                     }
                 });
@@ -159,9 +159,9 @@ public class Activity_splash extends AppCompatActivity {
                         mainIntent.putExtra("id", "1");
                         startActivity(mainIntent);
                         Activity_splash.this.finish();
-                        overridePendingTransition(R.anim.fadein,R.anim.fadeout);
+                        overridePendingTransition(0,0);
                     }
-                }, 1500);
+                }, 500);
             }
         }
 
@@ -183,9 +183,9 @@ public class Activity_splash extends AppCompatActivity {
                     sharedPref.edit().putString("handleTextCreate", helper_main.createDate()).apply();
                     startActivity(mainIntent);
                     Activity_splash.this.finish();
-                    overridePendingTransition(R.anim.fadein,R.anim.fadeout);
+                    overridePendingTransition(0,0);
                 }
-            }, 1500);
+            }, 500);
         } else if (Intent.ACTION_VIEW.equals(action)) {
             helper_encryption.decryptDatabases(Activity_splash.this);
             new Handler().postDelayed(new Runnable() {
@@ -197,9 +197,9 @@ public class Activity_splash extends AppCompatActivity {
                     mainIntent.setAction("shortcutBrowser_HS");
                     startActivity(mainIntent);
                     Activity_splash.this.finish();
-                    overridePendingTransition(R.anim.fadein,R.anim.fadeout);
+                    overridePendingTransition(0,0);
                 }
-            }, 1500);
+            }, 500);
         } else if ("shortcutBookmarks".equals(action)) {
             helper_encryption.decryptDatabases(Activity_splash.this);
             new Handler().postDelayed(new Runnable() {
@@ -208,9 +208,9 @@ public class Activity_splash extends AppCompatActivity {
                     mainIntent.setAction("shortcutBookmarks_HS");
                     startActivity(mainIntent);
                     Activity_splash.this.finish();
-                    overridePendingTransition(R.anim.fadein,R.anim.fadeout);
+                    overridePendingTransition(0,0);
                 }
-            }, 1500);
+            }, 500);
         } else if ("shortcutNotes".equals(action)) {
             helper_encryption.decryptDatabases(Activity_splash.this);
             new Handler().postDelayed(new Runnable() {
@@ -219,9 +219,9 @@ public class Activity_splash extends AppCompatActivity {
                     mainIntent.setAction("shortcutNotes_HS");
                     startActivity(mainIntent);
                     Activity_splash.this.finish();
-                    overridePendingTransition(R.anim.fadein,R.anim.fadeout);
+                    overridePendingTransition(0,0);
                 }
-            }, 1500);
+            }, 500);
         } else if ("shortcutToDo".equals(action)) {
             helper_encryption.decryptDatabases(Activity_splash.this);
             new Handler().postDelayed(new Runnable() {
@@ -230,9 +230,9 @@ public class Activity_splash extends AppCompatActivity {
                     mainIntent.setAction("shortcutToDo_HS");
                     startActivity(mainIntent);
                     Activity_splash.this.finish();
-                    overridePendingTransition(R.anim.fadein,R.anim.fadeout);
+                    overridePendingTransition(0,0);
                 }
-            }, 1500);
+            }, 500);
         } else if ("shortcutBrowser".equals(action)) {
             helper_encryption.decryptDatabases(Activity_splash.this);
             new Handler().postDelayed(new Runnable() {
@@ -241,9 +241,9 @@ public class Activity_splash extends AppCompatActivity {
                     mainIntent.setAction("shortcutBrowser_HS");
                     startActivity(mainIntent);
                     Activity_splash.this.finish();
-                    overridePendingTransition(R.anim.fadein,R.anim.fadeout);
+                    overridePendingTransition(0,0);
                 }
-            }, 1500);
+            }, 500);
         } else if ("shortcutSchedule".equals(action)) {
             helper_encryption.decryptDatabases(Activity_splash.this);
             new Handler().postDelayed(new Runnable() {
@@ -252,9 +252,9 @@ public class Activity_splash extends AppCompatActivity {
                     mainIntent.setAction("shortcutSchedule_HS");
                     startActivity(mainIntent);
                     Activity_splash.this.finish();
-                    overridePendingTransition(R.anim.fadein,R.anim.fadeout);
+                    overridePendingTransition(0,0);
                 }
-            }, 1500);
+            }, 500);
         }
     }
 

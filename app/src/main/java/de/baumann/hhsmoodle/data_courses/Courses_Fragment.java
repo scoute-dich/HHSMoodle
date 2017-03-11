@@ -249,6 +249,10 @@ public class Courses_Fragment extends Fragment {
 
     private void setCoursesList() {
 
+        if(isFABOpen){
+            closeFABMenu();
+        }
+
         //display data
         final int layoutstyle=R.layout.list_item_notes;
         int[] xml_id = new int[] {
@@ -279,6 +283,10 @@ public class Courses_Fragment extends Fragment {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterview, View view, int position, long id) {
+
+                if(isFABOpen){
+                    closeFABMenu();
+                }
 
                 Cursor row2 = (Cursor) lv.getItemAtPosition(position);
                 final String courses_title = row2.getString(row2.getColumnIndexOrThrow("courses_title"));
@@ -522,6 +530,10 @@ public class Courses_Fragment extends Fragment {
         lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
+                if(isFABOpen){
+                    closeFABMenu();
+                }
+
                 Cursor row2 = (Cursor) lv.getItemAtPosition(position);
                 final String _id = row2.getString(row2.getColumnIndexOrThrow("_id"));
                 final String courses_title = row2.getString(row2.getColumnIndexOrThrow("courses_title"));
@@ -604,7 +616,7 @@ public class Courses_Fragment extends Fragment {
         });
     }
 
-    public static class Item{
+    private static class Item{
         public final String text;
         public final int icon;
         Item(String text, Integer icon) {

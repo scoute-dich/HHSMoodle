@@ -23,9 +23,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
@@ -36,7 +36,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -204,16 +204,17 @@ public class Popup_files extends Activity {
                 Environment.getExternalStorageDirectory().getPath() + "/HHS_Moodle/"));
         final File[] files = f.listFiles();
 
+        // looping through all items <item>
+        assert files != null;
         if (files.length == 0) {
             Snackbar.make(lv, R.string.toast_files, Snackbar.LENGTH_LONG).show();
         }
 
-        // looping through all items <item>
         for (File file : files) {
 
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 
-            String file_Name = file.getName().substring(0,1).toUpperCase() + file.getName().substring(1).toLowerCase();
+            String file_Name = file.getName().substring(0,1).toUpperCase() + file.getName().substring(1);
             String file_Size = getReadableFileSize(file.length());
             String file_date = formatter.format(new Date(file.lastModified()));
             String file_path = file.getAbsolutePath();
@@ -279,57 +280,46 @@ public class Popup_files extends Activity {
                     iv.setImageResource(R.drawable.folder);
                 } else {
                     switch (files_icon) {
-                        case ".gif":
-                        case ".bmp":
-                        case ".tiff":
-                        case ".svg":
-                        case ".png":
-                        case ".jpg":
-                        case ".JPG":
-                        case ".jpeg":
+                        case "":
+                            new Handler().postDelayed(new Runnable() {
+                                public void run() {
+                                    iv.setImageResource(R.drawable.arrow_up);
+                                }
+                            }, 200);
+                            break;
+                        case ".gif":case ".bmp":case ".tiff":case ".svg":
+                        case ".png":case ".jpg":case ".JPG":case ".jpeg":
                             try {
-                                Uri uri = Uri.fromFile(pathFile);
-                                Picasso.with(Popup_files.this).load(uri).resize(76, 76).centerCrop().into(iv);
+                                Glide.with(Popup_files.this)
+                                        .load(files_attachment) // or URI/path
+                                        .override(76, 76)
+                                        .centerCrop()
+                                        .into(iv); //imageView to set thumbnail to
                             } catch (Exception e) {
-                                Log.w("HHS_Moodle", "Error Load image", e);
+                                Log.w("HHS_Moodle", "Error load thumbnail", e);
+                                iv.setImageResource(R.drawable.file_image);
                             }
                             break;
-                        case ".m3u8":
-                        case ".mp3":
-                        case ".wma":
-                        case ".midi":
-                        case ".wav":
-                        case ".aac":
-                        case ".aif":
-                        case ".amp3":
-                        case ".weba":
+                        case ".m3u8":case ".mp3":case ".wma":case ".midi":case ".wav":case ".aac":
+                        case ".aif":case ".amp3":case ".weba":case ".ogg":
                             iv.setImageResource(R.drawable.file_music);
                             break;
-                        case ".mpeg":
-                        case ".mp4":
-                        case ".ogg":
-                        case ".webm":
-                        case ".qt":
-                        case ".3gp":
-                        case ".3g2":
-                        case ".avi":
-                        case ".f4v":
-                        case ".flv":
-                        case ".h261":
-                        case ".h263":
-                        case ".h264":
-                        case ".asf":
-                        case ".wmv":
-                            iv.setImageResource(R.drawable.file_video);
+                        case ".mpeg":case ".mp4":case ".webm":case ".qt":case ".3gp":
+                        case ".3g2":case ".avi":case ".f4v":case ".flv":case ".h261":case ".h263":
+                        case ".h264":case ".asf":case ".wmv":
+                            try {
+                                Glide.with(Popup_files.this)
+                                        .load(files_attachment) // or URI/path
+                                        .override(76, 76)
+                                        .centerCrop()
+                                        .into(iv); //imageView to set thumbnail to
+                            } catch (Exception e) {
+                                Log.w("HHS_Moodle", "Error load thumbnail", e);
+                                iv.setImageResource(R.drawable.file_video);
+                            }
                             break;
-                        case ".vcs":
-                        case ".vcf":
-                        case ".css":
-                        case ".ics":
-                        case ".conf":
-                        case ".config":
-                        case ".java":
-                        case ".html":
+                        case ".vcs":case ".vcf":case ".css":case ".ics":case ".conf":case ".config":
+                        case ".java":case ".html":
                             iv.setImageResource(R.drawable.file_xml);
                             break;
                         case ".apk":
@@ -338,26 +328,14 @@ public class Popup_files extends Activity {
                         case ".pdf":
                             iv.setImageResource(R.drawable.file_pdf);
                             break;
-                        case ".rtf":
-                        case ".csv":
-                        case ".txt":
-                        case ".doc":
-                        case ".xls":
-                        case ".ppt":
-                        case ".docx":
-                        case ".pptx":
-                        case ".xlsx":
-                        case ".odt":
-                        case ".ods":
-                        case ".odp":
+                        case ".rtf":case ".csv":case ".txt":
+                        case ".doc":case ".xls":case ".ppt":case ".docx":case ".pptx":case ".xlsx":
+                        case ".odt":case ".ods":case ".odp":
                             iv.setImageResource(R.drawable.file_document);
                             break;
                         case ".zip":
                         case ".rar":
                             iv.setImageResource(R.drawable.zip_box);
-                            break;
-                        case "":
-                            iv.setImageResource(R.drawable.arrow_up);
                             break;
                         default:
                             iv.setImageResource(R.drawable.file);

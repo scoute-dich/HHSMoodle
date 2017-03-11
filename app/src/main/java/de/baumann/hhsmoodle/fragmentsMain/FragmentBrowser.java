@@ -202,7 +202,7 @@ public class FragmentBrowser extends Fragment {
 
     private File createImageFile() throws IOException {
         // Create an image file name
-        String timeStamp = new SimpleDateFormat("dd-MM-yy_HH-mm", Locale.getDefault()).format(new Date());
+        String timeStamp = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss", Locale.getDefault()).format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES);
@@ -268,7 +268,7 @@ public class FragmentBrowser extends Fragment {
                         @Override
                         public void onClick(View view) {
                             ViewPager viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
-                            viewPager.setCurrentItem(9, true);
+                            viewPager.setCurrentItem(5, true);
                         }
                     });
             snackbar.show();
@@ -471,7 +471,7 @@ public class FragmentBrowser extends Fragment {
         }
     }
 
-    class myWebChromeClient extends WebChromeClient {
+    private class myWebChromeClient extends WebChromeClient {
 
         public void onProgressChanged(WebView view, int progress) {
             String url = mWebView.getUrl();

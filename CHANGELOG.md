@@ -1,17 +1,24 @@
-### v3.7
+### v 3.7
+- neu: Video Vorschau
+- neu: Menü: App beenden
+- fix: Notiz aus Klassenliste
+- fix: Ordner öffnen (vom Browser)
+- fix: leere Ordner löschen
+- fix: Fächerliste bearbeiten
+- fix: Klassenliste sortieren
 - fix: Crash bei Tabwechsel
-- fix: Fab-Menü schließen (Zufallsgenerator)
+- fix: Fab-Menü Verhalten
 - fix: Gerät friert nach Neustart ein
 
-### v3.6
+### v 3.6
 - Fehler verbessert
 
-### v3.5
+### v 3.5
 - neu: Bild Vorschau in Notizansicht
 - verbessert: Dateimanager
 - verbessert: Lautlos Modus
 
-### v3.4
+### v 3.4
 - verbessert: Oberfläche (Untermenüs, Navigationspfeile)
 - fix: Benachrichtigungen nach Neustart
 - fix: Lautlos Modus (Uhrzeiten)
@@ -19,7 +26,7 @@
 - fix: keine doppelten Links in den Lesezeichen
 - fix: zurück Taste (Klassenliste)
 
-### v3.3:
+### v 3.3:
 - neu: Stundenplan
 - neu: Fächerliste
 - neu: Lautlos während Unterricht

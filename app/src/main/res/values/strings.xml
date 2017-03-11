@@ -76,7 +76,7 @@
     <string name="about_license_5">Used to encrypt pin (for app protection).</string>
     <string name="about_license_7">Used to create the \"About screen\".</string>
     <string name="about_license_8">The source of nearly all icons.</string>
-    <string name="about_license_9">A powerful image downloading and caching library for Android.</string>
+    <string name="about_license_9">A powerful library for Android to display media files.</string>
 
 
     // IntroScreen
@@ -151,6 +151,7 @@
     <string name="menu_bookmark">Add bookmark</string>
     <string name="menu_help">Help</string>
     <string name="menu_tools">Tools</string>
+    <string name="menu_finish">Exit app</string>
 
     <string name="action_sort">Sort entries</string>
     <string name="action_sort_title">Sort by title</string>
