@@ -61,7 +61,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import de.baumann.hhsmoodle.R;
-import de.baumann.hhsmoodle.data_notes.Notes_helper;
+import de.baumann.hhsmoodle.activities.Activity_EditNote;
 import de.baumann.hhsmoodle.data_todo.Todo_helper;
 import de.baumann.hhsmoodle.helper.helper_main;
 
@@ -511,7 +511,11 @@ public class Bookmarks_Fragment extends Fragment {
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createNote))) {
-                                    Notes_helper.newNote(getActivity(), bookmarks_title, bookmarks_content);
+                                    sharedPref.edit()
+                                            .putString("handleTextTitle", bookmarks_title)
+                                            .putString("handleTextText", bookmarks_content)
+                                            .apply();
+                                    helper_main.switchToActivity(getActivity(), Activity_EditNote.class, false);
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createShortcut))) {

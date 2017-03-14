@@ -1,3 +1,6 @@
+### v 3.8 (WIP)
+- verbessert: Sortieren von Dateien
+
 ### v 3.7
 - neu: Video Vorschau
 - neu: Menü: App beenden

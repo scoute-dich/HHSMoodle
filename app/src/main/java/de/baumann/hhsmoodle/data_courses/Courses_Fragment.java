@@ -56,7 +56,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import de.baumann.hhsmoodle.R;
-import de.baumann.hhsmoodle.data_notes.Notes_helper;
+import de.baumann.hhsmoodle.activities.Activity_EditNote;
 import de.baumann.hhsmoodle.data_random.Random_DbAdapter;
 import de.baumann.hhsmoodle.data_subjects.Subject_DbAdapter;
 import de.baumann.hhsmoodle.data_todo.Todo_helper;
@@ -362,7 +362,10 @@ public class Courses_Fragment extends Fragment {
                                 }
 
                                 if (options[item].equals(getString(R.string.courseList_note))) {
-                                    Notes_helper.newNote(getActivity(), courses_title, "");
+                                    sharedPref.edit()
+                                            .putString("handleTextTitle", courses_title)
+                                            .apply();
+                                    helper_main.switchToActivity(getActivity(), Activity_EditNote.class, false);
                                 }
 
                                 if (options[item].equals(getString(R.string.courseList_todo))) {

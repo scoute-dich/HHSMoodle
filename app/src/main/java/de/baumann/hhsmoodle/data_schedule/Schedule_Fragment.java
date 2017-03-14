@@ -58,7 +58,7 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import de.baumann.hhsmoodle.R;
-import de.baumann.hhsmoodle.data_notes.Notes_helper;
+import de.baumann.hhsmoodle.activities.Activity_EditNote;
 import de.baumann.hhsmoodle.data_todo.Todo_helper;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.popup.Popup_note;
@@ -612,7 +612,11 @@ public class Schedule_Fragment extends Fragment {
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createNote))) {
-                                    Notes_helper.newNote(getActivity(), schedule_title, schedule_content);
+                                    sharedPref.edit()
+                                            .putString("handleTextTitle", schedule_title)
+                                            .putString("handleTextText", schedule_content)
+                                            .apply();
+                                    helper_main.switchToActivity(getActivity(), Activity_EditNote.class, false);
                                 }
 
                             }

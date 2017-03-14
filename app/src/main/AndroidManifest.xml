@@ -82,6 +82,11 @@
         <!-- activities helper -->
 
         <activity
+            android:name=".activities.Activity_EditNote"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
             android:name=".about.About_activity"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar"  />

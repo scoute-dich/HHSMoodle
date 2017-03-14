@@ -67,8 +67,8 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import de.baumann.hhsmoodle.R;
+import de.baumann.hhsmoodle.activities.Activity_EditNote;
 import de.baumann.hhsmoodle.activities.Activity_todo;
-import de.baumann.hhsmoodle.data_notes.Notes_helper;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.popup.Popup_courseList;
 
@@ -547,7 +547,11 @@ public class Todo_Fragment extends Fragment {
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createNote))) {
-                                    Notes_helper.newNote(getActivity(),todo_title, todo_content);
+                                    sharedPref.edit()
+                                            .putString("handleTextTitle", todo_title)
+                                            .putString("handleTextText", todo_content)
+                                            .apply();
+                                    helper_main.switchToActivity(getActivity(), Activity_EditNote.class, false);
                                 }
 
                             }
