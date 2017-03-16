@@ -44,7 +44,6 @@ import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.data_schedule.Schedule_helper;
 import de.baumann.hhsmoodle.helper.class_SecurePreferences;
 import de.baumann.hhsmoodle.helper.helper_encryption;
-import de.baumann.hhsmoodle.helper.helper_main;
 
 
 public class Activity_splash extends AppCompatActivity {
@@ -154,7 +153,6 @@ public class Activity_splash extends AppCompatActivity {
             } else {
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
-
                         Intent mainIntent = new Intent(Activity_splash.this, HHS_MainScreen.class);
                         mainIntent.putExtra("id", "1");
                         startActivity(mainIntent);
@@ -180,7 +178,6 @@ public class Activity_splash extends AppCompatActivity {
                     mainIntent.setAction("shortcutNotesNew_HS");
                     mainIntent.putExtra(Intent.EXTRA_SUBJECT, intent.getStringExtra(Intent.EXTRA_SUBJECT));
                     mainIntent.putExtra(Intent.EXTRA_TEXT, intent.getStringExtra(Intent.EXTRA_TEXT));
-                    sharedPref.edit().putString("handleTextCreate", helper_main.createDate()).apply();
                     startActivity(mainIntent);
                     Activity_splash.this.finish();
                     overridePendingTransition(0,0);

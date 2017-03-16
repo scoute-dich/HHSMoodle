@@ -1,5 +1,6 @@
-### v 3.8 (WIP)
+### v 3.8
 - verbessert: Sortieren von Dateien
+- verbessert: Erstellen von Notizen
 
 ### v 3.7
 - neu: Video Vorschau

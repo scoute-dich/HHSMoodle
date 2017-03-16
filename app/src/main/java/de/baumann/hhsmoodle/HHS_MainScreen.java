@@ -50,6 +50,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.baumann.hhsmoodle.activities.Activity_EditNote;
 import de.baumann.hhsmoodle.data_files.Files_Fragment;
 import de.baumann.hhsmoodle.data_bookmarks.Bookmarks_Fragment;
 import de.baumann.hhsmoodle.data_random.Random_Fragment;
@@ -170,9 +171,17 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
         }  else if ("shortcutNotesNew_HS".equals(action)) {
             Log.w("HHS_Moodle", "HHS_Main receiving intent");
             String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
-            sharedPref.edit().putString("newIntent", "true").putString("handleTextText", sharedText).apply();
+            String sharedTitle = intent.getStringExtra(Intent.EXTRA_SUBJECT);
+            sharedPref.edit()
+                    .putString("handleTextTitle", sharedTitle)
+                    .putString("handleTextText", sharedText)
+                    .putString("handleTextCreate", helper_main.createDate())
+                    .apply();
             lockUI();
             viewPager.setCurrentItem(3, true);
+            Intent intent_in = new Intent(HHS_MainScreen.this, Activity_EditNote.class);
+            startActivity(intent_in);
+            overridePendingTransition(0, 0);
         } else if ("shortcutToDo_HS".equals(action)) {
             lockUI();
             viewPager.setCurrentItem(2, true);

@@ -52,7 +52,6 @@ public class Activity_EditNote extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         setTitle(R.string.note_edit);
 
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
