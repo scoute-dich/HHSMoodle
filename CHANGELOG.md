@@ -1,3 +1,6 @@
+### v 3.9
+- fix: fehlendes Datum beim erstellen von Notizen (aus Klassenliste)
+
 ### v 3.8
 - verbessert: Sortieren von Dateien
 - verbessert: Erstellen von Notizen

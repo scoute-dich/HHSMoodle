@@ -158,6 +158,7 @@ public class Notes_Fragment extends Fragment {
             public void onClick(View view) {
                 closeFABMenu();
                 helper_main.isOpened(getActivity());
+                sharedPref.edit().putString("handleTextCreate", helper_main.createDate()).apply();
                 Intent mainIntent = new Intent(getActivity(), Popup_courseList.class);
                 mainIntent.setAction("courseList_note");
                 startActivity(mainIntent);
