@@ -19,11 +19,13 @@
 
 package de.baumann.hhsmoodle.data_files;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.net.Uri;
@@ -129,7 +131,14 @@ public class Files_Fragment extends Fragment {
         db = new Files_DbAdapter(getActivity());
         db.open();
 
-        setFilesList();
+        if (android.os.Build.VERSION.SDK_INT >= 23) {
+            int hasWRITE_EXTERNAL_STORAGE = getActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            if (hasWRITE_EXTERNAL_STORAGE == PackageManager.PERMISSION_GRANTED) {
+                setFilesList();
+            }
+        } else {
+            setFilesList();
+        }
         setHasOptionsMenu(true);
 
         return rootView;

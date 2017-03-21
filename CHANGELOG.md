@@ -1,5 +1,9 @@
+### v 4.0 (WIP)
+- neu: Zähler
+- fix: Crash bei Appstart (Marshmallow und aktueller)
+
 ### v 3.9
-- fix: fehlendes Datum beim erstellen von Notizen (aus Klassenliste)
+- fix: fehlendes Datum beim Erstellen von Notizen (aus Klassenliste)
 
 ### v 3.8
 - verbessert: Sortieren von Dateien

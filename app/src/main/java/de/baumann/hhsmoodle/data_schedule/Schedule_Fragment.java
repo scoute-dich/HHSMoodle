@@ -628,7 +628,7 @@ public class Schedule_Fragment extends Fragment {
         scrollToNow();
     }
 
-    public static class Item{
+    private static class Item{
         public final String text;
         public final int icon;
         Item(String text, Integer icon) {

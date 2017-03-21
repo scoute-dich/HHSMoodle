@@ -25,15 +25,13 @@ import android.content.Intent;
 import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.text.Layout;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -41,15 +39,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
+import org.apache.commons.io.FileUtils;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 import java.util.Random;
 
 import de.baumann.hhsmoodle.R;
@@ -61,8 +66,6 @@ public class Random_Fragment extends Fragment {
     //calling variables
     private Random_DbAdapter db;
     private ListView lv = null;
-    private TextView textFile;
-    private ScrollView scrollView;
     private int number;
 
     private FloatingActionButton fab_dice;
@@ -71,6 +74,9 @@ public class Random_Fragment extends Fragment {
     private LinearLayout fabLayout2;
     private boolean isFABOpen=false;
     private ViewPager viewPager;
+
+    private ArrayList<String> items;
+    private ListView lvItems;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -87,10 +93,9 @@ public class Random_Fragment extends Fragment {
         }
 
         fab_dice = (FloatingActionButton) rootView.findViewById(R.id.fab_dice);
-        scrollView = (ScrollView) rootView.findViewById(R.id.scrollView);
-        textFile = (TextView) rootView.findViewById(R.id.textFile);
         lv = (ListView) rootView.findViewById(R.id.list);
         viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
+        lvItems = (ListView) rootView.findViewById(R.id.lvItems);
 
         fabLayout1= (LinearLayout) rootView.findViewById(R.id.fabLayout1);
         fabLayout2= (LinearLayout) rootView.findViewById(R.id.fabLayout2);
@@ -172,28 +177,16 @@ public class Random_Fragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                String origString = textFile.getText().toString();
-
                 try {
                     Random rand = new Random();
-                    final int n = rand.nextInt(textFile.getLineCount());
+                    final int n = rand.nextInt(lvItems.getCount());
 
-                    int startPos = textFile.getLayout().getLineStart(n);
-                    int endPos = textFile.getLayout().getLineEnd(n);
+                    setAdapter(n);
+                    lvItems.setSelection(n-1);
 
-                    String theLine = textFile.getText().toString().substring(startPos, endPos);
-                    String theLine2 = theLine.substring(0, theLine.length()-1);
-                    String text = getString(R.string.number_chosen) + " " + String.valueOf(n + 1) + " " + theLine2;
 
-                    Spannable highlight = new SpannableString(origString);
-                    highlight.setSpan(new ForegroundColorSpan(ContextCompat.getColor(getActivity(), R.color.colorAccent)), startPos, endPos, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-                    textFile.setText(highlight);
-                    Layout layout = textFile.getLayout();
-                    scrollView.scrollTo(0, layout.getLineTop(textFile.getTop() + layout.getLineForOffset(startPos)));
-                    Snackbar.make(textFile, text, Snackbar.LENGTH_LONG).show();
                 } catch(NumberFormatException nfe) {
-                    Snackbar.make(textFile, R.string.number_error, Snackbar.LENGTH_LONG).show();
                     nfe.printStackTrace();
                 }
             }
@@ -262,9 +255,9 @@ public class Random_Fragment extends Fragment {
         //BackPressed in activity will call this;
         if(isFABOpen){
             closeFABMenu();
-        }else if (scrollView.getVisibility() == View.VISIBLE) {
+        }else if (lvItems.getVisibility() == View.VISIBLE) {
             lv.setVisibility(View.VISIBLE);
-            scrollView.setVisibility(View.GONE);
+            lvItems.setVisibility(View.GONE);
             fab.setVisibility(View.VISIBLE);
             fab_dice.setVisibility(View.GONE);
             getActivity().setTitle(R.string.number_title);
@@ -323,8 +316,27 @@ public class Random_Fragment extends Fragment {
                 } else {
                     getActivity().setTitle(random_title);
                     lv.setVisibility(View.GONE);
-                    scrollView.setVisibility(View.VISIBLE);
-                    textFile.setText(String.valueOf(random_content));
+                    lvItems.setVisibility(View.VISIBLE);
+
+                    try {
+                        FileOutputStream fOut = new FileOutputStream(newFile());
+                        OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
+                        myOutWriter.append(random_content);
+                        myOutWriter.close();
+
+                        fOut.flush();
+                        fOut.close();
+                    } catch (IOException e) {
+                        Log.e("Exception", "File write failed: " + e.toString());
+                    }
+
+                    items = new ArrayList<>();
+                    readItems();
+
+                    setAdapter(1000);
+
+
+
                     fab.setVisibility(View.GONE);
                     fab_dice.setVisibility(View.VISIBLE);
                 }
@@ -418,6 +430,40 @@ public class Random_Fragment extends Fragment {
                 return true;
             }
         });
+    }
+
+    private void setAdapter (final int count) {
+        ArrayAdapter<String> itemsAdapter = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_list_item_1, items) {
+
+            @NonNull
+            @Override
+            public View getView(final int position, View convertView, @NonNull ViewGroup parent) {
+
+                View v = super.getView(position, convertView, parent);
+
+                if (position == count) {
+                    v.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorAccent_trans));
+                } else {
+                    v.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.color_trans));
+                }
+                return v;
+            }
+        };
+        lvItems.setAdapter(itemsAdapter);
+    }
+
+    private File newFile() {
+        return  new File(getActivity().getFilesDir() + "todo.txt");
+    }
+
+    private void readItems() {
+        try {
+            //noinspection unchecked
+            items = new ArrayList<>(FileUtils.readLines(newFile()));
+        } catch (IOException e) {
+            items = new ArrayList<>();
+        }
     }
 
     @Override

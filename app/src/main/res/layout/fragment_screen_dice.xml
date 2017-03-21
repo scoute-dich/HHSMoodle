@@ -25,24 +25,13 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/imageView_header" />
 
-        <ScrollView
-            android:id="@+id/scrollView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imageView_header"
+            android:choiceMode="singleChoice"
             android:visibility="gone"
-            android:layout_below="@+id/imageView_header" >
-
-            <TextView
-                android:id="@+id/textFile"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="32dp"
-                android:lineSpacingExtra="8dp"
-                android:typeface="sans"
-                android:textColor="#757575"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        </ScrollView>
+            android:id="@+id/lvItems" />
 
     </RelativeLayout>
 
