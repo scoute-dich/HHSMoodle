@@ -373,6 +373,7 @@ public class Activity_settings extends AppCompatActivity {
                                         try {helper_encryption.encryptBackup(getActivity(),"/subject_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
                                         try {helper_encryption.encryptBackup(getActivity(),"/schedule_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
                                         try {helper_encryption.encryptBackup(getActivity(),"/todo_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                        try {helper_encryption.encryptBackup(getActivity(),"/count_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
                                     }
                                     if (options[item].equals(getString(R.string.action_restore))) {
                                         try {decrypt("/schedule_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
@@ -382,6 +383,7 @@ public class Activity_settings extends AppCompatActivity {
                                         try {decrypt("/notes_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
                                         try {decrypt("/random_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
                                         try {decrypt("/todo_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                        try {decrypt("/count_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
                                     }
                                 }
                             }).show();

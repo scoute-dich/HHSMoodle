@@ -256,6 +256,8 @@ public class Random_Fragment extends Fragment {
         if(isFABOpen){
             closeFABMenu();
         }else if (lvItems.getVisibility() == View.VISIBLE) {
+            //noinspection ResultOfMethodCallIgnored
+            newFile().delete();
             lv.setVisibility(View.VISIBLE);
             lvItems.setVisibility(View.GONE);
             fab.setVisibility(View.VISIBLE);

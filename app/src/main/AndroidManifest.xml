@@ -97,6 +97,11 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
+            android:name=".activities.Activity_count"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
             android:name=".activities.Activity_settings"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -212,6 +217,7 @@
                 <action android:name="courseList_todo" />
                 <action android:name="courseList_note" />
                 <action android:name="courseList_subject" />
+                <action android:name="courseList_count" />
             </intent-filter>
         </activity>
 

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:descendantFocusability="blocksDescendants"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/count_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="16dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:lines="1" />
+
+    <TextView
+        android:id="@+id/count_count"
+        android:layout_width="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@+id/but_minus"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:lines="1"
+        tools:ignore="RelativeOverlap" />
+
+    <ImageButton
+        android:id="@+id/but_minus"
+        android:layout_width="46dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="12dp"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@+id/but_plus"
+        android:background="@drawable/custom_button2"
+        app:srcCompat="@drawable/minus"
+        tools:ignore="ContentDescription" />
+
+    <ImageButton
+        android:id="@+id/but_plus"
+        android:layout_width="46dp"
+        android:layout_height="46dp"
+        android:layout_marginEnd="16dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/custom_button2"
+        app:srcCompat="@drawable/plus_dark"
+        tools:ignore="ContentDescription" />
+
+</RelativeLayout>

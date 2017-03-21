@@ -38,6 +38,7 @@ import android.widget.SimpleCursorAdapter;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.activities.Activity_EditNote;
 import de.baumann.hhsmoodle.activities.Activity_password;
+import de.baumann.hhsmoodle.data_count.Count_helper;
 import de.baumann.hhsmoodle.data_random.Random_DbAdapter;
 import de.baumann.hhsmoodle.data_courses.Courses_DbAdapter;
 import de.baumann.hhsmoodle.data_todo.Todo_helper;
@@ -116,6 +117,16 @@ public class Popup_courseList extends Activity {
                     final String courses_title = row2.getString(row2.getColumnIndexOrThrow("courses_title"));
                     final String courses_content = row2.getString(row2.getColumnIndexOrThrow("courses_content"));
                     Todo_helper.newTodo(Popup_courseList.this, courses_title, courses_content, getString(R.string.courseList_content));
+                }
+            });
+        } else if ("courseList_count".equals(action)) {
+            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    sharedPref.edit().putString("count_content", "").apply();
+                    Cursor row2 = (Cursor) lv.getItemAtPosition(position);
+                    final String courses_title = row2.getString(row2.getColumnIndexOrThrow("courses_title"));
+                    final String courses_content = row2.getString(row2.getColumnIndexOrThrow("courses_content"));
+                    Count_helper.newCount(Popup_courseList.this, courses_title, courses_content, getString(R.string.courseList_content), true);
                 }
             });
         }

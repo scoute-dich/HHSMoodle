@@ -59,6 +59,7 @@ import android.widget.TextView;
 
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.activities.Activity_EditNote;
+import de.baumann.hhsmoodle.data_count.Count_helper;
 import de.baumann.hhsmoodle.data_todo.Todo_helper;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.popup.Popup_note;
@@ -401,6 +402,7 @@ public class Schedule_Fragment extends Fragment {
                         getString(R.string.bookmark_remove_bookmark),
                         getString(R.string.todo_menu),
                         getString(R.string.bookmark_createNote),
+                        getString(R.string.count_create),
                         getString(R.string.bookmark_createEvent)};
                 new AlertDialog.Builder(getActivity())
                         .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
@@ -600,6 +602,10 @@ public class Schedule_Fragment extends Fragment {
 
                                 if (options[item].equals (getString(R.string.todo_menu))) {
                                     Todo_helper.newTodo(getActivity(), schedule_title, schedule_content, getActivity().getString(R.string.note_content));
+                                }
+
+                                if (options[item].equals (getString(R.string.count_create))) {
+                                    Count_helper.newCount(getActivity(), schedule_title, schedule_content, getActivity().getString(R.string.note_content), false);
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createEvent))) {

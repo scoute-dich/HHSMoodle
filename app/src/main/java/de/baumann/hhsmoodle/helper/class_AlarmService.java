@@ -91,14 +91,14 @@ public class class_AlarmService extends IntentService {
 
     // executes a command on the system
     private  boolean canExecuteCommand(String command) {
-        boolean executedSuccesfully;
+        boolean executedSuccessfully;
         try {
             Runtime.getRuntime().exec(command);
-            executedSuccesfully = true;
+            executedSuccessfully = true;
         } catch (Exception e) {
-            executedSuccesfully = false;
+            executedSuccessfully = false;
         }
-        return executedSuccesfully;
+        return executedSuccessfully;
     }
 
     private void executeCommandWithoutWait(String command) {

@@ -20,18 +20,23 @@
                 android:icon="@drawable/pencil"
                 android:title="@string/title_notes" />
             <item
+                android:id="@+id/nav_count"
+                android:icon="@drawable/plus_one"
+                android:title="@string/count_title" />
+            <item
                 android:id="@+id/nav_schedule"
                 android:icon="@drawable/timetable"
                 android:title="@string/schedule_title" />
-            <item
-                android:id="@+id/nav_files"
-                android:icon="@drawable/file_document"
-                android:title="@string/choose_titleMain" />
+
         </menu>
     </item>
 
     <item android:title="@string/menu_tools">
         <menu>
+            <item
+                android:id="@+id/nav_files"
+                android:icon="@drawable/file_document"
+                android:title="@string/choose_titleMain" />
             <item
                 android:id="@+id/nav_random"
                 android:icon="@drawable/dice_3_dark"

@@ -69,6 +69,7 @@ import java.util.Locale;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.activities.Activity_EditNote;
 import de.baumann.hhsmoodle.activities.Activity_todo;
+import de.baumann.hhsmoodle.data_count.Count_helper;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.popup.Popup_courseList;
 
@@ -472,6 +473,7 @@ public class Todo_Fragment extends Fragment {
                         getString(R.string.bookmark_remove_bookmark),
                         getString(R.string.todo_share),
                         getString(R.string.bookmark_createNote),
+                        getString(R.string.count_create),
                         getString(R.string.bookmark_createEvent)};
                 new AlertDialog.Builder(getActivity())
                         .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
@@ -552,6 +554,10 @@ public class Todo_Fragment extends Fragment {
                                             .putString("handleTextText", todo_content)
                                             .apply();
                                     helper_main.switchToActivity(getActivity(), Activity_EditNote.class, false);
+                                }
+
+                                if (options[item].equals (getString(R.string.count_create))) {
+                                    Count_helper.newCount(getActivity(), todo_title, todo_content, getActivity().getString(R.string.note_content), false);
                                 }
 
                             }

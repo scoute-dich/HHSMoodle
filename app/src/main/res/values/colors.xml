@@ -9,4 +9,8 @@
     <color name="color_trans_grey">#1A757575</color>
     <color name="color_light">#fafafa</color>
 
+    <color name="color_red">#f44336</color>
+    <color name="color_green">#4caf50</color>
+    <color name="color_grey">#757575</color>
+
 </resources>

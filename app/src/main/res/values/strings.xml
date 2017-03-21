@@ -32,7 +32,7 @@
     <string name="app_share_link">Share link using:</string>
     <string name="app_share_file">Choose file with:</string>
     <string name="app_contDesc_1">header</string>
-    <string name="app_contDesc_3">splashscreen</string>
+    <string name="app_contDesc_3">splashScreen</string>
     <string name="app_conf">Confirmation</string>
     <string name="app_att">Attachment</string>
     <string name="app_myMoodle">My Moodle</string>
@@ -325,14 +325,12 @@
     // Number
 
     <string name="number_title">Random generator</string>
-    <string name="number_error">Error. Have you chosen a file?</string>
     <string name="number_error_read">Error reading file.</string>
     <string name="number_dice">Random number</string>
     <string name="number_dice_hint">Enter number …</string>
     <string name="number_dice_error">First enter a number …</string>
     <string name="number_dice_hint2">… then press  \"ok\".</string>
     <string name="number_edit_entry">Edit entry</string>
-    <string name="number_chosen">Chosen:</string>
     <string name="number_enterData">Please enter data to the list.</string>
 
 
@@ -404,6 +402,12 @@
     <string name="subjects_color_orange">Orange</string>
     <string name="subjects_color_brown">Brown</string>
     <string name="subjects_color_grey">Grey</string>
+
+
+    // Count
+
+    <string name="count_title">Counter</string>
+    <string name="count_create">Create counter</string>
 
 
 </resources>

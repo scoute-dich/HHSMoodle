@@ -87,6 +87,7 @@ public class helper_encryption {
         try {decrypt(activity, "/databases/notes_DB_v01_en.db", "/databases/notes_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
         try {decrypt(activity, "/databases/courses_DB_v01_en.db", "/databases/courses_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
         try {decrypt(activity, "/databases/bookmarks_DB_v01_en.db", "/databases/bookmarks_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+        try {decrypt(activity, "/databases/count_DB_v01_en.db", "/databases/count_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
     }
 
     public static void encrypt(Activity activity, String in, String out) throws IOException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {
@@ -129,6 +130,7 @@ public class helper_encryption {
                     cos.write(d, 0, b);
                 }
                 // Flush and close streams.
+
                 cos.flush();
                 cos.close();
                 fis.close();
@@ -155,6 +157,7 @@ public class helper_encryption {
         try {encrypt(activity, "/databases/notes_DB_v01.db","/databases/notes_DB_v01_en.db");} catch (Exception e) {e.printStackTrace();}
         try {encrypt(activity, "/databases/courses_DB_v01.db","/databases/courses_DB_v01_en.db");} catch (Exception e) {e.printStackTrace();}
         try {encrypt(activity, "/databases/bookmarks_DB_v01.db","/databases/bookmarks_DB_v01_en.db");} catch (Exception e) {e.printStackTrace();}
+        try {encrypt(activity, "/databases/count_DB_v01.db","/databases/count_DB_v01_en.db");} catch (Exception e) {e.printStackTrace();}
     }
 
     public static void encryptBackup (Activity activity, String name) throws IOException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {
@@ -200,7 +203,6 @@ public class helper_encryption {
                 fis.close();
                 Log.w("HHS_Moodle", "DB backup");
             }
-
 
         } catch (PackageManager.NameNotFoundException e) {
             Log.w("HHS_Moodle", "Error Package name not found ", e);

@@ -24,7 +24,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/scrollView"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context="de.baumann.quitsmoking.MainActivity"
         android:foregroundGravity="center"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="false"

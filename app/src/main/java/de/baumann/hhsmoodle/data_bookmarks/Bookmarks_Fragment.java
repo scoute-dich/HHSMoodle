@@ -62,6 +62,7 @@ import java.util.Locale;
 
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.activities.Activity_EditNote;
+import de.baumann.hhsmoodle.data_count.Count_helper;
 import de.baumann.hhsmoodle.data_todo.Todo_helper;
 import de.baumann.hhsmoodle.helper.helper_main;
 
@@ -438,6 +439,7 @@ public class Bookmarks_Fragment extends Fragment {
                         getString(R.string.bookmark_remove_bookmark),
                         getString(R.string.todo_menu),
                         getString(R.string.bookmark_createNote),
+                        getString(R.string.count_create),
                         getString(R.string.bookmark_createShortcut),
                         getString(R.string.bookmark_createEvent)};
                 new AlertDialog.Builder(getActivity())
@@ -487,6 +489,10 @@ public class Bookmarks_Fragment extends Fragment {
 
                                 if (options[item].equals (getString(R.string.todo_menu))) {
                                     Todo_helper.newTodo(getActivity(), bookmarks_title, "", "");
+                                }
+
+                                if (options[item].equals (getString(R.string.count_create))) {
+                                    Count_helper.newCount(getActivity(), bookmarks_title, bookmarks_content, getActivity().getString(R.string.note_content), false);
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createEvent))) {

@@ -260,7 +260,7 @@
     <string name="toast_directory">Kann Verzeichnis nicht öffnen.</string>
     <string name="toast_files">Keine Dateien im Verzeichnis.</string>
     <string name="toast_textFile">Bitte Textdatei auswählen.</string>
-    <string name="toast_save">Entry not saved. Cancel editing?</string>
+    <string name="toast_save">Eintrag nicht gespeichert. Verwerfen?</string>
 
 
     // Bookmarks
@@ -332,14 +332,12 @@
     // Number
 
     <string name="number_title">Zufallsgenerator</string>
-    <string name="number_error">Fehler. Hast du eine Datei ausgewählt?</string>
     <string name="number_error_read">Fehler beim Lesen der Datei.</string>
     <string name="number_dice">Zufällige Zahl</string>
     <string name="number_dice_hint">Zahl eingeben …</string>
     <string name="number_dice_error">Zuerst eine Zahl eingeben …</string>
     <string name="number_dice_hint2">… dann  \"ok\" klicken.</string>
     <string name="number_edit_entry">Eintrag bearbeiten</string>
-    <string name="number_chosen">Ausgewählt:</string>
     <string name="number_enterData">Bitte der Liste Daten hinzufügen.</string>
 
 
@@ -411,5 +409,11 @@
     <string name="subjects_color_orange">Orange</string>
     <string name="subjects_color_brown">Braun</string>
     <string name="subjects_color_grey">Grau</string>
+
+
+    // Count
+
+    <string name="count_title">Zähler</string>
+    <string name="count_create">Erstelle Zähler</string>
 
 </resources>

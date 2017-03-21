@@ -17,10 +17,11 @@
     If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.baumann.hhsmoodle.data_notes;
+package de.baumann.hhsmoodle.data_count;
 
 import android.animation.Animator;
 import android.app.AlertDialog;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -28,6 +29,7 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
@@ -37,8 +39,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.text.util.Linkify;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -47,7 +47,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FilterQueryProvider;
 import android.widget.ImageButton;
@@ -59,10 +58,6 @@ import android.widget.RelativeLayout;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-
-import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -70,15 +65,14 @@ import java.util.Locale;
 
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.activities.Activity_EditNote;
-import de.baumann.hhsmoodle.data_count.Count_helper;
-import de.baumann.hhsmoodle.data_todo.Todo_helper;
+import de.baumann.hhsmoodle.activities.Activity_count;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.popup.Popup_courseList;
 
-public class Notes_Fragment extends Fragment {
+public class Count_Fragment extends Fragment {
 
     //calling variables
-    private Notes_DbAdapter db;
+    private Count_DbAdapter db;
     private SimpleCursorAdapter adapter;
 
     private ListView lv = null;
@@ -124,7 +118,7 @@ public class Notes_Fragment extends Fragment {
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 imgHeader.setVisibility(View.VISIBLE);
                 filter_layout.setVisibility(View.GONE);
-                setNotesList();
+                setCountList();
             }
         });
 
@@ -149,8 +143,51 @@ public class Notes_Fragment extends Fragment {
             @Override
             public void onClick(View view) {
                 closeFABMenu();
-                sharedPref.edit().putString("handleTextCreate", helper_main.createDate()).apply();
-                helper_main.switchToActivity(getActivity(), Activity_EditNote.class, false);
+                final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getActivity());
+                View dialogView = View.inflate(getActivity(), R.layout.dialog_edit_title, null);
+                final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
+                edit_title.setHint(R.string.bookmark_edit_title);
+                builder.setTitle(R.string.count_title);
+                builder.setView(dialogView);
+                builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                    }
+                });
+                builder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        dialog.cancel();
+                    }
+                });
+
+                final android.app.AlertDialog dialog2 = builder.create();
+                dialog2.show();
+
+                dialog2.getButton(android.app.AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //Do stuff, possibly set wantToCloseDialog to true then...
+
+                        String inputTitle = edit_title.getText().toString().trim();
+
+                        Count_DbAdapter db = new Count_DbAdapter(getActivity());
+                        db.open();
+
+                        if(db.isExist(inputTitle)){
+                            Snackbar.make(edit_title, getActivity().getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
+                        }else{
+                            dialog2.dismiss();
+                            db.insert(inputTitle, sharedPref.getString("count_content", ""), "3", "", helper_main.createDate());
+                            sharedPref.edit().putString("count_content", "").apply();
+                            setCountList();
+                        }
+                    }
+                });
+
+                helper_main.showKeyboard(getActivity(),edit_title);
             }
         });
 
@@ -159,18 +196,17 @@ public class Notes_Fragment extends Fragment {
             public void onClick(View view) {
                 closeFABMenu();
                 helper_main.isOpened(getActivity());
-                sharedPref.edit().putString("handleTextCreate", helper_main.createDate()).apply();
                 Intent mainIntent = new Intent(getActivity(), Popup_courseList.class);
-                mainIntent.setAction("courseList_note");
+                mainIntent.setAction("courseList_count");
                 startActivity(mainIntent);
             }
         });
 
         //calling Notes_DbAdapter
-        db = new Notes_DbAdapter(getActivity());
+        db = new Count_DbAdapter(getActivity());
         db.open();
 
-        setNotesList();
+        setCountList();
         setHasOptionsMenu(true);
 
         return rootView;
@@ -213,44 +249,41 @@ public class Notes_Fragment extends Fragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && isResumed() && viewPager.getCurrentItem() == 3) {
+        if (isVisibleToUser && isResumed() && viewPager.getCurrentItem() == 2) {
             setTitle();
-            setNotesList();
-            if (sharedPref.getString("newIntent", "false").equals("true")) {
-                helper_main.switchToActivity(getActivity(), Activity_EditNote.class, false);
-            }
+            setCountList();
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        setNotesList();
-        if (sharedPref.getString("newIntent", "false").equals("true")) {
-            helper_main.switchToActivity(getActivity(), Activity_EditNote.class, false);
-        }
+        setCountList();
     }
 
     public void doBack() {
         //BackPressed in activity will call this;
         if(isFABOpen){
             closeFABMenu();
-        } if (filter_layout.getVisibility() == View.VISIBLE) {
+        } else if (filter_layout.getVisibility() == View.VISIBLE) {
             InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(filter_layout.getWindowToken(), 0);
             imgHeader.setVisibility(View.VISIBLE);
             filter_layout.setVisibility(View.GONE);
-            setNotesList();
+            setCountList();
         } else {
             helper_main.onClose(getActivity());
         }
     }
 
-    private void setNotesList() {
+    private void setCountList() {
 
         if(isFABOpen){
             closeFABMenu();
         }
+
+        NotificationManager nMgr = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+        nMgr.cancelAll();
 
         //display data
         final int layoutstyle=R.layout.list_item_notes;
@@ -260,9 +293,9 @@ public class Notes_Fragment extends Fragment {
                 R.id.textView_create_notes
         };
         String[] column = new String[] {
-                "note_title",
-                "note_content",
-                "note_creation"
+                "count_title",
+                "count_content",
+                "count_creation"
         };
         final Cursor row = db.fetchAllData(getActivity());
         adapter = new SimpleCursorAdapter(getActivity(), layoutstyle,row,column, xml_id, 0) {
@@ -271,17 +304,42 @@ public class Notes_Fragment extends Fragment {
 
                 Cursor row2 = (Cursor) lv.getItemAtPosition(position);
                 final String _id = row2.getString(row2.getColumnIndexOrThrow("_id"));
-                final String note_title = row2.getString(row2.getColumnIndexOrThrow("note_title"));
-                final String note_content = row2.getString(row2.getColumnIndexOrThrow("note_content"));
-                final String note_icon = row2.getString(row2.getColumnIndexOrThrow("note_icon"));
-                final String note_attachment = row2.getString(row2.getColumnIndexOrThrow("note_attachment"));
-                final String note_creation = row2.getString(row2.getColumnIndexOrThrow("note_creation"));
+                final String count_title = row2.getString(row2.getColumnIndexOrThrow("count_title"));
+                final String count_content = row2.getString(row2.getColumnIndexOrThrow("count_content"));
+                final String count_icon = row2.getString(row2.getColumnIndexOrThrow("count_icon"));
+                final String count_attachment = row2.getString(row2.getColumnIndexOrThrow("count_attachment"));
+                final String count_creation = row2.getString(row2.getColumnIndexOrThrow("count_creation"));
 
                 View v = super.getView(position, convertView, parent);
-                ImageView iv_icon = (ImageView) v.findViewById(R.id.icon_notes);
-                ImageView iv_attachment = (ImageView) v.findViewById(R.id.att_notes);
+                final TextView tv = (TextView) v.findViewById(R.id.text);
 
-                switch (note_icon) {
+
+
+
+                if (count_attachment.isEmpty()) {
+
+                    tv.setText(count_content);
+
+                    new Handler().postDelayed(new Runnable() {
+                        public void run() {
+                            int n = tv.getLineCount();
+
+                            StringBuilder sb = new StringBuilder(n);
+                            for (int i = 0; i < n; ++i) {
+                                sb.append("0" + '\n');
+                            }
+                            String result = sb.toString();
+
+                            db.update(Integer.parseInt(_id), count_title, count_content, count_icon, result, count_creation);
+                            setCountList();
+                        }
+                    }, 500);
+                }
+
+
+                ImageView iv_icon = (ImageView) v.findViewById(R.id.icon_notes);
+
+                switch (count_icon) {
                     case "3":
                         iv_icon.setImageResource(R.drawable.circle_green);
                         break;
@@ -291,21 +349,6 @@ public class Notes_Fragment extends Fragment {
                     case "1":
                         iv_icon.setImageResource(R.drawable.circle_red);
                         break;
-                }
-
-                switch (note_attachment) {
-                    case "":
-                        iv_attachment.setVisibility(View.GONE);
-                        break;
-                    default:
-                        iv_attachment.setVisibility(View.VISIBLE);
-                        iv_attachment.setImageResource(R.drawable.ic_attachment);
-                        break;
-                }
-
-                File file = new File(note_attachment);
-                if (!file.exists()) {
-                    iv_attachment.setVisibility(View.GONE);
                 }
 
                 iv_icon.setOnClickListener(new View.OnClickListener() {
@@ -350,24 +393,17 @@ public class Notes_Fragment extends Fragment {
 
                                     public void onClick(DialogInterface dialog, int item) {
                                         if (item == 0) {
-                                            db.update(Integer.parseInt(_id),note_title, note_content, "3", note_attachment, note_creation);
-                                            setNotesList();
+                                            db.update(Integer.parseInt(_id),count_title, count_content, "3", count_attachment, count_creation);
+                                            setCountList();
                                         } else if (item == 1) {
-                                            db.update(Integer.parseInt(_id),note_title, note_content, "2", note_attachment, note_creation);
-                                            setNotesList();
+                                            db.update(Integer.parseInt(_id),count_title, count_content, "2", count_attachment, count_creation);
+                                            setCountList();
                                         } else if (item == 2) {
-                                            db.update(Integer.parseInt(_id),note_title, note_content, "1", note_attachment, note_creation);
-                                            setNotesList();
+                                            db.update(Integer.parseInt(_id),count_title, count_content, "1", count_attachment, count_creation);
+                                            setCountList();
                                         }
                                     }
                                 }).show();
-                    }
-                });
-                iv_attachment.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View arg0) {
-                        helper_main.openAtt(getActivity(), lv, note_attachment);
                     }
                 });
                 return v;
@@ -375,8 +411,8 @@ public class Notes_Fragment extends Fragment {
         };
 
         //display data by filter
-        final String note_search = sharedPref.getString("filter_noteBY", "note_title");
-        sharedPref.edit().putString("filter_noteBY", "note_title").apply();
+        final String note_search = sharedPref.getString("filter_countBY", "note_title");
+        sharedPref.edit().putString("filter_countBY", "note_title").apply();
         filter.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
             }
@@ -404,129 +440,20 @@ public class Notes_Fragment extends Fragment {
 
                 Cursor row2 = (Cursor) lv.getItemAtPosition(position);
                 final String _id = row2.getString(row2.getColumnIndexOrThrow("_id"));
-                final String note_title = row2.getString(row2.getColumnIndexOrThrow("note_title"));
-                final String note_content = row2.getString(row2.getColumnIndexOrThrow("note_content"));
-                final String note_icon = row2.getString(row2.getColumnIndexOrThrow("note_icon"));
-                final String note_attachment = row2.getString(row2.getColumnIndexOrThrow("note_attachment"));
-                final String note_creation = row2.getString(row2.getColumnIndexOrThrow("note_creation"));
+                final String count_title = row2.getString(row2.getColumnIndexOrThrow("count_title"));
+                final String count_content = row2.getString(row2.getColumnIndexOrThrow("count_content"));
+                final String count_icon = row2.getString(row2.getColumnIndexOrThrow("count_icon"));
+                final String count_attachment = row2.getString(row2.getColumnIndexOrThrow("count_attachment"));
+                final String count_creation = row2.getString(row2.getColumnIndexOrThrow("count_creation"));
 
-                final Button attachment;
-                final TextView textInput;
+                sharedPref.edit().putString("count_title", count_title).apply();
+                sharedPref.edit().putString("count_content", count_content).apply();
+                sharedPref.edit().putString("count_seqno", _id).apply();
+                sharedPref.edit().putString("count_icon", count_icon).apply();
+                sharedPref.edit().putString("count_create", count_creation).apply();
+                sharedPref.edit().putString("count_attachment", count_attachment).apply();
 
-                LayoutInflater inflater = getActivity().getLayoutInflater();
-
-                final ViewGroup nullParent = null;
-                final View dialogView = inflater.inflate(R.layout.dialog_note_show, nullParent);
-
-                final String attName = note_attachment.substring(note_attachment.lastIndexOf("/")+1);
-                final String att = getString(R.string.app_att) + ": " + attName;
-
-                attachment = (Button) dialogView.findViewById(R.id.button_att);
-                if (attName.equals("")) {
-                    attachment.setVisibility(View.GONE);
-                } else {
-                    attachment.setText(att);
-                }
-
-                textInput = (TextView) dialogView.findViewById(R.id.note_text_input);
-                if (note_content.isEmpty()) {
-                    textInput.setVisibility(View.GONE);
-                } else {
-                    textInput.setText(note_content);
-                    Linkify.addLinks(textInput, Linkify.WEB_URLS);
-                }
-
-                attachment.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View arg0) {
-                        helper_main.openAtt(getActivity(), textInput, note_attachment);
-                    }
-                });
-
-                final ImageView be = (ImageView) dialogView.findViewById(R.id.imageButtonPri);
-                final ImageView attImage = (ImageView) dialogView.findViewById(R.id.attImage);
-
-                File file2 = new File(note_attachment);
-                if (!file2.exists()) {
-                    attachment.setVisibility(View.GONE);
-                    attImage.setVisibility(View.GONE);
-                } else if (note_attachment.contains(".gif") ||
-                            note_attachment.contains(".bmp") ||
-                            note_attachment.contains(".tiff") ||
-                            note_attachment.contains(".png") ||
-                            note_attachment.contains(".jpg") ||
-                            note_attachment.contains(".JPG") ||
-                            note_attachment.contains(".jpeg") ||
-                            note_attachment.contains(".mpeg") ||
-                            note_attachment.contains(".mp4") ||
-                            note_attachment.contains(".3gp") ||
-                            note_attachment.contains(".3g2") ||
-                            note_attachment.contains(".avi") ||
-                            note_attachment.contains(".flv") ||
-                            note_attachment.contains(".h261") ||
-                            note_attachment.contains(".h263") ||
-                            note_attachment.contains(".h264") ||
-                            note_attachment.contains(".asf") ||
-                            note_attachment.contains(".wmv")) {
-                        attImage.setVisibility(View.VISIBLE);
-
-                        try {
-                            Glide.with(getActivity())
-                                    .load(note_attachment) // or URI/path
-                                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                                    .skipMemoryCache(true)
-                                    .into(attImage); //imageView to set thumbnail to
-                        } catch (Exception e) {
-                            Log.w("HHS_Moodle", "Error load thumbnail", e);
-                            attImage.setVisibility(View.GONE);
-                        }
-
-                        attImage.setOnClickListener(new View.OnClickListener() {
-
-                            @Override
-                            public void onClick(View arg0) {
-                                helper_main.openAtt(getActivity(), attImage, note_attachment);
-                            }
-                        });
-                }
-
-                switch (note_icon) {
-                    case "3":
-                        be.setImageResource(R.drawable.circle_green);
-                        break;
-                    case "2":
-                        be.setImageResource(R.drawable.circle_yellow);
-                        break;
-                    case "1":
-                        be.setImageResource(R.drawable.circle_red);
-                        break;
-                }
-
-                android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(getActivity())
-                        .setTitle(note_title)
-                        .setView(dialogView)
-                        .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                dialog.cancel();
-                            }
-                        })
-                        .setNegativeButton(R.string.note_edit, new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                sharedPref.edit()
-                                        .putString("handleTextTitle", note_title)
-                                        .putString("handleTextText", note_content)
-                                        .putString("handleTextIcon", note_icon)
-                                        .putString("handleTextSeqno", _id)
-                                        .putString("handleTextAttachment", note_attachment)
-                                        .putString("handleTextCreate", note_creation)
-                                        .apply();
-                                helper_main.switchToActivity(getActivity(), Activity_EditNote.class, false);
-                            }
-                        });
-                dialog.show();
+                helper_main.switchToActivity(getActivity(), Activity_count.class, false);
             }
         });
 
@@ -539,18 +466,17 @@ public class Notes_Fragment extends Fragment {
 
                 Cursor row2 = (Cursor) lv.getItemAtPosition(position);
                 final String _id = row2.getString(row2.getColumnIndexOrThrow("_id"));
-                final String note_title = row2.getString(row2.getColumnIndexOrThrow("note_title"));
-                final String note_content = row2.getString(row2.getColumnIndexOrThrow("note_content"));
-                final String note_icon = row2.getString(row2.getColumnIndexOrThrow("note_icon"));
-                final String note_attachment = row2.getString(row2.getColumnIndexOrThrow("note_attachment"));
-                final String note_creation = row2.getString(row2.getColumnIndexOrThrow("note_creation"));
+                final String count_title = row2.getString(row2.getColumnIndexOrThrow("count_title"));
+                final String count_content = row2.getString(row2.getColumnIndexOrThrow("count_content"));
+                final String count_icon = row2.getString(row2.getColumnIndexOrThrow("count_icon"));
+                final String count_attachment = row2.getString(row2.getColumnIndexOrThrow("count_attachment"));
+                final String count_creation = row2.getString(row2.getColumnIndexOrThrow("count_creation"));
 
                 final CharSequence[] options = {
                         getString(R.string.number_edit_entry),
                         getString(R.string.bookmark_remove_bookmark),
                         getString(R.string.todo_share),
-                        getString(R.string.todo_menu),
-                        getString(R.string.count_create),
+                        getString(R.string.bookmark_createNote),
                         getString(R.string.bookmark_createEvent)};
                 new AlertDialog.Builder(getActivity())
                         .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
@@ -563,38 +489,52 @@ public class Notes_Fragment extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialog, int item) {
                                 if (options[item].equals(getString(R.string.number_edit_entry))) {
-                                    sharedPref.edit()
-                                            .putString("handleTextTitle", note_title)
-                                            .putString("handleTextText", note_content)
-                                            .putString("handleTextIcon", note_icon)
-                                            .putString("handleTextSeqno", _id)
-                                            .putString("handleTextAttachment", note_attachment)
-                                            .putString("handleTextCreate", note_creation)
-                                            .apply();
-                                    helper_main.switchToActivity(getActivity(), Activity_EditNote.class, false);
+
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                    View dialogView = View.inflate(getActivity(), R.layout.dialog_edit_title, null);
+
+                                    final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
+                                    edit_title.setHint(R.string.bookmark_edit_title);
+                                    edit_title.setText(count_title);
+
+                                    builder.setView(dialogView);
+                                    builder.setTitle(R.string.bookmark_edit_title);
+                                    builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+
+                                        public void onClick(DialogInterface dialog, int whichButton) {
+
+                                            String inputTag = edit_title.getText().toString().trim();
+                                            db.update(Integer.parseInt(_id), inputTag, count_content, count_icon, count_attachment, count_creation);
+                                            setCountList();
+                                            Snackbar.make(lv, R.string.bookmark_added, Snackbar.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                    builder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                            dialog.cancel();
+                                        }
+                                    });
+
+                                    final AlertDialog dialog2 = builder.create();
+                                    // Display the custom alert dialog on interface
+                                    dialog2.show();
+                                    helper_main.showKeyboard(getActivity(),edit_title);
                                 }
 
                                 if (options[item].equals (getString(R.string.todo_share))) {
                                     Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                                     sharingIntent.setType("text/plain");
-                                    sharingIntent.putExtra(Intent.EXTRA_SUBJECT, note_title);
-                                    sharingIntent.putExtra(Intent.EXTRA_TEXT, note_content);
+                                    sharingIntent.putExtra(Intent.EXTRA_SUBJECT, count_title);
+                                    sharingIntent.putExtra(Intent.EXTRA_TEXT, count_content);
                                     startActivity(Intent.createChooser(sharingIntent, (getString(R.string.note_share_2))));
-                                }
-
-                                if (options[item].equals (getString(R.string.todo_menu))) {
-                                    Todo_helper.newTodo(getActivity(), note_title, note_content, getActivity().getString(R.string.note_content));
-                                }
-
-                                if (options[item].equals (getString(R.string.count_create))) {
-                                    Count_helper.newCount(getActivity(), note_title, note_content, getActivity().getString(R.string.note_content), false);
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createEvent))) {
                                     Intent calIntent = new Intent(Intent.ACTION_INSERT);
                                     calIntent.setType("vnd.android.cursor.item/event");
-                                    calIntent.putExtra(CalendarContract.Events.TITLE, note_title);
-                                    calIntent.putExtra(CalendarContract.Events.DESCRIPTION, note_content);
+                                    calIntent.putExtra(CalendarContract.Events.TITLE, count_title);
+                                    calIntent.putExtra(CalendarContract.Events.DESCRIPTION, count_content);
                                     startActivity(calIntent);
                                 }
 
@@ -605,11 +545,20 @@ public class Notes_Fragment extends Fragment {
                                                 @Override
                                                 public void onClick(View view) {
                                                     db.delete(Integer.parseInt(_id));
-                                                    setNotesList();
+                                                    setCountList();
                                                 }
                                             });
                                     snackbar.show();
                                 }
+
+                                if (options[item].equals (getString(R.string.bookmark_createNote))) {
+                                    sharedPref.edit()
+                                            .putString("handleTextTitle", count_title)
+                                            .putString("handleTextText", count_content)
+                                            .apply();
+                                    helper_main.switchToActivity(getActivity(), Activity_EditNote.class, false);
+                                }
+
                             }
                         }).show();
 
@@ -636,13 +585,14 @@ public class Notes_Fragment extends Fragment {
     public void onPrepareOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         super.onPrepareOptionsMenu(menu);
-        menu.findItem(R.id.sort_notification).setVisible(false);
+        menu.findItem(R.id.sort_attachment).setVisible(false);
         menu.findItem(R.id.sort_icon).setVisible(false);
-        menu.findItem(R.id.sort_ext).setVisible(false);
+        menu.findItem(R.id.filter_att).setVisible(false);
+        menu.findItem(R.id.filter_url).setVisible(false);
         menu.findItem(R.id.filter_teacher).setVisible(false);
         menu.findItem(R.id.filter_room).setVisible(false);
-        menu.findItem(R.id.filter_url).setVisible(false);
-        menu.findItem(R.id.filter_ext).setVisible(false);
+        menu.findItem(R.id.sort_ext).setVisible(false);
+        menu.findItem(R.id.sort_notification).setVisible(false);
     }
 
     @Override
@@ -651,12 +601,12 @@ public class Notes_Fragment extends Fragment {
         switch (item.getItemId()) {
 
             case R.id.action_help:
-                helper_main.switchToActivity(getActivity(), Notes_Help.class, false);
+
                 return true;
 
             case R.id.filter_title:
-                sharedPref.edit().putString("filter_noteBY", "note_title").apply();
-                setNotesList();
+                sharedPref.edit().putString("filter_countBY", "count_title").apply();
+                setCountList();
                 filter_layout.setVisibility(View.VISIBLE);
                 imgHeader.setVisibility(View.GONE);
                 filter.setText("");
@@ -665,8 +615,8 @@ public class Notes_Fragment extends Fragment {
                 helper_main.showKeyboard(getActivity(), filter);
                 return true;
             case R.id.filter_content:
-                sharedPref.edit().putString("filter_noteBY", "note_content").apply();
-                setNotesList();
+                sharedPref.edit().putString("filter_countBY", "count_content").apply();
+                setCountList();
                 filter_layout.setVisibility(View.VISIBLE);
                 imgHeader.setVisibility(View.GONE);
                 filter.setText("");
@@ -676,47 +626,47 @@ public class Notes_Fragment extends Fragment {
                 return true;
 
             case R.id.filter_today:
-                getActivity().setTitle(getString(R.string.title_notes) + " | " + getString(R.string.filter_today));
+                getActivity().setTitle(getString(R.string.todo_title) + " | " + getString(R.string.filter_today));
                 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                 Calendar cal = Calendar.getInstance();
                 final String search = dateFormat.format(cal.getTime());
-                sharedPref.edit().putString("filter_noteBY", "note_creation").apply();
-                setNotesList();
+                sharedPref.edit().putString("filter_countBY", "count_creation").apply();
+                setCountList();
                 filter.setText(search);
                 return true;
             case R.id.filter_yesterday:
-                getActivity().setTitle(getString(R.string.title_notes) + " | " + getString(R.string.filter_yesterday));
+                getActivity().setTitle(getString(R.string.todo_title) + " | " + getString(R.string.filter_yesterday));
                 DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                 Calendar cal2 = Calendar.getInstance();
                 cal2.add(Calendar.DATE, -1);
                 final String search2 = dateFormat2.format(cal2.getTime());
-                sharedPref.edit().putString("filter_noteBY", "note_creation").apply();
-                setNotesList();
+                sharedPref.edit().putString("filter_countBY", "count_creation").apply();
+                setCountList();
                 filter.setText(search2);
                 return true;
             case R.id.filter_before:
-                getActivity().setTitle(getString(R.string.title_notes) + " | " + getString(R.string.filter_before));
+                getActivity().setTitle(getString(R.string.todo_title) + " | " + getString(R.string.filter_before));
                 DateFormat dateFormat3 = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                 Calendar cal3 = Calendar.getInstance();
                 cal3.add(Calendar.DATE, -2);
                 final String search3 = dateFormat3.format(cal3.getTime());
-                sharedPref.edit().putString("filter_noteBY", "note_creation").apply();
-                setNotesList();
+                sharedPref.edit().putString("filter_countBY", "count_creation").apply();
+                setCountList();
                 filter.setText(search3);
                 return true;
             case R.id.filter_month:
-                getActivity().setTitle(getString(R.string.title_notes) + " | " + getString(R.string.filter_month));
+                getActivity().setTitle(getString(R.string.todo_title) + " | " + getString(R.string.filter_month));
                 DateFormat dateFormat4 = new SimpleDateFormat("yyyy-MM", Locale.getDefault());
                 Calendar cal4 = Calendar.getInstance();
                 final String search4 = dateFormat4.format(cal4.getTime());
-                sharedPref.edit().putString("filter_noteBY", "note_creation").apply();
-                setNotesList();
+                sharedPref.edit().putString("filter_countBY", "count_creation").apply();
+                setCountList();
                 filter.setText(search4);
                 return true;
             case R.id.filter_own:
-                getActivity().setTitle(getString(R.string.title_notes) + " | " + getString(R.string.filter_own));
-                sharedPref.edit().putString("filter_noteBY", "note_creation").apply();
-                setNotesList();
+                getActivity().setTitle(getString(R.string.todo_title) + " | " + getString(R.string.filter_own));
+                sharedPref.edit().putString("filter_countBY", "count_creation").apply();
+                setCountList();
                 filter_layout.setVisibility(View.VISIBLE);
                 imgHeader.setVisibility(View.GONE);
                 filter.setText("");
@@ -727,39 +677,23 @@ public class Notes_Fragment extends Fragment {
             case R.id.filter_clear:
                 setTitle();
                 filter.setText("");
-                setNotesList();
-                return true;
-
-            case R.id.filter_att:
-                sharedPref.edit().putString("filter_noteBY", "note_attachment").apply();
-                setNotesList();
-                filter_layout.setVisibility(View.VISIBLE);
-                imgHeader.setVisibility(View.GONE);
-                filter.setText("");
-                filter.setHint(R.string.action_filter_att);
-                filter.requestFocus();
-                helper_main.showKeyboard(getActivity(), filter);
+                setCountList();
                 return true;
 
             case R.id.sort_title:
-                sharedPref.edit().putString("sortDB", "title").apply();
+                sharedPref.edit().putString("sortDBC", "title").apply();
                 setTitle();
-                setNotesList();
+                setCountList();
                 return true;
             case R.id.sort_pri:
-                sharedPref.edit().putString("sortDB", "icon").apply();
+                sharedPref.edit().putString("sortDBC", "icon").apply();
                 setTitle();
-                setNotesList();
+                setCountList();
                 return true;
             case R.id.sort_creation:
-                sharedPref.edit().putString("sortDB", "create").apply();
+                sharedPref.edit().putString("sortDBC", "create").apply();
                 setTitle();
-                setNotesList();
-                return true;
-            case R.id.sort_attachment:
-                sharedPref.edit().putString("sortDB", "attachment").apply();
-                setTitle();
-                setNotesList();
+                setCountList();
                 return true;
         }
 
@@ -767,14 +701,12 @@ public class Notes_Fragment extends Fragment {
     }
 
     public void setTitle () {
-        if (sharedPref.getString("sortDB", "title").equals("title")) {
-            getActivity().setTitle(getString(R.string.title_notes) + " | " + getString(R.string.sort_title));
-        } else if (sharedPref.getString("sortDB", "title").equals("icon")) {
-            getActivity().setTitle(getString(R.string.title_notes) + " | " + getString(R.string.sort_pri));
-        }  else if (sharedPref.getString("sortDB", "title").equals("create")) {
-            getActivity().setTitle(getString(R.string.title_notes) + " | " + getString(R.string.sort_date));
+        if (sharedPref.getString("sortDBC", "title").equals("title")) {
+            getActivity().setTitle(getString(R.string.count_title) + " | " + getString(R.string.sort_title));
+        } else if (sharedPref.getString("sortDBC", "title").equals("icon")) {
+            getActivity().setTitle(getString(R.string.count_title) + " | " + getString(R.string.sort_pri));
         } else {
-            getActivity().setTitle(getString(R.string.title_notes) + " | " + getString(R.string.sort_att));
+            getActivity().setTitle(getString(R.string.count_title) + " | " + getString(R.string.sort_date));
         }
     }
 }
