@@ -166,11 +166,13 @@
     <string name="action_sort_priority">Sortiere nach Dringlichkeit</string>
     <string name="action_sort_ext">Sortiere nach Erweiterung</string>
 
+    <string name="action_filter">Suche</string>
     <string name="action_filter_title">Suche in Titeln</string>
     <string name="action_filter_cont">Suche in Inhalten</string>
     <string name="action_filter_create">Suche nach Datum</string>
     <string name="action_filter_url">Suche nach URL</string>
     <string name="action_filter_att">Suche nach Anhang</string>
+    <string name="action_filter_course">Suche nach Kursen</string>
 
     <string name="filter_today">Heute</string>
     <string name="filter_yesterday">Gestern</string>
@@ -344,7 +346,7 @@
     // ToDo
 
     <string name="todo_title">Todo</string>
-    <string name="todo_from_courseList">Aus Klassenliste</string>
+    <string name="todo_from_courseList">Aus Kursliste</string>
     <string name="todo_from_new">Eigener Titel</string>
     <string name="todo_hint">Neuer Eintrag …</string>
     <string name="todo_menu">Erstelle ToDo Liste</string>
@@ -358,7 +360,7 @@
 
     // CourseList
 
-    <string name="courseList_title">Klassenlisten</string>
+    <string name="courseList_title">Kurslisten</string>
     <string name="courseList_fromText">Aus Textdatei</string>
     <string name="courseList_todo">Erstelle Todo Liste</string>
     <string name="courseList_note">Erstelle Notiz</string>

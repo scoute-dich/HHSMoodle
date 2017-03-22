@@ -65,6 +65,7 @@ import de.baumann.hhsmoodle.activities.Activity_EditNote;
 import de.baumann.hhsmoodle.data_count.Count_helper;
 import de.baumann.hhsmoodle.data_todo.Todo_helper;
 import de.baumann.hhsmoodle.helper.helper_main;
+import de.baumann.hhsmoodle.popup.Popup_courseList;
 
 public class Bookmarks_Fragment extends Fragment {
 
@@ -133,18 +134,18 @@ public class Bookmarks_Fragment extends Fragment {
     }
 
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && isResumed() && viewPager.getCurrentItem() == 1) {
-            setTitle();
-            setBookmarksList();
-        }
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
-        setBookmarksList();
+        if (!sharedPref.getString("search_byCourse", "").isEmpty() && viewPager.getCurrentItem() == 1) {
+            String search = sharedPref.getString("search_byCourse", "");
+            sharedPref.edit().putString("filter_bookmarksBY", "bookmarks_title").apply();
+            getActivity().setTitle(getString(R.string.title_bookmarks) + " | " + search);
+            setBookmarksList();
+            filter.setText(search);
+            sharedPref.edit().putString("search_byCourse", "").apply();
+        } else {
+            setBookmarksList();
+        }
     }
 
     public void doBack() {
@@ -159,7 +160,7 @@ public class Bookmarks_Fragment extends Fragment {
         }
     }
 
-    private void setBookmarksList() {
+    public void setBookmarksList() {
 
         //display data
         final int layoutstyle=R.layout.list_item_notes;
@@ -604,6 +605,12 @@ public class Bookmarks_Fragment extends Fragment {
                 filter.setHint(R.string.action_filter_url);
                 filter.requestFocus();
                 helper_main.showKeyboard(getActivity(), filter);
+                return true;
+            case R.id.filter_course:
+                helper_main.isOpened(getActivity());
+                Intent mainIntent = new Intent(getActivity(), Popup_courseList.class);
+                mainIntent.setAction("search_byCourse");
+                startActivity(mainIntent);
                 return true;
 
             case R.id.filter_today:

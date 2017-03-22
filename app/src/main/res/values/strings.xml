@@ -163,11 +163,13 @@
     <string name="action_sort_priority">Sort by priority</string>
     <string name="action_sort_ext">Sort by extension</string>
 
+    <string name="action_filter">Search</string>
     <string name="action_filter_title">Search in titles</string>
     <string name="action_filter_cont">Search in content</string>
     <string name="action_filter_create">Search in creation dates</string>
     <string name="action_filter_url">Search in URLs</string>
     <string name="action_filter_att">Search in attachments</string>
+    <string name="action_filter_course">Search in courses</string>
 
     <string name="filter_today">Today</string>
     <string name="filter_yesterday">Yesterday</string>

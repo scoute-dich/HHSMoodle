@@ -237,18 +237,11 @@ public class Random_Fragment extends Fragment {
     }
 
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && isResumed() && viewPager.getCurrentItem() == 6) {
-            getActivity().setTitle(R.string.number_title);
-            setRandomList();
-        }
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
-        setRandomList();
+        if (viewPager.getCurrentItem() == 7) {
+            setRandomList();
+        }
     }
 
     public void doBack() {

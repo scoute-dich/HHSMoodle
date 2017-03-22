@@ -256,18 +256,11 @@ public class Subjects_Fragment extends Fragment {
     }
 
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && isResumed() && viewPager.getCurrentItem() == 8) {
-            getActivity().setTitle(R.string.subjects_title);
-            setSubjectsList();
-        }
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
-        setSubjectsList();
+        if (viewPager.getCurrentItem() == 9) {
+            setSubjectsList();
+        }
     }
 
     private void setSubjectsList() {

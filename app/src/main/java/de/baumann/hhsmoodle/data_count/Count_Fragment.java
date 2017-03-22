@@ -247,18 +247,18 @@ public class Count_Fragment extends Fragment {
     }
 
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && isResumed() && viewPager.getCurrentItem() == 2) {
-            setTitle();
-            setCountList();
-        }
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
-        setCountList();
+        if (!sharedPref.getString("search_byCourse", "").isEmpty() && viewPager.getCurrentItem() == 4) {
+            String search = sharedPref.getString("search_byCourse", "");
+            sharedPref.edit().putString("filter_countBY", "count_title").apply();
+            getActivity().setTitle(getString(R.string.count_title) + " | " + search);
+            setCountList();
+            filter.setText(search);
+            sharedPref.edit().putString("search_byCourse", "").apply();
+        } else {
+            setCountList();
+        }
     }
 
     public void doBack() {
@@ -276,7 +276,7 @@ public class Count_Fragment extends Fragment {
         }
     }
 
-    private void setCountList() {
+    public void setCountList() {
 
         if(isFABOpen){
             closeFABMenu();
@@ -593,6 +593,7 @@ public class Count_Fragment extends Fragment {
         menu.findItem(R.id.filter_room).setVisible(false);
         menu.findItem(R.id.sort_ext).setVisible(false);
         menu.findItem(R.id.sort_notification).setVisible(false);
+        menu.findItem(R.id.filter_ext).setVisible(false);
     }
 
     @Override
@@ -614,6 +615,13 @@ public class Count_Fragment extends Fragment {
                 filter.requestFocus();
                 helper_main.showKeyboard(getActivity(), filter);
                 return true;
+            case R.id.filter_course:
+                helper_main.isOpened(getActivity());
+                Intent mainIntent = new Intent(getActivity(), Popup_courseList.class);
+                mainIntent.setAction("search_byCourse");
+                startActivity(mainIntent);
+                return true;
+
             case R.id.filter_content:
                 sharedPref.edit().putString("filter_countBY", "count_content").apply();
                 setCountList();
@@ -626,7 +634,7 @@ public class Count_Fragment extends Fragment {
                 return true;
 
             case R.id.filter_today:
-                getActivity().setTitle(getString(R.string.todo_title) + " | " + getString(R.string.filter_today));
+                getActivity().setTitle(getString(R.string.count_title) + " | " + getString(R.string.filter_today));
                 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                 Calendar cal = Calendar.getInstance();
                 final String search = dateFormat.format(cal.getTime());
@@ -635,7 +643,7 @@ public class Count_Fragment extends Fragment {
                 filter.setText(search);
                 return true;
             case R.id.filter_yesterday:
-                getActivity().setTitle(getString(R.string.todo_title) + " | " + getString(R.string.filter_yesterday));
+                getActivity().setTitle(getString(R.string.count_title) + " | " + getString(R.string.filter_yesterday));
                 DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                 Calendar cal2 = Calendar.getInstance();
                 cal2.add(Calendar.DATE, -1);
@@ -645,7 +653,7 @@ public class Count_Fragment extends Fragment {
                 filter.setText(search2);
                 return true;
             case R.id.filter_before:
-                getActivity().setTitle(getString(R.string.todo_title) + " | " + getString(R.string.filter_before));
+                getActivity().setTitle(getString(R.string.count_title) + " | " + getString(R.string.filter_before));
                 DateFormat dateFormat3 = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                 Calendar cal3 = Calendar.getInstance();
                 cal3.add(Calendar.DATE, -2);
@@ -655,7 +663,7 @@ public class Count_Fragment extends Fragment {
                 filter.setText(search3);
                 return true;
             case R.id.filter_month:
-                getActivity().setTitle(getString(R.string.todo_title) + " | " + getString(R.string.filter_month));
+                getActivity().setTitle(getString(R.string.count_title) + " | " + getString(R.string.filter_month));
                 DateFormat dateFormat4 = new SimpleDateFormat("yyyy-MM", Locale.getDefault());
                 Calendar cal4 = Calendar.getInstance();
                 final String search4 = dateFormat4.format(cal4.getTime());
@@ -664,7 +672,7 @@ public class Count_Fragment extends Fragment {
                 filter.setText(search4);
                 return true;
             case R.id.filter_own:
-                getActivity().setTitle(getString(R.string.todo_title) + " | " + getString(R.string.filter_own));
+                getActivity().setTitle(getString(R.string.count_title) + " | " + getString(R.string.filter_own));
                 sharedPref.edit().putString("filter_countBY", "count_creation").apply();
                 setCountList();
                 filter_layout.setVisibility(View.VISIBLE);

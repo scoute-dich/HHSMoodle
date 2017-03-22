@@ -218,6 +218,7 @@
                 <action android:name="courseList_note" />
                 <action android:name="courseList_subject" />
                 <action android:name="courseList_count" />
+                <action android:name="search_byCourse" />
             </intent-filter>
         </activity>
 

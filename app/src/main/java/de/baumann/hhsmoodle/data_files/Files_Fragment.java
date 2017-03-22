@@ -145,18 +145,11 @@ public class Files_Fragment extends Fragment {
     }
 
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && isResumed() && viewPager.getCurrentItem() == 5) {
-            setTitle();
-            setFilesList();
-        }
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
-        setFilesList();
+        if (viewPager.getCurrentItem() == 6) {
+            setFilesList();
+        }
     }
 
     public void doBack() {
@@ -171,7 +164,7 @@ public class Files_Fragment extends Fragment {
         }
     }
 
-    private void setFilesList() {
+    public void setFilesList() {
 
         getActivity().deleteDatabase("files_DB_v01.db");
 

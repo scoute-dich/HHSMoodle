@@ -211,23 +211,17 @@ public class Notes_Fragment extends Fragment {
     }
 
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && isResumed() && viewPager.getCurrentItem() == 3) {
-            setTitle();
-            setNotesList();
-            if (sharedPref.getString("newIntent", "false").equals("true")) {
-                helper_main.switchToActivity(getActivity(), Activity_EditNote.class, false);
-            }
-        }
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
-        setNotesList();
-        if (sharedPref.getString("newIntent", "false").equals("true")) {
-            helper_main.switchToActivity(getActivity(), Activity_EditNote.class, false);
+        if (!sharedPref.getString("search_byCourse", "").isEmpty() && viewPager.getCurrentItem() == 3) {
+            String search = sharedPref.getString("search_byCourse", "");
+            sharedPref.edit().putString("filter_noteBY", "note_title").apply();
+            getActivity().setTitle(getString(R.string.todo_title) + " | " + search);
+            setNotesList();
+            filter.setText(search);
+            sharedPref.edit().putString("search_byCourse", "").apply();
+        } else {
+            setNotesList();
         }
     }
 
@@ -246,7 +240,7 @@ public class Notes_Fragment extends Fragment {
         }
     }
 
-    private void setNotesList() {
+    public void setNotesList() {
 
         if(isFABOpen){
             closeFABMenu();
@@ -673,6 +667,12 @@ public class Notes_Fragment extends Fragment {
                 filter.setHint(R.string.action_filter_cont);
                 filter.requestFocus();
                 helper_main.showKeyboard(getActivity(), filter);
+                return true;
+            case R.id.filter_course:
+                helper_main.isOpened(getActivity());
+                Intent mainIntent = new Intent(getActivity(), Popup_courseList.class);
+                mainIntent.setAction("search_byCourse");
+                startActivity(mainIntent);
                 return true;
 
             case R.id.filter_today:

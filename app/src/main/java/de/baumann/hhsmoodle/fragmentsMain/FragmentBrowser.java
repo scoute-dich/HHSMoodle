@@ -277,18 +277,11 @@ public class FragmentBrowser extends Fragment {
     };
 
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && isResumed() && viewPager.getCurrentItem() == 0) {
-            getActivity().setTitle(R.string.app_name);
-            refresh();
-        }
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
-        refresh();
+        if (viewPager.getCurrentItem() == 0) {
+            refresh();
+        }
     }
 
     public void doBack() {

@@ -129,6 +129,15 @@ public class Popup_courseList extends Activity {
                     Count_helper.newCount(Popup_courseList.this, courses_title, courses_content, getString(R.string.courseList_content), true);
                 }
             });
+        } else if ("search_byCourse".equals(action)) {
+            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Cursor row2 = (Cursor) lv.getItemAtPosition(position);
+                    final String courses_title = row2.getString(row2.getColumnIndexOrThrow("courses_title"));
+                    sharedPref.edit().putString("search_byCourse", courses_title).apply();
+                    finish();
+                }
+            });
         }
     }
 

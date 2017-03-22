@@ -224,18 +224,11 @@ public class Courses_Fragment extends Fragment {
     }
 
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && isResumed() && viewPager.getCurrentItem() == 7) {
-            getActivity().setTitle(R.string.courseList_title);
-            setCoursesList();
-        }
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
-        setCoursesList();
+        if (viewPager.getCurrentItem() == 8) {
+            setCoursesList();
+        }
     }
 
     public void doBack() {

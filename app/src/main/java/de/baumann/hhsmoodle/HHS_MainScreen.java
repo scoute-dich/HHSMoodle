@@ -98,20 +98,25 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
                 } else if (position == 1){
                     Bookmarks_Fragment bookmarks_Fragment = (Bookmarks_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
                     bookmarks_Fragment.setTitle();
+                    bookmarks_Fragment.setBookmarksList();
                 } else if (position == 2){
                     Todo_Fragment todo_Fragment = (Todo_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
                     todo_Fragment.setTitle();
+                    todo_Fragment.setTodoList();
                 } else if (position == 3){
                     Notes_Fragment notes_Fragment = (Notes_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
                     notes_Fragment.setTitle();
+                    notes_Fragment.setNotesList();
                 } else if (position == 4){
                     Count_Fragment count_Fragment = (Count_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
                     count_Fragment.setTitle();
+                    count_Fragment.setCountList();
                 } else if (position == 5){
                     setTitle(R.string.schedule_title);
                 } else if (position == 6){
                     Files_Fragment files_Fragment = (Files_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
                     files_Fragment.setTitle();
+                    files_Fragment.setFilesList();
                 } else if (position == 7){
                     setTitle(R.string.number_title);
                 } else if (position == 8){
@@ -385,18 +390,22 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
             viewPager.setCurrentItem(1, true);
             Bookmarks_Fragment bookmarks_Fragment = (Bookmarks_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
             bookmarks_Fragment.setTitle();
+            bookmarks_Fragment.setBookmarksList();
         } else if (id == R.id.nav_todo) {
             viewPager.setCurrentItem(2, true);
             Todo_Fragment todo_Fragment = (Todo_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
             todo_Fragment.setTitle();
+            todo_Fragment.setTodoList();
         } else if (id == R.id.nav_notes) {
             viewPager.setCurrentItem(3, true);
             Notes_Fragment notes_Fragment = (Notes_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
             notes_Fragment.setTitle();
+            notes_Fragment.setNotesList();
         } else if (id == R.id.nav_count) {
             viewPager.setCurrentItem(4, true);
             Count_Fragment count_Fragment = (Count_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
             count_Fragment.setTitle();
+            count_Fragment.setCountList();
         } else if (id == R.id.nav_schedule) {
             viewPager.setCurrentItem(5, true);
             setTitle(R.string.schedule_title);
@@ -404,6 +413,7 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
             viewPager.setCurrentItem(6, true);
             Files_Fragment files_Fragment = (Files_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
             files_Fragment.setTitle();
+            files_Fragment.setFilesList();
         } else if (id == R.id.nav_random) {
             viewPager.setCurrentItem(7, true);
             setTitle(R.string.number_title);

@@ -136,25 +136,14 @@ public class Schedule_Fragment extends Fragment {
     }
 
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && isResumed() && viewPager.getCurrentItem() == 4) {
+    public void onResume() {
+        super.onResume();
+        if (viewPager.getCurrentItem() == 5) {
             setScheduleList();
-            getActivity().setTitle(R.string.schedule_title);
             if (sharedPref.getString("edit_yes", "").equals("true")) {
                 lv.setSelection(sharedPref.getInt("scroll", 0) -1);
                 sharedPref.edit().putString("edit_yes", "").apply();
             }
-        }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        setScheduleList();
-        if (sharedPref.getString("edit_yes", "").equals("true")) {
-            lv.setSelection(sharedPref.getInt("scroll", 0) -1);
-            sharedPref.edit().putString("edit_yes", "").apply();
         }
     }
 
@@ -667,6 +656,8 @@ public class Schedule_Fragment extends Fragment {
         menu.findItem(R.id.filter_creation).setVisible(false);
         menu.findItem(R.id.filter_url).setVisible(false);
         menu.findItem(R.id.filter_att).setVisible(false);
+        menu.findItem(R.id.filter_ext).setVisible(false);
+        menu.findItem(R.id.filter_course).setVisible(false);
 
         if (sharedPref.getBoolean ("silent_mode", false)){
             menu.findItem(R.id.action_silent).setIcon(R.drawable.bell_off_light);

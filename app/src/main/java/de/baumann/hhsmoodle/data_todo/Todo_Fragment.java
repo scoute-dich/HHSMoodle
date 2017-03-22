@@ -209,18 +209,18 @@ public class Todo_Fragment extends Fragment {
     }
 
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && isResumed() && viewPager.getCurrentItem() == 2) {
-            setTitle();
-            setTodoList();
-        }
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
-        setTodoList();
+        if (!sharedPref.getString("search_byCourse", "").isEmpty() && viewPager.getCurrentItem() == 2) {
+            String search = sharedPref.getString("search_byCourse", "");
+            sharedPref.edit().putString("filter_todoBY", "todo_title").apply();
+            getActivity().setTitle(getString(R.string.todo_title) + " | " + search);
+            setTodoList();
+            filter.setText(search);
+            sharedPref.edit().putString("search_byCourse", "").apply();
+        } else {
+            setTodoList();
+        }
     }
 
     public void doBack() {
@@ -238,7 +238,7 @@ public class Todo_Fragment extends Fragment {
         }
     }
 
-    private void setTodoList() {
+    public void setTodoList() {
 
         if(isFABOpen){
             closeFABMenu();
@@ -593,6 +593,7 @@ public class Todo_Fragment extends Fragment {
         menu.findItem(R.id.filter_teacher).setVisible(false);
         menu.findItem(R.id.filter_room).setVisible(false);
         menu.findItem(R.id.sort_ext).setVisible(false);
+        menu.findItem(R.id.filter_ext).setVisible(false);
     }
 
     @Override
@@ -623,6 +624,12 @@ public class Todo_Fragment extends Fragment {
                 filter.setHint(R.string.action_filter_cont);
                 filter.requestFocus();
                 helper_main.showKeyboard(getActivity(), filter);
+                return true;
+            case R.id.filter_course:
+                helper_main.isOpened(getActivity());
+                Intent mainIntent = new Intent(getActivity(), Popup_courseList.class);
+                mainIntent.setAction("search_byCourse");
+                startActivity(mainIntent);
                 return true;
 
             case R.id.filter_today:

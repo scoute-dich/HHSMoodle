@@ -41,8 +41,6 @@ import de.baumann.hhsmoodle.helper.helper_main;
 
 public class FragmentGrades extends Fragment {
 
-    private ViewPager viewPager;
-
     private EditText maxPointsText;
     private TextView text_100_points;
 
@@ -163,8 +161,6 @@ public class FragmentGrades extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_screen_grade, container, false);
-
-        viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
 
         maxPointsText = (EditText) rootView.findViewById(R.id.maxPoints);
         maxPointsText.setText(R.string.grade_100);
@@ -428,14 +424,6 @@ public class FragmentGrades extends Fragment {
         actualPoint(  2,  text_02_points);
         actualPoint(  1,  text_01_points);
         actualPoint(  0,  text_00_points);
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && isResumed()  && viewPager.getCurrentItem() == 9) {
-            getActivity().setTitle(R.string.action_grades);
-        }
     }
 
     @Override
