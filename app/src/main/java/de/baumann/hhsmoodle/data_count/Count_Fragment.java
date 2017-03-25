@@ -288,9 +288,6 @@ public class Count_Fragment extends Fragment {
             closeFABMenu();
         }
 
-        NotificationManager nMgr = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
-        nMgr.cancelAll();
-
         //display data
         final int layoutstyle=R.layout.list_item_notes;
         int[] xml_id = new int[] {
