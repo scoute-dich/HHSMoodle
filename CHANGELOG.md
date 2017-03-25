@@ -1,8 +1,9 @@
-### v 4.0 (WIP)
+### v 4.0
 - neu: Zähler
 - neu: Suche nach Kursen
 - verbessert: Suche
 - fix: Crash bei Appstart (Marshmallow und aktueller)
+- fix: Benachrichtungen werden gelöscht
 
 ### v 3.9
 - fix: fehlendes Datum beim Erstellen von Notizen (aus Klassenliste)
