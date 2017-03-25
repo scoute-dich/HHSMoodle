@@ -115,12 +115,16 @@ public class Files_Fragment extends Fragment {
         ib_hideKeyboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                imgHeader.setVisibility(View.VISIBLE);
-                filter_layout.setVisibility(View.GONE);
-                setFilesList();
-                setTitle();
+                if (filter.getText().length() > 0) {
+                    filter.setText("");
+                } else {
+                    setTitle();
+                    InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    imgHeader.setVisibility(View.VISIBLE);
+                    filter_layout.setVisibility(View.GONE);
+                    setFilesList();
+                }
             }
         });
 
@@ -534,6 +538,7 @@ public class Files_Fragment extends Fragment {
         menu.findItem(R.id.filter_teacher).setVisible(false);
         menu.findItem(R.id.filter_room).setVisible(false);
         menu.findItem(R.id.action_help).setVisible(false);
+        menu.findItem(R.id.filter_course).setVisible(false);
     }
 
     @Override
@@ -569,6 +574,8 @@ public class Files_Fragment extends Fragment {
                 final String search = dateFormat.format(cal.getTime());
                 sharedPref.edit().putString("filter_filesBY", "files_creation").apply();
                 setFilesList();
+                filter_layout.setVisibility(View.VISIBLE);
+                imgHeader.setVisibility(View.GONE);
                 filter.setText(search);
                 return true;
             case R.id.filter_yesterday:
@@ -579,6 +586,8 @@ public class Files_Fragment extends Fragment {
                 final String search2 = dateFormat2.format(cal2.getTime());
                 sharedPref.edit().putString("filter_filesBY", "files_creation").apply();
                 setFilesList();
+                filter_layout.setVisibility(View.VISIBLE);
+                imgHeader.setVisibility(View.GONE);
                 filter.setText(search2);
                 return true;
             case R.id.filter_before:
@@ -589,6 +598,8 @@ public class Files_Fragment extends Fragment {
                 final String search3 = dateFormat3.format(cal3.getTime());
                 sharedPref.edit().putString("filter_filesBY", "files_creation").apply();
                 setFilesList();
+                filter_layout.setVisibility(View.VISIBLE);
+                imgHeader.setVisibility(View.GONE);
                 filter.setText(search3);
                 return true;
             case R.id.filter_month:
@@ -598,6 +609,8 @@ public class Files_Fragment extends Fragment {
                 final String search4 = dateFormat4.format(cal4.getTime());
                 sharedPref.edit().putString("filter_filesBY", "files_creation").apply();
                 setFilesList();
+                filter_layout.setVisibility(View.VISIBLE);
+                imgHeader.setVisibility(View.GONE);
                 filter.setText(search4);
                 return true;
             case R.id.filter_own:

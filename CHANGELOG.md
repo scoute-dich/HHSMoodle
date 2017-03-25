@@ -1,7 +1,7 @@
 ### v 4.0 (WIP)
 - neu: Zähler
 - neu: Suche nach Kursen
-- verbessert: Titel Anzeige
+- verbessert: Suche
 - fix: Crash bei Appstart (Marshmallow und aktueller)
 
 ### v 3.9

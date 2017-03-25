@@ -119,12 +119,16 @@ public class Todo_Fragment extends Fragment {
         ib_hideKeyboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setTitle();
-                InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                imgHeader.setVisibility(View.VISIBLE);
-                filter_layout.setVisibility(View.GONE);
-                setTodoList();
+                if (filter.getText().length() > 0) {
+                    filter.setText("");
+                } else {
+                    setTitle();
+                    InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    imgHeader.setVisibility(View.VISIBLE);
+                    filter_layout.setVisibility(View.GONE);
+                    setTodoList();
+                }
             }
         });
 
@@ -216,6 +220,8 @@ public class Todo_Fragment extends Fragment {
             sharedPref.edit().putString("filter_todoBY", "todo_title").apply();
             getActivity().setTitle(getString(R.string.todo_title) + " | " + search);
             setTodoList();
+            filter_layout.setVisibility(View.VISIBLE);
+            imgHeader.setVisibility(View.GONE);
             filter.setText(search);
             sharedPref.edit().putString("search_byCourse", "").apply();
         } else {
@@ -639,6 +645,8 @@ public class Todo_Fragment extends Fragment {
                 final String search = dateFormat.format(cal.getTime());
                 sharedPref.edit().putString("filter_todoBY", "todo_creation").apply();
                 setTodoList();
+                filter_layout.setVisibility(View.VISIBLE);
+                imgHeader.setVisibility(View.GONE);
                 filter.setText(search);
                 return true;
             case R.id.filter_yesterday:
@@ -649,6 +657,8 @@ public class Todo_Fragment extends Fragment {
                 final String search2 = dateFormat2.format(cal2.getTime());
                 sharedPref.edit().putString("filter_todoBY", "todo_creation").apply();
                 setTodoList();
+                filter_layout.setVisibility(View.VISIBLE);
+                imgHeader.setVisibility(View.GONE);
                 filter.setText(search2);
                 return true;
             case R.id.filter_before:
@@ -668,6 +678,8 @@ public class Todo_Fragment extends Fragment {
                 final String search4 = dateFormat4.format(cal4.getTime());
                 sharedPref.edit().putString("filter_todoBY", "todo_creation").apply();
                 setTodoList();
+                filter_layout.setVisibility(View.VISIBLE);
+                imgHeader.setVisibility(View.GONE);
                 filter.setText(search4);
                 return true;
             case R.id.filter_own:

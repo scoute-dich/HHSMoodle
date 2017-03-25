@@ -449,7 +449,7 @@ public class Random_Fragment extends Fragment {
     }
 
     private File newFile() {
-        return  new File(getActivity().getFilesDir() + "todo.txt");
+        return  new File(getActivity().getFilesDir() + "random.txt");
     }
 
     private void readItems() {
