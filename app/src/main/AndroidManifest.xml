@@ -168,6 +168,11 @@
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar" />
 
+        <activity
+            android:name=".activities.Activity_images"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar" />
+
 
         <!-- popups -->
 

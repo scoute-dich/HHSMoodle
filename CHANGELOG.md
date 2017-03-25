@@ -1,3 +1,6 @@
+### v 4.1
+- neu: Bild auswählen (Notizen)
+
 ### v 4.0
 - neu: Zähler
 - neu: Suche nach Kursen

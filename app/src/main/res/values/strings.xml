@@ -171,6 +171,8 @@
     <string name="action_filter_att">Search in attachments</string>
     <string name="action_filter_course">Search in courses</string>
 
+    <string name="action_image_load">Choose image</string>
+
     <string name="filter_today">Today</string>
     <string name="filter_yesterday">Yesterday</string>
     <string name="filter_before">Day before yesterday</string>
