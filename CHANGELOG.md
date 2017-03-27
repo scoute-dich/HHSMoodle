@@ -1,5 +1,6 @@
 ### v 4.1
 - neu: Bild auswählen (Notizen)
+- fix: App Crash bei älteren Android Versionen (wenn Einstellungen geöffnet werden)
 
 ### v 4.0
 - neu: Zähler
