@@ -1,4 +1,5 @@
 ### 4.2
+- neu: Bild von Galerie aussuchen
 - fix: App Crash wenn von Verknüpfung geöffnet
 - fix: Verknüpfung Stundenplan
 
@@ -11,7 +12,7 @@
 - neu: Zähler
 - neu: Suche nach Kursen
 - verbessert: Suche
-- fix: Crash bei Appstart (Marshmallow und aktueller)
+- fix: Crash beim Start (Marshmallow und aktueller)
 - fix: Benachrichtungen werden gelöscht
 
 

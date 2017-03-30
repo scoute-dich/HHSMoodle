@@ -1,13 +1,18 @@
 package de.baumann.hhsmoodle.activities;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -121,7 +126,6 @@ public class Activity_EditNote extends AppCompatActivity {
 
             @Override
             public void onClick(View arg0) {
-
                 Intent mainIntent = new Intent(Activity_EditNote.this, Popup_files.class);
                 mainIntent.setAction("file_chooseAttachment");
                 startActivity(mainIntent);
@@ -144,9 +148,7 @@ public class Activity_EditNote extends AppCompatActivity {
 
             @Override
             public void onClick(View arg0) {
-                Intent intent = new Intent(Activity_EditNote.this, Activity_images.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                startActivity(intent);
+                selectImage_1();
             }
         });
 
@@ -503,5 +505,61 @@ public class Activity_EditNote extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void selectImage_1() {
+
+        final CharSequence[] options = {
+                getString(R.string.note_pic1),
+                getString(R.string.note_pic2)};
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+
+                if (options[item].equals(getString(R.string.note_pic1))) {
+                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(intent, 2);
+                } else if (options[item].equals(getString(R.string.note_pic2))) {
+                    Intent intent = new Intent(Activity_EditNote.this, Activity_images.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    startActivity(intent);
+                }
+            }
+        });
+        builder.setPositiveButton(getString(R.string.toast_cancel), null);
+        builder.show();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == 2) {
+                Uri selectedImage = data.getData();
+                String path = getRealPathFromURI(selectedImage);
+
+                if (!path.isEmpty()){
+                    sharedPref.edit().putString("handleTextAttachment", path).apply();
+                } else {
+                    Snackbar.make(titleInput, getString(R.string.toast_errors), Snackbar.LENGTH_LONG).show();
+                }
+            }
+        }
+    }
+
+    private String getRealPathFromURI(Uri contentURI) {
+        String result;
+        Cursor cursor = getContentResolver().query(contentURI, null, null, null, null);
+        if (cursor == null) { // Source is Dropbox or other similar local file path
+            result = contentURI.getPath();
+        } else {
+            cursor.moveToFirst();
+            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+            result = cursor.getString(idx);
+            cursor.close();
+        }
+        return result;
     }
 }

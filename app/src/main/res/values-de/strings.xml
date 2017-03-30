@@ -265,6 +265,7 @@
     <string name="toast_files">Keine Dateien im Verzeichnis.</string>
     <string name="toast_textFile">Bitte Textdatei auswählen.</string>
     <string name="toast_save">Eintrag nicht gespeichert. Verwerfen?</string>
+    <string name="toast_errors">Uuups. Etwas ist schief gelaufen.</string>
 
 
     // Bookmarks
@@ -294,6 +295,8 @@
     <string name="text_hint">Inhalt</string>
     <string name="note_content">+ Inhalt</string>
     <string name="note_att">Datei ausgewählt. Bitte speichern.</string>
+    <string name="note_pic1">Bild aus Galerie aussuchen</string>
+    <string name="note_pic2">Alle Bilder anzeigen</string>
 
 
     // Password
