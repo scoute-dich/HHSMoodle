@@ -1,16 +1,22 @@
-### v 4.1
+### 4.2
+- fix: App Crash wenn von Verknüpfung geöffnet
+- fix: Verknüpfung Stundenplan
+
+### 4.1
 - neu: Bild auswählen (Notizen)
 - fix: App Crash bei älteren Android Versionen (wenn Einstellungen geöffnet werden)
 
-### v 4.0
+### 4.0
+
 - neu: Zähler
 - neu: Suche nach Kursen
 - verbessert: Suche
 - fix: Crash bei Appstart (Marshmallow und aktueller)
 - fix: Benachrichtungen werden gelöscht
 
+
 ### v 3.9
-- fix: fehlendes Datum beim Erstellen von Notizen (aus Klassenliste)
+- fix: fehlendes Datum beim erstellen von Notizen (aus Klassenliste)
 
 ### v 3.8
 - verbessert: Sortieren von Dateien
