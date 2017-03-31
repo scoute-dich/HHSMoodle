@@ -1,5 +1,6 @@
 ### 4.2
 - neu: Bild von Galerie aussuchen
+- neu: Notizen mit Anhang teilen
 - fix: App Crash wenn von Verknüpfung geöffnet
 - fix: Verknüpfung Stundenplan
 

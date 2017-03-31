@@ -1,18 +1,18 @@
 package de.baumann.hhsmoodle.activities;
 
-import android.app.Activity;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -21,7 +21,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,6 +28,9 @@ import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import com.mvc.imagepicker.ImagePicker;
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -37,7 +39,6 @@ import java.util.Locale;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.data_notes.Notes_DbAdapter;
 import de.baumann.hhsmoodle.helper.helper_main;
-import de.baumann.hhsmoodle.popup.Popup_camera;
 import de.baumann.hhsmoodle.popup.Popup_files;
 
 
@@ -46,7 +47,6 @@ public class Activity_EditNote extends AppCompatActivity {
     private Button attachment;
     private ImageButton attachmentRem;
     private ImageButton attachmentCam;
-    private ImageButton attachmentPic;
     private EditText titleInput;
     private EditText textInput;
     private SharedPreferences sharedPref;
@@ -76,7 +76,6 @@ public class Activity_EditNote extends AppCompatActivity {
         attachmentRem = (ImageButton) findViewById(R.id.button_rem);
         attachment = (Button) findViewById(R.id.button_att);
         attachmentCam = (ImageButton) findViewById(R.id.button_cam);
-        attachmentPic = (ImageButton) findViewById(R.id.button_pic);
 
         String att = getString(R.string.note_attachment) + ": " + attName;
 
@@ -84,19 +83,16 @@ public class Activity_EditNote extends AppCompatActivity {
             attachment.setText(R.string.choose_att);
             attachmentRem.setVisibility(View.GONE);
             attachmentCam.setVisibility(View.VISIBLE);
-            attachmentPic.setVisibility(View.VISIBLE);
         } else {
             attachment.setText(att);
             attachmentRem.setVisibility(View.VISIBLE);
             attachmentCam.setVisibility(View.GONE);
-            attachmentPic.setVisibility(View.GONE);
         }
         File file2 = new File(file);
         if (!file2.exists()) {
             attachment.setText(R.string.choose_att);
             attachmentRem.setVisibility(View.GONE);
             attachmentCam.setVisibility(View.VISIBLE);
-            attachmentPic.setVisibility(View.VISIBLE);
         }
 
         titleInput = (EditText) findViewById(R.id.note_title_input);
@@ -140,15 +136,6 @@ public class Activity_EditNote extends AppCompatActivity {
                 attachment.setText(R.string.choose_att);
                 attachmentRem.setVisibility(View.GONE);
                 attachmentCam.setVisibility(View.VISIBLE);
-                attachmentPic.setVisibility(View.VISIBLE);
-            }
-        });
-
-        attachmentPic.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-                selectImage_1();
             }
         });
 
@@ -156,16 +143,7 @@ public class Activity_EditNote extends AppCompatActivity {
 
             @Override
             public void onClick(View arg0) {
-
-                File f = helper_main.newFile();
-                final String fileName = f.getAbsolutePath();
-                sharedPref.edit().putString("handleTextAttachment", fileName).apply();
-
-                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(titleInput.getWindowToken(), 0);
-                Intent intent = new Intent(Activity_EditNote.this, Popup_camera.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                startActivity(intent);
+                onPickImage();
             }
         });
 
@@ -342,6 +320,39 @@ public class Activity_EditNote extends AppCompatActivity {
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        Bitmap bitmap = ImagePicker.getImageFromResult(this, requestCode, resultCode, data);
+
+        if (bitmap != null) {
+            // CALL THIS METHOD TO GET THE URI FROM THE BITMAP
+            Uri tempUri = getImageUri(getApplicationContext(), bitmap);
+            String path = getRealPathFromURI(tempUri);
+            sharedPref.edit().putString("handleTextAttachment", path).apply();
+        }
+    }
+
+    private Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
+
+    private String getRealPathFromURI(Uri uri) {
+        @SuppressLint("Recycle") Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+        assert cursor != null;
+        cursor.moveToFirst();
+        int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+        return cursor.getString(idx);
+    }
+
+    private void onPickImage() {
+        // Click on image button
+        ImagePicker.pickImage(this, "Select your image:");
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();    //To change body of overridden methods use File | Settings | File Templates.
         helper_main.isOpened(Activity_EditNote.this);
@@ -363,10 +374,8 @@ public class Activity_EditNote extends AppCompatActivity {
         final String attName = file.substring(file.lastIndexOf("/")+1);
 
         attachmentRem = (ImageButton) findViewById(R.id.button_rem);
-        attachmentRem.setImageResource(R.drawable.close_red);
         attachment = (Button) findViewById(R.id.button_att);
         attachmentCam = (ImageButton) findViewById(R.id.button_cam);
-        attachmentCam.setImageResource(R.drawable.camera);
 
         String att = getString(R.string.note_attachment) + ": " + attName;
 
@@ -374,12 +383,10 @@ public class Activity_EditNote extends AppCompatActivity {
             attachment.setText(R.string.choose_att);
             attachmentRem.setVisibility(View.GONE);
             attachmentCam.setVisibility(View.VISIBLE);
-            attachmentPic.setVisibility(View.VISIBLE);
         } else {
             attachment.setText(att);
             attachmentRem.setVisibility(View.VISIBLE);
             attachmentCam.setVisibility(View.GONE);
-            attachmentPic.setVisibility(View.GONE);
         }
         File file2 = new File(file);
         if (!file2.exists()) {
@@ -505,61 +512,5 @@ public class Activity_EditNote extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    private void selectImage_1() {
-
-        final CharSequence[] options = {
-                getString(R.string.note_pic1),
-                getString(R.string.note_pic2)};
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setItems(options, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int item) {
-
-                if (options[item].equals(getString(R.string.note_pic1))) {
-                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(intent, 2);
-                } else if (options[item].equals(getString(R.string.note_pic2))) {
-                    Intent intent = new Intent(Activity_EditNote.this, Activity_images.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                    startActivity(intent);
-                }
-            }
-        });
-        builder.setPositiveButton(getString(R.string.toast_cancel), null);
-        builder.show();
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == 2) {
-                Uri selectedImage = data.getData();
-                String path = getRealPathFromURI(selectedImage);
-
-                if (!path.isEmpty()){
-                    sharedPref.edit().putString("handleTextAttachment", path).apply();
-                } else {
-                    Snackbar.make(titleInput, getString(R.string.toast_errors), Snackbar.LENGTH_LONG).show();
-                }
-            }
-        }
-    }
-
-    private String getRealPathFromURI(Uri contentURI) {
-        String result;
-        Cursor cursor = getContentResolver().query(contentURI, null, null, null, null);
-        if (cursor == null) { // Source is Dropbox or other similar local file path
-            result = contentURI.getPath();
-        } else {
-            cursor.moveToFirst();
-            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-            result = cursor.getString(idx);
-            cursor.close();
-        }
-        return result;
     }
 }

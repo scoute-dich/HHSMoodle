@@ -27,6 +27,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
@@ -575,10 +576,17 @@ public class Notes_Fragment extends Fragment {
                                 }
 
                                 if (options[item].equals (getString(R.string.todo_share))) {
+                                    File attachment = new File(note_attachment);
                                     Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                                     sharingIntent.setType("text/plain");
                                     sharingIntent.putExtra(Intent.EXTRA_SUBJECT, note_title);
                                     sharingIntent.putExtra(Intent.EXTRA_TEXT, note_content);
+
+                                    if (attachment.exists()) {
+                                        Uri bmpUri = Uri.fromFile(attachment);
+                                        sharingIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
+                                    }
+
                                     startActivity(Intent.createChooser(sharingIntent, (getString(R.string.note_share_2))));
                                 }
 

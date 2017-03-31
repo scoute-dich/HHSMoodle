@@ -168,11 +168,6 @@
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <activity
-            android:name=".activities.Activity_images"
-            android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar" />
-
 
         <!-- popups -->
 
@@ -196,12 +191,6 @@
 
         <activity
             android:name=".popup.Popup_note"
-            android:noHistory="true"
-            android:launchMode="singleTask"
-            android:theme="@style/AppThemeDialog" />
-
-        <activity
-            android:name=".popup.Popup_camera"
             android:noHistory="true"
             android:launchMode="singleTask"
             android:theme="@style/AppThemeDialog" />
