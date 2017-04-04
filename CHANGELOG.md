@@ -1,4 +1,4 @@
-### 4.2
+### 4.2 - 4.3
 - neu: Bild von Galerie aussuchen
 - neu: Notizen mit Anhang teilen
 - fix: App Crash wenn von Verknüpfung geöffnet
