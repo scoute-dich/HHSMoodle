@@ -664,6 +664,8 @@ public class Schedule_Fragment extends Fragment {
         } else {
             menu.findItem(R.id.action_silent).setIcon(R.drawable.bell_ring_light);
         }
+
+        getActivity().setTitle(R.string.schedule_title);
     }
 
     @Override

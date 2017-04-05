@@ -45,6 +45,7 @@
                 android:typeface="sans"
                 android:textStyle="bold"
                 android:textAppearance="?android:attr/textAppearanceMedium"
+                android:ellipsize="end"
                 android:lines="1" />
 
             <ImageView
@@ -55,7 +56,7 @@
                 android:layout_alignBottom="@+id/textView_title_notes"
                 android:layout_centerVertical="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginStart="12dp"
+                android:layout_marginStart="16dp"
                 android:scaleType="center"
                 tools:ignore="ContentDescription" />
 
@@ -75,7 +76,8 @@
                 android:layout_alignStart="@+id/textView_create_notes"
                 android:fontFamily="sans-serif"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:typeface="serif"
+                android:typeface="sans"
+                android:ellipsize="end"
                 android:lines="1" />
 
             <TextView
@@ -83,7 +85,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_marginStart="12dp"
+                android:layout_marginStart="16dp"
                 android:fontFamily="sans-serif-condensed"
                 android:textStyle="normal"
                 android:textAppearance="?android:attr/textAppearanceSmall"

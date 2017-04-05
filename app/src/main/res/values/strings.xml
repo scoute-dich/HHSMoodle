@@ -171,8 +171,6 @@
     <string name="action_filter_att">Search in attachments</string>
     <string name="action_filter_course">Search in courses</string>
 
-    <string name="action_image_load">Choose image</string>
-
     <string name="filter_today">Today</string>
     <string name="filter_yesterday">Yesterday</string>
     <string name="filter_before">Day before yesterday</string>
@@ -258,7 +256,6 @@
     <string name="toast_files">No files in directory.</string>
     <string name="toast_textFile">Please choose text file.</string>
     <string name="toast_save">Entry not saved. Cancel editing?</string>
-    <string name="toast_errors">Uuups. Something went wrong.</string>
 
 
     // Bookmarks
@@ -287,9 +284,6 @@
     <string name="title_hint">Title</string>
     <string name="text_hint">Content</string>
     <string name="note_content">+ Content</string>
-    <string name="note_att">File chosen. Please save.</string>
-    <string name="note_pic1">Choose from gallery</string>
-    <string name="note_pic2">Show all pictures</string>
 
 
     // Password
@@ -310,12 +304,6 @@
     <string name="choose_hint">New filename</string>
     <string name="choose_title">Edit filename</string>
     <string name="choose_att">Choose attachment</string>
-
-
-    // Camera
-
-    <string name="cam_fail">Failed to take picture</string>
-    <string name="cam_success">Picture saved</string>
 
 
     // Grade

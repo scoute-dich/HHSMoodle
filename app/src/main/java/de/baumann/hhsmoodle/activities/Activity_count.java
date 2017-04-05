@@ -222,41 +222,6 @@ public class Activity_count extends AppCompatActivity {
                 final String title = itemsTitle.get(position);
                 final String count = itemsCount.get(position);
 
-                // Remove the item within array at position
-                itemsTitle.remove(position);
-                itemsCount.remove(position);
-                // Refresh the adapter
-                adapter.notifyDataSetChanged();
-                // Return true consumes the long click event (marks it handled)
-                writeItemsTitle();
-                writeItemsCount();
-
-                Snackbar snackbar = Snackbar
-                        .make(lvItems, R.string.todo_removed, Snackbar.LENGTH_LONG)
-                        .setAction(R.string.todo_removed_back, new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                itemsTitle.add(position, title);
-                                itemsCount.add(position, count);
-                                // Refresh the adapter
-                                adapter.notifyDataSetChanged();
-                                // Return true consumes the long click event (marks it handled)
-                                writeItemsTitle();
-                                writeItemsCount();
-                            }
-                        });
-                snackbar.show();
-            }
-        });
-
-        lvItems.setOnItemLongClickListener(new android.widget.AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(android.widget.AdapterView<?> parent,
-                                    View view, final int position, long id) {
-
-                final String title = itemsTitle.get(position);
-                final String count = itemsCount.get(position);
-
                 AlertDialog.Builder builder = new AlertDialog.Builder(Activity_count.this);
                 View dialogView = View.inflate(Activity_count.this, R.layout.dialog_edit_text_singleline_count, null);
 
@@ -295,6 +260,41 @@ public class Activity_count extends AppCompatActivity {
                 // Display the custom alert dialog on interface
                 dialog2.show();
                 helper_main.showKeyboard(Activity_count.this,edit_title);
+            }
+        });
+
+        lvItems.setOnItemLongClickListener(new android.widget.AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(android.widget.AdapterView<?> parent,
+                                    View view, final int position, long id) {
+
+                final String title = itemsTitle.get(position);
+                final String count = itemsCount.get(position);
+
+                // Remove the item within array at position
+                itemsTitle.remove(position);
+                itemsCount.remove(position);
+                // Refresh the adapter
+                adapter.notifyDataSetChanged();
+                // Return true consumes the long click event (marks it handled)
+                writeItemsTitle();
+                writeItemsCount();
+
+                Snackbar snackbar = Snackbar
+                        .make(lvItems, R.string.todo_removed, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.todo_removed_back, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                itemsTitle.add(position, title);
+                                itemsCount.add(position, count);
+                                // Refresh the adapter
+                                adapter.notifyDataSetChanged();
+                                // Return true consumes the long click event (marks it handled)
+                                writeItemsTitle();
+                                writeItemsCount();
+                            }
+                        });
+                snackbar.show();
 
                 return true;
             }

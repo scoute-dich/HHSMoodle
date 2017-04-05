@@ -1,3 +1,8 @@
+### 4.4 (WIP)
+- verbessert: Titel anzeigen
+- verbessert: Layout Einträge
+- verbessert: einheitliches Verhalten von Listeneinträgen
+
 ### 4.2 - 4.3
 - neu: Bild von Galerie aussuchen
 - neu: Notizen mit Anhang teilen

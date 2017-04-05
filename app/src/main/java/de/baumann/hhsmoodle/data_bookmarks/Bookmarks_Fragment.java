@@ -581,6 +581,7 @@ public class Bookmarks_Fragment extends Fragment {
         menu.findItem(R.id.filter_teacher).setVisible(false);
         menu.findItem(R.id.filter_room).setVisible(false);
         menu.findItem(R.id.filter_ext).setVisible(false);
+        setTitle();
     }
 
     @Override

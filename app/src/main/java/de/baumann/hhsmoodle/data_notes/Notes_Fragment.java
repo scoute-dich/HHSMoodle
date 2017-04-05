@@ -651,6 +651,7 @@ public class Notes_Fragment extends Fragment {
         menu.findItem(R.id.filter_room).setVisible(false);
         menu.findItem(R.id.filter_url).setVisible(false);
         menu.findItem(R.id.filter_ext).setVisible(false);
+        setTitle();
     }
 
     @Override

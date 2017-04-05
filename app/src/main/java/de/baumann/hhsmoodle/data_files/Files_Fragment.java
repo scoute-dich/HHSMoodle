@@ -539,6 +539,7 @@ public class Files_Fragment extends Fragment {
         menu.findItem(R.id.filter_room).setVisible(false);
         menu.findItem(R.id.action_help).setVisible(false);
         menu.findItem(R.id.filter_course).setVisible(false);
+        setTitle();
     }
 
     @Override

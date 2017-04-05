@@ -89,52 +89,6 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
-        viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-
-            @Override
-            public void onPageSelected(int position) {
-
-                if (!sharedPref.getString("Intent", "yes").equals("yes")) {
-                    if (position == 0){
-                        setTitle(R.string.title_browser);
-                    } else if (position == 1){
-                        Bookmarks_Fragment bookmarks_Fragment = (Bookmarks_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
-                        bookmarks_Fragment.setTitle();
-                        bookmarks_Fragment.setBookmarksList();
-                    } else if (position == 2){
-                        Todo_Fragment todo_Fragment = (Todo_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
-                        todo_Fragment.setTitle();
-                        todo_Fragment.setTodoList();
-                    } else if (position == 3){
-                        Notes_Fragment notes_Fragment = (Notes_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
-                        notes_Fragment.setTitle();
-                        notes_Fragment.setNotesList();
-                    } else if (position == 4){
-                        Count_Fragment count_Fragment = (Count_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
-                        count_Fragment.setTitle();
-                        count_Fragment.setCountList();
-                    } else if (position == 5){
-                        setTitle(R.string.schedule_title);
-                    } else if (position == 6){
-                        Files_Fragment files_Fragment = (Files_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
-                        files_Fragment.setTitle();
-                        files_Fragment.setFilesList();
-                    } else if (position == 7){
-                        setTitle(R.string.number_title);
-                    } else if (position == 8){
-                        setTitle(R.string.courseList_title);
-                    } else if (position == 9){
-                        setTitle(R.string.subjects_title);
-                    } else if (position == 10){
-                        setTitle(R.string.action_grades);
-                    }
-                } else {
-                    sharedPref.edit().putString("Intent", "no").apply();
-                }
-
-            }
-        });
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         helper_main.onStart(HHS_MainScreen.this);

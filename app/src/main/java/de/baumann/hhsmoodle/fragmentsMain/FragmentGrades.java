@@ -431,6 +431,7 @@ public class FragmentGrades extends Fragment {
         super.onPrepareOptionsMenu(menu);
         menu.findItem(R.id.action_sort).setVisible(false);
         menu.findItem(R.id.action_filter).setVisible(false);
+        getActivity().setTitle(R.string.action_grades);
     }
 
     @Override

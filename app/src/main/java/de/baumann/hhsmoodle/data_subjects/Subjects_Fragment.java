@@ -901,6 +901,7 @@ public class Subjects_Fragment extends Fragment {
         super.onPrepareOptionsMenu(menu);
         menu.findItem(R.id.action_filter).setVisible(false);
         menu.findItem(R.id.action_sort).setVisible(false);
+        getActivity().setTitle(R.string.subjects_title);
     }
 
     @Override

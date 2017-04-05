@@ -596,6 +596,7 @@ public class Count_Fragment extends Fragment {
         menu.findItem(R.id.sort_ext).setVisible(false);
         menu.findItem(R.id.sort_notification).setVisible(false);
         menu.findItem(R.id.filter_ext).setVisible(false);
+        setTitle();
     }
 
     @Override

@@ -174,8 +174,6 @@
     <string name="action_filter_att">Suche nach Anhang</string>
     <string name="action_filter_course">Suche nach Kursen</string>
 
-    <string name="action_image_load">Bild aussuchen</string>
-
     <string name="filter_today">Heute</string>
     <string name="filter_yesterday">Gestern</string>
     <string name="filter_before">Vorgestern</string>
@@ -265,7 +263,6 @@
     <string name="toast_files">Keine Dateien im Verzeichnis.</string>
     <string name="toast_textFile">Bitte Textdatei auswählen.</string>
     <string name="toast_save">Eintrag nicht gespeichert. Verwerfen?</string>
-    <string name="toast_errors">Uuups. Etwas ist schief gelaufen.</string>
 
 
     // Bookmarks
@@ -294,9 +291,6 @@
     <string name="title_hint">Titel</string>
     <string name="text_hint">Inhalt</string>
     <string name="note_content">+ Inhalt</string>
-    <string name="note_att">Datei ausgewählt. Bitte speichern.</string>
-    <string name="note_pic1">Bild aus Galerie aussuchen</string>
-    <string name="note_pic2">Alle Bilder anzeigen</string>
 
 
     // Password
@@ -317,12 +311,6 @@
     <string name="choose_hint">Neuer Dateiname</string>
     <string name="choose_title">Dateiname bearbeiten</string>
     <string name="choose_att">Anhang auswählen</string>
-
-
-    // Camera
-
-    <string name="cam_fail">Konnte Bild nicht aufnehmen</string>
-    <string name="cam_success">Bild erfolgreich aufgenommen</string>
 
 
     // Grade
