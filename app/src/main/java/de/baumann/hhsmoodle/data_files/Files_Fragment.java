@@ -152,7 +152,9 @@ public class Files_Fragment extends Fragment {
     public void onResume() {
         super.onResume();
         if (viewPager.getCurrentItem() == 6) {
-            setFilesList();
+            if (filter_layout.getVisibility() == View.GONE) {
+                setFilesList();
+            }
         }
     }
 

@@ -226,9 +226,12 @@ public class Notes_Fragment extends Fragment {
             filter_layout.setVisibility(View.VISIBLE);
             imgHeader.setVisibility(View.GONE);
             filter.setText(search);
+            filter.setHint(R.string.action_filter_course);
             sharedPref.edit().putString("search_byCourse", "").apply();
         } else {
-            setNotesList();
+            if (filter_layout.getVisibility() == View.GONE) {
+                setNotesList();
+            }
         }
     }
 
@@ -700,6 +703,7 @@ public class Notes_Fragment extends Fragment {
                 filter_layout.setVisibility(View.VISIBLE);
                 imgHeader.setVisibility(View.GONE);
                 filter.setText(search);
+                filter.setHint(R.string.action_filter_create);
                 return true;
             case R.id.filter_yesterday:
                 getActivity().setTitle(getString(R.string.title_notes) + " | " + getString(R.string.filter_yesterday));
@@ -712,6 +716,7 @@ public class Notes_Fragment extends Fragment {
                 filter_layout.setVisibility(View.VISIBLE);
                 imgHeader.setVisibility(View.GONE);
                 filter.setText(search2);
+                filter.setHint(R.string.action_filter_create);
                 return true;
             case R.id.filter_before:
                 getActivity().setTitle(getString(R.string.title_notes) + " | " + getString(R.string.filter_before));
@@ -724,6 +729,7 @@ public class Notes_Fragment extends Fragment {
                 filter_layout.setVisibility(View.VISIBLE);
                 imgHeader.setVisibility(View.GONE);
                 filter.setText(search3);
+                filter.setHint(R.string.action_filter_create);
                 return true;
             case R.id.filter_month:
                 getActivity().setTitle(getString(R.string.title_notes) + " | " + getString(R.string.filter_month));
@@ -735,6 +741,7 @@ public class Notes_Fragment extends Fragment {
                 filter_layout.setVisibility(View.VISIBLE);
                 imgHeader.setVisibility(View.GONE);
                 filter.setText(search4);
+                filter.setHint(R.string.action_filter_create);
                 return true;
             case R.id.filter_own:
                 getActivity().setTitle(getString(R.string.title_notes) + " | " + getString(R.string.filter_own));

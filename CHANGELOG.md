@@ -1,4 +1,5 @@
-### 4.4 (WIP)
+### 4.4
+- verbessert: Suche
 - verbessert: Titel anzeigen
 - verbessert: Layout Einträge
 - verbessert: einheitliches Verhalten von Listeneinträgen

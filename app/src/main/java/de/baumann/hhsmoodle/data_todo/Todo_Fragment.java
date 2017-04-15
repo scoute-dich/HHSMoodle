@@ -223,9 +223,12 @@ public class Todo_Fragment extends Fragment {
             filter_layout.setVisibility(View.VISIBLE);
             imgHeader.setVisibility(View.GONE);
             filter.setText(search);
+            filter.setHint(R.string.action_filter_course);
             sharedPref.edit().putString("search_byCourse", "").apply();
         } else {
-            setTodoList();
+            if (filter_layout.getVisibility() == View.GONE) {
+                setTodoList();
+            }
         }
     }
 
@@ -649,6 +652,7 @@ public class Todo_Fragment extends Fragment {
                 filter_layout.setVisibility(View.VISIBLE);
                 imgHeader.setVisibility(View.GONE);
                 filter.setText(search);
+                filter.setHint(R.string.action_filter_create);
                 return true;
             case R.id.filter_yesterday:
                 getActivity().setTitle(getString(R.string.todo_title) + " | " + getString(R.string.filter_yesterday));
@@ -661,6 +665,7 @@ public class Todo_Fragment extends Fragment {
                 filter_layout.setVisibility(View.VISIBLE);
                 imgHeader.setVisibility(View.GONE);
                 filter.setText(search2);
+                filter.setHint(R.string.action_filter_create);
                 return true;
             case R.id.filter_before:
                 getActivity().setTitle(getString(R.string.todo_title) + " | " + getString(R.string.filter_before));
@@ -671,6 +676,7 @@ public class Todo_Fragment extends Fragment {
                 sharedPref.edit().putString("filter_todoBY", "todo_creation").apply();
                 setTodoList();
                 filter.setText(search3);
+                filter.setHint(R.string.action_filter_create);
                 return true;
             case R.id.filter_month:
                 getActivity().setTitle(getString(R.string.todo_title) + " | " + getString(R.string.filter_month));
@@ -682,6 +688,7 @@ public class Todo_Fragment extends Fragment {
                 filter_layout.setVisibility(View.VISIBLE);
                 imgHeader.setVisibility(View.GONE);
                 filter.setText(search4);
+                filter.setHint(R.string.action_filter_create);
                 return true;
             case R.id.filter_own:
                 getActivity().setTitle(getString(R.string.todo_title) + " | " + getString(R.string.filter_own));
