@@ -682,11 +682,6 @@ public class Bookmarks_Fragment extends Fragment {
                 filter.requestFocus();
                 helper_main.showKeyboard(getActivity(), filter);
                 return true;
-            case R.id.filter_clear:
-                setTitle();
-                filter.setText("");
-                setBookmarksList();
-                return true;
 
             case R.id.sort_title:
                 sharedPref.edit().putString("sortDBB", "title").apply();

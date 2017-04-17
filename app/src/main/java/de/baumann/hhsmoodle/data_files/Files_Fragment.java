@@ -627,11 +627,6 @@ public class Files_Fragment extends Fragment {
                 filter.requestFocus();
                 helper_main.showKeyboard(getActivity(), filter);
                 return true;
-            case R.id.filter_clear:
-                setTitle();
-                filter.setText("");
-                setFilesList();
-                return true;
 
             case R.id.sort_title:
                 sharedPref.edit().putString("sortDBF", "title").apply();

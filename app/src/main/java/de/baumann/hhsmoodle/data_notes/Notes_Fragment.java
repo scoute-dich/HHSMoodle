@@ -754,11 +754,6 @@ public class Notes_Fragment extends Fragment {
                 filter.requestFocus();
                 helper_main.showKeyboard(getActivity(), filter);
                 return true;
-            case R.id.filter_clear:
-                setTitle();
-                filter.setText("");
-                setNotesList();
-                return true;
 
             case R.id.filter_att:
                 sharedPref.edit().putString("filter_noteBY", "note_attachment").apply();

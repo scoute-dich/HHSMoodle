@@ -698,11 +698,6 @@ public class Count_Fragment extends Fragment {
                 filter.requestFocus();
                 helper_main.showKeyboard(getActivity(), filter);
                 return true;
-            case R.id.filter_clear:
-                setTitle();
-                filter.setText("");
-                setCountList();
-                return true;
 
             case R.id.sort_title:
                 sharedPref.edit().putString("sortDBC", "title").apply();

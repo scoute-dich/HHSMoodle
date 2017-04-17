@@ -39,8 +39,6 @@
                 app:showAsAction="ifRoom" >
                 <!-- "file" submenu -->
                 <menu>
-                    <item android:id="@+id/filter_clear"
-                        android:title="@string/filter_clear" />
                     <item android:id="@+id/filter_own"
                         android:title="@string/filter_own" />
                     <item android:id="@+id/filter_month"
