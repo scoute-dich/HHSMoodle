@@ -23,7 +23,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -83,12 +82,7 @@ public class Subjects_Fragment extends Fragment {
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         ImageView imgHeader = (ImageView) rootView.findViewById(R.id.imageView_header);
-        if(imgHeader != null) {
-            TypedArray images = getResources().obtainTypedArray(R.array.splash_images);
-            int choice = (int) (Math.random() * images.length());
-            imgHeader.setImageResource(images.getResourceId(choice, R.drawable.splash1));
-            images.recycle();
-        }
+        helper_main.setImageHeader(getActivity(), imgHeader);
 
         RelativeLayout filter_layout = (RelativeLayout) rootView.findViewById(R.id.filter_layout);
         filter_layout.setVisibility(View.GONE);
@@ -124,21 +118,21 @@ public class Subjects_Fragment extends Fragment {
                     @Override
                     public void onClick(View arg0) {
 
-                        final Item[] items = {
-                                new Item(getString(R.string.subjects_color_red), R.drawable.circle_red),
-                                new Item(getString(R.string.subjects_color_pink), R.drawable.circle_pink),
-                                new Item(getString(R.string.subjects_color_purple), R.drawable.circle_purple),
-                                new Item(getString(R.string.subjects_color_blue), R.drawable.circle_blue),
-                                new Item(getString(R.string.subjects_color_teal), R.drawable.circle_teal),
-                                new Item(getString(R.string.subjects_color_green), R.drawable.circle_green),
-                                new Item(getString(R.string.subjects_color_lime), R.drawable.circle_lime),
-                                new Item(getString(R.string.subjects_color_yellow), R.drawable.circle_yellow),
-                                new Item(getString(R.string.subjects_color_orange), R.drawable.circle_orange),
-                                new Item(getString(R.string.subjects_color_brown), R.drawable.circle_brown),
-                                new Item(getString(R.string.subjects_color_grey), R.drawable.circle_grey),
+                        final helper_main.Item[] items = {
+                                new helper_main.Item(getString(R.string.subjects_color_red), R.drawable.circle_red),
+                                new helper_main.Item(getString(R.string.subjects_color_pink), R.drawable.circle_pink),
+                                new helper_main.Item(getString(R.string.subjects_color_purple), R.drawable.circle_purple),
+                                new helper_main.Item(getString(R.string.subjects_color_blue), R.drawable.circle_blue),
+                                new helper_main.Item(getString(R.string.subjects_color_teal), R.drawable.circle_teal),
+                                new helper_main.Item(getString(R.string.subjects_color_green), R.drawable.circle_green),
+                                new helper_main.Item(getString(R.string.subjects_color_lime), R.drawable.circle_lime),
+                                new helper_main.Item(getString(R.string.subjects_color_yellow), R.drawable.circle_yellow),
+                                new helper_main.Item(getString(R.string.subjects_color_orange), R.drawable.circle_orange),
+                                new helper_main.Item(getString(R.string.subjects_color_brown), R.drawable.circle_brown),
+                                new helper_main.Item(getString(R.string.subjects_color_grey), R.drawable.circle_grey),
                         };
 
-                        ListAdapter adapter = new ArrayAdapter<Item>(
+                        ListAdapter adapter = new ArrayAdapter<helper_main.Item>(
                                 getActivity(),
                                 android.R.layout.select_dialog_item,
                                 android.R.id.text1,
@@ -265,6 +259,20 @@ public class Subjects_Fragment extends Fragment {
 
     private void setSubjectsList() {
 
+        final helper_main.Item[] items = {
+                new helper_main.Item(getString(R.string.subjects_color_red), R.drawable.circle_red),
+                new helper_main.Item(getString(R.string.subjects_color_pink), R.drawable.circle_pink),
+                new helper_main.Item(getString(R.string.subjects_color_purple), R.drawable.circle_purple),
+                new helper_main.Item(getString(R.string.subjects_color_blue), R.drawable.circle_blue),
+                new helper_main.Item(getString(R.string.subjects_color_teal), R.drawable.circle_teal),
+                new helper_main.Item(getString(R.string.subjects_color_green), R.drawable.circle_green),
+                new helper_main.Item(getString(R.string.subjects_color_lime), R.drawable.circle_lime),
+                new helper_main.Item(getString(R.string.subjects_color_yellow), R.drawable.circle_yellow),
+                new helper_main.Item(getString(R.string.subjects_color_orange), R.drawable.circle_orange),
+                new helper_main.Item(getString(R.string.subjects_color_brown), R.drawable.circle_brown),
+                new helper_main.Item(getString(R.string.subjects_color_grey), R.drawable.circle_grey),
+        };
+
         //display data
         final int layoutstyle=R.layout.list_item_schedule;
         int[] xml_id = new int[] {
@@ -282,50 +290,25 @@ public class Subjects_Fragment extends Fragment {
             @Override
             public View getView(final int position, View convertView, ViewGroup parent) {
 
-                Cursor row2 = (Cursor) lv.getItemAtPosition(position);
-                final String _id = row2.getString(row2.getColumnIndexOrThrow("_id"));
-                final String subject_title = row2.getString(row2.getColumnIndexOrThrow("subject_title"));
-                final String subject_content = row2.getString(row2.getColumnIndexOrThrow("subject_content"));
-                final String subject_icon = row2.getString(row2.getColumnIndexOrThrow("subject_icon"));
-                final String subject_attachment = row2.getString(row2.getColumnIndexOrThrow("subject_attachment"));
-                final String subject_creation = row2.getString(row2.getColumnIndexOrThrow("subject_creation"));
+                Cursor row = (Cursor) lv.getItemAtPosition(position);
+                final String _id = row.getString(row.getColumnIndexOrThrow("_id"));
+                final String subject_title = row.getString(row.getColumnIndexOrThrow("subject_title"));
+                final String subject_content = row.getString(row.getColumnIndexOrThrow("subject_content"));
+                final String subject_icon = row.getString(row.getColumnIndexOrThrow("subject_icon"));
+                final String subject_attachment = row.getString(row.getColumnIndexOrThrow("subject_attachment"));
+                final String subject_creation = row.getString(row.getColumnIndexOrThrow("subject_creation"));
 
                 View v = super.getView(position, convertView, parent);
                 ImageView iv_icon = (ImageView) v.findViewById(R.id.icon_notes);
-
-                switch (subject_icon) {
-                    case "1":iv_icon.setImageResource(R.drawable.circle_red);break;
-                    case "2":iv_icon.setImageResource(R.drawable.circle_pink);break;
-                    case "3":iv_icon.setImageResource(R.drawable.circle_purple);break;
-                    case "4":iv_icon.setImageResource(R.drawable.circle_blue);break;
-                    case "5":iv_icon.setImageResource(R.drawable.circle_teal);break;
-                    case "6":iv_icon.setImageResource(R.drawable.circle_green);break;
-                    case "7":iv_icon.setImageResource(R.drawable.circle_lime);break;
-                    case "8":iv_icon.setImageResource(R.drawable.circle_yellow);break;
-                    case "9":iv_icon.setImageResource(R.drawable.circle_orange);break;
-                    case "10":iv_icon.setImageResource(R.drawable.circle_brown);break;
-                    case "11":iv_icon.setImageResource(R.drawable.circle_grey);break;
-                }
+                Subjects_helper.switchIcon (getActivity(), subject_icon, iv_icon);
                 iv_icon.setOnClickListener(new View.OnClickListener() {
 
                     @Override
                     public void onClick(View arg0) {
 
-                        final Item[] items = {
-                                new Item(getString(R.string.subjects_color_red), R.drawable.circle_red),
-                                new Item(getString(R.string.subjects_color_pink), R.drawable.circle_pink),
-                                new Item(getString(R.string.subjects_color_purple), R.drawable.circle_purple),
-                                new Item(getString(R.string.subjects_color_blue), R.drawable.circle_blue),
-                                new Item(getString(R.string.subjects_color_teal), R.drawable.circle_teal),
-                                new Item(getString(R.string.subjects_color_green), R.drawable.circle_green),
-                                new Item(getString(R.string.subjects_color_lime), R.drawable.circle_lime),
-                                new Item(getString(R.string.subjects_color_yellow), R.drawable.circle_yellow),
-                                new Item(getString(R.string.subjects_color_orange), R.drawable.circle_orange),
-                                new Item(getString(R.string.subjects_color_brown), R.drawable.circle_brown),
-                                new Item(getString(R.string.subjects_color_grey), R.drawable.circle_grey),
-                        };
 
-                        ListAdapter adapter = new ArrayAdapter<Item>(
+
+                        ListAdapter adapter = new ArrayAdapter<helper_main.Item>(
                                 getActivity(),
                                 android.R.layout.select_dialog_item,
                                 android.R.id.text1,
@@ -602,41 +585,14 @@ public class Subjects_Fragment extends Fragment {
 
                                     final ImageButton be = (ImageButton) dialogView.findViewById(R.id.imageButtonPri);
                                     assert be != null;
-
-                                    switch (subject_icon) {
-                                        case "1":be.setImageResource(R.drawable.circle_red);sharedPref.edit().putString("subject_color", "1").apply();break;
-                                        case "2":be.setImageResource(R.drawable.circle_pink);sharedPref.edit().putString("subject_color", "2").apply();break;
-                                        case "3":be.setImageResource(R.drawable.circle_purple);sharedPref.edit().putString("subject_color", "3").apply();break;
-                                        case "4":be.setImageResource(R.drawable.circle_blue);sharedPref.edit().putString("subject_color", "4").apply();break;
-                                        case "5":be.setImageResource(R.drawable.circle_teal);sharedPref.edit().putString("subject_color", "5").apply();break;
-                                        case "6":be.setImageResource(R.drawable.circle_green);sharedPref.edit().putString("subject_color", "6").apply();break;
-                                        case "7":be.setImageResource(R.drawable.circle_lime);sharedPref.edit().putString("subject_color", "7").apply();break;
-                                        case "8":be.setImageResource(R.drawable.circle_yellow);sharedPref.edit().putString("subject_color", "8").apply();break;
-                                        case "9":be.setImageResource(R.drawable.circle_orange);sharedPref.edit().putString("subject_color", "9").apply();break;
-                                        case "10":be.setImageResource(R.drawable.circle_brown);sharedPref.edit().putString("subject_color", "10").apply();break;
-                                        case "11":be.setImageResource(R.drawable.circle_grey);sharedPref.edit().putString("subject_color", "11").apply();break;
-                                    }
+                                    Subjects_helper.switchIcon (getActivity(), subject_icon, be);
 
                                     be.setOnClickListener(new View.OnClickListener() {
 
                                         @Override
                                         public void onClick(View arg0) {
 
-                                            final Item[] items = {
-                                                    new Item(getString(R.string.subjects_color_red), R.drawable.circle_red),
-                                                    new Item(getString(R.string.subjects_color_pink), R.drawable.circle_pink),
-                                                    new Item(getString(R.string.subjects_color_purple), R.drawable.circle_purple),
-                                                    new Item(getString(R.string.subjects_color_blue), R.drawable.circle_blue),
-                                                    new Item(getString(R.string.subjects_color_teal), R.drawable.circle_teal),
-                                                    new Item(getString(R.string.subjects_color_green), R.drawable.circle_green),
-                                                    new Item(getString(R.string.subjects_color_lime), R.drawable.circle_lime),
-                                                    new Item(getString(R.string.subjects_color_yellow), R.drawable.circle_yellow),
-                                                    new Item(getString(R.string.subjects_color_orange), R.drawable.circle_orange),
-                                                    new Item(getString(R.string.subjects_color_brown), R.drawable.circle_brown),
-                                                    new Item(getString(R.string.subjects_color_grey), R.drawable.circle_grey),
-                                            };
-
-                                            ListAdapter adapter = new ArrayAdapter<Item>(
+                                            ListAdapter adapter = new ArrayAdapter<helper_main.Item>(
                                                     getActivity(),
                                                     android.R.layout.select_dialog_item,
                                                     android.R.id.text1,
@@ -741,42 +697,14 @@ public class Subjects_Fragment extends Fragment {
                                     helper_main.showKeyboard(getActivity(),titleInput);
 
                                     final ImageButton be = (ImageButton) dialogView.findViewById(R.id.imageButtonPri);
-                                    assert be != null;
-
-                                    switch (subject_icon) {
-                                        case "1":be.setImageResource(R.drawable.circle_red);sharedPref.edit().putString("subject_color", "1").apply();break;
-                                        case "2":be.setImageResource(R.drawable.circle_pink);sharedPref.edit().putString("subject_color", "2").apply();break;
-                                        case "3":be.setImageResource(R.drawable.circle_purple);sharedPref.edit().putString("subject_color", "3").apply();break;
-                                        case "4":be.setImageResource(R.drawable.circle_blue);sharedPref.edit().putString("subject_color", "4").apply();break;
-                                        case "5":be.setImageResource(R.drawable.circle_teal);sharedPref.edit().putString("subject_color", "5").apply();break;
-                                        case "6":be.setImageResource(R.drawable.circle_green);sharedPref.edit().putString("subject_color", "6").apply();break;
-                                        case "7":be.setImageResource(R.drawable.circle_lime);sharedPref.edit().putString("subject_color", "7").apply();break;
-                                        case "8":be.setImageResource(R.drawable.circle_yellow);sharedPref.edit().putString("subject_color", "8").apply();break;
-                                        case "9":be.setImageResource(R.drawable.circle_orange);sharedPref.edit().putString("subject_color", "9").apply();break;
-                                        case "10":be.setImageResource(R.drawable.circle_brown);sharedPref.edit().putString("subject_color", "10").apply();break;
-                                        case "11":be.setImageResource(R.drawable.circle_grey);sharedPref.edit().putString("subject_color", "11").apply();break;
-                                    }
+                                    Subjects_helper.switchIcon (getActivity(), subject_icon, be);
 
                                     be.setOnClickListener(new View.OnClickListener() {
 
                                         @Override
                                         public void onClick(View arg0) {
 
-                                            final Item[] items = {
-                                                    new Item(getString(R.string.subjects_color_red), R.drawable.circle_red),
-                                                    new Item(getString(R.string.subjects_color_pink), R.drawable.circle_pink),
-                                                    new Item(getString(R.string.subjects_color_purple), R.drawable.circle_purple),
-                                                    new Item(getString(R.string.subjects_color_blue), R.drawable.circle_blue),
-                                                    new Item(getString(R.string.subjects_color_teal), R.drawable.circle_teal),
-                                                    new Item(getString(R.string.subjects_color_green), R.drawable.circle_green),
-                                                    new Item(getString(R.string.subjects_color_lime), R.drawable.circle_lime),
-                                                    new Item(getString(R.string.subjects_color_yellow), R.drawable.circle_yellow),
-                                                    new Item(getString(R.string.subjects_color_orange), R.drawable.circle_orange),
-                                                    new Item(getString(R.string.subjects_color_brown), R.drawable.circle_brown),
-                                                    new Item(getString(R.string.subjects_color_grey), R.drawable.circle_grey),
-                                            };
-
-                                            ListAdapter adapter = new ArrayAdapter<Item>(
+                                            ListAdapter adapter = new ArrayAdapter<helper_main.Item>(
                                                     getActivity(),
                                                     android.R.layout.select_dialog_item,
                                                     android.R.id.text1,
@@ -915,19 +843,5 @@ public class Subjects_Fragment extends Fragment {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    private static class Item{
-        public final String text;
-        public final int icon;
-        Item(String text, Integer icon) {
-            this.text = text;
-            this.icon = icon;
-        }
-
-        @Override
-        public String toString() {
-            return text;
-        }
     }
 }

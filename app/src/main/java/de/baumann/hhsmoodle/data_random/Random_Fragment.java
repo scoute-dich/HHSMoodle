@@ -85,12 +85,7 @@ public class Random_Fragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_screen_dice, container, false);
 
         ImageView imgHeader = (ImageView) rootView.findViewById(R.id.imageView_header);
-        if(imgHeader != null) {
-            TypedArray images = getResources().obtainTypedArray(R.array.splash_images);
-            int choice = (int) (Math.random() * images.length());
-            imgHeader.setImageResource(images.getResourceId(choice, R.drawable.splash1));
-            images.recycle();
-        }
+        helper_main.setImageHeader(getActivity(), imgHeader);
 
         fab_dice = (FloatingActionButton) rootView.findViewById(R.id.fab_dice);
         lv = (ListView) rootView.findViewById(R.id.list);
@@ -165,7 +160,6 @@ public class Random_Fragment extends Fragment {
             @Override
             public void onClick(View view) {
                 closeFABMenu();
-                helper_main.isOpened(getActivity());
                 Intent mainIntent = new Intent(getActivity(), Popup_courseList.class);
                 mainIntent.setAction("courseList_random");
                 startActivity(mainIntent);

@@ -37,12 +37,10 @@ import android.widget.SimpleCursorAdapter;
 
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.activities.Activity_EditNote;
-import de.baumann.hhsmoodle.activities.Activity_password;
 import de.baumann.hhsmoodle.data_count.Count_helper;
 import de.baumann.hhsmoodle.data_random.Random_DbAdapter;
 import de.baumann.hhsmoodle.data_courses.Courses_DbAdapter;
 import de.baumann.hhsmoodle.data_todo.Todo_helper;
-import de.baumann.hhsmoodle.helper.class_SecurePreferences;
 import de.baumann.hhsmoodle.helper.helper_main;
 
 public class Popup_courseList extends Activity {
@@ -53,17 +51,6 @@ public class Popup_courseList extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        class_SecurePreferences sharedPrefSec = new class_SecurePreferences(Popup_courseList.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
-        String pw = sharedPrefSec.getString("protect_PW");
-
-        PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        if (pw != null  && pw.length() > 0) {
-            if (sharedPref.getBoolean("isOpened", true)) {
-                helper_main.switchToActivity(Popup_courseList.this, Activity_password.class, false);
-            }
-        }
 
         setContentView(R.layout.activity_popup);
 
@@ -186,29 +173,5 @@ public class Popup_courseList extends Activity {
                 }
             }, 2000);
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        helper_main.isClosed(Popup_courseList.this);
-        finish();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();    //To change body of overridden methods use File | Settings | File Templates.
-        helper_main.isOpened(Popup_courseList.this);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
-        helper_main.isOpened(Popup_courseList.this);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();    //To change body of overridden methods use File | Settings | File Templates.
-        helper_main.isClosed(Popup_courseList.this);
     }
 }

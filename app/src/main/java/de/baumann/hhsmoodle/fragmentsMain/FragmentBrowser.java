@@ -341,7 +341,6 @@ public class FragmentBrowser extends Fragment {
                 return true;
 
             case R.id.action_bookmark:
-                helper_main.isOpened(getActivity());
                 helper_main.switchToActivity(getActivity(), Popup_bookmarks.class, false);
                 return true;
 

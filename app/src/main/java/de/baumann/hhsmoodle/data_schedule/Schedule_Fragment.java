@@ -90,12 +90,7 @@ public class Schedule_Fragment extends Fragment {
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         imgHeader = (ImageView) rootView.findViewById(R.id.imageView_header);
-        if(imgHeader != null) {
-            TypedArray images = getResources().obtainTypedArray(R.array.splash_images);
-            int choice = (int) (Math.random() * images.length());
-            imgHeader.setImageResource(images.getResourceId(choice, R.drawable.splash1));
-            images.recycle();
-        }
+        helper_main.setImageHeader(getActivity(), imgHeader);
 
         filter_layout = (RelativeLayout) rootView.findViewById(R.id.filter_layout);
         filter_layout.setVisibility(View.GONE);
@@ -224,21 +219,21 @@ public class Schedule_Fragment extends Fragment {
                     @Override
                     public void onClick(View arg0) {
 
-                        final Item[] items = {
-                                new Item(getString(R.string.subjects_color_red), R.drawable.circle_red),
-                                new Item(getString(R.string.subjects_color_pink), R.drawable.circle_pink),
-                                new Item(getString(R.string.subjects_color_purple), R.drawable.circle_purple),
-                                new Item(getString(R.string.subjects_color_blue), R.drawable.circle_blue),
-                                new Item(getString(R.string.subjects_color_teal), R.drawable.circle_teal),
-                                new Item(getString(R.string.subjects_color_green), R.drawable.circle_green),
-                                new Item(getString(R.string.subjects_color_lime), R.drawable.circle_lime),
-                                new Item(getString(R.string.subjects_color_yellow), R.drawable.circle_yellow),
-                                new Item(getString(R.string.subjects_color_orange), R.drawable.circle_orange),
-                                new Item(getString(R.string.subjects_color_brown), R.drawable.circle_brown),
-                                new Item(getString(R.string.subjects_color_grey), R.drawable.circle_grey),
+                        final helper_main.Item[] items = {
+                                new helper_main.Item(getString(R.string.subjects_color_red), R.drawable.circle_red),
+                                new helper_main.Item(getString(R.string.subjects_color_pink), R.drawable.circle_pink),
+                                new helper_main.Item(getString(R.string.subjects_color_purple), R.drawable.circle_purple),
+                                new helper_main.Item(getString(R.string.subjects_color_blue), R.drawable.circle_blue),
+                                new helper_main.Item(getString(R.string.subjects_color_teal), R.drawable.circle_teal),
+                                new helper_main.Item(getString(R.string.subjects_color_green), R.drawable.circle_green),
+                                new helper_main.Item(getString(R.string.subjects_color_lime), R.drawable.circle_lime),
+                                new helper_main.Item(getString(R.string.subjects_color_yellow), R.drawable.circle_yellow),
+                                new helper_main.Item(getString(R.string.subjects_color_orange), R.drawable.circle_orange),
+                                new helper_main.Item(getString(R.string.subjects_color_brown), R.drawable.circle_brown),
+                                new helper_main.Item(getString(R.string.subjects_color_grey), R.drawable.circle_grey),
                         };
 
-                        ListAdapter adapter = new ArrayAdapter<Item>(
+                        ListAdapter adapter = new ArrayAdapter<helper_main.Item>(
                                 getActivity(),
                                 android.R.layout.select_dialog_item,
                                 android.R.id.text1,
@@ -427,7 +422,6 @@ public class Schedule_Fragment extends Fragment {
                                                                 .putString("handleSubject_id", schedule_id)
                                                                 .putString("handle_id", _id)
                                                                 .apply();
-                                                        helper_main.isOpened(getActivity());
                                                         Intent mainIntent = new Intent(getActivity(), Popup_subjects.class);
                                                         startActivity(mainIntent);
                                                     }
@@ -471,21 +465,21 @@ public class Schedule_Fragment extends Fragment {
                                                             @Override
                                                             public void onClick(View arg0) {
 
-                                                                final Item[] items = {
-                                                                        new Item(getString(R.string.subjects_color_red), R.drawable.circle_red),
-                                                                        new Item(getString(R.string.subjects_color_pink), R.drawable.circle_pink),
-                                                                        new Item(getString(R.string.subjects_color_purple), R.drawable.circle_purple),
-                                                                        new Item(getString(R.string.subjects_color_blue), R.drawable.circle_blue),
-                                                                        new Item(getString(R.string.subjects_color_teal), R.drawable.circle_teal),
-                                                                        new Item(getString(R.string.subjects_color_green), R.drawable.circle_green),
-                                                                        new Item(getString(R.string.subjects_color_lime), R.drawable.circle_lime),
-                                                                        new Item(getString(R.string.subjects_color_yellow), R.drawable.circle_yellow),
-                                                                        new Item(getString(R.string.subjects_color_orange), R.drawable.circle_orange),
-                                                                        new Item(getString(R.string.subjects_color_brown), R.drawable.circle_brown),
-                                                                        new Item(getString(R.string.subjects_color_grey), R.drawable.circle_grey),
+                                                                final helper_main.Item[] items = {
+                                                                        new helper_main.Item(getString(R.string.subjects_color_red), R.drawable.circle_red),
+                                                                        new helper_main.Item(getString(R.string.subjects_color_pink), R.drawable.circle_pink),
+                                                                        new helper_main.Item(getString(R.string.subjects_color_purple), R.drawable.circle_purple),
+                                                                        new helper_main.Item(getString(R.string.subjects_color_blue), R.drawable.circle_blue),
+                                                                        new helper_main.Item(getString(R.string.subjects_color_teal), R.drawable.circle_teal),
+                                                                        new helper_main.Item(getString(R.string.subjects_color_green), R.drawable.circle_green),
+                                                                        new helper_main.Item(getString(R.string.subjects_color_lime), R.drawable.circle_lime),
+                                                                        new helper_main.Item(getString(R.string.subjects_color_yellow), R.drawable.circle_yellow),
+                                                                        new helper_main.Item(getString(R.string.subjects_color_orange), R.drawable.circle_orange),
+                                                                        new helper_main.Item(getString(R.string.subjects_color_brown), R.drawable.circle_brown),
+                                                                        new helper_main.Item(getString(R.string.subjects_color_grey), R.drawable.circle_grey),
                                                                 };
 
-                                                                ListAdapter adapter = new ArrayAdapter<Item>(
+                                                                ListAdapter adapter = new ArrayAdapter<helper_main.Item>(
                                                                         getActivity(),
                                                                         android.R.layout.select_dialog_item,
                                                                         android.R.id.text1,
@@ -621,20 +615,6 @@ public class Schedule_Fragment extends Fragment {
         });
 
         scrollToNow();
-    }
-
-    private static class Item{
-        public final String text;
-        public final int icon;
-        Item(String text, Integer icon) {
-            this.text = text;
-            this.icon = icon;
-        }
-
-        @Override
-        public String toString() {
-            return text;
-        }
     }
 
     private void scrollToNow() {

@@ -106,11 +106,6 @@
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <activity
-            android:name="de.baumann.hhsmoodle.activities.Activity_password"
-            android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar" />
-
         <!-- help -->
 
         <activity
@@ -251,5 +246,6 @@
         </receiver>
 
     </application>
+
 
 </manifest>

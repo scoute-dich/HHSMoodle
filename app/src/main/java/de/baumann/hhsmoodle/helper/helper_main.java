@@ -21,6 +21,7 @@ package de.baumann.hhsmoodle.helper;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -28,6 +29,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -45,36 +47,237 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import de.baumann.hhsmoodle.App;
 import de.baumann.hhsmoodle.R;
-import de.baumann.hhsmoodle.activities.Activity_password;
 
 public class helper_main {
 
     private static final int REQUEST_CODE_ASK_PERMISSIONS = 123;
+    private static String protect;
+    private static SharedPreferences sharedPref;
 
-    public static void grantPermissions(final Activity from) {
+    public static void changeFilter (String filter, String filterBY) {
+        sharedPref.edit().putString(filter, filterBY).apply();
+    }
 
-        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(from);
+    public static void showFilter (Activity activity, RelativeLayout layout, ImageView imageView, EditText editText,
+                                   String text, String hint, boolean showKeyboard) {
+        layout.setVisibility(View.VISIBLE);
+        imageView.setVisibility(View.GONE);
+        editText.setText(text);
+        editText.setHint(hint);
+        editText.requestFocus();
+        if (showKeyboard) {
+            helper_main.showKeyboard(activity, editText);
+        }
+    }
+
+
+    public static void checkPin (final Activity activity) {
+
+        PreferenceManager.setDefaultValues(activity, R.xml.user_settings, false);
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(activity);
+
+        class_SecurePreferences sharedPrefSec = new class_SecurePreferences(activity, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
+        protect = sharedPrefSec.getString("protect_PW");
+
+        if (protect != null  && protect.length() > 0) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(activity, R.style.YourStyle);
+            final View dialogView = View.inflate(activity, R.layout.dialog_password, null);
+
+            final TextView text = (TextView) dialogView.findViewById(R.id.pass_userPin);
+
+            Button ib0 = (Button) dialogView.findViewById(R.id.button0);
+            assert ib0 != null;
+            ib0.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    enterNum(dialogView, "0");
+                }
+            });
+
+            Button ib1 = (Button) dialogView.findViewById(R.id.button1);
+            assert ib1 != null;
+            ib1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    enterNum(dialogView, "1");
+                }
+            });
+
+            Button ib2 = (Button) dialogView.findViewById(R.id.button2);
+            assert ib2 != null;
+            ib2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    enterNum(dialogView, "2");
+                }
+            });
+
+            Button ib3 = (Button) dialogView.findViewById(R.id.button3);
+            assert ib3 != null;
+            ib3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    enterNum(dialogView, "3");
+                }
+            });
+
+            Button ib4 = (Button) dialogView.findViewById(R.id.button4);
+            assert ib4 != null;
+            ib4.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    enterNum(dialogView, "4");
+                }
+            });
+
+            Button ib5 = (Button) dialogView.findViewById(R.id.button5);
+            assert ib5 != null;
+            ib5.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    enterNum(dialogView, "5");
+                }
+            });
+
+            Button ib6 = (Button) dialogView.findViewById(R.id.button6);
+            assert ib6 != null;
+            ib6.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    enterNum(dialogView, "6");
+                }
+            });
+
+            Button ib7 = (Button) dialogView.findViewById(R.id.button7);
+            assert ib7 != null;
+            ib7.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    enterNum(dialogView, "7");
+                }
+            });
+
+            Button ib8 = (Button) dialogView.findViewById(R.id.button8);
+            assert ib8 != null;
+            ib8.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    enterNum(dialogView, "8");
+                }
+            });
+
+            Button ib9 = (Button) dialogView.findViewById(R.id.button9);
+            assert ib9 != null;
+            ib9.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    enterNum(dialogView, "9");
+                }
+            });
+
+
+            ImageButton enter = (ImageButton) dialogView.findViewById(R.id.imageButtonEnter);
+            assert enter != null;
+
+            final ImageButton cancel = (ImageButton) dialogView.findViewById(R.id.imageButtonCancel);
+            assert cancel != null;
+            cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    text.setText("");
+                }
+            });
+
+            final Button clear = (Button) dialogView.findViewById(R.id.buttonReset);
+            assert clear != null;
+            clear.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+
+                    Snackbar snackbar = Snackbar
+                            .make(clear, activity.getString(R.string.pw_forgotten_dialog), Snackbar.LENGTH_LONG)
+                            .setAction(activity.getString(R.string.toast_yes), new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    try {
+                                        // clearing app data
+                                        Runtime runtime = Runtime.getRuntime();
+                                        runtime.exec("pm clear de.baumann.hhsmoodle");
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                    snackbar.show();
+                }
+            });
+
+            builder.setView(dialogView);
+            builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialog) {
+                    activity.finishAffinity();
+                }
+            });
+
+            final AlertDialog dialog = builder.create();
+            // Display the custom alert dialog on interface
+            dialog.show();
+
+            enter.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String Password = text.getText().toString().trim();
+
+                    if (Password.equals(protect)) {
+                        sharedPref.edit().putBoolean("isOpened", false).apply();
+                        dialog.dismiss();
+                    } else {
+                        Snackbar.make(text, R.string.toast_wrongPW, Snackbar.LENGTH_LONG).show();
+                    }
+                }
+            });
+        }
+    }
+
+    private static void enterNum (View view, String number) {
+        TextView text = (TextView) view.findViewById(R.id.pass_userPin);
+        String textNow = text.getText().toString().trim();
+        String pin = textNow + number;
+        text.setText(pin);
+    }
+
+    public static void grantPermissions(final Activity activity) {
+
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(activity);
 
         if (android.os.Build.VERSION.SDK_INT >= 23) {
             if (sharedPref.getString ("show_permission", "true").equals("true")){
-                int hasWRITE_EXTERNAL_STORAGE = from.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                int hasWRITE_EXTERNAL_STORAGE = activity.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
                 if (hasWRITE_EXTERNAL_STORAGE != PackageManager.PERMISSION_GRANTED) {
-                    if (!from.shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    if (!activity.shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
 
-                        new android.app.AlertDialog.Builder(from)
+                        new android.app.AlertDialog.Builder(activity)
                                 .setTitle(R.string.app_permissions_title)
-                                .setMessage(helper_main.textSpannable(from.getString(R.string.app_permissions)))
+                                .setMessage(helper_main.textSpannable(activity.getString(R.string.app_permissions)))
                                 .setNeutralButton(R.string.toast_notAgain, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
@@ -82,19 +285,19 @@ public class helper_main {
                                         sharedPref.edit().putString("show_permission", "false").apply();
                                     }
                                 })
-                                .setPositiveButton(from.getString(R.string.toast_yes), new DialogInterface.OnClickListener() {
+                                .setPositiveButton(activity.getString(R.string.toast_yes), new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         if (android.os.Build.VERSION.SDK_INT >= 23)
-                                            from.requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                            activity.requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                                                     REQUEST_CODE_ASK_PERMISSIONS);
                                     }
                                 })
-                                .setNegativeButton(from.getString(R.string.toast_cancel), null)
+                                .setNegativeButton(activity.getString(R.string.toast_cancel), null)
                                 .show();
                         return;
                     }
-                    from.requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    activity.requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                             REQUEST_CODE_ASK_PERMISSIONS);
                 }
             }
@@ -116,26 +319,15 @@ public class helper_main {
 
     public static void onStart (final Activity activity) {
 
-        PreferenceManager.setDefaultValues(activity, R.xml.user_settings, false);
-        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(activity);
-        class_SecurePreferences sharedPrefSec = new class_SecurePreferences(activity, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
-        String pw = sharedPrefSec.getString("protect_PW");
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             activity.getWindow().setStatusBarColor(ContextCompat.getColor(activity, R.color.colorPrimaryDark));
-        }
-
-        if (pw != null && pw.length() > 0) {
-            if (sharedPref.getBoolean("isOpened", true)) {
-                helper_main.switchToActivity(activity, Activity_password.class, false);
-            }
         }
     }
 
     public static void onClose (final Activity activity) {
         PreferenceManager.setDefaultValues(activity, R.xml.user_settings, false);
-        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(activity);
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(activity);
         final ProgressDialog progressDialog;
 
         if (sharedPref.getBoolean("backup_aut", false)) {
@@ -156,7 +348,6 @@ public class helper_main {
             new Handler().postDelayed(new Runnable() {
                 public void run() {
                     sharedPref.edit().putString("loadURL", "").apply();
-                    helper_main.isClosed(activity);
                     helper_encryption.encryptDatabases(activity);
                     if (progressDialog.isShowing()) {
                         progressDialog.cancel();
@@ -167,7 +358,6 @@ public class helper_main {
 
         } else {
             sharedPref.edit().putString("loadURL", "").apply();
-            helper_main.isClosed(activity);
             helper_encryption.encryptDatabases(activity);
             activity.finishAffinity();
         }
@@ -190,27 +380,13 @@ public class helper_main {
     }
 
     @SuppressWarnings("SameParameterValue")
-    public static void switchToActivity(Activity from, Class to, boolean finishFromActivity) {
-        Intent intent = new Intent(from, to);
+    public static void switchToActivity(Activity activity, Class to, boolean finishactivityActivity) {
+        Intent intent = new Intent(activity, to);
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        from.startActivity(intent);
-        if (finishFromActivity) {
-            from.finish();
+        activity.startActivity(intent);
+        if (finishactivityActivity) {
+            activity.finish();
         }
-    }
-
-    public static void isOpened (Activity from) {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(from);
-        sharedPref.edit()
-                .putBoolean("isOpened", false)
-                .apply();
-    }
-
-    public static void isClosed (Activity from) {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(from);
-        sharedPref.edit()
-                .putBoolean("isOpened", true)
-                .apply();
     }
 
     public static File newFile () {
@@ -233,10 +409,10 @@ public class helper_main {
         return  format.format(date);
     }
 
-    public static void showKeyboard(final Activity from, final EditText editText) {
+    public static void showKeyboard(final Activity activity, final EditText editText) {
         new Handler().postDelayed(new Runnable() {
             public void run() {
-                InputMethodManager imm = (InputMethodManager) from.getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
                 editText.setSelection(editText.length());
             }
@@ -386,6 +562,30 @@ public class helper_main {
             activity.startActivity (intent);
         } catch (ActivityNotFoundException e) {
             Snackbar.make(view, R.string.toast_install_app, Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+    public static class Item{
+        public final String text;
+        public final int icon;
+        public Item(String text, Integer icon) {
+            this.text = text;
+            this.icon = icon;
+        }
+
+        @Override
+        public String toString() {
+            return text;
+        }
+    }
+
+    public static void setImageHeader (Activity activity, ImageView imageView) {
+
+        if(imageView != null) {
+            TypedArray images = activity.getResources().obtainTypedArray(R.array.splash_images);
+            int choice = (int) (Math.random() * images.length());
+            imageView.setImageResource(images.getResourceId(choice, R.drawable.splash1));
+            images.recycle();
         }
     }
 }

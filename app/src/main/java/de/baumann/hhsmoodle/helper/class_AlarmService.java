@@ -119,6 +119,44 @@ public class class_AlarmService extends IntentService {
         }
     }
 
+    private void alarmLong (int hour_1_int, String hour_1, String hour_2) {
+        sharedPref.edit().putInt("getLine", hour_1_int).apply();
+        if (sharedPref.getBoolean ("silent_mode", false)){
+            AudioManager audioManager = (AudioManager)class_AlarmService.this.getSystemService(Context.AUDIO_SERVICE);
+            if (sharedPref.getString(hour_1, "false").equals("true")) {
+                if (sharedPref.getBoolean ("airplane_mode", false)) {setFlightMode();}
+                sharedPref.edit().putInt("volumeRing", audioManager.getStreamVolume(AudioManager.STREAM_RING)).apply();
+                audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
+            } else if (sharedPref.getString(hour_2, "false").equals("true")){
+                if (sharedPref.getBoolean ("airplane_mode", false)) {setFlightModeOff();}
+                audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+                audioManager.setStreamVolume(AudioManager.STREAM_RING, sharedPref.getInt("volumeRing", 0), 0);
+            }
+        }
+    }
+
+    private void alarmShort (int hour_1_int, String hour_1) {
+        sharedPref.edit().putInt("getLine", hour_1_int).apply();
+        if (sharedPref.getBoolean ("silent_mode", false)){
+            if (sharedPref.getString(hour_1, "false").equals("true")) {
+                if (sharedPref.getBoolean ("airplane_mode", false)) {setFlightMode();}
+                AudioManager audioManager = (AudioManager)class_AlarmService.this.getSystemService(Context.AUDIO_SERVICE);
+                sharedPref.edit().putInt("volumeRing", audioManager.getStreamVolume(AudioManager.STREAM_RING)).apply();
+                audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
+            }
+        }
+    }
+
+    private void alarmBreak (int hour_1_int, String hour_2) {
+        sharedPref.edit().putInt("getLine", hour_1_int).apply();
+        if (sharedPref.getBoolean ("silent_mode", false) && sharedPref.getString(hour_2, "false").equals("true")){
+            if (sharedPref.getBoolean ("airplane_mode", false)) {setFlightModeOff();}
+            AudioManager audioManager = (AudioManager)class_AlarmService.this.getSystemService(Context.AUDIO_SERVICE);
+            audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+            audioManager.setStreamVolume(AudioManager.STREAM_RING, sharedPref.getInt("volumeRing", 0), 0);
+        }
+    }
+
     private void alarms(int hour_1,int hour_2,int hour_3,int hour_4,int hour_5,
                        int hour_6,int hour_7,int hour_8,int hour_9,int hour_10,int hour_11,int hour_12,
                        String hour_1s,String hour_2s,String hour_3s,String hour_4s,String hour_5s,
@@ -130,231 +168,87 @@ public class class_AlarmService extends IntentService {
 
         // 1. hour
         if ((hour == 7 && minute >= 40) || (hour == 8 && minute < 30)) {
-            sharedPref.edit().putInt("getLine", hour_1).apply();
-            if (sharedPref.getBoolean ("silent_mode", false)){
-                if (sharedPref.getString(hour_1s, "false").equals("true")) {
-                    if (sharedPref.getBoolean ("airplane_mode", false)) {setFlightMode();}
-                    AudioManager audioManager = (AudioManager)class_AlarmService.this.getSystemService(Context.AUDIO_SERVICE);
-                    audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
-                }
-            }
-            Log.w("HHS_Moodle", "Alarm Yeah 1");
+            alarmShort(hour_1, hour_1s);
         }
 
         // 2. hour
         if ((hour == 8 && minute >= 30) || (hour == 9 && minute < 15)) {
-            sharedPref.edit().putInt("getLine", hour_2).apply();
-            if (sharedPref.getBoolean ("silent_mode", false)){
-                if (sharedPref.getString(hour_2s, "false").equals("true")) {
-                        if (sharedPref.getBoolean ("airplane_mode", false)) {setFlightMode();}
-                        AudioManager audioManager = (AudioManager)class_AlarmService.this.getSystemService(Context.AUDIO_SERVICE);
-                        audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
-                    } else if (sharedPref.getString(hour_1s, "false").equals("true")) {
-                        if (sharedPref.getBoolean ("airplane_mode", false)) {setFlightModeOff();}
-                        AudioManager audioManager = (AudioManager)class_AlarmService.this.getSystemService(Context.AUDIO_SERVICE);
-                        audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-                    }
-            }
-            Log.w("HHS_Moodle", "Alarm Yeah 2");
+            alarmLong(hour_2, hour_2s, hour_1s);
         }
 
         // Break
         if ((hour == 9 && (minute >= 15 || minute < 30))) {
-            sharedPref.edit().putInt("getLine", hour_3).apply();
-            if (sharedPref.getBoolean ("silent_mode", false) && sharedPref.getString(hour_2s, "false").equals("true")){
-                if (sharedPref.getBoolean ("airplane_mode", false)) {setFlightModeOff();}
-                    AudioManager audioManager = (AudioManager)class_AlarmService.this.getSystemService(Context.AUDIO_SERVICE);
-                    audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-                }
-            Log.w("HHS_Moodle", "Alarm Yeah B1");
+            alarmBreak(hour_3, hour_2s);
         }
 
         // 3. hour
         if ((hour == 9 && minute >= 30) || (hour == 10 && minute < 20)) {
-            sharedPref.edit().putInt("getLine", hour_3).apply();
-            if (sharedPref.getBoolean ("silent_mode", false)){
-                if (sharedPref.getString(hour_3s, "false").equals("true")) {
-                    if (sharedPref.getBoolean ("airplane_mode", false)) {setFlightMode();}
-                    AudioManager audioManager = (AudioManager)class_AlarmService.this.getSystemService(Context.AUDIO_SERVICE);
-                    audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
-                }
-            }
-            Log.w("HHS_Moodle", "Alarm Yeah 3");
+            alarmShort(hour_3, hour_3s);
         }
 
         // 4. hour
         if ((hour == 10 && minute >= 20) || (hour == 11 && minute < 5)) {
-            sharedPref.edit().putInt("getLine", hour_4).apply();
-            if (sharedPref.getBoolean ("silent_mode", false)){
-                if (sharedPref.getString(hour_4s, "false").equals("true")) {
-                        if (sharedPref.getBoolean ("airplane_mode", false)) {setFlightMode();}
-                        AudioManager audioManager = (AudioManager)class_AlarmService.this.getSystemService(Context.AUDIO_SERVICE);
-                        audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
-                    } else if (sharedPref.getString(hour_3s, "false").equals("true")){
-                        if (sharedPref.getBoolean ("airplane_mode", false)) {setFlightModeOff();}
-                        AudioManager audioManager = (AudioManager)class_AlarmService.this.getSystemService(Context.AUDIO_SERVICE);
-                        audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-                    }
-                }
-            Log.w("HHS_Moodle", "Alarm Yeah 4");
+            alarmLong(hour_4, hour_4s, hour_3s);
         }
 
         // Break
         if ((hour == 11 && (minute >= 5 || minute < 20))) {
-            sharedPref.edit().putInt("getLine", hour_5).apply();
-            if (sharedPref.getBoolean ("silent_mode", false) && sharedPref.getString(hour_4s, "false").equals("true")){
-                if (sharedPref.getBoolean ("airplane_mode", false)) {setFlightModeOff();}
-                    AudioManager audioManager = (AudioManager)class_AlarmService.this.getSystemService(Context.AUDIO_SERVICE);
-                    audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-                }
-            Log.w("HHS_Moodle", "Alarm Yeah B2");
+            alarmBreak(hour_5, hour_4s);
         }
 
         // 5. hour
         if ((hour == 11 && minute >= 20) || (hour == 12 && minute < 10)) {
-            sharedPref.edit().putInt("getLine", hour_5).apply();
-            if (sharedPref.getBoolean ("silent_mode", false)){
-                if (sharedPref.getString(hour_5s, "false").equals("true")) {
-                    if (sharedPref.getBoolean ("airplane_mode", false)) {setFlightMode();}
-                    AudioManager audioManager = (AudioManager)class_AlarmService.this.getSystemService(Context.AUDIO_SERVICE);
-                    audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
-                }
-            }
-            Log.w("HHS_Moodle", "Alarm Yeah 5");
+            alarmShort(hour_5, hour_5s);
         }
 
         // 6. hour
         if (hour == 12 && (minute >= 10 && minute < 55)) {
-            sharedPref.edit().putInt("getLine", hour_6).apply();
-                if (sharedPref.getBoolean ("silent_mode", false)){
-                    if (sharedPref.getString(hour_6s, "false").equals("true")) {
-                        if (sharedPref.getBoolean ("airplane_mode", false)) {setFlightMode();}
-                        AudioManager audioManager = (AudioManager)class_AlarmService.this.getSystemService(Context.AUDIO_SERVICE);
-                        audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
-                    } else if (sharedPref.getString(hour_5s, "false").equals("true")){
-                        if (sharedPref.getBoolean ("airplane_mode", false)) {setFlightModeOff();}
-                        AudioManager audioManager = (AudioManager)class_AlarmService.this.getSystemService(Context.AUDIO_SERVICE);
-                        audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-                    }
-            }
-            Log.w("HHS_Moodle", "Alarm Yeah 6");
+            alarmLong(hour_6, hour_6s, hour_5s);
         }
 
         // Break
         if ((hour == 12 && minute >= 55) || (hour == 13 && minute < 15)) {
-            sharedPref.edit().putInt("getLine", hour_7).apply();
-            if (sharedPref.getBoolean ("silent_mode", false) && sharedPref.getString(hour_6s, "false").equals("true")){
-                if (sharedPref.getBoolean ("airplane_mode", false)) {setFlightModeOff();}
-                    AudioManager audioManager = (AudioManager)class_AlarmService.this.getSystemService(Context.AUDIO_SERVICE);
-                    audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-                }
-            Log.w("HHS_Moodle", "Alarm Yeah B3");
+            alarmBreak(hour_7, hour_6s);
         }
 
         // 7. hour
         if ((hour == 13 && minute >= 15) || (hour == 14 && minute < 5)) {
-            sharedPref.edit().putInt("getLine", hour_7).apply();
-            if (sharedPref.getBoolean ("silent_mode", false)){
-                if (sharedPref.getString(hour_7s, "false").equals("true")) {
-                    if (sharedPref.getBoolean ("airplane_mode", false)) {setFlightMode();}
-                    AudioManager audioManager = (AudioManager)class_AlarmService.this.getSystemService(Context.AUDIO_SERVICE);
-                    audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
-                }
-            }
-            Log.w("HHS_Moodle", "Alarm Yeah 7");
+            alarmShort(hour_7, hour_7s);
         }
 
         // 8. hour
         if ((hour == 14 && (minute >= 5 || minute < 50))) {
-            sharedPref.edit().putInt("getLine", hour_8).apply();
-                if (sharedPref.getBoolean ("silent_mode", false)){
-                    if (sharedPref.getString(hour_8s, "false").equals("true")) {
-                        if (sharedPref.getBoolean ("airplane_mode", false)) {setFlightMode();}
-                        AudioManager audioManager = (AudioManager)class_AlarmService.this.getSystemService(Context.AUDIO_SERVICE);
-                        audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
-                    } else if (sharedPref.getString(hour_7s, "false").equals("true")){
-                        if (sharedPref.getBoolean ("airplane_mode", false)) {setFlightModeOff();}
-                        AudioManager audioManager = (AudioManager)class_AlarmService.this.getSystemService(Context.AUDIO_SERVICE);
-                        audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-                    }
-            }
-            Log.w("HHS_Moodle", "Alarm Yeah 8");
+            alarmLong(hour_8, hour_8s, hour_7s);
         }
 
         // Break
         if (hour == 14 && minute >= 50) {
-            sharedPref.edit().putInt("getLine", hour_9).apply();
-            if (sharedPref.getBoolean ("silent_mode", false) && sharedPref.getString(hour_8s, "false").equals("true")){
-                if (sharedPref.getBoolean ("airplane_mode", false)) {setFlightModeOff();}
-                    AudioManager audioManager = (AudioManager)class_AlarmService.this.getSystemService(Context.AUDIO_SERVICE);
-                    audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-                }
-            Log.w("HHS_Moodle", "Alarm Yeah B4");
+            alarmBreak(hour_9, hour_8s);
         }
 
         // 9. hour
         if ((hour == 15 && (minute >= 0 || minute < 50))) {
-            sharedPref.edit().putInt("getLine", hour_9).apply();
-            if (sharedPref.getBoolean ("silent_mode", false)){
-                if (sharedPref.getString(hour_9s, "false").equals("true")) {
-                    if (sharedPref.getBoolean ("airplane_mode", false)) {setFlightMode();}
-                    AudioManager audioManager = (AudioManager)class_AlarmService.this.getSystemService(Context.AUDIO_SERVICE);
-                    audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
-                }
-            }
-            Log.w("HHS_Moodle", "Alarm Yeah 9");
+            alarmShort(hour_9, hour_9s);
         }
 
         // 10. hour
         if ((hour == 15 && minute >= 50) || (hour == 16 && minute < 35)) {
-            sharedPref.edit().putInt("getLine", hour_10).apply();
-                if (sharedPref.getBoolean ("silent_mode", false)){
-                    if (sharedPref.getString(hour_10s, "false").equals("true")) {
-                        if (sharedPref.getBoolean ("airplane_mode", false)) {setFlightMode();}
-                        AudioManager audioManager = (AudioManager)class_AlarmService.this.getSystemService(Context.AUDIO_SERVICE);
-                        audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
-                    } else if (sharedPref.getString(hour_9s, "false").equals("true")){
-                        if (sharedPref.getBoolean ("airplane_mode", false)) {setFlightModeOff();}
-                        AudioManager audioManager = (AudioManager)class_AlarmService.this.getSystemService(Context.AUDIO_SERVICE);
-                        audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-                    }
-            }
-            Log.w("HHS_Moodle", "Alarm Yeah 10");
+            alarmLong(hour_10, hour_10s, hour_9s);
         }
 
         // Break
         if ((hour == 16 && (minute >= 35 || minute < 40))) {
-            sharedPref.edit().putInt("getLine", hour_11).apply();
-            if (sharedPref.getBoolean ("silent_mode", false) && sharedPref.getString(hour_10s, "false").equals("true")){
-                if (sharedPref.getBoolean ("airplane_mode", false)) {setFlightModeOff();}
-                    AudioManager audioManager = (AudioManager)class_AlarmService.this.getSystemService(Context.AUDIO_SERVICE);
-                    audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-                }
-            Log.w("HHS_Moodle", "Alarm Yeah B5");
+            alarmBreak(hour_11, hour_10s);
         }
 
         // 11. hour
         if ((hour == 16 && minute >= 40) || (hour == 17 && minute < 30)) {
-            sharedPref.edit().putInt("getLine", hour_11).apply();
-            if (sharedPref.getBoolean ("silent_mode", false)){
-                if (sharedPref.getString(hour_11s, "false").equals("true")) {
-                    if (sharedPref.getBoolean ("airplane_mode", false)) {setFlightMode();}
-                    AudioManager audioManager = (AudioManager)class_AlarmService.this.getSystemService(Context.AUDIO_SERVICE);
-                    audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
-                }
-            }
-            Log.w("HHS_Moodle", "Alarm Yeah 11");
+            alarmShort(hour_11, hour_11s);
         }
 
         // End
         if ((hour == 17 && (minute >= 30 || minute < 59)) || hour >= 18) {
-            sharedPref.edit().putInt("getLine", hour_12).apply();
-            if (sharedPref.getBoolean ("silent_mode", false) && sharedPref.getString(hour_11s, "false").equals("true")){
-                if (sharedPref.getBoolean ("airplane_mode", false)) {setFlightModeOff();}
-                    AudioManager audioManager = (AudioManager)class_AlarmService.this.getSystemService(Context.AUDIO_SERVICE);
-                    audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-                }
-            Log.w("HHS_Moodle", "Alarm Yeah End");
+            alarmBreak(hour_12, hour_11s);
         }
     }
 }

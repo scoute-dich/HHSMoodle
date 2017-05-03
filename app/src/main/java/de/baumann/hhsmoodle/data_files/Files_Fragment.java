@@ -98,12 +98,7 @@ public class Files_Fragment extends Fragment {
                 Environment.getExternalStorageDirectory().getPath() + "/HHS_Moodle/").apply();
 
         imgHeader = (ImageView) rootView.findViewById(R.id.imageView_header);
-        if(imgHeader != null) {
-            TypedArray images = getResources().obtainTypedArray(R.array.splash_images);
-            int choice = (int) (Math.random() * images.length());
-            imgHeader.setImageResource(images.getResourceId(choice, R.drawable.splash1));
-            images.recycle();
-        }
+        helper_main.setImageHeader(getActivity(), imgHeader);
 
         filter_layout = (RelativeLayout) rootView.findViewById(R.id.filter_layout);
         filter_layout.setVisibility(View.GONE);

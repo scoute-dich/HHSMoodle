@@ -102,12 +102,7 @@ public class Todo_Fragment extends Fragment {
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         imgHeader = (ImageView) rootView.findViewById(R.id.imageView_header);
-        if(imgHeader != null) {
-            TypedArray images = getResources().obtainTypedArray(R.array.splash_images);
-            int choice = (int) (Math.random() * images.length());
-            imgHeader.setImageResource(images.getResourceId(choice, R.drawable.splash1));
-            images.recycle();
-        }
+        helper_main.setImageHeader(getActivity(), imgHeader);
 
         filter_layout = (RelativeLayout) rootView.findViewById(R.id.filter_layout);
         filter_layout.setVisibility(View.GONE);
@@ -161,7 +156,6 @@ public class Todo_Fragment extends Fragment {
             @Override
             public void onClick(View view) {
                 closeFABMenu();
-                helper_main.isOpened(getActivity());
                 Intent mainIntent = new Intent(getActivity(), Popup_courseList.class);
                 mainIntent.setAction("courseList_todo");
                 startActivity(mainIntent);
@@ -636,7 +630,6 @@ public class Todo_Fragment extends Fragment {
                 helper_main.showKeyboard(getActivity(), filter);
                 return true;
             case R.id.filter_course:
-                helper_main.isOpened(getActivity());
                 Intent mainIntent = new Intent(getActivity(), Popup_courseList.class);
                 mainIntent.setAction("search_byCourse");
                 startActivity(mainIntent);

@@ -36,6 +36,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import de.baumann.hhsmoodle.App;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.data_notes.Notes_DbAdapter;
 import de.baumann.hhsmoodle.helper.helper_main;
@@ -154,30 +155,25 @@ public class Activity_EditNote extends AppCompatActivity {
         switch (priority) {
             case "3":
                 be.setImageResource(R.drawable.circle_green);
-                sharedPref.edit()
-                        .putString("handleTextIcon", "3")
-                        .apply();
+                sharedPref.edit().putString("handleTextIcon", "3").apply();
                 break;
             case "2":
                 be.setImageResource(R.drawable.circle_yellow);
-                sharedPref.edit()
-                        .putString("handleTextIcon", "2")
-                        .apply();
+                sharedPref.edit().putString("handleTextIcon", "2").apply();
                 break;
             case "1":
                 be.setImageResource(R.drawable.circle_red);
-                sharedPref.edit()
-                        .putString("handleTextIcon", "1")
-                        .apply();
+                sharedPref.edit().putString("handleTextIcon", "1").apply();
                 break;
-
             default:
                 be.setImageResource(R.drawable.circle_green);
-                sharedPref.edit()
-                        .putString("handleTextIcon", "3")
-                        .apply();
+                sharedPref.edit().putString("handleTextIcon", "3").apply();
                 break;
         }
+
+        App mApp = ((App) getApplicationContext());
+        String globalVarValue = mApp.getGlobalVarValue();
+        mApp.setGlobalVarValue("sfsaf");
 
         be.setOnClickListener(new View.OnClickListener() {
 
@@ -221,19 +217,13 @@ public class Activity_EditNote extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int item) {
                                 if (item == 0) {
                                     be.setImageResource(R.drawable.circle_green);
-                                    sharedPref.edit()
-                                            .putString("handleTextIcon", "3")
-                                            .apply();
+                                    sharedPref.edit().putString("handleTextIcon", "3").apply();
                                 } else if (item == 1) {
                                     be.setImageResource(R.drawable.circle_yellow);
-                                    sharedPref.edit()
-                                            .putString("handleTextIcon", "2")
-                                            .apply();
+                                    sharedPref.edit().putString("handleTextIcon", "2").apply();
                                 } else if (item == 2) {
                                     be.setImageResource(R.drawable.circle_red);
-                                    sharedPref.edit()
-                                            .putString("handleTextIcon", "1")
-                                            .apply();
+                                    sharedPref.edit().putString("handleTextIcon", "1").apply();
                                 }
                             }
                         }).show();
@@ -257,40 +247,19 @@ public class Activity_EditNote extends AppCompatActivity {
                         .setItems(options, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int item) {
+                                Date date = new Date();
                                 if (options[item].equals(getString(R.string.paste_date))) {
-                                    String dateFormat = sharedPref.getString("dateFormat", "1");
+                                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                                    String dateNow = format.format(date);
 
-                                    switch (dateFormat) {
-                                        case "1":
-
-                                            Date date = new Date();
-                                            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                                            String dateNow = format.format(date);
-
-                                            if(sharedPref.getString("editTextFocus", "").equals("text")) {
-                                                textInput.getText().insert(textInput.getSelectionStart(), dateNow);
-                                            } else {
-                                                titleInput.getText().insert(titleInput.getSelectionStart(), dateNow);
-                                            }
-                                            break;
-
-                                        case "2":
-
-                                            Date date2 = new Date();
-                                            SimpleDateFormat format2 = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
-                                            String dateNow2 = format2.format(date2);
-
-                                            if(sharedPref.getString("editTextFocus", "").equals("text")) {
-                                                textInput.getText().insert(textInput.getSelectionStart(), dateNow2);
-                                            } else {
-                                                titleInput.getText().insert(titleInput.getSelectionStart(), dateNow2);
-                                            }
-                                            break;
+                                    if(sharedPref.getString("editTextFocus", "").equals("text")) {
+                                        textInput.getText().insert(textInput.getSelectionStart(), dateNow);
+                                    } else {
+                                        titleInput.getText().insert(titleInput.getSelectionStart(), dateNow);
                                     }
                                 }
 
                                 if (options[item].equals (getString(R.string.paste_time))) {
-                                    Date date = new Date();
                                     SimpleDateFormat format = new SimpleDateFormat("HH:mm", Locale.getDefault());
                                     String timeNow = format.format(date);
                                     if(sharedPref.getString("editTextFocus", "").equals("text")) {
@@ -353,25 +322,11 @@ public class Activity_EditNote extends AppCompatActivity {
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();    //To change body of overridden methods use File | Settings | File Templates.
-        helper_main.isOpened(Activity_EditNote.this);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();    //To change body of overridden methods use File | Settings | File Templates.
-        helper_main.isClosed(Activity_EditNote.this);
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
 
-        helper_main.isOpened(Activity_EditNote.this);
-
-        String file = sharedPref.getString("handleTextAttachment", "");
-        final String attName = file.substring(file.lastIndexOf("/")+1);
+        String filePath = sharedPref.getString("handleTextAttachment", "");
+        final String attName = filePath.substring(filePath.lastIndexOf("/")+1);
 
         attachmentRem = (ImageButton) findViewById(R.id.button_rem);
         attachment = (Button) findViewById(R.id.button_att);
@@ -388,8 +343,8 @@ public class Activity_EditNote extends AppCompatActivity {
             attachmentRem.setVisibility(View.VISIBLE);
             attachmentCam.setVisibility(View.GONE);
         }
-        File file2 = new File(file);
-        if (!file2.exists()) {
+        File file = new File(filePath);
+        if (!file.exists()) {
             attachment.setText(R.string.choose_att);
             attachmentRem.setVisibility(View.GONE);
             attachmentCam.setVisibility(View.VISIBLE);
@@ -402,20 +357,23 @@ public class Activity_EditNote extends AppCompatActivity {
                 .setAction(R.string.toast_yes, new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        sharedPref.edit()
-                                .putString("handleTextTitle", "")
-                                .putString("handleTextText", "")
-                                .putString("handleTextIcon", "")
-                                .putString("handleTextAttachment", "")
-                                .putString("handleTextCreate", "")
-                                .putString("editTextFocus", "")
-                                .putString("handleTextSeqno", "")
-                                .apply();
-                        helper_main.isClosed(Activity_EditNote.this);
-                        finish();
+                        onCloseEdit();
                     }
                 });
         snackbar.show();
+    }
+
+    private void onCloseEdit () {
+        sharedPref.edit()
+                .putString("handleTextTitle", "")
+                .putString("handleTextText", "")
+                .putString("handleTextIcon", "")
+                .putString("handleTextAttachment", "")
+                .putString("handleTextCreate", "")
+                .putString("editTextFocus", "")
+                .putString("handleTextSeqno", "")
+                .apply();
+        finish();
     }
 
     @Override
@@ -470,16 +428,7 @@ public class Activity_EditNote extends AppCompatActivity {
                         Snackbar.make(titleInput, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
                     }else{
                         db.insert(inputTitle, inputContent, sharedPref.getString("handleTextIcon", ""), attachment, create);
-                        sharedPref.edit()
-                                .putString("handleTextTitle", "")
-                                .putString("handleTextText", "")
-                                .putString("handleTextIcon", "")
-                                .putString("handleTextAttachment", "")
-                                .putString("handleTextCreate", "")
-                                .putString("editTextFocus", "")
-                                .putString("handleTextSeqno", "")
-                                .apply();
-                        finish();
+                        onCloseEdit();
                     }
                 } catch (Exception e) {
                     Log.w("HHS_Moodle", "Error Package name not found ", e);
@@ -490,16 +439,7 @@ public class Activity_EditNote extends AppCompatActivity {
             } else {
                 try {
                     db.update(Integer.parseInt(seqno), inputTitle, inputContent, sharedPref.getString("handleTextIcon", ""), attachment, create);
-                    sharedPref.edit()
-                            .putString("handleTextTitle", "")
-                            .putString("handleTextText", "")
-                            .putString("handleTextIcon", "")
-                            .putString("handleTextAttachment", "")
-                            .putString("handleTextCreate", "")
-                            .putString("editTextFocus", "")
-                            .putString("handleTextSeqno", "")
-                            .apply();
-                    finish();
+                    onCloseEdit();
                 } catch (Exception e) {
                     Log.w("HHS_Moodle", "Error Package name not found ", e);
                     Snackbar snackbar = Snackbar

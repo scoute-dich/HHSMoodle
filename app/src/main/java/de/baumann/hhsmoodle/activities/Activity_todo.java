@@ -392,24 +392,6 @@ public class Activity_todo extends AppCompatActivity {
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();    //To change body of overridden methods use File | Settings | File Templates.
-        helper_main.isOpened(Activity_todo.this);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
-        helper_main.isOpened(Activity_todo.this);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();    //To change body of overridden methods use File | Settings | File Templates.
-        helper_main.isClosed(Activity_todo.this);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -438,7 +420,6 @@ public class Activity_todo extends AppCompatActivity {
             sharedPref.edit().putString("toDo_attachment", "").apply();
             //noinspection ResultOfMethodCallIgnored
             newFile().delete();
-            helper_main.isOpened(Activity_todo.this);
             finish();
         }
 

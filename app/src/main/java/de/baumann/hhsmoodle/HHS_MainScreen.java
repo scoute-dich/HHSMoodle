@@ -25,6 +25,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
+import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -62,7 +63,6 @@ import de.baumann.hhsmoodle.data_subjects.Subjects_Fragment;
 import de.baumann.hhsmoodle.data_todo.Todo_Fragment;
 import de.baumann.hhsmoodle.fragmentsMain.FragmentBrowser;
 import de.baumann.hhsmoodle.fragmentsMain.FragmentGrades;
-import de.baumann.hhsmoodle.activities.Activity_password;
 import de.baumann.hhsmoodle.activities.Activity_settings;
 import de.baumann.hhsmoodle.helper.class_SecurePreferences;
 import de.baumann.hhsmoodle.helper.helper_main;
@@ -79,20 +79,21 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
 
         super.onCreate(savedInstanceState);
 
+        setContentView(R.layout.activity_screen_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        helper_main.onStart(HHS_MainScreen.this);
+        helper_main.checkPin(HHS_MainScreen.this);
+        helper_main.grantPermissions(HHS_MainScreen.this);
+
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPref.edit().putString("browserLoad", "").apply();
         sharedPrefSec = new class_SecurePreferences(HHS_MainScreen.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
 
-        setContentView(R.layout.activity_screen_main);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        helper_main.onStart(HHS_MainScreen.this);
-        helper_main.grantPermissions(HHS_MainScreen.this);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -118,34 +119,36 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
         }
         onNewIntent(getIntent());
 
-        final NotificationManager notificationManager =
-                (NotificationManager) HHS_MainScreen.this.getSystemService(Context.NOTIFICATION_SERVICE);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && !notificationManager.isNotificationPolicyAccessGranted()) {
-            if (sharedPref.getString ("show_permission_disturb", "true").equals("true")){
-                new android.app.AlertDialog.Builder(this)
-                        .setTitle(R.string.app_permissions_title_dist)
-                        .setMessage(helper_main.textSpannable(getString(R.string.app_permissions_dist)))
-                        .setNeutralButton(R.string.toast_notAgain, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                                sharedPref.edit().putString("show_permission_disturb", "false").apply();
-                            }
-                        })
-                        .setPositiveButton(getString(R.string.toast_yes), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && !notificationManager.isNotificationPolicyAccessGranted()) {
-                                    Intent intent = new Intent(android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
-                                    startActivity(intent);
+        if (sharedPref.getBoolean("silent_mode", true)) {
+            final NotificationManager notificationManager =
+                    (NotificationManager) HHS_MainScreen.this.getSystemService(Context.NOTIFICATION_SERVICE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && !notificationManager.isNotificationPolicyAccessGranted()) {
+                if (sharedPref.getString ("show_permission_disturb", "true").equals("true")){
+                    new android.app.AlertDialog.Builder(this)
+                            .setTitle(R.string.app_permissions_title_dist)
+                            .setMessage(helper_main.textSpannable(getString(R.string.app_permissions_dist)))
+                            .setNeutralButton(R.string.toast_notAgain, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                    sharedPref.edit().putString("show_permission_disturb", "false").apply();
                                 }
-                            }
-                        })
-                        .setNegativeButton(getString(R.string.toast_cancel), null)
-                        .show();
+                            })
+                            .setPositiveButton(getString(R.string.toast_yes), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && !notificationManager.isNotificationPolicyAccessGranted()) {
+                                        Intent intent = new Intent(android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
+                                        startActivity(intent);
+                                    }
+                                }
+                            })
+                            .setNegativeButton(getString(R.string.toast_cancel), null)
+                            .show();
+                }
             }
         }
+
     }
 
     protected void onNewIntent(final Intent intent) {
@@ -154,13 +157,10 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
         sharedPref.edit().putString("Intent", "yes").apply();
 
         if ("shortcutBookmarks_HS".equals(action)) {
-            lockUI();
             viewPager.setCurrentItem(1, true);
         } else if ("shortcutNotes_HS".equals(action)) {
-            lockUI();
             viewPager.setCurrentItem(3, true);
         }  else if ("shortcutNotesNew_HS".equals(action)) {
-            Log.w("HHS_Moodle", "HHS_Main receiving intent");
             String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
             String sharedTitle = intent.getStringExtra(Intent.EXTRA_SUBJECT);
             sharedPref.edit()
@@ -168,22 +168,14 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
                     .putString("handleTextText", sharedText)
                     .putString("handleTextCreate", helper_main.createDate())
                     .apply();
-            lockUI();
             viewPager.setCurrentItem(3, true);
-            Intent intent_in = new Intent(HHS_MainScreen.this, Activity_EditNote.class);
-            startActivity(intent_in);
-            overridePendingTransition(0, 0);
+            helper_main.switchToActivity(HHS_MainScreen.this, Activity_EditNote.class, false);
         } else if ("shortcutToDo_HS".equals(action)) {
-            lockUI();
             viewPager.setCurrentItem(2, true);
         } else if ("shortcutBrowser_HS".equals(action)) {
-            lockUI();
             viewPager.setCurrentItem(0, true);
         } else if ("shortcutSchedule_HS".equals(action)) {
-            lockUI();
             viewPager.setCurrentItem(5, true);
-        } else {
-            helper_main.isOpened(HHS_MainScreen.this);
         }
     }
 
@@ -306,40 +298,6 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
     }
 
     @Override
-    protected void onDestroy() {
-        helper_main.isClosed(HHS_MainScreen.this);
-        super.onDestroy();
-    }
-
-    private void lockUI() {
-        String pw = sharedPrefSec.getString("protect_PW");
-        helper_main.isClosed(HHS_MainScreen.this);
-        if (pw != null && pw.length() > 0) {
-            if (sharedPref.getBoolean("isOpened", true)) {
-                helper_main.switchToActivity(HHS_MainScreen.this, Activity_password.class, false);
-            }
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();    //To change body of overridden methods use File | Settings | File Templates.
-        helper_main.isOpened(HHS_MainScreen.this);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
-        helper_main.isOpened(HHS_MainScreen.this);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();    //To change body of overridden methods use File | Settings | File Templates.
-        helper_main.isClosed(HHS_MainScreen.this);
-    }
-
-    @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
@@ -388,7 +346,6 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
             viewPager.setCurrentItem(10, true);
             setTitle(R.string.action_grades);
         } else if (id == R.id.nav_settings) {
-            helper_main.isOpened(HHS_MainScreen.this);
             helper_main.switchToActivity(HHS_MainScreen.this, Activity_settings.class, true);
         }
 

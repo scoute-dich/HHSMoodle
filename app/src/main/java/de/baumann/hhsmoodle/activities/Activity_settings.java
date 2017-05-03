@@ -109,6 +109,7 @@ public class Activity_settings extends AppCompatActivity {
                             getString(R.string.schedule_title)};
 
                     new AlertDialog.Builder(activity)
+                            .setTitle(getString(R.string.action_shortcut))
                             .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
 
                                 public void onClick(DialogInterface dialog, int whichButton) {
@@ -457,7 +458,6 @@ public class Activity_settings extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        helper_main.isOpened(Activity_settings.this);
         helper_main.switchToActivity(Activity_settings.this, HHS_MainScreen.class, true);
     }
 
@@ -487,7 +487,6 @@ public class Activity_settings extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == android.R.id.home) {
-            helper_main.isOpened(Activity_settings.this);
             helper_main.switchToActivity(Activity_settings.this, HHS_MainScreen.class, true);
         }
 

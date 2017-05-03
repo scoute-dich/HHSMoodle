@@ -413,24 +413,6 @@ public class Activity_count extends AppCompatActivity {
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();    //To change body of overridden methods use File | Settings | File Templates.
-        helper_main.isOpened(Activity_count.this);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
-        helper_main.isOpened(Activity_count.this);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();    //To change body of overridden methods use File | Settings | File Templates.
-        helper_main.isClosed(Activity_count.this);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -459,7 +441,6 @@ public class Activity_count extends AppCompatActivity {
             sharedPref.edit().putString("count_attachment", "").apply();
             newFileTitle().delete();
             newFileCount().delete();
-            helper_main.isOpened(Activity_count.this);
             finish();
         }
 

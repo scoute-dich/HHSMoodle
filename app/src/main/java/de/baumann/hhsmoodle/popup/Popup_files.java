@@ -50,7 +50,6 @@ import java.util.Date;
 import java.util.Locale;
 
 import de.baumann.hhsmoodle.R;
-import de.baumann.hhsmoodle.activities.Activity_password;
 import de.baumann.hhsmoodle.data_courses.Courses_DbAdapter;
 import de.baumann.hhsmoodle.data_files.Files_DbAdapter;
 import de.baumann.hhsmoodle.helper.class_SecurePreferences;
@@ -68,17 +67,6 @@ public class Popup_files extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        class_SecurePreferences sharedPrefSec = new class_SecurePreferences(Popup_files.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
-        String pw = sharedPrefSec.getString("protect_PW");
-
-        PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
-        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        if (pw != null  && pw.length() > 0) {
-            if (sharedPref.getBoolean("isOpened", true)) {
-                helper_main.switchToActivity(Popup_files.this, Activity_password.class, false);
-            }
-        }
 
         setContentView(R.layout.activity_popup);
 
@@ -390,30 +378,5 @@ public class Popup_files extends Activity {
             }
         }
         return valueOf(dec.format(fileSize) + suffix);
-    }
-
-
-    @Override
-    public void onBackPressed() {
-        helper_main.isClosed(Popup_files.this);
-        finish();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();    //To change body of overridden methods use File | Settings | File Templates.
-        helper_main.isOpened(Popup_files.this);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
-        helper_main.isOpened(Popup_files.this);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();    //To change body of overridden methods use File | Settings | File Templates.
-        helper_main.isClosed(Popup_files.this);
     }
 }

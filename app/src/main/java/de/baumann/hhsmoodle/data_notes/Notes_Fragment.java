@@ -103,12 +103,7 @@ public class Notes_Fragment extends Fragment {
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         imgHeader = (ImageView) rootView.findViewById(R.id.imageView_header);
-        if(imgHeader != null) {
-            TypedArray images = getResources().obtainTypedArray(R.array.splash_images);
-            int choice = (int) (Math.random() * images.length());
-            imgHeader.setImageResource(images.getResourceId(choice, R.drawable.splash1));
-            images.recycle();
-        }
+        helper_main.setImageHeader(getActivity(), imgHeader);
 
         filter_layout = (RelativeLayout) rootView.findViewById(R.id.filter_layout);
         filter_layout.setVisibility(View.GONE);
@@ -163,7 +158,6 @@ public class Notes_Fragment extends Fragment {
             @Override
             public void onClick(View view) {
                 closeFABMenu();
-                helper_main.isOpened(getActivity());
                 sharedPref.edit().putString("handleTextCreate", helper_main.createDate()).apply();
                 Intent mainIntent = new Intent(getActivity(), Popup_courseList.class);
                 mainIntent.setAction("courseList_note");
@@ -317,13 +311,13 @@ public class Notes_Fragment extends Fragment {
                     @Override
                     public void onClick(View arg0) {
 
-                        final Item[] items = {
-                                new Item(getString(R.string.note_priority_0), R.drawable.circle_green),
-                                new Item(getString(R.string.note_priority_1), R.drawable.circle_yellow),
-                                new Item(getString(R.string.note_priority_2), R.drawable.circle_red),
+                        final helper_main.Item[] items = {
+                                new helper_main.Item(getString(R.string.note_priority_0), R.drawable.circle_green),
+                                new helper_main.Item(getString(R.string.note_priority_1), R.drawable.circle_yellow),
+                                new helper_main.Item(getString(R.string.note_priority_2), R.drawable.circle_red),
                         };
 
-                        ListAdapter adapter = new ArrayAdapter<Item>(
+                        ListAdapter adapter = new ArrayAdapter<helper_main.Item>(
                                 getActivity(),
                                 android.R.layout.select_dialog_item,
                                 android.R.id.text1,
@@ -629,20 +623,6 @@ public class Notes_Fragment extends Fragment {
         });
     }
 
-    private static class Item{
-        public final String text;
-        public final int icon;
-        Item(String text, Integer icon) {
-            this.text = text;
-            this.icon = icon;
-        }
-
-        @Override
-        public String toString() {
-            return text;
-        }
-    }
-
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -687,7 +667,6 @@ public class Notes_Fragment extends Fragment {
                 helper_main.showKeyboard(getActivity(), filter);
                 return true;
             case R.id.filter_course:
-                helper_main.isOpened(getActivity());
                 Intent mainIntent = new Intent(getActivity(), Popup_courseList.class);
                 mainIntent.setAction("search_byCourse");
                 startActivity(mainIntent);

@@ -50,10 +50,8 @@ import java.io.File;
 
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.activities.Activity_EditNote;
-import de.baumann.hhsmoodle.activities.Activity_password;
 import de.baumann.hhsmoodle.data_notes.Notes_DbAdapter;
 import de.baumann.hhsmoodle.data_todo.Todo_DbAdapter;
-import de.baumann.hhsmoodle.helper.class_SecurePreferences;
 import de.baumann.hhsmoodle.helper.helper_main;
 
 public class Popup_note extends Activity {
@@ -66,18 +64,6 @@ public class Popup_note extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        class_SecurePreferences sharedPrefSec = new class_SecurePreferences(Popup_note.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
-        String pw = sharedPrefSec.getString("protect_PW");
-
-        PreferenceManager.setDefaultValues(Popup_note.this, R.xml.user_settings, false);
-        sharedPref = PreferenceManager.getDefaultSharedPreferences(Popup_note.this);
-
-        if (pw != null  && pw.length() > 0) {
-            if (sharedPref.getBoolean("isOpened", true)) {
-                helper_main.switchToActivity(Popup_note.this, Activity_password.class, false);
-            }
-        }
 
         setContentView(R.layout.activity_popup);
         lv = (ListView) findViewById(R.id.dialogList);
@@ -430,29 +416,5 @@ public class Popup_note extends Activity {
         public String toString() {
             return text;
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        helper_main.isClosed(Popup_note.this);
-        finish();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();    //To change body of overridden methods use File | Settings | File Templates.
-        helper_main.isOpened(Popup_note.this);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
-        helper_main.isOpened(Popup_note.this);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();    //To change body of overridden methods use File | Settings | File Templates.
-        helper_main.isClosed(Popup_note.this);
     }
 }

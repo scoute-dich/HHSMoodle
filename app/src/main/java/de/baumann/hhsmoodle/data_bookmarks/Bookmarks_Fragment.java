@@ -94,12 +94,7 @@ public class Bookmarks_Fragment extends Fragment {
         }
 
         imgHeader = (ImageView) rootView.findViewById(R.id.imageView_header);
-        if(imgHeader != null) {
-            TypedArray images = getResources().obtainTypedArray(R.array.splash_images);
-            int choice = (int) (Math.random() * images.length());
-            imgHeader.setImageResource(images.getResourceId(choice, R.drawable.splash1));
-            images.recycle();
-        }
+        helper_main.setImageHeader(getActivity(), imgHeader);
 
         filter_layout = (RelativeLayout) rootView.findViewById(R.id.filter_layout);
         filter_layout.setVisibility(View.GONE);
@@ -290,26 +285,26 @@ public class Bookmarks_Fragment extends Fragment {
 
                     @Override
                     public void onClick(View arg0) {
-                        final Item[] items = {
-                                new Item(getString(R.string.note_priority_2), R.drawable.circle_red),
-                                new Item(getString(R.string.note_priority_1), R.drawable.circle_yellow),
-                                new Item(getString(R.string.note_priority_0), R.drawable.circle_green),
-                                new Item(getString(R.string.text_tit_11), R.drawable.ic_school_grey600_48dp),
-                                new Item(getString(R.string.text_tit_1), R.drawable.ic_view_dashboard_grey600_48dp),
-                                new Item(getString(R.string.text_tit_2), R.drawable.ic_face_profile_grey600_48dp),
-                                new Item(getString(R.string.text_tit_8), R.drawable.ic_calendar_grey600_48dp),
-                                new Item(getString(R.string.text_tit_3), R.drawable.ic_chart_areaspline_grey600_48dp),
-                                new Item(getString(R.string.text_tit_4), R.drawable.ic_bell_grey600_48dp),
-                                new Item(getString(R.string.text_tit_5), R.drawable.ic_settings_grey600_48dp),
-                                new Item(getString(R.string.text_tit_6), R.drawable.ic_web_grey600_48dp),
-                                new Item(getString(R.string.text_tit_7), R.drawable.ic_magnify_grey600_48dp),
-                                new Item(getString(R.string.title_notes), R.drawable.ic_pencil_grey600_48dp),
-                                new Item(getString(R.string.text_tit_9), R.drawable.ic_check_grey600_48dp),
-                                new Item(getString(R.string.text_tit_10), R.drawable.ic_clock_grey600_48dp),
-                                new Item(getString(R.string.title_bookmarks), R.drawable.ic_bookmark_grey600_48dp),
+                        final helper_main.Item[] items = {
+                                new helper_main.Item(getString(R.string.note_priority_2), R.drawable.circle_red),
+                                new helper_main.Item(getString(R.string.note_priority_1), R.drawable.circle_yellow),
+                                new helper_main.Item(getString(R.string.note_priority_0), R.drawable.circle_green),
+                                new helper_main.Item(getString(R.string.text_tit_11), R.drawable.ic_school_grey600_48dp),
+                                new helper_main.Item(getString(R.string.text_tit_1), R.drawable.ic_view_dashboard_grey600_48dp),
+                                new helper_main.Item(getString(R.string.text_tit_2), R.drawable.ic_face_profile_grey600_48dp),
+                                new helper_main.Item(getString(R.string.text_tit_8), R.drawable.ic_calendar_grey600_48dp),
+                                new helper_main.Item(getString(R.string.text_tit_3), R.drawable.ic_chart_areaspline_grey600_48dp),
+                                new helper_main.Item(getString(R.string.text_tit_4), R.drawable.ic_bell_grey600_48dp),
+                                new helper_main.Item(getString(R.string.text_tit_5), R.drawable.ic_settings_grey600_48dp),
+                                new helper_main.Item(getString(R.string.text_tit_6), R.drawable.ic_web_grey600_48dp),
+                                new helper_main.Item(getString(R.string.text_tit_7), R.drawable.ic_magnify_grey600_48dp),
+                                new helper_main.Item(getString(R.string.title_notes), R.drawable.ic_pencil_grey600_48dp),
+                                new helper_main.Item(getString(R.string.text_tit_9), R.drawable.ic_check_grey600_48dp),
+                                new helper_main.Item(getString(R.string.text_tit_10), R.drawable.ic_clock_grey600_48dp),
+                                new helper_main.Item(getString(R.string.title_bookmarks), R.drawable.ic_bookmark_grey600_48dp),
                         };
 
-                        ListAdapter adapter = new ArrayAdapter<Item>(
+                        ListAdapter adapter = new ArrayAdapter<helper_main.Item>(
                                 getActivity(),
                                 android.R.layout.select_dialog_item,
                                 android.R.id.text1,
@@ -555,19 +550,7 @@ public class Bookmarks_Fragment extends Fragment {
         });
     }
 
-    public static class Item{
-        public final String text;
-        public final int icon;
-        Item(String text, Integer icon) {
-            this.text = text;
-            this.icon = icon;
-        }
 
-        @Override
-        public String toString() {
-            return text;
-        }
-    }
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
@@ -588,6 +571,10 @@ public class Bookmarks_Fragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
+        Calendar cal = Calendar.getInstance();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        String search;
+
         switch (item.getItemId()) {
 
             case R.id.action_help:
@@ -595,92 +582,58 @@ public class Bookmarks_Fragment extends Fragment {
                 return true;
 
             case R.id.filter_title:
-                sharedPref.edit().putString("filter_bookmarksBY", "bookmarks_title").apply();
+                helper_main.changeFilter("filter_bookmarksBY", "bookmarks_title");
                 setBookmarksList();
-                filter_layout.setVisibility(View.VISIBLE);
-                imgHeader.setVisibility(View.GONE);
-                filter.setText("");
-                filter.setHint(R.string.action_filter_title);
-                filter.requestFocus();
-                helper_main.showKeyboard(getActivity(), filter);
+                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
+                        "", getString(R.string.action_filter_title), true);
                 return true;
             case R.id.filter_url:
-                sharedPref.edit().putString("filter_bookmarksBY", "bookmarks_content").apply();
+                helper_main.changeFilter("filter_bookmarksBY", "bookmarks_content");
                 setBookmarksList();
-                filter_layout.setVisibility(View.VISIBLE);
-                imgHeader.setVisibility(View.GONE);
-                filter.setText("");
-                filter.setHint(R.string.action_filter_url);
-                filter.requestFocus();
-                helper_main.showKeyboard(getActivity(), filter);
+                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
+                        "", getString(R.string.action_filter_url), true);
                 return true;
-            case R.id.filter_course:
-                helper_main.isOpened(getActivity());
-                Intent mainIntent = new Intent(getActivity(), Popup_courseList.class);
+            case R.id.filter_course:Intent mainIntent = new Intent(getActivity(), Popup_courseList.class);
                 mainIntent.setAction("search_byCourse");
                 startActivity(mainIntent);
                 return true;
 
             case R.id.filter_today:
-                getActivity().setTitle(getString(R.string.title_bookmarks) + " | " + getString(R.string.filter_today));
-                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                Calendar cal = Calendar.getInstance();
-                final String search = dateFormat.format(cal.getTime());
-                sharedPref.edit().putString("filter_bookmarksBY", "bookmarks_creation").apply();
+                helper_main.changeFilter("filter_bookmarksBY", "bookmarks_creation");
                 setBookmarksList();
-                filter_layout.setVisibility(View.VISIBLE);
-                imgHeader.setVisibility(View.GONE);
-                filter.setText(search);
-                filter.setHint(R.string.action_filter_create);
+                search = dateFormat.format(cal.getTime());
+                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
+                        search, getString(R.string.action_filter_create), false);
                 return true;
             case R.id.filter_yesterday:
-                getActivity().setTitle(getString(R.string.title_bookmarks) + " | " + getString(R.string.filter_yesterday));
-                DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                Calendar cal2 = Calendar.getInstance();
-                cal2.add(Calendar.DATE, -1);
-                final String search2 = dateFormat2.format(cal2.getTime());
-                sharedPref.edit().putString("filter_bookmarksBY", "bookmarks_creation").apply();
+                helper_main.changeFilter("filter_bookmarksBY", "bookmarks_creation");
                 setBookmarksList();
-                filter_layout.setVisibility(View.VISIBLE);
-                imgHeader.setVisibility(View.GONE);
-                filter.setText(search2);
-                filter.setHint(R.string.action_filter_create);
+                cal.add(Calendar.DATE, -1);
+                search = dateFormat.format(cal.getTime());
+                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
+                        search, getString(R.string.action_filter_create), false);
                 return true;
             case R.id.filter_before:
-                getActivity().setTitle(getString(R.string.title_bookmarks) + " | " + getString(R.string.filter_before));
-                DateFormat dateFormat3 = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                Calendar cal3 = Calendar.getInstance();
-                cal3.add(Calendar.DATE, -2);
-                final String search3 = dateFormat3.format(cal3.getTime());
-                sharedPref.edit().putString("filter_bookmarksBY", "bookmarks_creation").apply();
+                helper_main.changeFilter("filter_bookmarksBY", "bookmarks_creation");
                 setBookmarksList();
-                filter_layout.setVisibility(View.VISIBLE);
-                imgHeader.setVisibility(View.GONE);
-                filter.setText(search3);
-                filter.setHint(R.string.action_filter_create);
+                cal.add(Calendar.DATE, -2);
+                search = dateFormat.format(cal.getTime());
+                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
+                        search, getString(R.string.action_filter_create), false);
                 return true;
             case R.id.filter_month:
-                getActivity().setTitle(getString(R.string.title_bookmarks) + " | " + getString(R.string.filter_month));
-                DateFormat dateFormat4 = new SimpleDateFormat("yyyy-MM", Locale.getDefault());
-                Calendar cal4 = Calendar.getInstance();
-                final String search4 = dateFormat4.format(cal4.getTime());
-                sharedPref.edit().putString("filter_bookmarksBY", "bookmarks_creation").apply();
+                helper_main.changeFilter("filter_bookmarksBY", "bookmarks_creation");
                 setBookmarksList();
-                filter_layout.setVisibility(View.VISIBLE);
-                imgHeader.setVisibility(View.GONE);
-                filter.setText(search4);
-                filter.setHint(R.string.action_filter_create);
+                DateFormat dateFormatMonth = new SimpleDateFormat("yyyy-MM", Locale.getDefault());
+                search = dateFormatMonth.format(cal.getTime());
+                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
+                        search, getString(R.string.action_filter_create), false);
                 return true;
             case R.id.filter_own:
-                getActivity().setTitle(getString(R.string.title_bookmarks) + " | " + getString(R.string.filter_own));
-                sharedPref.edit().putString("filter_bookmarksBY", "bookmarks_creation").apply();
+                helper_main.changeFilter("filter_bookmarksBY", "bookmarks_creation");
                 setBookmarksList();
-                filter_layout.setVisibility(View.VISIBLE);
-                imgHeader.setVisibility(View.GONE);
-                filter.setText("");
-                filter.setHint(R.string.action_filter_create);
-                filter.requestFocus();
-                helper_main.showKeyboard(getActivity(), filter);
+                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
+                        "", getString(R.string.action_filter_create), true);
                 return true;
 
             case R.id.sort_title:
