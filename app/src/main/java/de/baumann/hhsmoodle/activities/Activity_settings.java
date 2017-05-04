@@ -91,6 +91,7 @@ public class Activity_settings extends AppCompatActivity {
         getFragmentManager().beginTransaction().replace(R.id.content_frame, new SettingsFragment()).commit();
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     public static class SettingsFragment extends PreferenceFragment {
 
 

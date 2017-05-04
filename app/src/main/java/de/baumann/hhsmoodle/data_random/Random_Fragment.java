@@ -29,7 +29,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -72,7 +71,6 @@ public class Random_Fragment extends Fragment {
     private LinearLayout fabLayout1;
     private LinearLayout fabLayout2;
     private boolean isFABOpen=false;
-    private ViewPager viewPager;
 
     private ArrayList<String> items;
     private ListView lvItems;
@@ -88,7 +86,6 @@ public class Random_Fragment extends Fragment {
 
         fab_dice = (FloatingActionButton) rootView.findViewById(R.id.fab_dice);
         lv = (ListView) rootView.findViewById(R.id.list);
-        viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
         lvItems = (ListView) rootView.findViewById(R.id.lvItems);
 
         fabLayout1= (LinearLayout) rootView.findViewById(R.id.fabLayout1);
@@ -227,14 +224,6 @@ public class Random_Fragment extends Fragment {
             @Override
             public void onAnimationRepeat(Animator animator) {}
         });
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (viewPager.getCurrentItem() == 7) {
-            setRandomList();
-        }
     }
 
     public void doBack() {
@@ -466,6 +455,7 @@ public class Random_Fragment extends Fragment {
         menu.findItem(R.id.action_filter).setVisible(false);
         menu.findItem(R.id.action_sort).setVisible(false);
         getActivity().setTitle(R.string.number_title);
+        setRandomList();
     }
 
     @Override

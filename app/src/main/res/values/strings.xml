@@ -33,7 +33,6 @@
     <string name="app_share_file">Choose file with:</string>
     <string name="app_contDesc_1">header</string>
     <string name="app_contDesc_3">splashScreen</string>
-    <string name="app_conf">Confirmation</string>
     <string name="app_att">Attachment</string>
     <string name="app_myMoodle">My Moodle</string>
     <string name="app_close">Please wait … Closing app.</string>
@@ -176,7 +175,6 @@
     <string name="filter_before">Day before yesterday</string>
     <string name="filter_month">This month</string>
     <string name="filter_own">Own search</string>
-    <string name="filter_clear">Cancel search</string>
 
 
     // Context Menu

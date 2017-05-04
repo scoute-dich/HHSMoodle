@@ -2,7 +2,7 @@
 - verbessert: Fehlermeldung automatischer Login
 - verbessert: Suche in Einträgen
 - verbessert: Passwortschutz
-- verbessert: Code vereinfacht
+- fix: viele kleine Fehler
 
 ### 4.4
 - verbessert: Suche

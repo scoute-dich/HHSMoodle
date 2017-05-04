@@ -69,6 +69,9 @@ public class Popup_files extends Activity {
 
         setContentView(R.layout.activity_popup);
 
+        PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+
         lv = (ListView)findViewById(R.id.dialogList);
 
         //calling Notes_DbAdapter
@@ -81,8 +84,6 @@ public class Popup_files extends Activity {
     protected void onNewIntent(final Intent intent) {
 
         String action = intent.getAction();
-        PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
-        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 
         if ("file_chooseText".equals(action)) {
             lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {

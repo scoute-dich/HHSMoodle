@@ -74,7 +74,6 @@ public class Bookmarks_Fragment extends Fragment {
     private SharedPreferences sharedPref;
     private ImageView imgHeader;
     private RelativeLayout filter_layout;
-    private ViewPager viewPager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -96,7 +95,6 @@ public class Bookmarks_Fragment extends Fragment {
         filter_layout.setVisibility(View.GONE);
         lv = (ListView) rootView.findViewById(R.id.listNotes);
         filter = (EditText) rootView.findViewById(R.id.myFilter);
-        viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
 
         ImageButton ib_hideKeyboard =(ImageButton) rootView.findViewById(R.id.ib_hideKeyboard);
         ib_hideKeyboard.setOnClickListener(new View.OnClickListener() {
@@ -123,21 +121,6 @@ public class Bookmarks_Fragment extends Fragment {
         setHasOptionsMenu(true);
 
         return rootView;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (!sharedPref.getString("search_byCourse", "").isEmpty() && viewPager.getCurrentItem() == 1) {
-            String search = sharedPref.getString("search_byCourse", "");
-            helper_main.changeFilter("filter_bookmarksBY", "bookmarks_title");
-            setBookmarksList();
-            helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
-                    search, getString(R.string.action_filter_course), false);
-            sharedPref.edit().putString("search_byCourse", "").apply();
-        } else {
-            setBookmarksList();
-        }
     }
 
     public void doBack() {
@@ -545,6 +528,17 @@ public class Bookmarks_Fragment extends Fragment {
         menu.findItem(R.id.filter_room).setVisible(false);
         menu.findItem(R.id.filter_ext).setVisible(false);
         setTitle();
+
+        if (!sharedPref.getString("search_byCourse", "").isEmpty()) {
+            String search = sharedPref.getString("search_byCourse", "");
+            helper_main.changeFilter("filter_bookmarksBY", "bookmarks_title");
+            setBookmarksList();
+            helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
+                    search, getString(R.string.action_filter_course), false);
+            sharedPref.edit().putString("search_byCourse", "").apply();
+        } else {
+            setBookmarksList();
+        }
     }
 
     @Override

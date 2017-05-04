@@ -21,7 +21,6 @@ package de.baumann.hhsmoodle.data_files;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -35,7 +34,6 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -44,7 +42,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.FilterQueryProvider;
@@ -84,7 +81,6 @@ public class Files_Fragment extends Fragment {
     private SharedPreferences sharedPref;
     private ImageView imgHeader;
     private RelativeLayout filter_layout;
-    private ViewPager viewPager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -104,7 +100,6 @@ public class Files_Fragment extends Fragment {
         filter_layout.setVisibility(View.GONE);
         lv = (ListView) rootView.findViewById(R.id.listNotes);
         filter = (EditText) rootView.findViewById(R.id.myFilter);
-        viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
 
         ImageButton ib_hideKeyboard =(ImageButton) rootView.findViewById(R.id.ib_hideKeyboard);
         ib_hideKeyboard.setOnClickListener(new View.OnClickListener() {
@@ -138,16 +133,6 @@ public class Files_Fragment extends Fragment {
         setHasOptionsMenu(true);
 
         return rootView;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (viewPager.getCurrentItem() == 6) {
-            if (filter_layout.getVisibility() == View.GONE) {
-                fillFileList();
-            }
-        }
     }
 
     public void doBack() {
@@ -531,6 +516,10 @@ public class Files_Fragment extends Fragment {
         menu.findItem(R.id.action_help).setVisible(false);
         menu.findItem(R.id.filter_course).setVisible(false);
         setTitle();
+
+        if (filter_layout.getVisibility() == View.GONE) {
+            fillFileList();
+        }
     }
 
     @Override
@@ -623,7 +612,7 @@ public class Files_Fragment extends Fragment {
         }
     }
 
-    public void fillFileList () {
+    private void fillFileList() {
         if (android.os.Build.VERSION.SDK_INT >= 23) {
             int hasWRITE_EXTERNAL_STORAGE = getActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
             if (hasWRITE_EXTERNAL_STORAGE == PackageManager.PERMISSION_GRANTED) {
