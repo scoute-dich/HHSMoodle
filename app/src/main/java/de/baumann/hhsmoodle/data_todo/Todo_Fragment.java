@@ -28,11 +28,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -47,7 +45,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -67,9 +64,9 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import de.baumann.hhsmoodle.R;
-import de.baumann.hhsmoodle.activities.Activity_EditNote;
 import de.baumann.hhsmoodle.activities.Activity_todo;
 import de.baumann.hhsmoodle.data_count.Count_helper;
+import de.baumann.hhsmoodle.data_notes.Notes_helper;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.popup.Popup_courseList;
 
@@ -118,10 +115,7 @@ public class Todo_Fragment extends Fragment {
                     filter.setText("");
                 } else {
                     setTitle();
-                    InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                    imgHeader.setVisibility(View.VISIBLE);
-                    filter_layout.setVisibility(View.GONE);
+                    helper_main.hideFilter(getActivity(), filter_layout, imgHeader);
                     setTodoList();
                 }
             }
@@ -211,13 +205,10 @@ public class Todo_Fragment extends Fragment {
         super.onResume();
         if (!sharedPref.getString("search_byCourse", "").isEmpty() && viewPager.getCurrentItem() == 2) {
             String search = sharedPref.getString("search_byCourse", "");
-            sharedPref.edit().putString("filter_todoBY", "todo_title").apply();
-            getActivity().setTitle(getString(R.string.todo_title) + " | " + search);
+            helper_main.changeFilter("filter_todoBY", "todo_title");
             setTodoList();
-            filter_layout.setVisibility(View.VISIBLE);
-            imgHeader.setVisibility(View.GONE);
-            filter.setText(search);
-            filter.setHint(R.string.action_filter_course);
+            helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
+                    search, getString(R.string.action_filter_course), false);
             sharedPref.edit().putString("search_byCourse", "").apply();
         } else {
             if (filter_layout.getVisibility() == View.GONE) {
@@ -231,10 +222,7 @@ public class Todo_Fragment extends Fragment {
         if(isFABOpen){
             closeFABMenu();
         } else if (filter_layout.getVisibility() == View.VISIBLE) {
-            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(filter_layout.getWindowToken(), 0);
-            imgHeader.setVisibility(View.VISIBLE);
-            filter_layout.setVisibility(View.GONE);
+            helper_main.hideFilter(getActivity(), filter_layout, imgHeader);
             setTodoList();
         } else {
             helper_main.onClose(getActivity());
@@ -531,11 +519,7 @@ public class Todo_Fragment extends Fragment {
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createEvent))) {
-                                    Intent calIntent = new Intent(Intent.ACTION_INSERT);
-                                    calIntent.setType("vnd.android.cursor.item/event");
-                                    calIntent.putExtra(CalendarContract.Events.TITLE, todo_title);
-                                    calIntent.putExtra(CalendarContract.Events.DESCRIPTION, todo_content);
-                                    startActivity(calIntent);
+                                    helper_main.createCalendarEvent(getActivity(), todo_title, todo_content);
                                 }
 
                                 if (options[item].equals(getString(R.string.bookmark_remove_bookmark))) {
@@ -552,11 +536,7 @@ public class Todo_Fragment extends Fragment {
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createNote))) {
-                                    sharedPref.edit()
-                                            .putString("handleTextTitle", todo_title)
-                                            .putString("handleTextText", todo_content)
-                                            .apply();
-                                    helper_main.switchToActivity(getActivity(), Activity_EditNote.class, false);
+                                    Notes_helper.newNote(getActivity(),todo_title,todo_content,"","","","");
                                 }
 
                                 if (options[item].equals (getString(R.string.count_create))) {
@@ -603,6 +583,10 @@ public class Todo_Fragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
+        Calendar cal = Calendar.getInstance();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        String search;
+
         switch (item.getItemId()) {
 
             case R.id.action_help:
@@ -610,24 +594,16 @@ public class Todo_Fragment extends Fragment {
                 return true;
 
             case R.id.filter_title:
-                sharedPref.edit().putString("filter_todoBY", "todo_title").apply();
+                helper_main.changeFilter("filter_todoBY", "todo_title");
                 setTodoList();
-                filter_layout.setVisibility(View.VISIBLE);
-                imgHeader.setVisibility(View.GONE);
-                filter.setText("");
-                filter.setHint(R.string.action_filter_title);
-                filter.requestFocus();
-                helper_main.showKeyboard(getActivity(), filter);
+                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
+                        "", getString(R.string.action_filter_title), true);
                 return true;
             case R.id.filter_content:
-                sharedPref.edit().putString("filter_todoBY", "todo_content").apply();
+                helper_main.changeFilter("filter_todoBY", "todo_content");
                 setTodoList();
-                filter_layout.setVisibility(View.VISIBLE);
-                imgHeader.setVisibility(View.GONE);
-                filter.setText("");
-                filter.setHint(R.string.action_filter_cont);
-                filter.requestFocus();
-                helper_main.showKeyboard(getActivity(), filter);
+                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
+                        "", getString(R.string.action_filter_cont), true);
                 return true;
             case R.id.filter_course:
                 Intent mainIntent = new Intent(getActivity(), Popup_courseList.class);
@@ -636,63 +612,41 @@ public class Todo_Fragment extends Fragment {
                 return true;
 
             case R.id.filter_today:
-                getActivity().setTitle(getString(R.string.todo_title) + " | " + getString(R.string.filter_today));
-                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                Calendar cal = Calendar.getInstance();
-                final String search = dateFormat.format(cal.getTime());
-                sharedPref.edit().putString("filter_todoBY", "todo_creation").apply();
+                helper_main.changeFilter("filter_todoBY", "todo_creation");
                 setTodoList();
-                filter_layout.setVisibility(View.VISIBLE);
-                imgHeader.setVisibility(View.GONE);
-                filter.setText(search);
-                filter.setHint(R.string.action_filter_create);
+                search = dateFormat.format(cal.getTime());
+                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
+                        search, getString(R.string.action_filter_create), false);
                 return true;
             case R.id.filter_yesterday:
-                getActivity().setTitle(getString(R.string.todo_title) + " | " + getString(R.string.filter_yesterday));
-                DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                Calendar cal2 = Calendar.getInstance();
-                cal2.add(Calendar.DATE, -1);
-                final String search2 = dateFormat2.format(cal2.getTime());
-                sharedPref.edit().putString("filter_todoBY", "todo_creation").apply();
+                helper_main.changeFilter("filter_todoBY", "todo_creation");
                 setTodoList();
-                filter_layout.setVisibility(View.VISIBLE);
-                imgHeader.setVisibility(View.GONE);
-                filter.setText(search2);
-                filter.setHint(R.string.action_filter_create);
+                cal.add(Calendar.DATE, -1);
+                search = dateFormat.format(cal.getTime());
+                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
+                        search, getString(R.string.action_filter_create), false);
                 return true;
             case R.id.filter_before:
-                getActivity().setTitle(getString(R.string.todo_title) + " | " + getString(R.string.filter_before));
-                DateFormat dateFormat3 = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                Calendar cal3 = Calendar.getInstance();
-                cal3.add(Calendar.DATE, -2);
-                final String search3 = dateFormat3.format(cal3.getTime());
-                sharedPref.edit().putString("filter_todoBY", "todo_creation").apply();
+                helper_main.changeFilter("filter_todoBY", "todo_creation");
                 setTodoList();
-                filter.setText(search3);
-                filter.setHint(R.string.action_filter_create);
+                cal.add(Calendar.DATE, -2);
+                search = dateFormat.format(cal.getTime());
+                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
+                        search, getString(R.string.action_filter_create), false);
                 return true;
             case R.id.filter_month:
-                getActivity().setTitle(getString(R.string.todo_title) + " | " + getString(R.string.filter_month));
-                DateFormat dateFormat4 = new SimpleDateFormat("yyyy-MM", Locale.getDefault());
-                Calendar cal4 = Calendar.getInstance();
-                final String search4 = dateFormat4.format(cal4.getTime());
-                sharedPref.edit().putString("filter_todoBY", "todo_creation").apply();
+                helper_main.changeFilter("filter_todoBY", "todo_creation");
                 setTodoList();
-                filter_layout.setVisibility(View.VISIBLE);
-                imgHeader.setVisibility(View.GONE);
-                filter.setText(search4);
-                filter.setHint(R.string.action_filter_create);
+                DateFormat dateFormatMonth = new SimpleDateFormat("yyyy-MM", Locale.getDefault());
+                search = dateFormatMonth.format(cal.getTime());
+                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
+                        search, getString(R.string.action_filter_create), false);
                 return true;
             case R.id.filter_own:
-                getActivity().setTitle(getString(R.string.todo_title) + " | " + getString(R.string.filter_own));
-                sharedPref.edit().putString("filter_todoBY", "todo_creation").apply();
+                helper_main.changeFilter("filter_todoBY", "todo_creation");
                 setTodoList();
-                filter_layout.setVisibility(View.VISIBLE);
-                imgHeader.setVisibility(View.GONE);
-                filter.setText("");
-                filter.setHint(R.string.action_filter_create);
-                filter.requestFocus();
-                helper_main.showKeyboard(getActivity(), filter);
+                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
+                        "", getString(R.string.action_filter_create), true);
                 return true;
 
             case R.id.sort_title:

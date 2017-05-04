@@ -26,7 +26,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -542,85 +541,61 @@ public class Files_Fragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
+        Calendar cal = Calendar.getInstance();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        String search;
+
         switch (item.getItemId()) {
 
             case R.id.filter_title:
-                sharedPref.edit().putString("filter_filesBY", "files_title").apply();
+                helper_main.changeFilter("filter_filesBY", "files_title");
                 setFilesList();
-                filter_layout.setVisibility(View.VISIBLE);
-                imgHeader.setVisibility(View.GONE);
-                filter.setText("");
-                filter.setHint(R.string.action_filter_title);
-                filter.requestFocus();
-                helper_main.showKeyboard(getActivity(), filter);
+                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
+                        "", getString(R.string.action_filter_title), true);
                 return true;
             case R.id.filter_ext:
-                sharedPref.edit().putString("filter_filesBY", "files_icon").apply();
+                helper_main.changeFilter("filter_filesBY", "files_icon");
                 setFilesList();
-                filter_layout.setVisibility(View.VISIBLE);
-                imgHeader.setVisibility(View.GONE);
-                filter.setText("");
-                filter.setHint(R.string.action_filter_url);
-                filter.requestFocus();
-                helper_main.showKeyboard(getActivity(), filter);
+                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
+                        "", getString(R.string.action_filter_url), true);
                 return true;
 
             case R.id.filter_today:
-                getActivity().setTitle(getString(R.string.choose_titleMain) + " | " + getString(R.string.filter_today));
-                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                Calendar cal = Calendar.getInstance();
-                final String search = dateFormat.format(cal.getTime());
-                sharedPref.edit().putString("filter_filesBY", "files_creation").apply();
+                helper_main.changeFilter("filter_filesBY", "files_creation");
                 setFilesList();
-                filter_layout.setVisibility(View.VISIBLE);
-                imgHeader.setVisibility(View.GONE);
-                filter.setText(search);
+                search = dateFormat.format(cal.getTime());
+                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
+                        search, getString(R.string.action_filter_create), false);
                 return true;
             case R.id.filter_yesterday:
-                getActivity().setTitle(getString(R.string.choose_titleMain) + " | " + getString(R.string.filter_yesterday));
-                DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                Calendar cal2 = Calendar.getInstance();
-                cal2.add(Calendar.DATE, -1);
-                final String search2 = dateFormat2.format(cal2.getTime());
-                sharedPref.edit().putString("filter_filesBY", "files_creation").apply();
+                helper_main.changeFilter("filter_filesBY", "files_creation");
                 setFilesList();
-                filter_layout.setVisibility(View.VISIBLE);
-                imgHeader.setVisibility(View.GONE);
-                filter.setText(search2);
+                cal.add(Calendar.DATE, -1);
+                search = dateFormat.format(cal.getTime());
+                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
+                        search, getString(R.string.action_filter_create), false);
                 return true;
             case R.id.filter_before:
-                getActivity().setTitle(getString(R.string.choose_titleMain) + " | " + getString(R.string.filter_before));
-                DateFormat dateFormat3 = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                Calendar cal3 = Calendar.getInstance();
-                cal3.add(Calendar.DATE, -2);
-                final String search3 = dateFormat3.format(cal3.getTime());
-                sharedPref.edit().putString("filter_filesBY", "files_creation").apply();
+                helper_main.changeFilter("filter_filesBY", "files_creation");
                 setFilesList();
-                filter_layout.setVisibility(View.VISIBLE);
-                imgHeader.setVisibility(View.GONE);
-                filter.setText(search3);
+                cal.add(Calendar.DATE, -2);
+                search = dateFormat.format(cal.getTime());
+                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
+                        search, getString(R.string.action_filter_create), false);
                 return true;
             case R.id.filter_month:
-                getActivity().setTitle(getString(R.string.choose_titleMain) + " | " + getString(R.string.filter_month));
-                DateFormat dateFormat4 = new SimpleDateFormat("yyyy-MM", Locale.getDefault());
-                Calendar cal4 = Calendar.getInstance();
-                final String search4 = dateFormat4.format(cal4.getTime());
-                sharedPref.edit().putString("filter_filesBY", "files_creation").apply();
+                helper_main.changeFilter("filter_filesBY", "files_creation");
                 setFilesList();
-                filter_layout.setVisibility(View.VISIBLE);
-                imgHeader.setVisibility(View.GONE);
-                filter.setText(search4);
+                DateFormat dateFormatMonth = new SimpleDateFormat("yyyy-MM", Locale.getDefault());
+                search = dateFormatMonth.format(cal.getTime());
+                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
+                        search, getString(R.string.action_filter_create), false);
                 return true;
             case R.id.filter_own:
-                getActivity().setTitle(getString(R.string.choose_titleMain) + " | " + getString(R.string.filter_own));
-                sharedPref.edit().putString("filter_filesBY", "files_creation").apply();
+                helper_main.changeFilter("filter_filesBY", "files_creation");
                 setFilesList();
-                filter_layout.setVisibility(View.VISIBLE);
-                imgHeader.setVisibility(View.GONE);
-                filter.setText("");
-                filter.setHint(R.string.action_filter_create);
-                filter.requestFocus();
-                helper_main.showKeyboard(getActivity(), filter);
+                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
+                        "", getString(R.string.action_filter_create), true);
                 return true;
 
             case R.id.sort_title:

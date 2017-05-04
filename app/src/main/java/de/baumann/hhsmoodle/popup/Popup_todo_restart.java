@@ -42,7 +42,6 @@ import de.baumann.hhsmoodle.data_schedule.Schedule_helper;
 import de.baumann.hhsmoodle.data_todo.Todo_DbAdapter;
 import de.baumann.hhsmoodle.helper.class_AlarmService;
 import de.baumann.hhsmoodle.helper.helper_encryption;
-import de.baumann.hhsmoodle.helper.helper_main;
 
 @SuppressWarnings("SameParameterValue")
 public class Popup_todo_restart extends Activity {

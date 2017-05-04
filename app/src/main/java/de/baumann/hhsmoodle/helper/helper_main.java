@@ -35,6 +35,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.provider.CalendarContract;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
@@ -56,13 +57,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
-import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import de.baumann.hhsmoodle.App;
 import de.baumann.hhsmoodle.R;
 
 public class helper_main {
@@ -85,6 +84,14 @@ public class helper_main {
         if (showKeyboard) {
             helper_main.showKeyboard(activity, editText);
         }
+    }
+
+    public static void hideFilter (Activity activity, RelativeLayout layout, ImageView imageView) {
+
+        InputMethodManager imm = (InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(layout.getWindowToken(), 0);
+        imageView.setVisibility(View.VISIBLE);
+        layout.setVisibility(View.GONE);
     }
 
 
@@ -210,7 +217,6 @@ public class helper_main {
             clear.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
 
                     Snackbar snackbar = Snackbar
                             .make(clear, activity.getString(R.string.pw_forgotten_dialog), Snackbar.LENGTH_LONG)
@@ -380,11 +386,11 @@ public class helper_main {
     }
 
     @SuppressWarnings("SameParameterValue")
-    public static void switchToActivity(Activity activity, Class to, boolean finishactivityActivity) {
+    public static void switchToActivity(Activity activity, Class to, boolean finishActivity) {
         Intent intent = new Intent(activity, to);
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         activity.startActivity(intent);
-        if (finishactivityActivity) {
+        if (finishActivity) {
             activity.finish();
         }
     }
@@ -587,5 +593,14 @@ public class helper_main {
             imageView.setImageResource(images.getResourceId(choice, R.drawable.splash1));
             images.recycle();
         }
+    }
+
+    public static void createCalendarEvent (Activity activity, String title, String description) {
+
+        Intent calIntent = new Intent(Intent.ACTION_INSERT);
+        calIntent.setType("vnd.android.cursor.item/event");
+        calIntent.putExtra(CalendarContract.Events.TITLE, title);
+        calIntent.putExtra(CalendarContract.Events.DESCRIPTION, description);
+        activity.startActivity(calIntent);
     }
 }

@@ -23,11 +23,9 @@ import android.animation.Animator;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -56,7 +54,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import de.baumann.hhsmoodle.R;
-import de.baumann.hhsmoodle.activities.Activity_EditNote;
+import de.baumann.hhsmoodle.data_notes.Notes_helper;
 import de.baumann.hhsmoodle.data_random.Random_DbAdapter;
 import de.baumann.hhsmoodle.data_subjects.Subject_DbAdapter;
 import de.baumann.hhsmoodle.data_todo.Todo_helper;
@@ -349,10 +347,7 @@ public class Courses_Fragment extends Fragment {
                                 }
 
                                 if (options[item].equals(getString(R.string.courseList_note))) {
-                                    sharedPref.edit()
-                                            .putString("handleTextTitle", courses_title)
-                                            .apply();
-                                    helper_main.switchToActivity(getActivity(), Activity_EditNote.class, false);
+                                    Notes_helper.newNote(getActivity(),courses_title,"","","","","");
                                 }
 
                                 if (options[item].equals(getString(R.string.courseList_todo))) {
@@ -505,11 +500,7 @@ public class Courses_Fragment extends Fragment {
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createEvent))) {
-                                    Intent calIntent = new Intent(Intent.ACTION_INSERT);
-                                    calIntent.setType("vnd.android.cursor.item/event");
-                                    calIntent.putExtra(CalendarContract.Events.TITLE, courses_title);
-                                    calIntent.putExtra(CalendarContract.Events.DESCRIPTION, courses_content);
-                                    startActivity(calIntent);
+                                    helper_main.createCalendarEvent(getActivity(), courses_title, courses_content);
                                 }
 
                             }

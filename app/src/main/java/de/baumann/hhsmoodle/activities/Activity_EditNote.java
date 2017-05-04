@@ -36,7 +36,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import de.baumann.hhsmoodle.App;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.data_notes.Notes_DbAdapter;
 import de.baumann.hhsmoodle.helper.helper_main;
@@ -170,10 +169,6 @@ public class Activity_EditNote extends AppCompatActivity {
                 sharedPref.edit().putString("handleTextIcon", "3").apply();
                 break;
         }
-
-        App mApp = ((App) getApplicationContext());
-        String globalVarValue = mApp.getGlobalVarValue();
-        mApp.setGlobalVarValue("sfsaf");
 
         be.setOnClickListener(new View.OnClickListener() {
 

@@ -20,16 +20,13 @@
 package de.baumann.hhsmoodle.data_bookmarks;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -42,7 +39,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -61,8 +57,8 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import de.baumann.hhsmoodle.R;
-import de.baumann.hhsmoodle.activities.Activity_EditNote;
 import de.baumann.hhsmoodle.data_count.Count_helper;
+import de.baumann.hhsmoodle.data_notes.Notes_helper;
 import de.baumann.hhsmoodle.data_todo.Todo_helper;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.popup.Popup_courseList;
@@ -110,10 +106,7 @@ public class Bookmarks_Fragment extends Fragment {
                     filter.setText("");
                 } else {
                     setTitle();
-                    InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                    imgHeader.setVisibility(View.VISIBLE);
-                    filter_layout.setVisibility(View.GONE);
+                    helper_main.hideFilter(getActivity(), filter_layout, imgHeader);
                     setBookmarksList();
                 }
             }
@@ -137,13 +130,10 @@ public class Bookmarks_Fragment extends Fragment {
         super.onResume();
         if (!sharedPref.getString("search_byCourse", "").isEmpty() && viewPager.getCurrentItem() == 1) {
             String search = sharedPref.getString("search_byCourse", "");
-            sharedPref.edit().putString("filter_bookmarksBY", "bookmarks_title").apply();
-            getActivity().setTitle(getString(R.string.title_bookmarks) + " | " + search);
+            helper_main.changeFilter("filter_bookmarksBY", "bookmarks_title");
             setBookmarksList();
-            filter_layout.setVisibility(View.VISIBLE);
-            imgHeader.setVisibility(View.GONE);
-            filter.setText(search);
-            filter.setHint(R.string.action_filter_course);
+            helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
+                    search, getString(R.string.action_filter_course), false);
             sharedPref.edit().putString("search_byCourse", "").apply();
         } else {
             setBookmarksList();
@@ -152,10 +142,7 @@ public class Bookmarks_Fragment extends Fragment {
 
     public void doBack() {
         if (filter_layout.getVisibility() == View.VISIBLE) {
-            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(filter_layout.getWindowToken(), 0);
-            imgHeader.setVisibility(View.VISIBLE);
-            filter_layout.setVisibility(View.GONE);
+            helper_main.hideFilter(getActivity(), filter_layout, imgHeader);
             setBookmarksList();
         } else {
             helper_main.onClose(getActivity());
@@ -181,13 +168,13 @@ public class Bookmarks_Fragment extends Fragment {
             @Override
             public View getView (final int position, View convertView, ViewGroup parent) {
 
-                Cursor row2 = (Cursor) lv.getItemAtPosition(position);
-                final String _id = row2.getString(row2.getColumnIndexOrThrow("_id"));
-                final String bookmarks_title = row2.getString(row2.getColumnIndexOrThrow("bookmarks_title"));
-                final String bookmarks_content = row2.getString(row2.getColumnIndexOrThrow("bookmarks_content"));
-                final String bookmarks_icon = row2.getString(row2.getColumnIndexOrThrow("bookmarks_icon"));
-                final String bookmarks_attachment = row2.getString(row2.getColumnIndexOrThrow("bookmarks_attachment"));
-                final String bookmarks_creation = row2.getString(row2.getColumnIndexOrThrow("bookmarks_creation"));
+                Cursor row = (Cursor) lv.getItemAtPosition(position);
+                final String _id = row.getString(row.getColumnIndexOrThrow("_id"));
+                final String bookmarks_title = row.getString(row.getColumnIndexOrThrow("bookmarks_title"));
+                final String bookmarks_content = row.getString(row.getColumnIndexOrThrow("bookmarks_content"));
+                final String bookmarks_icon = row.getString(row.getColumnIndexOrThrow("bookmarks_icon"));
+                final String bookmarks_attachment = row.getString(row.getColumnIndexOrThrow("bookmarks_attachment"));
+                final String bookmarks_creation = row.getString(row.getColumnIndexOrThrow("bookmarks_creation"));
 
                 View v = super.getView(position, convertView, parent);
                 ImageView iv_icon = (ImageView) v.findViewById(R.id.icon_notes);
@@ -499,11 +486,7 @@ public class Bookmarks_Fragment extends Fragment {
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createEvent))) {
-                                    Intent calIntent = new Intent(Intent.ACTION_INSERT);
-                                    calIntent.setType("vnd.android.cursor.item/event");
-                                    calIntent.putExtra(CalendarContract.Events.TITLE, bookmarks_title);
-                                    calIntent.putExtra(CalendarContract.Events.DESCRIPTION, bookmarks_content);
-                                    startActivity(calIntent);
+                                    helper_main.createCalendarEvent(getActivity(), bookmarks_title, bookmarks_content);
                                 }
 
                                 if (options[item].equals(getString(R.string.bookmark_remove_bookmark))) {
@@ -520,11 +503,7 @@ public class Bookmarks_Fragment extends Fragment {
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createNote))) {
-                                    sharedPref.edit()
-                                            .putString("handleTextTitle", bookmarks_title)
-                                            .putString("handleTextText", bookmarks_content)
-                                            .apply();
-                                    helper_main.switchToActivity(getActivity(), Activity_EditNote.class, false);
+                                    Notes_helper.newNote(getActivity(),bookmarks_title,bookmarks_content,"","","","");
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createShortcut))) {

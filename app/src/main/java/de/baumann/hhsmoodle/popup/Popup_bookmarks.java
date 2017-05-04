@@ -35,7 +35,6 @@ import android.widget.SimpleCursorAdapter;
 
 import de.baumann.hhsmoodle.data_bookmarks.Bookmarks_DbAdapter;
 import de.baumann.hhsmoodle.R;
-import de.baumann.hhsmoodle.helper.class_SecurePreferences;
 import de.baumann.hhsmoodle.helper.helper_main;
 
 public class Popup_bookmarks extends Activity {

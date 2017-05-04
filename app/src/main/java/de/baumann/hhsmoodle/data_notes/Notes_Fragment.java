@@ -21,16 +21,13 @@ package de.baumann.hhsmoodle.data_notes;
 
 import android.animation.Animator;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -45,7 +42,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -119,10 +115,7 @@ public class Notes_Fragment extends Fragment {
                     filter.setText("");
                 } else {
                     setTitle();
-                    InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                    imgHeader.setVisibility(View.VISIBLE);
-                    filter_layout.setVisibility(View.GONE);
+                    helper_main.hideFilter(getActivity(), filter_layout, imgHeader);
                     setNotesList();
                 }
             }
@@ -214,13 +207,10 @@ public class Notes_Fragment extends Fragment {
         super.onResume();
         if (!sharedPref.getString("search_byCourse", "").isEmpty() && viewPager.getCurrentItem() == 3) {
             String search = sharedPref.getString("search_byCourse", "");
-            sharedPref.edit().putString("filter_noteBY", "note_title").apply();
-            getActivity().setTitle(getString(R.string.todo_title) + " | " + search);
+            helper_main.changeFilter("filter_noteBY", "note_title");
             setNotesList();
-            filter_layout.setVisibility(View.VISIBLE);
-            imgHeader.setVisibility(View.GONE);
-            filter.setText(search);
-            filter.setHint(R.string.action_filter_course);
+            helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
+                    search, getString(R.string.action_filter_course), false);
             sharedPref.edit().putString("search_byCourse", "").apply();
         } else {
             if (filter_layout.getVisibility() == View.GONE) {
@@ -234,10 +224,7 @@ public class Notes_Fragment extends Fragment {
         if(isFABOpen){
             closeFABMenu();
         } if (filter_layout.getVisibility() == View.VISIBLE) {
-            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(filter_layout.getWindowToken(), 0);
-            imgHeader.setVisibility(View.VISIBLE);
-            filter_layout.setVisibility(View.GONE);
+            helper_main.hideFilter(getActivity(), filter_layout, imgHeader);
             setNotesList();
         } else {
             helper_main.onClose(getActivity());
@@ -561,15 +548,8 @@ public class Notes_Fragment extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialog, int item) {
                                 if (options[item].equals(getString(R.string.number_edit_entry))) {
-                                    sharedPref.edit()
-                                            .putString("handleTextTitle", note_title)
-                                            .putString("handleTextText", note_content)
-                                            .putString("handleTextIcon", note_icon)
-                                            .putString("handleTextSeqno", _id)
-                                            .putString("handleTextAttachment", note_attachment)
-                                            .putString("handleTextCreate", note_creation)
-                                            .apply();
-                                    helper_main.switchToActivity(getActivity(), Activity_EditNote.class, false);
+                                    Notes_helper.newNote(getActivity(),note_title,note_content,note_icon,
+                                            note_attachment,note_creation,_id);
                                 }
 
                                 if (options[item].equals (getString(R.string.todo_share))) {
@@ -596,11 +576,7 @@ public class Notes_Fragment extends Fragment {
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createEvent))) {
-                                    Intent calIntent = new Intent(Intent.ACTION_INSERT);
-                                    calIntent.setType("vnd.android.cursor.item/event");
-                                    calIntent.putExtra(CalendarContract.Events.TITLE, note_title);
-                                    calIntent.putExtra(CalendarContract.Events.DESCRIPTION, note_content);
-                                    startActivity(calIntent);
+                                    helper_main.createCalendarEvent(getActivity(), note_title, note_content);
                                 }
 
                                 if (options[item].equals(getString(R.string.bookmark_remove_bookmark))) {
@@ -640,6 +616,10 @@ public class Notes_Fragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
+        Calendar cal = Calendar.getInstance();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        String search;
+
         switch (item.getItemId()) {
 
             case R.id.action_help:
@@ -673,65 +653,41 @@ public class Notes_Fragment extends Fragment {
                 return true;
 
             case R.id.filter_today:
-                getActivity().setTitle(getString(R.string.title_notes) + " | " + getString(R.string.filter_today));
-                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                Calendar cal = Calendar.getInstance();
-                final String search = dateFormat.format(cal.getTime());
-                sharedPref.edit().putString("filter_noteBY", "note_creation").apply();
+                helper_main.changeFilter("filter_noteBY", "note_creation");
                 setNotesList();
-                filter_layout.setVisibility(View.VISIBLE);
-                imgHeader.setVisibility(View.GONE);
-                filter.setText(search);
-                filter.setHint(R.string.action_filter_create);
+                search = dateFormat.format(cal.getTime());
+                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
+                        search, getString(R.string.action_filter_create), false);
                 return true;
             case R.id.filter_yesterday:
-                getActivity().setTitle(getString(R.string.title_notes) + " | " + getString(R.string.filter_yesterday));
-                DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                Calendar cal2 = Calendar.getInstance();
-                cal2.add(Calendar.DATE, -1);
-                final String search2 = dateFormat2.format(cal2.getTime());
-                sharedPref.edit().putString("filter_noteBY", "note_creation").apply();
+                helper_main.changeFilter("filter_noteBY", "note_creation");
                 setNotesList();
-                filter_layout.setVisibility(View.VISIBLE);
-                imgHeader.setVisibility(View.GONE);
-                filter.setText(search2);
-                filter.setHint(R.string.action_filter_create);
+                cal.add(Calendar.DATE, -1);
+                search = dateFormat.format(cal.getTime());
+                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
+                        search, getString(R.string.action_filter_create), false);
                 return true;
             case R.id.filter_before:
-                getActivity().setTitle(getString(R.string.title_notes) + " | " + getString(R.string.filter_before));
-                DateFormat dateFormat3 = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                Calendar cal3 = Calendar.getInstance();
-                cal3.add(Calendar.DATE, -2);
-                final String search3 = dateFormat3.format(cal3.getTime());
-                sharedPref.edit().putString("filter_noteBY", "note_creation").apply();
+                helper_main.changeFilter("filter_noteBY", "note_creation");
                 setNotesList();
-                filter_layout.setVisibility(View.VISIBLE);
-                imgHeader.setVisibility(View.GONE);
-                filter.setText(search3);
-                filter.setHint(R.string.action_filter_create);
+                cal.add(Calendar.DATE, -2);
+                search = dateFormat.format(cal.getTime());
+                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
+                        search, getString(R.string.action_filter_create), false);
                 return true;
             case R.id.filter_month:
-                getActivity().setTitle(getString(R.string.title_notes) + " | " + getString(R.string.filter_month));
-                DateFormat dateFormat4 = new SimpleDateFormat("yyyy-MM", Locale.getDefault());
-                Calendar cal4 = Calendar.getInstance();
-                final String search4 = dateFormat4.format(cal4.getTime());
-                sharedPref.edit().putString("filter_noteBY", "note_creation").apply();
+                helper_main.changeFilter("filter_noteBY", "note_creation");
                 setNotesList();
-                filter_layout.setVisibility(View.VISIBLE);
-                imgHeader.setVisibility(View.GONE);
-                filter.setText(search4);
-                filter.setHint(R.string.action_filter_create);
+                DateFormat dateFormatMonth = new SimpleDateFormat("yyyy-MM", Locale.getDefault());
+                search = dateFormatMonth.format(cal.getTime());
+                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
+                        search, getString(R.string.action_filter_create), false);
                 return true;
             case R.id.filter_own:
-                getActivity().setTitle(getString(R.string.title_notes) + " | " + getString(R.string.filter_own));
-                sharedPref.edit().putString("filter_noteBY", "note_creation").apply();
+                helper_main.changeFilter("filter_noteBY", "note_creation");
                 setNotesList();
-                filter_layout.setVisibility(View.VISIBLE);
-                imgHeader.setVisibility(View.GONE);
-                filter.setText("");
-                filter.setHint(R.string.action_filter_create);
-                filter.requestFocus();
-                helper_main.showKeyboard(getActivity(), filter);
+                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
+                        "", getString(R.string.action_filter_create), false);
                 return true;
 
             case R.id.filter_att:

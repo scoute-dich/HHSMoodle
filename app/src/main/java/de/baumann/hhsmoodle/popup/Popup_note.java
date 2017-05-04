@@ -66,6 +66,10 @@ public class Popup_note extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_popup);
+
+        PreferenceManager.setDefaultValues(Popup_note.this, R.xml.user_settings, false);
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(Popup_note.this);
+
         lv = (ListView) findViewById(R.id.dialogList);
 
         //calling Notes_DbAdapter

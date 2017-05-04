@@ -22,7 +22,6 @@ package de.baumann.hhsmoodle.data_random;
 import android.animation.Animator;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;

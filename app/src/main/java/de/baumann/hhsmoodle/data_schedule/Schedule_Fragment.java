@@ -20,16 +20,13 @@
 package de.baumann.hhsmoodle.data_schedule;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -44,7 +41,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -58,8 +54,8 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import de.baumann.hhsmoodle.R;
-import de.baumann.hhsmoodle.activities.Activity_EditNote;
 import de.baumann.hhsmoodle.data_count.Count_helper;
+import de.baumann.hhsmoodle.data_notes.Notes_helper;
 import de.baumann.hhsmoodle.data_todo.Todo_helper;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.popup.Popup_note;
@@ -78,8 +74,6 @@ public class Schedule_Fragment extends Fragment {
     private ImageView imgHeader;
     private RelativeLayout filter_layout;
     private ViewPager viewPager;
-
-    private FloatingActionButton fab;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -102,11 +96,7 @@ public class Schedule_Fragment extends Fragment {
         ib_hideKeyboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                imgHeader.setVisibility(View.VISIBLE);
-                fab.setVisibility(View.VISIBLE);
-                filter_layout.setVisibility(View.GONE);
+                helper_main.hideFilter(getActivity(), filter_layout, imgHeader);
                 setScheduleList();
             }
         });
@@ -115,7 +105,7 @@ public class Schedule_Fragment extends Fragment {
         db = new Schedule_DbAdapter(getActivity());
         db.open();
 
-        fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
         fab.setImageResource(R.drawable.timetable_white);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,10 +134,7 @@ public class Schedule_Fragment extends Fragment {
 
     public void doBack() {
         if (filter_layout.getVisibility() == View.VISIBLE) {
-            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(filter_layout.getWindowToken(), 0);
-            imgHeader.setVisibility(View.VISIBLE);
-            filter_layout.setVisibility(View.GONE);
+            helper_main.hideFilter(getActivity(), filter_layout, imgHeader);
             setScheduleList();
         } else {
             helper_main.onClose(getActivity());
@@ -592,20 +579,11 @@ public class Schedule_Fragment extends Fragment {
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createEvent))) {
-                                    Intent calIntent = new Intent(Intent.ACTION_INSERT);
-                                    calIntent.setType("vnd.android.cursor.item/event");
-                                    calIntent.putExtra(CalendarContract.Events.TITLE, schedule_title);
-                                    calIntent.putExtra(CalendarContract.Events.DESCRIPTION, schedule_content);
-                                    calIntent.putExtra(CalendarContract.Events.EVENT_LOCATION, schedule_attachment);
-                                    startActivity(calIntent);
+                                    helper_main.createCalendarEvent(getActivity(), schedule_title, schedule_content);
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createNote))) {
-                                    sharedPref.edit()
-                                            .putString("handleTextTitle", schedule_title)
-                                            .putString("handleTextText", schedule_content)
-                                            .apply();
-                                    helper_main.switchToActivity(getActivity(), Activity_EditNote.class, false);
+                                    Notes_helper.newNote(getActivity(),schedule_title,schedule_content,"","","","");
                                 }
 
                             }
@@ -658,37 +636,22 @@ public class Schedule_Fragment extends Fragment {
                 return true;
 
             case R.id.filter_title:
-                sharedPref.edit().putString("filter_scheduleBY", "schedule_title").apply();
+                helper_main.changeFilter("filter_scheduleBY", "schedule_title");
                 setScheduleList();
-                filter_layout.setVisibility(View.VISIBLE);
-                imgHeader.setVisibility(View.GONE);
-                fab.setVisibility(View.GONE);
-                filter.setText("");
-                filter.setHint(R.string.action_filter_title);
-                filter.requestFocus();
-                helper_main.showKeyboard(getActivity(), filter);
+                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
+                        "", getString(R.string.action_filter_title), true);
                 return true;
             case R.id.filter_teacher:
-                sharedPref.edit().putString("filter_scheduleBY", "schedule_content").apply();
+                helper_main.changeFilter("filter_scheduleBY", "schedule_content");
                 setScheduleList();
-                filter_layout.setVisibility(View.VISIBLE);
-                imgHeader.setVisibility(View.GONE);
-                fab.setVisibility(View.GONE);
-                filter.setText("");
-                filter.setHint(R.string.schedule_search_teacher);
-                filter.requestFocus();
-                helper_main.showKeyboard(getActivity(), filter);
+                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
+                        "", getString(R.string.schedule_search_teacher), true);
                 return true;
             case R.id.filter_room:
-                sharedPref.edit().putString("filter_scheduleBY", "schedule_attachment").apply();
+                helper_main.changeFilter("filter_scheduleBY", "schedule_attachment");
                 setScheduleList();
-                filter_layout.setVisibility(View.VISIBLE);
-                imgHeader.setVisibility(View.GONE);
-                fab.setVisibility(View.GONE);
-                filter.setText("");
-                filter.setHint(R.string.schedule_search_room);
-                filter.requestFocus();
-                helper_main.showKeyboard(getActivity(), filter);
+                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
+                        "", getString(R.string.schedule_search_room), true);
                 return true;
 
             case R.id.action_silent:

@@ -21,12 +21,10 @@ package de.baumann.hhsmoodle.data_subjects;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -54,8 +52,8 @@ import java.util.Date;
 import java.util.Locale;
 
 import de.baumann.hhsmoodle.R;
-import de.baumann.hhsmoodle.activities.Activity_EditNote;
 import de.baumann.hhsmoodle.data_courses.Courses_DbAdapter;
+import de.baumann.hhsmoodle.data_notes.Notes_helper;
 import de.baumann.hhsmoodle.data_random.Random_DbAdapter;
 import de.baumann.hhsmoodle.data_todo.Todo_helper;
 import de.baumann.hhsmoodle.helper.helper_main;
@@ -390,7 +388,6 @@ public class Subjects_Fragment extends Fragment {
                 Cursor row2 = (Cursor) lv.getItemAtPosition(position);
                 final String subject_title = row2.getString(row2.getColumnIndexOrThrow("subject_title"));
                 final String subject_content = row2.getString(row2.getColumnIndexOrThrow("subject_content"));
-                final String subject_attachment = row2.getString(row2.getColumnIndexOrThrow("subject_attachment"));
 
                 final CharSequence[] options = {
                         getString(R.string.courseList_todo),
@@ -462,11 +459,7 @@ public class Subjects_Fragment extends Fragment {
                                 }
 
                                 if (options[item].equals(getString(R.string.courseList_note))) {
-                                    sharedPref.edit()
-                                            .putString("handleTextTitle", subject_title)
-                                            .putString("handleTextText", subject_content)
-                                            .apply();
-                                    helper_main.switchToActivity(getActivity(), Activity_EditNote.class, false);
+                                    Notes_helper.newNote(getActivity(),subject_title,subject_content,"","","","");
                                 }
 
                                 if (options[item].equals(getString(R.string.courseList_todo))) {
@@ -526,12 +519,7 @@ public class Subjects_Fragment extends Fragment {
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createEvent))) {
-                                    Intent calIntent = new Intent(Intent.ACTION_INSERT);
-                                    calIntent.setType("vnd.android.cursor.item/event");
-                                    calIntent.putExtra(CalendarContract.Events.TITLE, subject_title);
-                                    calIntent.putExtra(CalendarContract.Events.DESCRIPTION, subject_content);
-                                    calIntent.putExtra(CalendarContract.Events.EVENT_LOCATION, subject_attachment);
-                                    startActivity(calIntent);
+                                    helper_main.createCalendarEvent(getActivity(), subject_title, subject_content);
                                 }
 
                             }
@@ -820,8 +808,6 @@ public class Subjects_Fragment extends Fragment {
             }
         });
     }
-
-
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {

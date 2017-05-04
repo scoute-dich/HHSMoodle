@@ -52,7 +52,6 @@ import java.util.Locale;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.data_courses.Courses_DbAdapter;
 import de.baumann.hhsmoodle.data_files.Files_DbAdapter;
-import de.baumann.hhsmoodle.helper.class_SecurePreferences;
 import de.baumann.hhsmoodle.helper.helper_main;
 
 import static android.content.ContentValues.TAG;
