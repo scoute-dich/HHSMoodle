@@ -1,3 +1,9 @@
+### 4.5 (WIP)
+- verbessert: Fehlermeldung automatischer Login
+- verbessert: Suche in Einträgen
+- verbessert: Passwortschutz
+- verbessert: Code vereinfacht
+
 ### 4.4
 - verbessert: Suche
 - verbessert: Titel anzeigen

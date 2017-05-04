@@ -123,8 +123,8 @@
     <string name="login_password">Passwort</string>
     <string name="login_hint">Bitte Benutzername und Passwort eingeben.</string>
     <string name="login_title">Automatische Anmeldung</string>
-    <string name="login_text">Wenn das nicht funktioniert, gib bitte die richtigen Logindaten in den Einstellungen an und starte
-        die Anwendung neu. Dieser Dialog verschwindet, wenn du erfolgreich eingeloggt bist.</string>
+    <string name="login_text">Wenn das nicht funktioniert, gib bitte die richtigen Logindaten in den Einstellungen an.
+        Dieser Dialog verschwindet, wenn du erfolgreich eingeloggt bist.</string>
 
 
     // Tab - Titles
@@ -263,6 +263,7 @@
     <string name="toast_files">Keine Dateien im Verzeichnis.</string>
     <string name="toast_textFile">Bitte Textdatei auswählen.</string>
     <string name="toast_save">Eintrag nicht gespeichert. Verwerfen?</string>
+    <string name="toast_settings">Einstellungen öffnen</string>
 
 
     // Bookmarks

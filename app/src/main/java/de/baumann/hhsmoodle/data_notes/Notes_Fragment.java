@@ -265,18 +265,7 @@ public class Notes_Fragment extends Fragment {
                 View v = super.getView(position, convertView, parent);
                 ImageView iv_icon = (ImageView) v.findViewById(R.id.icon_notes);
                 ImageView iv_attachment = (ImageView) v.findViewById(R.id.att_notes);
-
-                switch (note_icon) {
-                    case "3":
-                        iv_icon.setImageResource(R.drawable.circle_green);
-                        break;
-                    case "2":
-                        iv_icon.setImageResource(R.drawable.circle_yellow);
-                        break;
-                    case "1":
-                        iv_icon.setImageResource(R.drawable.circle_red);
-                        break;
-                }
+                helper_main.switchIcon(getActivity(), note_icon, "note_icon", iv_icon);
 
                 switch (note_attachment) {
                     case "":

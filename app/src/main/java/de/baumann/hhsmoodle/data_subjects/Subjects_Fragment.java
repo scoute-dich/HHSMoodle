@@ -298,7 +298,7 @@ public class Subjects_Fragment extends Fragment {
 
                 View v = super.getView(position, convertView, parent);
                 ImageView iv_icon = (ImageView) v.findViewById(R.id.icon_notes);
-                Subjects_helper.switchIcon (getActivity(), subject_icon, iv_icon);
+                Subjects_helper.switchIcon (getActivity(), subject_icon, "subject_color", iv_icon);
                 iv_icon.setOnClickListener(new View.OnClickListener() {
 
                     @Override
@@ -573,7 +573,7 @@ public class Subjects_Fragment extends Fragment {
 
                                     final ImageButton be = (ImageButton) dialogView.findViewById(R.id.imageButtonPri);
                                     assert be != null;
-                                    Subjects_helper.switchIcon (getActivity(), subject_icon, be);
+                                    Subjects_helper.switchIcon (getActivity(), subject_icon, "subject_color", be);
 
                                     be.setOnClickListener(new View.OnClickListener() {
 
@@ -685,7 +685,7 @@ public class Subjects_Fragment extends Fragment {
                                     helper_main.showKeyboard(getActivity(),titleInput);
 
                                     final ImageButton be = (ImageButton) dialogView.findViewById(R.id.imageButtonPri);
-                                    Subjects_helper.switchIcon (getActivity(), subject_icon, be);
+                                    Subjects_helper.switchIcon (getActivity(), subject_icon, "subject_color", be);
 
                                     be.setOnClickListener(new View.OnClickListener() {
 

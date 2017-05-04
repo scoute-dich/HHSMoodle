@@ -23,6 +23,7 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -41,10 +42,13 @@ import android.webkit.WebViewClient;
 import java.net.URISyntaxException;
 
 import de.baumann.hhsmoodle.R;
+import de.baumann.hhsmoodle.activities.Activity_settings;
 
 import static android.content.ContentValues.TAG;
 
 public class helper_webView {
+
+
 
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -75,6 +79,7 @@ public class helper_webView {
         webView.setWebViewClient(new WebViewClient() {
 
             ProgressDialog progressDialog;
+            int numb;
 
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
@@ -93,16 +98,30 @@ public class helper_webView {
                         && url.contains("moodle.huebsch.ka.schule-bw.de/moodle/")
                         && url.contains("/login/")) {
 
-                    if (viewPager.getCurrentItem() == 0) {
+                    if (viewPager.getCurrentItem() == 0  && numb != 1) {
                         progressDialog = new ProgressDialog(from);
                         progressDialog.setTitle(from.getString(R.string.login_title));
                         progressDialog.setMessage(from.getString(R.string.login_text));
                         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                        progressDialog.setButton(DialogInterface.BUTTON_NEGATIVE, from.getString(R.string.toast_settings), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                helper_main.switchToActivity(from, Activity_settings.class, true);
+                            }
+                        });
                         progressDialog.show();
+                        numb = 1;
+                        progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                            @Override
+                            public void onCancel(DialogInterface dialog) {
+                                numb = 0;
+                            }
+                        });
                     }
 
                 } else if (progressDialog != null && progressDialog.isShowing()) {
                     progressDialog.cancel();
+                    numb = 0;
                 }
 
                 swipeRefreshLayout.setRefreshing(false);

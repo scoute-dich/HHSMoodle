@@ -119,7 +119,7 @@
     <string name="login_user">Username</string>
     <string name="login_password">Password</string>
     <string name="login_hint">Please enter username and password.</string>
-    <string name="login_text">If this does not work: edit your login data in the settings and restart the app. This dialog will
+    <string name="login_text">If this does not work: edit your login data in the settings. This dialog will
         disappear, when you are successfully logged in.</string>
     <string name="login_title">Automatic login</string>
 
@@ -256,6 +256,7 @@
     <string name="toast_files">No files in directory.</string>
     <string name="toast_textFile">Please choose text file.</string>
     <string name="toast_save">Entry not saved. Cancel editing?</string>
+    <string name="toast_settings">Open settings</string>
 
 
     // Bookmarks

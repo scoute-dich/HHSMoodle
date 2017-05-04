@@ -67,9 +67,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.data_bookmarks.Bookmarks_DbAdapter;
@@ -78,6 +75,7 @@ import de.baumann.hhsmoodle.helper.helper_webView;
 import de.baumann.hhsmoodle.popup.Popup_bookmarks;
 
 import static android.content.Context.DOWNLOAD_SERVICE;
+import static de.baumann.hhsmoodle.helper.helper_main.createDate;
 import static de.baumann.hhsmoodle.helper.helper_main.newFileDest;
 
 public class FragmentBrowser extends Fragment {
@@ -202,8 +200,7 @@ public class FragmentBrowser extends Fragment {
 
     private File createImageFile() throws IOException {
         // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss", Locale.getDefault()).format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
+        String imageFileName = createDate();
         File storageDir = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES);
         return File.createTempFile(
@@ -268,7 +265,7 @@ public class FragmentBrowser extends Fragment {
                         @Override
                         public void onClick(View view) {
                             ViewPager viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
-                            viewPager.setCurrentItem(5, true);
+                            viewPager.setCurrentItem(6, true);
                         }
                     });
             snackbar.show();
@@ -385,7 +382,7 @@ public class FragmentBrowser extends Fragment {
                         if(db.isExist(mWebView.getUrl())){
                             Snackbar.make(edit_title, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
                         }else{
-                            db.insert(inputTag, mWebView.getUrl(), "04", "", helper_main.createDate());
+                            db.insert(inputTag, mWebView.getUrl(), "04", "", createDate());
                             dialog2.dismiss();
                             Snackbar.make(mWebView, R.string.bookmark_added, Snackbar.LENGTH_LONG).show();
                         }

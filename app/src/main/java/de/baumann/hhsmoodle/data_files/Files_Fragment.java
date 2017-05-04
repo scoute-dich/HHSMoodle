@@ -68,6 +68,7 @@ import java.util.Locale;
 
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.helper.helper_main;
+import de.baumann.hhsmoodle.helper.helper_security;
 
 import static android.content.ContentValues.TAG;
 import static java.lang.String.valueOf;
@@ -94,7 +95,7 @@ public class Files_Fragment extends Fragment {
         PreferenceManager.setDefaultValues(getActivity(), R.xml.user_settings, false);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         sharedPref.edit().putString("files_startFolder",
-                Environment.getExternalStorageDirectory().getPath() + "/HHS_Moodle/").apply();
+                helper_main.appDir().getAbsolutePath()).apply();
 
         imgHeader = (ImageView) rootView.findViewById(R.id.imageView_header);
         helper_main.setImageHeader(getActivity(), imgHeader);
@@ -113,30 +114,27 @@ public class Files_Fragment extends Fragment {
                     filter.setText("");
                 } else {
                     setTitle();
-                    InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                    imgHeader.setVisibility(View.VISIBLE);
-                    filter_layout.setVisibility(View.GONE);
-                    setFilesList();
+                    helper_main.hideFilter(getActivity(), filter_layout, imgHeader);
+                    fillFileList();
                 }
             }
         });
 
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
-        fab.setVisibility(View.GONE);
+        fab.setImageResource(R.drawable.home);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sharedPref.edit().putString("files_startFolder", helper_main.appDir().getAbsolutePath()).apply();
+                fillFileList();
+            }
+        });
 
         //calling Notes_DbAdapter
         db = new Files_DbAdapter(getActivity());
         db.open();
 
-        if (android.os.Build.VERSION.SDK_INT >= 23) {
-            int hasWRITE_EXTERNAL_STORAGE = getActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-            if (hasWRITE_EXTERNAL_STORAGE == PackageManager.PERMISSION_GRANTED) {
-                setFilesList();
-            }
-        } else {
-            setFilesList();
-        }
+        fillFileList();
         setHasOptionsMenu(true);
 
         return rootView;
@@ -147,18 +145,15 @@ public class Files_Fragment extends Fragment {
         super.onResume();
         if (viewPager.getCurrentItem() == 6) {
             if (filter_layout.getVisibility() == View.GONE) {
-                setFilesList();
+                fillFileList();
             }
         }
     }
 
     public void doBack() {
         if (filter_layout.getVisibility() == View.VISIBLE) {
-            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(filter_layout.getWindowToken(), 0);
-            imgHeader.setVisibility(View.VISIBLE);
-            filter_layout.setVisibility(View.GONE);
-            setFilesList();
+            helper_main.hideFilter(getActivity(), filter_layout, imgHeader);
+            fillFileList();
         } else {
             helper_main.onClose(getActivity());
         }
@@ -549,27 +544,27 @@ public class Files_Fragment extends Fragment {
 
             case R.id.filter_title:
                 helper_main.changeFilter("filter_filesBY", "files_title");
-                setFilesList();
+                fillFileList();
                 helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
                         "", getString(R.string.action_filter_title), true);
                 return true;
             case R.id.filter_ext:
                 helper_main.changeFilter("filter_filesBY", "files_icon");
-                setFilesList();
+                fillFileList();
                 helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
                         "", getString(R.string.action_filter_url), true);
                 return true;
 
             case R.id.filter_today:
                 helper_main.changeFilter("filter_filesBY", "files_creation");
-                setFilesList();
+                fillFileList();
                 search = dateFormat.format(cal.getTime());
                 helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
                         search, getString(R.string.action_filter_create), false);
                 return true;
             case R.id.filter_yesterday:
                 helper_main.changeFilter("filter_filesBY", "files_creation");
-                setFilesList();
+                fillFileList();
                 cal.add(Calendar.DATE, -1);
                 search = dateFormat.format(cal.getTime());
                 helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
@@ -577,7 +572,7 @@ public class Files_Fragment extends Fragment {
                 return true;
             case R.id.filter_before:
                 helper_main.changeFilter("filter_filesBY", "files_creation");
-                setFilesList();
+                fillFileList();
                 cal.add(Calendar.DATE, -2);
                 search = dateFormat.format(cal.getTime());
                 helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
@@ -625,6 +620,19 @@ public class Files_Fragment extends Fragment {
             getActivity().setTitle(getString(R.string.choose_titleMain) + " | " + getString(R.string.sort_extension));
         } else {
             getActivity().setTitle(getString(R.string.choose_titleMain) + " | " + getString(R.string.sort_date));
+        }
+    }
+
+    public void fillFileList () {
+        if (android.os.Build.VERSION.SDK_INT >= 23) {
+            int hasWRITE_EXTERNAL_STORAGE = getActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            if (hasWRITE_EXTERNAL_STORAGE == PackageManager.PERMISSION_GRANTED) {
+                setFilesList();
+            } else {
+                helper_security.grantPermissions(getActivity());
+            }
+        } else {
+            setFilesList();
         }
     }
 }

@@ -23,7 +23,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -33,7 +32,6 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -43,7 +41,8 @@ import de.baumann.hhsmoodle.HHS_MainScreen;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.data_schedule.Schedule_helper;
 import de.baumann.hhsmoodle.helper.class_SecurePreferences;
-import de.baumann.hhsmoodle.helper.helper_encryption;
+import de.baumann.hhsmoodle.helper.helper_main;
+import de.baumann.hhsmoodle.helper.helper_security;
 
 
 public class Activity_splash extends AppCompatActivity {
@@ -77,13 +76,9 @@ public class Activity_splash extends AppCompatActivity {
             sharedPref.edit().putString("key_generated_01", "yes").apply();
         }
 
-        helper_encryption.decryptDatabases(Activity_splash.this);
+        helper_security.decryptDatabases(Activity_splash.this);
         Schedule_helper.setAlarm(Activity_splash.this);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
-        }
+        helper_main.onStart(Activity_splash.this);
 
         TextInputLayout editUsernameLayout = (TextInputLayout) findViewById(R.id.editUsernameLayout);
         editUsernameLayout.setVisibility(View.INVISIBLE);
@@ -106,10 +101,7 @@ public class Activity_splash extends AppCompatActivity {
         boolean show = sharedPref.getBoolean("showIntroScreen_notShow", true);
 
         if (show){
-            Intent mainIntent = new Intent(Activity_splash.this, Activity_intro.class);
-            startActivity(mainIntent);
-            Activity_splash.this.finish();
-            overridePendingTransition(0,0);
+            helper_main.switchToActivity(Activity_splash.this, Activity_intro.class, true);
         } else {
             if (sharedPrefSec.getString("password") == null
                     || sharedPrefSec.getString("username") == null
@@ -138,12 +130,7 @@ public class Activity_splash extends AppCompatActivity {
 
                             new Handler().postDelayed(new Runnable() {
                                 public void run() {
-
-                                    Intent mainIntent = new Intent(Activity_splash.this, HHS_MainScreen.class);
-                                    mainIntent.putExtra("id", "1");
-                                    startActivity(mainIntent);
-                                    Activity_splash.this.finish();
-                                    overridePendingTransition(0,0);
+                                    helper_main.switchToActivity(Activity_splash.this, HHS_MainScreen.class, true);
                                 }
                             }, 500);
                         }
@@ -153,11 +140,7 @@ public class Activity_splash extends AppCompatActivity {
             } else {
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
-                        Intent mainIntent = new Intent(Activity_splash.this, HHS_MainScreen.class);
-                        mainIntent.putExtra("id", "1");
-                        startActivity(mainIntent);
-                        Activity_splash.this.finish();
-                        overridePendingTransition(0,0);
+                        helper_main.switchToActivity(Activity_splash.this, HHS_MainScreen.class, true);
                     }
                 }, 500);
             }
@@ -171,7 +154,7 @@ public class Activity_splash extends AppCompatActivity {
         String action = intent.getAction();
 
         if (Intent.ACTION_SEND.equals(action)) {
-            helper_encryption.decryptDatabases(Activity_splash.this);
+            helper_security.decryptDatabases(Activity_splash.this);
             new Handler().postDelayed(new Runnable() {
                 public void run() {
                     Intent mainIntent = new Intent(Activity_splash.this, HHS_MainScreen.class);
@@ -184,7 +167,7 @@ public class Activity_splash extends AppCompatActivity {
                 }
             }, 500);
         } else if (Intent.ACTION_VIEW.equals(action)) {
-            helper_encryption.decryptDatabases(Activity_splash.this);
+            helper_security.decryptDatabases(Activity_splash.this);
             new Handler().postDelayed(new Runnable() {
                 public void run() {
                     Uri data = intent.getData();
@@ -198,7 +181,7 @@ public class Activity_splash extends AppCompatActivity {
                 }
             }, 500);
         } else if ("shortcutBookmarks".equals(action)) {
-            helper_encryption.decryptDatabases(Activity_splash.this);
+            helper_security.decryptDatabases(Activity_splash.this);
             new Handler().postDelayed(new Runnable() {
                 public void run() {
                     Intent mainIntent = new Intent(Activity_splash.this, HHS_MainScreen.class);
@@ -209,7 +192,7 @@ public class Activity_splash extends AppCompatActivity {
                 }
             }, 500);
         } else if ("shortcutNotes".equals(action)) {
-            helper_encryption.decryptDatabases(Activity_splash.this);
+            helper_security.decryptDatabases(Activity_splash.this);
             new Handler().postDelayed(new Runnable() {
                 public void run() {
                     Intent mainIntent = new Intent(Activity_splash.this, HHS_MainScreen.class);
@@ -220,7 +203,7 @@ public class Activity_splash extends AppCompatActivity {
                 }
             }, 500);
         } else if ("shortcutToDo".equals(action)) {
-            helper_encryption.decryptDatabases(Activity_splash.this);
+            helper_security.decryptDatabases(Activity_splash.this);
             new Handler().postDelayed(new Runnable() {
                 public void run() {
                     Intent mainIntent = new Intent(Activity_splash.this, HHS_MainScreen.class);
@@ -231,7 +214,7 @@ public class Activity_splash extends AppCompatActivity {
                 }
             }, 500);
         } else if ("shortcutBrowser".equals(action)) {
-            helper_encryption.decryptDatabases(Activity_splash.this);
+            helper_security.decryptDatabases(Activity_splash.this);
             new Handler().postDelayed(new Runnable() {
                 public void run() {
                     Intent mainIntent = new Intent(Activity_splash.this, HHS_MainScreen.class);
@@ -242,7 +225,7 @@ public class Activity_splash extends AppCompatActivity {
                 }
             }, 500);
         } else if ("shortcutSchedule".equals(action)) {
-            helper_encryption.decryptDatabases(Activity_splash.this);
+            helper_security.decryptDatabases(Activity_splash.this);
             new Handler().postDelayed(new Runnable() {
                 public void run() {
                     Intent mainIntent = new Intent(Activity_splash.this, HHS_MainScreen.class);
@@ -257,8 +240,7 @@ public class Activity_splash extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        helper_encryption.encryptDatabases(Activity_splash.this);
-        sharedPref.edit().putBoolean("isOpened", true).apply();
+        helper_security.encryptDatabases(Activity_splash.this);
         finishAffinity();
     }
 }

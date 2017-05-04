@@ -56,6 +56,7 @@ import android.widget.TextView;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.data_count.Count_helper;
 import de.baumann.hhsmoodle.data_notes.Notes_helper;
+import de.baumann.hhsmoodle.data_subjects.Subjects_helper;
 import de.baumann.hhsmoodle.data_todo.Todo_helper;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.popup.Popup_note;
@@ -106,7 +107,7 @@ public class Schedule_Fragment extends Fragment {
         db.open();
 
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
-        fab.setImageResource(R.drawable.timetable_white);
+        fab.setImageResource(R.drawable.format_vertical_align_center);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -187,19 +188,7 @@ public class Schedule_Fragment extends Fragment {
                     sharedPref.edit().putString("hour_" + schedule_id, "true").apply();
                 }
 
-                switch (schedule_icon) {
-                    case "1":iv_icon.setImageResource(R.drawable.circle_red);break;
-                    case "2":iv_icon.setImageResource(R.drawable.circle_pink);break;
-                    case "3":iv_icon.setImageResource(R.drawable.circle_purple);break;
-                    case "4":iv_icon.setImageResource(R.drawable.circle_blue);break;
-                    case "5":iv_icon.setImageResource(R.drawable.circle_teal);break;
-                    case "6":iv_icon.setImageResource(R.drawable.circle_green);break;
-                    case "7":iv_icon.setImageResource(R.drawable.circle_lime);break;
-                    case "8":iv_icon.setImageResource(R.drawable.circle_yellow);break;
-                    case "9":iv_icon.setImageResource(R.drawable.circle_orange);break;
-                    case "10":iv_icon.setImageResource(R.drawable.circle_brown);break;
-                    case "11":iv_icon.setImageResource(R.drawable.circle_grey);break;
-                }
+                Subjects_helper.switchIcon(getActivity(), schedule_icon,"schedule_color", iv_icon);
 
                 iv_icon.setOnClickListener(new View.OnClickListener() {
 
@@ -337,8 +326,7 @@ public class Schedule_Fragment extends Fragment {
                                     sharedPref.edit().putString("filter_todo_subject", schedule_title).apply();
                                     new Handler().postDelayed(new Runnable() {
                                         public void run() {
-                                            Intent mainIntent = new Intent(getActivity(), Popup_todo.class);
-                                            startActivity(mainIntent);
+                                            helper_main.switchToActivity(getActivity(), Popup_todo.class, false);
                                         }
                                     }, 200);
                                 }
@@ -346,8 +334,7 @@ public class Schedule_Fragment extends Fragment {
                                     sharedPref.edit().putString("filter_note_subject", schedule_title).apply();
                                     new Handler().postDelayed(new Runnable() {
                                         public void run() {
-                                            Intent mainIntent = new Intent(getActivity(), Popup_note.class);
-                                            startActivity(mainIntent);
+                                            helper_main.switchToActivity(getActivity(), Popup_note.class, false);
                                         }
                                     }, 200);
                                 }
@@ -409,8 +396,7 @@ public class Schedule_Fragment extends Fragment {
                                                                 .putString("handleSubject_id", schedule_id)
                                                                 .putString("handle_id", _id)
                                                                 .apply();
-                                                        Intent mainIntent = new Intent(getActivity(), Popup_subjects.class);
-                                                        startActivity(mainIntent);
+                                                        helper_main.switchToActivity(getActivity(), Popup_subjects.class, false);
                                                     }
 
                                                     if (options[item].equals (getString(R.string.todo_from_new))) {
@@ -433,19 +419,7 @@ public class Schedule_Fragment extends Fragment {
                                                         final ImageButton be = (ImageButton) dialogView.findViewById(R.id.imageButtonPri);
                                                         assert be != null;
 
-                                                        switch (schedule_icon) {
-                                                            case "1":be.setImageResource(R.drawable.circle_red);sharedPref.edit().putString("schedule_color", "1").apply();break;
-                                                            case "2":be.setImageResource(R.drawable.circle_pink);sharedPref.edit().putString("schedule_color", "2").apply();break;
-                                                            case "3":be.setImageResource(R.drawable.circle_purple);sharedPref.edit().putString("schedule_color", "3").apply();break;
-                                                            case "4":be.setImageResource(R.drawable.circle_blue);sharedPref.edit().putString("schedule_color", "4").apply();break;
-                                                            case "5":be.setImageResource(R.drawable.circle_teal);sharedPref.edit().putString("schedule_color", "5").apply();break;
-                                                            case "6":be.setImageResource(R.drawable.circle_green);sharedPref.edit().putString("schedule_color", "6").apply();break;
-                                                            case "7":be.setImageResource(R.drawable.circle_lime);sharedPref.edit().putString("schedule_color", "7").apply();break;
-                                                            case "8":be.setImageResource(R.drawable.circle_yellow);sharedPref.edit().putString("schedule_color", "8").apply();break;
-                                                            case "9":be.setImageResource(R.drawable.circle_orange);sharedPref.edit().putString("schedule_color", "9").apply();break;
-                                                            case "10":be.setImageResource(R.drawable.circle_brown);sharedPref.edit().putString("schedule_color", "10").apply();break;
-                                                            case "11":be.setImageResource(R.drawable.circle_grey);sharedPref.edit().putString("schedule_color", "11").apply();break;
-                                                        }
+                                                        Subjects_helper.switchIcon(getActivity(), schedule_icon,"schedule_color", be);
 
                                                         be.setOnClickListener(new View.OnClickListener() {
 

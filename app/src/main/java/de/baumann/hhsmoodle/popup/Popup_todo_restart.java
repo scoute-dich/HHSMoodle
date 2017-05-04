@@ -41,7 +41,7 @@ import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.data_schedule.Schedule_helper;
 import de.baumann.hhsmoodle.data_todo.Todo_DbAdapter;
 import de.baumann.hhsmoodle.helper.class_AlarmService;
-import de.baumann.hhsmoodle.helper.helper_encryption;
+import de.baumann.hhsmoodle.helper.helper_security;
 
 @SuppressWarnings("SameParameterValue")
 public class Popup_todo_restart extends Activity {
@@ -54,7 +54,7 @@ public class Popup_todo_restart extends Activity {
         super.onCreate(savedInstanceState);
 
         try {
-            helper_encryption.decrypt(Popup_todo_restart.this, "/databases/todo_DB_v01_en.db", "/databases/todo_DB_v01.db");
+            helper_security.decrypt(Popup_todo_restart.this, "/databases/todo_DB_v01_en.db", "/databases/todo_DB_v01.db");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -153,7 +153,7 @@ public class Popup_todo_restart extends Activity {
         lv.setAdapter(adapter);
         //onClick function
         try {
-            helper_encryption.encrypt(Popup_todo_restart.this, "/databases/todo_DB_v01.db","/databases/todo_DB_v01_en.db");
+            helper_security.encrypt(Popup_todo_restart.this, "/databases/todo_DB_v01.db","/databases/todo_DB_v01_en.db");
         } catch (Exception e) {
             e.printStackTrace();
         }

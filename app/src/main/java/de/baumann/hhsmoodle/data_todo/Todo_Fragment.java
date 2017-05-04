@@ -266,18 +266,7 @@ public class Todo_Fragment extends Fragment {
                 View v = super.getView(position, convertView, parent);
                 ImageView iv_icon = (ImageView) v.findViewById(R.id.icon_notes);
                 ImageView iv_attachment = (ImageView) v.findViewById(R.id.att_notes);
-
-                switch (todo_icon) {
-                    case "3":
-                        iv_icon.setImageResource(R.drawable.circle_green);
-                        break;
-                    case "2":
-                        iv_icon.setImageResource(R.drawable.circle_yellow);
-                        break;
-                    case "1":
-                        iv_icon.setImageResource(R.drawable.circle_red);
-                        break;
-                }
+                helper_main.switchIcon(getActivity(), todo_icon, "todo_icon", iv_icon);
 
                 switch (todo_attachment) {
                     case "true":
@@ -327,13 +316,13 @@ public class Todo_Fragment extends Fragment {
                     @Override
                     public void onClick(View arg0) {
 
-                        final Item[] items = {
-                                new Item(getString(R.string.note_priority_0), R.drawable.circle_green),
-                                new Item(getString(R.string.note_priority_1), R.drawable.circle_yellow),
-                                new Item(getString(R.string.note_priority_2), R.drawable.circle_red),
+                        final helper_main.Item[] items = {
+                                new helper_main.Item(getString(R.string.note_priority_0), R.drawable.circle_green),
+                                new helper_main.Item(getString(R.string.note_priority_1), R.drawable.circle_yellow),
+                                new helper_main.Item(getString(R.string.note_priority_2), R.drawable.circle_red),
                         };
 
-                        ListAdapter adapter = new ArrayAdapter<Item>(
+                        ListAdapter adapter = new ArrayAdapter<helper_main.Item>(
                                 getActivity(),
                                 android.R.layout.select_dialog_item,
                                 android.R.id.text1,
@@ -549,20 +538,6 @@ public class Todo_Fragment extends Fragment {
                 return true;
             }
         });
-    }
-
-    private static class Item{
-        public final String text;
-        public final int icon;
-        Item(String text, Integer icon) {
-            this.text = text;
-            this.icon = icon;
-        }
-
-        @Override
-        public String toString() {
-            return text;
-        }
     }
 
     @Override

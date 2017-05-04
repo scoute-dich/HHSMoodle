@@ -149,39 +149,20 @@ public class Activity_EditNote extends AppCompatActivity {
 
         final ImageButton be = (ImageButton) findViewById(R.id.imageButtonPri);
         ImageButton ib_paste = (ImageButton) findViewById(R.id.imageButtonPaste);
-        assert be != null;
-
-        switch (priority) {
-            case "3":
-                be.setImageResource(R.drawable.circle_green);
-                sharedPref.edit().putString("handleTextIcon", "3").apply();
-                break;
-            case "2":
-                be.setImageResource(R.drawable.circle_yellow);
-                sharedPref.edit().putString("handleTextIcon", "2").apply();
-                break;
-            case "1":
-                be.setImageResource(R.drawable.circle_red);
-                sharedPref.edit().putString("handleTextIcon", "1").apply();
-                break;
-            default:
-                be.setImageResource(R.drawable.circle_green);
-                sharedPref.edit().putString("handleTextIcon", "3").apply();
-                break;
-        }
+        helper_main.switchIcon(this, priority, "handleTextIcon", be);
 
         be.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
 
-                final Item[] items = {
-                        new Item(getString(R.string.note_priority_0), R.drawable.circle_green),
-                        new Item(getString(R.string.note_priority_1), R.drawable.circle_yellow),
-                        new Item(getString(R.string.note_priority_2), R.drawable.circle_red),
+                final helper_main.Item[] items = {
+                        new helper_main.Item(getString(R.string.note_priority_0), R.drawable.circle_green),
+                        new helper_main.Item(getString(R.string.note_priority_1), R.drawable.circle_yellow),
+                        new helper_main.Item(getString(R.string.note_priority_2), R.drawable.circle_red),
                 };
 
-                ListAdapter adapter = new ArrayAdapter<Item>(
+                ListAdapter adapter = new ArrayAdapter<helper_main.Item>(
                         Activity_EditNote.this,
                         android.R.layout.select_dialog_item,
                         android.R.id.text1,
@@ -267,20 +248,6 @@ public class Activity_EditNote extends AppCompatActivity {
                         }).show();
             }
         });
-    }
-
-    private static class Item{
-        public final String text;
-        public final int icon;
-        Item(String text, Integer icon) {
-            this.text = text;
-            this.icon = icon;
-        }
-
-        @Override
-        public String toString() {
-            return text;
-        }
     }
 
     @Override
@@ -391,16 +358,7 @@ public class Activity_EditNote extends AppCompatActivity {
                     .setAction(R.string.toast_yes, new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            sharedPref.edit()
-                                    .putString("handleTextTitle", "")
-                                    .putString("handleTextText", "")
-                                    .putString("handleTextIcon", "")
-                                    .putString("handleTextAttachment", "")
-                                    .putString("handleTextCreate", "")
-                                    .putString("editTextFocus", "")
-                                    .putString("handleTextSeqno", "")
-                                    .apply();
-                            finish();
+                            onCloseEdit();
                         }
                     });
             snackbar.show();

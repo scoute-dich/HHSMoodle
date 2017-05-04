@@ -19,6 +19,7 @@
 
 package de.baumann.hhsmoodle.activities;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -62,7 +63,7 @@ import de.baumann.hhsmoodle.HHS_MainScreen;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.about.About_activity;
 import de.baumann.hhsmoodle.helper.class_SecurePreferences;
-import de.baumann.hhsmoodle.helper.helper_encryption;
+import de.baumann.hhsmoodle.helper.helper_security;
 import de.baumann.hhsmoodle.helper.helper_main;
 
 public class Activity_settings extends AppCompatActivity {
@@ -350,6 +351,22 @@ public class Activity_settings extends AppCompatActivity {
             reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference pref) {
 
+                    File directory = new File(Environment.getExternalStorageDirectory() + "/Android/data/hhsmoodle.backup/");
+                    helper_security.grantPermissions(getActivity());
+
+                    if (!directory.exists()) {
+                        if (android.os.Build.VERSION.SDK_INT >= 23) {
+                            int hasWRITE_EXTERNAL_STORAGE = getActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                            if (hasWRITE_EXTERNAL_STORAGE == PackageManager.PERMISSION_GRANTED) {
+                                if (!directory.exists()) {
+                                    directory.mkdirs();
+                                }
+                            }
+                        } else if (!directory.exists()) {
+                            directory.mkdirs();
+                        }
+                    }
+
                     final CharSequence[] options = {
                             getString(R.string.action_backup),
                             getString(R.string.action_restore)};
@@ -370,14 +387,22 @@ public class Activity_settings extends AppCompatActivity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int item) {
                                     if (options[item].equals(getString(R.string.action_backup))) {
-                                        try {helper_encryption.encryptBackup(getActivity(),"/bookmarks_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                                        try {helper_encryption.encryptBackup(getActivity(),"/courses_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                                        try {helper_encryption.encryptBackup(getActivity(),"/notes_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                                        try {helper_encryption.encryptBackup(getActivity(),"/random_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                                        try {helper_encryption.encryptBackup(getActivity(),"/subject_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                                        try {helper_encryption.encryptBackup(getActivity(),"/schedule_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                                        try {helper_encryption.encryptBackup(getActivity(),"/todo_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                                        try {helper_encryption.encryptBackup(getActivity(),"/count_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                        try {
+                                            helper_security.encryptBackup(getActivity(),"/bookmarks_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                        try {
+                                            helper_security.encryptBackup(getActivity(),"/courses_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                        try {
+                                            helper_security.encryptBackup(getActivity(),"/notes_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                        try {
+                                            helper_security.encryptBackup(getActivity(),"/random_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                        try {
+                                            helper_security.encryptBackup(getActivity(),"/subject_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                        try {
+                                            helper_security.encryptBackup(getActivity(),"/schedule_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                        try {
+                                            helper_security.encryptBackup(getActivity(),"/todo_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                        try {
+                                            helper_security.encryptBackup(getActivity(),"/count_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
                                     }
                                     if (options[item].equals(getString(R.string.action_restore))) {
                                         try {decrypt("/schedule_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
@@ -419,7 +444,7 @@ public class Activity_settings extends AppCompatActivity {
                 PackageInfo p = m.getPackageInfo(s, 0);
                 s = p.applicationInfo.dataDir;
 
-                String pathIN = Environment.getExternalStorageDirectory() + "/HHS_Moodle/backup/" + name;
+                String pathIN = Environment.getExternalStorageDirectory() + "/Android/data/hhsmoodle.backup/" + name;
                 String pathOUT = s + "/databases/" + name;
                 File fileIN = new File(pathIN);
 

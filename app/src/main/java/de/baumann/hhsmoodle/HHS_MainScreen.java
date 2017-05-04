@@ -19,11 +19,13 @@
 
 package de.baumann.hhsmoodle;
 
+import android.Manifest;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Bundle;
@@ -49,10 +51,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.baumann.hhsmoodle.activities.Activity_EditNote;
 import de.baumann.hhsmoodle.data_count.Count_Fragment;
 import de.baumann.hhsmoodle.data_files.Files_Fragment;
 import de.baumann.hhsmoodle.data_bookmarks.Bookmarks_Fragment;
+import de.baumann.hhsmoodle.data_notes.Notes_helper;
 import de.baumann.hhsmoodle.data_random.Random_Fragment;
 import de.baumann.hhsmoodle.data_courses.Courses_Fragment;
 import de.baumann.hhsmoodle.data_notes.Notes_Fragment;
@@ -63,7 +65,10 @@ import de.baumann.hhsmoodle.fragmentsMain.FragmentBrowser;
 import de.baumann.hhsmoodle.fragmentsMain.FragmentGrades;
 import de.baumann.hhsmoodle.activities.Activity_settings;
 import de.baumann.hhsmoodle.helper.class_SecurePreferences;
+import de.baumann.hhsmoodle.helper.helper_security;
 import de.baumann.hhsmoodle.helper.helper_main;
+
+import static de.baumann.hhsmoodle.helper.helper_main.appDir;
 
 @SuppressWarnings("ResultOfMethodCallIgnored")
 public class HHS_MainScreen extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -79,9 +84,9 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
         setContentView(R.layout.activity_screen_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        helper_security.checkPin(HHS_MainScreen.this);
+        helper_security.grantPermissions(HHS_MainScreen.this);
         helper_main.onStart(HHS_MainScreen.this);
-        helper_main.checkPin(HHS_MainScreen.this);
-        helper_main.grantPermissions(HHS_MainScreen.this);
 
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -110,10 +115,21 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
         headerView.setBackgroundResource(images.getResourceId(choice, R.drawable.splash1));
         images.recycle();
 
-        File directory = new File(Environment.getExternalStorageDirectory() + "/HHS_Moodle/backup/");
-        if (!directory.exists()) {
-            directory.mkdirs();
+        if (!appDir().exists()) {
+            if (android.os.Build.VERSION.SDK_INT >= 23) {
+                int hasWRITE_EXTERNAL_STORAGE = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                if (hasWRITE_EXTERNAL_STORAGE == PackageManager.PERMISSION_GRANTED) {
+                    if (!appDir().exists()) {
+                        appDir().mkdirs();
+                    }  else {
+                        helper_security.grantPermissions(HHS_MainScreen.this);
+                    }
+                }
+            } else {
+                appDir().mkdirs();
+            }
         }
+
         onNewIntent(getIntent());
 
         if (sharedPref.getBoolean("silent_mode", true)) {
@@ -145,7 +161,6 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
                 }
             }
         }
-
     }
 
     protected void onNewIntent(final Intent intent) {
@@ -158,15 +173,10 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
         } else if ("shortcutNotes_HS".equals(action)) {
             viewPager.setCurrentItem(3, true);
         }  else if ("shortcutNotesNew_HS".equals(action)) {
+            viewPager.setCurrentItem(3, true);
             String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
             String sharedTitle = intent.getStringExtra(Intent.EXTRA_SUBJECT);
-            sharedPref.edit()
-                    .putString("handleTextTitle", sharedTitle)
-                    .putString("handleTextText", sharedText)
-                    .putString("handleTextCreate", helper_main.createDate())
-                    .apply();
-            viewPager.setCurrentItem(3, true);
-            helper_main.switchToActivity(HHS_MainScreen.this, Activity_EditNote.class, false);
+            Notes_helper.newNote(HHS_MainScreen.this, sharedTitle, sharedText, "", "", "", "");
         } else if ("shortcutToDo_HS".equals(action)) {
             viewPager.setCurrentItem(2, true);
         } else if ("shortcutBrowser_HS".equals(action)) {
@@ -329,7 +339,16 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
             viewPager.setCurrentItem(6, true);
             Files_Fragment files_Fragment = (Files_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
             files_Fragment.setTitle();
-            files_Fragment.setFilesList();
+            if (android.os.Build.VERSION.SDK_INT >= 23) {
+                int hasWRITE_EXTERNAL_STORAGE = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                if (hasWRITE_EXTERNAL_STORAGE == PackageManager.PERMISSION_GRANTED) {
+                    files_Fragment.setFilesList();
+                } else {
+                    helper_security.grantPermissions(this);
+                }
+            } else {
+                files_Fragment.setFilesList();
+            }
         } else if (id == R.id.nav_random) {
             viewPager.setCurrentItem(7, true);
             setTitle(R.string.number_title);

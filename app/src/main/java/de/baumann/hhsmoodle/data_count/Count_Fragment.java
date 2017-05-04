@@ -299,9 +299,6 @@ public class Count_Fragment extends Fragment {
                 View v = super.getView(position, convertView, parent);
                 final TextView tv = (TextView) v.findViewById(R.id.text);
 
-
-
-
                 if (count_attachment.isEmpty()) {
 
                     tv.setText(count_content);
@@ -324,18 +321,7 @@ public class Count_Fragment extends Fragment {
 
 
                 ImageView iv_icon = (ImageView) v.findViewById(R.id.icon_notes);
-
-                switch (count_icon) {
-                    case "3":
-                        iv_icon.setImageResource(R.drawable.circle_green);
-                        break;
-                    case "2":
-                        iv_icon.setImageResource(R.drawable.circle_yellow);
-                        break;
-                    case "1":
-                        iv_icon.setImageResource(R.drawable.circle_red);
-                        break;
-                }
+                helper_main.switchIcon(getActivity(), count_icon, "count_icon", iv_icon);
 
                 iv_icon.setOnClickListener(new View.OnClickListener() {
 
