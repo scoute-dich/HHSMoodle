@@ -80,13 +80,21 @@ public class Count_DbAdapter {
         String[] columns = new String[]{"_id", "count_title", "count_content", "count_icon","count_attachment","count_creation"};
 
         if (sp.getString("sortDBC", "title").equals("title")) {
-            return sqlDb.query(dbTable, columns, null, null, null, null, "count_title");
+            return sqlDb.query(dbTable, columns, null, null, null, null, "count_title" + " COLLATE NOCASE ASC;");
 
         } else if (sp.getString("sortDBC", "title").equals("icon")) {
-            return sqlDb.query(dbTable, columns, null, null, null, null, "count_icon");
+
+            String orderBy = "count_icon" + "," +
+                    "count_title" + " COLLATE NOCASE ASC;";
+
+            return sqlDb.query(dbTable, columns, null, null, null, null, orderBy);
 
         } else if (sp.getString("sortDBC", "title").equals("create")) {
-            return sqlDb.query(dbTable, columns, null, null, null, null, "count_creation");
+
+            String orderBy = "count_creation" + "," +
+                    "count_title" + " COLLATE NOCASE ASC;";
+
+            return sqlDb.query(dbTable, columns, null, null, null, null, orderBy);
 
         }
 

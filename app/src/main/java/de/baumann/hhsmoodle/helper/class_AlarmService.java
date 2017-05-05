@@ -1,10 +1,13 @@
 package de.baumann.hhsmoodle.helper;
 
 import android.app.IntentService;
+import android.app.NotificationManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -12,11 +15,15 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 
+import de.baumann.hhsmoodle.HHS_MainScreen;
+import de.baumann.hhsmoodle.R;
+
 import static android.content.ContentValues.TAG;
 
 public class class_AlarmService extends IntentService {
 
     private SharedPreferences sharedPref;
+    private AudioManager audioManager;
 
     protected void onHandleIntent(Intent intent){
 
@@ -123,19 +130,28 @@ public class class_AlarmService extends IntentService {
 
         sharedPref.edit().putInt("getLine", hour_1_int).apply();
         if (sharedPref.getBoolean ("silent_mode", false)){
-            AudioManager audioManager = (AudioManager)class_AlarmService.this.getSystemService(Context.AUDIO_SERVICE);
+            audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
             if (sharedPref.getString(hour_1, "false").equals("true")) {
                 if (sharedPref.getBoolean ("airplane_mode", false)) {setFlightMode();}
                 if (sharedPref.getInt("mode_changed", 0) == 0) {
                     sharedPref.edit().putInt("volumeRing", audioManager.getStreamVolume(AudioManager.STREAM_RING)).apply();
                     sharedPref.edit().putInt("mode_changed", 1).apply();
                 }
-                audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
+                try {
+                    audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
             } else if (sharedPref.getString(hour_2, "false").equals("true")){
                 if (sharedPref.getBoolean ("airplane_mode", false)) {setFlightModeOff();}
                 sharedPref.edit().putInt("mode_changed", 0).apply();
-                audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-                audioManager.setStreamVolume(AudioManager.STREAM_RING, sharedPref.getInt("volumeRing", 0), 0);
+                try {
+                    audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+                    audioManager.setStreamVolume(AudioManager.STREAM_RING, sharedPref.getInt("volumeRing", 0), 0);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -145,12 +161,16 @@ public class class_AlarmService extends IntentService {
         if (sharedPref.getBoolean ("silent_mode", false)){
             if (sharedPref.getString(hour_1, "false").equals("true")) {
                 if (sharedPref.getBoolean ("airplane_mode", false)) {setFlightMode();}
-                AudioManager audioManager = (AudioManager)class_AlarmService.this.getSystemService(Context.AUDIO_SERVICE);
+                audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
                 if (sharedPref.getInt("mode_changed", 0) == 0) {
                     sharedPref.edit().putInt("volumeRing", audioManager.getStreamVolume(AudioManager.STREAM_RING)).apply();
                     sharedPref.edit().putInt("mode_changed", 1).apply();
                 }
-                audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
+                try {
+                    audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -161,8 +181,11 @@ public class class_AlarmService extends IntentService {
             if (sharedPref.getBoolean ("airplane_mode", false)) {setFlightModeOff();}
             AudioManager audioManager = (AudioManager)class_AlarmService.this.getSystemService(Context.AUDIO_SERVICE);
             sharedPref.edit().putInt("mode_changed", 0).apply();
-            audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-            audioManager.setStreamVolume(AudioManager.STREAM_RING, sharedPref.getInt("volumeRing", 0), 0);
+            try {
+                audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

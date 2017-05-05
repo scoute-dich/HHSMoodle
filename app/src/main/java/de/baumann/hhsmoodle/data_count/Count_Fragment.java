@@ -32,6 +32,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -79,6 +80,7 @@ public class Count_Fragment extends Fragment {
     private LinearLayout fabLayout1;
     private LinearLayout fabLayout2;
     private boolean isFABOpen=false;
+    private ViewPager viewPager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -95,6 +97,7 @@ public class Count_Fragment extends Fragment {
         filter_layout.setVisibility(View.GONE);
         lv = (ListView) rootView.findViewById(R.id.listNotes);
         filter = (EditText) rootView.findViewById(R.id.myFilter);
+        viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
 
         ImageButton ib_hideKeyboard =(ImageButton) rootView.findViewById(R.id.ib_hideKeyboard);
         ib_hideKeyboard.setOnClickListener(new View.OnClickListener() {
@@ -231,6 +234,23 @@ public class Count_Fragment extends Fragment {
             @Override
             public void onAnimationRepeat(Animator animator) {}
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!sharedPref.getString("search_byCourse", "").isEmpty() && viewPager.getCurrentItem() == 4) {
+            String search = sharedPref.getString("search_byCourse", "");
+            helper_main.changeFilter("filter_countBY", "count_title");
+            setCountList();
+            helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
+                    search, getString(R.string.action_filter_course), false);
+            sharedPref.edit().putString("search_byCourse", "").apply();
+        } else {
+            if (filter_layout.getVisibility() == View.GONE) {
+                setCountList();
+            }
+        }
     }
 
     public void doBack() {
@@ -525,19 +545,7 @@ public class Count_Fragment extends Fragment {
         menu.findItem(R.id.sort_notification).setVisible(false);
         menu.findItem(R.id.filter_ext).setVisible(false);
         setTitle();
-
-        if (!sharedPref.getString("search_byCourse", "").isEmpty()) {
-            String search = sharedPref.getString("search_byCourse", "");
-            helper_main.changeFilter("filter_countBY", "count_title");
-            setCountList();
-            helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
-                    search, getString(R.string.action_filter_course), false);
-            sharedPref.edit().putString("search_byCourse", "").apply();
-        } else {
-            if (filter_layout.getVisibility() == View.GONE) {
-                setCountList();
-            }
-        }
+        setCountList();
     }
 
     @Override

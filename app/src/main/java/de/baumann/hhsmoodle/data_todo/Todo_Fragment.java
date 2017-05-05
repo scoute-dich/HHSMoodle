@@ -37,6 +37,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -87,6 +88,7 @@ public class Todo_Fragment extends Fragment {
     private LinearLayout fabLayout1;
     private LinearLayout fabLayout2;
     private boolean isFABOpen=false;
+    private ViewPager viewPager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -103,6 +105,7 @@ public class Todo_Fragment extends Fragment {
         filter_layout.setVisibility(View.GONE);
         lv = (ListView) rootView.findViewById(R.id.listNotes);
         filter = (EditText) rootView.findViewById(R.id.myFilter);
+        viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
 
         ImageButton ib_hideKeyboard =(ImageButton) rootView.findViewById(R.id.ib_hideKeyboard);
         ib_hideKeyboard.setOnClickListener(new View.OnClickListener() {
@@ -173,7 +176,7 @@ public class Todo_Fragment extends Fragment {
         fabLayout2.animate().translationY(-getResources().getDimension(R.dimen.standard_100));
     }
 
-    private void closeFABMenu(){
+    public void closeFABMenu(){
         isFABOpen=false;
         fab.animate().rotationBy(-180);
         fabLayout1.animate().translationY(0);
@@ -195,6 +198,23 @@ public class Todo_Fragment extends Fragment {
             @Override
             public void onAnimationRepeat(Animator animator) {}
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!sharedPref.getString("search_byCourse", "").isEmpty() && viewPager.getCurrentItem() == 2) {
+            String search = sharedPref.getString("search_byCourse", "");
+            helper_main.changeFilter("filter_todoBY", "todo_title");
+            setTodoList();
+            helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
+                    search, getString(R.string.action_filter_course), false);
+            sharedPref.edit().putString("search_byCourse", "").apply();
+        } else {
+            if (filter_layout.getVisibility() == View.GONE) {
+                setTodoList();
+            }
+        }
     }
 
     public void doBack() {
@@ -533,19 +553,7 @@ public class Todo_Fragment extends Fragment {
         menu.findItem(R.id.sort_ext).setVisible(false);
         menu.findItem(R.id.filter_ext).setVisible(false);
         setTitle();
-
-        if (!sharedPref.getString("search_byCourse", "").isEmpty()) {
-            String search = sharedPref.getString("search_byCourse", "");
-            helper_main.changeFilter("filter_todoBY", "todo_title");
-            setTodoList();
-            helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
-                    search, getString(R.string.action_filter_course), false);
-            sharedPref.edit().putString("search_byCourse", "").apply();
-        } else {
-            if (filter_layout.getVisibility() == View.GONE) {
-                setTodoList();
-            }
-        }
+        setTodoList();
     }
 
     @Override

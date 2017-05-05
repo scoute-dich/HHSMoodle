@@ -2,6 +2,9 @@
 - verbessert: Fehlermeldung automatischer Login
 - verbessert: Suche in Einträgen
 - verbessert: Passwortschutz
+- verbessert: Sortieren von Einträgen
+- fix: Einträge aktualisieren
+- fix: Anhänge auswählen
 - fix: viele kleine Fehler
 
 ### 4.4

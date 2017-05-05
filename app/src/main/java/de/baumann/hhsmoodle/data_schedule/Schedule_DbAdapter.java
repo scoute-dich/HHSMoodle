@@ -65,7 +65,7 @@ public class Schedule_DbAdapter {
     //fetch data
     public Cursor fetchAllData() {
         String[] columns = new String[]{"_id", "schedule_title", "schedule_content", "schedule_icon","schedule_attachment","schedule_creation","schedule_id"};
-        return sqlDb.query(dbTable, columns, null, null, null, null, "schedule_id");
+        return sqlDb.query(dbTable, columns, null, null, null, null, "schedule_id" + " COLLATE NOCASE ASC;");
     }
 
     //fetch data by filter

@@ -29,6 +29,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -68,6 +69,8 @@ public class Subjects_Fragment extends Fragment {
     private EditText teacherInput;
     private EditText roomInput;
 
+    private ViewPager viewPager;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -82,6 +85,7 @@ public class Subjects_Fragment extends Fragment {
         RelativeLayout filter_layout = (RelativeLayout) rootView.findViewById(R.id.filter_layout);
         filter_layout.setVisibility(View.GONE);
         lv = (ListView) rootView.findViewById(R.id.listNotes);
+        viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
 
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -241,6 +245,14 @@ public class Subjects_Fragment extends Fragment {
         setHasOptionsMenu(true);
 
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (viewPager.getCurrentItem() == 9) {
+            setSubjectsList();
+        }
     }
 
     private void setSubjectsList() {

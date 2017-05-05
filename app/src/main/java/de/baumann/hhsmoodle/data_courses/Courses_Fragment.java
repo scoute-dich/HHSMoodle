@@ -30,6 +30,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -75,6 +76,7 @@ public class Courses_Fragment extends Fragment {
     private EditText titleInput;
     private EditText teacherInput;
     private EditText roomInput;
+    private ViewPager viewPager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -90,6 +92,7 @@ public class Courses_Fragment extends Fragment {
         RelativeLayout filter_layout = (RelativeLayout) rootView.findViewById(R.id.filter_layout);
         filter_layout.setVisibility(View.GONE);
         lv = (ListView) rootView.findViewById(R.id.listNotes);
+        viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
 
         fabLayout1= (LinearLayout) rootView.findViewById(R.id.fabLayout1);
         fabLayout2= (LinearLayout) rootView.findViewById(R.id.fabLayout2);
@@ -210,6 +213,14 @@ public class Courses_Fragment extends Fragment {
             @Override
             public void onAnimationRepeat(Animator animator) {}
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (viewPager.getCurrentItem() == 8) {
+            setCoursesList();
+        }
     }
 
     public void doBack() {

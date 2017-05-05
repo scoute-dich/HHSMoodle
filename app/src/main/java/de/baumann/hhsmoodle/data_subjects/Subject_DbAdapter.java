@@ -70,6 +70,6 @@ public class Subject_DbAdapter {
     //fetch data
     public Cursor fetchAllData() {
         String[] columns = new String[]{"_id", "subject_title", "subject_content", "subject_icon","subject_attachment","subject_creation"};
-        return sqlDb.query(dbTable, columns, null, null, null, null, "subject_title");
+        return sqlDb.query(dbTable, columns, null, null, null, null, "subject_title" + " COLLATE NOCASE ASC;");
     }
 }

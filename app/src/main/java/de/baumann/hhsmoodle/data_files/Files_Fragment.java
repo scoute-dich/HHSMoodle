@@ -34,6 +34,7 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -81,6 +82,7 @@ public class Files_Fragment extends Fragment {
     private SharedPreferences sharedPref;
     private ImageView imgHeader;
     private RelativeLayout filter_layout;
+    private ViewPager viewPager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -100,6 +102,7 @@ public class Files_Fragment extends Fragment {
         filter_layout.setVisibility(View.GONE);
         lv = (ListView) rootView.findViewById(R.id.listNotes);
         filter = (EditText) rootView.findViewById(R.id.myFilter);
+        viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
 
         ImageButton ib_hideKeyboard =(ImageButton) rootView.findViewById(R.id.ib_hideKeyboard);
         ib_hideKeyboard.setOnClickListener(new View.OnClickListener() {
@@ -135,6 +138,16 @@ public class Files_Fragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (viewPager.getCurrentItem() == 6) {
+            if (filter_layout.getVisibility() == View.GONE) {
+                fillFileList();
+            }
+        }
+    }
+
     public void doBack() {
         if (filter_layout.getVisibility() == View.VISIBLE) {
             helper_main.hideFilter(getActivity(), filter_layout, imgHeader);
@@ -152,25 +165,6 @@ public class Files_Fragment extends Fragment {
                 Environment.getExternalStorageDirectory().getPath() + "/HHS_Moodle/"));
         final File[] files = f.listFiles();
 
-        Arrays.sort(files, new Comparator<File>() {
-            @Override
-            public int compare(File file1, File file2) {
-                if(file1.isDirectory()){
-                    if (file2.isDirectory()){
-                        return String.valueOf(file1.getName().toLowerCase()).compareTo(file2.getName().toLowerCase());
-                    }else{
-                        return -1;
-                    }
-                }else {
-                    if (file2.isDirectory()){
-                        return 1;
-                    }else{
-                        return String.valueOf(file1.getName().toLowerCase()).compareTo(file2.getName().toLowerCase());
-                    }
-                }
-            }
-        });
-
         // looping through all items <item>
         if (files.length == 0) {
             Snackbar.make(lv, R.string.toast_files, Snackbar.LENGTH_LONG).show();
@@ -180,7 +174,7 @@ public class Files_Fragment extends Fragment {
 
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 
-            String file_Name = file.getName().substring(0,1).toUpperCase() + file.getName().substring(1);
+            String file_Name = file.getName();
             String file_Size = getReadableFileSize(file.length());
             String file_date = formatter.format(new Date(file.lastModified()));
             String file_path = file.getAbsolutePath();
@@ -516,10 +510,7 @@ public class Files_Fragment extends Fragment {
         menu.findItem(R.id.action_help).setVisible(false);
         menu.findItem(R.id.filter_course).setVisible(false);
         setTitle();
-
-        if (filter_layout.getVisibility() == View.GONE) {
-            fillFileList();
-        }
+        fillFileList();
     }
 
     @Override

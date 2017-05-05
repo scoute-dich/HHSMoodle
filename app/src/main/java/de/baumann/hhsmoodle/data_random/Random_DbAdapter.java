@@ -70,6 +70,6 @@ public class Random_DbAdapter {
     //fetch data
     public Cursor fetchAllData() {
         String[] columns = new String[]{"_id", "random_title", "random_content", "random_icon","random_attachment","random_creation"};
-        return sqlDb.query(dbTable, columns, null, null, null, null, "random_title");
+        return sqlDb.query(dbTable, columns, null, null, null, null, "random_title" + " COLLATE NOCASE ASC;");
     }
 }

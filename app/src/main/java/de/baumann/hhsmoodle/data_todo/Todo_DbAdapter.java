@@ -80,16 +80,28 @@ public class Todo_DbAdapter {
         String[] columns = new String[]{"_id", "todo_title", "todo_content", "todo_icon","todo_attachment","todo_creation"};
 
         if (sp.getString("sortDBT", "title").equals("title")) {
-            return sqlDb.query(dbTable, columns, null, null, null, null, "todo_title");
+            return sqlDb.query(dbTable, columns, null, null, null, null, "todo_title" + " COLLATE NOCASE ASC;");
 
         } else if (sp.getString("sortDBT", "title").equals("icon")) {
-            return sqlDb.query(dbTable, columns, null, null, null, null, "todo_icon");
+
+            String orderBy = "todo_icon" + "," +
+                    "todo_title" + " COLLATE NOCASE ASC;";
+
+            return sqlDb.query(dbTable, columns, null, null, null, null, orderBy);
 
         } else if (sp.getString("sortDBT", "title").equals("create")) {
-            return sqlDb.query(dbTable, columns, null, null, null, null, "todo_creation");
+
+            String orderBy = "todo_creation" + "," +
+                    "todo_title" + " COLLATE NOCASE ASC;";
+
+            return sqlDb.query(dbTable, columns, null, null, null, null, orderBy);
 
         } else if (sp.getString("sortDBT", "title").equals("attachment")) {
-            return sqlDb.query(dbTable, columns, null, null, null, null, "todo_attachment");
+
+            String orderBy = "todo_attachment" + "," +
+                    "todo_title" + " COLLATE NOCASE ASC;";
+
+            return sqlDb.query(dbTable, columns, null, null, null, null, orderBy);
         }
 
         return null;
