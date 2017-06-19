@@ -174,13 +174,11 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
             viewPager.setCurrentItem(3, true);
             String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
             String sharedTitle = intent.getStringExtra(Intent.EXTRA_SUBJECT);
-            Notes_helper.newNote(HHS_MainScreen.this, sharedTitle, sharedText, "", "", "", "");
+            Notes_helper.newNote(HHS_MainScreen.this, sharedTitle, sharedText, getString(R.string.note_content), false);
         } else if ("shortcutToDo_HS".equals(action)) {
             viewPager.setCurrentItem(2, true);
-        } else if ("shortcutBrowser_HS".equals(action)) {
-            viewPager.setCurrentItem(0, true);
         } else if ("shortcutSchedule_HS".equals(action)) {
-            viewPager.setCurrentItem(5, true);
+            viewPager.setCurrentItem(4, true);
         }
     }
 
@@ -194,13 +192,13 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
         adapter.addFragment(new Bookmarks_Fragment(), String.valueOf(getString(R.string.title_bookmarks)));
         adapter.addFragment(new Todo_Fragment(), String.valueOf(getString(R.string.todo_title)));
         adapter.addFragment(new Notes_Fragment(), String.valueOf(getString(R.string.title_notes)));
-        adapter.addFragment(new Count_Fragment(), String.valueOf(getString(R.string.count_title)));
         adapter.addFragment(new Schedule_Fragment(), String.valueOf(getString(R.string.schedule_title)));
         adapter.addFragment(new Files_Fragment(), String.valueOf(getString(R.string.choose_titleMain)));
         adapter.addFragment(new Random_Fragment(), String.valueOf(getString(R.string.number_title)));
+        adapter.addFragment(new Count_Fragment(), String.valueOf(getString(R.string.count_title)));
+        adapter.addFragment(new FragmentGrades(), String.valueOf(getString(R.string.action_grades)));
         adapter.addFragment(new Courses_Fragment(), String.valueOf(getString(R.string.courseList_title)));
         adapter.addFragment(new Subjects_Fragment(), String.valueOf(getString(R.string.subjects_title)));
-        adapter.addFragment(new FragmentGrades(), String.valueOf(getString(R.string.action_grades)));
 
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(startTabInt,true);
@@ -283,18 +281,18 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
             Notes_Fragment notes_Fragment = (Notes_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
             notes_Fragment.doBack();
         } else if(viewPager.getCurrentItem() == 4) {
-            Count_Fragment count_Fragment = (Count_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
-            count_Fragment.doBack();
-        } else if(viewPager.getCurrentItem() == 5) {
             Schedule_Fragment schedule_Fragment = (Schedule_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
             schedule_Fragment.doBack();
-        } else if(viewPager.getCurrentItem() == 6) {
+        } else if(viewPager.getCurrentItem() == 5) {
             Files_Fragment files_Fragment = (Files_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
             files_Fragment.doBack();
-        } else if(viewPager.getCurrentItem() == 7) {
+        } else if(viewPager.getCurrentItem() == 6) {
             Random_Fragment random_Fragment = (Random_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
             random_Fragment.doBack();
-        } else if(viewPager.getCurrentItem() == 8) {
+        } else if(viewPager.getCurrentItem() == 7) {
+            Count_Fragment count_Fragment = (Count_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
+            count_Fragment.doBack();
+        } else if(viewPager.getCurrentItem() == 9) {
             Courses_Fragment courses_Fragment = (Courses_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
             courses_Fragment.doBack();
         } else {
@@ -325,16 +323,11 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
             Notes_Fragment notes_Fragment = (Notes_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
             notes_Fragment.setTitle();
             notes_Fragment.setNotesList();
-        } else if (id == R.id.nav_count) {
-            viewPager.setCurrentItem(4, true);
-            Count_Fragment count_Fragment = (Count_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
-            count_Fragment.setTitle();
-            count_Fragment.setCountList();
         } else if (id == R.id.nav_schedule) {
-            viewPager.setCurrentItem(5, true);
+            viewPager.setCurrentItem(4, true);
             setTitle(R.string.schedule_title);
         }  else if (id == R.id.nav_files) {
-            viewPager.setCurrentItem(6, true);
+            viewPager.setCurrentItem(5, true);
             Files_Fragment files_Fragment = (Files_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
             files_Fragment.setTitle();
             if (android.os.Build.VERSION.SDK_INT >= 23) {
@@ -348,17 +341,22 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
                 files_Fragment.setFilesList();
             }
         } else if (id == R.id.nav_random) {
-            viewPager.setCurrentItem(7, true);
+            viewPager.setCurrentItem(6, true);
             setTitle(R.string.number_title);
-        } else if (id == R.id.nav_courseList) {
+        } else if (id == R.id.nav_count) {
+            viewPager.setCurrentItem(7, true);
+            Count_Fragment count_Fragment = (Count_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
+            count_Fragment.setTitle();
+            count_Fragment.setCountList();
+        } else if (id == R.id.nav_grades) {
             viewPager.setCurrentItem(8, true);
+            setTitle(R.string.action_grades);
+        } else if (id == R.id.nav_courseList) {
+            viewPager.setCurrentItem(9, true);
             setTitle(R.string.courseList_title);
         } else if (id == R.id.nav_subjectList) {
-            viewPager.setCurrentItem(9, true);
-            setTitle(R.string.subjects_title);
-        } else if (id == R.id.nav_grades) {
             viewPager.setCurrentItem(10, true);
-            setTitle(R.string.action_grades);
+            setTitle(R.string.subjects_title);
         } else if (id == R.id.nav_settings) {
             helper_main.switchToActivity(HHS_MainScreen.this, Activity_settings.class, true);
         }

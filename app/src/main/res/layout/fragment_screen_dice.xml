@@ -25,29 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/imageView_header" />
 
-        <ListView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/imageView_header"
-            android:choiceMode="singleChoice"
-            android:visibility="gone"
-            android:id="@+id/lvItems" />
-
     </RelativeLayout>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_dice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginLeft="@dimen/fab_margin"
-        android:layout_marginRight="@dimen/fab_margin"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="false"
-        android:layout_marginBottom="@dimen/fab_margin"
-        app:srcCompat="@drawable/dice_3"
-        android:visibility="gone"/>
 
     <LinearLayout
         android:id="@+id/fabLayout1"

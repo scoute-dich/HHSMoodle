@@ -27,7 +27,6 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -36,10 +35,10 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
 import de.baumann.hhsmoodle.R;
-import de.baumann.hhsmoodle.activities.Activity_EditNote;
 import de.baumann.hhsmoodle.data_count.Count_helper;
-import de.baumann.hhsmoodle.data_random.Random_DbAdapter;
+import de.baumann.hhsmoodle.data_notes.Notes_helper;
 import de.baumann.hhsmoodle.data_courses.Courses_DbAdapter;
+import de.baumann.hhsmoodle.data_random.Random_helper;
 import de.baumann.hhsmoodle.data_todo.Todo_helper;
 import de.baumann.hhsmoodle.helper.helper_main;
 
@@ -73,17 +72,9 @@ public class Popup_courseList extends Activity {
             lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Cursor row2 = (Cursor) lv.getItemAtPosition(position);
-                    final String courses_title = row2.getString(row2.getColumnIndexOrThrow("courses_title"));
-                    final String courses_content = row2.getString(row2.getColumnIndexOrThrow("courses_content"));
-                    Random_DbAdapter db = new Random_DbAdapter(Popup_courseList.this);
-                    db.open();
-
-                    if(db.isExist(courses_title)){
-                        Snackbar.make(lv, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
-                    } else {
-                        db.insert(courses_title, courses_content, "", "", helper_main.createDate());
-                        finish();
-                    }
+                    String courses_title = row2.getString(row2.getColumnIndexOrThrow("courses_title"));
+                    String courses_content = row2.getString(row2.getColumnIndexOrThrow("courses_content"));
+                    Random_helper.newRandom(Popup_courseList.this, courses_title, courses_content, getString(R.string.courseList_content), true);
                 }
             });
 
@@ -92,8 +83,8 @@ public class Popup_courseList extends Activity {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Cursor row2 = (Cursor) lv.getItemAtPosition(position);
                     String courses_title = row2.getString(row2.getColumnIndexOrThrow("courses_title"));
-                    sharedPref.edit().putString("handleTextTitle", courses_title).apply();
-                    helper_main.switchToActivity(Popup_courseList.this, Activity_EditNote.class, false);
+                    String courses_content = row2.getString(row2.getColumnIndexOrThrow("courses_content"));
+                    Notes_helper.newNote(Popup_courseList.this, courses_title, courses_content, getString(R.string.courseList_content), true);
                 }
             });
 
@@ -103,7 +94,7 @@ public class Popup_courseList extends Activity {
                     Cursor row2 = (Cursor) lv.getItemAtPosition(position);
                     final String courses_title = row2.getString(row2.getColumnIndexOrThrow("courses_title"));
                     final String courses_content = row2.getString(row2.getColumnIndexOrThrow("courses_content"));
-                    Todo_helper.newTodo(Popup_courseList.this, courses_title, courses_content, getString(R.string.courseList_content));
+                    Todo_helper.newTodo(Popup_courseList.this, courses_title, courses_content, getString(R.string.courseList_content), true);
                 }
             });
         } else if ("courseList_count".equals(action)) {
@@ -114,6 +105,15 @@ public class Popup_courseList extends Activity {
                     final String courses_title = row2.getString(row2.getColumnIndexOrThrow("courses_title"));
                     final String courses_content = row2.getString(row2.getColumnIndexOrThrow("courses_content"));
                     Count_helper.newCount(Popup_courseList.this, courses_title, courses_content, getString(R.string.courseList_content), true);
+                }
+            });
+        } else if ("courseList_subject".equals(action)) {
+            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Cursor row2 = (Cursor) lv.getItemAtPosition(position);
+                    final String courses_title = row2.getString(row2.getColumnIndexOrThrow("courses_title"));
+                    sharedPref.edit().putString("editSubject", courses_title).apply();
+                    finish();
                 }
             });
         } else if ("search_byCourse".equals(action)) {

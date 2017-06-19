@@ -9,10 +9,11 @@ import android.os.Build;
 import android.util.Log;
 
 import java.util.Calendar;
-import java.util.Random;
 
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.helper.class_AlarmService;
+
+import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
 /**
  * Created by juergen on 06.02.17
@@ -33,136 +34,141 @@ public class Schedule_helper {
                 day == Calendar.FRIDAY) {
 
             if (hour <= 7) {
-                setHours(activity, 7, 40);
-                setHours(activity, 8, 30);
-                setHours(activity, 9, 15);
-                setHours(activity, 9, 30);
-                setHours(activity, 10, 20);
-                setHours(activity, 11, 5);
-                setHours(activity, 11, 20);
-                setHours(activity, 12, 10);
-                setHours(activity, 12, 55);
-                setHours(activity, 13, 15);
-                setHours(activity, 14, 5);
-                setHours(activity, 14, 50);
-                setHours(activity, 15, 0);
-                setHours(activity, 15, 50);
-                setHours(activity, 16, 35);
-                setHours(activity, 16, 40);
-                setHours(activity, 17, 30);
+                setHours(activity, 7, 40, 1);
+                setHours(activity, 8, 30, 2);
+                setHours(activity, 9, 15, 3);
+                setHours(activity, 9, 30, 4);
+                setHours(activity, 10, 20, 5);
+                setHours(activity, 11, 5, 6);
+                setHours(activity, 11, 20, 7);
+                setHours(activity, 12, 10, 8);
+                setHours(activity, 12, 55, 9);
+                setHours(activity, 13, 15, 10);
+                setHours(activity, 14, 5, 11);
+                setHours(activity, 14, 50, 12);
+                setHours(activity, 15, 0, 13);
+                setHours(activity, 15, 50, 14);
+                setHours(activity, 16, 35, 15);
+                setHours(activity, 16, 40, 16);
+                setHours(activity, 17, 30, 17);
             } else if (hour == 8) {
-                setHours(activity, 8, 30);
-                setHours(activity, 9, 15);
-                setHours(activity, 9, 30);
-                setHours(activity, 10, 20);
-                setHours(activity, 11, 5);
-                setHours(activity, 11, 20);
-                setHours(activity, 12, 10);
-                setHours(activity, 12, 55);
-                setHours(activity, 13, 15);
-                setHours(activity, 14, 5);
-                setHours(activity, 14, 50);
-                setHours(activity, 15, 0);
-                setHours(activity, 15, 50);
-                setHours(activity, 16, 35);
-                setHours(activity, 16, 40);
-                setHours(activity, 17, 30);
+                setHours(activity, 8, 30, 2);
+                setHours(activity, 9, 15, 3);
+                setHours(activity, 9, 30, 4);
+                setHours(activity, 10, 20, 5);
+                setHours(activity, 11, 5, 6);
+                setHours(activity, 11, 20, 7);
+                setHours(activity, 12, 10, 8);
+                setHours(activity, 12, 55, 9);
+                setHours(activity, 13, 15, 10);
+                setHours(activity, 14, 5, 11);
+                setHours(activity, 14, 50, 12);
+                setHours(activity, 15, 0, 13);
+                setHours(activity, 15, 50, 14);
+                setHours(activity, 16, 35, 15);
+                setHours(activity, 16, 40, 16);
+                setHours(activity, 17, 30, 17);
             } else if (hour == 9) {
-                setHours(activity, 9, 15);
-                setHours(activity, 9, 30);
-                setHours(activity, 10, 20);
-                setHours(activity, 11, 5);
-                setHours(activity, 11, 20);
-                setHours(activity, 12, 10);
-                setHours(activity, 12, 55);
-                setHours(activity, 13, 15);
-                setHours(activity, 14, 5);
-                setHours(activity, 14, 50);
-                setHours(activity, 15, 0);
-                setHours(activity, 15, 50);
-                setHours(activity, 16, 35);
-                setHours(activity, 16, 40);
-                setHours(activity, 17, 30);
+                setHours(activity, 9, 15, 3);
+                setHours(activity, 9, 30, 4);
+                setHours(activity, 10, 20, 5);
+                setHours(activity, 11, 5, 6);
+                setHours(activity, 11, 20, 7);
+                setHours(activity, 12, 10, 8);
+                setHours(activity, 12, 55, 9);
+                setHours(activity, 13, 15, 10);
+                setHours(activity, 14, 5, 11);
+                setHours(activity, 14, 50, 12);
+                setHours(activity, 15, 0, 13);
+                setHours(activity, 15, 50, 14);
+                setHours(activity, 16, 35, 15);
+                setHours(activity, 16, 40, 16);
+                setHours(activity, 17, 30, 17);
             } else if (hour == 10) {
-                setHours(activity, 10, 20);
-                setHours(activity, 11, 5);
-                setHours(activity, 11, 20);
-                setHours(activity, 12, 10);
-                setHours(activity, 12, 55);
-                setHours(activity, 13, 15);
-                setHours(activity, 14, 5);
-                setHours(activity, 14, 50);
-                setHours(activity, 15, 0);
-                setHours(activity, 15, 50);
-                setHours(activity, 16, 35);
-                setHours(activity, 16, 40);
-                setHours(activity, 17, 30);
+                setHours(activity, 10, 20, 5);
+                setHours(activity, 11, 5, 6);
+                setHours(activity, 11, 20, 7);
+                setHours(activity, 12, 10, 8);
+                setHours(activity, 12, 55, 9);
+                setHours(activity, 13, 15, 10);
+                setHours(activity, 14, 5, 11);
+                setHours(activity, 14, 50, 12);
+                setHours(activity, 15, 0, 13);
+                setHours(activity, 15, 50, 14);
+                setHours(activity, 16, 35, 15);
+                setHours(activity, 16, 40, 16);
+                setHours(activity, 17, 30, 17);
             } else if (hour == 11) {
-                setHours(activity, 11, 5);
-                setHours(activity, 11, 20);
-                setHours(activity, 12, 10);
-                setHours(activity, 12, 55);
-                setHours(activity, 13, 15);
-                setHours(activity, 14, 5);
-                setHours(activity, 14, 50);
-                setHours(activity, 15, 0);
-                setHours(activity, 15, 50);
-                setHours(activity, 16, 35);
-                setHours(activity, 16, 40);
-                setHours(activity, 17, 30);
+                setHours(activity, 11, 5, 6);
+                setHours(activity, 11, 20, 7);
+                setHours(activity, 12, 10, 8);
+                setHours(activity, 12, 55, 9);
+                setHours(activity, 13, 15, 10);
+                setHours(activity, 14, 5, 11);
+                setHours(activity, 14, 50, 12);
+                setHours(activity, 15, 0, 13);
+                setHours(activity, 15, 50, 14);
+                setHours(activity, 16, 35, 15);
+                setHours(activity, 16, 40, 16);
+                setHours(activity, 17, 30, 17);
             } else if (hour == 12) {
-                setHours(activity, 12, 10);
-                setHours(activity, 12, 55);
-                setHours(activity, 13, 15);
-                setHours(activity, 14, 5);
-                setHours(activity, 14, 50);
-                setHours(activity, 15, 0);
-                setHours(activity, 15, 50);
-                setHours(activity, 16, 35);
-                setHours(activity, 16, 40);
-                setHours(activity, 17, 30);
+                setHours(activity, 12, 10, 8);
+                setHours(activity, 12, 55, 9);
+                setHours(activity, 13, 15, 10);
+                setHours(activity, 14, 5, 11);
+                setHours(activity, 14, 50, 12);
+                setHours(activity, 15, 0, 13);
+                setHours(activity, 15, 50, 14);
+                setHours(activity, 16, 35, 15);
+                setHours(activity, 16, 40, 16);
+                setHours(activity, 17, 30, 17);
             } else if (hour == 13) {
-                setHours(activity, 13, 15);
-                setHours(activity, 14, 5);
-                setHours(activity, 14, 50);
-                setHours(activity, 15, 0);
-                setHours(activity, 15, 50);
-                setHours(activity, 16, 35);
-                setHours(activity, 16, 40);
-                setHours(activity, 17, 30);
+                setHours(activity, 13, 15, 10);
+                setHours(activity, 14, 5, 11);
+                setHours(activity, 14, 50, 12);
+                setHours(activity, 15, 0, 13);
+                setHours(activity, 15, 50, 14);
+                setHours(activity, 16, 35, 15);
+                setHours(activity, 16, 40, 16);
+                setHours(activity, 17, 30, 17);
             } else if (hour == 14) {
-                setHours(activity, 14, 5);
-                setHours(activity, 14, 50);
-                setHours(activity, 15, 0);
-                setHours(activity, 15, 50);
-                setHours(activity, 16, 35);
-                setHours(activity, 16, 40);
-                setHours(activity, 17, 30);
+                setHours(activity, 14, 5, 11);
+                setHours(activity, 14, 50, 12);
+                setHours(activity, 15, 0, 13);
+                setHours(activity, 15, 50, 14);
+                setHours(activity, 16, 35, 15);
+                setHours(activity, 16, 40, 16);
+                setHours(activity, 17, 30, 17);
             } else if (hour == 15) {
-                setHours(activity, 15, 0);
-                setHours(activity, 15, 50);
-                setHours(activity, 16, 35);
-                setHours(activity, 16, 40);
-                setHours(activity, 17, 30);
+                setHours(activity, 15, 0, 13);
+                setHours(activity, 15, 50, 14);
+                setHours(activity, 16, 35, 15);
+                setHours(activity, 16, 40, 16);
+                setHours(activity, 17, 30, 17);
             } else if (hour == 16) {
-                setHours(activity, 16, 35);
-                setHours(activity, 16, 40);
-                setHours(activity, 17, 30);
+                setHours(activity, 16, 35, 15);
+                setHours(activity, 16, 40, 16);
+                setHours(activity, 17, 30, 17);
             } else if (hour >= 17) {
-                setHours(activity, 17, 30);
+                setHours(activity, 17, 30, 17);
             }
         }
     }
 
-    private static void setHours (Activity activity, int hour, int minute) {
+    private static void setHours (Activity activity, int hour, int minute, int n) {
 
         AlarmManager alarmMgr = (AlarmManager)activity.getSystemService(Context.ALARM_SERVICE);
 
-        Random rand = new Random();
-        int n = rand.nextInt(1000000);
-
         Intent intent = new Intent(activity, class_AlarmService.class);
         PendingIntent pendingIntent = PendingIntent.getService(activity, n, intent, 0);
+
+        // Cancel alarms
+        try {
+            alarmMgr.cancel(pendingIntent);
+            Log.e(TAG, "AlarmManager canceled. " + n);
+        } catch (Exception e) {
+            Log.e(TAG, "AlarmManager update was not canceled. " + e.toString());
+        }
 
         // Set the alarm to start at approximately 2:00 p.m.
         Calendar calendar = Calendar.getInstance();
@@ -170,15 +176,19 @@ public class Schedule_helper {
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, minute);
 
-        Log.w("HHS_Moodle", "Alarm set");
+
 
         int ALARM_TYPE = AlarmManager.RTC_WAKEUP;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             alarmMgr.setExactAndAllowWhileIdle(ALARM_TYPE, calendar.getTimeInMillis(), pendingIntent);
-        else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            Log.w("HHS_Moodle", "AlarmManager " + n);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             alarmMgr.setExact(ALARM_TYPE, calendar.getTimeInMillis(), pendingIntent);
-        else
+            Log.w("HHS_Moodle", "AlarmManager " + n);
+        } else {
             alarmMgr.set(ALARM_TYPE, calendar.getTimeInMillis(), pendingIntent);
+            Log.w("HHS_Moodle", "AlarmManager " + n);
+        }
     }
 
     public static void insertDefaultBookmarks (Activity activity) {
@@ -211,7 +221,7 @@ public class Schedule_helper {
         db.insert(activity.getString(R.string.schedule_def_title), activity.getString(R.string.schedule_def_teacher), "11", activity.getString(R.string.schedule_def_teacher), "6. " + activity.getString(R.string.schedule_tue) + " " + "12:10 - 12:55", "17");
         db.insert(activity.getString(R.string.schedule_def_title), activity.getString(R.string.schedule_def_teacher), "11", activity.getString(R.string.schedule_def_teacher), "7. " + activity.getString(R.string.schedule_tue) + " " + "13:20 - 14:05", "18");
         db.insert(activity.getString(R.string.schedule_def_title), activity.getString(R.string.schedule_def_teacher), "11", activity.getString(R.string.schedule_def_teacher), "8. " + activity.getString(R.string.schedule_tue) + " " + "14-05 - 14:50", "19");
-        db.insert(activity.getString(R.string.schedule_def_title), activity.getString(R.string.schedule_def_teacher), "11", activity.getString(R.string.schedule_def_teacher), "8. " + activity.getString(R.string.schedule_tue) + " " + "15-05 - 15:50", "20");
+        db.insert(activity.getString(R.string.schedule_def_title), activity.getString(R.string.schedule_def_teacher), "11", activity.getString(R.string.schedule_def_teacher), "9. " + activity.getString(R.string.schedule_tue) + " " + "15-05 - 15:50", "20");
         db.insert(activity.getString(R.string.schedule_def_title), activity.getString(R.string.schedule_def_teacher), "11", activity.getString(R.string.schedule_def_teacher), "10. " + activity.getString(R.string.schedule_tue) + " " + "15-50 - 16:35", "21");
         db.insert(activity.getString(R.string.schedule_def_title), activity.getString(R.string.schedule_def_teacher), "11", activity.getString(R.string.schedule_def_teacher), "11. " + activity.getString(R.string.schedule_tue) + " " + "16-45 - 17:30", "22");
 

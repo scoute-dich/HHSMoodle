@@ -152,6 +152,8 @@
     <string name="menu_tools">Tools</string>
     <string name="menu_finish">Exit app</string>
     <string name="menu_save">Save</string>
+    <string name="menu_configure">Configure</string>
+    <string name="menu_addEntry">Add entry</string>
 
     <string name="action_sort">Sort entries</string>
     <string name="action_sort_title">Sort by title</string>
@@ -326,6 +328,7 @@
     <string name="number_dice_hint2">… then press  \"ok\".</string>
     <string name="number_edit_entry">Edit entry</string>
     <string name="number_enterData">Please enter data to the list.</string>
+    <string name="number_create">Create random list</string>
 
 
     // ToDo
@@ -347,11 +350,6 @@
 
     <string name="courseList_title">Course lists</string>
     <string name="courseList_fromText">From text file</string>
-    <string name="courseList_todo">Create todo list</string>
-    <string name="courseList_note">Create note</string>
-    <string name="courseList_random">Create random list</string>
-    <string name="courseList_course">Create course list</string>
-    <string name="courseList_subject">Create subject</string>
     <string name="courseList_content">+ course members</string>
 
 

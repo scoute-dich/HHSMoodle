@@ -97,6 +97,16 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
+            android:name=".activities.Activity_random"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".activities.Activity_course"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
             android:name=".activities.Activity_count"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -194,7 +204,7 @@
             android:name=".popup.Popup_todo_restart"
             android:noHistory="true"
             android:launchMode="singleTask"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            android:theme="@style/AppThemeDialog" />
 
         <activity
             android:name=".popup.Popup_courseList"

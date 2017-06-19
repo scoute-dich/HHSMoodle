@@ -22,15 +22,14 @@ package de.baumann.hhsmoodle.data_random;
 import android.animation.Animator;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -38,7 +37,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -47,16 +45,13 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
-import org.apache.commons.io.FileUtils;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
 import java.util.Random;
 
 import de.baumann.hhsmoodle.R;
+import de.baumann.hhsmoodle.activities.Activity_random;
+import de.baumann.hhsmoodle.data_count.Count_helper;
+import de.baumann.hhsmoodle.data_notes.Notes_helper;
+import de.baumann.hhsmoodle.data_todo.Todo_helper;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.popup.Popup_courseList;
 
@@ -67,15 +62,12 @@ public class Random_Fragment extends Fragment {
     private ListView lv = null;
     private int number;
 
-    private FloatingActionButton fab_dice;
     private FloatingActionButton fab;
     private LinearLayout fabLayout1;
     private LinearLayout fabLayout2;
     private boolean isFABOpen=false;
     private ViewPager viewPager;
-
-    private ArrayList<String> items;
-    private ListView lvItems;
+    private SharedPreferences sharedPref;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -86,10 +78,11 @@ public class Random_Fragment extends Fragment {
         ImageView imgHeader = (ImageView) rootView.findViewById(R.id.imageView_header);
         helper_main.setImageHeader(getActivity(), imgHeader);
 
-        fab_dice = (FloatingActionButton) rootView.findViewById(R.id.fab_dice);
+        PreferenceManager.setDefaultValues(getActivity(), R.xml.user_settings, false);
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
         lv = (ListView) rootView.findViewById(R.id.list);
         viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
-        lvItems = (ListView) rootView.findViewById(R.id.lvItems);
 
         fabLayout1= (LinearLayout) rootView.findViewById(R.id.fabLayout1);
         fabLayout2= (LinearLayout) rootView.findViewById(R.id.fabLayout2);
@@ -112,33 +105,16 @@ public class Random_Fragment extends Fragment {
             @Override
             public void onClick(View view) {
                 closeFABMenu();
-
                 android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getActivity());
-                View dialogView = View.inflate(getActivity(), R.layout.dialog_edit_entry, null);
-
-                final EditText edit_title = (EditText) dialogView.findViewById(R.id.note_title_input);
-                edit_title.setHint(R.string.title_hint);
-
-                final EditText edit_cont = (EditText) dialogView.findViewById(R.id.note_text_input);
-                edit_cont.setHint(R.string.text_hint);
-
+                View dialogView = View.inflate(getActivity(), R.layout.dialog_edit_title, null);
+                final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
+                edit_title.setHint(R.string.bookmark_edit_title);
+                builder.setTitle(R.string.number_title);
                 builder.setView(dialogView);
-                builder.setTitle(R.string.number_edit_entry);
                 builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int whichButton) {
 
-                        String inputTitle = edit_title.getText().toString().trim();
-                        String inputCont = edit_cont.getText().toString().trim();
-
-                        if(db.isExist(inputTitle)){
-                            Snackbar.make(lv, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
-                        }else{
-                            db.insert(inputTitle, inputCont, "", "", helper_main.createDate());
-                            dialog.dismiss();
-                            setRandomList();
-                            Snackbar.make(lv, R.string.bookmark_added, Snackbar.LENGTH_SHORT).show();
-                        }
                     }
                 });
                 builder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
@@ -148,9 +124,30 @@ public class Random_Fragment extends Fragment {
                     }
                 });
 
-                final android.app.AlertDialog dialog2 = builder.create();
-                // Display the custom alert dialog on interface
-                dialog2.show();
+                final android.app.AlertDialog dialog = builder.create();
+                dialog.show();
+
+                dialog.getButton(android.app.AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //Do stuff, possibly set wantToCloseDialog to true then...
+
+                        String inputTitle = edit_title.getText().toString().trim();
+
+                        Random_DbAdapter db = new Random_DbAdapter(getActivity());
+                        db.open();
+
+                        if(db.isExist(inputTitle)){
+                            Snackbar.make(edit_title, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
+                        }else{
+                            db.insert(inputTitle, "", "", "", helper_main.createDate());
+                            dialog.dismiss();
+                            setRandomList();
+                            Snackbar.make(edit_title, R.string.bookmark_added, Snackbar.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
                 helper_main.showKeyboard(getActivity(),edit_title);
             }
         });
@@ -162,26 +159,6 @@ public class Random_Fragment extends Fragment {
                 Intent mainIntent = new Intent(getActivity(), Popup_courseList.class);
                 mainIntent.setAction("courseList_random");
                 startActivity(mainIntent);
-            }
-        });
-
-
-        fab_dice.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                try {
-                    Random rand = new Random();
-                    final int n = rand.nextInt(lvItems.getCount());
-
-                    setAdapter(n);
-                    lvItems.setSelection(n-1);
-
-
-
-                } catch(NumberFormatException nfe) {
-                    nfe.printStackTrace();
-                }
             }
         });
 
@@ -232,7 +209,7 @@ public class Random_Fragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (viewPager.getCurrentItem() == 7) {
+        if (viewPager.getCurrentItem() == 6) {
             setRandomList();
         }
     }
@@ -241,14 +218,6 @@ public class Random_Fragment extends Fragment {
         //BackPressed in activity will call this;
         if(isFABOpen){
             closeFABMenu();
-        }else if (lvItems.getVisibility() == View.VISIBLE) {
-            //noinspection ResultOfMethodCallIgnored
-            newFile().delete();
-            lv.setVisibility(View.VISIBLE);
-            lvItems.setVisibility(View.GONE);
-            fab.setVisibility(View.VISIBLE);
-            fab_dice.setVisibility(View.GONE);
-            getActivity().setTitle(R.string.number_title);
         } else {
             helper_main.onClose(getActivity());
         }
@@ -296,38 +265,21 @@ public class Random_Fragment extends Fragment {
                 }
 
                 Cursor row2 = (Cursor) lv.getItemAtPosition(position);
-                final String random_content = row2.getString(row2.getColumnIndexOrThrow("random_content"));
+                final String _id = row2.getString(row2.getColumnIndexOrThrow("_id"));
                 final String random_title = row2.getString(row2.getColumnIndexOrThrow("random_title"));
+                final String random_content = row2.getString(row2.getColumnIndexOrThrow("random_content"));
+                final String random_icon = row2.getString(row2.getColumnIndexOrThrow("random_icon"));
+                final String random_attachment = row2.getString(row2.getColumnIndexOrThrow("random_attachment"));
+                final String random_creation = row2.getString(row2.getColumnIndexOrThrow("random_creation"));
 
-                if (random_content.isEmpty()) {
-                    Snackbar.make(lv, getActivity().getString(R.string.number_enterData), Snackbar.LENGTH_LONG).show();
-                } else {
-                    getActivity().setTitle(random_title);
-                    lv.setVisibility(View.GONE);
-                    lvItems.setVisibility(View.VISIBLE);
+                sharedPref.edit().putString("random_title", random_title).apply();
+                sharedPref.edit().putString("random_content", random_content).apply();
+                sharedPref.edit().putString("random_seqno", _id).apply();
+                sharedPref.edit().putString("random_icon", random_icon).apply();
+                sharedPref.edit().putString("random_create", random_creation).apply();
+                sharedPref.edit().putString("random_attachment", random_attachment).apply();
 
-                    try {
-                        FileOutputStream fOut = new FileOutputStream(newFile());
-                        OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
-                        myOutWriter.append(random_content);
-                        myOutWriter.close();
-
-                        fOut.flush();
-                        fOut.close();
-                    } catch (IOException e) {
-                        Log.e("Exception", "File write failed: " + e.toString());
-                    }
-
-                    items = new ArrayList<>();
-                    readItems();
-
-                    setAdapter(1000);
-
-
-
-                    fab.setVisibility(View.GONE);
-                    fab_dice.setVisibility(View.VISIBLE);
-                }
+                helper_main.switchToActivity(getActivity(), Activity_random.class, false);
             }
         });
 
@@ -348,7 +300,12 @@ public class Random_Fragment extends Fragment {
 
                 final CharSequence[] options = {
                         getString(R.string.number_edit_entry),
-                        getString(R.string.bookmark_remove_bookmark)};
+                        getString(R.string.bookmark_remove_bookmark),
+                        getString(R.string.todo_share),
+                        getString(R.string.todo_menu),
+                        getString(R.string.bookmark_createNote),
+                        getString(R.string.count_create),
+                        getString(R.string.bookmark_createEvent)};
                 new android.app.AlertDialog.Builder(getActivity())
                         .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
 
@@ -399,6 +356,14 @@ public class Random_Fragment extends Fragment {
                                     helper_main.showKeyboard(getActivity(),edit_title);
                                 }
 
+                                if (options[item].equals (getString(R.string.todo_share))) {
+                                    Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                                    sharingIntent.setType("text/plain");
+                                    sharingIntent.putExtra(Intent.EXTRA_SUBJECT, random_title);
+                                    sharingIntent.putExtra(Intent.EXTRA_TEXT, random_content);
+                                    startActivity(Intent.createChooser(sharingIntent, (getString(R.string.note_share_2))));
+                                }
+
                                 if (options[item].equals(getString(R.string.bookmark_remove_bookmark))) {
                                     Snackbar snackbar = Snackbar
                                             .make(lv, R.string.note_remove_confirmation, Snackbar.LENGTH_LONG)
@@ -412,46 +377,28 @@ public class Random_Fragment extends Fragment {
                                     snackbar.show();
                                 }
 
+                                if (options[item].equals (getString(R.string.bookmark_createNote))) {
+                                    Notes_helper.newNote(getActivity(),random_title,random_content,getString(R.string.note_content), false);
+                                }
+
+                                if (options[item].equals (getString(R.string.todo_menu))) {
+                                    Todo_helper.newTodo(getActivity(), random_title, random_content, getString(R.string.note_content), false);
+                                }
+
+                                if (options[item].equals (getString(R.string.count_create))) {
+                                    Count_helper.newCount(getActivity(), random_title, random_content, getActivity().getString(R.string.note_content), false);
+                                }
+
+                                if (options[item].equals (getString(R.string.bookmark_createEvent))) {
+                                    helper_main.createCalendarEvent(getActivity(), random_title, random_content);
+                                }
+
                             }
                         }).show();
 
                 return true;
             }
         });
-    }
-
-    private void setAdapter (final int count) {
-        ArrayAdapter<String> itemsAdapter = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_list_item_1, items) {
-
-            @NonNull
-            @Override
-            public View getView(final int position, View convertView, @NonNull ViewGroup parent) {
-
-                View v = super.getView(position, convertView, parent);
-
-                if (position == count) {
-                    v.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorAccent_trans));
-                } else {
-                    v.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.color_trans));
-                }
-                return v;
-            }
-        };
-        lvItems.setAdapter(itemsAdapter);
-    }
-
-    private File newFile() {
-        return  new File(getActivity().getFilesDir() + "random.txt");
-    }
-
-    private void readItems() {
-        try {
-            //noinspection unchecked
-            items = new ArrayList<>(FileUtils.readLines(newFile()));
-        } catch (IOException e) {
-            items = new ArrayList<>();
-        }
     }
 
     @Override

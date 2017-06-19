@@ -3,6 +3,7 @@
 - verbessert: Suche in Einträgen
 - verbessert: Passwortschutz
 - verbessert: Sortieren von Einträgen
+- fix: lautlos Modus
 - fix: Einträge aktualisieren
 - fix: Anhänge auswählen
 - fix: viele kleine Fehler

@@ -1,23 +1,6 @@
 <shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
 
     <shortcut
-        android:shortcutId="shortcutBrowser"
-        android:enabled="true"
-        android:icon="@drawable/qc_moodle"
-        android:shortcutShortLabel="@string/title_browser"
-        android:shortcutLongLabel="@string/title_browser"
-        android:shortcutDisabledMessage="@string/title_browser">
-        <intent
-            android:action="shortcutBrowser"
-            android:targetPackage="de.baumann.hhsmoodle"
-            android:targetClass="de.baumann.hhsmoodle.activities.Activity_splash" />
-        <!-- If your shortcut is associated with multiple intents, include them
-             here. The last intent in the list is what the user sees when they
-             launch this shortcut. -->
-        <categories android:name="android.shortcut.conversation" />
-    </shortcut>
-
-    <shortcut
         android:shortcutId="shortcutBookmarks"
         android:enabled="true"
         android:icon="@drawable/qc_fav"

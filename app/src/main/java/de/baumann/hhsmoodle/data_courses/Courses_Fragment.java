@@ -26,38 +26,27 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
 import de.baumann.hhsmoodle.R;
-import de.baumann.hhsmoodle.data_notes.Notes_helper;
-import de.baumann.hhsmoodle.data_random.Random_DbAdapter;
-import de.baumann.hhsmoodle.data_subjects.Subject_DbAdapter;
-import de.baumann.hhsmoodle.data_todo.Todo_helper;
+import de.baumann.hhsmoodle.activities.Activity_course;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.popup.Popup_files;
 
@@ -73,9 +62,6 @@ public class Courses_Fragment extends Fragment {
     private boolean isFABOpen=false;
     private SharedPreferences sharedPref;
 
-    private EditText titleInput;
-    private EditText teacherInput;
-    private EditText roomInput;
     private ViewPager viewPager;
 
     @Override
@@ -153,14 +139,14 @@ public class Courses_Fragment extends Fragment {
                     }
                 });
 
-                final android.app.AlertDialog dialog2 = builder.create();
+                final android.app.AlertDialog dialog = builder.create();
                 // Display the custom alert dialog on interface
-                dialog2.show();
+                dialog.show();
                 helper_main.showKeyboard(getActivity(),edit_title);
             }
         });
 
-        fab2.setImageResource(R.drawable.account_multiple_plus);
+        fab2.setImageResource(R.drawable.file_document_light);
         fab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -218,7 +204,7 @@ public class Courses_Fragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (viewPager.getCurrentItem() == 8) {
+        if (viewPager.getCurrentItem() == 9) {
             setCoursesList();
         }
     }
@@ -274,237 +260,21 @@ public class Courses_Fragment extends Fragment {
                 }
 
                 Cursor row2 = (Cursor) lv.getItemAtPosition(position);
+                final String _id = row2.getString(row2.getColumnIndexOrThrow("_id"));
                 final String courses_title = row2.getString(row2.getColumnIndexOrThrow("courses_title"));
                 final String courses_content = row2.getString(row2.getColumnIndexOrThrow("courses_content"));
+                final String courses_icon = row2.getString(row2.getColumnIndexOrThrow("courses_icon"));
+                final String courses_attachment = row2.getString(row2.getColumnIndexOrThrow("courses_attachment"));
+                final String courses_creation = row2.getString(row2.getColumnIndexOrThrow("courses_creation"));
 
-                final CharSequence[] options = {
-                        getString(R.string.courseList_todo),
-                        getString(R.string.courseList_note),
-                        getString(R.string.courseList_random),
-                        getString(R.string.courseList_subject),
-                        getString(R.string.bookmark_createEvent)};
+                sharedPref.edit().putString("random_title", courses_title).apply();
+                sharedPref.edit().putString("random_content", courses_content).apply();
+                sharedPref.edit().putString("random_seqno", _id).apply();
+                sharedPref.edit().putString("random_icon", courses_icon).apply();
+                sharedPref.edit().putString("random_create", courses_creation).apply();
+                sharedPref.edit().putString("random_attachment", courses_attachment).apply();
 
-                new android.app.AlertDialog.Builder(getActivity())
-                        .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                dialog.cancel();
-                            }
-                        })
-                        .setItems(options, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int item) {
-                                if (options[item].equals(getString(R.string.courseList_random))) {
-
-                                    android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getActivity());
-                                    View dialogView = View.inflate(getActivity(), R.layout.dialog_edit_entry, null);
-
-                                    final EditText edit_title = (EditText) dialogView.findViewById(R.id.note_title_input);
-                                    edit_title.setHint(R.string.title_hint);
-                                    edit_title.setText(courses_title);
-
-                                    final EditText edit_cont = (EditText) dialogView.findViewById(R.id.note_text_input);
-                                    edit_cont.setHint(R.string.text_hint);
-                                    edit_cont.setText(courses_content);
-
-                                    builder.setView(dialogView);
-                                    builder.setTitle(R.string.number_edit_entry);
-                                    builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
-
-                                        public void onClick(DialogInterface dialog, int whichButton) {
-                                        }
-                                    });
-                                    builder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                                        public void onClick(DialogInterface dialog, int whichButton) {
-                                            dialog.cancel();
-                                        }
-                                    });
-
-                                    final android.app.AlertDialog dialog2 = builder.create();
-                                    // Display the custom alert dialog on interface
-                                    dialog2.show();
-
-                                    dialog2.getButton(android.support.v7.app.AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            //Do stuff, possibly set wantToCloseDialog to true then...
-                                            Random_DbAdapter db = new Random_DbAdapter(getActivity());
-                                            db.open();
-
-                                            String inputTitle = edit_title.getText().toString().trim();
-                                            String inputCont = edit_cont.getText().toString().trim();
-
-                                            if(db.isExist(inputTitle)){
-                                                Snackbar.make(edit_title, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
-                                            } else {
-                                                db.insert(inputTitle, inputCont, "", "", helper_main.createDate());
-                                                dialog2.dismiss();
-                                            }
-                                        }
-                                    });
-                                    helper_main.showKeyboard(getActivity(),edit_title);
-                                }
-
-                                if (options[item].equals(getString(R.string.courseList_note))) {
-                                    Notes_helper.newNote(getActivity(),courses_title,"","","","","");
-                                }
-
-                                if (options[item].equals(getString(R.string.courseList_todo))) {
-                                    Todo_helper.newTodo(getActivity(), courses_title, courses_content, getActivity().getString(R.string.note_content));
-                                }
-
-                                if (options[item].equals(getString(R.string.courseList_subject))) {
-
-                                    LayoutInflater inflater = getActivity().getLayoutInflater();
-
-                                    final ViewGroup nullParent = null;
-                                    View dialogView = inflater.inflate(R.layout.dialog_edit_subject, nullParent);
-
-                                    titleInput = (EditText) dialogView.findViewById(R.id.subject_title_);
-                                    titleInput.setSelection(titleInput.getText().length());
-                                    titleInput.setText("");
-                                    teacherInput = (EditText) dialogView.findViewById(R.id.subject_teacher);
-                                    teacherInput.setText(courses_title);
-                                    roomInput = (EditText) dialogView.findViewById(R.id.subject_room);
-                                    roomInput.setText("");
-                                    helper_main.showKeyboard(getActivity(),titleInput);
-
-                                    final ImageButton be = (ImageButton) dialogView.findViewById(R.id.imageButtonPri);
-                                    assert be != null;
-                                    be.setImageResource(R.drawable.circle_grey);
-                                    sharedPref.edit().putString("subject_color", "11").apply();
-
-                                    be.setOnClickListener(new View.OnClickListener() {
-
-                                        @Override
-                                        public void onClick(View arg0) {
-
-                                            final helper_main.Item[] items = {
-                                                    new helper_main.Item(getString(R.string.subjects_color_red), R.drawable.circle_red),
-                                                    new helper_main.Item(getString(R.string.subjects_color_pink), R.drawable.circle_pink),
-                                                    new helper_main.Item(getString(R.string.subjects_color_purple), R.drawable.circle_purple),
-                                                    new helper_main.Item(getString(R.string.subjects_color_blue), R.drawable.circle_blue),
-                                                    new helper_main.Item(getString(R.string.subjects_color_teal), R.drawable.circle_teal),
-                                                    new helper_main.Item(getString(R.string.subjects_color_green), R.drawable.circle_green),
-                                                    new helper_main.Item(getString(R.string.subjects_color_lime), R.drawable.circle_lime),
-                                                    new helper_main.Item(getString(R.string.subjects_color_yellow), R.drawable.circle_yellow),
-                                                    new helper_main.Item(getString(R.string.subjects_color_orange), R.drawable.circle_orange),
-                                                    new helper_main.Item(getString(R.string.subjects_color_brown), R.drawable.circle_brown),
-                                                    new helper_main.Item(getString(R.string.subjects_color_grey), R.drawable.circle_grey),
-                                            };
-
-                                            ListAdapter adapter = new ArrayAdapter<helper_main.Item>(
-                                                    getActivity(),
-                                                    android.R.layout.select_dialog_item,
-                                                    android.R.id.text1,
-                                                    items){
-                                                @NonNull
-                                                public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-                                                    //Use super class to create the View
-                                                    View v = super.getView(position, convertView, parent);
-                                                    TextView tv = (TextView)v.findViewById(android.R.id.text1);
-                                                    tv.setTextSize(18);
-                                                    tv.setCompoundDrawablesWithIntrinsicBounds(items[position].icon, 0, 0, 0);
-                                                    //Add margin between image and text (support various screen densities)
-                                                    int dp5 = (int) (24 * getActivity().getResources().getDisplayMetrics().density + 0.5f);
-                                                    tv.setCompoundDrawablePadding(dp5);
-
-                                                    return v;
-                                                }
-                                            };
-
-                                            new android.app.AlertDialog.Builder(getActivity())
-                                                    .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                                                        public void onClick(DialogInterface dialog, int whichButton) {
-                                                            dialog.cancel();
-                                                        }
-                                                    })
-                                                    .setAdapter(adapter, new DialogInterface.OnClickListener() {
-                                                        public void onClick(DialogInterface dialog, int item) {
-                                                            if (item == 0) {
-                                                                be.setImageResource(R.drawable.circle_red);
-                                                                sharedPref.edit().putString("subject_color", "1").apply();
-                                                            } else if (item == 1) {
-                                                                be.setImageResource(R.drawable.circle_pink);
-                                                                sharedPref.edit().putString("subject_color", "2").apply();
-                                                            } else if (item == 2) {
-                                                                be.setImageResource(R.drawable.circle_purple);
-                                                                sharedPref.edit().putString("subject_color", "3").apply();
-                                                            } else if (item == 3) {
-                                                                be.setImageResource(R.drawable.circle_blue);
-                                                                sharedPref.edit().putString("subject_color", "4").apply();
-                                                            } else if (item == 4) {
-                                                                be.setImageResource(R.drawable.circle_teal);
-                                                                sharedPref.edit().putString("subject_color", "5").apply();
-                                                            } else if (item == 5) {
-                                                                be.setImageResource(R.drawable.circle_green);
-                                                                sharedPref.edit().putString("subject_color", "6").apply();
-                                                            } else if (item == 6) {
-                                                                be.setImageResource(R.drawable.circle_lime);
-                                                                sharedPref.edit().putString("subject_color", "7").apply();
-                                                            } else if (item == 7) {
-                                                                be.setImageResource(R.drawable.circle_yellow);
-                                                                sharedPref.edit().putString("subject_color", "8").apply();
-                                                            } else if (item == 8) {
-                                                                be.setImageResource(R.drawable.circle_orange);
-                                                                sharedPref.edit().putString("subject_color", "9").apply();
-                                                            } else if (item == 9) {
-                                                                be.setImageResource(R.drawable.circle_brown);
-                                                                sharedPref.edit().putString("subject_color", "10").apply();
-                                                            } else if (item == 10) {
-                                                                be.setImageResource(R.drawable.circle_grey);
-                                                                sharedPref.edit().putString("subject_color", "11").apply();
-                                                            }
-                                                        }
-                                                    }).show();
-                                        }
-                                    });
-
-                                    android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getActivity());
-                                    builder.setTitle(R.string.subjects_edit);
-                                    builder.setView(dialogView);
-                                    builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
-
-                                        public void onClick(DialogInterface dialog, int whichButton) {
-                                            Subject_DbAdapter db = new Subject_DbAdapter(getActivity());
-                                            db.open();
-
-                                            String inputTitle = titleInput.getText().toString().trim();
-                                            String inputTeacher = teacherInput.getText().toString().trim();
-                                            String inputRoom = roomInput.getText().toString().trim();
-
-                                            Date date = new Date();
-                                            DateFormat dateFormat = new SimpleDateFormat("yy-MM-dd_HH-mm-ss", Locale.getDefault());
-                                            String creation =  dateFormat.format(date);
-
-                                            if(db.isExist(inputTitle)){
-                                                Snackbar.make(titleInput, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
-                                            }else{
-                                                db.insert(inputTitle, inputTeacher, sharedPref.getString("subject_color", ""), inputRoom, creation);
-                                                dialog.dismiss();
-                                            }
-
-                                        }
-                                    });
-                                    builder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                                        public void onClick(DialogInterface dialog, int whichButton) {
-                                            dialog.cancel();
-                                        }
-                                    });
-
-                                    final android.support.v7.app.AlertDialog dialog2 = builder.create();
-                                    dialog2.show();
-                                }
-
-                                if (options[item].equals (getString(R.string.bookmark_createEvent))) {
-                                    helper_main.createCalendarEvent(getActivity(), courses_title, courses_content);
-                                }
-
-                            }
-                        }).show();
+                helper_main.switchToActivity(getActivity(), Activity_course.class, false);
             }
         });
 
@@ -526,6 +296,7 @@ public class Courses_Fragment extends Fragment {
                 final CharSequence[] options = {
                         getString(R.string.number_edit_entry),
                         getString(R.string.bookmark_remove_bookmark)};
+
                 new android.app.AlertDialog.Builder(getActivity())
                         .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
 
@@ -539,26 +310,21 @@ public class Courses_Fragment extends Fragment {
 
                                 if (options[item].equals(getString(R.string.number_edit_entry))) {
 
-                                    android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getActivity());
-                                    View dialogView = View.inflate(getActivity(), R.layout.dialog_edit_entry, null);
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                    View dialogView = View.inflate(getActivity(), R.layout.dialog_edit_title, null);
 
-                                    final EditText edit_title = (EditText) dialogView.findViewById(R.id.note_title_input);
-                                    edit_title.setHint(R.string.title_hint);
+                                    final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
+                                    edit_title.setHint(R.string.bookmark_edit_title);
                                     edit_title.setText(courses_title);
 
-                                    final EditText edit_cont = (EditText) dialogView.findViewById(R.id.note_text_input);
-                                    edit_cont.setHint(R.string.text_hint);
-                                    edit_cont.setText(courses_content);
-
                                     builder.setView(dialogView);
-                                    builder.setTitle(R.string.number_edit_entry);
+                                    builder.setTitle(R.string.bookmark_edit_title);
                                     builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
 
                                         public void onClick(DialogInterface dialog, int whichButton) {
 
                                             String inputTitle = edit_title.getText().toString().trim();
-                                            String inputCont = edit_cont.getText().toString().trim();
-                                            db.update(Integer.parseInt(_id),inputTitle, inputCont, courses_icon, courses_attachment, courses_creation);
+                                            db.update(Integer.parseInt(_id),inputTitle, courses_content, courses_icon, courses_attachment, courses_creation);
                                             setCoursesList();
                                             Snackbar.make(lv, R.string.bookmark_added, Snackbar.LENGTH_SHORT).show();
                                         }
@@ -570,7 +336,7 @@ public class Courses_Fragment extends Fragment {
                                         }
                                     });
 
-                                    final android.app.AlertDialog dialog2 = builder.create();
+                                    final AlertDialog dialog2 = builder.create();
                                     // Display the custom alert dialog on interface
                                     dialog2.show();
                                     helper_main.showKeyboard(getActivity(),edit_title);
@@ -589,7 +355,6 @@ public class Courses_Fragment extends Fragment {
                                             });
                                     snackbar.show();
                                 }
-
                             }
                         }).show();
                 return true;

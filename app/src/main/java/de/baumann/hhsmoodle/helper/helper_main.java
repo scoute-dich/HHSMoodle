@@ -74,7 +74,8 @@ public class helper_main {
         }
     }
 
-    public static void changeFilter (String filter, String filterBY) {
+    public static void changeFilter (Activity activity, String filter, String filterBY) {
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(activity);
         sharedPref.edit().putString(filter, filterBY).apply();
     }
 

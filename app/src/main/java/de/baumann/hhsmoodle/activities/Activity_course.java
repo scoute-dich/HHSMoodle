@@ -20,29 +20,22 @@
 package de.baumann.hhsmoodle.activities;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import org.apache.commons.io.FileUtils;
 
@@ -56,26 +49,22 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 import de.baumann.hhsmoodle.R;
-import de.baumann.hhsmoodle.data_count.Count_DbAdapter;
+import de.baumann.hhsmoodle.data_courses.Courses_DbAdapter;
 import de.baumann.hhsmoodle.helper.helper_main;
 
 @SuppressWarnings("ResultOfMethodCallIgnored")
-public class Activity_count extends AppCompatActivity {
+public class Activity_course extends AppCompatActivity {
 
     private SharedPreferences sharedPref;
     private ArrayList<String> itemsTitle;
     private ListView lvItems;
 
-    private String titleString;
-    private String countString;
-
     private String toDo_title;
     private String toDo_icon;
-    private String toDo_create;
     private String todo_attachment;
-    private int toDo_seqno;
+    private String toDo_create;
 
-    private int count;
+    private int toDo_seqno;
     private int top;
     private int index;
 
@@ -83,35 +72,37 @@ public class Activity_count extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
-        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        toDo_title = sharedPref.getString("count_title", "");
-        String todo_title = sharedPref.getString("count_content", "");
-        toDo_icon = sharedPref.getString("count_icon", "");
-        toDo_create = sharedPref.getString("count_create", "");
-        todo_attachment = sharedPref.getString("count_attachment", "");
-        if (!sharedPref.getString("count_seqno", "").isEmpty()) {
-            toDo_seqno = Integer.parseInt(sharedPref.getString("count_seqno", ""));
-        }
-
         setContentView(R.layout.activity_random);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setVisibility(View.GONE);
-        setTitle(toDo_title);
+        helper_main.onStart(Activity_course.this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        helper_main.onStart(Activity_count.this);
 
-        final ActionBar actionBar = getSupportActionBar();
+        ActionBar actionBar = getSupportActionBar();
         if(actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
+        PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        toDo_title = sharedPref.getString("random_title", "");
+        toDo_icon = sharedPref.getString("random_icon", "");
+        toDo_create = sharedPref.getString("random_create", "");
+        String toDo_content = sharedPref.getString("random_content", "");
+        todo_attachment = sharedPref.getString("random_attachment", "");
+        if (!sharedPref.getString("random_seqno", "").isEmpty()) {
+            toDo_seqno = Integer.parseInt(sharedPref.getString("random_seqno", ""));
+        }
+
+        setTitle(toDo_title);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setVisibility(View.GONE);
+
         try {
             FileOutputStream fOut = new FileOutputStream(newFileTitle());
             OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
-            myOutWriter.append(todo_title);
+            myOutWriter.append(toDo_content);
             myOutWriter.close();
             fOut.flush();
             fOut.close();
@@ -129,16 +120,16 @@ public class Activity_count extends AppCompatActivity {
             public void onItemClick(android.widget.AdapterView<?> parent,
                                     View view, final int position, long id) {
 
-                getValues(position);
                 index = lvItems.getFirstVisiblePosition();
                 View v = lvItems.getChildAt(0);
                 top = (v == null) ? 0 : (v.getTop() - lvItems.getPaddingTop());
+                final String title = itemsTitle.get(position);
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(Activity_count.this);
-                View dialogView = View.inflate(Activity_count.this, R.layout.dialog_edit_text_singleline_count, null);
+                AlertDialog.Builder builder = new AlertDialog.Builder(Activity_course.this);
+                View dialogView = View.inflate(Activity_course.this, R.layout.dialog_edit_text_singleline_count, null);
 
                 final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
-                edit_title.setText(titleString);
+                edit_title.setText(title);
 
                 builder.setView(dialogView);
                 builder.setTitle(R.string.number_edit_entry);
@@ -147,12 +138,12 @@ public class Activity_count extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int whichButton) {
 
                         String inputTag = edit_title.getText().toString().trim();
-                        String itemText = inputTag + "|" + countString;
+                        // Remove the item within array at position
                         itemsTitle.remove(position);
-                        itemsTitle.add(position, itemText);
-
-                        writeItemsTitle();
+                        itemsTitle.add(position, inputTag);
                         setAdapter();
+                        // Return true consumes the long click event (marks it handled)
+                        writeItemsTitle();
                     }
                 });
                 builder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
@@ -162,10 +153,10 @@ public class Activity_count extends AppCompatActivity {
                     }
                 });
 
-                final AlertDialog dialog = builder.create();
+                AlertDialog dialog = builder.create();
                 // Display the custom alert dialog on interface
                 dialog.show();
-                helper_main.showKeyboard(Activity_count.this,edit_title);
+                helper_main.showKeyboard(Activity_course.this,edit_title);
             }
         });
 
@@ -174,15 +165,14 @@ public class Activity_count extends AppCompatActivity {
             public boolean onItemLongClick(android.widget.AdapterView<?> parent,
                                     View view, final int position, long id) {
 
-                getValues(position);
                 index = lvItems.getFirstVisiblePosition();
                 View v = lvItems.getChildAt(0);
                 top = (v == null) ? 0 : (v.getTop() - lvItems.getPaddingTop());
-
                 final String title = itemsTitle.get(position);
+
                 itemsTitle.remove(position);
-                writeItemsTitle();
                 setAdapter();
+                writeItemsTitle();
 
                 Snackbar snackbar = Snackbar
                         .make(lvItems, R.string.todo_removed, Snackbar.LENGTH_LONG)
@@ -190,8 +180,8 @@ public class Activity_count extends AppCompatActivity {
                             @Override
                             public void onClick(View view) {
                                 itemsTitle.add(position, title);
-                                writeItemsTitle();
                                 setAdapter();
+                                writeItemsTitle();
                             }
                         });
                 snackbar.show();
@@ -201,70 +191,7 @@ public class Activity_count extends AppCompatActivity {
     }
 
     private void setAdapter () {
-
-        ArrayAdapter<String> itemsAdapter = new ArrayAdapter<String>(this,
-                R.layout.list_item_count, itemsTitle) {
-
-            @NonNull
-            @Override
-            public View getView(final int position, View convertView, @NonNull ViewGroup parent) {
-
-                if (convertView == null) {
-                    LayoutInflater infInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    convertView = infInflater.inflate(R.layout.list_item_count, parent, false);
-                }
-
-                getValues(position);
-
-                ImageButton ib_plus = (ImageButton) convertView.findViewById(R.id.but_plus);
-                ImageButton ib_minus = (ImageButton) convertView.findViewById(R.id.but_minus);
-
-                TextView textTITLE = (TextView) convertView.findViewById(R.id.count_title);
-                TextView textDES = (TextView) convertView.findViewById(R.id.count_count);
-
-                textTITLE.setText(titleString);
-                textDES.setText(countString);
-
-                if (count < 0) {
-                    textDES.setTextColor(ContextCompat.getColor(Activity_count.this,R.color.color_red));
-                } else if (count > 0) {
-                    textDES.setTextColor(ContextCompat.getColor(Activity_count.this,R.color.color_green));
-                } else if (count == 0) {
-                    textDES.setTextColor(ContextCompat.getColor(Activity_count.this,R.color.color_grey));
-                }
-
-                ib_plus.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View arg0) {
-                        getValues(position);
-                        int a = count + 1;
-                        String plus = String.valueOf(a);
-                        String itemText = titleString + "|" + plus;
-                        itemsTitle.remove(position);
-                        itemsTitle.add(position, itemText);
-                        writeItemsTitle();
-                        setAdapter();
-                    }
-                });
-
-                ib_minus.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View arg0) {
-                        getValues(position);
-                        int a = count - 1;
-                        String minus = String.valueOf(a);
-                        String itemText = titleString + "|" + minus;
-                        itemsTitle.remove(position);
-                        itemsTitle.add(position, itemText);
-                        writeItemsTitle();
-                        setAdapter();
-                    }
-                });
-                return convertView;
-            }
-        };
+        ArrayAdapter<String> itemsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, itemsTitle);
         itemsAdapter.sort(new Comparator<String>() {
             @Override
             public int compare(String s1, String s2) {
@@ -273,22 +200,6 @@ public class Activity_count extends AppCompatActivity {
         });
         lvItems.setAdapter(itemsAdapter);
         lvItems.setSelectionFromTop(index, top);
-    }
-
-    private void getValues(int position) {
-        try {
-            titleString = itemsTitle.get(position).substring(0, itemsTitle.get(position).lastIndexOf("|"));
-            countString = itemsTitle.get(position).substring(itemsTitle.get(position).lastIndexOf("|")+1);
-        } catch (Exception e) {
-            titleString = getString(R.string.number_error_read);
-            countString = getString(R.string.number_error_read);
-        }
-
-        try {
-            count = Integer.parseInt(countString);
-        } catch (Exception e) {
-            count = 0;
-        }
     }
 
     private void readItemsTitle() {
@@ -329,14 +240,16 @@ public class Activity_count extends AppCompatActivity {
     }
 
     private File newFileTitle() {
-        return  new File(Activity_count.this.getFilesDir() + "title.txt");
+        return  new File(Activity_course.this.getFilesDir() + "title.txt");
     }
 
-    private void closeActivity () {
-        Count_DbAdapter db = new Count_DbAdapter(Activity_count.this);
+    @Override
+    public void onBackPressed() {
+
+        Courses_DbAdapter db = new Courses_DbAdapter(Activity_course.this);
         db.open();
 
-        if (!sharedPref.getString("count_seqno", "").isEmpty()) {
+        if (!sharedPref.getString("random_seqno", "").isEmpty()) {
             db.update(toDo_seqno, toDo_title, getTextTitle(), toDo_icon, todo_attachment, toDo_create);
         } else {
             if(db.isExist(toDo_title)){
@@ -345,19 +258,14 @@ public class Activity_count extends AppCompatActivity {
                 db.insert(toDo_title, getTextTitle(), toDo_icon, todo_attachment, toDo_create);
             }
         }
-        sharedPref.edit().putString("count_title", "").apply();
-        sharedPref.edit().putString("count_text", "").apply();
-        sharedPref.edit().putString("count_seqno", "").apply();
-        sharedPref.edit().putString("count_icon", "").apply();
-        sharedPref.edit().putString("count_create", "").apply();
-        sharedPref.edit().putString("count_attachment", "").apply();
+        sharedPref.edit().putString("random_title", "").apply();
+        sharedPref.edit().putString("random_text", "").apply();
+        sharedPref.edit().putString("random_seqno", "").apply();
+        sharedPref.edit().putString("random_icon", "").apply();
+        sharedPref.edit().putString("random_create", "").apply();
+        sharedPref.edit().putString("random_attachment", "").apply();
         newFileTitle().delete();
         finish();
-    }
-
-    @Override
-    public void onBackPressed() {
-        closeActivity();
     }
 
     @Override
@@ -375,7 +283,26 @@ public class Activity_count extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == android.R.id.home) {
-            closeActivity();
+            Courses_DbAdapter db = new Courses_DbAdapter(Activity_course.this);
+            db.open();
+
+            if (!sharedPref.getString("random_seqno", "").isEmpty()) {
+                db.update(toDo_seqno, toDo_title, getTextTitle(), toDo_icon, todo_attachment, toDo_create);
+            } else {
+                if(db.isExist(toDo_title)){
+                    Snackbar.make(lvItems, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
+                } else {
+                    db.insert(toDo_title, getTextTitle(), toDo_icon, todo_attachment, toDo_create);
+                }
+            }
+            sharedPref.edit().putString("random_title", "").apply();
+            sharedPref.edit().putString("random_text", "").apply();
+            sharedPref.edit().putString("random_seqno", "").apply();
+            sharedPref.edit().putString("random_icon", "").apply();
+            sharedPref.edit().putString("random_create", "").apply();
+            sharedPref.edit().putString("random_attachment", "").apply();
+            newFileTitle().delete();
+            finish();
         }
 
         if (id == R.id.action_add) {
@@ -394,7 +321,7 @@ public class Activity_count extends AppCompatActivity {
 
                 public void onClick(DialogInterface dialog, int whichButton) {
                     String itemText = edit_title.getText().toString();
-                    itemsTitle.add(itemText + "|0");
+                    itemsTitle.add(0, itemText);
                     writeItemsTitle();
                     setAdapter();
                 }
@@ -410,7 +337,6 @@ public class Activity_count extends AppCompatActivity {
             dialog.show();
             helper_main.showKeyboard(this,edit_title);
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

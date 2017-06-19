@@ -68,6 +68,7 @@ import java.util.Locale;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.activities.Activity_EditNote;
 import de.baumann.hhsmoodle.data_count.Count_helper;
+import de.baumann.hhsmoodle.data_random.Random_helper;
 import de.baumann.hhsmoodle.data_todo.Todo_helper;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.popup.Popup_courseList;
@@ -207,7 +208,7 @@ public class Notes_Fragment extends Fragment {
         super.onResume();
         if (!sharedPref.getString("search_byCourse", "").isEmpty() && viewPager.getCurrentItem() == 3) {
             String search = sharedPref.getString("search_byCourse", "");
-            helper_main.changeFilter("filter_noteBY", "note_title");
+            helper_main.changeFilter(getActivity(), "filter_noteBY", "note_title");
             setNotesList();
             helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
                     search, getString(R.string.action_filter_course), false);
@@ -515,15 +516,14 @@ public class Notes_Fragment extends Fragment {
                 final String _id = row2.getString(row2.getColumnIndexOrThrow("_id"));
                 final String note_title = row2.getString(row2.getColumnIndexOrThrow("note_title"));
                 final String note_content = row2.getString(row2.getColumnIndexOrThrow("note_content"));
-                final String note_icon = row2.getString(row2.getColumnIndexOrThrow("note_icon"));
                 final String note_attachment = row2.getString(row2.getColumnIndexOrThrow("note_attachment"));
-                final String note_creation = row2.getString(row2.getColumnIndexOrThrow("note_creation"));
 
                 final CharSequence[] options = {
                         getString(R.string.number_edit_entry),
                         getString(R.string.bookmark_remove_bookmark),
                         getString(R.string.todo_share),
                         getString(R.string.todo_menu),
+                        getString(R.string.number_create),
                         getString(R.string.count_create),
                         getString(R.string.bookmark_createEvent)};
                 new AlertDialog.Builder(getActivity())
@@ -537,8 +537,7 @@ public class Notes_Fragment extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialog, int item) {
                                 if (options[item].equals(getString(R.string.number_edit_entry))) {
-                                    Notes_helper.newNote(getActivity(),note_title,note_content,note_icon,
-                                            note_attachment,note_creation,_id);
+                                    Notes_helper.newNote(getActivity(),note_title,note_content,getString(R.string.note_content), false);
                                 }
 
                                 if (options[item].equals (getString(R.string.todo_share))) {
@@ -556,18 +555,6 @@ public class Notes_Fragment extends Fragment {
                                     startActivity(Intent.createChooser(sharingIntent, (getString(R.string.note_share_2))));
                                 }
 
-                                if (options[item].equals (getString(R.string.todo_menu))) {
-                                    Todo_helper.newTodo(getActivity(), note_title, note_content, getActivity().getString(R.string.note_content));
-                                }
-
-                                if (options[item].equals (getString(R.string.count_create))) {
-                                    Count_helper.newCount(getActivity(), note_title, note_content, getActivity().getString(R.string.note_content), false);
-                                }
-
-                                if (options[item].equals (getString(R.string.bookmark_createEvent))) {
-                                    helper_main.createCalendarEvent(getActivity(), note_title, note_content);
-                                }
-
                                 if (options[item].equals(getString(R.string.bookmark_remove_bookmark))) {
                                     Snackbar snackbar = Snackbar
                                             .make(lv, R.string.note_remove_confirmation, Snackbar.LENGTH_LONG)
@@ -580,6 +567,24 @@ public class Notes_Fragment extends Fragment {
                                             });
                                     snackbar.show();
                                 }
+
+                                if (options[item].equals (getString(R.string.todo_menu))) {
+                                    Todo_helper.newTodo(getActivity(), note_title, note_content, getString(R.string.note_content), false);
+                                }
+
+                                if (options[item].equals (getString(R.string.number_create))) {
+                                    Random_helper.newRandom(getActivity(), note_title, note_content, getActivity().getString(R.string.note_content), false);
+                                }
+
+                                if (options[item].equals (getString(R.string.count_create))) {
+                                    Count_helper.newCount(getActivity(), note_title, note_content, getActivity().getString(R.string.note_content), false);
+                                }
+
+                                if (options[item].equals (getString(R.string.bookmark_createEvent))) {
+                                    helper_main.createCalendarEvent(getActivity(), note_title, note_content);
+                                }
+
+
                             }
                         }).show();
 
@@ -617,24 +622,18 @@ public class Notes_Fragment extends Fragment {
                 return true;
 
             case R.id.filter_title:
-                sharedPref.edit().putString("filter_noteBY", "note_title").apply();
+                helper_main.changeFilter(getActivity(), "filter_noteBY", "note_title");
                 setNotesList();
-                filter_layout.setVisibility(View.VISIBLE);
-                imgHeader.setVisibility(View.GONE);
-                filter.setText("");
-                filter.setHint(R.string.action_filter_title);
-                filter.requestFocus();
-                helper_main.showKeyboard(getActivity(), filter);
+                search = dateFormat.format(cal.getTime());
+                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
+                        search, getString(R.string.action_filter_title), false);
                 return true;
             case R.id.filter_content:
-                sharedPref.edit().putString("filter_noteBY", "note_content").apply();
+                helper_main.changeFilter(getActivity(), "filter_noteBY", "note_content");
                 setNotesList();
-                filter_layout.setVisibility(View.VISIBLE);
-                imgHeader.setVisibility(View.GONE);
-                filter.setText("");
-                filter.setHint(R.string.action_filter_cont);
-                filter.requestFocus();
-                helper_main.showKeyboard(getActivity(), filter);
+                search = dateFormat.format(cal.getTime());
+                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
+                        search, getString(R.string.action_filter_cont), false);
                 return true;
             case R.id.filter_course:
                 Intent mainIntent = new Intent(getActivity(), Popup_courseList.class);
@@ -643,14 +642,14 @@ public class Notes_Fragment extends Fragment {
                 return true;
 
             case R.id.filter_today:
-                helper_main.changeFilter("filter_noteBY", "note_creation");
+                helper_main.changeFilter(getActivity(), "filter_noteBY", "note_creation");
                 setNotesList();
                 search = dateFormat.format(cal.getTime());
                 helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
                         search, getString(R.string.action_filter_create), false);
                 return true;
             case R.id.filter_yesterday:
-                helper_main.changeFilter("filter_noteBY", "note_creation");
+                helper_main.changeFilter(getActivity(), "filter_noteBY", "note_creation");
                 setNotesList();
                 cal.add(Calendar.DATE, -1);
                 search = dateFormat.format(cal.getTime());
@@ -658,7 +657,7 @@ public class Notes_Fragment extends Fragment {
                         search, getString(R.string.action_filter_create), false);
                 return true;
             case R.id.filter_before:
-                helper_main.changeFilter("filter_noteBY", "note_creation");
+                helper_main.changeFilter(getActivity(), "filter_noteBY", "note_creation");
                 setNotesList();
                 cal.add(Calendar.DATE, -2);
                 search = dateFormat.format(cal.getTime());
@@ -666,7 +665,7 @@ public class Notes_Fragment extends Fragment {
                         search, getString(R.string.action_filter_create), false);
                 return true;
             case R.id.filter_month:
-                helper_main.changeFilter("filter_noteBY", "note_creation");
+                helper_main.changeFilter(getActivity(), "filter_noteBY", "note_creation");
                 setNotesList();
                 DateFormat dateFormatMonth = new SimpleDateFormat("yyyy-MM", Locale.getDefault());
                 search = dateFormatMonth.format(cal.getTime());
@@ -674,21 +673,18 @@ public class Notes_Fragment extends Fragment {
                         search, getString(R.string.action_filter_create), false);
                 return true;
             case R.id.filter_own:
-                helper_main.changeFilter("filter_noteBY", "note_creation");
+                helper_main.changeFilter(getActivity(), "filter_noteBY", "note_creation");
                 setNotesList();
                 helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
                         "", getString(R.string.action_filter_create), false);
                 return true;
 
             case R.id.filter_att:
-                sharedPref.edit().putString("filter_noteBY", "note_attachment").apply();
+                helper_main.changeFilter(getActivity(), "filter_noteBY", "note_attachment");
                 setNotesList();
-                filter_layout.setVisibility(View.VISIBLE);
-                imgHeader.setVisibility(View.GONE);
-                filter.setText("");
-                filter.setHint(R.string.action_filter_att);
-                filter.requestFocus();
-                helper_main.showKeyboard(getActivity(), filter);
+                search = dateFormat.format(cal.getTime());
+                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
+                        search, getString(R.string.action_filter_att), false);
                 return true;
 
             case R.id.sort_title:

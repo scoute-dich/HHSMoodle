@@ -17,31 +17,23 @@
     If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.baumann.hhsmoodle.data_count;
+package de.baumann.hhsmoodle.data_random;
 
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-
 import de.baumann.hhsmoodle.R;
-import de.baumann.hhsmoodle.activities.Activity_count;
+import de.baumann.hhsmoodle.activities.Activity_random;
 import de.baumann.hhsmoodle.helper.helper_main;
 
-public class Count_helper {
+public class Random_helper {
 
-    public static void newCount (final Activity activity, String title, final String content, String button_neutral, final boolean finishFromActivity) {
+    public static void newRandom (final Activity activity, String title, final String content, String button_neutral, final boolean finishFromActivity) {
 
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(activity);
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(activity);
@@ -50,7 +42,7 @@ public class Count_helper {
         edit_title.setText(title);
         edit_title.setHint(R.string.bookmark_edit_title);
 
-        builder.setTitle(R.string.count_title);
+        builder.setTitle(R.string.number_title);
         builder.setView(dialogView);
         builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
@@ -77,60 +69,27 @@ public class Count_helper {
             public void onClick(View v) {
 
                 String inputTitle = edit_title.getText().toString().trim();
-                Count_DbAdapter db = new Count_DbAdapter(activity);
+                Random_DbAdapter db = new Random_DbAdapter(activity);
                 db.open();
 
                 if(db.isExist(inputTitle)){
                     Snackbar.make(edit_title, activity.getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
                 }else{
                     dialog.dismiss();
-                    sharedPref.edit().putString("count_title", inputTitle).apply();
-                    sharedPref.edit().putString("count_seqno", "").apply();
-                    sharedPref.edit().putString("count_textIcon", "3").apply();
-                    sharedPref.edit().putString("count_create", helper_main.createDate()).apply();
-                    sharedPref.edit().putString("count_attachment", "").apply();
-                    helper_main.switchToActivity(activity, Activity_count.class, finishFromActivity);
+                    sharedPref.edit().putString("random_title", inputTitle).apply();
+                    sharedPref.edit().putString("random_seqno", "").apply();
+                    sharedPref.edit().putString("random_textIcon", "3").apply();
+                    sharedPref.edit().putString("random_create", helper_main.createDate()).apply();
+                    sharedPref.edit().putString("random_attachment", "").apply();
+                    helper_main.switchToActivity(activity, Activity_random.class, finishFromActivity);
                 }
             }
         });
         dialog.getButton(android.app.AlertDialog.BUTTON_NEUTRAL).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                File f = new File(activity.getFilesDir() + "title.txt");
-
-                try {
-                    FileOutputStream fOut = new FileOutputStream(f);
-                    OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
-                    myOutWriter.append(content);
-                    myOutWriter.close();
-
-                    fOut.flush();
-                    fOut.close();
-                } catch (IOException e) {
-                    Log.e("Exception", "File write failed: " + e.toString());
-                }
-
-                StringBuilder text = new StringBuilder();
-
-                try {
-                    BufferedReader br = new BufferedReader(new FileReader(f));
-                    String line;
-
-                    while ((line = br.readLine()) != null) {
-                        String add = line + "|0";
-                        text.append(add);
-                        text.append('\n');
-                    }
-                    br.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                String textAdd = text.substring(0, text.length()-1);
-                sharedPref.edit().putString("count_content", textAdd).apply();
-                //noinspection ResultOfMethodCallIgnored
-                f.delete();
+                //Do stuff, possibly set wantToCloseDialog to true then...
+                sharedPref.edit().putString("random_content", content).apply();
                 Snackbar.make(edit_title, activity.getString(R.string.toast_contentAdded), Snackbar.LENGTH_LONG).show();
             }
         });

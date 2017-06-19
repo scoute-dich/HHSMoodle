@@ -20,10 +20,6 @@
                 android:icon="@drawable/pencil"
                 android:title="@string/title_notes" />
             <item
-                android:id="@+id/nav_count"
-                android:icon="@drawable/plus_one"
-                android:title="@string/count_title" />
-            <item
                 android:id="@+id/nav_schedule"
                 android:icon="@drawable/timetable"
                 android:title="@string/schedule_title" />
@@ -42,6 +38,19 @@
                 android:icon="@drawable/dice_3_dark"
                 android:title="@string/number_title" />
             <item
+                android:id="@+id/nav_count"
+                android:icon="@drawable/plus_one"
+                android:title="@string/count_title" />
+            <item
+                android:id="@+id/nav_grades"
+                android:icon="@drawable/calculator"
+                android:title="@string/action_grades" />
+        </menu>
+    </item>
+
+    <item android:title="@string/menu_configure">
+        <menu>
+            <item
                 android:id="@+id/nav_courseList"
                 android:icon="@drawable/account_multiple"
                 android:title="@string/courseList_title" />
@@ -49,10 +58,6 @@
                 android:id="@+id/nav_subjectList"
                 android:icon="@drawable/book_open"
                 android:title="@string/subjects_title" />
-            <item
-                android:id="@+id/nav_grades"
-                android:icon="@drawable/calculator"
-                android:title="@string/action_grades" />
             <item
                 android:id="@+id/nav_settings"
                 android:icon="@drawable/settings"

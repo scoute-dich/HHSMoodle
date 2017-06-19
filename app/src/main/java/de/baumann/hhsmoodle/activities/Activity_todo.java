@@ -20,23 +20,28 @@
 package de.baumann.hhsmoodle.activities;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.apache.commons.io.FileUtils;
 
@@ -48,6 +53,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Locale;
 
@@ -59,14 +65,19 @@ public class Activity_todo extends AppCompatActivity {
 
     private SharedPreferences sharedPref;
     private ArrayList<String> items;
-    private ArrayAdapter<String> itemsAdapter;
     private ListView lvItems;
+
+    private String titleString;
+    private String countString;
 
     private String toDo_title;
     private String toDo_icon;
     private String toDo_create;
     private String todo_attachment;
+
     private int toDo_seqno;
+    private int top;
+    private int index;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,15 +121,7 @@ public class Activity_todo extends AppCompatActivity {
         lvItems = (ListView) findViewById(R.id.lvItems);
         items = new ArrayList<>();
         readItems();
-        itemsAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1, items);
-        lvItems.setAdapter(itemsAdapter);
-        lvItems.post(new Runnable(){
-            public void run() {
-                lvItems.setSelection(lvItems.getCount() - 1);
-            }});
-
-        setupListViewListener();
+        setAdapter();
 
         final EditText etNewItem = (EditText) findViewById(R.id.etNewItem);
         ImageButton ib_paste = (ImageButton) findViewById(R.id.imageButtonPaste);
@@ -193,20 +196,209 @@ public class Activity_todo extends AppCompatActivity {
             public void onClick(View view) {
 
                 String itemText = etNewItem.getText().toString();
+                index = lvItems.getFirstVisiblePosition();
+                View v = lvItems.getChildAt(0);
+                top = (v == null) ? 0 : (v.getTop() - lvItems.getPaddingTop());
 
                 if (itemText.isEmpty()) {
                     Snackbar.make(lvItems, R.string.todo_enter, Snackbar.LENGTH_LONG).show();
                 } else {
-                    itemsAdapter.add(itemText);
+                    items.add(itemText + "|[-]");
                     etNewItem.setText("");
                     writeItems();
-                    lvItems.post(new Runnable(){
-                        public void run() {
-                            lvItems.setSelection(lvItems.getCount() - 1);
-                        }});
+                    setAdapter();
                 }
             }
         });
+
+        lvItems.setOnItemLongClickListener(
+                new AdapterView.OnItemLongClickListener() {
+                    @Override
+                    public boolean onItemLongClick(AdapterView<?> adapter,
+                                                   View item, final int pos, long id) {
+
+                        getValues(pos);
+                        index = lvItems.getFirstVisiblePosition();
+                        View v = lvItems.getChildAt(0);
+                        top = (v == null) ? 0 : (v.getTop() - lvItems.getPaddingTop());
+
+                        final String text=(String)adapter.getItemAtPosition(pos);
+                        items.remove(pos);
+                        setAdapter();
+                        writeItems();
+
+                        Snackbar snackbar = Snackbar
+                                .make(lvItems, R.string.todo_removed, Snackbar.LENGTH_LONG)
+                                .setAction(R.string.todo_removed_back, new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        items.add(pos, text);
+                                        writeItems();
+                                        setAdapter();
+                                    }
+                                });
+                        snackbar.show();
+
+                        return true;
+                    }
+                });
+
+        lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> adapter,
+                                    View item, final int pos, long id) {
+
+                getValues(pos);
+                index = lvItems.getFirstVisiblePosition();
+                View v = lvItems.getChildAt(0);
+                top = (v == null) ? 0 : (v.getTop() - lvItems.getPaddingTop());
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(Activity_todo.this);
+                View dialogView = View.inflate(Activity_todo.this, R.layout.dialog_edit_text_singleline, null);
+
+                final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
+                ImageButton ib_paste = (ImageButton) dialogView.findViewById(R.id.imageButtonPaste);
+
+                ib_paste.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View arg0) {
+
+                        getValues(pos);
+
+                        final CharSequence[] options = {
+                                getString(R.string.paste_date),
+                                getString(R.string.paste_time)};
+                        new android.app.AlertDialog.Builder(Activity_todo.this)
+                                .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                        dialog.dismiss();
+                                    }
+                                })
+                                .setItems(options, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int item) {
+                                        if (options[item].equals(getString(R.string.paste_date))) {
+                                            Date date = new Date();
+                                            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                                            String dateNow = format.format(date);
+                                            edit_title.getText().insert(edit_title.getSelectionStart(), dateNow);
+                                        }
+
+                                        if (options[item].equals (getString(R.string.paste_time))) {
+                                            Date date = new Date();
+                                            SimpleDateFormat format = new SimpleDateFormat("HH:mm", Locale.getDefault());
+                                            String timeNow = format.format(date);
+                                            edit_title.getText().insert(edit_title.getSelectionStart(), timeNow);
+                                        }
+                                    }
+                                }).show();
+                    }
+                });
+
+                edit_title.setText(titleString);
+
+                builder.setView(dialogView);
+                builder.setTitle(R.string.number_edit_entry);
+                builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                        String inputTag = edit_title.getText().toString().trim();
+                        String itemText = inputTag + "|" + countString;
+                        items.remove(pos);
+                        items.add(pos, itemText);
+                        setAdapter();
+                        writeItems();
+                    }
+                });
+                builder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        dialog.cancel();
+                    }
+                });
+
+                final AlertDialog dialog = builder.create();
+                // Display the custom alert dialog on interface
+                dialog.show();
+                helper_main.showKeyboard(Activity_todo.this,edit_title);
+            }
+        });
+    }
+
+    private void setAdapter () {
+        ArrayAdapter<String> itemsAdapter = new ArrayAdapter<String>(this,
+                R.layout.list_item_todo, items) {
+
+            @NonNull
+            @Override
+            public View getView(final int position, View convertView, @NonNull ViewGroup parent) {
+
+                if (convertView == null) {
+                    LayoutInflater infInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    convertView = infInflater.inflate(R.layout.list_item_todo, parent, false);
+                }
+
+                getValues(position);
+
+                final ImageButton ib_plus = (ImageButton) convertView.findViewById(R.id.but_plus);
+                TextView textTITLE = (TextView) convertView.findViewById(R.id.count_title);
+                textTITLE.setText(titleString);
+
+                if (countString.equals("[-]")) {
+                    ib_plus.setImageResource(R.drawable.checkbox_blank_circle_outline);
+                } else {
+                    ib_plus.setImageResource(R.drawable.checkbox_marked_circle_outline);
+                }
+
+                ib_plus.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View arg0) {
+
+                        getValues(position);
+                        index = lvItems.getFirstVisiblePosition();
+                        View v = lvItems.getChildAt(0);
+                        top = (v == null) ? 0 : (v.getTop() - lvItems.getPaddingTop());
+
+                        if (countString.equals("[-]")) {
+                            String itemText = titleString + "|" + "[x]";
+                            items.remove(position);
+                            items.add(position, itemText);
+                            writeItems();
+                            setAdapter();
+                        } else {
+                            String itemText = titleString + "|" + "[-]";
+                            items.remove(position);
+                            items.add(position, itemText);
+                            writeItems();
+                            setAdapter();
+                        }
+                    }
+                });
+
+                return convertView;
+            }
+        };
+        itemsAdapter.sort(new Comparator<String>() {
+            @Override
+            public int compare(String s1, String s2) {
+                return s1.compareToIgnoreCase(s2);   //or whatever your sorting algorithm
+            }
+        });
+        lvItems.setAdapter(itemsAdapter);
+        lvItems.setSelectionFromTop(index, top);
+    }
+
+    private void getValues(int position) {
+        try {
+            titleString = items.get(position).substring(0, items.get(position).lastIndexOf("|"));
+            countString = items.get(position).substring(items.get(position).lastIndexOf("|")+1);
+        } catch (Exception e) {
+            titleString = getString(R.string.number_error_read);
+            countString = getString(R.string.number_error_read);
+        }
     }
 
     private void readItems() {
@@ -250,120 +442,6 @@ public class Activity_todo extends AppCompatActivity {
         return  new File(Activity_todo.this.getFilesDir() + "todo.txt");
     }
 
-    // Attaches a long click listener to the listView
-    private void setupListViewListener() {
-        lvItems.setOnItemLongClickListener(
-                new AdapterView.OnItemLongClickListener() {
-                    @Override
-                    public boolean onItemLongClick(AdapterView<?> adapter,
-                                                   View item, final int pos, long id) {
-
-                        final String text=(String)adapter.getItemAtPosition(pos);
-                        // Remove the item within array at position
-                        items.remove(pos);
-                        // Refresh the adapter
-                        itemsAdapter.notifyDataSetChanged();
-                        // Return true consumes the long click event (marks it handled)
-                        writeItems();
-
-                        Snackbar snackbar = Snackbar
-                                .make(lvItems, R.string.todo_removed, Snackbar.LENGTH_LONG)
-                                .setAction(R.string.todo_removed_back, new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        items.add(pos, text);
-                                        // Refresh the adapter
-                                        itemsAdapter.notifyDataSetChanged();
-                                        // Return true consumes the long click event (marks it handled)
-                                        writeItems();
-                                    }
-                                });
-                        snackbar.show();
-
-                        return true;
-                    }
-                });
-
-        lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> adapter,
-                                    View item, final int pos, long id) {
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(Activity_todo.this);
-                View dialogView = View.inflate(Activity_todo.this, R.layout.dialog_edit_text_singleline, null);
-
-                final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
-                ImageButton ib_paste = (ImageButton) dialogView.findViewById(R.id.imageButtonPaste);
-
-                ib_paste.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View arg0) {
-                        final CharSequence[] options = {
-                                getString(R.string.paste_date),
-                                getString(R.string.paste_time)};
-                        new android.app.AlertDialog.Builder(Activity_todo.this)
-                                .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                                    public void onClick(DialogInterface dialog, int whichButton) {
-                                        dialog.dismiss();
-                                    }
-                                })
-                                .setItems(options, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int item) {
-                                        if (options[item].equals(getString(R.string.paste_date))) {
-                                            Date date = new Date();
-                                            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                                            String dateNow = format.format(date);
-                                            edit_title.getText().insert(edit_title.getSelectionStart(), dateNow);
-                                        }
-
-                                        if (options[item].equals (getString(R.string.paste_time))) {
-                                            Date date = new Date();
-                                            SimpleDateFormat format = new SimpleDateFormat("HH:mm", Locale.getDefault());
-                                            String timeNow = format.format(date);
-                                            edit_title.getText().insert(edit_title.getSelectionStart(), timeNow);
-                                        }
-                                    }
-                                }).show();
-                    }
-                });
-
-                String text=(String)adapter.getItemAtPosition(pos);
-                edit_title.setText(text);
-
-                builder.setView(dialogView);
-                builder.setTitle(R.string.number_edit_entry);
-                builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
-
-                    public void onClick(DialogInterface dialog, int whichButton) {
-
-                        String inputTag = edit_title.getText().toString().trim();
-                        // Remove the item within array at position
-                        items.remove(pos);
-                        items.add(pos, inputTag);
-                        // Refresh the adapter
-                        itemsAdapter.notifyDataSetChanged();
-                        // Return true consumes the long click event (marks it handled)
-                        writeItems();
-
-                    }
-                });
-                builder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        dialog.cancel();
-                    }
-                });
-
-                final AlertDialog dialog2 = builder.create();
-                // Display the custom alert dialog on interface
-                dialog2.show();
-                helper_main.showKeyboard(Activity_todo.this,edit_title);
-            }
-        });
-    }
-
     @Override
     public void onBackPressed() {
 
@@ -379,13 +457,6 @@ public class Activity_todo extends AppCompatActivity {
                 db.insert(toDo_title, getText(), toDo_icon, todo_attachment, toDo_create);
             }
         }
-
-        sharedPref.edit().putString("toDo_title", "").apply();
-        sharedPref.edit().putString("toDo_text", "").apply();
-        sharedPref.edit().putString("toDo_seqno", "").apply();
-        sharedPref.edit().putString("toDo_icon", "").apply();
-        sharedPref.edit().putString("toDo_create", "").apply();
-        sharedPref.edit().putString("toDo_attachment", "").apply();
         //noinspection ResultOfMethodCallIgnored
         newFile().delete();
         finish();

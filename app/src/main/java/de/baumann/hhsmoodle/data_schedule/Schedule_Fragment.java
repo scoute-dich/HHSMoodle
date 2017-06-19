@@ -21,6 +21,7 @@ package de.baumann.hhsmoodle.data_schedule;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -55,6 +56,7 @@ import android.widget.TextView;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.data_count.Count_helper;
 import de.baumann.hhsmoodle.data_notes.Notes_helper;
+import de.baumann.hhsmoodle.data_random.Random_helper;
 import de.baumann.hhsmoodle.data_subjects.Subjects_helper;
 import de.baumann.hhsmoodle.data_todo.Todo_helper;
 import de.baumann.hhsmoodle.helper.helper_main;
@@ -75,6 +77,9 @@ public class Schedule_Fragment extends Fragment {
     private RelativeLayout filter_layout;
     private ViewPager viewPager;
 
+    private int top;
+    private int index;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -82,6 +87,7 @@ public class Schedule_Fragment extends Fragment {
 
         PreferenceManager.setDefaultValues(getActivity(), R.xml.user_settings, false);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        sharedPref.edit().putString("edit_yes", "").apply();
 
         imgHeader = (ImageView) rootView.findViewById(R.id.imageView_header);
         helper_main.setImageHeader(getActivity(), imgHeader);
@@ -96,8 +102,12 @@ public class Schedule_Fragment extends Fragment {
         ib_hideKeyboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                helper_main.hideFilter(getActivity(), filter_layout, imgHeader);
-                setScheduleList();
+                if (filter.getText().length() > 0) {
+                    filter.setText("");
+                } else {
+                    helper_main.hideFilter(getActivity(), filter_layout, imgHeader);
+                    setScheduleList();
+                }
             }
         });
 
@@ -115,6 +125,7 @@ public class Schedule_Fragment extends Fragment {
         });
 
         setScheduleList();
+        scrollToNow();
         setHasOptionsMenu(true);
 
         return rootView;
@@ -123,12 +134,8 @@ public class Schedule_Fragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (viewPager.getCurrentItem() == 5) {
+        if (viewPager.getCurrentItem() == 4) {
             setScheduleList();
-            if (sharedPref.getString("edit_yes", "").equals("true")) {
-                lv.setSelection(sharedPref.getInt("scroll", 0) -1);
-                sharedPref.edit().putString("edit_yes", "").apply();
-            }
         }
     }
 
@@ -305,6 +312,10 @@ public class Schedule_Fragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterview, View view, int position, long id) {
 
+                index = lv.getFirstVisiblePosition();
+                View v = lv.getChildAt(0);
+                top = (v == null) ? 0 : (v.getTop() - lv.getPaddingTop());
+
                 Cursor row2 = (Cursor) lv.getItemAtPosition(position);
                 final String schedule_title = row2.getString(row2.getColumnIndexOrThrow("schedule_title"));
 
@@ -345,6 +356,10 @@ public class Schedule_Fragment extends Fragment {
         lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
+                index = lv.getFirstVisiblePosition();
+                View v = lv.getChildAt(0);
+                top = (v == null) ? 0 : (v.getTop() - lv.getPaddingTop());
+
                 Cursor row2 = (Cursor) lv.getItemAtPosition(position);
                 final String _id = row2.getString(row2.getColumnIndexOrThrow("_id"));
                 final String schedule_title = row2.getString(row2.getColumnIndexOrThrow("schedule_title"));
@@ -357,8 +372,10 @@ public class Schedule_Fragment extends Fragment {
                 final CharSequence[] options = {
                         getString(R.string.number_edit_entry),
                         getString(R.string.bookmark_remove_bookmark),
+                        getString(R.string.todo_share),
                         getString(R.string.todo_menu),
                         getString(R.string.bookmark_createNote),
+                        getString(R.string.number_create),
                         getString(R.string.count_create),
                         getString(R.string.bookmark_createEvent)};
                 new AlertDialog.Builder(getActivity())
@@ -503,6 +520,7 @@ public class Schedule_Fragment extends Fragment {
 
                                                             public void onClick(DialogInterface dialog, int whichButton) {
 
+                                                                sharedPref.edit().putString("edit_yes", "true").apply();
                                                                 String inputTitle = titleInput.getText().toString().trim();
                                                                 String inputTeacher = teacherInput.getText().toString().trim();
                                                                 String inputRoom = roomInput.getText().toString().trim();
@@ -510,7 +528,6 @@ public class Schedule_Fragment extends Fragment {
                                                                 db.update(Integer.parseInt(_id), inputTitle, inputTeacher, sharedPref.getString("schedule_color", ""), inputRoom, schedule_creation, schedule_id);
                                                                 dialog.dismiss();
                                                                 setScheduleList();
-                                                                lv.setSelection(Integer.parseInt(schedule_id) -1);
                                                                 Snackbar.make(lv, R.string.bookmark_added, Snackbar.LENGTH_SHORT).show();
                                                             }
                                                         });
@@ -529,22 +546,34 @@ public class Schedule_Fragment extends Fragment {
                                             }).show();
                                 }
 
+                                if (options[item].equals (getString(R.string.todo_share))) {
+                                    Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                                    sharingIntent.setType("text/plain");
+                                    sharingIntent.putExtra(Intent.EXTRA_SUBJECT, schedule_title);
+                                    sharingIntent.putExtra(Intent.EXTRA_TEXT, schedule_content);
+                                    startActivity(Intent.createChooser(sharingIntent, (getString(R.string.note_share_2))));
+                                }
+
                                 if (options[item].equals (getString(R.string.bookmark_remove_bookmark))) {
                                     Snackbar snackbar = Snackbar
                                             .make(lv, R.string.note_remove_confirmation, Snackbar.LENGTH_LONG)
                                             .setAction(R.string.toast_yes, new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View view) {
+                                                    sharedPref.edit().putString("edit_yes", "true").apply();
                                                     db.update(Integer.parseInt(_id), getString(R.string.schedule_def_teacher), getString(R.string.schedule_def_teacher), "11", getString(R.string.schedule_def_teacher), schedule_creation, schedule_id);
                                                     setScheduleList();
-                                                    lv.setSelection(Integer.parseInt(schedule_id) -1);
                                                 }
                                             });
                                     snackbar.show();
                                 }
 
+                                if (options[item].equals (getString(R.string.number_create))) {
+                                    Random_helper.newRandom(getActivity(), schedule_title, schedule_attachment, getActivity().getString(R.string.note_content), false);
+                                }
+
                                 if (options[item].equals (getString(R.string.todo_menu))) {
-                                    Todo_helper.newTodo(getActivity(), schedule_title, schedule_content, getActivity().getString(R.string.note_content));
+                                    Todo_helper.newTodo(getActivity(), schedule_title, schedule_content, getActivity().getString(R.string.note_content), false);
                                 }
 
                                 if (options[item].equals (getString(R.string.count_create))) {
@@ -556,7 +585,7 @@ public class Schedule_Fragment extends Fragment {
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createNote))) {
-                                    Notes_helper.newNote(getActivity(),schedule_title,schedule_content,"","","","");
+                                    Notes_helper.newNote(getActivity(),schedule_title,schedule_content, getString(R.string.note_content), false);
                                 }
 
                             }
@@ -564,8 +593,13 @@ public class Schedule_Fragment extends Fragment {
                 return true;
             }
         });
-
-        scrollToNow();
+        Schedule_helper.setAlarm(getActivity());
+        if (sharedPref.getString("edit_yes", "").equals("true")) {
+            sharedPref.edit().putString("edit_yes", "").apply();
+            lv.setSelectionFromTop(index, top);
+        } else {
+            scrollToNow();
+        }
     }
 
     private void scrollToNow() {
@@ -610,19 +644,19 @@ public class Schedule_Fragment extends Fragment {
                 return true;
 
             case R.id.filter_title:
-                helper_main.changeFilter("filter_scheduleBY", "schedule_title");
+                helper_main.changeFilter(getActivity(), "filter_scheduleBY", "schedule_title");
                 setScheduleList();
                 helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
                         "", getString(R.string.action_filter_title), true);
                 return true;
             case R.id.filter_teacher:
-                helper_main.changeFilter("filter_scheduleBY", "schedule_content");
+                helper_main.changeFilter(getActivity(), "filter_scheduleBY", "schedule_content");
                 setScheduleList();
                 helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
                         "", getString(R.string.schedule_search_teacher), true);
                 return true;
             case R.id.filter_room:
-                helper_main.changeFilter("filter_scheduleBY", "schedule_attachment");
+                helper_main.changeFilter(getActivity(), "filter_scheduleBY", "schedule_attachment");
                 setScheduleList();
                 helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
                         "", getString(R.string.schedule_search_room), true);

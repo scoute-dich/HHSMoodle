@@ -61,6 +61,8 @@ import java.util.Locale;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.activities.Activity_count;
 import de.baumann.hhsmoodle.data_notes.Notes_helper;
+import de.baumann.hhsmoodle.data_random.Random_helper;
+import de.baumann.hhsmoodle.data_todo.Todo_helper;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.popup.Popup_courseList;
 
@@ -134,7 +136,6 @@ public class Count_Fragment extends Fragment {
             @Override
             public void onClick(View view) {
                 closeFABMenu();
-                final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
                 android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getActivity());
                 View dialogView = View.inflate(getActivity(), R.layout.dialog_edit_title, null);
                 final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
@@ -154,10 +155,10 @@ public class Count_Fragment extends Fragment {
                     }
                 });
 
-                final android.app.AlertDialog dialog2 = builder.create();
-                dialog2.show();
+                final android.app.AlertDialog dialog = builder.create();
+                dialog.show();
 
-                dialog2.getButton(android.app.AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                dialog.getButton(android.app.AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         //Do stuff, possibly set wantToCloseDialog to true then...
@@ -170,8 +171,8 @@ public class Count_Fragment extends Fragment {
                         if(db.isExist(inputTitle)){
                             Snackbar.make(edit_title, getActivity().getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
                         }else{
-                            dialog2.dismiss();
-                            db.insert(inputTitle, sharedPref.getString("count_content", ""), "3", "", helper_main.createDate());
+                            dialog.dismiss();
+                            db.insert(inputTitle, "", "3", "", helper_main.createDate());
                             sharedPref.edit().putString("count_content", "").apply();
                             setCountList();
                         }
@@ -239,9 +240,9 @@ public class Count_Fragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (!sharedPref.getString("search_byCourse", "").isEmpty() && viewPager.getCurrentItem() == 4) {
+        if (!sharedPref.getString("search_byCourse", "").isEmpty() && viewPager.getCurrentItem() == 7) {
             String search = sharedPref.getString("search_byCourse", "");
-            helper_main.changeFilter("filter_countBY", "count_title");
+            helper_main.changeFilter(getActivity(), "filter_countBY", "count_title");
             setCountList();
             helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
                     search, getString(R.string.action_filter_course), false);
@@ -448,7 +449,9 @@ public class Count_Fragment extends Fragment {
                         getString(R.string.number_edit_entry),
                         getString(R.string.bookmark_remove_bookmark),
                         getString(R.string.todo_share),
+                        getString(R.string.todo_menu),
                         getString(R.string.bookmark_createNote),
+                        getString(R.string.number_create),
                         getString(R.string.bookmark_createEvent)};
                 new AlertDialog.Builder(getActivity())
                         .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
@@ -502,10 +505,6 @@ public class Count_Fragment extends Fragment {
                                     startActivity(Intent.createChooser(sharingIntent, (getString(R.string.note_share_2))));
                                 }
 
-                                if (options[item].equals (getString(R.string.bookmark_createEvent))) {
-                                    helper_main.createCalendarEvent(getActivity(), count_title, count_content);
-                                }
-
                                 if (options[item].equals(getString(R.string.bookmark_remove_bookmark))) {
                                     Snackbar snackbar = Snackbar
                                             .make(lv, R.string.note_remove_confirmation, Snackbar.LENGTH_LONG)
@@ -519,8 +518,20 @@ public class Count_Fragment extends Fragment {
                                     snackbar.show();
                                 }
 
+                                if (options[item].equals (getString(R.string.todo_menu))) {
+                                    Todo_helper.newTodo(getActivity(), count_title, count_content, getString(R.string.note_content), false);
+                                }
+
+                                if (options[item].equals (getString(R.string.number_create))) {
+                                    Random_helper.newRandom(getActivity(), count_title, count_content, getActivity().getString(R.string.note_content), false);
+                                }
+
+                                if (options[item].equals (getString(R.string.bookmark_createEvent))) {
+                                    helper_main.createCalendarEvent(getActivity(), count_title, count_content);
+                                }
+
                                 if (options[item].equals (getString(R.string.bookmark_createNote))) {
-                                    Notes_helper.newNote(getActivity(),count_title,count_content,"","","","");
+                                    Notes_helper.newNote(getActivity(),count_title,count_content,getString(R.string.note_content), false);
                                 }
 
                             }
@@ -562,7 +573,7 @@ public class Count_Fragment extends Fragment {
                 return true;
 
             case R.id.filter_title:
-                helper_main.changeFilter("filter_countBY", "count_title");
+                helper_main.changeFilter(getActivity(), "filter_countBY", "count_title");
                 setCountList();
                 helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
                         "", getString(R.string.action_filter_title), true);
@@ -574,21 +585,21 @@ public class Count_Fragment extends Fragment {
                 return true;
 
             case R.id.filter_content:
-                helper_main.changeFilter("filter_countBY", "count_content");
+                helper_main.changeFilter(getActivity(), "filter_countBY", "count_content");
                 setCountList();
                 helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
                         "", getString(R.string.action_filter_cont), true);
                 return true;
 
             case R.id.filter_today:
-                helper_main.changeFilter("filter_countBY", "count_creation");
+                helper_main.changeFilter(getActivity(), "filter_countBY", "count_creation");
                 setCountList();
                 search = dateFormat.format(cal.getTime());
                 helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
                         search, getString(R.string.action_filter_create), false);
                 return true;
             case R.id.filter_yesterday:
-                helper_main.changeFilter("filter_countBY", "count_creation");
+                helper_main.changeFilter(getActivity(), "filter_countBY", "count_creation");
                 setCountList();
                 cal.add(Calendar.DATE, -1);
                 search = dateFormat.format(cal.getTime());
@@ -596,7 +607,7 @@ public class Count_Fragment extends Fragment {
                         search, getString(R.string.action_filter_create), false);
                 return true;
             case R.id.filter_before:
-                helper_main.changeFilter("filter_countBY", "count_creation");
+                helper_main.changeFilter(getActivity(), "filter_countBY", "count_creation");
                 setCountList();
                 cal.add(Calendar.DATE, -2);
                 search = dateFormat.format(cal.getTime());
@@ -604,7 +615,7 @@ public class Count_Fragment extends Fragment {
                         search, getString(R.string.action_filter_create), false);
                 return true;
             case R.id.filter_month:
-                helper_main.changeFilter("filter_countBY", "count_creation");
+                helper_main.changeFilter(getActivity(), "filter_countBY", "count_creation");
                 setCountList();
                 DateFormat dateFormatMonth = new SimpleDateFormat("yyyy-MM", Locale.getDefault());
                 search = dateFormatMonth.format(cal.getTime());
@@ -612,7 +623,7 @@ public class Count_Fragment extends Fragment {
                         search, getString(R.string.action_filter_create), false);
                 return true;
             case R.id.filter_own:
-                helper_main.changeFilter("filter_countBY", "count_creation");
+                helper_main.changeFilter(getActivity(), "filter_countBY", "count_creation");
                 setCountList();
                 helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
                         "", getString(R.string.action_filter_create), true);

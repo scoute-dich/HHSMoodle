@@ -48,6 +48,4 @@ public class Subjects_helper {
             case "11":be.setImageResource(R.drawable.circle_grey);sharedPref.edit().putString(fieldDB, "11").apply();break;
         }
     }
-
-
 }

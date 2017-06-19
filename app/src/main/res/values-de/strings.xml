@@ -155,6 +155,8 @@
     <string name="menu_tools">Werkzeuge</string>
     <string name="menu_finish">App beenden</string>
     <string name="menu_save">Speichern</string>
+    <string name="menu_configure">Einrichten</string>
+    <string name="menu_addEntry">Eintrag hinzufügen</string>
 
     <string name="action_sort">Einträge sortieren</string>
     <string name="action_sort_title">Sortiere nach Titel</string>
@@ -333,6 +335,7 @@
     <string name="number_dice_hint2">… dann  \"ok\" klicken.</string>
     <string name="number_edit_entry">Eintrag bearbeiten</string>
     <string name="number_enterData">Bitte der Liste Daten hinzufügen.</string>
+    <string name="number_create">Erstelle Zufallsliste</string>
 
 
     // ToDo
@@ -354,11 +357,6 @@
 
     <string name="courseList_title">Kurslisten</string>
     <string name="courseList_fromText">Aus Textdatei</string>
-    <string name="courseList_todo">Erstelle Todo Liste</string>
-    <string name="courseList_note">Erstelle Notiz</string>
-    <string name="courseList_random">Erstelle Zufallsliste</string>
-    <string name="courseList_course">Erstelle Kursliste</string>
-    <string name="courseList_subject">Erstelle Unterrichtsfach</string>
     <string name="courseList_content">+ Teilnehmer</string>
 
 

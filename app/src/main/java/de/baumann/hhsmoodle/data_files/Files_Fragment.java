@@ -58,9 +58,7 @@ import java.io.File;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.Locale;
 
@@ -128,10 +126,6 @@ public class Files_Fragment extends Fragment {
             }
         });
 
-        //calling Notes_DbAdapter
-        db = new Files_DbAdapter(getActivity());
-        db.open();
-
         fillFileList();
         setHasOptionsMenu(true);
 
@@ -141,7 +135,7 @@ public class Files_Fragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (viewPager.getCurrentItem() == 6) {
+        if (viewPager.getCurrentItem() == 5) {
             if (filter_layout.getVisibility() == View.GONE) {
                 fillFileList();
             }
@@ -161,15 +155,25 @@ public class Files_Fragment extends Fragment {
 
         getActivity().deleteDatabase("files_DB_v01.db");
 
+        //calling Notes_DbAdapter
+        db = new Files_DbAdapter(getActivity());
+        db.open();
+
+        String folder = sharedPref.getString("folder", "/Android/data/de.baumann.pdf/");
+
         File f = new File(sharedPref.getString("files_startFolder",
-                Environment.getExternalStorageDirectory().getPath() + "/HHS_Moodle/"));
+                folder));
         final File[] files = f.listFiles();
 
-        // looping through all items <item>
-        if (files.length == 0) {
-            Snackbar.make(lv, R.string.toast_files, Snackbar.LENGTH_LONG).show();
+        try {
+            if (files.length == 0) {
+                Snackbar.make(lv, R.string.toast_files, Snackbar.LENGTH_LONG).show();
+            }
+        } catch (Exception e) {
+            Snackbar.make(lv, R.string.toast_directory, Snackbar.LENGTH_LONG).show();
         }
 
+        // looping through all items <item>
         for (File file : files) {
 
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
@@ -183,10 +187,15 @@ public class Files_Fragment extends Fragment {
             if (file.isDirectory()) {
                 file_ext = ".";
             } else {
-                file_ext = file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("."));
+                try {
+                    file_ext = file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("."));
+                } catch (Exception e) {
+                    file_ext = ".";
+                }
             }
 
             db.open();
+
             if(db.isExist(file_Name)) {
                 Log.i(TAG, "Entry exists" + file_Name);
             } else {
@@ -523,27 +532,27 @@ public class Files_Fragment extends Fragment {
         switch (item.getItemId()) {
 
             case R.id.filter_title:
-                helper_main.changeFilter("filter_filesBY", "files_title");
+                helper_main.changeFilter(getActivity(), "filter_filesBY", "files_title");
                 fillFileList();
                 helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
                         "", getString(R.string.action_filter_title), true);
                 return true;
             case R.id.filter_ext:
-                helper_main.changeFilter("filter_filesBY", "files_icon");
+                helper_main.changeFilter(getActivity(), "filter_filesBY", "files_icon");
                 fillFileList();
                 helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
                         "", getString(R.string.action_filter_url), true);
                 return true;
 
             case R.id.filter_today:
-                helper_main.changeFilter("filter_filesBY", "files_creation");
+                helper_main.changeFilter(getActivity(), "filter_filesBY", "files_creation");
                 fillFileList();
                 search = dateFormat.format(cal.getTime());
                 helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
                         search, getString(R.string.action_filter_create), false);
                 return true;
             case R.id.filter_yesterday:
-                helper_main.changeFilter("filter_filesBY", "files_creation");
+                helper_main.changeFilter(getActivity(), "filter_filesBY", "files_creation");
                 fillFileList();
                 cal.add(Calendar.DATE, -1);
                 search = dateFormat.format(cal.getTime());
@@ -551,7 +560,7 @@ public class Files_Fragment extends Fragment {
                         search, getString(R.string.action_filter_create), false);
                 return true;
             case R.id.filter_before:
-                helper_main.changeFilter("filter_filesBY", "files_creation");
+                helper_main.changeFilter(getActivity(), "filter_filesBY", "files_creation");
                 fillFileList();
                 cal.add(Calendar.DATE, -2);
                 search = dateFormat.format(cal.getTime());
@@ -559,7 +568,7 @@ public class Files_Fragment extends Fragment {
                         search, getString(R.string.action_filter_create), false);
                 return true;
             case R.id.filter_month:
-                helper_main.changeFilter("filter_filesBY", "files_creation");
+                helper_main.changeFilter(getActivity(), "filter_filesBY", "files_creation");
                 setFilesList();
                 DateFormat dateFormatMonth = new SimpleDateFormat("yyyy-MM", Locale.getDefault());
                 search = dateFormatMonth.format(cal.getTime());
@@ -567,7 +576,7 @@ public class Files_Fragment extends Fragment {
                         search, getString(R.string.action_filter_create), false);
                 return true;
             case R.id.filter_own:
-                helper_main.changeFilter("filter_filesBY", "files_creation");
+                helper_main.changeFilter(getActivity(), "filter_filesBY", "files_creation");
                 setFilesList();
                 helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
                         "", getString(R.string.action_filter_create), true);

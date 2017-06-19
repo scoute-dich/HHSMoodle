@@ -1,22 +1,16 @@
 package de.baumann.hhsmoodle.helper;
 
 import android.app.IntentService;
-import android.app.NotificationManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
-import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
-
-import de.baumann.hhsmoodle.HHS_MainScreen;
-import de.baumann.hhsmoodle.R;
 
 import static android.content.ContentValues.TAG;
 
@@ -126,29 +120,31 @@ public class class_AlarmService extends IntentService {
         }
     }
 
-    private void alarmLong (int hour_1_int, String hour_1, String hour_2) {
+
+    private void alarmLong (int hour_1_int, String hour_1) {
 
         sharedPref.edit().putInt("getLine", hour_1_int).apply();
+        Log.w("HHS_Moodle", "Alarm fired " + hour_1);
         if (sharedPref.getBoolean ("silent_mode", false)){
             audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
             if (sharedPref.getString(hour_1, "false").equals("true")) {
                 if (sharedPref.getBoolean ("airplane_mode", false)) {setFlightMode();}
-                if (sharedPref.getInt("mode_changed", 0) == 0) {
-                    sharedPref.edit().putInt("volumeRing", audioManager.getStreamVolume(AudioManager.STREAM_RING)).apply();
-                    sharedPref.edit().putInt("mode_changed", 1).apply();
-                }
                 try {
+                    if (sharedPref.getInt("mode_changed", 0) == 0){
+                        sharedPref.edit().putInt("volumeRing", audioManager.getStreamVolume(AudioManager.STREAM_RING)).apply();
+                    }
+                    sharedPref.edit().putInt("mode_changed", 1).apply();
                     audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
-            } else if (sharedPref.getString(hour_2, "false").equals("true")){
+            } else if (sharedPref.getInt("mode_changed", 0) == 1){
                 if (sharedPref.getBoolean ("airplane_mode", false)) {setFlightModeOff();}
-                sharedPref.edit().putInt("mode_changed", 0).apply();
                 try {
                     audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
                     audioManager.setStreamVolume(AudioManager.STREAM_RING, sharedPref.getInt("volumeRing", 0), 0);
+                    sharedPref.edit().putInt("mode_changed", 0).apply();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -156,35 +152,20 @@ public class class_AlarmService extends IntentService {
         }
     }
 
-    private void alarmShort (int hour_1_int, String hour_1) {
+    private void alarmBreak (int hour_1_int) {
+        Log.w("HHS_Moodle", "alarmBreak");
         sharedPref.edit().putInt("getLine", hour_1_int).apply();
         if (sharedPref.getBoolean ("silent_mode", false)){
-            if (sharedPref.getString(hour_1, "false").equals("true")) {
-                if (sharedPref.getBoolean ("airplane_mode", false)) {setFlightMode();}
-                audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
-                if (sharedPref.getInt("mode_changed", 0) == 0) {
-                    sharedPref.edit().putInt("volumeRing", audioManager.getStreamVolume(AudioManager.STREAM_RING)).apply();
-                    sharedPref.edit().putInt("mode_changed", 1).apply();
-                }
+            if (sharedPref.getInt("mode_changed", 0) == 1){
+                if (sharedPref.getBoolean ("airplane_mode", false)) {setFlightModeOff();}
                 try {
-                    audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
+                    audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+                    audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+                    audioManager.setStreamVolume(AudioManager.STREAM_RING, sharedPref.getInt("volumeRing", 0), 0);
+                    sharedPref.edit().putInt("mode_changed", 0).apply();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }
-        }
-    }
-
-    private void alarmBreak (int hour_1_int, String hour_2) {
-        sharedPref.edit().putInt("getLine", hour_1_int).apply();
-        if (sharedPref.getBoolean ("silent_mode", false) && sharedPref.getString(hour_2, "false").equals("true")){
-            if (sharedPref.getBoolean ("airplane_mode", false)) {setFlightModeOff();}
-            AudioManager audioManager = (AudioManager)class_AlarmService.this.getSystemService(Context.AUDIO_SERVICE);
-            sharedPref.edit().putInt("mode_changed", 0).apply();
-            try {
-                audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
-            } catch (Exception e) {
-                e.printStackTrace();
             }
         }
     }
@@ -200,87 +181,87 @@ public class class_AlarmService extends IntentService {
 
         // 1. hour
         if ((hour == 7 && minute >= 40) || (hour == 8 && minute < 30)) {
-            alarmShort(hour_1, hour_1s);
+            alarmLong(hour_1, hour_1s);
         }
 
         // 2. hour
         if ((hour == 8 && minute >= 30) || (hour == 9 && minute < 15)) {
-            alarmLong(hour_2, hour_2s, hour_1s);
+            alarmLong(hour_2, hour_2s);
         }
 
         // Break
         if ((hour == 9 && (minute >= 15 || minute < 30))) {
-            alarmBreak(hour_3, hour_2s);
+            alarmBreak(hour_3);
         }
 
         // 3. hour
         if ((hour == 9 && minute >= 30) || (hour == 10 && minute < 20)) {
-            alarmShort(hour_3, hour_3s);
+            alarmLong(hour_3, hour_3s);
         }
 
         // 4. hour
         if ((hour == 10 && minute >= 20) || (hour == 11 && minute < 5)) {
-            alarmLong(hour_4, hour_4s, hour_3s);
+            alarmLong(hour_4, hour_4s);
         }
 
         // Break
         if ((hour == 11 && (minute >= 5 || minute < 20))) {
-            alarmBreak(hour_5, hour_4s);
+            alarmBreak(hour_5);
         }
 
         // 5. hour
         if ((hour == 11 && minute >= 20) || (hour == 12 && minute < 10)) {
-            alarmShort(hour_5, hour_5s);
+            alarmLong(hour_5, hour_5s);
         }
 
         // 6. hour
         if (hour == 12 && (minute >= 10 && minute < 55)) {
-            alarmLong(hour_6, hour_6s, hour_5s);
+            alarmLong(hour_6, hour_6s);
         }
 
         // Break
         if ((hour == 12 && minute >= 55) || (hour == 13 && minute < 15)) {
-            alarmBreak(hour_7, hour_6s);
+            alarmBreak(hour_7);
         }
 
         // 7. hour
         if ((hour == 13 && minute >= 15) || (hour == 14 && minute < 5)) {
-            alarmShort(hour_7, hour_7s);
+            alarmLong(hour_7, hour_7s);
         }
 
         // 8. hour
         if ((hour == 14 && (minute >= 5 || minute < 50))) {
-            alarmLong(hour_8, hour_8s, hour_7s);
+            alarmLong(hour_8, hour_8s);
         }
 
         // Break
         if (hour == 14 && minute >= 50) {
-            alarmBreak(hour_9, hour_8s);
+            alarmBreak(hour_9);
         }
 
         // 9. hour
         if ((hour == 15 && (minute >= 0 || minute < 50))) {
-            alarmShort(hour_9, hour_9s);
+            alarmLong(hour_9, hour_9s);
         }
 
         // 10. hour
         if ((hour == 15 && minute >= 50) || (hour == 16 && minute < 35)) {
-            alarmLong(hour_10, hour_10s, hour_9s);
+            alarmLong(hour_10, hour_10s);
         }
 
         // Break
         if ((hour == 16 && (minute >= 35 || minute < 40))) {
-            alarmBreak(hour_11, hour_10s);
+            alarmBreak(hour_11);
         }
 
         // 11. hour
         if ((hour == 16 && minute >= 40) || (hour == 17 && minute < 30)) {
-            alarmShort(hour_11, hour_11s);
+            alarmLong(hour_11, hour_11s);
         }
 
         // End
         if (hour == 17 && minute >= 30) {
-            alarmBreak(hour_12, hour_11s);
+            alarmBreak(hour_12);
         }
     }
 }

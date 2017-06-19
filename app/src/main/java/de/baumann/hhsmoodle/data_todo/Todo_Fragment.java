@@ -67,6 +67,7 @@ import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.activities.Activity_todo;
 import de.baumann.hhsmoodle.data_count.Count_helper;
 import de.baumann.hhsmoodle.data_notes.Notes_helper;
+import de.baumann.hhsmoodle.data_random.Random_helper;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.popup.Popup_courseList;
 
@@ -142,7 +143,7 @@ public class Todo_Fragment extends Fragment {
             @Override
             public void onClick(View view) {
                 closeFABMenu();
-                Todo_helper.newTodo(getActivity(), "", "", "");
+                Todo_helper.newTodo(getActivity(), "", "", "", false);
             }
         });
 
@@ -176,7 +177,7 @@ public class Todo_Fragment extends Fragment {
         fabLayout2.animate().translationY(-getResources().getDimension(R.dimen.standard_100));
     }
 
-    public void closeFABMenu(){
+    private void closeFABMenu(){
         isFABOpen=false;
         fab.animate().rotationBy(-180);
         fabLayout1.animate().translationY(0);
@@ -205,7 +206,7 @@ public class Todo_Fragment extends Fragment {
         super.onResume();
         if (!sharedPref.getString("search_byCourse", "").isEmpty() && viewPager.getCurrentItem() == 2) {
             String search = sharedPref.getString("search_byCourse", "");
-            helper_main.changeFilter("filter_todoBY", "todo_title");
+            helper_main.changeFilter(getActivity(), "filter_todoBY", "todo_title");
             setTodoList();
             helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
                     search, getString(R.string.action_filter_course), false);
@@ -453,6 +454,7 @@ public class Todo_Fragment extends Fragment {
                         getString(R.string.bookmark_remove_bookmark),
                         getString(R.string.todo_share),
                         getString(R.string.bookmark_createNote),
+                        getString(R.string.number_create),
                         getString(R.string.count_create),
                         getString(R.string.bookmark_createEvent)};
                 new AlertDialog.Builder(getActivity())
@@ -507,10 +509,6 @@ public class Todo_Fragment extends Fragment {
                                     startActivity(Intent.createChooser(sharingIntent, (getString(R.string.note_share_2))));
                                 }
 
-                                if (options[item].equals (getString(R.string.bookmark_createEvent))) {
-                                    helper_main.createCalendarEvent(getActivity(), todo_title, todo_content);
-                                }
-
                                 if (options[item].equals(getString(R.string.bookmark_remove_bookmark))) {
                                     Snackbar snackbar = Snackbar
                                             .make(lv, R.string.note_remove_confirmation, Snackbar.LENGTH_LONG)
@@ -524,12 +522,20 @@ public class Todo_Fragment extends Fragment {
                                     snackbar.show();
                                 }
 
-                                if (options[item].equals (getString(R.string.bookmark_createNote))) {
-                                    Notes_helper.newNote(getActivity(),todo_title,todo_content,"","","","");
+                                if (options[item].equals (getString(R.string.bookmark_createEvent))) {
+                                    helper_main.createCalendarEvent(getActivity(), todo_title, todo_content);
+                                }
+
+                                if (options[item].equals (getString(R.string.number_create))) {
+                                    Random_helper.newRandom(getActivity(), todo_title, todo_content, getActivity().getString(R.string.note_content), false);
                                 }
 
                                 if (options[item].equals (getString(R.string.count_create))) {
                                     Count_helper.newCount(getActivity(), todo_title, todo_content, getActivity().getString(R.string.note_content), false);
+                                }
+
+                                if (options[item].equals (getString(R.string.bookmark_createNote))) {
+                                    Notes_helper.newNote(getActivity(),todo_title,todo_content,getString(R.string.note_content), false);
                                 }
 
                             }
@@ -570,13 +576,13 @@ public class Todo_Fragment extends Fragment {
                 return true;
 
             case R.id.filter_title:
-                helper_main.changeFilter("filter_todoBY", "todo_title");
+                helper_main.changeFilter(getActivity(), "filter_todoBY", "todo_title");
                 setTodoList();
                 helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
                         "", getString(R.string.action_filter_title), true);
                 return true;
             case R.id.filter_content:
-                helper_main.changeFilter("filter_todoBY", "todo_content");
+                helper_main.changeFilter(getActivity(), "filter_todoBY", "todo_content");
                 setTodoList();
                 helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
                         "", getString(R.string.action_filter_cont), true);
@@ -588,14 +594,14 @@ public class Todo_Fragment extends Fragment {
                 return true;
 
             case R.id.filter_today:
-                helper_main.changeFilter("filter_todoBY", "todo_creation");
+                helper_main.changeFilter(getActivity(), "filter_todoBY", "todo_creation");
                 setTodoList();
                 search = dateFormat.format(cal.getTime());
                 helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
                         search, getString(R.string.action_filter_create), false);
                 return true;
             case R.id.filter_yesterday:
-                helper_main.changeFilter("filter_todoBY", "todo_creation");
+                helper_main.changeFilter(getActivity(), "filter_todoBY", "todo_creation");
                 setTodoList();
                 cal.add(Calendar.DATE, -1);
                 search = dateFormat.format(cal.getTime());
@@ -603,7 +609,7 @@ public class Todo_Fragment extends Fragment {
                         search, getString(R.string.action_filter_create), false);
                 return true;
             case R.id.filter_before:
-                helper_main.changeFilter("filter_todoBY", "todo_creation");
+                helper_main.changeFilter(getActivity(), "filter_todoBY", "todo_creation");
                 setTodoList();
                 cal.add(Calendar.DATE, -2);
                 search = dateFormat.format(cal.getTime());
@@ -611,7 +617,7 @@ public class Todo_Fragment extends Fragment {
                         search, getString(R.string.action_filter_create), false);
                 return true;
             case R.id.filter_month:
-                helper_main.changeFilter("filter_todoBY", "todo_creation");
+                helper_main.changeFilter(getActivity(), "filter_todoBY", "todo_creation");
                 setTodoList();
                 DateFormat dateFormatMonth = new SimpleDateFormat("yyyy-MM", Locale.getDefault());
                 search = dateFormatMonth.format(cal.getTime());
@@ -619,7 +625,7 @@ public class Todo_Fragment extends Fragment {
                         search, getString(R.string.action_filter_create), false);
                 return true;
             case R.id.filter_own:
-                helper_main.changeFilter("filter_todoBY", "todo_creation");
+                helper_main.changeFilter(getActivity(), "filter_todoBY", "todo_creation");
                 setTodoList();
                 helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
                         "", getString(R.string.action_filter_create), true);

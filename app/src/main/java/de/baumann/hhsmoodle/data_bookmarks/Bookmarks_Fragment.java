@@ -59,6 +59,7 @@ import java.util.Locale;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.data_count.Count_helper;
 import de.baumann.hhsmoodle.data_notes.Notes_helper;
+import de.baumann.hhsmoodle.data_random.Random_helper;
 import de.baumann.hhsmoodle.data_todo.Todo_helper;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.popup.Popup_courseList;
@@ -96,7 +97,7 @@ public class Bookmarks_Fragment extends Fragment {
         lv = (ListView) rootView.findViewById(R.id.listNotes);
         filter = (EditText) rootView.findViewById(R.id.myFilter);
 
-        ImageButton ib_hideKeyboard =(ImageButton) rootView.findViewById(R.id.ib_hideKeyboard);
+        ImageButton ib_hideKeyboard = (ImageButton) rootView.findViewById(R.id.ib_hideKeyboard);
         ib_hideKeyboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -410,8 +411,10 @@ public class Bookmarks_Fragment extends Fragment {
                 final CharSequence[] options = {
                         getString(R.string.number_edit_entry),
                         getString(R.string.bookmark_remove_bookmark),
+                        getString(R.string.todo_share),
                         getString(R.string.todo_menu),
                         getString(R.string.bookmark_createNote),
+                        getString(R.string.number_create),
                         getString(R.string.count_create),
                         getString(R.string.bookmark_createShortcut),
                         getString(R.string.bookmark_createEvent)};
@@ -460,16 +463,12 @@ public class Bookmarks_Fragment extends Fragment {
                                     helper_main.showKeyboard(getActivity(),edit_title);
                                 }
 
-                                if (options[item].equals (getString(R.string.todo_menu))) {
-                                    Todo_helper.newTodo(getActivity(), bookmarks_title, "", "");
-                                }
-
-                                if (options[item].equals (getString(R.string.count_create))) {
-                                    Count_helper.newCount(getActivity(), bookmarks_title, bookmarks_content, getActivity().getString(R.string.note_content), false);
-                                }
-
-                                if (options[item].equals (getString(R.string.bookmark_createEvent))) {
-                                    helper_main.createCalendarEvent(getActivity(), bookmarks_title, bookmarks_content);
+                                if (options[item].equals (getString(R.string.todo_share))) {
+                                    Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                                    sharingIntent.setType("text/plain");
+                                    sharingIntent.putExtra(Intent.EXTRA_SUBJECT, bookmarks_title);
+                                    sharingIntent.putExtra(Intent.EXTRA_TEXT, bookmarks_content);
+                                    startActivity(Intent.createChooser(sharingIntent, (getString(R.string.note_share_2))));
                                 }
 
                                 if (options[item].equals(getString(R.string.bookmark_remove_bookmark))) {
@@ -486,7 +485,23 @@ public class Bookmarks_Fragment extends Fragment {
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createNote))) {
-                                    Notes_helper.newNote(getActivity(),bookmarks_title,bookmarks_content,"","","","");
+                                    Notes_helper.newNote(getActivity(),bookmarks_title,bookmarks_content,getString(R.string.note_content), false);
+                                }
+
+                                if (options[item].equals (getString(R.string.todo_menu))) {
+                                    Todo_helper.newTodo(getActivity(), bookmarks_title, bookmarks_content, getString(R.string.note_content), false);
+                                }
+
+                                if (options[item].equals (getString(R.string.number_create))) {
+                                    Random_helper.newRandom(getActivity(), bookmarks_title, bookmarks_content, getActivity().getString(R.string.note_content), false);
+                                }
+
+                                if (options[item].equals (getString(R.string.count_create))) {
+                                    Count_helper.newCount(getActivity(), bookmarks_title, bookmarks_content, getActivity().getString(R.string.note_content), false);
+                                }
+
+                                if (options[item].equals (getString(R.string.bookmark_createEvent))) {
+                                    helper_main.createCalendarEvent(getActivity(), bookmarks_title, bookmarks_content);
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createShortcut))) {
@@ -531,7 +546,7 @@ public class Bookmarks_Fragment extends Fragment {
 
         if (!sharedPref.getString("search_byCourse", "").isEmpty()) {
             String search = sharedPref.getString("search_byCourse", "");
-            helper_main.changeFilter("filter_bookmarksBY", "bookmarks_title");
+            helper_main.changeFilter(getActivity(), "filter_bookmarksBY", "bookmarks_title");
             setBookmarksList();
             helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
                     search, getString(R.string.action_filter_course), false);
@@ -555,13 +570,13 @@ public class Bookmarks_Fragment extends Fragment {
                 return true;
 
             case R.id.filter_title:
-                helper_main.changeFilter("filter_bookmarksBY", "bookmarks_title");
+                helper_main.changeFilter(getActivity(), "filter_bookmarksBY", "bookmarks_title");
                 setBookmarksList();
                 helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
                         "", getString(R.string.action_filter_title), true);
                 return true;
             case R.id.filter_url:
-                helper_main.changeFilter("filter_bookmarksBY", "bookmarks_content");
+                helper_main.changeFilter(getActivity(), "filter_bookmarksBY", "bookmarks_content");
                 setBookmarksList();
                 helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
                         "", getString(R.string.action_filter_url), true);
@@ -572,14 +587,14 @@ public class Bookmarks_Fragment extends Fragment {
                 return true;
 
             case R.id.filter_today:
-                helper_main.changeFilter("filter_bookmarksBY", "bookmarks_creation");
+                helper_main.changeFilter(getActivity(), "filter_bookmarksBY", "bookmarks_creation");
                 setBookmarksList();
                 search = dateFormat.format(cal.getTime());
                 helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
                         search, getString(R.string.action_filter_create), false);
                 return true;
             case R.id.filter_yesterday:
-                helper_main.changeFilter("filter_bookmarksBY", "bookmarks_creation");
+                helper_main.changeFilter(getActivity(), "filter_bookmarksBY", "bookmarks_creation");
                 setBookmarksList();
                 cal.add(Calendar.DATE, -1);
                 search = dateFormat.format(cal.getTime());
@@ -587,7 +602,7 @@ public class Bookmarks_Fragment extends Fragment {
                         search, getString(R.string.action_filter_create), false);
                 return true;
             case R.id.filter_before:
-                helper_main.changeFilter("filter_bookmarksBY", "bookmarks_creation");
+                helper_main.changeFilter(getActivity(), "filter_bookmarksBY", "bookmarks_creation");
                 setBookmarksList();
                 cal.add(Calendar.DATE, -2);
                 search = dateFormat.format(cal.getTime());
@@ -595,7 +610,7 @@ public class Bookmarks_Fragment extends Fragment {
                         search, getString(R.string.action_filter_create), false);
                 return true;
             case R.id.filter_month:
-                helper_main.changeFilter("filter_bookmarksBY", "bookmarks_creation");
+                helper_main.changeFilter(getActivity(), "filter_bookmarksBY", "bookmarks_creation");
                 setBookmarksList();
                 DateFormat dateFormatMonth = new SimpleDateFormat("yyyy-MM", Locale.getDefault());
                 search = dateFormatMonth.format(cal.getTime());
@@ -603,7 +618,7 @@ public class Bookmarks_Fragment extends Fragment {
                         search, getString(R.string.action_filter_create), false);
                 return true;
             case R.id.filter_own:
-                helper_main.changeFilter("filter_bookmarksBY", "bookmarks_creation");
+                helper_main.changeFilter(getActivity(), "filter_bookmarksBY", "bookmarks_creation");
                 setBookmarksList();
                 helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
                         "", getString(R.string.action_filter_create), true);

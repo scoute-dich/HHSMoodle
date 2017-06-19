@@ -24,8 +24,16 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.activities.Activity_todo;
@@ -33,7 +41,7 @@ import de.baumann.hhsmoodle.helper.helper_main;
 
 public class Todo_helper {
 
-    public static void newTodo (final Activity activity, String title, final String content, String button_neutral) {
+    public static void newTodo (final Activity activity, String title, final String content, String button_neutral, final boolean finishFromActivity) {
 
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(activity);
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(activity);
@@ -41,12 +49,11 @@ public class Todo_helper {
         final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
         edit_title.setText(title);
         edit_title.setHint(R.string.bookmark_edit_title);
+
         builder.setTitle(R.string.todo_title);
         builder.setView(dialogView);
         builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
-
             public void onClick(DialogInterface dialog, int whichButton) {
-
             }
         });
         builder.setNeutralButton(button_neutral, new DialogInterface.OnClickListener() {
@@ -59,13 +66,15 @@ public class Todo_helper {
 
             public void onClick(DialogInterface dialog, int whichButton) {
                 dialog.cancel();
+                if (finishFromActivity) {
+                    activity.finish();
+                }
             }
         });
 
-        final android.app.AlertDialog dialog2 = builder.create();
-        dialog2.show();
-
-        dialog2.getButton(android.app.AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+        final android.app.AlertDialog dialog = builder.create();
+        dialog.show();
+        dialog.getButton(android.app.AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Do stuff, possibly set wantToCloseDialog to true then...
@@ -78,21 +87,54 @@ public class Todo_helper {
                 if(db.isExist(inputTitle)){
                     Snackbar.make(edit_title, activity.getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
                 }else{
-                    dialog2.dismiss();
+                    dialog.dismiss();
                     sharedPref.edit().putString("toDo_title", inputTitle).apply();
                     sharedPref.edit().putString("toDo_seqno", "").apply();
                     sharedPref.edit().putString("toDo_icon", "3").apply();
                     sharedPref.edit().putString("toDo_create", helper_main.createDate()).apply();
                     sharedPref.edit().putString("toDo_attachment", "true").apply();
-                    helper_main.switchToActivity(activity, Activity_todo.class, false);
+                    helper_main.switchToActivity(activity, Activity_todo.class, finishFromActivity);
                 }
             }
         });
-        dialog2.getButton(android.app.AlertDialog.BUTTON_NEUTRAL).setOnClickListener(new View.OnClickListener() {
+        dialog.getButton(android.app.AlertDialog.BUTTON_NEUTRAL).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Do stuff, possibly set wantToCloseDialog to true then...
-                sharedPref.edit().putString("toDo_text", content).apply();
+
+                File f = new File(activity.getFilesDir() + "title.txt");
+
+                try {
+                    FileOutputStream fOut = new FileOutputStream(f);
+                    OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
+                    myOutWriter.append(content);
+                    myOutWriter.close();
+
+                    fOut.flush();
+                    fOut.close();
+                } catch (IOException e) {
+                    Log.e("Exception", "File write failed: " + e.toString());
+                }
+
+                StringBuilder text = new StringBuilder();
+
+                try {
+                    BufferedReader br = new BufferedReader(new FileReader(f));
+                    String line;
+
+                    while ((line = br.readLine()) != null) {
+                        String add = line + "|[-]";
+                        text.append(add);
+                        text.append('\n');
+                    }
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                String textAdd = text.substring(0, text.length()-1);
+                sharedPref.edit().putString("toDo_text", textAdd).apply();
+                //noinspection ResultOfMethodCallIgnored
+                f.delete();
                 Snackbar.make(edit_title, activity.getString(R.string.toast_contentAdded), Snackbar.LENGTH_LONG).show();
             }
         });
