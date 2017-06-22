@@ -98,7 +98,7 @@ public class Activity_splash extends AppCompatActivity {
         assert fab != null;
         fab.setVisibility(View.INVISIBLE);
 
-        boolean show = sharedPref.getBoolean("showIntroScreen_notShow", true);
+        boolean show = sharedPref.getBoolean("showIntroScreen_showIntro", true);
 
         if (show){
             helper_main.switchToActivity(Activity_splash.this, Activity_intro.class, true);

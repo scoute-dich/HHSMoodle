@@ -73,8 +73,8 @@
         auswählen lassen.</string>
 
     <string name="random_help2">Liste anlegen</string>
-    <string name="random_help_text2">Eine Liste kannst du entweder frei anlegen, oder aus einer Klassenliste importieren.</string>
-
+    <string name="random_help_text2">Eine Liste kannst du entweder frei anlegen, oder aus einer Fächer- oder Klassenliste
+        importieren.</string>
 
     <string name="grade_help1">Noten berechnen</string>
     <string name="grade_help_text1">Moodle berechnet die Noten auf Basis von Prozentwerten. Es wird immer der erreichte
@@ -86,7 +86,7 @@
 
 
     <string name="course_help1">Klassenlisten</string>
-    <string name="course_help_text1">Aus einer Klassenliste kannst du schnell eine Zufallsliste oder eine Todoliste erstellen.
+    <string name="course_help_text1">Mit einer Klassenliste kannst du schnell verschiedene Listen erstellen.
     Alle Teilnehmer die in der Liste stehen werden dabei übernommen.</string>
 
     <string name="course_help2">Liste importieren</string>
@@ -95,7 +95,7 @@
 
 
     <string name="subject_help1">Fächerliste</string>
-    <string name="subject_help_text1">Die Fächerliste dient in erster Linie dazu den Stundenplan schnell bearbeiten zu können.</string>
+    <string name="subject_help_text1">Die Fächerliste dient in erster Linie dazu verschiedene Listen schnell füllen zu können.</string>
 
     <string name="subject_help2">Praktisch</string>
     <string name="subject_help_text2">Probiere auch hier einen kurzen und einen langen Klick auf einen Eintrag aus.</string>
@@ -108,6 +108,20 @@
     <string name="settings_help2">Sicherheit</string>
     <string name="settings_help_text2">Es wird dringend empfohlen die App mit einer Pin vor ungewollten Zugriff zu schützen.</string>
 
+    <string name="files_help1">Dateimanager</string>
+    <string name="files_help_text1">Mit dem integrierten Dateimanager kannst du heruntergaladene Dateien und andere Inhalte auf
+    deiner SD-Karte durchsuchen.</string>
+
+    <string name="files_help2">Dateioperationen</string>
+    <string name="files_help_text2">Natürlich kannst du die dateien öffnen. Du kannst sie aber auch löschen, umbenennen oder
+        teilen.</string>
+
+    <string name="count_help1">Zähler</string>
+    <string name="count_help_text1">Hier kannst du Listen mit mehreren Einträgen anlegen. Jeder Eintrag hat einen Startwert von \"0\".</string>
+
+    <string name="count_help2">+/-</string>
+    <string name="count_help_text2">Mit einem einfachen Klick kannst du \"1\" zum aktuellen Wert addieren oder davon
+        abziehen. Natürlich kannst du auch alle Einträge bearbeiten.</string>
 
     <string name="perm_notShow_title">Berechtigung erteilen</string>
     <string name="perm_notShow_title_summary">Nur für Android Marshmallow und neuere Versionen. Gewähre erforderliche

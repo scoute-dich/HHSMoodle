@@ -72,4 +72,20 @@ public class Random_DbAdapter {
         String[] columns = new String[]{"_id", "random_title", "random_content", "random_icon","random_attachment","random_creation"};
         return sqlDb.query(dbTable, columns, null, null, null, null, "random_title" + " COLLATE NOCASE ASC;");
     }
+
+    //fetch data by filter
+    public Cursor fetchDataByFilter(String inputText,String filterColumn) throws SQLException {
+        Cursor row;
+        String query = "SELECT * FROM "+dbTable;
+        if (inputText == null  ||  inputText.length () == 0)  {
+            row = sqlDb.rawQuery(query, null);
+        }else {
+            query = "SELECT * FROM "+dbTable+" WHERE "+filterColumn+" like '%"+inputText+"%'";
+            row = sqlDb.rawQuery(query, null);
+        }
+        if (row != null) {
+            row.moveToFirst();
+        }
+        return row;
+    }
 }

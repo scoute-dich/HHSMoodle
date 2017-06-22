@@ -174,11 +174,13 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
             viewPager.setCurrentItem(3, true);
             String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
             String sharedTitle = intent.getStringExtra(Intent.EXTRA_SUBJECT);
-            Notes_helper.newNote(HHS_MainScreen.this, sharedTitle, sharedText, getString(R.string.note_content), false);
+            Notes_helper.newNote(HHS_MainScreen.this, sharedTitle, sharedText, "19", getString(R.string.note_content), false);
         } else if ("shortcutToDo_HS".equals(action)) {
             viewPager.setCurrentItem(2, true);
         } else if ("shortcutSchedule_HS".equals(action)) {
             viewPager.setCurrentItem(4, true);
+        } else if ("shortcutBrowser_HS".equals(action)) {
+            viewPager.setCurrentItem(0, true);
         }
     }
 
@@ -231,15 +233,6 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);// add return null; to display only icons
         }
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-
-        if (sharedPref.getBoolean ("help", false)){
-            menu.getItem(0).setVisible(false); // here pass the index of save menu item
-        }
-        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override

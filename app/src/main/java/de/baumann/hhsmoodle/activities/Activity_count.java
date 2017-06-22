@@ -87,7 +87,7 @@ public class Activity_count extends AppCompatActivity {
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         toDo_title = sharedPref.getString("count_title", "");
         String todo_title = sharedPref.getString("count_content", "");
-        toDo_icon = sharedPref.getString("count_icon", "");
+        toDo_icon = sharedPref.getString("count_icon", "19");
         toDo_create = sharedPref.getString("count_create", "");
         todo_attachment = sharedPref.getString("count_attachment", "");
         if (!sharedPref.getString("count_seqno", "").isEmpty()) {
@@ -130,9 +130,6 @@ public class Activity_count extends AppCompatActivity {
                                     View view, final int position, long id) {
 
                 getValues(position);
-                index = lvItems.getFirstVisiblePosition();
-                View v = lvItems.getChildAt(0);
-                top = (v == null) ? 0 : (v.getTop() - lvItems.getPaddingTop());
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(Activity_count.this);
                 View dialogView = View.inflate(Activity_count.this, R.layout.dialog_edit_text_singleline_count, null);
@@ -175,10 +172,6 @@ public class Activity_count extends AppCompatActivity {
                                     View view, final int position, long id) {
 
                 getValues(position);
-                index = lvItems.getFirstVisiblePosition();
-                View v = lvItems.getChildAt(0);
-                top = (v == null) ? 0 : (v.getTop() - lvItems.getPaddingTop());
-
                 final String title = itemsTitle.get(position);
                 itemsTitle.remove(position);
                 writeItemsTitle();
@@ -289,6 +282,9 @@ public class Activity_count extends AppCompatActivity {
         } catch (Exception e) {
             count = 0;
         }
+        index = lvItems.getFirstVisiblePosition();
+        View v = lvItems.getChildAt(0);
+        top = (v == null) ? 0 : (v.getTop() - lvItems.getPaddingTop());
     }
 
     private void readItemsTitle() {
@@ -329,7 +325,7 @@ public class Activity_count extends AppCompatActivity {
     }
 
     private File newFileTitle() {
-        return  new File(Activity_count.this.getFilesDir() + "title.txt");
+        return  new File(Activity_count.this.getFilesDir() + "count.txt");
     }
 
     private void closeActivity () {
@@ -351,6 +347,7 @@ public class Activity_count extends AppCompatActivity {
         sharedPref.edit().putString("count_icon", "").apply();
         sharedPref.edit().putString("count_create", "").apply();
         sharedPref.edit().putString("count_attachment", "").apply();
+        sharedPref.edit().putString("count_content", "").apply();
         newFileTitle().delete();
         finish();
     }
@@ -382,9 +379,7 @@ public class Activity_count extends AppCompatActivity {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             View dialogView = View.inflate(this, R.layout.dialog_edit_title, null);
 
-            index = lvItems.getFirstVisiblePosition();
-            View v = lvItems.getChildAt(0);
-            top = (v == null) ? 0 : (v.getTop() - lvItems.getPaddingTop());
+            getValues(0);
             final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
             edit_title.setHint(R.string.menu_addEntry);
 

@@ -1,22 +1,17 @@
 package de.baumann.hhsmoodle.activities;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.net.Uri;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -30,8 +25,12 @@ import android.widget.TextView;
 
 import com.mvc.imagepicker.ImagePicker;
 
-import java.io.ByteArrayOutputStream;
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -157,9 +156,30 @@ public class Activity_EditNote extends AppCompatActivity {
             public void onClick(View arg0) {
 
                 final helper_main.Item[] items = {
-                        new helper_main.Item(getString(R.string.note_priority_0), R.drawable.circle_green),
-                        new helper_main.Item(getString(R.string.note_priority_1), R.drawable.circle_yellow),
-                        new helper_main.Item(getString(R.string.note_priority_2), R.drawable.circle_red),
+                        new helper_main.Item(getString(R.string.text_tit_11), R.drawable.ic_school_grey600_48dp),
+                        new helper_main.Item(getString(R.string.text_tit_1), R.drawable.ic_view_dashboard_grey600_48dp),
+                        new helper_main.Item(getString(R.string.text_tit_2), R.drawable.ic_face_profile_grey600_48dp),
+                        new helper_main.Item(getString(R.string.text_tit_8), R.drawable.ic_calendar_grey600_48dp),
+                        new helper_main.Item(getString(R.string.text_tit_3), R.drawable.ic_chart_areaspline_grey600_48dp),
+                        new helper_main.Item(getString(R.string.text_tit_4), R.drawable.ic_bell_grey600_48dp),
+                        new helper_main.Item(getString(R.string.text_tit_5), R.drawable.ic_settings_grey600_48dp),
+                        new helper_main.Item(getString(R.string.text_tit_6), R.drawable.ic_web_grey600_48dp),
+                        new helper_main.Item(getString(R.string.text_tit_7), R.drawable.ic_magnify_grey600_48dp),
+                        new helper_main.Item(getString(R.string.title_notes), R.drawable.ic_pencil_grey600_48dp),
+                        new helper_main.Item(getString(R.string.text_tit_9), R.drawable.ic_check_grey600_48dp),
+                        new helper_main.Item(getString(R.string.text_tit_10), R.drawable.ic_clock_grey600_48dp),
+                        new helper_main.Item(getString(R.string.title_bookmarks), R.drawable.ic_bookmark_grey600_48dp),
+                        new helper_main.Item(getString(R.string.subjects_color_red), R.drawable.circle_red),
+                        new helper_main.Item(getString(R.string.subjects_color_pink), R.drawable.circle_pink),
+                        new helper_main.Item(getString(R.string.subjects_color_purple), R.drawable.circle_purple),
+                        new helper_main.Item(getString(R.string.subjects_color_blue), R.drawable.circle_blue),
+                        new helper_main.Item(getString(R.string.subjects_color_teal), R.drawable.circle_teal),
+                        new helper_main.Item(getString(R.string.subjects_color_green), R.drawable.circle_green),
+                        new helper_main.Item(getString(R.string.subjects_color_lime), R.drawable.circle_lime),
+                        new helper_main.Item(getString(R.string.subjects_color_yellow), R.drawable.circle_yellow),
+                        new helper_main.Item(getString(R.string.subjects_color_orange), R.drawable.circle_orange),
+                        new helper_main.Item(getString(R.string.subjects_color_brown), R.drawable.circle_brown),
+                        new helper_main.Item(getString(R.string.subjects_color_grey), R.drawable.circle_grey),
                 };
 
                 ListAdapter adapter = new ArrayAdapter<helper_main.Item>(
@@ -191,16 +211,7 @@ public class Activity_EditNote extends AppCompatActivity {
                         })
                         .setAdapter(adapter, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int item) {
-                                if (item == 0) {
-                                    be.setImageResource(R.drawable.circle_green);
-                                    sharedPref.edit().putString("handleTextIcon", "3").apply();
-                                } else if (item == 1) {
-                                    be.setImageResource(R.drawable.circle_yellow);
-                                    sharedPref.edit().putString("handleTextIcon", "2").apply();
-                                } else if (item == 2) {
-                                    be.setImageResource(R.drawable.circle_red);
-                                    sharedPref.edit().putString("handleTextIcon", "1").apply();
-                                }
+                                helper_main.switchIconDialog(Activity_EditNote.this, item, "handleTextIcon", be);
                             }
                         }).show();
             }
@@ -253,29 +264,27 @@ public class Activity_EditNote extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        Bitmap bitmap = ImagePicker.getImageFromResult(this, requestCode, resultCode, data);
+        InputStream inputStream = ImagePicker.getInputStreamFromResult(this, requestCode, resultCode, data);
+        BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
+        Bitmap bitmap = BitmapFactory.decodeStream(bufferedInputStream);
 
         if (bitmap != null) {
-            // CALL THIS METHOD TO GET THE URI FROM THE BITMAP
-            Uri tempUri = getImageUri(getApplicationContext(), bitmap);
-            String path = getRealPathFromURI(tempUri);
-            sharedPref.edit().putString("handleTextAttachment", path).apply();
+            try {
+                //create a file to write bitmap data
+                File f = helper_main.newFile();
+                //noinspection ResultOfMethodCallIgnored
+                f.createNewFile();
+
+                OutputStream outStream = new FileOutputStream(f);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
+                outStream.flush();
+                outStream.close();
+                sharedPref.edit().putString("handleTextAttachment", f.getAbsolutePath()).apply();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-    }
-
-    private Uri getImageUri(Context inContext, Bitmap inImage) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
-        return Uri.parse(path);
-    }
-
-    private String getRealPathFromURI(Uri uri) {
-        @SuppressLint("Recycle") Cursor cursor = getContentResolver().query(uri, null, null, null, null);
-        assert cursor != null;
-        cursor.moveToFirst();
-        int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-        return cursor.getString(idx);
     }
 
     private void onPickImage() {
@@ -314,35 +323,54 @@ public class Activity_EditNote extends AppCompatActivity {
     }
 
     public void onBackPressed() {
-        Snackbar snackbar = Snackbar
-                .make(titleInput, R.string.toast_save, Snackbar.LENGTH_LONG)
-                .setAction(R.string.toast_yes, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        onCloseEdit();
-                    }
-                });
-        snackbar.show();
+        closeActivity();
     }
 
-    private void onCloseEdit () {
+    private void closeActivity () {
+        Notes_DbAdapter db = new Notes_DbAdapter(Activity_EditNote.this);
+        db.open();
+
+        String inputTitle = titleInput.getText().toString().trim();
+        String inputContent = textInput.getText().toString().trim();
+        String attachment = sharedPref.getString("handleTextAttachment", "");
+        String create = sharedPref.getString("handleTextCreate", "");
+        String seqno = sharedPref.getString("handleTextSeqno", "");
+
+        if (seqno.isEmpty()) {
+            try {
+                if(db.isExist(inputTitle)){
+                    Snackbar.make(titleInput, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
+                }else{
+                    db.insert(inputTitle, inputContent, sharedPref.getString("handleTextIcon", ""), attachment, create);
+                    closeActivity();
+                }
+            } catch (Exception e) {
+                Log.w("HHS_Moodle", "Error Package name not found ", e);
+                Snackbar snackbar = Snackbar
+                        .make(titleInput, R.string.toast_notSave, Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        } else {
+            try {
+                db.update(Integer.parseInt(seqno), inputTitle, inputContent, sharedPref.getString("handleTextIcon", ""), attachment, create);
+            } catch (Exception e) {
+                Log.w("HHS_Moodle", "Error Package name not found ", e);
+                Snackbar snackbar = Snackbar
+                        .make(titleInput, R.string.toast_notSave, Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        }
+
         sharedPref.edit()
                 .putString("handleTextTitle", "")
                 .putString("handleTextText", "")
-                .putString("handleTextIcon", "")
+                .putString("handleTextIcon", "19")
                 .putString("handleTextAttachment", "")
                 .putString("handleTextCreate", "")
                 .putString("editTextFocus", "")
                 .putString("handleTextSeqno", "")
                 .apply();
         finish();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_note, menu);
-        return true;
     }
 
     @Override
@@ -353,55 +381,7 @@ public class Activity_EditNote extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == android.R.id.home) {
-            Snackbar snackbar = Snackbar
-                    .make(titleInput, R.string.toast_save, Snackbar.LENGTH_LONG)
-                    .setAction(R.string.toast_yes, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            onCloseEdit();
-                        }
-                    });
-            snackbar.show();
-        }
-
-        if (id == R.id.action_save) {
-
-            Notes_DbAdapter db = new Notes_DbAdapter(Activity_EditNote.this);
-            db.open();
-
-            String inputTitle = titleInput.getText().toString().trim();
-            String inputContent = textInput.getText().toString().trim();
-            String attachment = sharedPref.getString("handleTextAttachment", "");
-            String create = sharedPref.getString("handleTextCreate", "");
-            String seqno = sharedPref.getString("handleTextSeqno", "");
-
-            if (seqno.isEmpty()) {
-                try {
-                    if(db.isExist(inputTitle)){
-                        Snackbar.make(titleInput, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
-                    }else{
-                        db.insert(inputTitle, inputContent, sharedPref.getString("handleTextIcon", ""), attachment, create);
-                        onCloseEdit();
-                    }
-                } catch (Exception e) {
-                    Log.w("HHS_Moodle", "Error Package name not found ", e);
-                    Snackbar snackbar = Snackbar
-                            .make(titleInput, R.string.toast_notSave, Snackbar.LENGTH_LONG);
-                    snackbar.show();
-                }
-            } else {
-                try {
-                    db.update(Integer.parseInt(seqno), inputTitle, inputContent, sharedPref.getString("handleTextIcon", ""), attachment, create);
-                    onCloseEdit();
-                } catch (Exception e) {
-                    Log.w("HHS_Moodle", "Error Package name not found ", e);
-                    Snackbar snackbar = Snackbar
-                            .make(titleInput, R.string.toast_notSave, Snackbar.LENGTH_LONG);
-                    snackbar.show();
-                }
-            }
-
-            return true;
+            closeActivity();
         }
 
         return super.onOptionsItemSelected(item);

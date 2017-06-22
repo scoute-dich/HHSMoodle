@@ -74,7 +74,8 @@ public class Popup_courseList extends Activity {
                     Cursor row2 = (Cursor) lv.getItemAtPosition(position);
                     String courses_title = row2.getString(row2.getColumnIndexOrThrow("courses_title"));
                     String courses_content = row2.getString(row2.getColumnIndexOrThrow("courses_content"));
-                    Random_helper.newRandom(Popup_courseList.this, courses_title, courses_content, getString(R.string.courseList_content), true);
+                    String courses_icon = row2.getString(row2.getColumnIndexOrThrow("courses_icon"));
+                    Random_helper.newRandom(Popup_courseList.this, courses_title, courses_content,courses_icon, getString(R.string.courseList_content), true);
                 }
             });
 
@@ -84,7 +85,8 @@ public class Popup_courseList extends Activity {
                     Cursor row2 = (Cursor) lv.getItemAtPosition(position);
                     String courses_title = row2.getString(row2.getColumnIndexOrThrow("courses_title"));
                     String courses_content = row2.getString(row2.getColumnIndexOrThrow("courses_content"));
-                    Notes_helper.newNote(Popup_courseList.this, courses_title, courses_content, getString(R.string.courseList_content), true);
+                    String courses_icon = row2.getString(row2.getColumnIndexOrThrow("courses_icon"));
+                    Notes_helper.newNote(Popup_courseList.this, courses_title, courses_content, courses_icon, getString(R.string.courseList_content), true);
                 }
             });
 
@@ -92,9 +94,10 @@ public class Popup_courseList extends Activity {
             lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Cursor row2 = (Cursor) lv.getItemAtPosition(position);
-                    final String courses_title = row2.getString(row2.getColumnIndexOrThrow("courses_title"));
-                    final String courses_content = row2.getString(row2.getColumnIndexOrThrow("courses_content"));
-                    Todo_helper.newTodo(Popup_courseList.this, courses_title, courses_content, getString(R.string.courseList_content), true);
+                    String courses_title = row2.getString(row2.getColumnIndexOrThrow("courses_title"));
+                    String courses_content = row2.getString(row2.getColumnIndexOrThrow("courses_content"));
+                    String courses_icon = row2.getString(row2.getColumnIndexOrThrow("courses_icon"));
+                    Todo_helper.newTodo(Popup_courseList.this, courses_title, courses_content, courses_icon, getString(R.string.courseList_content), true);
                 }
             });
         } else if ("courseList_count".equals(action)) {
@@ -102,17 +105,20 @@ public class Popup_courseList extends Activity {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     sharedPref.edit().putString("count_content", "").apply();
                     Cursor row2 = (Cursor) lv.getItemAtPosition(position);
-                    final String courses_title = row2.getString(row2.getColumnIndexOrThrow("courses_title"));
-                    final String courses_content = row2.getString(row2.getColumnIndexOrThrow("courses_content"));
-                    Count_helper.newCount(Popup_courseList.this, courses_title, courses_content, getString(R.string.courseList_content), true);
+                    String courses_title = row2.getString(row2.getColumnIndexOrThrow("courses_title"));
+                    String courses_content = row2.getString(row2.getColumnIndexOrThrow("courses_content"));
+                    String courses_icon = row2.getString(row2.getColumnIndexOrThrow("courses_icon"));
+                    Count_helper.newCount(Popup_courseList.this, courses_title, courses_content, courses_icon, getString(R.string.courseList_content), true);
                 }
             });
         } else if ("courseList_subject".equals(action)) {
             lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Cursor row2 = (Cursor) lv.getItemAtPosition(position);
-                    final String courses_title = row2.getString(row2.getColumnIndexOrThrow("courses_title"));
-                    sharedPref.edit().putString("editSubject", courses_title).apply();
+                    String courses_title = row2.getString(row2.getColumnIndexOrThrow("courses_title"));
+                    String courses_icon = row2.getString(row2.getColumnIndexOrThrow("courses_icon"));
+                    sharedPref.edit().putString("subject_title", courses_title).apply();
+                    sharedPref.edit().putString("subject_icon", courses_icon).apply();
                     finish();
                 }
             });
@@ -120,7 +126,7 @@ public class Popup_courseList extends Activity {
             lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Cursor row2 = (Cursor) lv.getItemAtPosition(position);
-                    final String courses_title = row2.getString(row2.getColumnIndexOrThrow("courses_title"));
+                    String courses_title = row2.getString(row2.getColumnIndexOrThrow("courses_title"));
                     sharedPref.edit().putString("search_byCourse", courses_title).apply();
                     finish();
                 }
@@ -146,11 +152,11 @@ public class Popup_courseList extends Activity {
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(Popup_courseList.this, layoutstyle, row, column, xml_id, 0) {
             @Override
             public View getView(final int position, View convertView, ViewGroup parent) {
-
+                Cursor row2 = (Cursor) lv.getItemAtPosition(position);
+                String courses_icon = row2.getString(row2.getColumnIndexOrThrow("courses_icon"));
                 View v = super.getView(position, convertView, parent);
                 ImageView iv_icon = (ImageView) v.findViewById(R.id.icon_notes);
-                iv_icon.setVisibility(View.GONE);
-
+                helper_main.switchIcon(Popup_courseList.this, courses_icon,"courses_icon", iv_icon);
                 return v;
             }
         };

@@ -173,6 +173,16 @@
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar" />
 
+        <activity
+            android:name=".data_files.Files_Help"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".data_count.Count_Help"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar" />
+
 
         <!-- popups -->
 
@@ -186,7 +196,16 @@
             android:name=".popup.Popup_subjects"
             android:noHistory="true"
             android:launchMode="singleTask"
-            android:theme="@style/AppThemeDialog" />
+            android:theme="@style/AppThemeDialog">
+            <intent-filter>
+                <action android:name="subjectList_random" />
+                <action android:name="subjectList_todo" />
+                <action android:name="subjectList_note" />
+                <action android:name="subjectList_subject" />
+                <action android:name="subjectList_count" />
+                <action android:name="search_bySubject" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".popup.Popup_todo"

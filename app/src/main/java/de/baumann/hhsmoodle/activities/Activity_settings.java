@@ -25,7 +25,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -208,7 +207,6 @@ public class Activity_settings extends AppCompatActivity {
             Preference reset = findPreference("intro_show");
             reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference pref) {
-
                     helper_main.switchToActivity(getActivity(), About_activity.class, false);
                     return true;
                 }
@@ -222,14 +220,12 @@ public class Activity_settings extends AppCompatActivity {
                 public boolean onPreferenceClick(Preference pref) {
 
                     if (android.os.Build.VERSION.SDK_INT >= 23) {
-
                         Intent intent = new Intent();
                         intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                         Uri uri = Uri.fromParts("package", getActivity().getPackageName(), null);
                         intent.setData(uri);
                         getActivity().startActivity(intent);
                     }
-
                     return true;
                 }
             });
@@ -388,32 +384,60 @@ public class Activity_settings extends AppCompatActivity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int item) {
                                     if (options[item].equals(getString(R.string.action_backup))) {
-                                        try {
-                                            helper_security.encryptBackup(getActivity(),"/bookmarks_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                                        try {
-                                            helper_security.encryptBackup(getActivity(),"/courses_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                                        try {
-                                            helper_security.encryptBackup(getActivity(),"/notes_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                                        try {
-                                            helper_security.encryptBackup(getActivity(),"/random_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                                        try {
-                                            helper_security.encryptBackup(getActivity(),"/subject_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                                        try {
-                                            helper_security.encryptBackup(getActivity(),"/schedule_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                                        try {
-                                            helper_security.encryptBackup(getActivity(),"/todo_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                                        try {
-                                            helper_security.encryptBackup(getActivity(),"/count_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                        AlertDialog.Builder builder;
+                                        builder = new AlertDialog.Builder(getActivity());
+                                        builder.setTitle(getString(R.string.action_backup))
+                                                .setMessage(getString(R.string.toast_confirm_backup))
+                                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        try {
+                                                            helper_security.encryptBackup(getActivity(),"/bookmarks_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                                        try {
+                                                            helper_security.encryptBackup(getActivity(),"/courses_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                                        try {
+                                                            helper_security.encryptBackup(getActivity(),"/notes_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                                        try {
+                                                            helper_security.encryptBackup(getActivity(),"/random_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                                        try {
+                                                            helper_security.encryptBackup(getActivity(),"/subject_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                                        try {
+                                                            helper_security.encryptBackup(getActivity(),"/schedule_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                                        try {
+                                                            helper_security.encryptBackup(getActivity(),"/todo_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                                        try {
+                                                            helper_security.encryptBackup(getActivity(),"/count_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                                    }
+                                                })
+                                                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        dialog.cancel();
+                                                    }
+                                                })
+                                                .show();
                                     }
                                     if (options[item].equals(getString(R.string.action_restore))) {
-                                        try {decrypt("/schedule_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                                        try {decrypt("/subject_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                                        try {decrypt("/bookmarks_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                                        try {decrypt("/courses_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                                        try {decrypt("/notes_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                                        try {decrypt("/random_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                                        try {decrypt("/todo_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                                        try {decrypt("/count_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                        AlertDialog.Builder builder;
+                                        builder = new AlertDialog.Builder(getActivity());
+                                        builder.setTitle(getString(R.string.action_restore))
+                                                .setMessage(getString(R.string.toast_confirm_restore))
+                                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        try {decrypt("/schedule_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                                        try {decrypt("/subject_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                                        try {decrypt("/bookmarks_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                                        try {decrypt("/courses_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                                        try {decrypt("/notes_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                                        try {decrypt("/random_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                                        try {decrypt("/todo_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                                        try {decrypt("/count_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                                    }
+                                                })
+                                                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        dialog.cancel();
+                                                    }
+                                                })
+                                                .show();
                                     }
                                 }
                             }).show();
@@ -488,19 +512,9 @@ public class Activity_settings extends AppCompatActivity {
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        if (sharedPref.getBoolean ("help", false)){
-            menu.getItem(0).setVisible(false); // here pass the index of save menu item
-        }
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_empty, menu);
+        getMenuInflater().inflate(R.menu.menu_settings, menu);
         return true;
     }
 

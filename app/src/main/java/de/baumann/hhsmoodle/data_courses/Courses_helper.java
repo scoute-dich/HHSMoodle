@@ -17,7 +17,7 @@
     If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.baumann.hhsmoodle.data_notes;
+package de.baumann.hhsmoodle.data_courses;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -28,12 +28,13 @@ import android.view.View;
 import android.widget.EditText;
 
 import de.baumann.hhsmoodle.R;
-import de.baumann.hhsmoodle.activities.Activity_EditNote;
+import de.baumann.hhsmoodle.activities.Activity_course;
+import de.baumann.hhsmoodle.activities.Activity_random;
 import de.baumann.hhsmoodle.helper.helper_main;
 
-public class Notes_helper {
+class Courses_helper {
 
-    public static void newNote (final Activity activity, String title, final String content, final String icon, String button_neutral, final boolean finishFromActivity) {
+    static void newCourse (final Activity activity, String title, final String content, final String icon, String button_neutral, final boolean finishFromActivity) {
 
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(activity);
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(activity);
@@ -42,7 +43,7 @@ public class Notes_helper {
         edit_title.setText(title);
         edit_title.setHint(R.string.bookmark_edit_title);
 
-        builder.setTitle(R.string.title_notes);
+        builder.setTitle(R.string.courseList_title);
         builder.setView(dialogView);
         builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
@@ -67,23 +68,21 @@ public class Notes_helper {
         dialog.getButton(android.app.AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Do stuff, possibly set wantToCloseDialog to true then...
 
                 String inputTitle = edit_title.getText().toString().trim();
-
-                Notes_DbAdapter db = new Notes_DbAdapter(activity);
+                Courses_DbAdapter db = new Courses_DbAdapter(activity);
                 db.open();
 
                 if(db.isExist(inputTitle)){
                     Snackbar.make(edit_title, activity.getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
                 }else{
                     dialog.dismiss();
-                    sharedPref.edit().putString("handleTextTitle", inputTitle).apply();
-                    sharedPref.edit().putString("handleTextSeqno", "").apply();
-                    sharedPref.edit().putString("handleTextIcon", icon).apply();
-                    sharedPref.edit().putString("handleTextCreate", helper_main.createDate()).apply();
-                    sharedPref.edit().putString("handleTextAttachment", "true").apply();
-                    helper_main.switchToActivity(activity, Activity_EditNote.class, finishFromActivity);
+                    sharedPref.edit().putString("courses_title", inputTitle).apply();
+                    sharedPref.edit().putString("courses_seqno", "").apply();
+                    sharedPref.edit().putString("courses_icon", icon).apply();
+                    sharedPref.edit().putString("courses_create", helper_main.createDate()).apply();
+                    sharedPref.edit().putString("courses_attachment", "").apply();
+                    helper_main.switchToActivity(activity, Activity_course.class, finishFromActivity);
                 }
             }
         });
@@ -91,7 +90,7 @@ public class Notes_helper {
             @Override
             public void onClick(View v) {
                 //Do stuff, possibly set wantToCloseDialog to true then...
-                sharedPref.edit().putString("handleTextText", content).apply();
+                sharedPref.edit().putString("courses_content", content).apply();
                 Snackbar.make(edit_title, activity.getString(R.string.toast_contentAdded), Snackbar.LENGTH_LONG).show();
             }
         });

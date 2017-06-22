@@ -40,17 +40,12 @@ public class Activity_intro extends OnboarderActivity {
         List<OnboarderPage> onboarderPages = new ArrayList<>();
 
         // Create your first page
-        OnboarderPage onboarderPage1 = new OnboarderPage(getString(R.string.intro1_title), getString(R.string.intro1_text), R.drawable.screenshot_0);
-        OnboarderPage onboarderPage2 = new OnboarderPage(getString(R.string.intro2_title), getString(R.string.intro2_text), R.drawable.screenshot_1);
-        OnboarderPage onboarderPage3 = new OnboarderPage(getString(R.string.intro3_title), getString(R.string.intro3_text), R.drawable.screenshot_2);
-        OnboarderPage onboarderPage4 = new OnboarderPage(getString(R.string.intro4_title), getString(R.string.intro4_text), R.drawable.screenshot_3);
-        OnboarderPage onboarderPage5 = new OnboarderPage(getString(R.string.intro10_title), getString(R.string.intro10_text), R.drawable.screenshot_9);
-        OnboarderPage onboarderPage6 = new OnboarderPage(getString(R.string.intro5_title), getString(R.string.intro5_text), R.drawable.screenshot_4);
+        OnboarderPage onboarderPage1 = new OnboarderPage(getString(R.string.intro1_title), getString(R.string.intro1_text), R.drawable.launcher_big);
+        OnboarderPage onboarderPage2 = new OnboarderPage(getString(R.string.intro2_title), getString(R.string.intro2_text), R.drawable.screenshot_0);
         OnboarderPage onboarderPage7 = new OnboarderPage(getString(R.string.intro6_title), getString(R.string.intro6_text), R.drawable.screenshot_5);
         OnboarderPage onboarderPage8 = new OnboarderPage(getString(R.string.intro7_title), getString(R.string.intro7_text), R.drawable.screenshot_6);
         OnboarderPage onboarderPage9 = new OnboarderPage(getString(R.string.intro8_title), getString(R.string.intro8_text), R.drawable.screenshot_7);
         OnboarderPage onboarderPage10 = new OnboarderPage(getString(R.string.intro9_title), getString(R.string.intro9_text), R.drawable.screenshot_8);
-
         // You can define title and description colors (by default white)
         // Don't forget to set background color for your page
 
@@ -60,18 +55,6 @@ public class Activity_intro extends OnboarderActivity {
         onboarderPage2.setBackgroundColor(R.color.colorPrimaryDark);
         onboarderPage2.setTitleColor(R.color.colorAccent);
         onboarderPage2.setDescriptionColor(R.color.color_light);
-        onboarderPage3.setBackgroundColor(R.color.colorPrimaryDark);
-        onboarderPage3.setTitleColor(R.color.colorAccent);
-        onboarderPage3.setDescriptionColor(R.color.color_light);
-        onboarderPage4.setBackgroundColor(R.color.colorPrimaryDark);
-        onboarderPage4.setTitleColor(R.color.colorAccent);
-        onboarderPage4.setDescriptionColor(R.color.color_light);
-        onboarderPage5.setBackgroundColor(R.color.colorPrimaryDark);
-        onboarderPage5.setTitleColor(R.color.colorAccent);
-        onboarderPage5.setDescriptionColor(R.color.color_light);
-        onboarderPage6.setBackgroundColor(R.color.colorPrimaryDark);
-        onboarderPage6.setTitleColor(R.color.colorAccent);
-        onboarderPage6.setDescriptionColor(R.color.color_light);
         onboarderPage7.setBackgroundColor(R.color.colorPrimaryDark);
         onboarderPage7.setTitleColor(R.color.colorAccent);
         onboarderPage7.setDescriptionColor(R.color.color_light);
@@ -88,10 +71,6 @@ public class Activity_intro extends OnboarderActivity {
         // Add your pages to the list
         onboarderPages.add(onboarderPage1);
         onboarderPages.add(onboarderPage2);
-        onboarderPages.add(onboarderPage3);
-        onboarderPages.add(onboarderPage4);
-        onboarderPages.add(onboarderPage5);
-        onboarderPages.add(onboarderPage6);
         onboarderPages.add(onboarderPage7);
         onboarderPages.add(onboarderPage8);
         onboarderPages.add(onboarderPage9);
@@ -116,7 +95,7 @@ public class Activity_intro extends OnboarderActivity {
         // Define your actions when the user press 'Finish' button
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        sharedPref.edit().putBoolean("showIntroScreen_notShow", false).apply();
+        sharedPref.edit().putBoolean("showIntroScreen_showIntro", false).apply();
         Intent mainIntent = new Intent(Activity_intro.this, Activity_splash.class);
         startActivity(mainIntent);
         Activity_intro.this.finish();

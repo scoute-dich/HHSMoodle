@@ -41,7 +41,7 @@ import de.baumann.hhsmoodle.helper.helper_main;
 
 public class Count_helper {
 
-    public static void newCount (final Activity activity, String title, final String content, String button_neutral, final boolean finishFromActivity) {
+    public static void newCount (final Activity activity, String title, final String content, final String icon, String button_neutral, final boolean finishFromActivity) {
 
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(activity);
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(activity);
@@ -86,7 +86,7 @@ public class Count_helper {
                     dialog.dismiss();
                     sharedPref.edit().putString("count_title", inputTitle).apply();
                     sharedPref.edit().putString("count_seqno", "").apply();
-                    sharedPref.edit().putString("count_textIcon", "3").apply();
+                    sharedPref.edit().putString("count_icon", icon).apply();
                     sharedPref.edit().putString("count_create", helper_main.createDate()).apply();
                     sharedPref.edit().putString("count_attachment", "").apply();
                     helper_main.switchToActivity(activity, Activity_count.class, finishFromActivity);

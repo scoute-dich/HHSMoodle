@@ -23,6 +23,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -31,6 +32,9 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.Spanned;
+import android.text.style.StrikethroughSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -87,7 +91,7 @@ public class Activity_todo extends AppCompatActivity {
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         toDo_title = sharedPref.getString("toDo_title", "");
         String toDo_text = sharedPref.getString("toDo_text", "");
-        toDo_icon = sharedPref.getString("toDo_icon", "");
+        toDo_icon = sharedPref.getString("toDo_icon", "19");
         toDo_create = sharedPref.getString("toDo_create", "");
         todo_attachment = sharedPref.getString("toDo_attachment", "");
         if (!sharedPref.getString("toDo_seqno", "").isEmpty()) {
@@ -248,6 +252,7 @@ public class Activity_todo extends AppCompatActivity {
                                     View item, final int pos, long id) {
 
                 getValues(pos);
+
                 index = lvItems.getFirstVisiblePosition();
                 View v = lvItems.getChildAt(0);
                 top = (v == null) ? 0 : (v.getTop() - lvItems.getPaddingTop());
@@ -304,6 +309,8 @@ public class Activity_todo extends AppCompatActivity {
 
                     public void onClick(DialogInterface dialog, int whichButton) {
 
+                        getValues(pos);
+
                         String inputTag = edit_title.getText().toString().trim();
                         String itemText = inputTag + "|" + countString;
                         items.remove(pos);
@@ -343,13 +350,17 @@ public class Activity_todo extends AppCompatActivity {
                 getValues(position);
 
                 final ImageButton ib_plus = (ImageButton) convertView.findViewById(R.id.but_plus);
-                TextView textTITLE = (TextView) convertView.findViewById(R.id.count_title);
-                textTITLE.setText(titleString);
+                final TextView textTITLE = (TextView) convertView.findViewById(R.id.count_title);
+                final StrikethroughSpan STRIKE_THROUGH_SPAN = new StrikethroughSpan();
 
                 if (countString.equals("[-]")) {
                     ib_plus.setImageResource(R.drawable.checkbox_blank_circle_outline);
+                    textTITLE.setText(titleString);
                 } else {
                     ib_plus.setImageResource(R.drawable.checkbox_marked_circle_outline);
+                    textTITLE.setText(titleString, TextView.BufferType.SPANNABLE);
+                    Spannable spannable = (Spannable) textTITLE.getText();
+                    spannable.setSpan(STRIKE_THROUGH_SPAN, 0, titleString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 }
 
                 ib_plus.setOnClickListener(new View.OnClickListener() {
@@ -444,7 +455,10 @@ public class Activity_todo extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        closeActivity();
+    }
 
+    private void closeActivity () {
         Todo_DbAdapter db = new Todo_DbAdapter(Activity_todo.this);
         db.open();
 
@@ -457,6 +471,14 @@ public class Activity_todo extends AppCompatActivity {
                 db.insert(toDo_title, getText(), toDo_icon, todo_attachment, toDo_create);
             }
         }
+
+        sharedPref.edit().putString("toDo_title", "").apply();
+        sharedPref.edit().putString("toDo_text", "").apply();
+        sharedPref.edit().putString("toDo_seqno", "").apply();
+        sharedPref.edit().putString("toDo_icon", "").apply();
+        sharedPref.edit().putString("toDo_create", "").apply();
+        sharedPref.edit().putString("toDo_attachment", "").apply();
+        sharedPref.edit().putString("toDo_content", "").apply();
         //noinspection ResultOfMethodCallIgnored
         newFile().delete();
         finish();
@@ -470,28 +492,7 @@ public class Activity_todo extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == android.R.id.home) {
-            Todo_DbAdapter db = new Todo_DbAdapter(Activity_todo.this);
-            db.open();
-
-            if (!sharedPref.getString("toDo_seqno", "").isEmpty()) {
-                db.update(toDo_seqno, toDo_title, getText(), toDo_icon, todo_attachment, toDo_create);
-            } else {
-                if(db.isExist(toDo_title)){
-                    Snackbar.make(lvItems, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
-                } else {
-                    db.insert(toDo_title, getText(), toDo_icon, todo_attachment, toDo_create);
-                }
-            }
-
-            sharedPref.edit().putString("toDo_title", "").apply();
-            sharedPref.edit().putString("toDo_text", "").apply();
-            sharedPref.edit().putString("toDo_seqno", "").apply();
-            sharedPref.edit().putString("toDo_icon", "").apply();
-            sharedPref.edit().putString("toDo_create", "").apply();
-            sharedPref.edit().putString("toDo_attachment", "").apply();
-            //noinspection ResultOfMethodCallIgnored
-            newFile().delete();
-            finish();
+            closeActivity();
         }
 
         return super.onOptionsItemSelected(item);

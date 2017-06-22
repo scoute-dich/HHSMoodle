@@ -41,7 +41,7 @@ import de.baumann.hhsmoodle.helper.helper_main;
 
 public class Todo_helper {
 
-    public static void newTodo (final Activity activity, String title, final String content, String button_neutral, final boolean finishFromActivity) {
+    public static void newTodo (final Activity activity, String title, final String content, final String icon, String button_neutral, final boolean finishFromActivity) {
 
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(activity);
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(activity);
@@ -90,7 +90,7 @@ public class Todo_helper {
                     dialog.dismiss();
                     sharedPref.edit().putString("toDo_title", inputTitle).apply();
                     sharedPref.edit().putString("toDo_seqno", "").apply();
-                    sharedPref.edit().putString("toDo_icon", "3").apply();
+                    sharedPref.edit().putString("toDo_icon", icon).apply();
                     sharedPref.edit().putString("toDo_create", helper_main.createDate()).apply();
                     sharedPref.edit().putString("toDo_attachment", "true").apply();
                     helper_main.switchToActivity(activity, Activity_todo.class, finishFromActivity);

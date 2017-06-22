@@ -16,22 +16,35 @@
         app:showAsAction="ifRoom" >
         <!-- "file" submenu -->
         <menu>
-            <item android:id="@+id/filter_title"
-                android:title="@string/action_filter_title" />
+            <item
+                android:id="@+id/filter_title"
+                android:orderInCategory="100"
+                android:title="@string/action_filter_title"
+                app:showAsAction="ifRoom" >
+                <!-- "file" submenu -->
+                <menu>
+                    <item android:id="@+id/filter_title_own"
+                        android:title="@string/filter_own" />
+                    <item android:id="@+id/filter_course"
+                        android:title="@string/action_filter_course" />
+                    <item android:id="@+id/filter_subject"
+                        android:title="@string/action_filter_subject" />
+                </menu>
+            </item>
+
             <item android:id="@+id/filter_content"
                 android:title="@string/action_filter_cont" />
-            <item android:id="@+id/filter_course"
-                android:title="@string/action_filter_course" />
             <item android:id="@+id/filter_url"
                 android:title="@string/action_filter_url" />
             <item android:id="@+id/filter_ext"
-                android:title="@string/action_filter_att" />
+                android:title="@string/action_filter_ext" />
             <item android:id="@+id/filter_att"
                 android:title="@string/action_filter_att" />
             <item android:id="@+id/filter_teacher"
                 android:title="@string/schedule_search_teacher" />
             <item android:id="@+id/filter_room"
                 android:title="@string/schedule_search_room" />
+
             <item
                 android:id="@+id/filter_creation"
                 android:orderInCategory="100"
@@ -68,8 +81,6 @@
                 android:title="@string/action_sort_icon" />
             <item android:id="@+id/sort_ext"
                 android:title="@string/action_sort_ext" />
-            <item android:id="@+id/sort_pri"
-                android:title="@string/action_sort_priority" />
             <item android:id="@+id/sort_attachment"
                 android:title="@string/action_sort_att" />
             <item android:id="@+id/sort_notification"

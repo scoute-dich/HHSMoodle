@@ -70,6 +70,7 @@ import de.baumann.hhsmoodle.data_notes.Notes_helper;
 import de.baumann.hhsmoodle.data_random.Random_helper;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.popup.Popup_courseList;
+import de.baumann.hhsmoodle.popup.Popup_subjects;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 
@@ -88,8 +89,12 @@ public class Todo_Fragment extends Fragment {
     private FloatingActionButton fab;
     private LinearLayout fabLayout1;
     private LinearLayout fabLayout2;
+    private LinearLayout fabLayout3;
     private boolean isFABOpen=false;
     private ViewPager viewPager;
+
+    private int top;
+    private int index;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -124,6 +129,7 @@ public class Todo_Fragment extends Fragment {
 
         fabLayout1= (LinearLayout) rootView.findViewById(R.id.fabLayout1);
         fabLayout2= (LinearLayout) rootView.findViewById(R.id.fabLayout2);
+        fabLayout3= (LinearLayout) rootView.findViewById(R.id.fabLayout3);
         fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
         FloatingActionButton fab1 = (FloatingActionButton) rootView.findViewById(R.id.fab1);
         FloatingActionButton fab2 = (FloatingActionButton) rootView.findViewById(R.id.fab2);
@@ -143,7 +149,7 @@ public class Todo_Fragment extends Fragment {
             @Override
             public void onClick(View view) {
                 closeFABMenu();
-                Todo_helper.newTodo(getActivity(), "", "", "", false);
+                Todo_helper.newTodo(getActivity(), "", "", "19","", false);
             }
         });
 
@@ -153,6 +159,17 @@ public class Todo_Fragment extends Fragment {
                 closeFABMenu();
                 Intent mainIntent = new Intent(getActivity(), Popup_courseList.class);
                 mainIntent.setAction("courseList_todo");
+                startActivity(mainIntent);
+            }
+        });
+
+        FloatingActionButton fab3 = (FloatingActionButton) rootView.findViewById(R.id.fab3);
+        fab3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                closeFABMenu();
+                Intent mainIntent = new Intent(getActivity(), Popup_subjects.class);
+                mainIntent.setAction("subjectList_todo");
                 startActivity(mainIntent);
             }
         });
@@ -171,17 +188,20 @@ public class Todo_Fragment extends Fragment {
         isFABOpen=true;
         fabLayout1.setVisibility(View.VISIBLE);
         fabLayout2.setVisibility(View.VISIBLE);
+        fabLayout3.setVisibility(View.VISIBLE);
 
         fab.animate().rotationBy(180);
         fabLayout1.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
         fabLayout2.animate().translationY(-getResources().getDimension(R.dimen.standard_100));
+        fabLayout3.animate().translationY(-getResources().getDimension(R.dimen.standard_145));
     }
 
     private void closeFABMenu(){
         isFABOpen=false;
         fab.animate().rotationBy(-180);
         fabLayout1.animate().translationY(0);
-        fabLayout2.animate().translationY(0).setListener(new Animator.AnimatorListener() {
+        fabLayout2.animate().translationY(0);
+        fabLayout3.animate().translationY(0).setListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animator) {}
 
@@ -190,6 +210,7 @@ public class Todo_Fragment extends Fragment {
                 if(!isFABOpen){
                     fabLayout1.setVisibility(View.GONE);
                     fabLayout2.setVisibility(View.GONE);
+                    fabLayout3.setVisibility(View.GONE);
                 }
             }
 
@@ -211,6 +232,13 @@ public class Todo_Fragment extends Fragment {
             helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
                     search, getString(R.string.action_filter_course), false);
             sharedPref.edit().putString("search_byCourse", "").apply();
+        }  else if (!sharedPref.getString("search_bySubject", "").isEmpty() && viewPager.getCurrentItem() == 2) {
+            String search = sharedPref.getString("search_bySubject", "");
+            helper_main.changeFilter(getActivity(), "filter_todoBY", "todo_title");
+            setTodoList();
+            helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
+                    search, getString(R.string.action_filter_subject), false);
+            sharedPref.edit().putString("search_bySubject", "").apply();
         } else {
             if (filter_layout.getVisibility() == View.GONE) {
                 setTodoList();
@@ -228,6 +256,13 @@ public class Todo_Fragment extends Fragment {
         } else {
             helper_main.onClose(getActivity());
         }
+    }
+
+    private void isEdited () {
+        sharedPref.edit().putString("edit_yes", "true").apply();
+        index = lv.getFirstVisiblePosition();
+        View v = lv.getChildAt(0);
+        top = (v == null) ? 0 : (v.getTop() - lv.getPaddingTop());
     }
 
     public void setTodoList() {
@@ -317,10 +352,32 @@ public class Todo_Fragment extends Fragment {
                     @Override
                     public void onClick(View arg0) {
 
+                        isEdited();
                         final helper_main.Item[] items = {
-                                new helper_main.Item(getString(R.string.note_priority_0), R.drawable.circle_green),
-                                new helper_main.Item(getString(R.string.note_priority_1), R.drawable.circle_yellow),
-                                new helper_main.Item(getString(R.string.note_priority_2), R.drawable.circle_red),
+                                new helper_main.Item(getString(R.string.text_tit_11), R.drawable.ic_school_grey600_48dp),
+                                new helper_main.Item(getString(R.string.text_tit_1), R.drawable.ic_view_dashboard_grey600_48dp),
+                                new helper_main.Item(getString(R.string.text_tit_2), R.drawable.ic_face_profile_grey600_48dp),
+                                new helper_main.Item(getString(R.string.text_tit_8), R.drawable.ic_calendar_grey600_48dp),
+                                new helper_main.Item(getString(R.string.text_tit_3), R.drawable.ic_chart_areaspline_grey600_48dp),
+                                new helper_main.Item(getString(R.string.text_tit_4), R.drawable.ic_bell_grey600_48dp),
+                                new helper_main.Item(getString(R.string.text_tit_5), R.drawable.ic_settings_grey600_48dp),
+                                new helper_main.Item(getString(R.string.text_tit_6), R.drawable.ic_web_grey600_48dp),
+                                new helper_main.Item(getString(R.string.text_tit_7), R.drawable.ic_magnify_grey600_48dp),
+                                new helper_main.Item(getString(R.string.title_notes), R.drawable.ic_pencil_grey600_48dp),
+                                new helper_main.Item(getString(R.string.text_tit_9), R.drawable.ic_check_grey600_48dp),
+                                new helper_main.Item(getString(R.string.text_tit_10), R.drawable.ic_clock_grey600_48dp),
+                                new helper_main.Item(getString(R.string.title_bookmarks), R.drawable.ic_bookmark_grey600_48dp),
+                                new helper_main.Item(getString(R.string.subjects_color_red), R.drawable.circle_red),
+                                new helper_main.Item(getString(R.string.subjects_color_pink), R.drawable.circle_pink),
+                                new helper_main.Item(getString(R.string.subjects_color_purple), R.drawable.circle_purple),
+                                new helper_main.Item(getString(R.string.subjects_color_blue), R.drawable.circle_blue),
+                                new helper_main.Item(getString(R.string.subjects_color_teal), R.drawable.circle_teal),
+                                new helper_main.Item(getString(R.string.subjects_color_green), R.drawable.circle_green),
+                                new helper_main.Item(getString(R.string.subjects_color_lime), R.drawable.circle_lime),
+                                new helper_main.Item(getString(R.string.subjects_color_yellow), R.drawable.circle_yellow),
+                                new helper_main.Item(getString(R.string.subjects_color_orange), R.drawable.circle_orange),
+                                new helper_main.Item(getString(R.string.subjects_color_brown), R.drawable.circle_brown),
+                                new helper_main.Item(getString(R.string.subjects_color_grey), R.drawable.circle_grey),
                         };
 
                         ListAdapter adapter = new ArrayAdapter<helper_main.Item>(
@@ -354,13 +411,76 @@ public class Todo_Fragment extends Fragment {
 
                                     public void onClick(DialogInterface dialog, int item) {
                                         if (item == 0) {
-                                            db.update(Integer.parseInt(_id),todo_title, todo_content, "3", todo_attachment, todo_creation);
+                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "01", todo_attachment, todo_creation);
                                             setTodoList();
                                         } else if (item == 1) {
-                                            db.update(Integer.parseInt(_id),todo_title, todo_content, "2", todo_attachment, todo_creation);
+                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "02", todo_attachment, todo_creation);
                                             setTodoList();
                                         } else if (item == 2) {
-                                            db.update(Integer.parseInt(_id),todo_title, todo_content, "1", todo_attachment, todo_creation);
+                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "03", todo_attachment, todo_creation);
+                                            setTodoList();
+                                        } else if (item == 3) {
+                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "04", todo_attachment, todo_creation);
+                                            setTodoList();
+                                        } else if (item == 4) {
+                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "05", todo_attachment, todo_creation);
+                                            setTodoList();
+                                        } else if (item == 5) {
+                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "06", todo_attachment, todo_creation);
+                                            setTodoList();
+                                        } else if (item == 6) {
+                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "07", todo_attachment, todo_creation);
+                                            setTodoList();
+                                        } else if (item == 7) {
+                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "08", todo_attachment, todo_creation);
+                                            setTodoList();
+                                        } else if (item == 8) {
+                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "09", todo_attachment, todo_creation);
+                                            setTodoList();
+                                        } else if (item == 9) {
+                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "10", todo_attachment, todo_creation);
+                                            setTodoList();
+                                        } else if (item == 10) {
+                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "11", todo_attachment, todo_creation);
+                                            setTodoList();
+                                        } else if (item == 11) {
+                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "12", todo_attachment, todo_creation);
+                                            setTodoList();
+                                        } else if (item == 12) {
+                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "13", todo_attachment, todo_creation);
+                                            setTodoList();
+                                        } else if (item == 13) {
+                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "14", todo_attachment, todo_creation);
+                                            setTodoList();
+                                        } else if (item == 14) {
+                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "15", todo_attachment, todo_creation);
+                                            setTodoList();
+                                        } else if (item == 15) {
+                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "16", todo_attachment, todo_creation);
+                                            setTodoList();
+                                        } else if (item == 16) {
+                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "17", todo_attachment, todo_creation);
+                                            setTodoList();
+                                        } else if (item == 17) {
+                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "18", todo_attachment, todo_creation);
+                                            setTodoList();
+                                        } else if (item == 18) {
+                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "19", todo_attachment, todo_creation);
+                                            setTodoList();
+                                        } else if (item == 19) {
+                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "20", todo_attachment, todo_creation);
+                                            setTodoList();
+                                        } else if (item == 20) {
+                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "21", todo_attachment, todo_creation);
+                                            setTodoList();
+                                        } else if (item == 21) {
+                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "22", todo_attachment, todo_creation);
+                                            setTodoList();
+                                        } else if (item == 22) {
+                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "23", todo_attachment, todo_creation);
+                                            setTodoList();
+                                        } else if (item == 23) {
+                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "24", todo_attachment, todo_creation);
                                             setTodoList();
                                         }
                                     }
@@ -371,6 +491,7 @@ public class Todo_Fragment extends Fragment {
 
                     @Override
                     public void onClick(View arg0) {
+                        isEdited();
                         switch (todo_attachment) {
                             case "true":
                                 db.update(Integer.parseInt(_id), todo_title, todo_content, todo_icon, "", todo_creation);
@@ -406,6 +527,7 @@ public class Todo_Fragment extends Fragment {
         });
 
         lv.setAdapter(adapter);
+        lv.setSelectionFromTop(index, top);
         //onClick function
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -415,6 +537,7 @@ public class Todo_Fragment extends Fragment {
                     closeFABMenu();
                 }
 
+                isEdited();
                 Cursor row2 = (Cursor) lv.getItemAtPosition(position);
                 final String _id = row2.getString(row2.getColumnIndexOrThrow("_id"));
                 final String todo_title = row2.getString(row2.getColumnIndexOrThrow("todo_title"));
@@ -441,6 +564,7 @@ public class Todo_Fragment extends Fragment {
                     closeFABMenu();
                 }
 
+                isEdited();
                 Cursor row2 = (Cursor) lv.getItemAtPosition(position);
                 final String _id = row2.getString(row2.getColumnIndexOrThrow("_id"));
                 final String todo_title = row2.getString(row2.getColumnIndexOrThrow("todo_title"));
@@ -485,7 +609,6 @@ public class Todo_Fragment extends Fragment {
                                             String inputTag = edit_title.getText().toString().trim();
                                             db.update(Integer.parseInt(_id), inputTag, todo_content, todo_icon, todo_attachment, todo_creation);
                                             setTodoList();
-                                            Snackbar.make(lv, R.string.bookmark_added, Snackbar.LENGTH_SHORT).show();
                                         }
                                     });
                                     builder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
@@ -527,15 +650,15 @@ public class Todo_Fragment extends Fragment {
                                 }
 
                                 if (options[item].equals (getString(R.string.number_create))) {
-                                    Random_helper.newRandom(getActivity(), todo_title, todo_content, getActivity().getString(R.string.note_content), false);
+                                    Random_helper.newRandom(getActivity(), todo_title, todo_content, todo_icon, getActivity().getString(R.string.note_content), false);
                                 }
 
                                 if (options[item].equals (getString(R.string.count_create))) {
-                                    Count_helper.newCount(getActivity(), todo_title, todo_content, getActivity().getString(R.string.note_content), false);
+                                    Count_helper.newCount(getActivity(), todo_title, todo_content, todo_icon,getActivity().getString(R.string.note_content), false);
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createNote))) {
-                                    Notes_helper.newNote(getActivity(),todo_title,todo_content,getString(R.string.note_content), false);
+                                    Notes_helper.newNote(getActivity(),todo_title,todo_content,todo_icon,getString(R.string.note_content), false);
                                 }
 
                             }
@@ -551,7 +674,6 @@ public class Todo_Fragment extends Fragment {
         // Inflate the menu; this adds items to the action bar if it is present.
         super.onPrepareOptionsMenu(menu);
         menu.findItem(R.id.sort_attachment).setVisible(false);
-        menu.findItem(R.id.sort_icon).setVisible(false);
         menu.findItem(R.id.filter_att).setVisible(false);
         menu.findItem(R.id.filter_url).setVisible(false);
         menu.findItem(R.id.filter_teacher).setVisible(false);
@@ -560,6 +682,7 @@ public class Todo_Fragment extends Fragment {
         menu.findItem(R.id.filter_ext).setVisible(false);
         setTitle();
         setTodoList();
+        helper_main.hideKeyboard(getActivity());
     }
 
     @Override
@@ -575,7 +698,7 @@ public class Todo_Fragment extends Fragment {
                 helper_main.switchToActivity(getActivity(), Todo_Help.class, false);
                 return true;
 
-            case R.id.filter_title:
+            case R.id.filter_title_own:
                 helper_main.changeFilter(getActivity(), "filter_todoBY", "todo_title");
                 setTodoList();
                 helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
@@ -591,6 +714,11 @@ public class Todo_Fragment extends Fragment {
                 Intent mainIntent = new Intent(getActivity(), Popup_courseList.class);
                 mainIntent.setAction("search_byCourse");
                 startActivity(mainIntent);
+                return true;
+            case R.id.filter_subject:
+                Intent mainIntent2 = new Intent(getActivity(), Popup_subjects.class);
+                mainIntent2.setAction("search_bySubject");
+                startActivity(mainIntent2);
                 return true;
 
             case R.id.filter_today:
@@ -636,7 +764,7 @@ public class Todo_Fragment extends Fragment {
                 setTitle();
                 setTodoList();
                 return true;
-            case R.id.sort_pri:
+            case R.id.sort_icon:
                 sharedPref.edit().putString("sortDBT", "icon").apply();
                 setTitle();
                 setTodoList();
@@ -660,7 +788,7 @@ public class Todo_Fragment extends Fragment {
         if (sharedPref.getString("sortDBT", "title").equals("title")) {
             getActivity().setTitle(getString(R.string.todo_title) + " | " + getString(R.string.sort_title));
         } else if (sharedPref.getString("sortDBT", "title").equals("icon")) {
-            getActivity().setTitle(getString(R.string.todo_title) + " | " + getString(R.string.sort_pri));
+            getActivity().setTitle(getString(R.string.todo_title) + " | " + getString(R.string.sort_icon));
         } else if (sharedPref.getString("sortDBT", "title").equals("create")) {
             getActivity().setTitle(getString(R.string.todo_title) + " | " + getString(R.string.sort_date));
         } else {

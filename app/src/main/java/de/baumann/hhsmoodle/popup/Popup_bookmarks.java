@@ -74,63 +74,11 @@ public class Popup_bookmarks extends Activity {
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(Popup_bookmarks.this, layoutstyle, row, column, xml_id, 0) {
             @Override
             public View getView(final int position, View convertView, ViewGroup parent) {
-
                 Cursor row2 = (Cursor) lv.getItemAtPosition(position);
                 final String bookmarks_icon = row2.getString(row2.getColumnIndexOrThrow("bookmarks_icon"));
-
                 View v = super.getView(position, convertView, parent);
                 ImageView iv_icon = (ImageView) v.findViewById(R.id.icon_notes);
-
-                switch (bookmarks_icon) {
-                    case "01":
-                        iv_icon.setImageResource(R.drawable.circle_red);
-                        break;
-                    case "02":
-                        iv_icon.setImageResource(R.drawable.circle_yellow);
-                        break;
-                    case "03":
-                        iv_icon.setImageResource(R.drawable.circle_green);
-                        break;
-                    case "04":
-                        iv_icon.setImageResource(R.drawable.ic_school_grey600_48dp);
-                        break;
-                    case "05":
-                        iv_icon.setImageResource(R.drawable.ic_view_dashboard_grey600_48dp);
-                        break;
-                    case "06":
-                        iv_icon.setImageResource(R.drawable.ic_face_profile_grey600_48dp);
-                        break;
-                    case "07":
-                        iv_icon.setImageResource(R.drawable.ic_calendar_grey600_48dp);
-                        break;
-                    case "08":
-                        iv_icon.setImageResource(R.drawable.ic_chart_areaspline_grey600_48dp);
-                        break;
-                    case "09":
-                        iv_icon.setImageResource(R.drawable.ic_bell_grey600_48dp);
-                        break;
-                    case "10":
-                        iv_icon.setImageResource(R.drawable.ic_settings_grey600_48dp);
-                        break;
-                    case "11":
-                        iv_icon.setImageResource(R.drawable.ic_web_grey600_48dp);
-                        break;
-                    case "12":
-                        iv_icon.setImageResource(R.drawable.ic_magnify_grey600_48dp);
-                        break;
-                    case "13":
-                        iv_icon.setImageResource(R.drawable.ic_pencil_grey600_48dp);
-                        break;
-                    case "14":
-                        iv_icon.setImageResource(R.drawable.ic_check_grey600_48dp);
-                        break;
-                    case "15":
-                        iv_icon.setImageResource(R.drawable.ic_clock_grey600_48dp);
-                        break;
-                    case "16":
-                        iv_icon.setImageResource(R.drawable.ic_bookmark_grey600_48dp);
-                        break;
-                }
+                helper_main.switchIcon(Popup_bookmarks.this, bookmarks_icon, "subject_icon", iv_icon);
                 return v;
             }
         };
@@ -146,7 +94,6 @@ public class Popup_bookmarks extends Activity {
 
                 PreferenceManager.setDefaultValues(Popup_bookmarks.this, R.xml.user_settings, false);
                 SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(Popup_bookmarks.this);
-                sharedPref.edit().putString("load_next", "true").apply();
                 sharedPref.edit().putString("loadURL", bookmarks_content).apply();
 
                 Popup_bookmarks.this.finish();

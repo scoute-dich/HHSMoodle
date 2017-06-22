@@ -20,28 +20,19 @@
 package de.baumann.hhsmoodle.popup;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.provider.CalendarContract;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v4.view.ViewPager;
 import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
@@ -51,7 +42,6 @@ import java.io.File;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.activities.Activity_EditNote;
 import de.baumann.hhsmoodle.data_notes.Notes_DbAdapter;
-import de.baumann.hhsmoodle.data_todo.Todo_DbAdapter;
 import de.baumann.hhsmoodle.helper.helper_main;
 
 public class Popup_note extends Activity {
@@ -101,28 +91,13 @@ public class Popup_note extends Activity {
             public View getView (final int position, View convertView, ViewGroup parent) {
 
                 Cursor row2 = (Cursor) lv.getItemAtPosition(position);
-                final String _id = row2.getString(row2.getColumnIndexOrThrow("_id"));
-                final String note_title = row2.getString(row2.getColumnIndexOrThrow("note_title"));
-                final String note_content = row2.getString(row2.getColumnIndexOrThrow("note_content"));
                 final String note_icon = row2.getString(row2.getColumnIndexOrThrow("note_icon"));
                 final String note_attachment = row2.getString(row2.getColumnIndexOrThrow("note_attachment"));
-                final String note_creation = row2.getString(row2.getColumnIndexOrThrow("note_creation"));
 
                 View v = super.getView(position, convertView, parent);
                 ImageView iv_icon = (ImageView) v.findViewById(R.id.icon_notes);
                 ImageView iv_attachment = (ImageView) v.findViewById(R.id.att_notes);
-
-                switch (note_icon) {
-                    case "3":
-                        iv_icon.setImageResource(R.drawable.circle_green);
-                        break;
-                    case "2":
-                        iv_icon.setImageResource(R.drawable.circle_yellow);
-                        break;
-                    case "1":
-                        iv_icon.setImageResource(R.drawable.circle_red);
-                        break;
-                }
+                helper_main.switchIcon(Popup_note.this, note_icon, "note_icon", iv_icon);
 
                 switch (note_attachment) {
                     case "":
@@ -138,69 +113,6 @@ public class Popup_note extends Activity {
                 if (!file.exists()) {
                     iv_attachment.setVisibility(View.GONE);
                 }
-
-                iv_icon.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View arg0) {
-
-                        final Item[] items = {
-                                new Item(getString(R.string.note_priority_0), R.drawable.circle_green),
-                                new Item(getString(R.string.note_priority_1), R.drawable.circle_yellow),
-                                new Item(getString(R.string.note_priority_2), R.drawable.circle_red),
-                        };
-
-                        ListAdapter adapter = new ArrayAdapter<Item>(
-                                Popup_note.this,
-                                android.R.layout.select_dialog_item,
-                                android.R.id.text1,
-                                items){
-                            @NonNull
-                            public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-                                //Use super class to create the View
-                                View v = super.getView(position, convertView, parent);
-                                TextView tv = (TextView)v.findViewById(android.R.id.text1);
-                                tv.setTextSize(18);
-                                tv.setCompoundDrawablesWithIntrinsicBounds(items[position].icon, 0, 0, 0);
-                                //Add margin between image and text (support various screen densities)
-                                int dp5 = (int) (24 * getResources().getDisplayMetrics().density + 0.5f);
-                                tv.setCompoundDrawablePadding(dp5);
-
-                                return v;
-                            }
-                        };
-
-                        new AlertDialog.Builder(Popup_note.this)
-                                .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                                    public void onClick(DialogInterface dialog, int whichButton) {
-                                        dialog.cancel();
-                                    }
-                                })
-                                .setAdapter(adapter, new DialogInterface.OnClickListener() {
-
-                                    public void onClick(DialogInterface dialog, int item) {
-                                        if (item == 0) {
-                                            db.update(Integer.parseInt(_id),note_title, note_content, "3", note_attachment, note_creation);
-                                            setNotesList();
-                                        } else if (item == 1) {
-                                            db.update(Integer.parseInt(_id),note_title, note_content, "2", note_attachment, note_creation);
-                                            setNotesList();
-                                        } else if (item == 2) {
-                                            db.update(Integer.parseInt(_id),note_title, note_content, "1", note_attachment, note_creation);
-                                            setNotesList();
-                                        }
-                                    }
-                                }).show();
-                    }
-                });
-                iv_attachment.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View arg0) {
-                        helper_main.openAtt(Popup_note.this, lv, note_attachment);
-                    }
-                });
                 return v;
             }
         };
@@ -255,17 +167,7 @@ public class Popup_note extends Activity {
 
                 final ImageView be = (ImageView) dialogView.findViewById(R.id.imageButtonPri);
 
-                switch (note_icon) {
-                    case "3":
-                        be.setImageResource(R.drawable.circle_green);
-                        break;
-                    case "2":
-                        be.setImageResource(R.drawable.circle_yellow);
-                        break;
-                    case "1":
-                        be.setImageResource(R.drawable.circle_red);
-                        break;
-                }
+                helper_main.switchIcon(Popup_note.this, note_icon, "note_icon", be);
 
                 android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(Popup_note.this)
                         .setTitle(note_title)
@@ -274,6 +176,7 @@ public class Popup_note extends Activity {
 
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 dialog.cancel();
+                                finish();
                             }
                         })
                         .setNegativeButton(R.string.note_edit, new DialogInterface.OnClickListener() {
@@ -287,106 +190,10 @@ public class Popup_note extends Activity {
                                         .putString("handleTextAttachment", note_attachment)
                                         .putString("handleTextCreate", note_creation)
                                         .apply();
-                                helper_main.switchToActivity(Popup_note.this, Activity_EditNote.class, false);
+                                helper_main.switchToActivity(Popup_note.this, Activity_EditNote.class, true);
                             }
                         });
                 dialog.show();
-            }
-        });
-
-        lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-
-                Cursor row2 = (Cursor) lv.getItemAtPosition(position);
-                final String _id = row2.getString(row2.getColumnIndexOrThrow("_id"));
-                final String note_title = row2.getString(row2.getColumnIndexOrThrow("note_title"));
-                final String note_content = row2.getString(row2.getColumnIndexOrThrow("note_content"));
-                final String note_icon = row2.getString(row2.getColumnIndexOrThrow("note_icon"));
-                final String note_attachment = row2.getString(row2.getColumnIndexOrThrow("note_attachment"));
-                final String note_creation = row2.getString(row2.getColumnIndexOrThrow("note_creation"));
-
-                final CharSequence[] options = {
-                        getString(R.string.note_edit),
-                        getString(R.string.note_share),
-                        getString(R.string.todo_menu),
-                        getString(R.string.bookmark_createEvent),
-                        getString(R.string.note_remove_note)};
-                new AlertDialog.Builder(Popup_note.this)
-                        .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                dialog.cancel();
-                            }
-                        })
-                        .setItems(options, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int item) {
-                                if (options[item].equals(getString(R.string.note_edit))) {
-                                    sharedPref.edit()
-                                            .putString("handleTextTitle", note_title)
-                                            .putString("handleTextText", note_content)
-                                            .putString("handleTextIcon", note_icon)
-                                            .putString("handleTextSeqno", _id)
-                                            .putString("handleTextAttachment", note_attachment)
-                                            .putString("handleTextCreate", note_creation)
-                                            .apply();
-                                    helper_main.switchToActivity(Popup_note.this, Activity_EditNote.class, false);
-                                }
-
-                                if (options[item].equals (getString(R.string.note_share))) {
-                                    File attachment = new File(note_attachment);
-                                    Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-                                    sharingIntent.setType("text/plain");
-                                    sharingIntent.putExtra(Intent.EXTRA_SUBJECT, note_title);
-                                    sharingIntent.putExtra(Intent.EXTRA_TEXT, note_content);
-
-                                    if (attachment.exists()) {
-                                        Uri bmpUri = Uri.fromFile(attachment);
-                                        sharingIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
-                                    }
-
-                                    startActivity(Intent.createChooser(sharingIntent, (getString(R.string.note_share_2))));
-                                }
-
-                                if (options[item].equals (getString(R.string.todo_menu))) {
-
-                                    Todo_DbAdapter db = new Todo_DbAdapter(Popup_note.this);
-                                    db.open();
-                                    if(db.isExist(note_title)){
-                                        Snackbar.make(lv, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
-                                    }else{
-                                        db.insert(note_title, note_content, "3", "true", helper_main.createDate());
-                                        ViewPager viewPager = (ViewPager) Popup_note.this.findViewById(R.id.viewpager);
-                                        viewPager.setCurrentItem(2);
-                                        Popup_note.this.setTitle(R.string.todo_title);
-                                        dialog.dismiss();
-                                    }
-                                }
-
-                                if (options[item].equals (getString(R.string.bookmark_createEvent))) {
-                                    Intent calIntent = new Intent(Intent.ACTION_INSERT);
-                                    calIntent.setType("vnd.android.cursor.item/event");
-                                    calIntent.putExtra(CalendarContract.Events.TITLE, note_title);
-                                    calIntent.putExtra(CalendarContract.Events.DESCRIPTION, note_content);
-                                    startActivity(calIntent);
-                                }
-
-                                if (options[item].equals(getString(R.string.note_remove_note))) {
-                                    Snackbar snackbar = Snackbar
-                                            .make(lv, R.string.note_remove_confirmation, Snackbar.LENGTH_LONG)
-                                            .setAction(R.string.toast_yes, new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View view) {
-                                                    db.delete(Integer.parseInt(_id));
-                                                    setNotesList();
-                                                }
-                                            });
-                                    snackbar.show();
-                                }
-                            }
-                        }).show();
-
-                return true;
             }
         });
 
@@ -405,20 +212,6 @@ public class Popup_note extends Activity {
                     finish();
                 }
             }, 2000);
-        }
-    }
-
-    public static class Item{
-        public final String text;
-        public final int icon;
-        Item(String text, Integer icon) {
-            this.text = text;
-            this.icon = icon;
-        }
-
-        @Override
-        public String toString() {
-            return text;
         }
     }
 }

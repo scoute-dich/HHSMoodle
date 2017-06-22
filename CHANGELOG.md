@@ -1,8 +1,15 @@
 ### 4.5 (WIP)
+- neu: Todo - Einträge abhaken
+- neu: neue Einträge uas Fächerliste
+- verbessert: einheitliche Kontextmenüs
+- verbessert: Sicherung/Wiederherstellung
 - verbessert: Fehlermeldung automatischer Login
 - verbessert: Suche in Einträgen
 - verbessert: Passwortschutz
 - verbessert: Sortieren von Einträgen
+- verbessert: Hilfedialoge
+- verbessert: Einführungsdialog
+- fix: Listen scrollen nicht mehr automatisch nach oben
 - fix: lautlos Modus
 - fix: Einträge aktualisieren
 - fix: Anhänge auswählen

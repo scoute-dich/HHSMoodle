@@ -20,6 +20,7 @@
 package de.baumann.hhsmoodle.activities;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -32,13 +33,16 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.apache.commons.io.FileUtils;
 
@@ -90,7 +94,7 @@ public class Activity_random extends AppCompatActivity {
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         toDo_title = sharedPref.getString("random_title", "");
-        toDo_icon = sharedPref.getString("random_icon", "");
+        toDo_icon = sharedPref.getString("random_icon", "19");
         toDo_create = sharedPref.getString("random_create", "");
         String toDo_content = sharedPref.getString("random_content", "");
         todo_attachment = sharedPref.getString("random_attachment", "");
@@ -209,22 +213,35 @@ public class Activity_random extends AppCompatActivity {
 
     private void setAdapter (final int count) {
         ArrayAdapter<String> itemsAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, itemsTitle) {
+                R.layout.list_item_count, itemsTitle) {
 
             @NonNull
             @Override
             public View getView(final int position, View convertView, @NonNull ViewGroup parent) {
 
-                View v = super.getView(position, convertView, parent);
+                if (convertView == null) {
+                    LayoutInflater infInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    convertView = infInflater.inflate(R.layout.list_item_count, parent, false);
+                }
+
+                ImageButton ib_plus = (ImageButton) convertView.findViewById(R.id.but_plus);
+                ImageButton ib_minus = (ImageButton) convertView.findViewById(R.id.but_minus);
+                TextView textTITLE = (TextView) convertView.findViewById(R.id.count_title);
+                TextView textDES = (TextView) convertView.findViewById(R.id.count_count);
+
+                ib_plus.setVisibility(View.GONE);
+                ib_minus.setVisibility(View.GONE);
+                textDES.setVisibility(View.GONE);
+                textTITLE.setText(itemsTitle.get(position));
 
                 if (position == 1000) {
-                    v.setBackgroundColor(ContextCompat.getColor(Activity_random.this, R.color.color_trans));
+                    convertView.setBackgroundColor(ContextCompat.getColor(Activity_random.this, R.color.color_trans));
                 } else if (position == count) {
-                    v.setBackgroundColor(ContextCompat.getColor(Activity_random.this, R.color.colorAccent_trans));
+                    convertView.setBackgroundColor(ContextCompat.getColor(Activity_random.this, R.color.colorAccent_trans));
                 } else {
-                    v.setBackgroundColor(ContextCompat.getColor(Activity_random.this, R.color.color_trans));
+                    convertView.setBackgroundColor(ContextCompat.getColor(Activity_random.this, R.color.color_trans));
                 }
-                return v;
+                return convertView;
             }
         };
         itemsAdapter.sort(new Comparator<String>() {
@@ -280,7 +297,10 @@ public class Activity_random extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        closeActivity();
+    }
 
+    private void closeActivity () {
         Random_DbAdapter db = new Random_DbAdapter(Activity_random.this);
         db.open();
 
@@ -300,6 +320,7 @@ public class Activity_random extends AppCompatActivity {
         sharedPref.edit().putString("random_icon", "").apply();
         sharedPref.edit().putString("random_create", "").apply();
         sharedPref.edit().putString("random_attachment", "").apply();
+        sharedPref.edit().putString("random_content", "").apply();
         newFileTitle().delete();
         finish();
     }
@@ -319,26 +340,7 @@ public class Activity_random extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == android.R.id.home) {
-            Random_DbAdapter db = new Random_DbAdapter(Activity_random.this);
-            db.open();
-
-            if (!sharedPref.getString("random_seqno", "").isEmpty()) {
-                db.update(toDo_seqno, toDo_title, getTextTitle(), toDo_icon, todo_attachment, toDo_create);
-            } else {
-                if(db.isExist(toDo_title)){
-                    Snackbar.make(lvItems, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
-                } else {
-                    db.insert(toDo_title, getTextTitle(), toDo_icon, todo_attachment, toDo_create);
-                }
-            }
-            sharedPref.edit().putString("random_title", "").apply();
-            sharedPref.edit().putString("random_text", "").apply();
-            sharedPref.edit().putString("random_seqno", "").apply();
-            sharedPref.edit().putString("random_icon", "").apply();
-            sharedPref.edit().putString("random_create", "").apply();
-            sharedPref.edit().putString("random_attachment", "").apply();
-            newFileTitle().delete();
-            finish();
+            closeActivity();
         }
 
         if (id == R.id.action_add) {

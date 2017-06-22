@@ -82,6 +82,9 @@ public class Files_Fragment extends Fragment {
     private RelativeLayout filter_layout;
     private ViewPager viewPager;
 
+    private int top;
+    private int index;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -149,6 +152,13 @@ public class Files_Fragment extends Fragment {
         } else {
             helper_main.onClose(getActivity());
         }
+    }
+
+    private void isEdited () {
+        sharedPref.edit().putString("edit_yes", "true").apply();
+        index = lv.getFirstVisiblePosition();
+        View v = lv.getChildAt(0);
+        top = (v == null) ? 0 : (v.getTop() - lv.getPaddingTop());
     }
 
     public void setFilesList() {
@@ -325,11 +335,13 @@ public class Files_Fragment extends Fragment {
         });
 
         lv.setAdapter(adapter);
+        lv.setSelectionFromTop(index, top);
         //onClick function
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterview, View view, int position, long id) {
 
+                isEdited();
                 Cursor row2 = (Cursor) lv.getItemAtPosition(position);
                 final String files_attachment = row2.getString(row2.getColumnIndexOrThrow("files_attachment"));
 
@@ -360,6 +372,7 @@ public class Files_Fragment extends Fragment {
         lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
+                isEdited();
                 Cursor row2 = (Cursor) lv.getItemAtPosition(position);
                 final String files_title = row2.getString(row2.getColumnIndexOrThrow("files_title"));
                 final String files_attachment = row2.getString(row2.getColumnIndexOrThrow("files_attachment"));
@@ -509,17 +522,19 @@ public class Files_Fragment extends Fragment {
         super.onPrepareOptionsMenu(menu);
         menu.findItem(R.id.sort_attachment).setVisible(false);
         menu.findItem(R.id.sort_notification).setVisible(false);
-        menu.findItem(R.id.sort_pri).setVisible(false);
+        menu.findItem(R.id.sort_icon).setVisible(false);
         menu.findItem(R.id.sort_icon).setVisible(false);
         menu.findItem(R.id.filter_content).setVisible(false);
         menu.findItem(R.id.filter_att).setVisible(false);
         menu.findItem(R.id.filter_url).setVisible(false);
         menu.findItem(R.id.filter_teacher).setVisible(false);
         menu.findItem(R.id.filter_room).setVisible(false);
-        menu.findItem(R.id.action_help).setVisible(false);
         menu.findItem(R.id.filter_course).setVisible(false);
+        menu.findItem(R.id.filter_subject).setVisible(false);
+        menu.findItem(R.id.filter_title_own).setVisible(false);
         setTitle();
         fillFileList();
+        helper_main.hideKeyboard(getActivity());
     }
 
     @Override
@@ -531,6 +546,10 @@ public class Files_Fragment extends Fragment {
 
         switch (item.getItemId()) {
 
+            case R.id.action_help:
+                helper_main.switchToActivity(getActivity(), Files_Help.class, false);
+                return true;
+
             case R.id.filter_title:
                 helper_main.changeFilter(getActivity(), "filter_filesBY", "files_title");
                 fillFileList();
@@ -541,7 +560,7 @@ public class Files_Fragment extends Fragment {
                 helper_main.changeFilter(getActivity(), "filter_filesBY", "files_icon");
                 fillFileList();
                 helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
-                        "", getString(R.string.action_filter_url), true);
+                        "", getString(R.string.action_filter_ext), true);
                 return true;
 
             case R.id.filter_today:

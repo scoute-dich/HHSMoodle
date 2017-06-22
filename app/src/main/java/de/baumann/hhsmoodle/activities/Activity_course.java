@@ -85,13 +85,13 @@ public class Activity_course extends AppCompatActivity {
 
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        toDo_title = sharedPref.getString("random_title", "");
-        toDo_icon = sharedPref.getString("random_icon", "");
-        toDo_create = sharedPref.getString("random_create", "");
-        String toDo_content = sharedPref.getString("random_content", "");
-        todo_attachment = sharedPref.getString("random_attachment", "");
-        if (!sharedPref.getString("random_seqno", "").isEmpty()) {
-            toDo_seqno = Integer.parseInt(sharedPref.getString("random_seqno", ""));
+        toDo_title = sharedPref.getString("courses_title", "");
+        toDo_icon = sharedPref.getString("courses_icon", "");
+        toDo_create = sharedPref.getString("courses_create", "");
+        String toDo_content = sharedPref.getString("courses_content", "");
+        todo_attachment = sharedPref.getString("courses_attachment", "");
+        if (!sharedPref.getString("courses_seqno", "").isEmpty()) {
+            toDo_seqno = Integer.parseInt(sharedPref.getString("courses_seqno", ""));
         }
 
         setTitle(toDo_title);
@@ -240,16 +240,19 @@ public class Activity_course extends AppCompatActivity {
     }
 
     private File newFileTitle() {
-        return  new File(Activity_course.this.getFilesDir() + "title.txt");
+        return  new File(Activity_course.this.getFilesDir() + "course.txt");
     }
 
     @Override
     public void onBackPressed() {
+        closeActivity();
+    }
 
+    private void closeActivity () {
         Courses_DbAdapter db = new Courses_DbAdapter(Activity_course.this);
         db.open();
 
-        if (!sharedPref.getString("random_seqno", "").isEmpty()) {
+        if (!sharedPref.getString("courses_seqno", "").isEmpty()) {
             db.update(toDo_seqno, toDo_title, getTextTitle(), toDo_icon, todo_attachment, toDo_create);
         } else {
             if(db.isExist(toDo_title)){
@@ -258,12 +261,13 @@ public class Activity_course extends AppCompatActivity {
                 db.insert(toDo_title, getTextTitle(), toDo_icon, todo_attachment, toDo_create);
             }
         }
-        sharedPref.edit().putString("random_title", "").apply();
-        sharedPref.edit().putString("random_text", "").apply();
-        sharedPref.edit().putString("random_seqno", "").apply();
-        sharedPref.edit().putString("random_icon", "").apply();
-        sharedPref.edit().putString("random_create", "").apply();
-        sharedPref.edit().putString("random_attachment", "").apply();
+        sharedPref.edit().putString("courses_title", "").apply();
+        sharedPref.edit().putString("courses_text", "").apply();
+        sharedPref.edit().putString("courses_seqno", "").apply();
+        sharedPref.edit().putString("courses_icon", "").apply();
+        sharedPref.edit().putString("courses_create", "").apply();
+        sharedPref.edit().putString("courses_attachment", "").apply();
+        sharedPref.edit().putString("courses_content", "").apply();
         newFileTitle().delete();
         finish();
     }
@@ -283,26 +287,7 @@ public class Activity_course extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == android.R.id.home) {
-            Courses_DbAdapter db = new Courses_DbAdapter(Activity_course.this);
-            db.open();
-
-            if (!sharedPref.getString("random_seqno", "").isEmpty()) {
-                db.update(toDo_seqno, toDo_title, getTextTitle(), toDo_icon, todo_attachment, toDo_create);
-            } else {
-                if(db.isExist(toDo_title)){
-                    Snackbar.make(lvItems, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
-                } else {
-                    db.insert(toDo_title, getTextTitle(), toDo_icon, todo_attachment, toDo_create);
-                }
-            }
-            sharedPref.edit().putString("random_title", "").apply();
-            sharedPref.edit().putString("random_text", "").apply();
-            sharedPref.edit().putString("random_seqno", "").apply();
-            sharedPref.edit().putString("random_icon", "").apply();
-            sharedPref.edit().putString("random_create", "").apply();
-            sharedPref.edit().putString("random_attachment", "").apply();
-            newFileTitle().delete();
-            finish();
+            closeActivity();
         }
 
         if (id == R.id.action_add) {

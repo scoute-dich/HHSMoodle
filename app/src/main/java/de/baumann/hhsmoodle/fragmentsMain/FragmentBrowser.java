@@ -148,13 +148,9 @@ public class FragmentBrowser extends Fragment {
         imageButton_left = (ImageButton) rootView.findViewById(R.id.imageButton_left);
         imageButton_right = (ImageButton) rootView.findViewById(R.id.imageButton_right);
 
-        if (sharedPref.getBoolean ("arrow", false)){
-            imageButton_left.setVisibility(View.VISIBLE);
-            imageButton_right.setVisibility(View.VISIBLE);
-        } else {
-            imageButton_left.setVisibility(View.INVISIBLE);
-            imageButton_right.setVisibility(View.INVISIBLE);
-        }
+        imageButton_left.setVisibility(View.INVISIBLE);
+        imageButton_right.setVisibility(View.INVISIBLE);
+        setNavArrows();
 
         helper_webView.webView_Settings(getActivity(), mWebView);
         helper_webView.webView_WebViewClient(getActivity(), swipeView, mWebView);
@@ -216,21 +212,14 @@ public class FragmentBrowser extends Fragment {
 
         switch (requestCode) {
             case RESULT_CODE_ICE_CREAM:
-                sharedPref.edit().putString("load_next", "false").apply();
                 Uri uri = null;
                 if (data != null) {
                     uri = data.getData();
                 }
                 mUploadMessage.onReceiveValue(uri);
                 mUploadMessage = null;
-                new Handler().postDelayed(new Runnable() {
-                    public void run() {
-                        sharedPref.edit().putString("load_next", "true").apply();
-                    }
-                }, 1500);
                 break;
             case REQUEST_CODE_LOLLIPOP:
-                sharedPref.edit().putString("load_next", "false").apply();
                 Uri[] results = null;
                 // Check that the response is a good one
                 if (resultCode == Activity.RESULT_OK) {
@@ -248,11 +237,6 @@ public class FragmentBrowser extends Fragment {
                 }
                 mFilePathCallback.onReceiveValue(results);
                 mFilePathCallback = null;
-                new Handler().postDelayed(new Runnable() {
-                    public void run() {
-                        sharedPref.edit().putString("load_next", "true").apply();
-                    }
-                }, 1500);
                 break;
         }
     }
@@ -265,7 +249,7 @@ public class FragmentBrowser extends Fragment {
                         @Override
                         public void onClick(View view) {
                             ViewPager viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
-                            viewPager.setCurrentItem(6, true);
+                            viewPager.setCurrentItem(5, true);
                         }
                     });
             snackbar.show();
@@ -296,21 +280,20 @@ public class FragmentBrowser extends Fragment {
 
     private void refresh () {
 
-        if (sharedPref.getString ("load_next", "").equals("true")){
+        final String URLtoOpen  = sharedPref.getString("loadURL", "");
+        String FAVtoOpen  = sharedPref.getString("favoriteURL", "https://moodle.huebsch.ka.schule-bw.de/moodle/my/");
 
-            final String URLtoOpen  = sharedPref.getString("loadURL", "");
-            String FAVtoOpen  = sharedPref.getString("favoriteURL", "https://moodle.huebsch.ka.schule-bw.de/moodle/my/");
-
-            if (URLtoOpen.isEmpty()) {
-                mWebView.loadUrl(FAVtoOpen);
-            } else {
-                new Handler().postDelayed(new Runnable() {
-                    public void run() {
-                        mWebView.loadUrl(URLtoOpen);
-                        sharedPref.edit().putString("loadURL", "").apply();
-                    }
-                }, 200);
-            }
+        if (URLtoOpen.isEmpty()) {
+            mWebView.loadUrl(FAVtoOpen);
+        } else if (URLtoOpen.equals(mWebView.getUrl())) {
+            sharedPref.edit().putString("loadURL", mWebView.getUrl()).apply();
+        } else {
+            new Handler().postDelayed(new Runnable() {
+                public void run() {
+                    mWebView.loadUrl(URLtoOpen);
+                    sharedPref.edit().putString("loadURL", "").apply();
+                }
+            }, 200);
         }
     }
 
@@ -318,6 +301,8 @@ public class FragmentBrowser extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_browser, menu);
         getActivity().setTitle(R.string.title_browser);
+        helper_main.hideKeyboard(getActivity());
+        refresh();
     }
 
     @Override
@@ -434,31 +419,29 @@ public class FragmentBrowser extends Fragment {
     }
 
     private void setNavArrows() {
-        if (sharedPref.getString ("nav", "2").equals("2") || sharedPref.getString ("nav", "2").equals("3")){
-            if (mWebView.canGoBack()) {
-                imageButton_left.setVisibility(View.VISIBLE);
-            } else {
-                imageButton_left.setVisibility(View.INVISIBLE);
-            }
-            imageButton_left.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mWebView.goBack();
-                }
-            });
-
-            if (mWebView.canGoForward()) {
-                imageButton_right.setVisibility(View.VISIBLE);
-            } else {
-                imageButton_right.setVisibility(View.INVISIBLE);
-            }
-            imageButton_right.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mWebView.goForward();
-                }
-            });
+        if (mWebView.canGoBack()) {
+            imageButton_left.setVisibility(View.VISIBLE);
+        } else {
+            imageButton_left.setVisibility(View.INVISIBLE);
         }
+        imageButton_left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mWebView.goBack();
+            }
+        });
+
+        if (mWebView.canGoForward()) {
+            imageButton_right.setVisibility(View.VISIBLE);
+        } else {
+            imageButton_right.setVisibility(View.INVISIBLE);
+        }
+        imageButton_right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mWebView.goForward();
+            }
+        });
     }
 
     private class myWebChromeClient extends WebChromeClient {

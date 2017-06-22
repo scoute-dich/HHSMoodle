@@ -32,7 +32,6 @@
     <string name="app_share_screenshot">Bildschirmfoto teilen mit:</string>
     <string name="app_share_link">Link teilen mit:</string>
     <string name="app_share_file">Datei auswählen mit:</string>
-    <string name="app_contDesc_1">Header</string>
     <string name="app_contDesc_3">Splashscreen</string>
     <string name="app_att">Anhang</string>
     <string name="app_myMoodle">Mein Moodle</string>
@@ -84,19 +83,10 @@
 
     <string name="intro1_title">HHS Moodle</string>
     <string name="intro1_text">Danke, dass du dich für HHS Moodle entschieden hast. Bitte lies die folgende kurze Einführung
-        aufmerksam durch. Alle wichtigen Funktionen erreichst du, indem du vom linken Bildschirmrand zur Mitte wischst.</string>
+        aufmerksam durch.</string>
 
-    <string name="intro2_title">Lesezeichen</string>
-    <string name="intro2_text">Erstelle für jede aufgerufene Seite deine eigenen Lesezeichen.</string>
-
-    <string name="intro3_title">Todo Listen</string>
-    <string name="intro3_text">Erstelle Todo Listen. Setze Prioritäten und lasse dir Benachrichtigungen in der Statusleiste anzeigen.</string>
-
-    <string name="intro4_title">Notizen</string>
-    <string name="intro4_text">Erstelle Notizen. Du kannst auch Text (z.B. einen Link) aus einer anderen Anwendung in die App teilen.</string>
-
-    <string name="intro5_title">Werkzeuge</string>
-    <string name="intro5_text">Berechne Noten, erstelle Teilnehmerlisten oder …</string>
+    <string name="intro2_title">Navigation</string>
+    <string name="intro2_text">Alle wichtigen Funktionen erreichst du, indem du vom linken Bildschirmrand zur Mitte wischst.</string>
 
     <string name="intro6_title">Hilfe</string>
     <string name="intro6_text">Auf jedem Schirm erreichst du über das Menü einen kurzen Hilfedialog.</string>
@@ -111,9 +101,6 @@
     <string name="intro9_title">Anmeldung</string>
     <string name="intro9_text">Gib auf dem folgenden Schirm deine Moodle Anmeldedaten ein. Du wirst dann immer automatisch
     angemeldet. Ändern kannst du deine Anmeldedaten in den Einstellungen.</string>
-
-    <string name="intro10_title">Stundenplan</string>
-    <string name="intro10_text">Gib deinen Stundenplan ein, damit dein Telefon während dem Unterrichts nicht klingelt.</string>
 
 
     // Login
@@ -137,7 +124,6 @@
     <string name="sort_extension">Erweiterung</string>
     <string name="sort_icon">Icon</string>
     <string name="sort_not">Benachrichtigung</string>
-    <string name="sort_pri">Dringlichkeit</string>
     <string name="sort_att">Anhang</string>
 
 
@@ -154,7 +140,6 @@
     <string name="menu_help">Hilfe</string>
     <string name="menu_tools">Werkzeuge</string>
     <string name="menu_finish">App beenden</string>
-    <string name="menu_save">Speichern</string>
     <string name="menu_configure">Einrichten</string>
     <string name="menu_addEntry">Eintrag hinzufügen</string>
 
@@ -164,7 +149,6 @@
     <string name="action_sort_create">Sortiere nach Datum</string>
     <string name="action_sort_att">Sortiere nach Anhängen</string>
     <string name="action_sort_notification">Sortiere nach Benachrichtigungen</string>
-    <string name="action_sort_priority">Sortiere nach Dringlichkeit</string>
     <string name="action_sort_ext">Sortiere nach Erweiterung</string>
 
     <string name="action_filter">Suche</string>
@@ -174,6 +158,8 @@
     <string name="action_filter_url">Suche nach URL</string>
     <string name="action_filter_att">Suche nach Anhang</string>
     <string name="action_filter_course">Suche nach Kursen</string>
+    <string name="action_filter_subject">Suche nach Fächern</string>
+    <string name="action_filter_ext">Suche nach Dateiendung</string>
 
     <string name="filter_today">Heute</string>
     <string name="filter_yesterday">Gestern</string>
@@ -212,9 +198,6 @@
 
     <string name="action_font">Schriftgröße</string>
     <string name="action_font_summary">Ändere die Schriftgröße für Internetseiten.</string>
-
-    <string name="action_help">Hilfemenü</string>
-    <string name="action_help_summary">Deaktiviere das Hilfemenü in der gesamten App.</string>
 
     <string name="action_backup">Sicherung</string>
     <string name="action_backup_summary">Sichere alle Datenbanken (Notizen, Lesezeichen, …) oder stelle eine vorherige Sicherung
@@ -262,8 +245,10 @@
     <string name="toast_directory">Kann Verzeichnis nicht öffnen.</string>
     <string name="toast_files">Keine Dateien im Verzeichnis.</string>
     <string name="toast_textFile">Bitte Textdatei auswählen.</string>
-    <string name="toast_save">Eintrag nicht gespeichert. Verwerfen?</string>
     <string name="toast_settings">Einstellungen öffnen</string>
+    <string name="toast_confirm_backup">Die alte Sicherung wird überschrieben und geht verloren.</string>
+    <string name="toast_confirm_restore">Die aktuellen Daten werden überschrieben und gehen verloren.</string>
+
 
 
     // Bookmarks
@@ -281,13 +266,8 @@
     // Notes
 
     <string name="note_remove_confirmation">Eintrag wird entfernt. OK?</string>
-    <string name="note_remove_note">Lösche Notiz</string>
     <string name="note_edit">Notiz bearbeiten</string>
-    <string name="note_share">Notiz teilen</string>
     <string name="note_share_2">Notiz teilen mit:</string>
-    <string name="note_priority_0">Niedrig</string>
-    <string name="note_priority_1">Normal</string>
-    <string name="note_priority_2">Hoch</string>
     <string name="note_attachment">Anhang</string>
     <string name="title_hint">Titel</string>
     <string name="text_hint">Inhalt</string>
@@ -342,6 +322,7 @@
 
     <string name="todo_title">Todo</string>
     <string name="todo_from_courseList">Aus Kursliste</string>
+    <string name="todo_from_subjectList">Aus Fächerliste</string>
     <string name="todo_from_new">Eigener Titel</string>
     <string name="todo_hint">Neuer Eintrag …</string>
     <string name="todo_menu">Erstelle ToDo Liste</string>

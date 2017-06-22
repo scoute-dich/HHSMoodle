@@ -70,7 +70,7 @@
     <string name="random_help_text1">You can just roll a dice (\"dice icon\") or choose somebody randomly from a list.</string>
 
     <string name="random_help2">Create a list</string>
-    <string name="random_help_text2">You can create a list on your own, or import from the course list.</string>
+    <string name="random_help_text2">You can create a list on your own, or import from a sbject or course list.</string>
 
 
     <string name="grade_help1">Grade calculation</string>
@@ -83,16 +83,30 @@
 
 
     <string name="course_help1">Course lists</string>
-    <string name="course_help_text1">From a course list you can create a random or a todo list. All members of the list are in
+    <string name="course_help_text1">With a course list you can create several lists. All members of the course list are in
         the new generated list.</string>
 
     <string name="course_help2">Import list</string>
     <string name="course_help_text2">Copy a text file in the \"HHS_Moodle-Folder\" of your sd-card. In every line should be the
         name of a member of the new course list.</string>
 
+    <string name="files_help1">File manager</string>
+    <string name="files_help_text1">With the build in file manager you can browse you can browse through the downloaded files
+        and other content on your sd-card.</string>
+
+    <string name="files_help2">File operations</string>
+    <string name="files_help_text2">Of course you can open the files. You can also delete, rename and share them.</string>
+
+    <string name="count_help1">Counter</string>
+    <string name="count_help_text1">With the counter you can create lists with different entries. Each entry has start
+        value of \"0\".</string>
+
+    <string name="count_help2">+/-</string>
+    <string name="count_help_text2">With a simple click you can add or subtract \"1\" to the current value. Of course you can
+        also edit each entry.</string>
 
     <string name="subject_help1">Subject list</string>
-    <string name="subject_help_text1">The subject list is mainly used to edit the schedule.</string>
+    <string name="subject_help_text1">The subject list is mainly used to fill lists in efficient way.</string>
 
     <string name="subject_help2">Practical</string>
     <string name="subject_help_text2">Just try also here a short or a long press on a list entry.</string>

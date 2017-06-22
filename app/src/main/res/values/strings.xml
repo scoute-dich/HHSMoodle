@@ -31,7 +31,6 @@
     <string name="app_share_screenshot">Share screenshot using:</string>
     <string name="app_share_link">Share link using:</string>
     <string name="app_share_file">Choose file with:</string>
-    <string name="app_contDesc_1">header</string>
     <string name="app_contDesc_3">splashScreen</string>
     <string name="app_att">Attachment</string>
     <string name="app_myMoodle">My Moodle</string>
@@ -84,17 +83,8 @@
     <string name="intro1_text">Thanks for choosing HHS Moodle. Please read the following introduction carefully. You can reach
         all important functions by swiping from the left to the middle of your screen.</string>
 
-    <string name="intro2_title">Bookmarks</string>
-    <string name="intro2_text">Create your own personal bookmarks for each visited site.</string>
-
-    <string name="intro3_title">Todo lists</string>
-    <string name="intro3_text">Create todo lists. Sort them by priority or let you show notifications in the status bar.</string>
-
-    <string name="intro4_title">Notes</string>
-    <string name="intro4_text">Create notes. You can also receive text (e.g. links) from other apps.</string>
-
-    <string name="intro5_title">Tools</string>
-    <string name="intro5_text">Calculate your grades, create course lists or …</string>
+    <string name="intro2_title">Navigation</string>
+    <string name="intro2_text">You can reach all important functions by swiping from the left to the middle of your screen.</string>
 
     <string name="intro6_title">Help</string>
     <string name="intro6_text">Over the menu you can reach a help dialog on every screen.</string>
@@ -108,9 +98,6 @@
     <string name="intro9_title">Login</string>
     <string name="intro9_text">Enter your Moodle login data on the next screen. You will be logged in automatically in future. You
         can edit your login data in the settings.</string>
-
-    <string name="intro10_title">Schedule</string>
-    <string name="intro10_text">Create your schedule, so that your phone does not ring during lessons.</string>
 
 
     // Login
@@ -134,7 +121,6 @@
     <string name="sort_extension">extension</string>
     <string name="sort_icon">icon</string>
     <string name="sort_not">notification</string>
-    <string name="sort_pri">priority</string>
     <string name="sort_att">attachment</string>
 
 
@@ -151,7 +137,6 @@
     <string name="menu_help">Help</string>
     <string name="menu_tools">Tools</string>
     <string name="menu_finish">Exit app</string>
-    <string name="menu_save">Save</string>
     <string name="menu_configure">Configure</string>
     <string name="menu_addEntry">Add entry</string>
 
@@ -161,7 +146,6 @@
     <string name="action_sort_create">Sort by date</string>
     <string name="action_sort_att">Sort by Attachment</string>
     <string name="action_sort_notification">Sort by notification</string>
-    <string name="action_sort_priority">Sort by priority</string>
     <string name="action_sort_ext">Sort by extension</string>
 
     <string name="action_filter">Search</string>
@@ -171,6 +155,8 @@
     <string name="action_filter_url">Search in URLs</string>
     <string name="action_filter_att">Search in attachments</string>
     <string name="action_filter_course">Search in courses</string>
+    <string name="action_filter_subject">Search in subjects</string>
+    <string name="action_filter_ext">Search for file extension</string>
 
     <string name="filter_today">Today</string>
     <string name="filter_yesterday">Yesterday</string>
@@ -208,9 +194,6 @@
 
     <string name="action_font">Font size</string>
     <string name="action_font_summary">Change font size for websites.</string>
-
-    <string name="action_help">Help menu</string>
-    <string name="action_help_summary">Disable all help menus in the app.</string>
 
     <string name="action_backup">Backup</string>
     <string name="action_backup_summary">Backup and restore your databases (notes, bookmarks, …). A new backup overwrites the old one.</string>
@@ -255,8 +238,9 @@
     <string name="toast_directory">Can\'t open Directory.</string>
     <string name="toast_files">No files in directory.</string>
     <string name="toast_textFile">Please choose text file.</string>
-    <string name="toast_save">Entry not saved. Cancel editing?</string>
     <string name="toast_settings">Open settings</string>
+    <string name="toast_confirm_backup">This overwrites the actual backup, which gets lost.</string>
+    <string name="toast_confirm_restore">This overwrites the actual database. Current data will be lost.</string>
 
 
     // Bookmarks
@@ -274,13 +258,8 @@
     // Notes
 
     <string name="note_remove_confirmation">Entry will be removed. OK?</string>
-    <string name="note_remove_note">Delete note</string>
     <string name="note_edit">Edit note</string>
-    <string name="note_share">Share note</string>
     <string name="note_share_2">Share note using:</string>
-    <string name="note_priority_0">Normal</string>
-    <string name="note_priority_1">Low</string>
-    <string name="note_priority_2">High</string>
     <string name="note_attachment">Attachment</string>
     <string name="title_hint">Title</string>
     <string name="text_hint">Content</string>
@@ -335,6 +314,7 @@
 
     <string name="todo_title">Todo</string>
     <string name="todo_from_courseList">From course list</string>
+    <string name="todo_from_subjectList">From subject list</string>
     <string name="todo_from_new">Custom title</string>
     <string name="todo_hint">New entry …</string>
     <string name="todo_menu">Create todo list</string>

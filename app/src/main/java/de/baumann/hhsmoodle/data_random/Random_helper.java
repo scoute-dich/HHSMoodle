@@ -33,7 +33,7 @@ import de.baumann.hhsmoodle.helper.helper_main;
 
 public class Random_helper {
 
-    public static void newRandom (final Activity activity, String title, final String content, String button_neutral, final boolean finishFromActivity) {
+    public static void newRandom (final Activity activity, String title, final String content, final String icon, String button_neutral, final boolean finishFromActivity) {
 
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(activity);
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(activity);
@@ -78,7 +78,7 @@ public class Random_helper {
                     dialog.dismiss();
                     sharedPref.edit().putString("random_title", inputTitle).apply();
                     sharedPref.edit().putString("random_seqno", "").apply();
-                    sharedPref.edit().putString("random_textIcon", "3").apply();
+                    sharedPref.edit().putString("random_icon", icon).apply();
                     sharedPref.edit().putString("random_create", helper_main.createDate()).apply();
                     sharedPref.edit().putString("random_attachment", "").apply();
                     helper_main.switchToActivity(activity, Activity_random.class, finishFromActivity);

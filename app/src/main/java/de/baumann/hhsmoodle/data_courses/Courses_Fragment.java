@@ -26,6 +26,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -37,9 +38,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SimpleCursorAdapter;
@@ -63,6 +66,9 @@ public class Courses_Fragment extends Fragment {
     private SharedPreferences sharedPref;
 
     private ViewPager viewPager;
+
+    private int top;
+    private int index;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -103,46 +109,7 @@ public class Courses_Fragment extends Fragment {
             @Override
             public void onClick(View view) {
                 closeFABMenu();
-
-                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getActivity());
-                View dialogView = View.inflate(getActivity(), R.layout.dialog_edit_entry, null);
-
-                final EditText edit_title = (EditText) dialogView.findViewById(R.id.note_title_input);
-                edit_title.setHint(R.string.title_hint);
-
-                final EditText edit_cont = (EditText) dialogView.findViewById(R.id.note_text_input);
-                edit_cont.setHint(R.string.text_hint);
-
-                builder.setView(dialogView);
-                builder.setTitle(R.string.number_edit_entry);
-                builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
-
-                    public void onClick(DialogInterface dialog, int whichButton) {
-
-                        String inputTitle = edit_title.getText().toString().trim();
-                        String inputCont = edit_cont.getText().toString().trim();
-
-                        if(db.isExist(inputTitle)){
-                            Snackbar.make(lv, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
-                        }else{
-                            db.insert(inputTitle, inputCont, "", "", helper_main.createDate());
-                            dialog.dismiss();
-                            setCoursesList();
-                            Snackbar.make(lv, R.string.bookmark_added, Snackbar.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-                builder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        dialog.cancel();
-                    }
-                });
-
-                final android.app.AlertDialog dialog = builder.create();
-                // Display the custom alert dialog on interface
-                dialog.show();
-                helper_main.showKeyboard(getActivity(),edit_title);
+                Courses_helper.newCourse(getActivity(), "", "", "19","", false);
             }
         });
 
@@ -218,6 +185,13 @@ public class Courses_Fragment extends Fragment {
         }
     }
 
+    private void isEdited () {
+        sharedPref.edit().putString("edit_yes", "true").apply();
+        index = lv.getFirstVisiblePosition();
+        View v = lv.getChildAt(0);
+        top = (v == null) ? 0 : (v.getTop() - lv.getPaddingTop());
+    }
+
     private void setCoursesList() {
 
         if(isFABOpen){
@@ -241,15 +215,164 @@ public class Courses_Fragment extends Fragment {
             @Override
             public View getView(final int position, View convertView, ViewGroup parent) {
 
+                Cursor row2 = (Cursor) lv.getItemAtPosition(position);
+                final String _id = row2.getString(row2.getColumnIndexOrThrow("_id"));
+                final String courses_title = row2.getString(row2.getColumnIndexOrThrow("courses_title"));
+                final String courses_content = row2.getString(row2.getColumnIndexOrThrow("courses_content"));
+                final String courses_icon = row2.getString(row2.getColumnIndexOrThrow("courses_icon"));
+                final String courses_attachment = row2.getString(row2.getColumnIndexOrThrow("courses_attachment"));
+                final String courses_creation = row2.getString(row2.getColumnIndexOrThrow("courses_creation"));
+
                 View v = super.getView(position, convertView, parent);
                 ImageView iv_icon = (ImageView) v.findViewById(R.id.icon_notes);
-                iv_icon.setVisibility(View.GONE);
+                helper_main.switchIcon(getActivity(), courses_icon,"courses_icon", iv_icon);
+
+                iv_icon.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View arg0) {
+                        isEdited();
+                        final helper_main.Item[] items = {
+                                new helper_main.Item(getString(R.string.text_tit_11), R.drawable.ic_school_grey600_48dp),
+                                new helper_main.Item(getString(R.string.text_tit_1), R.drawable.ic_view_dashboard_grey600_48dp),
+                                new helper_main.Item(getString(R.string.text_tit_2), R.drawable.ic_face_profile_grey600_48dp),
+                                new helper_main.Item(getString(R.string.text_tit_8), R.drawable.ic_calendar_grey600_48dp),
+                                new helper_main.Item(getString(R.string.text_tit_3), R.drawable.ic_chart_areaspline_grey600_48dp),
+                                new helper_main.Item(getString(R.string.text_tit_4), R.drawable.ic_bell_grey600_48dp),
+                                new helper_main.Item(getString(R.string.text_tit_5), R.drawable.ic_settings_grey600_48dp),
+                                new helper_main.Item(getString(R.string.text_tit_6), R.drawable.ic_web_grey600_48dp),
+                                new helper_main.Item(getString(R.string.text_tit_7), R.drawable.ic_magnify_grey600_48dp),
+                                new helper_main.Item(getString(R.string.title_notes), R.drawable.ic_pencil_grey600_48dp),
+                                new helper_main.Item(getString(R.string.text_tit_9), R.drawable.ic_check_grey600_48dp),
+                                new helper_main.Item(getString(R.string.text_tit_10), R.drawable.ic_clock_grey600_48dp),
+                                new helper_main.Item(getString(R.string.title_bookmarks), R.drawable.ic_bookmark_grey600_48dp),
+                                new helper_main.Item(getString(R.string.subjects_color_red), R.drawable.circle_red),
+                                new helper_main.Item(getString(R.string.subjects_color_pink), R.drawable.circle_pink),
+                                new helper_main.Item(getString(R.string.subjects_color_purple), R.drawable.circle_purple),
+                                new helper_main.Item(getString(R.string.subjects_color_blue), R.drawable.circle_blue),
+                                new helper_main.Item(getString(R.string.subjects_color_teal), R.drawable.circle_teal),
+                                new helper_main.Item(getString(R.string.subjects_color_green), R.drawable.circle_green),
+                                new helper_main.Item(getString(R.string.subjects_color_lime), R.drawable.circle_lime),
+                                new helper_main.Item(getString(R.string.subjects_color_yellow), R.drawable.circle_yellow),
+                                new helper_main.Item(getString(R.string.subjects_color_orange), R.drawable.circle_orange),
+                                new helper_main.Item(getString(R.string.subjects_color_brown), R.drawable.circle_brown),
+                                new helper_main.Item(getString(R.string.subjects_color_grey), R.drawable.circle_grey),
+                        };
+
+                        ListAdapter adapter = new ArrayAdapter<helper_main.Item>(
+                                getActivity(),
+                                android.R.layout.select_dialog_item,
+                                android.R.id.text1,
+                                items){
+                            @NonNull
+                            public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+                                //Use super class to create the View
+                                View v = super.getView(position, convertView, parent);
+                                TextView tv = (TextView)v.findViewById(android.R.id.text1);
+                                tv.setTextSize(18);
+                                tv.setCompoundDrawablesWithIntrinsicBounds(items[position].icon, 0, 0, 0);
+                                //Add margin between image and text (support various screen densities)
+                                int dp5 = (int) (24 * getResources().getDisplayMetrics().density + 0.5f);
+                                tv.setCompoundDrawablePadding(dp5);
+
+                                return v;
+                            }
+                        };
+
+                        new android.app.AlertDialog.Builder(getActivity())
+                                .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                        dialog.cancel();
+                                    }
+                                })
+                                .setAdapter(adapter, new DialogInterface.OnClickListener() {
+
+                                    public void onClick(DialogInterface dialog, int item) {
+                                        if (item == 0) {
+                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "01", courses_attachment, courses_creation);
+                                            setCoursesList();
+                                        } else if (item == 1) {
+                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "02", courses_attachment, courses_creation);
+                                            setCoursesList();
+                                        } else if (item == 2) {
+                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "03", courses_attachment, courses_creation);
+                                            setCoursesList();
+                                        } else if (item == 3) {
+                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "04", courses_attachment, courses_creation);
+                                            setCoursesList();
+                                        } else if (item == 4) {
+                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "05", courses_attachment, courses_creation);
+                                            setCoursesList();
+                                        } else if (item == 5) {
+                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "06", courses_attachment, courses_creation);
+                                            setCoursesList();
+                                        } else if (item == 6) {
+                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "07", courses_attachment, courses_creation);
+                                            setCoursesList();
+                                        } else if (item == 7) {
+                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "08", courses_attachment, courses_creation);
+                                            setCoursesList();
+                                        } else if (item == 8) {
+                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "09", courses_attachment, courses_creation);
+                                            setCoursesList();
+                                        } else if (item == 9) {
+                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "10", courses_attachment, courses_creation);
+                                            setCoursesList();
+                                        } else if (item == 10) {
+                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "11", courses_attachment, courses_creation);
+                                            setCoursesList();
+                                        } else if (item == 11) {
+                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "12", courses_attachment, courses_creation);
+                                            setCoursesList();
+                                        } else if (item == 12) {
+                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "13", courses_attachment, courses_creation);
+                                            setCoursesList();
+                                        } else if (item == 13) {
+                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "14", courses_attachment, courses_creation);
+                                            setCoursesList();
+                                        } else if (item == 14) {
+                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "15", courses_attachment, courses_creation);
+                                            setCoursesList();
+                                        } else if (item == 15) {
+                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "16", courses_attachment, courses_creation);
+                                            setCoursesList();
+                                        } else if (item == 16) {
+                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "17", courses_attachment, courses_creation);
+                                            setCoursesList();
+                                        } else if (item == 17) {
+                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "18", courses_attachment, courses_creation);
+                                            setCoursesList();
+                                        } else if (item == 18) {
+                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "19", courses_attachment, courses_creation);
+                                            setCoursesList();
+                                        } else if (item == 19) {
+                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "20", courses_attachment, courses_creation);
+                                            setCoursesList();
+                                        } else if (item == 20) {
+                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "21", courses_attachment, courses_creation);
+                                            setCoursesList();
+                                        } else if (item == 21) {
+                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "22", courses_attachment, courses_creation);
+                                            setCoursesList();
+                                        } else if (item == 22) {
+                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "23", courses_attachment, courses_creation);
+                                            setCoursesList();
+                                        } else if (item == 23) {
+                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "24", courses_attachment, courses_creation);
+                                            setCoursesList();
+                                        }
+                                    }
+                                }).show();
+                    }
+                });
 
                 return v;
             }
         };
 
         lv.setAdapter(adapter);
+        lv.setSelectionFromTop(index, top);
         //onClick function
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -259,6 +382,7 @@ public class Courses_Fragment extends Fragment {
                     closeFABMenu();
                 }
 
+                isEdited();
                 Cursor row2 = (Cursor) lv.getItemAtPosition(position);
                 final String _id = row2.getString(row2.getColumnIndexOrThrow("_id"));
                 final String courses_title = row2.getString(row2.getColumnIndexOrThrow("courses_title"));
@@ -267,12 +391,12 @@ public class Courses_Fragment extends Fragment {
                 final String courses_attachment = row2.getString(row2.getColumnIndexOrThrow("courses_attachment"));
                 final String courses_creation = row2.getString(row2.getColumnIndexOrThrow("courses_creation"));
 
-                sharedPref.edit().putString("random_title", courses_title).apply();
-                sharedPref.edit().putString("random_content", courses_content).apply();
-                sharedPref.edit().putString("random_seqno", _id).apply();
-                sharedPref.edit().putString("random_icon", courses_icon).apply();
-                sharedPref.edit().putString("random_create", courses_creation).apply();
-                sharedPref.edit().putString("random_attachment", courses_attachment).apply();
+                sharedPref.edit().putString("courses_title", courses_title).apply();
+                sharedPref.edit().putString("courses_content", courses_content).apply();
+                sharedPref.edit().putString("courses_seqno", _id).apply();
+                sharedPref.edit().putString("courses_icon", courses_icon).apply();
+                sharedPref.edit().putString("courses_create", courses_creation).apply();
+                sharedPref.edit().putString("courses_attachment", courses_attachment).apply();
 
                 helper_main.switchToActivity(getActivity(), Activity_course.class, false);
             }
@@ -285,6 +409,7 @@ public class Courses_Fragment extends Fragment {
                     closeFABMenu();
                 }
 
+                isEdited();
                 Cursor row2 = (Cursor) lv.getItemAtPosition(position);
                 final String _id = row2.getString(row2.getColumnIndexOrThrow("_id"));
                 final String courses_title = row2.getString(row2.getColumnIndexOrThrow("courses_title"));
@@ -326,7 +451,6 @@ public class Courses_Fragment extends Fragment {
                                             String inputTitle = edit_title.getText().toString().trim();
                                             db.update(Integer.parseInt(_id),inputTitle, courses_content, courses_icon, courses_attachment, courses_creation);
                                             setCoursesList();
-                                            Snackbar.make(lv, R.string.bookmark_added, Snackbar.LENGTH_SHORT).show();
                                         }
                                     });
                                     builder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
@@ -370,6 +494,7 @@ public class Courses_Fragment extends Fragment {
         menu.findItem(R.id.action_sort).setVisible(false);
         getActivity().setTitle(R.string.courseList_title);
         setCoursesList();
+        helper_main.hideKeyboard(getActivity());
     }
 
     @Override

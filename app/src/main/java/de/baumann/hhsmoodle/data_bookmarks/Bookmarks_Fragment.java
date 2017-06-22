@@ -63,6 +63,7 @@ import de.baumann.hhsmoodle.data_random.Random_helper;
 import de.baumann.hhsmoodle.data_todo.Todo_helper;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.popup.Popup_courseList;
+import de.baumann.hhsmoodle.popup.Popup_subjects;
 
 public class Bookmarks_Fragment extends Fragment {
 
@@ -75,6 +76,10 @@ public class Bookmarks_Fragment extends Fragment {
     private SharedPreferences sharedPref;
     private ImageView imgHeader;
     private RelativeLayout filter_layout;
+    private ViewPager viewPager;
+
+    private int top;
+    private int index;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -96,6 +101,7 @@ public class Bookmarks_Fragment extends Fragment {
         filter_layout.setVisibility(View.GONE);
         lv = (ListView) rootView.findViewById(R.id.listNotes);
         filter = (EditText) rootView.findViewById(R.id.myFilter);
+        viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
 
         ImageButton ib_hideKeyboard = (ImageButton) rootView.findViewById(R.id.ib_hideKeyboard);
         ib_hideKeyboard.setOnClickListener(new View.OnClickListener() {
@@ -133,6 +139,33 @@ public class Bookmarks_Fragment extends Fragment {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!sharedPref.getString("search_byCourse", "").isEmpty() && viewPager.getCurrentItem() == 1) {
+            String search = sharedPref.getString("search_byCourse", "");
+            helper_main.changeFilter(getActivity(), "filter_bookmarksBY", "bookmarks_title");
+            setBookmarksList();
+            helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
+                    search, getString(R.string.action_filter_course), false);
+            sharedPref.edit().putString("search_byCourse", "").apply();
+        } else if (!sharedPref.getString("search_bySubject", "").isEmpty() && viewPager.getCurrentItem() == 1) {
+            String search = sharedPref.getString("search_bySubject", "");
+            helper_main.changeFilter(getActivity(), "filter_bookmarksBY", "bookmarks_title");
+            setBookmarksList();
+            helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
+                    search, getString(R.string.action_filter_subject), false);
+            sharedPref.edit().putString("search_bySubject", "").apply();
+        }
+    }
+
+    private void isEdited () {
+        sharedPref.edit().putString("edit_yes", "true").apply();
+        index = lv.getFirstVisiblePosition();
+        View v = lv.getChildAt(0);
+        top = (v == null) ? 0 : (v.getTop() - lv.getPaddingTop());
+    }
+
     public void setBookmarksList() {
 
         //display data
@@ -164,56 +197,7 @@ public class Bookmarks_Fragment extends Fragment {
                 ImageView iv_icon = (ImageView) v.findViewById(R.id.icon_notes);
                 final ImageView iv_attachment = (ImageView) v.findViewById(R.id.att_notes);
 
-                switch (bookmarks_icon) {
-                    case "01":
-                        iv_icon.setImageResource(R.drawable.circle_red);
-                        break;
-                    case "02":
-                        iv_icon.setImageResource(R.drawable.circle_yellow);
-                        break;
-                    case "03":
-                        iv_icon.setImageResource(R.drawable.circle_green);
-                        break;
-                    case "04":
-                        iv_icon.setImageResource(R.drawable.ic_school_grey600_48dp);
-                        break;
-                    case "05":
-                        iv_icon.setImageResource(R.drawable.ic_view_dashboard_grey600_48dp);
-                        break;
-                    case "06":
-                        iv_icon.setImageResource(R.drawable.ic_face_profile_grey600_48dp);
-                        break;
-                    case "07":
-                        iv_icon.setImageResource(R.drawable.ic_calendar_grey600_48dp);
-                        break;
-                    case "08":
-                        iv_icon.setImageResource(R.drawable.ic_chart_areaspline_grey600_48dp);
-                        break;
-                    case "09":
-                        iv_icon.setImageResource(R.drawable.ic_bell_grey600_48dp);
-                        break;
-                    case "10":
-                        iv_icon.setImageResource(R.drawable.ic_settings_grey600_48dp);
-                        break;
-                    case "11":
-                        iv_icon.setImageResource(R.drawable.ic_web_grey600_48dp);
-                        break;
-                    case "12":
-                        iv_icon.setImageResource(R.drawable.ic_magnify_grey600_48dp);
-                        break;
-                    case "13":
-                        iv_icon.setImageResource(R.drawable.ic_pencil_grey600_48dp);
-                        break;
-                    case "14":
-                        iv_icon.setImageResource(R.drawable.ic_check_grey600_48dp);
-                        break;
-                    case "15":
-                        iv_icon.setImageResource(R.drawable.ic_clock_grey600_48dp);
-                        break;
-                    case "16":
-                        iv_icon.setImageResource(R.drawable.ic_bookmark_grey600_48dp);
-                        break;
-                }
+                helper_main.switchIcon(getActivity(), bookmarks_icon,"bookmarks_icon", iv_icon);
 
                 switch (bookmarks_attachment) {
                     case "":
@@ -230,6 +214,7 @@ public class Bookmarks_Fragment extends Fragment {
 
                     @Override
                     public void onClick(View arg0) {
+                        isEdited();
                         if (bookmarks_attachment.equals("")) {
 
                             if(db.isExistFav("true")){
@@ -256,10 +241,8 @@ public class Bookmarks_Fragment extends Fragment {
 
                     @Override
                     public void onClick(View arg0) {
+                        isEdited();
                         final helper_main.Item[] items = {
-                                new helper_main.Item(getString(R.string.note_priority_2), R.drawable.circle_red),
-                                new helper_main.Item(getString(R.string.note_priority_1), R.drawable.circle_yellow),
-                                new helper_main.Item(getString(R.string.note_priority_0), R.drawable.circle_green),
                                 new helper_main.Item(getString(R.string.text_tit_11), R.drawable.ic_school_grey600_48dp),
                                 new helper_main.Item(getString(R.string.text_tit_1), R.drawable.ic_view_dashboard_grey600_48dp),
                                 new helper_main.Item(getString(R.string.text_tit_2), R.drawable.ic_face_profile_grey600_48dp),
@@ -273,6 +256,17 @@ public class Bookmarks_Fragment extends Fragment {
                                 new helper_main.Item(getString(R.string.text_tit_9), R.drawable.ic_check_grey600_48dp),
                                 new helper_main.Item(getString(R.string.text_tit_10), R.drawable.ic_clock_grey600_48dp),
                                 new helper_main.Item(getString(R.string.title_bookmarks), R.drawable.ic_bookmark_grey600_48dp),
+                                new helper_main.Item(getString(R.string.subjects_color_red), R.drawable.circle_red),
+                                new helper_main.Item(getString(R.string.subjects_color_pink), R.drawable.circle_pink),
+                                new helper_main.Item(getString(R.string.subjects_color_purple), R.drawable.circle_purple),
+                                new helper_main.Item(getString(R.string.subjects_color_blue), R.drawable.circle_blue),
+                                new helper_main.Item(getString(R.string.subjects_color_teal), R.drawable.circle_teal),
+                                new helper_main.Item(getString(R.string.subjects_color_green), R.drawable.circle_green),
+                                new helper_main.Item(getString(R.string.subjects_color_lime), R.drawable.circle_lime),
+                                new helper_main.Item(getString(R.string.subjects_color_yellow), R.drawable.circle_yellow),
+                                new helper_main.Item(getString(R.string.subjects_color_orange), R.drawable.circle_orange),
+                                new helper_main.Item(getString(R.string.subjects_color_brown), R.drawable.circle_brown),
+                                new helper_main.Item(getString(R.string.subjects_color_grey), R.drawable.circle_grey),
                         };
 
                         ListAdapter adapter = new ArrayAdapter<helper_main.Item>(
@@ -353,6 +347,30 @@ public class Bookmarks_Fragment extends Fragment {
                                         } else if (item == 15) {
                                             db.update(Integer.parseInt(_id), bookmarks_title, bookmarks_content, "16", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
+                                        } else if (item == 16) {
+                                            db.update(Integer.parseInt(_id), bookmarks_title, bookmarks_content, "17", bookmarks_attachment, bookmarks_creation);
+                                            setBookmarksList();
+                                        } else if (item == 17) {
+                                            db.update(Integer.parseInt(_id), bookmarks_title, bookmarks_content, "18", bookmarks_attachment, bookmarks_creation);
+                                            setBookmarksList();
+                                        } else if (item == 18) {
+                                            db.update(Integer.parseInt(_id), bookmarks_title, bookmarks_content, "19", bookmarks_attachment, bookmarks_creation);
+                                            setBookmarksList();
+                                        } else if (item == 19) {
+                                            db.update(Integer.parseInt(_id), bookmarks_title, bookmarks_content, "20", bookmarks_attachment, bookmarks_creation);
+                                            setBookmarksList();
+                                        } else if (item == 20) {
+                                            db.update(Integer.parseInt(_id), bookmarks_title, bookmarks_content, "21", bookmarks_attachment, bookmarks_creation);
+                                            setBookmarksList();
+                                        } else if (item == 21) {
+                                            db.update(Integer.parseInt(_id), bookmarks_title, bookmarks_content, "22", bookmarks_attachment, bookmarks_creation);
+                                            setBookmarksList();
+                                        } else if (item == 22) {
+                                            db.update(Integer.parseInt(_id), bookmarks_title, bookmarks_content, "23", bookmarks_attachment, bookmarks_creation);
+                                            setBookmarksList();
+                                        } else if (item == 23) {
+                                            db.update(Integer.parseInt(_id), bookmarks_title, bookmarks_content, "24", bookmarks_attachment, bookmarks_creation);
+                                            setBookmarksList();
                                         }
                                     }
                                 }).show();
@@ -381,25 +399,23 @@ public class Bookmarks_Fragment extends Fragment {
         });
 
         lv.setAdapter(adapter);
+        lv.setSelectionFromTop(index, top);
         //onClick function
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterview, View view, int position, long id) {
-
+                isEdited();
                 Cursor row2 = (Cursor) lv.getItemAtPosition(position);
                 final String bookmarks_content = row2.getString(row2.getColumnIndexOrThrow("bookmarks_content"));
-                sharedPref.edit().putString("load_next", "true").apply();
                 sharedPref.edit().putString("loadURL", bookmarks_content).apply();
-
                 ViewPager viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
                 viewPager.setCurrentItem(0);
-
             }
         });
 
         lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-
+                isEdited();
                 Cursor row2 = (Cursor) lv.getItemAtPosition(position);
                 final String _id = row2.getString(row2.getColumnIndexOrThrow("_id"));
                 final String bookmarks_title = row2.getString(row2.getColumnIndexOrThrow("bookmarks_title"));
@@ -447,7 +463,6 @@ public class Bookmarks_Fragment extends Fragment {
                                             String inputTag = edit_title.getText().toString().trim();
                                             db.update(Integer.parseInt(_id), inputTag, bookmarks_content, bookmarks_icon, bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
-                                            Snackbar.make(lv, R.string.bookmark_added, Snackbar.LENGTH_SHORT).show();
                                         }
                                     });
                                     builder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
@@ -485,19 +500,19 @@ public class Bookmarks_Fragment extends Fragment {
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createNote))) {
-                                    Notes_helper.newNote(getActivity(),bookmarks_title,bookmarks_content,getString(R.string.note_content), false);
+                                    Notes_helper.newNote(getActivity(),bookmarks_title,bookmarks_content,bookmarks_icon,getString(R.string.note_content), false);
                                 }
 
                                 if (options[item].equals (getString(R.string.todo_menu))) {
-                                    Todo_helper.newTodo(getActivity(), bookmarks_title, bookmarks_content, getString(R.string.note_content), false);
+                                    Todo_helper.newTodo(getActivity(), bookmarks_title, bookmarks_content, bookmarks_icon, getString(R.string.note_content), false);
                                 }
 
                                 if (options[item].equals (getString(R.string.number_create))) {
-                                    Random_helper.newRandom(getActivity(), bookmarks_title, bookmarks_content, getActivity().getString(R.string.note_content), false);
+                                    Random_helper.newRandom(getActivity(), bookmarks_title, bookmarks_content, bookmarks_icon, getActivity().getString(R.string.note_content), false);
                                 }
 
                                 if (options[item].equals (getString(R.string.count_create))) {
-                                    Count_helper.newCount(getActivity(), bookmarks_title, bookmarks_content, getActivity().getString(R.string.note_content), false);
+                                    Count_helper.newCount(getActivity(), bookmarks_title, bookmarks_content, bookmarks_icon,getActivity().getString(R.string.note_content), false);
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createEvent))) {
@@ -535,7 +550,6 @@ public class Bookmarks_Fragment extends Fragment {
         super.onPrepareOptionsMenu(menu);
         menu.findItem(R.id.sort_attachment).setVisible(false);
         menu.findItem(R.id.sort_notification).setVisible(false);
-        menu.findItem(R.id.sort_pri).setVisible(false);
         menu.findItem(R.id.sort_ext).setVisible(false);
         menu.findItem(R.id.filter_content).setVisible(false);
         menu.findItem(R.id.filter_att).setVisible(false);
@@ -543,6 +557,7 @@ public class Bookmarks_Fragment extends Fragment {
         menu.findItem(R.id.filter_room).setVisible(false);
         menu.findItem(R.id.filter_ext).setVisible(false);
         setTitle();
+        helper_main.hideKeyboard(getActivity());
 
         if (!sharedPref.getString("search_byCourse", "").isEmpty()) {
             String search = sharedPref.getString("search_byCourse", "");
@@ -569,7 +584,7 @@ public class Bookmarks_Fragment extends Fragment {
                 helper_main.switchToActivity(getActivity(), Bookmarks_Help.class, false);
                 return true;
 
-            case R.id.filter_title:
+            case R.id.filter_title_own:
                 helper_main.changeFilter(getActivity(), "filter_bookmarksBY", "bookmarks_title");
                 setBookmarksList();
                 helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
@@ -581,9 +596,15 @@ public class Bookmarks_Fragment extends Fragment {
                 helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
                         "", getString(R.string.action_filter_url), true);
                 return true;
-            case R.id.filter_course:Intent mainIntent = new Intent(getActivity(), Popup_courseList.class);
+            case R.id.filter_course:
+                Intent mainIntent = new Intent(getActivity(), Popup_courseList.class);
                 mainIntent.setAction("search_byCourse");
                 startActivity(mainIntent);
+                return true;
+            case R.id.filter_subject:
+                Intent mainIntent2 = new Intent(getActivity(), Popup_subjects.class);
+                mainIntent2.setAction("search_bySubject");
+                startActivity(mainIntent2);
                 return true;
 
             case R.id.filter_today:

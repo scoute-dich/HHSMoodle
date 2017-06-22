@@ -69,11 +69,16 @@ public class Subjects_Fragment extends Fragment {
     private EditText teacherInput;
     private EditText roomInput;
 
+    private  String icon;
+
     private FloatingActionButton fab;
     private LinearLayout fabLayout1;
     private LinearLayout fabLayout2;
     private boolean isFABOpen=false;
     private ViewPager viewPager;
+
+    private int top;
+    private int index;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -82,6 +87,12 @@ public class Subjects_Fragment extends Fragment {
 
         PreferenceManager.setDefaultValues(getActivity(), R.xml.user_settings, false);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        sharedPref.edit().putString("subject_title", "").apply();
+        sharedPref.edit().putString("subject_text", "").apply();
+        sharedPref.edit().putString("subject_seqno", "").apply();
+        sharedPref.edit().putString("subject_icon", "").apply();
+        sharedPref.edit().putString("subject_create", "").apply();
+        sharedPref.edit().putString("subject_attachment", "").apply();
 
         ImageView imgHeader = (ImageView) rootView.findViewById(R.id.imageView_header);
         helper_main.setImageHeader(getActivity(), imgHeader);
@@ -146,17 +157,17 @@ public class Subjects_Fragment extends Fragment {
         titleInput.setSelection(titleInput.getText().length());
         titleInput.setText("");
         teacherInput = (EditText) dialogView.findViewById(R.id.subject_teacher);
-        teacherInput.setText(sharedPref.getString("editSubject", ""));
+        teacherInput.setText(sharedPref.getString("subject_title", ""));
         roomInput = (EditText) dialogView.findViewById(R.id.subject_room);
         roomInput.setText("");
 
-        sharedPref.edit().putString("editSubject", "").apply();
+        icon = "19";
+
         helper_main.showKeyboard(getActivity(),titleInput);
 
         final ImageButton be = (ImageButton) dialogView.findViewById(R.id.imageButtonPri);
         assert be != null;
-        be.setImageResource(R.drawable.circle_grey);
-        sharedPref.edit().putString("subject_color", "11").apply();
+        helper_main.switchIcon (getActivity(), icon, "subject_icon", be);
 
         be.setOnClickListener(new View.OnClickListener() {
 
@@ -164,6 +175,19 @@ public class Subjects_Fragment extends Fragment {
             public void onClick(View arg0) {
 
                 final helper_main.Item[] items = {
+                        new helper_main.Item(getString(R.string.text_tit_11), R.drawable.ic_school_grey600_48dp),
+                        new helper_main.Item(getString(R.string.text_tit_1), R.drawable.ic_view_dashboard_grey600_48dp),
+                        new helper_main.Item(getString(R.string.text_tit_2), R.drawable.ic_face_profile_grey600_48dp),
+                        new helper_main.Item(getString(R.string.text_tit_8), R.drawable.ic_calendar_grey600_48dp),
+                        new helper_main.Item(getString(R.string.text_tit_3), R.drawable.ic_chart_areaspline_grey600_48dp),
+                        new helper_main.Item(getString(R.string.text_tit_4), R.drawable.ic_bell_grey600_48dp),
+                        new helper_main.Item(getString(R.string.text_tit_5), R.drawable.ic_settings_grey600_48dp),
+                        new helper_main.Item(getString(R.string.text_tit_6), R.drawable.ic_web_grey600_48dp),
+                        new helper_main.Item(getString(R.string.text_tit_7), R.drawable.ic_magnify_grey600_48dp),
+                        new helper_main.Item(getString(R.string.title_notes), R.drawable.ic_pencil_grey600_48dp),
+                        new helper_main.Item(getString(R.string.text_tit_9), R.drawable.ic_check_grey600_48dp),
+                        new helper_main.Item(getString(R.string.text_tit_10), R.drawable.ic_clock_grey600_48dp),
+                        new helper_main.Item(getString(R.string.title_bookmarks), R.drawable.ic_bookmark_grey600_48dp),
                         new helper_main.Item(getString(R.string.subjects_color_red), R.drawable.circle_red),
                         new helper_main.Item(getString(R.string.subjects_color_pink), R.drawable.circle_pink),
                         new helper_main.Item(getString(R.string.subjects_color_purple), R.drawable.circle_purple),
@@ -206,40 +230,8 @@ public class Subjects_Fragment extends Fragment {
                         })
                         .setAdapter(adapter, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int item) {
-                                if (item == 0) {
-                                    be.setImageResource(R.drawable.circle_red);
-                                    sharedPref.edit().putString("subject_color", "1").apply();
-                                } else if (item == 1) {
-                                    be.setImageResource(R.drawable.circle_pink);
-                                    sharedPref.edit().putString("subject_color", "2").apply();
-                                } else if (item == 2) {
-                                    be.setImageResource(R.drawable.circle_purple);
-                                    sharedPref.edit().putString("subject_color", "3").apply();
-                                } else if (item == 3) {
-                                    be.setImageResource(R.drawable.circle_blue);
-                                    sharedPref.edit().putString("subject_color", "4").apply();
-                                } else if (item == 4) {
-                                    be.setImageResource(R.drawable.circle_teal);
-                                    sharedPref.edit().putString("subject_color", "5").apply();
-                                } else if (item == 5) {
-                                    be.setImageResource(R.drawable.circle_green);
-                                    sharedPref.edit().putString("subject_color", "6").apply();
-                                } else if (item == 6) {
-                                    be.setImageResource(R.drawable.circle_lime);
-                                    sharedPref.edit().putString("subject_color", "7").apply();
-                                } else if (item == 7) {
-                                    be.setImageResource(R.drawable.circle_yellow);
-                                    sharedPref.edit().putString("subject_color", "8").apply();
-                                } else if (item == 8) {
-                                    be.setImageResource(R.drawable.circle_orange);
-                                    sharedPref.edit().putString("subject_color", "9").apply();
-                                } else if (item == 9) {
-                                    be.setImageResource(R.drawable.circle_brown);
-                                    sharedPref.edit().putString("subject_color", "10").apply();
-                                } else if (item == 10) {
-                                    be.setImageResource(R.drawable.circle_grey);
-                                    sharedPref.edit().putString("subject_color", "11").apply();
-                                }
+                                helper_main.switchIconDialog(getActivity(), item, "subject_icon", be);
+                                icon = sharedPref.getString("subject_icon", "19");
                             }
                         }).show();
             }
@@ -265,16 +257,27 @@ public class Subjects_Fragment extends Fragment {
                 if(db.isExist(creation)){
                     Snackbar.make(titleInput, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
                 }else{
-                    db.insert(inputTitle, inputTeacher, sharedPref.getString("subject_color", ""), inputRoom, creation);
+                    db.insert(inputTitle, inputTeacher, icon, inputRoom, creation);
                     dialog.dismiss();
                     setSubjectsList();
+                    sharedPref.edit().putString("subject_title", "").apply();
+                    sharedPref.edit().putString("subject_text", "").apply();
+                    sharedPref.edit().putString("subject_seqno", "").apply();
+                    sharedPref.edit().putString("subject_icon", "").apply();
+                    sharedPref.edit().putString("subject_create", "").apply();
+                    sharedPref.edit().putString("subject_attachment", "").apply();
                 }
-
             }
         });
         builder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
 
             public void onClick(DialogInterface dialog, int whichButton) {
+                sharedPref.edit().putString("subject_title", "").apply();
+                sharedPref.edit().putString("subject_text", "").apply();
+                sharedPref.edit().putString("subject_seqno", "").apply();
+                sharedPref.edit().putString("subject_icon", "").apply();
+                sharedPref.edit().putString("subject_create", "").apply();
+                sharedPref.edit().putString("subject_attachment", "").apply();
                 dialog.cancel();
             }
         });
@@ -321,12 +324,19 @@ public class Subjects_Fragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        if (!sharedPref.getString("editSubject", "").isEmpty()) {
+        if (!sharedPref.getString("subject_title", "").isEmpty()) {
             editSubject();
-            sharedPref.edit().putString("editSubject", "").apply();
+            sharedPref.edit().putString("subject_title", "").apply();
         } else if (viewPager.getCurrentItem() == 10) {
             setSubjectsList();
         }
+    }
+
+    private void isEdited () {
+        sharedPref.edit().putString("edit_yes", "true").apply();
+        index = lv.getFirstVisiblePosition();
+        View v = lv.getChildAt(0);
+        top = (v == null) ? 0 : (v.getTop() - lv.getPaddingTop());
     }
 
     private void setSubjectsList() {
@@ -336,6 +346,19 @@ public class Subjects_Fragment extends Fragment {
         }
 
         final helper_main.Item[] items = {
+                new helper_main.Item(getString(R.string.text_tit_11), R.drawable.ic_school_grey600_48dp),
+                new helper_main.Item(getString(R.string.text_tit_1), R.drawable.ic_view_dashboard_grey600_48dp),
+                new helper_main.Item(getString(R.string.text_tit_2), R.drawable.ic_face_profile_grey600_48dp),
+                new helper_main.Item(getString(R.string.text_tit_8), R.drawable.ic_calendar_grey600_48dp),
+                new helper_main.Item(getString(R.string.text_tit_3), R.drawable.ic_chart_areaspline_grey600_48dp),
+                new helper_main.Item(getString(R.string.text_tit_4), R.drawable.ic_bell_grey600_48dp),
+                new helper_main.Item(getString(R.string.text_tit_5), R.drawable.ic_settings_grey600_48dp),
+                new helper_main.Item(getString(R.string.text_tit_6), R.drawable.ic_web_grey600_48dp),
+                new helper_main.Item(getString(R.string.text_tit_7), R.drawable.ic_magnify_grey600_48dp),
+                new helper_main.Item(getString(R.string.title_notes), R.drawable.ic_pencil_grey600_48dp),
+                new helper_main.Item(getString(R.string.text_tit_9), R.drawable.ic_check_grey600_48dp),
+                new helper_main.Item(getString(R.string.text_tit_10), R.drawable.ic_clock_grey600_48dp),
+                new helper_main.Item(getString(R.string.title_bookmarks), R.drawable.ic_bookmark_grey600_48dp),
                 new helper_main.Item(getString(R.string.subjects_color_red), R.drawable.circle_red),
                 new helper_main.Item(getString(R.string.subjects_color_pink), R.drawable.circle_pink),
                 new helper_main.Item(getString(R.string.subjects_color_purple), R.drawable.circle_purple),
@@ -376,14 +399,13 @@ public class Subjects_Fragment extends Fragment {
 
                 View v = super.getView(position, convertView, parent);
                 ImageView iv_icon = (ImageView) v.findViewById(R.id.icon_notes);
-                Subjects_helper.switchIcon (getActivity(), subject_icon, "subject_color", iv_icon);
+                helper_main.switchIcon (getActivity(), subject_icon, "subject_icon", iv_icon);
                 iv_icon.setOnClickListener(new View.OnClickListener() {
 
                     @Override
                     public void onClick(View arg0) {
 
-
-
+                        isEdited();
                         ListAdapter adapter = new ArrayAdapter<helper_main.Item>(
                                 getActivity(),
                                 android.R.layout.select_dialog_item,
@@ -415,37 +437,76 @@ public class Subjects_Fragment extends Fragment {
 
                                     public void onClick(DialogInterface dialog, int item) {
                                         if (item == 0) {
-                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "1", subject_attachment, subject_creation);
+                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "01", subject_attachment, subject_creation);
                                             setSubjectsList();
                                         } else if (item == 1) {
-                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "2", subject_attachment, subject_creation);
+                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "02", subject_attachment, subject_creation);
                                             setSubjectsList();
                                         } else if (item == 2) {
-                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "3", subject_attachment, subject_creation);
+                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "03", subject_attachment, subject_creation);
                                             setSubjectsList();
                                         } else if (item == 3) {
-                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "4", subject_attachment, subject_creation);
+                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "04", subject_attachment, subject_creation);
                                             setSubjectsList();
                                         } else if (item == 4) {
-                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "5", subject_attachment, subject_creation);
+                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "05", subject_attachment, subject_creation);
                                             setSubjectsList();
                                         } else if (item == 5) {
-                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "6", subject_attachment, subject_creation);
+                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "06", subject_attachment, subject_creation);
                                             setSubjectsList();
                                         } else if (item == 6) {
-                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "7", subject_attachment, subject_creation);
+                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "07", subject_attachment, subject_creation);
                                             setSubjectsList();
                                         } else if (item == 7) {
-                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "8", subject_attachment, subject_creation);
+                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "08", subject_attachment, subject_creation);
                                             setSubjectsList();
                                         } else if (item == 8) {
-                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "9", subject_attachment, subject_creation);
+                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "09", subject_attachment, subject_creation);
                                             setSubjectsList();
                                         } else if (item == 9) {
                                             db.update(Integer.parseInt(_id),subject_title, subject_content, "10", subject_attachment, subject_creation);
                                             setSubjectsList();
                                         } else if (item == 10) {
                                             db.update(Integer.parseInt(_id),subject_title, subject_content, "11", subject_attachment, subject_creation);
+                                            setSubjectsList();
+                                        } else if (item == 11) {
+                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "12", subject_attachment, subject_creation);
+                                            setSubjectsList();
+                                        } else if (item == 12) {
+                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "13", subject_attachment, subject_creation);
+                                            setSubjectsList();
+                                        } else if (item == 13) {
+                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "14", subject_attachment, subject_creation);
+                                            setSubjectsList();
+                                        } else if (item == 14) {
+                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "15", subject_attachment, subject_creation);
+                                            setSubjectsList();
+                                        } else if (item == 15) {
+                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "16", subject_attachment, subject_creation);
+                                            setSubjectsList();
+                                        } else if (item == 16) {
+                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "17", subject_attachment, subject_creation);
+                                            setSubjectsList();
+                                        } else if (item == 17) {
+                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "18", subject_attachment, subject_creation);
+                                            setSubjectsList();
+                                        } else if (item == 18) {
+                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "19", subject_attachment, subject_creation);
+                                            setSubjectsList();
+                                        } else if (item == 19) {
+                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "20", subject_attachment, subject_creation);
+                                            setSubjectsList();
+                                        } else if (item == 20) {
+                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "21", subject_attachment, subject_creation);
+                                            setSubjectsList();
+                                        } else if (item == 21) {
+                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "22", subject_attachment, subject_creation);
+                                            setSubjectsList();
+                                        } else if (item == 22) {
+                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "23", subject_attachment, subject_creation);
+                                            setSubjectsList();
+                                        } else if (item == 23) {
+                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "24", subject_attachment, subject_creation);
                                             setSubjectsList();
                                         }
                                     }
@@ -458,6 +519,7 @@ public class Subjects_Fragment extends Fragment {
         };
 
         lv.setAdapter(adapter);
+        lv.setSelectionFromTop(index, top);
         //onClick function
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -467,6 +529,112 @@ public class Subjects_Fragment extends Fragment {
                     closeFABMenu();
                 }
 
+                isEdited();
+                Cursor row2 = (Cursor) lv.getItemAtPosition(position);
+                final String _id = row2.getString(row2.getColumnIndexOrThrow("_id"));
+                final String subject_title = row2.getString(row2.getColumnIndexOrThrow("subject_title"));
+                final String subject_content = row2.getString(row2.getColumnIndexOrThrow("subject_content"));
+                final String subject_icon = row2.getString(row2.getColumnIndexOrThrow("subject_icon"));
+                final String subject_attachment = row2.getString(row2.getColumnIndexOrThrow("subject_attachment"));
+                final String subject_creation = row2.getString(row2.getColumnIndexOrThrow("subject_creation"));
+
+                LayoutInflater inflater = getActivity().getLayoutInflater();
+
+                final ViewGroup nullParent = null;
+                View dialogView = inflater.inflate(R.layout.dialog_edit_subject, nullParent);
+
+                titleInput = (EditText) dialogView.findViewById(R.id.subject_title_);
+                titleInput.setSelection(titleInput.getText().length());
+                titleInput.setText(subject_title);
+                teacherInput = (EditText) dialogView.findViewById(R.id.subject_teacher);
+                teacherInput.setText(subject_content);
+                roomInput = (EditText) dialogView.findViewById(R.id.subject_room);
+                roomInput.setText(subject_attachment);
+
+                helper_main.showKeyboard(getActivity(),titleInput);
+
+                final ImageButton be = (ImageButton) dialogView.findViewById(R.id.imageButtonPri);
+                assert be != null;
+                helper_main.switchIcon (getActivity(), subject_icon, "subject_icon", be);
+
+                be.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View arg0) {
+
+                        ListAdapter adapter = new ArrayAdapter<helper_main.Item>(
+                                getActivity(),
+                                android.R.layout.select_dialog_item,
+                                android.R.id.text1,
+                                items){
+                            @NonNull
+                            public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+                                //Use super class to create the View
+                                View v = super.getView(position, convertView, parent);
+                                TextView tv = (TextView)v.findViewById(android.R.id.text1);
+                                tv.setTextSize(18);
+                                tv.setCompoundDrawablesWithIntrinsicBounds(items[position].icon, 0, 0, 0);
+                                //Add margin between image and text (support various screen densities)
+                                int dp5 = (int) (24 * getActivity().getResources().getDisplayMetrics().density + 0.5f);
+                                tv.setCompoundDrawablePadding(dp5);
+
+                                return v;
+                            }
+                        };
+
+                        new android.app.AlertDialog.Builder(getActivity())
+                                .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                        dialog.cancel();
+                                    }
+                                })
+                                .setAdapter(adapter, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int item) {
+                                        helper_main.switchIconDialog(getActivity(), item, "subject_icon", be);
+                                    }
+                                }).show();
+                    }
+                });
+
+                android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getActivity());
+                builder.setTitle(R.string.subjects_edit);
+                builder.setView(dialogView);
+                builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        Subject_DbAdapter db = new Subject_DbAdapter(getActivity());
+                        db.open();
+
+                        String inputTitle = titleInput.getText().toString().trim();
+                        String inputTeacher = teacherInput.getText().toString().trim();
+                        String inputRoom = roomInput.getText().toString().trim();
+
+                        db.update(Integer.parseInt(_id), inputTitle, inputTeacher, sharedPref.getString("subject_icon", ""), inputRoom, subject_creation);
+                        dialog.dismiss();
+                        setSubjectsList();
+                    }
+                });
+                builder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        dialog.cancel();
+                    }
+                });
+
+                final android.support.v7.app.AlertDialog dialog2 = builder.create();
+                dialog2.show();
+            }
+        });
+
+        lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                if(isFABOpen){
+                    closeFABMenu();
+                }
+
+                isEdited();
                 Cursor row2 = (Cursor) lv.getItemAtPosition(position);
                 final String _id = row2.getString(row2.getColumnIndexOrThrow("_id"));
                 final String subject_title = row2.getString(row2.getColumnIndexOrThrow("subject_title"));
@@ -510,7 +678,7 @@ public class Subjects_Fragment extends Fragment {
 
                                     final ImageButton be = (ImageButton) dialogView.findViewById(R.id.imageButtonPri);
                                     assert be != null;
-                                    Subjects_helper.switchIcon (getActivity(), subject_icon, "subject_color", be);
+                                    helper_main.switchIcon (getActivity(), subject_icon, "subject_icon", be);
 
                                     be.setOnClickListener(new View.OnClickListener() {
 
@@ -546,29 +714,7 @@ public class Subjects_Fragment extends Fragment {
                                                     })
                                                     .setAdapter(adapter, new DialogInterface.OnClickListener() {
                                                         public void onClick(DialogInterface dialog, int item) {
-                                                            if (item == 0) {
-                                                                be.setImageResource(R.drawable.circle_red);sharedPref.edit().putString("subject_color", "1").apply();
-                                                            } else if (item == 1) {
-                                                                be.setImageResource(R.drawable.circle_pink);sharedPref.edit().putString("subject_color", "2").apply();
-                                                            } else if (item == 2) {
-                                                                be.setImageResource(R.drawable.circle_purple);sharedPref.edit().putString("subject_color", "3").apply();
-                                                            } else if (item == 3) {
-                                                                be.setImageResource(R.drawable.circle_blue);sharedPref.edit().putString("subject_color", "4").apply();
-                                                            } else if (item == 4) {
-                                                                be.setImageResource(R.drawable.circle_teal);sharedPref.edit().putString("subject_color", "5").apply();
-                                                            } else if (item == 5) {
-                                                                be.setImageResource(R.drawable.circle_green);sharedPref.edit().putString("subject_color", "6").apply();
-                                                            } else if (item == 6) {
-                                                                be.setImageResource(R.drawable.circle_lime);sharedPref.edit().putString("subject_color", "7").apply();
-                                                            } else if (item == 7) {
-                                                                be.setImageResource(R.drawable.circle_yellow);sharedPref.edit().putString("subject_color", "8").apply();
-                                                            } else if (item == 8) {
-                                                                be.setImageResource(R.drawable.circle_orange);sharedPref.edit().putString("subject_color", "9").apply();
-                                                            } else if (item == 9) {
-                                                                be.setImageResource(R.drawable.circle_brown);sharedPref.edit().putString("subject_color", "10").apply();
-                                                            } else if (item == 10) {
-                                                                be.setImageResource(R.drawable.circle_grey);sharedPref.edit().putString("subject_color", "11").apply();
-                                                            }
+                                                            helper_main.switchIconDialog(getActivity(), item, "subject_icon", be);
                                                         }
                                                     }).show();
                                         }
@@ -587,10 +733,9 @@ public class Subjects_Fragment extends Fragment {
                                             String inputTeacher = teacherInput.getText().toString().trim();
                                             String inputRoom = roomInput.getText().toString().trim();
 
-                                            db.update(Integer.parseInt(_id), inputTitle, inputTeacher, sharedPref.getString("subject_color", ""), inputRoom, subject_creation);
+                                            db.update(Integer.parseInt(_id), inputTitle, inputTeacher, sharedPref.getString("subject_icon", ""), inputRoom, subject_creation);
                                             dialog.dismiss();
                                             setSubjectsList();
-                                            Snackbar.make(lv, R.string.bookmark_added, Snackbar.LENGTH_SHORT).show();
                                         }
                                     });
                                     builder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
@@ -622,7 +767,7 @@ public class Subjects_Fragment extends Fragment {
                                     helper_main.showKeyboard(getActivity(),titleInput);
 
                                     final ImageButton be = (ImageButton) dialogView.findViewById(R.id.imageButtonPri);
-                                    Subjects_helper.switchIcon (getActivity(), subject_icon, "subject_color", be);
+                                    helper_main.switchIcon (getActivity(), subject_icon, "subject_icon", be);
 
                                     be.setOnClickListener(new View.OnClickListener() {
 
@@ -659,27 +804,53 @@ public class Subjects_Fragment extends Fragment {
                                                     .setAdapter(adapter, new DialogInterface.OnClickListener() {
                                                         public void onClick(DialogInterface dialog, int item) {
                                                             if (item == 0) {
-                                                                be.setImageResource(R.drawable.circle_red);sharedPref.edit().putString("subject_color", "1").apply();
+                                                                be.setImageResource(R.drawable.school_grey_dark);sharedPref.edit().putString("subject_icon", "1").apply();
                                                             } else if (item == 1) {
-                                                                be.setImageResource(R.drawable.circle_pink);sharedPref.edit().putString("subject_color", "2").apply();
+                                                                be.setImageResource(R.drawable.ic_view_dashboard_grey600_48dp);sharedPref.edit().putString("subject_icon", "2").apply();
                                                             } else if (item == 2) {
-                                                                be.setImageResource(R.drawable.circle_purple);sharedPref.edit().putString("subject_color", "3").apply();
+                                                                be.setImageResource(R.drawable.ic_face_profile_grey600_48dp);sharedPref.edit().putString("subject_icon", "3").apply();
                                                             } else if (item == 3) {
-                                                                be.setImageResource(R.drawable.circle_blue);sharedPref.edit().putString("subject_color", "4").apply();
+                                                                be.setImageResource(R.drawable.ic_calendar_grey600_48dp);sharedPref.edit().putString("subject_icon", "4").apply();
                                                             } else if (item == 4) {
-                                                                be.setImageResource(R.drawable.circle_teal);sharedPref.edit().putString("subject_color", "5").apply();
+                                                                be.setImageResource(R.drawable.ic_chart_areaspline_grey600_48dp);sharedPref.edit().putString("subject_icon", "5").apply();
                                                             } else if (item == 5) {
-                                                                be.setImageResource(R.drawable.circle_green);sharedPref.edit().putString("subject_color", "6").apply();
+                                                                be.setImageResource(R.drawable.ic_bell_grey600_48dp);sharedPref.edit().putString("subject_icon", "6").apply();
                                                             } else if (item == 6) {
-                                                                be.setImageResource(R.drawable.circle_lime);sharedPref.edit().putString("subject_color", "7").apply();
+                                                                be.setImageResource(R.drawable.ic_settings_grey600_48dp);sharedPref.edit().putString("subject_icon", "7").apply();
                                                             } else if (item == 7) {
-                                                                be.setImageResource(R.drawable.circle_yellow);sharedPref.edit().putString("subject_color", "8").apply();
+                                                                be.setImageResource(R.drawable.ic_web_grey600_48dp);sharedPref.edit().putString("subject_icon", "8").apply();
                                                             } else if (item == 8) {
-                                                                be.setImageResource(R.drawable.circle_orange);sharedPref.edit().putString("subject_color", "9").apply();
+                                                                be.setImageResource(R.drawable.ic_magnify_grey600_48dp);sharedPref.edit().putString("subject_icon", "9").apply();
                                                             } else if (item == 9) {
-                                                                be.setImageResource(R.drawable.circle_brown);sharedPref.edit().putString("subject_color", "10").apply();
+                                                                be.setImageResource(R.drawable.ic_pencil_grey600_48dp);sharedPref.edit().putString("subject_icon", "10").apply();
                                                             } else if (item == 10) {
-                                                                be.setImageResource(R.drawable.circle_grey);sharedPref.edit().putString("subject_color", "11").apply();
+                                                                be.setImageResource(R.drawable.ic_check_grey600_48dp);sharedPref.edit().putString("subject_icon", "11").apply();
+                                                            } else if (item == 11) {
+                                                                be.setImageResource(R.drawable.ic_clock_grey600_48dp);sharedPref.edit().putString("subject_icon", "12").apply();
+                                                            } else if (item == 12) {
+                                                                be.setImageResource(R.drawable.ic_bookmark_grey600_48dp);sharedPref.edit().putString("subject_icon", "13").apply();
+                                                            } else if (item == 13) {
+                                                                be.setImageResource(R.drawable.circle_red);sharedPref.edit().putString("subject_icon", "14").apply();
+                                                            } else if (item == 14) {
+                                                                be.setImageResource(R.drawable.circle_pink);sharedPref.edit().putString("subject_icon", "15").apply();
+                                                            } else if (item == 15) {
+                                                                be.setImageResource(R.drawable.circle_purple);sharedPref.edit().putString("subject_icon", "16").apply();
+                                                            } else if (item == 16) {
+                                                                be.setImageResource(R.drawable.circle_blue);sharedPref.edit().putString("subject_icon", "17").apply();
+                                                            } else if (item == 17) {
+                                                                be.setImageResource(R.drawable.circle_teal);sharedPref.edit().putString("subject_icon", "18").apply();
+                                                            } else if (item == 18) {
+                                                                be.setImageResource(R.drawable.circle_green);sharedPref.edit().putString("subject_icon", "19").apply();
+                                                            } else if (item == 19) {
+                                                                be.setImageResource(R.drawable.circle_lime);sharedPref.edit().putString("subject_icon", "20").apply();
+                                                            } else if (item == 20) {
+                                                                be.setImageResource(R.drawable.circle_yellow);sharedPref.edit().putString("subject_icon", "21").apply();
+                                                            } else if (item == 21) {
+                                                                be.setImageResource(R.drawable.circle_orange);sharedPref.edit().putString("subject_icon", "22").apply();
+                                                            } else if (item == 22) {
+                                                                be.setImageResource(R.drawable.circle_brown);sharedPref.edit().putString("subject_icon", "23").apply();
+                                                            } else if (item == 23) {
+                                                                be.setImageResource(R.drawable.circle_grey);sharedPref.edit().putString("subject_icon", "24").apply();
                                                             }
                                                         }
                                                     }).show();
@@ -699,24 +870,19 @@ public class Subjects_Fragment extends Fragment {
                                             String inputTeacher = teacherInput.getText().toString().trim();
                                             String inputRoom = roomInput.getText().toString().trim();
 
-                                            Date date = new Date();
-                                            DateFormat dateFormat = new SimpleDateFormat("yy-MM-dd_HH-mm-ss", Locale.getDefault());
-                                            String creation =  dateFormat.format(date);
+                                            String creation =  helper_main.createDateSecond();
 
                                             if(db.isExist(creation)){
                                                 Snackbar.make(titleInput, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
                                             }else{
                                                 try {
-                                                    db.insert(inputTitle, inputTeacher, sharedPref.getString("subject_color", creation), inputRoom, helper_main.createDate());
-                                                    dialog.dismiss();
+                                                    db.insert(inputTitle, inputTeacher, sharedPref.getString("subject_icon", "19"), inputRoom, creation);
                                                     setSubjectsList();
                                                 }
                                                 catch (Exception e) {
                                                     e.printStackTrace();
                                                 }
-                                                db.insert(inputTitle, inputTeacher, sharedPref.getString("subject_color", creation), inputRoom, helper_main.createDate());
                                                 dialog.dismiss();
-                                                setSubjectsList();
                                             }
 
                                         }
@@ -748,6 +914,7 @@ public class Subjects_Fragment extends Fragment {
 
                             }
                         }).show();
+                return true;
             }
         });
     }
@@ -760,6 +927,7 @@ public class Subjects_Fragment extends Fragment {
         menu.findItem(R.id.action_sort).setVisible(false);
         getActivity().setTitle(R.string.subjects_title);
         setSubjectsList();
+        helper_main.hideKeyboard(getActivity());
     }
 
     @Override

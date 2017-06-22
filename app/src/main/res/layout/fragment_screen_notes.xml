@@ -112,6 +112,34 @@
             app:fabSize="mini"/>
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/fabLayout3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/fab_margin"
+        android:clipToPadding="false"
+        android:layout_marginEnd="8dp"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="36dp"
+        android:layout_gravity="bottom|end"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/text_fab3"
+            android:background="@color/color_trans_grey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/todo_from_subjectList"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            app:srcCompat="@drawable/book_open_white"
+            app:fabSize="mini"/>
+    </LinearLayout>
+
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
