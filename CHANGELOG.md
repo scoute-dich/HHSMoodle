@@ -1,5 +1,5 @@
 ### 4.5 (WIP)
-- neu: Todo - Einträge abhaken
+- neu: Einträge abhaken (Todoliste)
 - neu: neue Einträge uas Fächerliste
 - verbessert: einheitliche Kontextmenüs
 - verbessert: Sicherung/Wiederherstellung

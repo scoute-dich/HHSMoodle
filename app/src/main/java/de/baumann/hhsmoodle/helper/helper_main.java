@@ -350,6 +350,10 @@ public class helper_main {
         return  dateFormat.format(date) + ".jpg";
     }
 
+    public static String secString (String string) {
+        return  string.replaceAll("'", "\'\'");
+    }
+
     public static String createDate () {
         Date date = new Date();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());

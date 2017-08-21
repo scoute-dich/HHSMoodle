@@ -411,76 +411,76 @@ public class Todo_Fragment extends Fragment {
 
                                     public void onClick(DialogInterface dialog, int item) {
                                         if (item == 0) {
-                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "01", todo_attachment, todo_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(todo_title), helper_main.secString(todo_content), "01", todo_attachment, todo_creation);
                                             setTodoList();
                                         } else if (item == 1) {
-                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "02", todo_attachment, todo_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(todo_title), helper_main.secString(todo_content), "02", todo_attachment, todo_creation);
                                             setTodoList();
                                         } else if (item == 2) {
-                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "03", todo_attachment, todo_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(todo_title), helper_main.secString(todo_content), "03", todo_attachment, todo_creation);
                                             setTodoList();
                                         } else if (item == 3) {
-                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "04", todo_attachment, todo_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(todo_title), helper_main.secString(todo_content), "04", todo_attachment, todo_creation);
                                             setTodoList();
                                         } else if (item == 4) {
-                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "05", todo_attachment, todo_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(todo_title), helper_main.secString(todo_content), "05", todo_attachment, todo_creation);
                                             setTodoList();
                                         } else if (item == 5) {
-                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "06", todo_attachment, todo_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(todo_title), helper_main.secString(todo_content), "06", todo_attachment, todo_creation);
                                             setTodoList();
                                         } else if (item == 6) {
-                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "07", todo_attachment, todo_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(todo_title), helper_main.secString(todo_content), "07", todo_attachment, todo_creation);
                                             setTodoList();
                                         } else if (item == 7) {
-                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "08", todo_attachment, todo_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(todo_title), helper_main.secString(todo_content), "08", todo_attachment, todo_creation);
                                             setTodoList();
                                         } else if (item == 8) {
-                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "09", todo_attachment, todo_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(todo_title), helper_main.secString(todo_content), "09", todo_attachment, todo_creation);
                                             setTodoList();
                                         } else if (item == 9) {
-                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "10", todo_attachment, todo_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(todo_title), helper_main.secString(todo_content), "10", todo_attachment, todo_creation);
                                             setTodoList();
                                         } else if (item == 10) {
-                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "11", todo_attachment, todo_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(todo_title), helper_main.secString(todo_content), "11", todo_attachment, todo_creation);
                                             setTodoList();
                                         } else if (item == 11) {
-                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "12", todo_attachment, todo_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(todo_title), helper_main.secString(todo_content), "12", todo_attachment, todo_creation);
                                             setTodoList();
                                         } else if (item == 12) {
-                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "13", todo_attachment, todo_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(todo_title), helper_main.secString(todo_content), "13", todo_attachment, todo_creation);
                                             setTodoList();
                                         } else if (item == 13) {
-                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "14", todo_attachment, todo_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(todo_title), helper_main.secString(todo_content), "14", todo_attachment, todo_creation);
                                             setTodoList();
                                         } else if (item == 14) {
-                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "15", todo_attachment, todo_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(todo_title), helper_main.secString(todo_content), "15", todo_attachment, todo_creation);
                                             setTodoList();
                                         } else if (item == 15) {
-                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "16", todo_attachment, todo_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(todo_title), helper_main.secString(todo_content), "16", todo_attachment, todo_creation);
                                             setTodoList();
                                         } else if (item == 16) {
-                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "17", todo_attachment, todo_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(todo_title), helper_main.secString(todo_content), "17", todo_attachment, todo_creation);
                                             setTodoList();
                                         } else if (item == 17) {
-                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "18", todo_attachment, todo_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(todo_title), helper_main.secString(todo_content), "18", todo_attachment, todo_creation);
                                             setTodoList();
                                         } else if (item == 18) {
-                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "19", todo_attachment, todo_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(todo_title), helper_main.secString(todo_content), "19", todo_attachment, todo_creation);
                                             setTodoList();
                                         } else if (item == 19) {
-                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "20", todo_attachment, todo_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(todo_title), helper_main.secString(todo_content), "20", todo_attachment, todo_creation);
                                             setTodoList();
                                         } else if (item == 20) {
-                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "21", todo_attachment, todo_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(todo_title), helper_main.secString(todo_content), "21", todo_attachment, todo_creation);
                                             setTodoList();
                                         } else if (item == 21) {
-                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "22", todo_attachment, todo_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(todo_title), helper_main.secString(todo_content), "22", todo_attachment, todo_creation);
                                             setTodoList();
                                         } else if (item == 22) {
-                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "23", todo_attachment, todo_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(todo_title), helper_main.secString(todo_content), "23", todo_attachment, todo_creation);
                                             setTodoList();
                                         } else if (item == 23) {
-                                            db.update(Integer.parseInt(_id), todo_title, todo_content, "24", todo_attachment, todo_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(todo_title), helper_main.secString(todo_content), "24", todo_attachment, todo_creation);
                                             setTodoList();
                                         }
                                     }
@@ -494,11 +494,11 @@ public class Todo_Fragment extends Fragment {
                         isEdited();
                         switch (todo_attachment) {
                             case "true":
-                                db.update(Integer.parseInt(_id), todo_title, todo_content, todo_icon, "", todo_creation);
+                                db.update(Integer.parseInt(_id), helper_main.secString(todo_title), helper_main.secString(todo_content), todo_icon, "", todo_creation);
                                 setTodoList();
                                 break;
                             default:
-                                db.update(Integer.parseInt(_id), todo_title, todo_content, todo_icon, "true", todo_creation);
+                                db.update(Integer.parseInt(_id), helper_main.secString(todo_title), helper_main.secString(todo_content), todo_icon, "true", todo_creation);
                                 setTodoList();
                                 break;
                         }
@@ -607,7 +607,7 @@ public class Todo_Fragment extends Fragment {
                                         public void onClick(DialogInterface dialog, int whichButton) {
 
                                             String inputTag = edit_title.getText().toString().trim();
-                                            db.update(Integer.parseInt(_id), inputTag, todo_content, todo_icon, todo_attachment, todo_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(inputTag), helper_main.secString(todo_content), todo_icon, todo_attachment, todo_creation);
                                             setTodoList();
                                         }
                                     });

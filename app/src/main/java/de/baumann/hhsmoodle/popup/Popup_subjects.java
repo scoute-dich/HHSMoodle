@@ -139,7 +139,7 @@ public class Popup_subjects extends Activity {
 
                     Schedule_DbAdapter db = new Schedule_DbAdapter(Popup_subjects.this);
                     db.open();
-                    db.update(Integer.parseInt(handle_id), subject_title, subject_content, subject_icon, subject_attachment, handleSubjectCreation, handleSubject_id);
+                    db.update(Integer.parseInt(handle_id), helper_main.secString(subject_title), helper_main.secString(subject_content), subject_icon, helper_main.secString(subject_attachment), handleSubjectCreation, handleSubject_id);
 
                     sharedPref.edit()
                             .putString("handleSubjectCreation", "")

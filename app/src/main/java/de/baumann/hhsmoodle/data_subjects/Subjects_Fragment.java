@@ -257,7 +257,7 @@ public class Subjects_Fragment extends Fragment {
                 if(db.isExist(creation)){
                     Snackbar.make(titleInput, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
                 }else{
-                    db.insert(inputTitle, inputTeacher, icon, inputRoom, creation);
+                    db.insert(helper_main.secString(inputTitle), helper_main.secString(inputTeacher), icon, helper_main.secString(inputRoom), creation);
                     dialog.dismiss();
                     setSubjectsList();
                     sharedPref.edit().putString("subject_title", "").apply();
@@ -437,76 +437,76 @@ public class Subjects_Fragment extends Fragment {
 
                                     public void onClick(DialogInterface dialog, int item) {
                                         if (item == 0) {
-                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "01", subject_attachment, subject_creation);
+                                            db.update(Integer.parseInt(_id),helper_main.secString(subject_title), helper_main.secString(subject_content), "01", helper_main.secString(subject_attachment), subject_creation);
                                             setSubjectsList();
                                         } else if (item == 1) {
-                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "02", subject_attachment, subject_creation);
+                                            db.update(Integer.parseInt(_id),helper_main.secString(subject_title), helper_main.secString(subject_content), "02", helper_main.secString(subject_attachment), subject_creation);
                                             setSubjectsList();
                                         } else if (item == 2) {
-                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "03", subject_attachment, subject_creation);
+                                            db.update(Integer.parseInt(_id),helper_main.secString(subject_title), helper_main.secString(subject_content), "03", helper_main.secString(subject_attachment), subject_creation);
                                             setSubjectsList();
                                         } else if (item == 3) {
-                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "04", subject_attachment, subject_creation);
+                                            db.update(Integer.parseInt(_id),helper_main.secString(subject_title), helper_main.secString(subject_content), "04", helper_main.secString(subject_attachment), subject_creation);
                                             setSubjectsList();
                                         } else if (item == 4) {
-                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "05", subject_attachment, subject_creation);
+                                            db.update(Integer.parseInt(_id),helper_main.secString(subject_title), helper_main.secString(subject_content), "05", helper_main.secString(subject_attachment), subject_creation);
                                             setSubjectsList();
                                         } else if (item == 5) {
-                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "06", subject_attachment, subject_creation);
+                                            db.update(Integer.parseInt(_id),helper_main.secString(subject_title), helper_main.secString(subject_content), "06", helper_main.secString(subject_attachment), subject_creation);
                                             setSubjectsList();
                                         } else if (item == 6) {
-                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "07", subject_attachment, subject_creation);
+                                            db.update(Integer.parseInt(_id),helper_main.secString(subject_title), helper_main.secString(subject_content), "07", helper_main.secString(subject_attachment), subject_creation);
                                             setSubjectsList();
                                         } else if (item == 7) {
-                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "08", subject_attachment, subject_creation);
+                                            db.update(Integer.parseInt(_id),helper_main.secString(subject_title), helper_main.secString(subject_content), "08", helper_main.secString(subject_attachment), subject_creation);
                                             setSubjectsList();
                                         } else if (item == 8) {
-                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "09", subject_attachment, subject_creation);
+                                            db.update(Integer.parseInt(_id),helper_main.secString(subject_title), helper_main.secString(subject_content), "09", helper_main.secString(subject_attachment), subject_creation);
                                             setSubjectsList();
                                         } else if (item == 9) {
-                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "10", subject_attachment, subject_creation);
+                                            db.update(Integer.parseInt(_id),helper_main.secString(subject_title), helper_main.secString(subject_content), "10", helper_main.secString(subject_attachment), subject_creation);
                                             setSubjectsList();
                                         } else if (item == 10) {
-                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "11", subject_attachment, subject_creation);
+                                            db.update(Integer.parseInt(_id),helper_main.secString(subject_title), helper_main.secString(subject_content), "11", helper_main.secString(subject_attachment), subject_creation);
                                             setSubjectsList();
                                         } else if (item == 11) {
-                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "12", subject_attachment, subject_creation);
+                                            db.update(Integer.parseInt(_id),helper_main.secString(subject_title), helper_main.secString(subject_content), "12", helper_main.secString(subject_attachment), subject_creation);
                                             setSubjectsList();
                                         } else if (item == 12) {
-                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "13", subject_attachment, subject_creation);
+                                            db.update(Integer.parseInt(_id),helper_main.secString(subject_title), helper_main.secString(subject_content), "13", helper_main.secString(subject_attachment), subject_creation);
                                             setSubjectsList();
                                         } else if (item == 13) {
-                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "14", subject_attachment, subject_creation);
+                                            db.update(Integer.parseInt(_id),helper_main.secString(subject_title), helper_main.secString(subject_content), "14", helper_main.secString(subject_attachment), subject_creation);
                                             setSubjectsList();
                                         } else if (item == 14) {
-                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "15", subject_attachment, subject_creation);
+                                            db.update(Integer.parseInt(_id),helper_main.secString(subject_title), helper_main.secString(subject_content), "15", helper_main.secString(subject_attachment), subject_creation);
                                             setSubjectsList();
                                         } else if (item == 15) {
-                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "16", subject_attachment, subject_creation);
+                                            db.update(Integer.parseInt(_id),helper_main.secString(subject_title), helper_main.secString(subject_content), "16", helper_main.secString(subject_attachment), subject_creation);
                                             setSubjectsList();
                                         } else if (item == 16) {
-                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "17", subject_attachment, subject_creation);
+                                            db.update(Integer.parseInt(_id),helper_main.secString(subject_title), helper_main.secString(subject_content), "17", helper_main.secString(subject_attachment), subject_creation);
                                             setSubjectsList();
                                         } else if (item == 17) {
-                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "18", subject_attachment, subject_creation);
+                                            db.update(Integer.parseInt(_id),helper_main.secString(subject_title), helper_main.secString(subject_content), "18", helper_main.secString(subject_attachment), subject_creation);
                                             setSubjectsList();
                                         } else if (item == 18) {
-                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "19", subject_attachment, subject_creation);
+                                            db.update(Integer.parseInt(_id),helper_main.secString(subject_title), helper_main.secString(subject_content), "19", helper_main.secString(subject_attachment), subject_creation);
                                             setSubjectsList();
                                         } else if (item == 19) {
-                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "20", subject_attachment, subject_creation);
+                                            db.update(Integer.parseInt(_id),helper_main.secString(subject_title), helper_main.secString(subject_content), "20", helper_main.secString(subject_attachment), subject_creation);
                                             setSubjectsList();
                                         } else if (item == 20) {
-                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "21", subject_attachment, subject_creation);
+                                            db.update(Integer.parseInt(_id),helper_main.secString(subject_title), helper_main.secString(subject_content), "21", helper_main.secString(subject_attachment), subject_creation);
                                             setSubjectsList();
                                         } else if (item == 21) {
-                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "22", subject_attachment, subject_creation);
+                                            db.update(Integer.parseInt(_id),helper_main.secString(subject_title), helper_main.secString(subject_content), "22", helper_main.secString(subject_attachment), subject_creation);
                                             setSubjectsList();
                                         } else if (item == 22) {
-                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "23", subject_attachment, subject_creation);
+                                            db.update(Integer.parseInt(_id),helper_main.secString(subject_title), helper_main.secString(subject_content), "23", helper_main.secString(subject_attachment), subject_creation);
                                             setSubjectsList();
                                         } else if (item == 23) {
-                                            db.update(Integer.parseInt(_id),subject_title, subject_content, "24", subject_attachment, subject_creation);
+                                            db.update(Integer.parseInt(_id),helper_main.secString(subject_title), helper_main.secString(subject_content), "24", helper_main.secString(subject_attachment), subject_creation);
                                             setSubjectsList();
                                         }
                                     }
@@ -610,7 +610,7 @@ public class Subjects_Fragment extends Fragment {
                         String inputTeacher = teacherInput.getText().toString().trim();
                         String inputRoom = roomInput.getText().toString().trim();
 
-                        db.update(Integer.parseInt(_id), inputTitle, inputTeacher, sharedPref.getString("subject_icon", ""), inputRoom, subject_creation);
+                        db.update(Integer.parseInt(_id), helper_main.secString(inputTitle), helper_main.secString(inputTeacher), sharedPref.getString("subject_icon", ""), helper_main.secString(inputRoom), subject_creation);
                         dialog.dismiss();
                         setSubjectsList();
                     }
@@ -733,7 +733,7 @@ public class Subjects_Fragment extends Fragment {
                                             String inputTeacher = teacherInput.getText().toString().trim();
                                             String inputRoom = roomInput.getText().toString().trim();
 
-                                            db.update(Integer.parseInt(_id), inputTitle, inputTeacher, sharedPref.getString("subject_icon", ""), inputRoom, subject_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(inputTitle), helper_main.secString(inputTeacher), sharedPref.getString("subject_icon", ""), helper_main.secString(inputRoom), subject_creation);
                                             dialog.dismiss();
                                             setSubjectsList();
                                         }

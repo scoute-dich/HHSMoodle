@@ -356,76 +356,76 @@ public class Random_Fragment extends Fragment {
 
                                     public void onClick(DialogInterface dialog, int item) {
                                         if (item == 0) {
-                                            db.update(Integer.parseInt(_id), random_title, random_content, "01", random_attachment, random_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(random_title), helper_main.secString(random_content), "01", random_attachment, random_creation);
                                             setRandomList();
                                         } else if (item == 1) {
-                                            db.update(Integer.parseInt(_id), random_title, random_content, "02", random_attachment, random_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(random_title), helper_main.secString(random_content), "02", random_attachment, random_creation);
                                             setRandomList();
                                         } else if (item == 2) {
-                                            db.update(Integer.parseInt(_id), random_title, random_content, "03", random_attachment, random_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(random_title), helper_main.secString(random_content), "03", random_attachment, random_creation);
                                             setRandomList();
                                         } else if (item == 3) {
-                                            db.update(Integer.parseInt(_id), random_title, random_content, "04", random_attachment, random_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(random_title), helper_main.secString(random_content), "04", random_attachment, random_creation);
                                             setRandomList();
                                         } else if (item == 4) {
-                                            db.update(Integer.parseInt(_id), random_title, random_content, "05", random_attachment, random_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(random_title), helper_main.secString(random_content), "05", random_attachment, random_creation);
                                             setRandomList();
                                         } else if (item == 5) {
-                                            db.update(Integer.parseInt(_id), random_title, random_content, "06", random_attachment, random_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(random_title), helper_main.secString(random_content), "06", random_attachment, random_creation);
                                             setRandomList();
                                         } else if (item == 6) {
-                                            db.update(Integer.parseInt(_id), random_title, random_content, "07", random_attachment, random_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(random_title), helper_main.secString(random_content), "07", random_attachment, random_creation);
                                             setRandomList();
                                         } else if (item == 7) {
-                                            db.update(Integer.parseInt(_id), random_title, random_content, "08", random_attachment, random_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(random_title), helper_main.secString(random_content), "08", random_attachment, random_creation);
                                             setRandomList();
                                         } else if (item == 8) {
-                                            db.update(Integer.parseInt(_id), random_title, random_content, "09", random_attachment, random_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(random_title), helper_main.secString(random_content), "09", random_attachment, random_creation);
                                             setRandomList();
                                         } else if (item == 9) {
-                                            db.update(Integer.parseInt(_id), random_title, random_content, "10", random_attachment, random_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(random_title), helper_main.secString(random_content), "10", random_attachment, random_creation);
                                             setRandomList();
                                         } else if (item == 10) {
-                                            db.update(Integer.parseInt(_id), random_title, random_content, "11", random_attachment, random_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(random_title), helper_main.secString(random_content), "11", random_attachment, random_creation);
                                             setRandomList();
                                         } else if (item == 11) {
-                                            db.update(Integer.parseInt(_id), random_title, random_content, "12", random_attachment, random_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(random_title), helper_main.secString(random_content), "12", random_attachment, random_creation);
                                             setRandomList();
                                         } else if (item == 12) {
-                                            db.update(Integer.parseInt(_id), random_title, random_content, "13", random_attachment, random_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(random_title), helper_main.secString(random_content), "13", random_attachment, random_creation);
                                             setRandomList();
                                         } else if (item == 13) {
-                                            db.update(Integer.parseInt(_id), random_title, random_content, "14", random_attachment, random_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(random_title), helper_main.secString(random_content), "14", random_attachment, random_creation);
                                             setRandomList();
                                         } else if (item == 14) {
-                                            db.update(Integer.parseInt(_id), random_title, random_content, "15", random_attachment, random_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(random_title), helper_main.secString(random_content), "15", random_attachment, random_creation);
                                             setRandomList();
                                         } else if (item == 15) {
-                                            db.update(Integer.parseInt(_id), random_title, random_content, "16", random_attachment, random_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(random_title), helper_main.secString(random_content), "16", random_attachment, random_creation);
                                             setRandomList();
                                         } else if (item == 16) {
-                                            db.update(Integer.parseInt(_id), random_title, random_content, "17", random_attachment, random_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(random_title), helper_main.secString(random_content), "17", random_attachment, random_creation);
                                             setRandomList();
                                         } else if (item == 17) {
-                                            db.update(Integer.parseInt(_id), random_title, random_content, "18", random_attachment, random_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(random_title), helper_main.secString(random_content), "18", random_attachment, random_creation);
                                             setRandomList();
                                         } else if (item == 18) {
-                                            db.update(Integer.parseInt(_id), random_title, random_content, "19", random_attachment, random_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(random_title), helper_main.secString(random_content), "19", random_attachment, random_creation);
                                             setRandomList();
                                         } else if (item == 19) {
-                                            db.update(Integer.parseInt(_id), random_title, random_content, "20", random_attachment, random_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(random_title), helper_main.secString(random_content), "20", random_attachment, random_creation);
                                             setRandomList();
                                         } else if (item == 20) {
-                                            db.update(Integer.parseInt(_id), random_title, random_content, "21", random_attachment, random_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(random_title), helper_main.secString(random_content), "21", random_attachment, random_creation);
                                             setRandomList();
                                         } else if (item == 21) {
-                                            db.update(Integer.parseInt(_id), random_title, random_content, "22", random_attachment, random_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(random_title), helper_main.secString(random_content), "22", random_attachment, random_creation);
                                             setRandomList();
                                         } else if (item == 22) {
-                                            db.update(Integer.parseInt(_id), random_title, random_content, "23", random_attachment, random_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(random_title), helper_main.secString(random_content), "23", random_attachment, random_creation);
                                             setRandomList();
                                         } else if (item == 23) {
-                                            db.update(Integer.parseInt(_id), random_title, random_content, "24", random_attachment, random_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(random_title), helper_main.secString(random_content), "24", random_attachment, random_creation);
                                             setRandomList();
                                         }
                                     }
@@ -537,7 +537,7 @@ public class Random_Fragment extends Fragment {
                                         public void onClick(DialogInterface dialog, int whichButton) {
 
                                             String inputTag = edit_title.getText().toString().trim();
-                                            db.update(Integer.parseInt(_id), inputTag, random_content, random_icon, random_attachment, random_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(inputTag), helper_main.secString(random_content), random_icon, random_attachment, random_creation);
                                             setRandomList();
                                         }
                                     });

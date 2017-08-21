@@ -306,7 +306,7 @@ public class Count_Fragment extends Fragment {
                             }
                             String result = sb.toString();
 
-                            db.update(Integer.parseInt(_id), count_title, count_content, count_icon, result, count_creation);
+                            db.update(Integer.parseInt(_id), helper_main.secString(count_title), helper_main.secString(count_content), count_icon, result, count_creation);
                             setCountList();
                         }
                     }, 500);
@@ -380,76 +380,76 @@ public class Count_Fragment extends Fragment {
 
                                     public void onClick(DialogInterface dialog, int item) {
                                         if (item == 0) {
-                                            db.update(Integer.parseInt(_id), count_title, count_content, "01", count_attachment, count_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(count_title), helper_main.secString(count_content), "01", count_attachment, count_creation);
                                             setCountList();
                                         } else if (item == 1) {
-                                            db.update(Integer.parseInt(_id), count_title, count_content, "02", count_attachment, count_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(count_title), helper_main.secString(count_content), "02", count_attachment, count_creation);
                                             setCountList();
                                         } else if (item == 2) {
-                                            db.update(Integer.parseInt(_id), count_title, count_content, "03", count_attachment, count_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(count_title), helper_main.secString(count_content), "03", count_attachment, count_creation);
                                             setCountList();
                                         } else if (item == 3) {
-                                            db.update(Integer.parseInt(_id), count_title, count_content, "04", count_attachment, count_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(count_title), helper_main.secString(count_content), "04", count_attachment, count_creation);
                                             setCountList();
                                         } else if (item == 4) {
-                                            db.update(Integer.parseInt(_id), count_title, count_content, "05", count_attachment, count_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(count_title), helper_main.secString(count_content), "05", count_attachment, count_creation);
                                             setCountList();
                                         } else if (item == 5) {
-                                            db.update(Integer.parseInt(_id), count_title, count_content, "06", count_attachment, count_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(count_title), helper_main.secString(count_content), "06", count_attachment, count_creation);
                                             setCountList();
                                         } else if (item == 6) {
-                                            db.update(Integer.parseInt(_id), count_title, count_content, "07", count_attachment, count_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(count_title), helper_main.secString(count_content), "07", count_attachment, count_creation);
                                             setCountList();
                                         } else if (item == 7) {
-                                            db.update(Integer.parseInt(_id), count_title, count_content, "08", count_attachment, count_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(count_title), helper_main.secString(count_content), "08", count_attachment, count_creation);
                                             setCountList();
                                         } else if (item == 8) {
-                                            db.update(Integer.parseInt(_id), count_title, count_content, "09", count_attachment, count_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(count_title), helper_main.secString(count_content), "09", count_attachment, count_creation);
                                             setCountList();
                                         } else if (item == 9) {
-                                            db.update(Integer.parseInt(_id), count_title, count_content, "10", count_attachment, count_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(count_title), helper_main.secString(count_content), "10", count_attachment, count_creation);
                                             setCountList();
                                         } else if (item == 10) {
-                                            db.update(Integer.parseInt(_id), count_title, count_content, "11", count_attachment, count_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(count_title), helper_main.secString(count_content), "11", count_attachment, count_creation);
                                             setCountList();
                                         } else if (item == 11) {
-                                            db.update(Integer.parseInt(_id), count_title, count_content, "12", count_attachment, count_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(count_title), helper_main.secString(count_content), "12", count_attachment, count_creation);
                                             setCountList();
                                         } else if (item == 12) {
-                                            db.update(Integer.parseInt(_id), count_title, count_content, "13", count_attachment, count_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(count_title), helper_main.secString(count_content), "13", count_attachment, count_creation);
                                             setCountList();
                                         } else if (item == 13) {
-                                            db.update(Integer.parseInt(_id), count_title, count_content, "14", count_attachment, count_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(count_title), helper_main.secString(count_content), "14", count_attachment, count_creation);
                                             setCountList();
                                         } else if (item == 14) {
-                                            db.update(Integer.parseInt(_id), count_title, count_content, "15", count_attachment, count_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(count_title), helper_main.secString(count_content), "15", count_attachment, count_creation);
                                             setCountList();
                                         } else if (item == 15) {
-                                            db.update(Integer.parseInt(_id), count_title, count_content, "16", count_attachment, count_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(count_title), helper_main.secString(count_content), "16", count_attachment, count_creation);
                                             setCountList();
                                         } else if (item == 16) {
-                                            db.update(Integer.parseInt(_id), count_title, count_content, "17", count_attachment, count_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(count_title), helper_main.secString(count_content), "17", count_attachment, count_creation);
                                             setCountList();
                                         } else if (item == 17) {
-                                            db.update(Integer.parseInt(_id), count_title, count_content, "18", count_attachment, count_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(count_title), helper_main.secString(count_content), "18", count_attachment, count_creation);
                                             setCountList();
                                         } else if (item == 18) {
-                                            db.update(Integer.parseInt(_id), count_title, count_content, "19", count_attachment, count_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(count_title), helper_main.secString(count_content), "19", count_attachment, count_creation);
                                             setCountList();
                                         } else if (item == 19) {
-                                            db.update(Integer.parseInt(_id), count_title, count_content, "20", count_attachment, count_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(count_title), helper_main.secString(count_content), "20", count_attachment, count_creation);
                                             setCountList();
                                         } else if (item == 20) {
-                                            db.update(Integer.parseInt(_id), count_title, count_content, "21", count_attachment, count_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(count_title), helper_main.secString(count_content), "21", count_attachment, count_creation);
                                             setCountList();
                                         } else if (item == 21) {
-                                            db.update(Integer.parseInt(_id), count_title, count_content, "22", count_attachment, count_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(count_title), helper_main.secString(count_content), "22", count_attachment, count_creation);
                                             setCountList();
                                         } else if (item == 22) {
-                                            db.update(Integer.parseInt(_id), count_title, count_content, "23", count_attachment, count_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(count_title), helper_main.secString(count_content), "23", count_attachment, count_creation);
                                             setCountList();
                                         } else if (item == 23) {
-                                            db.update(Integer.parseInt(_id), count_title, count_content, "24", count_attachment, count_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(count_title), helper_main.secString(count_content), "24", count_attachment, count_creation);
                                             setCountList();
                                         }
                                     }
@@ -559,7 +559,7 @@ public class Count_Fragment extends Fragment {
                                         public void onClick(DialogInterface dialog, int whichButton) {
 
                                             String inputTag = edit_title.getText().toString().trim();
-                                            db.update(Integer.parseInt(_id), inputTag, count_content, count_icon, count_attachment, count_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(inputTag), helper_main.secString(count_content), count_icon, count_attachment, count_creation);
                                             setCountList();
                                         }
                                     });

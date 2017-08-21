@@ -381,76 +381,76 @@ public class Notes_Fragment extends Fragment {
 
                                     public void onClick(DialogInterface dialog, int item) {
                                         if (item == 0) {
-                                            db.update(Integer.parseInt(_id), note_title, note_content, "01", note_attachment, note_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(note_title), helper_main.secString(note_content), "01", note_attachment, note_creation);
                                             setNotesList();
                                         } else if (item == 1) {
-                                            db.update(Integer.parseInt(_id), note_title, note_content, "02", note_attachment, note_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(note_title), helper_main.secString(note_content), "02", note_attachment, note_creation);
                                             setNotesList();
                                         } else if (item == 2) {
-                                            db.update(Integer.parseInt(_id), note_title, note_content, "03", note_attachment, note_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(note_title), helper_main.secString(note_content), "03", note_attachment, note_creation);
                                             setNotesList();
                                         } else if (item == 3) {
-                                            db.update(Integer.parseInt(_id), note_title, note_content, "04", note_attachment, note_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(note_title), helper_main.secString(note_content), "04", note_attachment, note_creation);
                                             setNotesList();
                                         } else if (item == 4) {
-                                            db.update(Integer.parseInt(_id), note_title, note_content, "05", note_attachment, note_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(note_title), helper_main.secString(note_content), "05", note_attachment, note_creation);
                                             setNotesList();
                                         } else if (item == 5) {
-                                            db.update(Integer.parseInt(_id), note_title, note_content, "06", note_attachment, note_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(note_title), helper_main.secString(note_content), "06", note_attachment, note_creation);
                                             setNotesList();
                                         } else if (item == 6) {
-                                            db.update(Integer.parseInt(_id), note_title, note_content, "07", note_attachment, note_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(note_title), helper_main.secString(note_content), "07", note_attachment, note_creation);
                                             setNotesList();
                                         } else if (item == 7) {
-                                            db.update(Integer.parseInt(_id), note_title, note_content, "08", note_attachment, note_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(note_title), helper_main.secString(note_content), "08", note_attachment, note_creation);
                                             setNotesList();
                                         } else if (item == 8) {
-                                            db.update(Integer.parseInt(_id), note_title, note_content, "09", note_attachment, note_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(note_title), helper_main.secString(note_content), "09", note_attachment, note_creation);
                                             setNotesList();
                                         } else if (item == 9) {
-                                            db.update(Integer.parseInt(_id), note_title, note_content, "10", note_attachment, note_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(note_title), helper_main.secString(note_content), "10", note_attachment, note_creation);
                                             setNotesList();
                                         } else if (item == 10) {
-                                            db.update(Integer.parseInt(_id), note_title, note_content, "11", note_attachment, note_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(note_title), helper_main.secString(note_content), "11", note_attachment, note_creation);
                                             setNotesList();
                                         } else if (item == 11) {
-                                            db.update(Integer.parseInt(_id), note_title, note_content, "12", note_attachment, note_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(note_title), helper_main.secString(note_content), "12", note_attachment, note_creation);
                                             setNotesList();
                                         } else if (item == 12) {
-                                            db.update(Integer.parseInt(_id), note_title, note_content, "13", note_attachment, note_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(note_title), helper_main.secString(note_content), "13", note_attachment, note_creation);
                                             setNotesList();
                                         } else if (item == 13) {
-                                            db.update(Integer.parseInt(_id), note_title, note_content, "14", note_attachment, note_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(note_title), helper_main.secString(note_content), "14", note_attachment, note_creation);
                                             setNotesList();
                                         } else if (item == 14) {
-                                            db.update(Integer.parseInt(_id), note_title, note_content, "15", note_attachment, note_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(note_title), helper_main.secString(note_content), "15", note_attachment, note_creation);
                                             setNotesList();
                                         } else if (item == 15) {
-                                            db.update(Integer.parseInt(_id), note_title, note_content, "16", note_attachment, note_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(note_title), helper_main.secString(note_content), "16", note_attachment, note_creation);
                                             setNotesList();
                                         } else if (item == 16) {
-                                            db.update(Integer.parseInt(_id), note_title, note_content, "17", note_attachment, note_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(note_title), helper_main.secString(note_content), "17", note_attachment, note_creation);
                                             setNotesList();
                                         } else if (item == 17) {
-                                            db.update(Integer.parseInt(_id), note_title, note_content, "18", note_attachment, note_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(note_title), helper_main.secString(note_content), "18", note_attachment, note_creation);
                                             setNotesList();
                                         } else if (item == 18) {
-                                            db.update(Integer.parseInt(_id), note_title, note_content, "19", note_attachment, note_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(note_title), helper_main.secString(note_content), "19", note_attachment, note_creation);
                                             setNotesList();
                                         } else if (item == 19) {
-                                            db.update(Integer.parseInt(_id), note_title, note_content, "20", note_attachment, note_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(note_title), helper_main.secString(note_content), "20", note_attachment, note_creation);
                                             setNotesList();
                                         } else if (item == 20) {
-                                            db.update(Integer.parseInt(_id), note_title, note_content, "21", note_attachment, note_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(note_title), helper_main.secString(note_content), "21", note_attachment, note_creation);
                                             setNotesList();
                                         } else if (item == 21) {
-                                            db.update(Integer.parseInt(_id), note_title, note_content, "22", note_attachment, note_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(note_title), helper_main.secString(note_content), "22", note_attachment, note_creation);
                                             setNotesList();
                                         } else if (item == 22) {
-                                            db.update(Integer.parseInt(_id), note_title, note_content, "23", note_attachment, note_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(note_title), helper_main.secString(note_content), "23", note_attachment, note_creation);
                                             setNotesList();
                                         } else if (item == 23) {
-                                            db.update(Integer.parseInt(_id), note_title, note_content, "24", note_attachment, note_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(note_title), helper_main.secString(note_content), "24", note_attachment, note_creation);
                                             setNotesList();
                                         }
                                     }

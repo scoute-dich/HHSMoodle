@@ -69,7 +69,7 @@ public class Notes_helper {
             public void onClick(View v) {
                 //Do stuff, possibly set wantToCloseDialog to true then...
 
-                String inputTitle = edit_title.getText().toString().trim();
+                String inputTitle = helper_main.secString(edit_title.getText().toString().trim());
 
                 Notes_DbAdapter db = new Notes_DbAdapter(activity);
                 db.open();

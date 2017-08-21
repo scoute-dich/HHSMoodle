@@ -338,25 +338,23 @@ public class Activity_EditNote extends AppCompatActivity {
 
         if (seqno.isEmpty()) {
             try {
-                if(db.isExist(inputTitle)){
+                if(db.isExist(helper_main.secString(inputTitle))){
                     Snackbar.make(titleInput, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
                 }else{
-                    db.insert(inputTitle, inputContent, sharedPref.getString("handleTextIcon", ""), attachment, create);
+                    db.insert(helper_main.secString(inputTitle), helper_main.secString(inputContent), sharedPref.getString("handleTextIcon", ""), attachment, create);
                     closeActivity();
                 }
             } catch (Exception e) {
                 Log.w("HHS_Moodle", "Error Package name not found ", e);
-                Snackbar snackbar = Snackbar
-                        .make(titleInput, R.string.toast_notSave, Snackbar.LENGTH_LONG);
+                Snackbar snackbar = Snackbar.make(titleInput, R.string.toast_notSave, Snackbar.LENGTH_LONG);
                 snackbar.show();
             }
         } else {
             try {
-                db.update(Integer.parseInt(seqno), inputTitle, inputContent, sharedPref.getString("handleTextIcon", ""), attachment, create);
+                db.update(Integer.parseInt(seqno), helper_main.secString(inputTitle), helper_main.secString(inputContent), sharedPref.getString("handleTextIcon", ""), attachment, create);
             } catch (Exception e) {
                 Log.w("HHS_Moodle", "Error Package name not found ", e);
-                Snackbar snackbar = Snackbar
-                        .make(titleInput, R.string.toast_notSave, Snackbar.LENGTH_LONG);
+                Snackbar snackbar = Snackbar.make(titleInput, R.string.toast_notSave, Snackbar.LENGTH_LONG);
                 snackbar.show();
             }
         }

@@ -290,76 +290,76 @@ public class Courses_Fragment extends Fragment {
 
                                     public void onClick(DialogInterface dialog, int item) {
                                         if (item == 0) {
-                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "01", courses_attachment, courses_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(courses_title), helper_main.secString(courses_content), "01", courses_attachment, courses_creation);
                                             setCoursesList();
                                         } else if (item == 1) {
-                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "02", courses_attachment, courses_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(courses_title), helper_main.secString(courses_content), "02", courses_attachment, courses_creation);
                                             setCoursesList();
                                         } else if (item == 2) {
-                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "03", courses_attachment, courses_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(courses_title), helper_main.secString(courses_content), "03", courses_attachment, courses_creation);
                                             setCoursesList();
                                         } else if (item == 3) {
-                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "04", courses_attachment, courses_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(courses_title), helper_main.secString(courses_content), "04", courses_attachment, courses_creation);
                                             setCoursesList();
                                         } else if (item == 4) {
-                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "05", courses_attachment, courses_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(courses_title), helper_main.secString(courses_content), "05", courses_attachment, courses_creation);
                                             setCoursesList();
                                         } else if (item == 5) {
-                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "06", courses_attachment, courses_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(courses_title), helper_main.secString(courses_content), "06", courses_attachment, courses_creation);
                                             setCoursesList();
                                         } else if (item == 6) {
-                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "07", courses_attachment, courses_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(courses_title), helper_main.secString(courses_content), "07", courses_attachment, courses_creation);
                                             setCoursesList();
                                         } else if (item == 7) {
-                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "08", courses_attachment, courses_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(courses_title), helper_main.secString(courses_content), "08", courses_attachment, courses_creation);
                                             setCoursesList();
                                         } else if (item == 8) {
-                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "09", courses_attachment, courses_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(courses_title), helper_main.secString(courses_content), "09", courses_attachment, courses_creation);
                                             setCoursesList();
                                         } else if (item == 9) {
-                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "10", courses_attachment, courses_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(courses_title), helper_main.secString(courses_content), "10", courses_attachment, courses_creation);
                                             setCoursesList();
                                         } else if (item == 10) {
-                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "11", courses_attachment, courses_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(courses_title), helper_main.secString(courses_content), "11", courses_attachment, courses_creation);
                                             setCoursesList();
                                         } else if (item == 11) {
-                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "12", courses_attachment, courses_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(courses_title), helper_main.secString(courses_content), "12", courses_attachment, courses_creation);
                                             setCoursesList();
                                         } else if (item == 12) {
-                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "13", courses_attachment, courses_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(courses_title), helper_main.secString(courses_content), "13", courses_attachment, courses_creation);
                                             setCoursesList();
                                         } else if (item == 13) {
-                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "14", courses_attachment, courses_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(courses_title), helper_main.secString(courses_content), "14", courses_attachment, courses_creation);
                                             setCoursesList();
                                         } else if (item == 14) {
-                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "15", courses_attachment, courses_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(courses_title), helper_main.secString(courses_content), "15", courses_attachment, courses_creation);
                                             setCoursesList();
                                         } else if (item == 15) {
-                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "16", courses_attachment, courses_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(courses_title), helper_main.secString(courses_content), "16", courses_attachment, courses_creation);
                                             setCoursesList();
                                         } else if (item == 16) {
-                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "17", courses_attachment, courses_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(courses_title), helper_main.secString(courses_content), "17", courses_attachment, courses_creation);
                                             setCoursesList();
                                         } else if (item == 17) {
-                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "18", courses_attachment, courses_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(courses_title), helper_main.secString(courses_content), "18", courses_attachment, courses_creation);
                                             setCoursesList();
                                         } else if (item == 18) {
-                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "19", courses_attachment, courses_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(courses_title), helper_main.secString(courses_content), "19", courses_attachment, courses_creation);
                                             setCoursesList();
                                         } else if (item == 19) {
-                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "20", courses_attachment, courses_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(courses_title), helper_main.secString(courses_content), "20", courses_attachment, courses_creation);
                                             setCoursesList();
                                         } else if (item == 20) {
-                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "21", courses_attachment, courses_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(courses_title), helper_main.secString(courses_content), "21", courses_attachment, courses_creation);
                                             setCoursesList();
                                         } else if (item == 21) {
-                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "22", courses_attachment, courses_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(courses_title), helper_main.secString(courses_content), "22", courses_attachment, courses_creation);
                                             setCoursesList();
                                         } else if (item == 22) {
-                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "23", courses_attachment, courses_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(courses_title), helper_main.secString(courses_content), "23", courses_attachment, courses_creation);
                                             setCoursesList();
                                         } else if (item == 23) {
-                                            db.update(Integer.parseInt(_id), courses_title, courses_content, "24", courses_attachment, courses_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(courses_title), helper_main.secString(courses_content), "24", courses_attachment, courses_creation);
                                             setCoursesList();
                                         }
                                     }
@@ -449,7 +449,7 @@ public class Courses_Fragment extends Fragment {
                                         public void onClick(DialogInterface dialog, int whichButton) {
 
                                             String inputTitle = edit_title.getText().toString().trim();
-                                            db.update(Integer.parseInt(_id),inputTitle, courses_content, courses_icon, courses_attachment, courses_creation);
+                                            db.update(Integer.parseInt(_id),helper_main.secString(inputTitle), helper_main.secString(courses_content), courses_icon, courses_attachment, courses_creation);
                                             setCoursesList();
                                         }
                                     });

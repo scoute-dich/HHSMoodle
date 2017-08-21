@@ -463,12 +463,12 @@ public class Activity_todo extends AppCompatActivity {
         db.open();
 
         if (!sharedPref.getString("toDo_seqno", "").isEmpty()) {
-            db.update(toDo_seqno, toDo_title, getText(), toDo_icon, todo_attachment, toDo_create);
+            db.update(toDo_seqno, helper_main.secString(toDo_title), helper_main.secString(getText()), toDo_icon, todo_attachment, toDo_create);
         } else {
-            if(db.isExist(toDo_title)){
+            if(db.isExist(helper_main.secString(toDo_title))){
                 Snackbar.make(lvItems, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
             } else {
-                db.insert(toDo_title, getText(), toDo_icon, todo_attachment, toDo_create);
+                db.insert(helper_main.secString(toDo_title), helper_main.secString(getText()), toDo_icon, todo_attachment, toDo_create);
             }
         }
 

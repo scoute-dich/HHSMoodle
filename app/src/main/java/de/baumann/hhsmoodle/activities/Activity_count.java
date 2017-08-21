@@ -333,12 +333,12 @@ public class Activity_count extends AppCompatActivity {
         db.open();
 
         if (!sharedPref.getString("count_seqno", "").isEmpty()) {
-            db.update(toDo_seqno, toDo_title, getTextTitle(), toDo_icon, todo_attachment, toDo_create);
+            db.update(toDo_seqno, helper_main.secString(toDo_title), helper_main.secString(getTextTitle()), toDo_icon, todo_attachment, toDo_create);
         } else {
-            if(db.isExist(toDo_title)){
+            if(db.isExist(helper_main.secString(toDo_title))){
                 Snackbar.make(lvItems, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
             } else {
-                db.insert(toDo_title, getTextTitle(), toDo_icon, todo_attachment, toDo_create);
+                db.insert(helper_main.secString(toDo_title), helper_main.secString(getTextTitle()), toDo_icon, todo_attachment, toDo_create);
             }
         }
         sharedPref.edit().putString("count_title", "").apply();

@@ -73,7 +73,7 @@ class Courses_helper {
                 Courses_DbAdapter db = new Courses_DbAdapter(activity);
                 db.open();
 
-                if(db.isExist(inputTitle)){
+                if(db.isExist(helper_main.secString(inputTitle))){
                     Snackbar.make(edit_title, activity.getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
                 }else{
                     dialog.dismiss();
