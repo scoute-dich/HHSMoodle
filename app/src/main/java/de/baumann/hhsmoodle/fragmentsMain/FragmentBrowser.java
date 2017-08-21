@@ -364,10 +364,10 @@ public class FragmentBrowser extends Fragment {
                         //Do stuff, possibly set wantToCloseDialog to true then...
                         String inputTag = edit_title.getText().toString().trim();
 
-                        if(db.isExist(mWebView.getUrl())){
+                        if(db.isExist(helper_main.secString(mWebView.getUrl()))){
                             Snackbar.make(edit_title, getString(R.string.toast_newTitle), Snackbar.LENGTH_LONG).show();
                         }else{
-                            db.insert(inputTag, mWebView.getUrl(), "04", "", createDate());
+                            db.insert(helper_main.secString(inputTag), helper_main.secString(mWebView.getUrl()), "04", "", createDate());
                             dialog2.dismiss();
                             Snackbar.make(mWebView, R.string.bookmark_added, Snackbar.LENGTH_LONG).show();
                         }

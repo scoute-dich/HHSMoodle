@@ -221,7 +221,7 @@ public class Bookmarks_Fragment extends Fragment {
                                 Snackbar.make(lv, R.string.bookmark_setFav_not, Snackbar.LENGTH_LONG).show();
                             }else{
                                 iv_attachment.setImageResource(R.drawable.star_grey);
-                                db.update(Integer.parseInt(_id), bookmarks_title, bookmarks_content, bookmarks_icon, "true", bookmarks_creation);
+                                db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_content), bookmarks_icon, "true", bookmarks_creation);
                                 setBookmarksList();
                                 sharedPref.edit()
                                         .putString("favoriteURL", bookmarks_content)
@@ -231,7 +231,7 @@ public class Bookmarks_Fragment extends Fragment {
                             }
                         } else {
                             iv_attachment.setImageResource(R.drawable.star_outline);
-                            db.update(Integer.parseInt(_id), bookmarks_title, bookmarks_content, bookmarks_icon, "", bookmarks_creation);
+                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_content), bookmarks_icon, "", bookmarks_creation);
                             setBookmarksList();
                         }
                     }
@@ -300,76 +300,76 @@ public class Bookmarks_Fragment extends Fragment {
 
                                     public void onClick(DialogInterface dialog, int item) {
                                         if (item == 0) {
-                                            db.update(Integer.parseInt(_id), bookmarks_title, bookmarks_content, "01", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "01", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         } else if (item == 1) {
-                                            db.update(Integer.parseInt(_id), bookmarks_title, bookmarks_content, "02", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "02", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         } else if (item == 2) {
-                                            db.update(Integer.parseInt(_id), bookmarks_title, bookmarks_content, "03", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "03", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         } else if (item == 3) {
-                                            db.update(Integer.parseInt(_id), bookmarks_title, bookmarks_content, "04", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "04", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         } else if (item == 4) {
-                                            db.update(Integer.parseInt(_id), bookmarks_title, bookmarks_content, "05", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "05", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         } else if (item == 5) {
-                                            db.update(Integer.parseInt(_id), bookmarks_title, bookmarks_content, "06", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "06", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         } else if (item == 6) {
-                                            db.update(Integer.parseInt(_id), bookmarks_title, bookmarks_content, "07", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "07", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         } else if (item == 7) {
-                                            db.update(Integer.parseInt(_id), bookmarks_title, bookmarks_content, "08", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "08", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         } else if (item == 8) {
-                                            db.update(Integer.parseInt(_id), bookmarks_title, bookmarks_content, "09", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "09", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         } else if (item == 9) {
-                                            db.update(Integer.parseInt(_id), bookmarks_title, bookmarks_content, "10", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "10", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         } else if (item == 10) {
-                                            db.update(Integer.parseInt(_id), bookmarks_title, bookmarks_content, "11", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "11", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         } else if (item == 11) {
-                                            db.update(Integer.parseInt(_id), bookmarks_title, bookmarks_content, "12", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "12", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         } else if (item == 12) {
-                                            db.update(Integer.parseInt(_id), bookmarks_title, bookmarks_content, "13", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "13", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         } else if (item == 13) {
-                                            db.update(Integer.parseInt(_id), bookmarks_title, bookmarks_content, "14", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "14", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         } else if (item == 14) {
-                                            db.update(Integer.parseInt(_id), bookmarks_title, bookmarks_content, "15", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "15", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         } else if (item == 15) {
-                                            db.update(Integer.parseInt(_id), bookmarks_title, bookmarks_content, "16", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "16", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         } else if (item == 16) {
-                                            db.update(Integer.parseInt(_id), bookmarks_title, bookmarks_content, "17", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "17", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         } else if (item == 17) {
-                                            db.update(Integer.parseInt(_id), bookmarks_title, bookmarks_content, "18", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "18", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         } else if (item == 18) {
-                                            db.update(Integer.parseInt(_id), bookmarks_title, bookmarks_content, "19", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "19", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         } else if (item == 19) {
-                                            db.update(Integer.parseInt(_id), bookmarks_title, bookmarks_content, "20", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "20", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         } else if (item == 20) {
-                                            db.update(Integer.parseInt(_id), bookmarks_title, bookmarks_content, "21", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "21", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         } else if (item == 21) {
-                                            db.update(Integer.parseInt(_id), bookmarks_title, bookmarks_content, "22", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "22", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         } else if (item == 22) {
-                                            db.update(Integer.parseInt(_id), bookmarks_title, bookmarks_content, "23", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "23", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         } else if (item == 23) {
-                                            db.update(Integer.parseInt(_id), bookmarks_title, bookmarks_content, "24", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "24", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         }
                                     }
@@ -461,7 +461,7 @@ public class Bookmarks_Fragment extends Fragment {
                                         public void onClick(DialogInterface dialog, int whichButton) {
 
                                             String inputTag = edit_title.getText().toString().trim();
-                                            db.update(Integer.parseInt(_id), inputTag, bookmarks_content, bookmarks_icon, bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(inputTag), helper_main.secString(bookmarks_content), bookmarks_icon, bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         }
                                     });
