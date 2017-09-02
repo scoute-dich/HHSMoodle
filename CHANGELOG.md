@@ -1,4 +1,4 @@
-### 4.5 (WIP)
+### 4.5
 - neu: Einträge abhaken (Todoliste)
 - neu: neue Einträge uas Fächerliste
 - verbessert: einheitliche Kontextmenüs

@@ -178,8 +178,6 @@ public class Popup_files extends Activity {
                             Snackbar.make(lv, R.string.toast_directory, Snackbar.LENGTH_LONG).show();
                         }
                     } else {
-                        sharedPref.edit().putString("handleTextAttachment", files_attachment).apply();
-                        sharedPref.edit().putString("handleTextAttachmentTitle", files_title).apply();
 
                         try {
                             File fileToCopy = new File(files_attachment);
@@ -195,6 +193,9 @@ public class Popup_files extends Activity {
                                 fos.write(b,0,noOfBytesRead);
                             fis.close();
                             fos.close();
+
+                            sharedPref.edit().putString("handleTextAttachment", destinationFile.getAbsolutePath()).apply();
+                            sharedPref.edit().putString("handleTextAttachmentTitle", files_title).apply();
                         } catch (Exception e) {
                             Snackbar.make(lv, R.string.toast_directory, Snackbar.LENGTH_LONG).show();
                         }

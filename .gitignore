@@ -13,3 +13,4 @@ gradle
 build
 *.iml
 /templates/
+/app/build/
