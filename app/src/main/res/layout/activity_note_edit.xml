@@ -44,7 +44,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="20dp"
                 app:passwordToggleEnabled="false"
-                android:layout_toStartOf="@+id/imageButtonPaste">
+                android:layout_toStartOf="@+id/imageButtonPri">
 
                 <EditText
                     android:id="@+id/note_title_input"
@@ -121,18 +121,6 @@
                 android:layout_alignBottom="@+id/button_att"
                 android:layout_alignEnd="@+id/layout_cont"
                 android:layout_alignTop="@+id/button_att" />
-
-            <ImageButton
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginEnd="16dp"
-                android:id="@+id/imageButtonPaste"
-                app:srcCompat="@drawable/timer"
-                android:background="?android:selectableItemBackground"
-                tools:ignore="ContentDescription"
-                android:scaleType="fitCenter"
-                android:layout_alignTop="@+id/imageButtonPri"
-                android:layout_toStartOf="@+id/imageButtonPri" />
 
         </RelativeLayout>
 

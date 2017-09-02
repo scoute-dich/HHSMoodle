@@ -106,7 +106,7 @@ public class Popup_todo extends Activity {
                 switch (todo_attachment) {
                     case "true":
                         iv_attachment.setVisibility(View.VISIBLE);
-                        iv_attachment.setImageResource(R.drawable.alert_circle);
+                        iv_attachment.setImageResource(R.drawable.alert_circle_outline_dark);
                         break;
                     default:
                         iv_attachment.setVisibility(View.VISIBLE);

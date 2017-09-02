@@ -40,6 +40,8 @@ import com.bumptech.glide.Glide;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -178,6 +180,25 @@ public class Popup_files extends Activity {
                     } else {
                         sharedPref.edit().putString("handleTextAttachment", files_attachment).apply();
                         sharedPref.edit().putString("handleTextAttachmentTitle", files_title).apply();
+
+                        try {
+                            File fileToCopy = new File(files_attachment);
+                            File destinationFile = new File(helper_main.appDir() + "/" + files_title);
+
+                            FileInputStream fis = new FileInputStream(fileToCopy);
+                            FileOutputStream fos = new FileOutputStream(destinationFile);
+
+                            byte[] b = new byte[1024];
+                            int noOfBytesRead;
+
+                            while((noOfBytesRead = fis.read(b)) != -1)
+                                fos.write(b,0,noOfBytesRead);
+                            fis.close();
+                            fos.close();
+                        } catch (Exception e) {
+                            Snackbar.make(lv, R.string.toast_directory, Snackbar.LENGTH_LONG).show();
+                        }
+
                         finish();
                     }
                 }

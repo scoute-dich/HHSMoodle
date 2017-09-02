@@ -12,6 +12,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -96,7 +97,6 @@ public class Activity_EditNote extends AppCompatActivity {
 
         titleInput = (EditText) findViewById(R.id.note_title_input);
         textInput = (EditText) findViewById(R.id.note_text_input);
-        helper_main.showKeyboard(Activity_EditNote.this, titleInput);
 
         titleInput.setText(sharedPref.getString("handleTextTitle", ""));
         titleInput.setSelection(titleInput.getText().length());
@@ -147,7 +147,6 @@ public class Activity_EditNote extends AppCompatActivity {
         });
 
         final ImageButton be = (ImageButton) findViewById(R.id.imageButtonPri);
-        ImageButton ib_paste = (ImageButton) findViewById(R.id.imageButtonPaste);
         helper_main.switchIcon(this, priority, "handleTextIcon", be);
 
         be.setOnClickListener(new View.OnClickListener() {
@@ -212,49 +211,6 @@ public class Activity_EditNote extends AppCompatActivity {
                         .setAdapter(adapter, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int item) {
                                 helper_main.switchIconDialog(Activity_EditNote.this, item, "handleTextIcon", be);
-                            }
-                        }).show();
-            }
-        });
-
-        ib_paste.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-                final CharSequence[] options = {
-                        getString(R.string.paste_date),
-                        getString(R.string.paste_time)};
-                new android.app.AlertDialog.Builder(Activity_EditNote.this)
-                        .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .setItems(options, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int item) {
-                                Date date = new Date();
-                                if (options[item].equals(getString(R.string.paste_date))) {
-                                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                                    String dateNow = format.format(date);
-
-                                    if(sharedPref.getString("editTextFocus", "").equals("text")) {
-                                        textInput.getText().insert(textInput.getSelectionStart(), dateNow);
-                                    } else {
-                                        titleInput.getText().insert(titleInput.getSelectionStart(), dateNow);
-                                    }
-                                }
-
-                                if (options[item].equals (getString(R.string.paste_time))) {
-                                    SimpleDateFormat format = new SimpleDateFormat("HH:mm", Locale.getDefault());
-                                    String timeNow = format.format(date);
-                                    if(sharedPref.getString("editTextFocus", "").equals("text")) {
-                                        textInput.getText().insert(textInput.getSelectionStart(), timeNow);
-                                    } else {
-                                        titleInput.getText().insert(titleInput.getSelectionStart(), timeNow);
-                                    }
-                                }
                             }
                         }).show();
             }
@@ -372,6 +328,22 @@ public class Activity_EditNote extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_edit, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        super.onPrepareOptionsMenu(menu);
+
+        menu.findItem(R.id.action_alert).setVisible(false);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -380,6 +352,45 @@ public class Activity_EditNote extends AppCompatActivity {
 
         if (id == android.R.id.home) {
             closeActivity();
+        }
+
+        if (id == R.id.action_enterTime) {
+            final CharSequence[] options = {
+                    getString(R.string.paste_date),
+                    getString(R.string.paste_time)};
+            new android.app.AlertDialog.Builder(Activity_EditNote.this)
+                    .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .setItems(options, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int item) {
+                            Date date = new Date();
+                            if (options[item].equals(getString(R.string.paste_date))) {
+                                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                                String dateNow = format.format(date);
+
+                                if(sharedPref.getString("editTextFocus", "").equals("text")) {
+                                    textInput.getText().insert(textInput.getSelectionStart(), dateNow);
+                                } else {
+                                    titleInput.getText().insert(titleInput.getSelectionStart(), dateNow);
+                                }
+                            }
+
+                            if (options[item].equals (getString(R.string.paste_time))) {
+                                SimpleDateFormat format = new SimpleDateFormat("HH:mm", Locale.getDefault());
+                                String timeNow = format.format(date);
+                                if(sharedPref.getString("editTextFocus", "").equals("text")) {
+                                    textInput.getText().insert(textInput.getSelectionStart(), timeNow);
+                                } else {
+                                    titleInput.getText().insert(titleInput.getSelectionStart(), timeNow);
+                                }
+                            }
+                        }
+                    }).show();
         }
 
         return super.onOptionsItemSelected(item);

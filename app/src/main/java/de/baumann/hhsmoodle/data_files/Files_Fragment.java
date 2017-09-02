@@ -376,7 +376,6 @@ public class Files_Fragment extends Fragment {
                 Cursor row2 = (Cursor) lv.getItemAtPosition(position);
                 final String files_title = row2.getString(row2.getColumnIndexOrThrow("files_title"));
                 final String files_attachment = row2.getString(row2.getColumnIndexOrThrow("files_attachment"));
-
                 final File pathFile = new File(files_attachment);
 
                 if (pathFile.isDirectory()) {

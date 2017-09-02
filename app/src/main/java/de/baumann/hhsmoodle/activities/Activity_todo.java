@@ -37,6 +37,7 @@ import android.text.Spanned;
 import android.text.style.StrikethroughSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,6 +71,7 @@ public class Activity_todo extends AppCompatActivity {
     private SharedPreferences sharedPref;
     private ArrayList<String> items;
     private ListView lvItems;
+    private EditText etNewItem;
 
     private String titleString;
     private String countString;
@@ -122,77 +124,11 @@ public class Activity_todo extends AppCompatActivity {
             Log.e("Exception", "File write failed: " + e.toString());
         }
 
+        etNewItem = (EditText) findViewById(R.id.etNewItem);
         lvItems = (ListView) findViewById(R.id.lvItems);
         items = new ArrayList<>();
         readItems();
         setAdapter();
-
-        final EditText etNewItem = (EditText) findViewById(R.id.etNewItem);
-        ImageButton ib_paste = (ImageButton) findViewById(R.id.imageButtonPaste);
-        final ImageButton ib_not = (ImageButton) findViewById(R.id.imageButtonNot);
-
-        switch (todo_attachment) {
-            case "true":
-                ib_not.setImageResource(R.drawable.alert_circle);
-                break;
-            case "":
-                ib_not.setImageResource(R.drawable.alert_circle_red);
-                break;
-        }
-
-        ib_not.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                switch (todo_attachment) {
-                    case "true":
-                        ib_not.setImageResource(R.drawable.alert_circle_red);
-                        sharedPref.edit().putString("toDo_attachment", "").apply();
-                        todo_attachment = sharedPref.getString("toDo_attachment", "");
-                        break;
-                    case "":
-                        ib_not.setImageResource(R.drawable.alert_circle);
-                        sharedPref.edit().putString("toDo_attachment", "true").apply();
-                        todo_attachment = sharedPref.getString("toDo_attachment", "");
-                        break;
-                }
-
-            }
-        });
-
-        ib_paste.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final CharSequence[] options = {
-                        getString(R.string.paste_date),
-                        getString(R.string.paste_time)};
-                new android.app.AlertDialog.Builder(Activity_todo.this)
-                        .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .setItems(options, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int item) {
-                                if (options[item].equals(getString(R.string.paste_date))) {
-                                    Date date = new Date();
-                                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                                    String dateNow = format.format(date);
-                                    etNewItem.getText().insert(etNewItem.getSelectionStart(), dateNow);
-                                }
-
-                                if (options[item].equals (getString(R.string.paste_time))) {
-                                    Date date = new Date();
-                                    SimpleDateFormat format = new SimpleDateFormat("HH:mm", Locale.getDefault());
-                                    String timeNow = format.format(date);
-                                    etNewItem.getText().insert(etNewItem.getSelectionStart(), timeNow);
-                                }
-                            }
-                        }).show();
-            }
-        });
         
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -485,6 +421,26 @@ public class Activity_todo extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_edit, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        super.onPrepareOptionsMenu(menu);
+
+        if (todo_attachment.equals("true")){
+            menu.findItem(R.id.action_alert).setIcon(R.drawable.alert_circle_outline);
+        } else {
+            menu.findItem(R.id.action_alert).setIcon(R.drawable.alert_circle_light);
+        }
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -493,6 +449,51 @@ public class Activity_todo extends AppCompatActivity {
 
         if (id == android.R.id.home) {
             closeActivity();
+        }
+
+        if (id == R.id.action_alert) {
+            switch (todo_attachment) {
+                case "true":
+                    sharedPref.edit().putString("toDo_attachment", "").apply();
+                    todo_attachment = sharedPref.getString("toDo_attachment", "");
+                    break;
+                case "":
+                    sharedPref.edit().putString("toDo_attachment", "true").apply();
+                    todo_attachment = sharedPref.getString("toDo_attachment", "");
+                    break;
+            }
+            invalidateOptionsMenu();
+        }
+
+        if (id == R.id.action_enterTime) {
+            final CharSequence[] options = {
+                    getString(R.string.paste_date),
+                    getString(R.string.paste_time)};
+            new android.app.AlertDialog.Builder(Activity_todo.this)
+                    .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .setItems(options, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int item) {
+                            if (options[item].equals(getString(R.string.paste_date))) {
+                                Date date = new Date();
+                                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                                String dateNow = format.format(date);
+                                etNewItem.getText().insert(etNewItem.getSelectionStart(), dateNow);
+                            }
+
+                            if (options[item].equals (getString(R.string.paste_time))) {
+                                Date date = new Date();
+                                SimpleDateFormat format = new SimpleDateFormat("HH:mm", Locale.getDefault());
+                                String timeNow = format.format(date);
+                                etNewItem.getText().insert(etNewItem.getSelectionStart(), timeNow);
+                            }
+                        }
+                    }).show();
         }
 
         return super.onOptionsItemSelected(item);

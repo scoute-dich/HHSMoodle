@@ -375,7 +375,7 @@ public class helper_main {
         String text = activity.getString(R.string.toast_extension) + ": " + fileExtension;
 
         switch (fileExtension) {
-            case ".gif":case ".bmp":case ".tiff":case ".svg":case ".png":case ".jpg":case ".jpeg":
+            case ".gif":case ".bmp":case ".tiff":case ".svg":case ".png":case ".jpg":case ".jpeg":case ".JPG":
                 helper_main.openFile(activity, file, "image/*", view);
                 break;
             case ".m3u8":case ".mp3":case ".wma":case ".midi":case ".wav":case ".aac":case ".aif":case ".amp3":case ".weba":
