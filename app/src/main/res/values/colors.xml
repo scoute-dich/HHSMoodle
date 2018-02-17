@@ -13,4 +13,7 @@
     <color name="color_green">#4caf50</color>
     <color name="color_grey">#757575</color>
 
+    <color name="shadow_light">#59323232</color>
+    <color name="transparent">@android:color/transparent</color>
+
 </resources>

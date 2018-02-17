@@ -22,6 +22,7 @@ package de.baumann.hhsmoodle.data_todo;
 import android.animation.Animator;
 import android.app.AlertDialog;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -29,6 +30,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -70,7 +72,6 @@ import de.baumann.hhsmoodle.data_notes.Notes_helper;
 import de.baumann.hhsmoodle.data_random.Random_helper;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.popup.Popup_courseList;
-import de.baumann.hhsmoodle.popup.Popup_subjects;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 
@@ -89,7 +90,6 @@ public class Todo_Fragment extends Fragment {
     private FloatingActionButton fab;
     private LinearLayout fabLayout1;
     private LinearLayout fabLayout2;
-    private LinearLayout fabLayout3;
     private boolean isFABOpen=false;
     private ViewPager viewPager;
 
@@ -97,23 +97,23 @@ public class Todo_Fragment extends Fragment {
     private int index;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_screen_notes, container, false);
 
         PreferenceManager.setDefaultValues(getActivity(), R.xml.user_settings, false);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-        imgHeader = (ImageView) rootView.findViewById(R.id.imageView_header);
+        imgHeader = rootView.findViewById(R.id.imageView_header);
         helper_main.setImageHeader(getActivity(), imgHeader);
 
-        filter_layout = (RelativeLayout) rootView.findViewById(R.id.filter_layout);
+        filter_layout = rootView.findViewById(R.id.filter_layout);
         filter_layout.setVisibility(View.GONE);
-        lv = (ListView) rootView.findViewById(R.id.listNotes);
-        filter = (EditText) rootView.findViewById(R.id.myFilter);
-        viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
+        lv = rootView.findViewById(R.id.listNotes);
+        filter = rootView.findViewById(R.id.myFilter);
+        viewPager = getActivity().findViewById(R.id.viewpager);
 
-        ImageButton ib_hideKeyboard =(ImageButton) rootView.findViewById(R.id.ib_hideKeyboard);
+        ImageButton ib_hideKeyboard = rootView.findViewById(R.id.ib_hideKeyboard);
         ib_hideKeyboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -127,12 +127,11 @@ public class Todo_Fragment extends Fragment {
             }
         });
 
-        fabLayout1= (LinearLayout) rootView.findViewById(R.id.fabLayout1);
-        fabLayout2= (LinearLayout) rootView.findViewById(R.id.fabLayout2);
-        fabLayout3= (LinearLayout) rootView.findViewById(R.id.fabLayout3);
-        fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
-        FloatingActionButton fab1 = (FloatingActionButton) rootView.findViewById(R.id.fab1);
-        FloatingActionButton fab2 = (FloatingActionButton) rootView.findViewById(R.id.fab2);
+        fabLayout1= rootView.findViewById(R.id.fabLayout1);
+        fabLayout2= rootView.findViewById(R.id.fabLayout2);
+        fab = rootView.findViewById(R.id.fab);
+        FloatingActionButton fab1 = rootView.findViewById(R.id.fab1);
+        FloatingActionButton fab2 = rootView.findViewById(R.id.fab2);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,17 +162,6 @@ public class Todo_Fragment extends Fragment {
             }
         });
 
-        FloatingActionButton fab3 = (FloatingActionButton) rootView.findViewById(R.id.fab3);
-        fab3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                closeFABMenu();
-                Intent mainIntent = new Intent(getActivity(), Popup_subjects.class);
-                mainIntent.setAction("subjectList_todo");
-                startActivity(mainIntent);
-            }
-        });
-
         //calling Notes_DbAdapter
         db = new Todo_DbAdapter(getActivity());
         db.open();
@@ -188,20 +176,17 @@ public class Todo_Fragment extends Fragment {
         isFABOpen=true;
         fabLayout1.setVisibility(View.VISIBLE);
         fabLayout2.setVisibility(View.VISIBLE);
-        fabLayout3.setVisibility(View.VISIBLE);
 
         fab.animate().rotationBy(180);
         fabLayout1.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
         fabLayout2.animate().translationY(-getResources().getDimension(R.dimen.standard_100));
-        fabLayout3.animate().translationY(-getResources().getDimension(R.dimen.standard_145));
     }
 
     private void closeFABMenu(){
         isFABOpen=false;
         fab.animate().rotationBy(-180);
         fabLayout1.animate().translationY(0);
-        fabLayout2.animate().translationY(0);
-        fabLayout3.animate().translationY(0).setListener(new Animator.AnimatorListener() {
+        fabLayout2.animate().translationY(0).setListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animator) {}
 
@@ -210,7 +195,6 @@ public class Todo_Fragment extends Fragment {
                 if(!isFABOpen){
                     fabLayout1.setVisibility(View.GONE);
                     fabLayout2.setVisibility(View.GONE);
-                    fabLayout3.setVisibility(View.GONE);
                 }
             }
 
@@ -300,14 +284,14 @@ public class Todo_Fragment extends Fragment {
                 final String todo_creation = row2.getString(row2.getColumnIndexOrThrow("todo_creation"));
 
                 View v = super.getView(position, convertView, parent);
-                ImageView iv_icon = (ImageView) v.findViewById(R.id.icon_notes);
-                ImageView iv_attachment = (ImageView) v.findViewById(R.id.att_notes);
+                ImageView iv_icon = v.findViewById(R.id.icon_notes);
+                ImageView iv_attachment = v.findViewById(R.id.att_notes);
                 helper_main.switchIcon(getActivity(), todo_icon, "todo_icon", iv_icon);
 
                 switch (todo_attachment) {
                     case "true":
                         iv_attachment.setVisibility(View.VISIBLE);
-                        iv_attachment.setImageResource(R.drawable.alert_circle_outline_dark);
+                        iv_attachment.setImageResource(R.drawable.alert_circle_dark);
                         break;
                     default:
                         iv_attachment.setVisibility(View.VISIBLE);
@@ -320,21 +304,29 @@ public class Todo_Fragment extends Fragment {
                         iMain.setClassName(getActivity(), "de.baumann.hhsmoodle.activities.Activity_splash");
                         PendingIntent piMain = PendingIntent.getActivity(getActivity(), n, iMain, 0);
 
-                        NotificationCompat.Builder builderSummary =
-                                new NotificationCompat.Builder(getActivity())
-                                        .setSmallIcon(R.drawable.school)
-                                        .setColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary))
-                                        .setGroup("HHS_Moodle")
-                                        .setGroupSummary(true)
-                                        .setContentIntent(piMain);
+                        NotificationCompat.Builder builder;
 
-                        Notification notification = new NotificationCompat.Builder(getActivity())
+                        NotificationManager mNotificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            String CHANNEL_ID = "hhs_not";// The id of the channel.
+                            CharSequence name = getActivity().getString(R.string.app_name);// The user-visible name of the channel.
+                            NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, name, NotificationManager.IMPORTANCE_HIGH);
+                            mNotificationManager.createNotificationChannel(mChannel);
+                            builder = new NotificationCompat.Builder(getActivity(), CHANNEL_ID);
+                        } else {
+                            //noinspection deprecation
+                            builder = new NotificationCompat.Builder(getActivity());
+                        }
+
+                        @SuppressWarnings("deprecation")
+                        Notification notification  = builder
                                 .setColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary))
                                 .setSmallIcon(R.drawable.school)
                                 .setContentTitle(todo_title)
                                 .setContentText(todo_content)
                                 .setContentIntent(piMain)
                                 .setAutoCancel(true)
+                                .setGroupSummary(true)
                                 .setGroup("HHS_Moodle")
                                 .setStyle(new NotificationCompat.BigTextStyle().bigText(todo_content))
                                 .setPriority(Notification.PRIORITY_DEFAULT)
@@ -343,7 +335,7 @@ public class Todo_Fragment extends Fragment {
 
                         NotificationManager notificationManager = (NotificationManager) getActivity().getSystemService(NOTIFICATION_SERVICE);
                         notificationManager.notify(n, notification);
-                        notificationManager.notify(0, builderSummary.build());
+
                         break;
                 }
 
@@ -389,7 +381,7 @@ public class Todo_Fragment extends Fragment {
                             public View getView(int position, View convertView, @NonNull ViewGroup parent) {
                                 //Use super class to create the View
                                 View v = super.getView(position, convertView, parent);
-                                TextView tv = (TextView)v.findViewById(android.R.id.text1);
+                                TextView tv = v.findViewById(android.R.id.text1);
                                 tv.setTextSize(18);
                                 tv.setCompoundDrawablesWithIntrinsicBounds(items[position].icon, 0, 0, 0);
                                 //Add margin between image and text (support various screen densities)
@@ -596,7 +588,7 @@ public class Todo_Fragment extends Fragment {
                                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                     View dialogView = View.inflate(getActivity(), R.layout.dialog_edit_title, null);
 
-                                    final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
+                                    final EditText edit_title = dialogView.findViewById(R.id.pass_title);
                                     edit_title.setHint(R.string.bookmark_edit_title);
                                     edit_title.setText(todo_title);
 
@@ -646,7 +638,7 @@ public class Todo_Fragment extends Fragment {
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createEvent))) {
-                                    helper_main.createCalendarEvent(getActivity(), todo_title, todo_content);
+                                    helper_main.createCalendarEvent(getActivity(), todo_title, todo_content, lv);
                                 }
 
                                 if (options[item].equals (getString(R.string.number_create))) {
@@ -676,8 +668,6 @@ public class Todo_Fragment extends Fragment {
         menu.findItem(R.id.sort_attachment).setVisible(false);
         menu.findItem(R.id.filter_att).setVisible(false);
         menu.findItem(R.id.filter_url).setVisible(false);
-        menu.findItem(R.id.filter_teacher).setVisible(false);
-        menu.findItem(R.id.filter_room).setVisible(false);
         menu.findItem(R.id.sort_ext).setVisible(false);
         menu.findItem(R.id.filter_ext).setVisible(false);
         setTitle();
@@ -714,11 +704,6 @@ public class Todo_Fragment extends Fragment {
                 Intent mainIntent = new Intent(getActivity(), Popup_courseList.class);
                 mainIntent.setAction("search_byCourse");
                 startActivity(mainIntent);
-                return true;
-            case R.id.filter_subject:
-                Intent mainIntent2 = new Intent(getActivity(), Popup_subjects.class);
-                mainIntent2.setAction("search_bySubject");
-                startActivity(mainIntent2);
                 return true;
 
             case R.id.filter_today:

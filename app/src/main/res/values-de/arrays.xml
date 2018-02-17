@@ -16,9 +16,9 @@
     <string-array name="listArrayTabMain">
         <item>Browser</item>
         <item>Lesezeichen</item>
+        <item>Dateien</item>
         <item>Todo</item>
         <item>Notizen</item>
-        <item>Stundenplan</item>
     </string-array>
 
     <string-array name="listValuesTabMain">
@@ -27,18 +27,6 @@
         <item>2</item>
         <item>3</item>
         <item>4</item>
-    </string-array>
-
-    <string-array name="listArrayFont">
-        <item>Klein (70%)</item>
-        <item>Normal (100%)</item>
-        <item>Groß (130%)</item>
-    </string-array>
-
-    <string-array name="listValuesFont">
-        <item>70</item>
-        <item>100</item>
-        <item>130</item>
     </string-array>
 
 </resources>

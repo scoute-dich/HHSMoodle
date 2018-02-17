@@ -95,11 +95,11 @@ public class Activity_count extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_random);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setVisibility(View.GONE);
         setTitle(toDo_title);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         helper_main.onStart(Activity_count.this);
 
@@ -119,7 +119,7 @@ public class Activity_count extends AppCompatActivity {
             Log.e("Exception", "File write failed: " + e.toString());
         }
 
-        lvItems = (ListView) findViewById(R.id.lvItems);
+        lvItems = findViewById(R.id.lvItems);
         itemsTitle = new ArrayList<>();
         readItemsTitle();
         setAdapter();
@@ -134,7 +134,7 @@ public class Activity_count extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(Activity_count.this);
                 View dialogView = View.inflate(Activity_count.this, R.layout.dialog_edit_text_singleline_count, null);
 
-                final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
+                final EditText edit_title = dialogView.findViewById(R.id.pass_title);
                 edit_title.setText(titleString);
 
                 builder.setView(dialogView);
@@ -204,16 +204,17 @@ public class Activity_count extends AppCompatActivity {
 
                 if (convertView == null) {
                     LayoutInflater infInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    assert infInflater != null;
                     convertView = infInflater.inflate(R.layout.list_item_count, parent, false);
                 }
 
                 getValues(position);
 
-                ImageButton ib_plus = (ImageButton) convertView.findViewById(R.id.but_plus);
-                ImageButton ib_minus = (ImageButton) convertView.findViewById(R.id.but_minus);
+                ImageButton ib_plus = convertView.findViewById(R.id.but_plus);
+                ImageButton ib_minus = convertView.findViewById(R.id.but_minus);
 
-                TextView textTITLE = (TextView) convertView.findViewById(R.id.count_title);
-                TextView textDES = (TextView) convertView.findViewById(R.id.count_count);
+                TextView textTITLE = convertView.findViewById(R.id.count_title);
+                TextView textDES = convertView.findViewById(R.id.count_count);
 
                 textTITLE.setText(titleString);
                 textDES.setText(countString);
@@ -380,7 +381,7 @@ public class Activity_count extends AppCompatActivity {
             View dialogView = View.inflate(this, R.layout.dialog_edit_title, null);
 
             getValues(0);
-            final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
+            final EditText edit_title = dialogView.findViewById(R.id.pass_title);
             edit_title.setHint(R.string.menu_addEntry);
 
             builder.setView(dialogView);

@@ -25,7 +25,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
@@ -46,8 +45,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.Locale;
 
@@ -74,7 +71,7 @@ public class Popup_files extends Activity {
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 
-        lv = (ListView)findViewById(R.id.dialogList);
+        lv = findViewById(R.id.dialogList);
 
         //calling Notes_DbAdapter
         db = new Files_DbAdapter(Popup_files.this);
@@ -183,16 +180,18 @@ public class Popup_files extends Activity {
                             File fileToCopy = new File(files_attachment);
                             File destinationFile = new File(helper_main.appDir() + "/" + files_title);
 
-                            FileInputStream fis = new FileInputStream(fileToCopy);
-                            FileOutputStream fos = new FileOutputStream(destinationFile);
+                            if (!destinationFile.exists()) {
+                                FileInputStream fis = new FileInputStream(fileToCopy);
+                                FileOutputStream fos = new FileOutputStream(destinationFile);
 
-                            byte[] b = new byte[1024];
-                            int noOfBytesRead;
+                                byte[] b = new byte[1024];
+                                int noOfBytesRead;
 
-                            while((noOfBytesRead = fis.read(b)) != -1)
-                                fos.write(b,0,noOfBytesRead);
-                            fis.close();
-                            fos.close();
+                                while((noOfBytesRead = fis.read(b)) != -1)
+                                    fos.write(b,0,noOfBytesRead);
+                                fis.close();
+                                fos.close();
+                            }
 
                             sharedPref.edit().putString("handleTextAttachment", destinationFile.getAbsolutePath()).apply();
                             sharedPref.edit().putString("handleTextAttachmentTitle", files_title).apply();
@@ -212,28 +211,11 @@ public class Popup_files extends Activity {
 
         Popup_files.this.deleteDatabase("files_DB_v01.db");
 
-        File f = new File(sharedPref.getString("files_startFolder",
-                Environment.getExternalStorageDirectory().getPath() + "/HHS_Moodle/"));
-        final File[] files = f.listFiles();
+        String path = sharedPref.getString("files_startFolder",
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath());
 
-        Arrays.sort(files, new Comparator<File>() {
-            @Override
-            public int compare(File file1, File file2) {
-                if(file1.isDirectory()){
-                    if (file2.isDirectory()){
-                        return String.valueOf(file1.getName().toLowerCase()).compareTo(file2.getName().toLowerCase());
-                    }else{
-                        return -1;
-                    }
-                }else {
-                    if (file2.isDirectory()){
-                        return 1;
-                    }else{
-                        return String.valueOf(file1.getName().toLowerCase()).compareTo(file2.getName().toLowerCase());
-                    }
-                }
-            }
-        });
+        File f = new File(path);
+        final File[] files = f.listFiles();
 
         // looping through all items <item>
         if (files.length == 0) {
@@ -244,7 +226,7 @@ public class Popup_files extends Activity {
 
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 
-            String file_Name = file.getName().substring(0,1).toUpperCase() + file.getName().substring(1);
+            String file_Name = file.getName();
             String file_Size = getReadableFileSize(file.length());
             String file_date = formatter.format(new Date(file.lastModified()));
             String file_path = file.getAbsolutePath();
@@ -253,30 +235,25 @@ public class Popup_files extends Activity {
             if (file.isDirectory()) {
                 file_ext = ".";
             } else {
-                file_ext = file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("."));
+                try {
+                    file_ext = file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("."));
+                } catch (Exception e) {
+                    file_ext = file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("/"));
+                }
             }
 
             db.open();
-            if(db.isExist(file_Name)) {
+            if(db.isExist(helper_main.secString(file_Name))) {
                 Log.i(TAG, "Entry exists" + file_Name);
             } else {
-                db.insert(file_Name, file_Size, file_ext, file_path, file_date);
+                db.insert(helper_main.secString(file_Name), file_Size, helper_main.secString(file_ext), helper_main.secString(file_path), file_date);
             }
         }
 
         try {
             db.insert("...", "", "", "", "");
         } catch (Exception e) {
-            Snackbar snackbar = Snackbar
-                    .make(lv, R.string.toast_directory, Snackbar.LENGTH_LONG)
-                    .setAction(R.string.toast_yes, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            sharedPref.edit().putInt("keyboard", 0).apply();
-                            helper_main.onClose(Popup_files.this);
-                        }
-                    });
-            snackbar.show();
+            Snackbar.make(lv, R.string.toast_directory, Snackbar.LENGTH_LONG).show();
         }
 
         //display data
@@ -291,90 +268,59 @@ public class Popup_files extends Activity {
                 "files_content",
                 "files_creation"
         };
-        final Cursor row = db.fetchAllData(Popup_files.this);
-        SimpleCursorAdapter adapter = new SimpleCursorAdapter(Popup_files.this, layoutstyle, row, column, xml_id, 0) {
-            @Override
-            public View getView(final int position, View convertView, ViewGroup parent) {
 
-                Cursor row2 = (Cursor) lv.getItemAtPosition(position);
-                final String files_icon = row2.getString(row2.getColumnIndexOrThrow("files_icon"));
-                final String files_attachment = row2.getString(row2.getColumnIndexOrThrow("files_attachment"));
-                final File pathFile = new File(files_attachment);
+        final Cursor row = db.fetchAllData(Popup_files.this);
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(Popup_files.this, layoutstyle,row,column, xml_id, 0) {
+            @Override
+            public View getView (final int position, View convertView, ViewGroup parent) {
+
+                Cursor row = (Cursor) lv.getItemAtPosition(position);
+                final String files_icon = row.getString(row.getColumnIndexOrThrow("files_icon"));
+                final String files_attachment = row.getString(row.getColumnIndexOrThrow("files_attachment"));
 
                 View v = super.getView(position, convertView, parent);
-                final ImageView iv = (ImageView) v.findViewById(R.id.icon_notes);
+                final ImageView iv = v.findViewById(R.id.icon_notes);
 
                 iv.setVisibility(View.VISIBLE);
 
-                if (pathFile.isDirectory()) {
+                if (files_icon.matches("")) {
+                    iv.setVisibility(View.INVISIBLE);
+                    iv.setImageResource(R.drawable.arrow_up);
+                } else if (files_icon.matches("(.)")) {
                     iv.setImageResource(R.drawable.folder);
-                } else {
-                    switch (files_icon) {
-                        case "":
-                            new Handler().postDelayed(new Runnable() {
-                                public void run() {
-                                    iv.setImageResource(R.drawable.arrow_up);
-                                }
-                            }, 200);
-                            break;
-                        case ".gif":case ".bmp":case ".tiff":case ".svg":
-                        case ".png":case ".jpg":case ".JPG":case ".jpeg":
-                            try {
-                                Glide.with(Popup_files.this)
-                                        .load(files_attachment) // or URI/path
-                                        .override(76, 76)
-                                        .centerCrop()
-                                        .into(iv); //imageView to set thumbnail to
-                            } catch (Exception e) {
-                                Log.w("HHS_Moodle", "Error load thumbnail", e);
-                                iv.setImageResource(R.drawable.file_image);
-                            }
-                            break;
-                        case ".m3u8":case ".mp3":case ".wma":case ".midi":case ".wav":case ".aac":
-                        case ".aif":case ".amp3":case ".weba":case ".ogg":
-                            iv.setImageResource(R.drawable.file_music);
-                            break;
-                        case ".mpeg":case ".mp4":case ".webm":case ".qt":case ".3gp":
-                        case ".3g2":case ".avi":case ".f4v":case ".flv":case ".h261":case ".h263":
-                        case ".h264":case ".asf":case ".wmv":
-                            try {
-                                Glide.with(Popup_files.this)
-                                        .load(files_attachment) // or URI/path
-                                        .override(76, 76)
-                                        .centerCrop()
-                                        .into(iv); //imageView to set thumbnail to
-                            } catch (Exception e) {
-                                Log.w("HHS_Moodle", "Error load thumbnail", e);
-                                iv.setImageResource(R.drawable.file_video);
-                            }
-                            break;
-                        case ".vcs":case ".vcf":case ".css":case ".ics":case ".conf":case ".config":
-                        case ".java":case ".html":
-                            iv.setImageResource(R.drawable.file_xml);
-                            break;
-                        case ".apk":
-                            iv.setImageResource(R.drawable.android);
-                            break;
-                        case ".pdf":
-                            iv.setImageResource(R.drawable.file_pdf);
-                            break;
-                        case ".rtf":case ".csv":case ".txt":
-                        case ".doc":case ".xls":case ".ppt":case ".docx":case ".pptx":case ".xlsx":
-                        case ".odt":case ".ods":case ".odp":
-                            iv.setImageResource(R.drawable.file_document);
-                            break;
-                        case ".zip":
-                        case ".rar":
-                            iv.setImageResource(R.drawable.zip_box);
-                            break;
-                        default:
-                            iv.setImageResource(R.drawable.file);
-                            break;
+                } else if (files_icon.matches("(.m3u8|.mp3|.wma|.midi|.wav|.aac|.aif|.amp3|.weba|.ogg)")) {
+                    iv.setImageResource(R.drawable.file_music);
+                } else if (files_icon.matches("(.mpeg|.mp4|.webm|.qt|.3gp|.3g2|.avi|.flv|.h261|.h263|.h264|.asf|.wmv)")) {
+                    iv.setImageResource(R.drawable.file_video);
+                } else if(files_icon.matches("(.gif|.bmp|.tiff|.svg|.png|.jpg|.JPG|.jpeg)")) {
+                    try {
+                        Glide.with(Popup_files.this)
+                                .load(files_attachment) // or URI/path
+                                .override(76, 76)
+                                .centerCrop()
+                                .into(iv); //imageView to set thumbnail to
+                    } catch (Exception e) {
+                        Log.w("HHS_Moodle", "Error load thumbnail", e);
+                        iv.setImageResource(R.drawable.file_image);
                     }
+                } else if (files_icon.matches("(.vcs|.vcf|.css|.ics|.conf|.config|.java|.html)")) {
+                    iv.setImageResource(R.drawable.file_xml);
+                } else if (files_icon.matches("(.apk)")) {
+                    iv.setImageResource(R.drawable.android);
+                } else if (files_icon.matches("(.pdf)")) {
+                    iv.setImageResource(R.drawable.file_pdf);
+                } else if (files_icon.matches("(.rtf|.csv|.txt|.doc|.xls|.ppt|.docx|.pptx|.xlsx|.odt|.ods|.odp)")) {
+                    iv.setImageResource(R.drawable.file_document);
+                } else if (files_icon.matches("(.zip|.rar)")) {
+                    iv.setImageResource(R.drawable.zip_box);
+                } else {
+                    iv.setImageResource(R.drawable.file);
                 }
+
                 return v;
             }
         };
+
         lv.setAdapter(adapter);
     }
 

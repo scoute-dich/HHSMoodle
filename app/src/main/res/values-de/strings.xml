@@ -20,15 +20,6 @@
         &lt;i>Berechtigung nachträglich erteilen:&lt;/i>&lt;br>
         Wenn du die Berechtigung verweigerst, kannst du sie nachträglich erteilen, indem du \"Einstellungen -> Berechtigung erteilen\" öffnest.</string>
 
-    <string name="app_permissions_title_dist">Verlangte Berechtigung</string>
-    <string name="app_permissions_dist">
-
-        &lt;i>\"Nicht stören\" verwalten:&lt;/i>&lt;br>
-        Wird gebraucht um dein Telefon während dem Unterricht auf lautlos zu stellen.&lt;br>&lt;br>
-
-        &lt;i>Berechtigung nachträglich erteilen:&lt;/i>&lt;br>
-        Wenn du die Berechtigung verweigerst, kannst du sie nachträglich erteilen, indem du \"Einstellungen -> Nicht stören\" öffnest.</string>
-
     <string name="app_share_screenshot">Bildschirmfoto teilen mit:</string>
     <string name="app_share_link">Link teilen mit:</string>
     <string name="app_share_file">Datei auswählen mit:</string>
@@ -36,6 +27,7 @@
     <string name="app_att">Anhang</string>
     <string name="app_myMoodle">Mein Moodle</string>
     <string name="app_close">Bitte warten … App wird beendet.</string>
+    <string name="app_missing">Keine passende Anwendung gefunden.</string>
 
 
     // Moodle
@@ -77,6 +69,7 @@
     <string name="about_license_7">Gebraucht um den \"Über Schirm\" zu erstellen.</string>
     <string name="about_license_8">Die Quelle von fast allen Icons.</string>
     <string name="about_license_9">Bibliothek zum Downloaden und Anzeigen von Mediendateien.</string>
+    <string name="about_license_1">Android Bibliothek um Bilder zu machen oder auszuwählen.</string>
 
 
     // IntroScreen
@@ -118,6 +111,7 @@
     <string name="title_bookmarks">Lesezeichen</string>
     <string name="title_notes">Notizen</string>
     <string name="title_browser">Browser</string>
+    <string name="title_files">Dateien</string>
 
     <string name="sort_title">Titel</string>
     <string name="sort_date">Datum</string>
@@ -142,6 +136,7 @@
     <string name="menu_finish">App beenden</string>
     <string name="menu_configure">Einrichten</string>
     <string name="menu_addEntry">Eintrag hinzufügen</string>
+    <string name="menu_all">Alles davon …</string>
 
     <string name="action_sort">Einträge sortieren</string>
     <string name="action_sort_title">Sortiere nach Titel</string>
@@ -196,12 +191,9 @@
 
     <string name="action_problem_summary">Probleme? Schicke mir eine Mail.</string>
 
-    <string name="action_font">Schriftgröße</string>
-    <string name="action_font_summary">Ändere die Schriftgröße für Internetseiten.</string>
-
     <string name="action_backup">Sicherung</string>
     <string name="action_backup_summary">Sichere alle Datenbanken (Notizen, Lesezeichen, …) oder stelle eine vorherige Sicherung
-        wieder her. Eine neue Sicherung überschreibt immer die bestehende.</string>
+        wieder her. Eine neue Sicherung überschreibt immer die bestehende. Du kannst Datenbanken uch löschen.</string>
 
     <string name="action_backupAut">Automatische Sicherung</string>
     <string name="action_backupAut_summary">Sichere immer alle Datenbanken (Notizen, Lesezeichen, …), bevor die App geschlossen
@@ -211,15 +203,13 @@
     <string name="action_shortcut_summary">Erstelle auf deinen Desktop Verknüpfungen, um einen schnellen Zugriff auf wichtige
         Funktionen der App zu erhalten (Lesezeichen, Notizen, …).</string>
 
-    <string name="action_silent">Lautlos</string>
-    <string name="action_silent_summary">Schalte das Telefon während des Unterrichts automatisch stumm. Wenn du Android Nougat
-        oder neuer benutzt, musst du unten die Berechtigung \"Nicht stören\" gewähren.</string>
-
-    <string name="action_airplane">Flugmodus</string>
-    <string name="action_airplane_summary">Aktiviere während dem Unterricht den Flugmodus. Dies funktioniert nur, wenn dein Telefon
-        gerooted ist (Danke Google!).</string>
+    <string name="action_not">Benachrichtigung</string>
+    <string name="action_not_summary">Erhalte nach einem Neustart eine Benachrichtigung, die es dir erlaubt, schnell
+        nach wichtigen Todolisten zu suchen.</string>
 
     <string name="action_restore">Wiederherstellung</string>
+    <string name="action_delete">Löschen</string>
+    <string name="action_data">Daten</string>
 
 
     // Snackbar
@@ -248,6 +238,11 @@
     <string name="toast_settings">Einstellungen öffnen</string>
     <string name="toast_confirm_backup">Die alte Sicherung wird überschrieben und geht verloren.</string>
     <string name="toast_confirm_restore">Die aktuellen Daten werden überschrieben und gehen verloren.</string>
+    <string name="toast_done">Erledigt!</string>
+    <string name="toast_error">Es ist ein Fehler passsiert!</string>
+    <string name="toast_confirm_delete">Die aktuellen Daten werden gelöscht und gehen verloren.</string>
+    <string name="toast_restart_title">Etwas zu erledigen?</string>
+    <string name="toast_restart_text">Klicken um zu prüfen. Wenn nichts passiert - nichts zu tun!</string>
 
 
 
@@ -272,6 +267,8 @@
     <string name="title_hint">Titel</string>
     <string name="text_hint">Inhalt</string>
     <string name="note_content">+ Inhalt</string>
+    <string name="choose_gallery">Galerie</string>
+    <string name="choose_camera">Kamera</string>
 
 
     // Password
@@ -322,7 +319,6 @@
 
     <string name="todo_title">Todo</string>
     <string name="todo_from_courseList">Aus Kursliste</string>
-    <string name="todo_from_subjectList">Aus Fächerliste</string>
     <string name="todo_from_new">Eigener Titel</string>
     <string name="todo_hint">Neuer Eintrag …</string>
     <string name="todo_menu">Erstelle ToDo Liste</string>
@@ -341,35 +337,7 @@
     <string name="courseList_content">+ Teilnehmer</string>
 
 
-    // Schedule
-
-    <string name="schedule_weekend">Wochenende</string>
-    <string name="schedule_title">Stundenplan</string>
-    <string name="schedule_def_title">---</string>
-    <string name="schedule_def_teacher">---</string>
-
-    <string name="schedule_mon">Montag</string>
-    <string name="schedule_tue">Dienstag</string>
-    <string name="schedule_wed">Mittwoch</string>
-    <string name="schedule_thu">Donnerstag</string>
-    <string name="schedule_fri">Freitag</string>
-
-    <string name="schedule_search_teacher">Suche nach Lehrern</string>
-    <string name="schedule_search_room">Suche nach Räumen</string>
-
-    <string name="schedule_fromSubjectList">Aus der Fächerliste</string>
-    <string name="schedule_todo">Zeige Todo Liste</string>
-    <string name="schedule_notes">Zeige Notizen</string>
-
-
     // Subjects
-
-    <string name="subjects_title">Fächerliste</string>
-    <string name="subjects_edit_title">Name</string>
-    <string name="subjects_edit_teacher">Lehrer</string>
-    <string name="subjects_edit_room">Raum</string>
-    <string name="subjects_edit">Fach bearbeiten</string>
-    <string name="subjects_copy">Eintrag kopieren</string>
 
     <string name="subjects_color_red">Rot</string>
     <string name="subjects_color_pink">Pink</string>

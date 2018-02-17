@@ -54,16 +54,11 @@ public class helper_webView {
     @SuppressLint("SetJavaScriptEnabled")
     public static void webView_Settings(final Activity from, final WebView webView) {
 
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(from);
-        String fontSizeST = sharedPref.getString("font", "100");
-        int fontSize = Integer.parseInt(fontSizeST);
-
         webView.getSettings().setAppCachePath(from.getApplicationContext().getCacheDir().getAbsolutePath());
         webView.getSettings().setAllowFileAccess(true);
         webView.getSettings().setAppCacheEnabled(true);
         webView.getSettings().setBuiltInZoomControls(true);
         webView.getSettings().setDisplayZoomControls(false);
-        webView.getSettings().setTextZoom(fontSize);
         webView.getSettings().setGeolocationEnabled(false);
         webView.getSettings().setDomStorageEnabled(true);
         webView.getSettings().setUseWideViewPort(true);
@@ -84,7 +79,7 @@ public class helper_webView {
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
 
-                ViewPager viewPager = (ViewPager) from.findViewById(R.id.viewpager);
+                ViewPager viewPager = from.findViewById(R.id.viewpager);
                 SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(from);
                 sharedPref.edit().putString("loadURL", webView.getUrl()).apply();
 

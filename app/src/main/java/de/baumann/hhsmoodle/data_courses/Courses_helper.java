@@ -29,9 +29,9 @@ import android.widget.EditText;
 
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.activities.Activity_course;
-import de.baumann.hhsmoodle.activities.Activity_random;
 import de.baumann.hhsmoodle.helper.helper_main;
 
+@SuppressWarnings("SameParameterValue")
 class Courses_helper {
 
     static void newCourse (final Activity activity, String title, final String content, final String icon, String button_neutral, final boolean finishFromActivity) {
@@ -39,7 +39,7 @@ class Courses_helper {
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(activity);
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(activity);
         View dialogView = View.inflate(activity, R.layout.dialog_edit_title, null);
-        final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
+        final EditText edit_title = dialogView.findViewById(R.id.pass_title);
         edit_title.setText(title);
         edit_title.setHint(R.string.bookmark_edit_title);
 

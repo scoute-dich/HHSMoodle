@@ -60,14 +60,6 @@
         öffnet die Notiz, ein langer Klick öffnet ein Menü.</string>
 
 
-    <string name="schedule_help1">Stundenplan</string>
-    <string name="schedule_help_text1">Hier kannst du deinen Stundenplan eingeben. Klicke einen Eintrag an, und du kannst
-        dir alle Notizen und Todo Einträge für dieses Fach anzeigen lassen.</string>
-
-    <string name="schedule_help2">Ein langer Klick …</string>
-    <string name="schedule_help_text2">… öffnet auch hier ein Menü.</string>
-
-
     <string name="random_help1">Zufallsgenerator</string>
     <string name="random_help_text1">Du kannst entweder einfach würfeln (\"Würfelicon\"), oder zufällig jemanden aus einer Liste
         auswählen lassen.</string>
@@ -94,13 +86,6 @@
         Datei soll ein Name stehen.</string>
 
 
-    <string name="subject_help1">Fächerliste</string>
-    <string name="subject_help_text1">Die Fächerliste dient in erster Linie dazu verschiedene Listen schnell füllen zu können.</string>
-
-    <string name="subject_help2">Praktisch</string>
-    <string name="subject_help_text2">Probiere auch hier einen kurzen und einen langen Klick auf einen Eintrag aus.</string>
-
-
     <string name="settings_help1">Einstellungen</string>
     <string name="settings_help_text1">Hier kannst du deine Logindaten ändern, wenn sie nicht mehr aktuell sind.
         Passe außerdem die App deinen Bedürfnissen an und erfahre mehr über die App.</string>
@@ -109,11 +94,11 @@
     <string name="settings_help_text2">Es wird dringend empfohlen die App mit einer Pin vor ungewollten Zugriff zu schützen.</string>
 
     <string name="files_help1">Dateimanager</string>
-    <string name="files_help_text1">Mit dem integrierten Dateimanager kannst du heruntergaladene Dateien und andere Inhalte auf
+    <string name="files_help_text1">Mit dem Dateimanager kannst du heruntergaladene Dateien und andere Inhalte auf
     deiner SD-Karte durchsuchen.</string>
 
     <string name="files_help2">Dateioperationen</string>
-    <string name="files_help_text2">Natürlich kannst du die Dateien öffnen. Du kannst sie aber auch löschen, umbenennen oder
+    <string name="files_help_text2">Natürlich kannst du Dateien öffnen. Du kannst sie aber auch löschen, umbenennen oder
         teilen.</string>
 
     <string name="count_help1">Zähler</string>
@@ -126,9 +111,5 @@
     <string name="perm_notShow_title">Berechtigung erteilen</string>
     <string name="perm_notShow_title_summary">Nur für Android Marshmallow und neuere Versionen. Gewähre erforderliche
         Berechtigung, indem du im folgenden Fenster \"Berechtigungen\" öffnest. Danach die App neu starten.</string>
-
-    <string name="perm_notShow_title_dist">Nicht stören</string>
-    <string name="perm_notShow_title_summary_dist">Nur für Android Nougat und neuere Versionen. Gewähre erforderliche
-        Berechtigung im folgenden Fenster, damit dein Telefon während dem Unterricht automatisch stumm geschaltet werden kann.</string>
 
 </resources>

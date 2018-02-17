@@ -12,27 +12,23 @@
                 android:icon="@drawable/star_grey"
                 android:title="@string/title_bookmarks" />
             <item
-                android:id="@+id/nav_todo"
-                android:icon="@drawable/playlist_check"
-                android:title="@string/todo_title" />
-            <item
-                android:id="@+id/nav_notes"
-                android:icon="@drawable/pencil"
-                android:title="@string/title_notes" />
-            <item
-                android:id="@+id/nav_schedule"
-                android:icon="@drawable/timetable"
-                android:title="@string/schedule_title" />
-
+                android:id="@+id/nav_files"
+                android:icon="@drawable/icon_download"
+                android:title="@string/choose_titleMain" />
         </menu>
     </item>
 
     <item android:title="@string/menu_tools">
         <menu>
+
             <item
-                android:id="@+id/nav_files"
-                android:icon="@drawable/file_document"
-                android:title="@string/choose_titleMain" />
+                android:id="@+id/nav_todo"
+                android:icon="@drawable/icon_list"
+                android:title="@string/todo_title" />
+            <item
+                android:id="@+id/nav_notes"
+                android:icon="@drawable/pencil"
+                android:title="@string/title_notes" />
             <item
                 android:id="@+id/nav_random"
                 android:icon="@drawable/dice_3_dark"
@@ -54,10 +50,7 @@
                 android:id="@+id/nav_courseList"
                 android:icon="@drawable/account_multiple"
                 android:title="@string/courseList_title" />
-            <item
-                android:id="@+id/nav_subjectList"
-                android:icon="@drawable/book_open"
-                android:title="@string/subjects_title" />
+
             <item
                 android:id="@+id/nav_settings"
                 android:icon="@drawable/settings"

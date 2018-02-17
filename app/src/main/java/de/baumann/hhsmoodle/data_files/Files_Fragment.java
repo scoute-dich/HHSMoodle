@@ -31,6 +31,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -86,7 +87,7 @@ public class Files_Fragment extends Fragment {
     private int index;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_screen_notes, container, false);
@@ -96,16 +97,16 @@ public class Files_Fragment extends Fragment {
         sharedPref.edit().putString("files_startFolder",
                 helper_main.appDir().getAbsolutePath()).apply();
 
-        imgHeader = (ImageView) rootView.findViewById(R.id.imageView_header);
+        imgHeader = rootView.findViewById(R.id.imageView_header);
         helper_main.setImageHeader(getActivity(), imgHeader);
 
-        filter_layout = (RelativeLayout) rootView.findViewById(R.id.filter_layout);
+        filter_layout = rootView.findViewById(R.id.filter_layout);
         filter_layout.setVisibility(View.GONE);
-        lv = (ListView) rootView.findViewById(R.id.listNotes);
-        filter = (EditText) rootView.findViewById(R.id.myFilter);
-        viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
+        lv = rootView.findViewById(R.id.listNotes);
+        filter = rootView.findViewById(R.id.myFilter);
+        viewPager = getActivity().findViewById(R.id.viewpager);
 
-        ImageButton ib_hideKeyboard =(ImageButton) rootView.findViewById(R.id.ib_hideKeyboard);
+        ImageButton ib_hideKeyboard = rootView.findViewById(R.id.ib_hideKeyboard);
         ib_hideKeyboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -119,7 +120,7 @@ public class Files_Fragment extends Fragment {
             }
         });
 
-        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        FloatingActionButton fab = rootView.findViewById(R.id.fab);
         fab.setImageResource(R.drawable.home);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -242,7 +243,7 @@ public class Files_Fragment extends Fragment {
                 final File pathFile = new File(files_attachment);
 
                 View v = super.getView(position, convertView, parent);
-                final ImageView iv = (ImageView) v.findViewById(R.id.icon_notes);
+                final ImageView iv = v.findViewById(R.id.icon_notes);
 
                 iv.setVisibility(View.VISIBLE);
 
@@ -440,7 +441,7 @@ public class Files_Fragment extends Fragment {
                                 android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getActivity());
                                 View dialogView = View.inflate(getActivity(), R.layout.dialog_edit_file, null);
 
-                                final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
+                                final EditText edit_title = dialogView.findViewById(R.id.pass_title);
                                 edit_title.setText(files_title);
 
                                 builder.setView(dialogView);
@@ -526,10 +527,7 @@ public class Files_Fragment extends Fragment {
         menu.findItem(R.id.filter_content).setVisible(false);
         menu.findItem(R.id.filter_att).setVisible(false);
         menu.findItem(R.id.filter_url).setVisible(false);
-        menu.findItem(R.id.filter_teacher).setVisible(false);
-        menu.findItem(R.id.filter_room).setVisible(false);
         menu.findItem(R.id.filter_course).setVisible(false);
-        menu.findItem(R.id.filter_subject).setVisible(false);
         menu.findItem(R.id.filter_title_own).setVisible(false);
         setTitle();
         fillFileList();

@@ -58,19 +58,11 @@
         open the note, a long click will open (as always) a menu.</string>
 
 
-    <string name="schedule_help1">Schedule</string>
-    <string name="schedule_help_text1">Here you can edit your schedule. Click on an entry to see all todo entries or notes for a
-        subject.</string>
-
-    <string name="schedule_help2">A long click …</string>
-    <string name="schedule_help_text2">… opens here also a menu.</string>
-
-
     <string name="random_help1">Random generator</string>
     <string name="random_help_text1">You can just roll a dice (\"dice icon\") or choose somebody randomly from a list.</string>
 
     <string name="random_help2">Create a list</string>
-    <string name="random_help_text2">You can create a list on your own, or import from a sbject or course list.</string>
+    <string name="random_help_text2">You can create a list on your own, or import from a subject or course list.</string>
 
 
     <string name="grade_help1">Grade calculation</string>
@@ -105,12 +97,6 @@
     <string name="count_help_text2">With a simple click you can add or subtract \"1\" to the current value. Of course you can
         also edit each entry.</string>
 
-    <string name="subject_help1">Subject list</string>
-    <string name="subject_help_text1">The subject list is mainly used to fill lists in efficient way.</string>
-
-    <string name="subject_help2">Practical</string>
-    <string name="subject_help_text2">Just try also here a short or a long press on a list entry.</string>
-
 
     <string name="settings_help1">Settings</string>
     <string name="settings_help_text1">Here you can change your login data, if they are not actual.
@@ -123,9 +109,5 @@
     <string name="perm_notShow_title">Grant permission</string>
     <string name="perm_notShow_title_summary">Only for Android Marshmallow and above: Grant used permission by
         opening \"Permissions\" in the next window. After that restart the app.</string>
-
-    <string name="perm_notShow_title_dist">Do not disturb</string>
-    <string name="perm_notShow_title_summary_dist">Only for Android Nougat and above: Grant used permission
-        in the next window, to bring your phone in silent mode during lessons.</string>
 
 </resources>

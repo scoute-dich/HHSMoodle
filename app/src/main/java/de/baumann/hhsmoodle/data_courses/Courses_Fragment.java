@@ -71,28 +71,28 @@ public class Courses_Fragment extends Fragment {
     private int index;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_screen_notes, container, false);
 
-        ImageView imgHeader = (ImageView) rootView.findViewById(R.id.imageView_header);
+        ImageView imgHeader = rootView.findViewById(R.id.imageView_header);
         helper_main.setImageHeader(getActivity(), imgHeader);
 
         PreferenceManager.setDefaultValues(getActivity(), R.xml.user_settings, false);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-        RelativeLayout filter_layout = (RelativeLayout) rootView.findViewById(R.id.filter_layout);
+        RelativeLayout filter_layout = rootView.findViewById(R.id.filter_layout);
         filter_layout.setVisibility(View.GONE);
-        lv = (ListView) rootView.findViewById(R.id.listNotes);
-        viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
+        lv = rootView.findViewById(R.id.listNotes);
+        viewPager = getActivity().findViewById(R.id.viewpager);
 
-        fabLayout1= (LinearLayout) rootView.findViewById(R.id.fabLayout1);
-        fabLayout2= (LinearLayout) rootView.findViewById(R.id.fabLayout2);
-        fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
-        TextView fab2_text = (TextView)rootView.findViewById(R.id.text_fab2);
+        fabLayout1= rootView.findViewById(R.id.fabLayout1);
+        fabLayout2= rootView.findViewById(R.id.fabLayout2);
+        fab = rootView.findViewById(R.id.fab);
+        TextView fab2_text = rootView.findViewById(R.id.text_fab2);
         fab2_text.setText(getString(R.string.courseList_fromText));
-        FloatingActionButton fab1 = (FloatingActionButton) rootView.findViewById(R.id.fab1);
-        FloatingActionButton fab2 = (FloatingActionButton) rootView.findViewById(R.id.fab2);
+        FloatingActionButton fab1 = rootView.findViewById(R.id.fab1);
+        FloatingActionButton fab2 = rootView.findViewById(R.id.fab2);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -224,7 +224,7 @@ public class Courses_Fragment extends Fragment {
                 final String courses_creation = row2.getString(row2.getColumnIndexOrThrow("courses_creation"));
 
                 View v = super.getView(position, convertView, parent);
-                ImageView iv_icon = (ImageView) v.findViewById(R.id.icon_notes);
+                ImageView iv_icon = v.findViewById(R.id.icon_notes);
                 helper_main.switchIcon(getActivity(), courses_icon,"courses_icon", iv_icon);
 
                 iv_icon.setOnClickListener(new View.OnClickListener() {
@@ -268,7 +268,7 @@ public class Courses_Fragment extends Fragment {
                             public View getView(int position, View convertView, @NonNull ViewGroup parent) {
                                 //Use super class to create the View
                                 View v = super.getView(position, convertView, parent);
-                                TextView tv = (TextView)v.findViewById(android.R.id.text1);
+                                TextView tv = v.findViewById(android.R.id.text1);
                                 tv.setTextSize(18);
                                 tv.setCompoundDrawablesWithIntrinsicBounds(items[position].icon, 0, 0, 0);
                                 //Add margin between image and text (support various screen densities)
@@ -438,7 +438,7 @@ public class Courses_Fragment extends Fragment {
                                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                     View dialogView = View.inflate(getActivity(), R.layout.dialog_edit_title, null);
 
-                                    final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
+                                    final EditText edit_title = dialogView.findViewById(R.id.pass_title);
                                     edit_title.setHint(R.string.bookmark_edit_title);
                                     edit_title.setText(courses_title);
 

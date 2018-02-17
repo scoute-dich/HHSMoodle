@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:fitsSystemWindows="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
@@ -34,6 +33,11 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentStart="true"
             android:layout_above="@+id/etNewItem" />
+
+        <View android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_above="@+id/etNewItem"
+            android:background="@drawable/toolbar_drop_shadow"/>
 
         <EditText
             android:layout_width="match_parent"

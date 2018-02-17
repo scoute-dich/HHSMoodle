@@ -28,13 +28,13 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
@@ -43,6 +43,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -61,6 +62,7 @@ import javax.crypto.spec.SecretKeySpec;
 import de.baumann.hhsmoodle.HHS_MainScreen;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.about.About_activity;
+import de.baumann.hhsmoodle.data_bookmarks.Bookmarks_helper;
 import de.baumann.hhsmoodle.helper.class_SecurePreferences;
 import de.baumann.hhsmoodle.helper.helper_security;
 import de.baumann.hhsmoodle.helper.helper_main;
@@ -77,7 +79,7 @@ public class Activity_settings extends AppCompatActivity {
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         helper_main.onStart(Activity_settings.this);
 
@@ -93,6 +95,7 @@ public class Activity_settings extends AppCompatActivity {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public static class SettingsFragment extends PreferenceFragment {
 
+        private FrameLayout frameLayout;
 
         private void addShortcutListener() {
 
@@ -106,8 +109,7 @@ public class Activity_settings extends AppCompatActivity {
                             getString(R.string.title_browser),
                             getString(R.string.title_bookmarks),
                             getString(R.string.todo_title),
-                            getString(R.string.title_notes),
-                            getString(R.string.schedule_title)};
+                            getString(R.string.title_notes)};
 
                     new AlertDialog.Builder(activity)
                             .setTitle(getString(R.string.action_shortcut))
@@ -179,21 +181,6 @@ public class Activity_settings extends AppCompatActivity {
                                         helper_main.makeToast(activity, getString(R.string.toast_shortcut));
                                     }
 
-                                    if (options[item].equals (getString(R.string.schedule_title))) {
-                                        Intent i = new Intent(activity.getApplicationContext(), Activity_splash.class);
-                                        i.setAction("shortcutSchedule");
-
-                                        Intent shortcut = new Intent();
-                                        shortcut.setAction(Intent.ACTION_MAIN);
-                                        shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, i);
-                                        shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, (getString(R.string.schedule_title)));
-                                        shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
-                                                Intent.ShortcutIconResource.fromContext(activity.getApplicationContext(), R.drawable.qc_schedule));
-                                        shortcut.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
-                                        activity.sendBroadcast(shortcut);
-                                        helper_main.makeToast(activity, getString(R.string.toast_shortcut));
-                                    }
-
                                 }
                             }).show();
 
@@ -231,21 +218,6 @@ public class Activity_settings extends AppCompatActivity {
             });
         }
 
-        private void addPermissionDistListener() {
-
-            Preference reset = findPreference("perm_notShow_dist");
-            reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                public boolean onPreferenceClick(Preference pref) {
-
-                   if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        Intent intent = new Intent(android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
-                        startActivity(intent);
-                    }
-                    return true;
-                }
-            });
-        }
-
         private void addProtectListener() {
 
             Preference reset = findPreference("protect_PW");
@@ -259,7 +231,7 @@ public class Activity_settings extends AppCompatActivity {
                     AlertDialog.Builder builder = new AlertDialog.Builder(activity);
                     View dialogView = View.inflate(activity, R.layout.dialog_pin, null);
 
-                    final EditText pass_userPW = (EditText) dialogView.findViewById(R.id.pass_userPin);
+                    final EditText pass_userPW = dialogView.findViewById(R.id.pass_userPin);
                     pass_userPW.setText(password);
 
                     builder.setView(dialogView);
@@ -303,9 +275,9 @@ public class Activity_settings extends AppCompatActivity {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                         View dialogView = View.inflate(getActivity(), R.layout.dialog_login, null);
 
-                        final EditText pass_userName = (EditText) dialogView.findViewById(R.id.pass_userName);
+                        final EditText pass_userName = dialogView.findViewById(R.id.pass_userName);
                         pass_userName.setText(sharedPrefSec.getString("username"));
-                        final EditText pass_userPW = (EditText) dialogView.findViewById(R.id.pass_userPW);
+                        final EditText pass_userPW = dialogView.findViewById(R.id.pass_userPW);
                         pass_userPW.setText(sharedPrefSec.getString("password"));
 
                         builder.setView(dialogView);
@@ -365,9 +337,20 @@ public class Activity_settings extends AppCompatActivity {
                     }
 
                     final CharSequence[] options = {
+                            getString(R.string.title_bookmarks),
+                            getString(R.string.courseList_title),
+                            getString(R.string.title_notes),
+                            getString(R.string.number_title),
+                            getString(R.string.todo_title),
+                            getString(R.string.count_title),
+                            getString(R.string.menu_all)};
+
+                    final CharSequence[] options2 = {
                             getString(R.string.action_backup),
-                            getString(R.string.action_restore)};
+                            getString(R.string.action_restore),
+                            getString(R.string.action_delete)};
                     new AlertDialog.Builder(getActivity())
+                            .setTitle(R.string.action_data)
                             .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
 
                                 public void onClick(DialogInterface dialog, int whichButton) {
@@ -380,64 +363,477 @@ public class Activity_settings extends AppCompatActivity {
                                     dialog.cancel();
                                 }
                             })
-                            .setItems(options, new DialogInterface.OnClickListener() {
+                            .setItems(options2, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int item) {
-                                    if (options[item].equals(getString(R.string.action_backup))) {
-                                        AlertDialog.Builder builder;
-                                        builder = new AlertDialog.Builder(getActivity());
-                                        builder.setTitle(getString(R.string.action_backup))
-                                                .setMessage(getString(R.string.toast_confirm_backup))
-                                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        try {
-                                                            helper_security.encryptBackup(getActivity(),"/bookmarks_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                                                        try {
-                                                            helper_security.encryptBackup(getActivity(),"/courses_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                                                        try {
-                                                            helper_security.encryptBackup(getActivity(),"/notes_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                                                        try {
-                                                            helper_security.encryptBackup(getActivity(),"/random_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                                                        try {
-                                                            helper_security.encryptBackup(getActivity(),"/subject_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                                                        try {
-                                                            helper_security.encryptBackup(getActivity(),"/schedule_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                                                        try {
-                                                            helper_security.encryptBackup(getActivity(),"/todo_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                                                        try {
-                                                            helper_security.encryptBackup(getActivity(),"/count_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                                                    }
-                                                })
-                                                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                                                    public void onClick(DialogInterface dialog, int which) {
+                                    if (options2[item].equals(getString(R.string.action_backup))) {
+                                        new AlertDialog.Builder(getActivity())
+                                                .setTitle(getString(R.string.action_backup))
+                                                .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int whichButton) {
                                                         dialog.cancel();
                                                     }
                                                 })
-                                                .show();
+                                                .setItems(options, new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int item) {
+                                                        if (options[item].equals(getString(R.string.menu_all))) {
+                                                            new AlertDialog.Builder(getActivity())
+                                                                    .setTitle(getString(R.string.action_backup))
+                                                                    .setMessage(getString(R.string.toast_confirm_backup))
+                                                                    .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+                                                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                                                            Snackbar.make(frameLayout, getString(R.string.toast_done), Snackbar.LENGTH_LONG).show();
+                                                                            try {
+                                                                                helper_security.encryptBackup(getActivity(),"/bookmarks_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                                                            try {
+                                                                                helper_security.encryptBackup(getActivity(),"/courses_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                                                            try {
+                                                                                helper_security.encryptBackup(getActivity(),"/notes_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                                                            try {
+                                                                                helper_security.encryptBackup(getActivity(),"/random_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                                                            try {
+                                                                                helper_security.encryptBackup(getActivity(),"/schedule_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                                                            try {
+                                                                                helper_security.encryptBackup(getActivity(),"/todo_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                                                            try {
+                                                                                helper_security.encryptBackup(getActivity(),"/count_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                                                        }
+                                                                    })
+                                                                    .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+                                                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                                                            dialog.cancel();
+                                                                        }
+                                                                    }).show();
+                                                        }
+                                                        if (options[item].equals(getString(R.string.title_bookmarks))) {
+                                                            new AlertDialog.Builder(getActivity())
+                                                                    .setTitle(getString(R.string.action_backup))
+                                                                    .setMessage(getString(R.string.toast_confirm_backup))
+                                                                    .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+                                                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                                                            try {
+                                                                                helper_security.encryptBackup(getActivity(),"/bookmarks_DB_v01.db");
+                                                                                Snackbar.make(frameLayout, getString(R.string.toast_done), Snackbar.LENGTH_LONG).show();
+                                                                            } catch (Exception e) {
+                                                                                Snackbar.make(frameLayout, getString(R.string.toast_error), Snackbar.LENGTH_LONG).show();
+                                                                                e.printStackTrace();
+                                                                            }
+                                                                        }
+                                                                    })
+                                                                    .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+                                                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                                                            dialog.cancel();
+                                                                        }
+                                                                    }).show();
+                                                        }
+                                                        if (options[item].equals(getString(R.string.courseList_title))) {
+                                                            new AlertDialog.Builder(getActivity())
+                                                                    .setTitle(getString(R.string.action_backup))
+                                                                    .setMessage(getString(R.string.toast_confirm_backup))
+                                                                    .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+                                                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                                                            try {
+                                                                                helper_security.encryptBackup(getActivity(),"/courses_DB_v01.db");
+                                                                                Snackbar.make(frameLayout, getString(R.string.toast_done), Snackbar.LENGTH_LONG).show();
+                                                                            } catch (Exception e) {
+                                                                                Snackbar.make(frameLayout, getString(R.string.toast_error), Snackbar.LENGTH_LONG).show();
+                                                                                e.printStackTrace();
+                                                                            }
+                                                                        }
+                                                                    })
+                                                                    .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+                                                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                                                            dialog.cancel();
+                                                                        }
+                                                                    }).show();
+                                                        }
+                                                        if (options[item].equals(getString(R.string.title_notes))) {
+                                                            new AlertDialog.Builder(getActivity())
+                                                                    .setTitle(getString(R.string.action_backup))
+                                                                    .setMessage(getString(R.string.toast_confirm_backup))
+                                                                    .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+                                                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                                                            try {
+                                                                                helper_security.encryptBackup(getActivity(),"/notes_DB_v01.db");
+                                                                                Snackbar.make(frameLayout, getString(R.string.toast_done), Snackbar.LENGTH_LONG).show();
+                                                                            } catch (Exception e) {
+                                                                                Snackbar.make(frameLayout, getString(R.string.toast_error), Snackbar.LENGTH_LONG).show();
+                                                                                e.printStackTrace();
+                                                                            }
+                                                                        }
+                                                                    })
+                                                                    .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+                                                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                                                            dialog.cancel();
+                                                                        }
+                                                                    }).show();
+                                                        }
+                                                        if (options[item].equals(getString(R.string.number_title))) {
+                                                            new AlertDialog.Builder(getActivity())
+                                                                    .setTitle(getString(R.string.action_backup))
+                                                                    .setMessage(getString(R.string.toast_confirm_backup))
+                                                                    .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+                                                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                                                            try {
+                                                                                helper_security.encryptBackup(getActivity(),"/random_DB_v01.db");
+                                                                                        Snackbar.make(frameLayout, getString(R.string.toast_done), Snackbar.LENGTH_LONG).show();
+                                                                            } catch (Exception e) {
+                                                                                Snackbar.make(frameLayout, getString(R.string.toast_error), Snackbar.LENGTH_LONG).show();
+                                                                                e.printStackTrace();
+                                                                            }
+                                                                        }
+                                                                    })
+                                                                    .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+                                                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                                                            dialog.cancel();
+                                                                        }
+                                                                    }).show();
+                                                        }
+                                                        if (options[item].equals(getString(R.string.todo_title))) {
+                                                            new AlertDialog.Builder(getActivity())
+                                                                    .setTitle(getString(R.string.action_backup))
+                                                                    .setMessage(getString(R.string.toast_confirm_backup))
+                                                                    .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+                                                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                                                            try {
+                                                                                helper_security.encryptBackup(getActivity(),"/todo_DB_v01.db");
+                                                                                Snackbar.make(frameLayout, getString(R.string.toast_done), Snackbar.LENGTH_LONG).show();
+                                                                            } catch (Exception e) {
+                                                                                Snackbar.make(frameLayout, getString(R.string.toast_error), Snackbar.LENGTH_LONG).show();
+                                                                                e.printStackTrace();
+                                                                            }
+                                                                        }
+                                                                    })
+                                                                    .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+                                                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                                                            dialog.cancel();
+                                                                        }
+                                                                    }).show();
+                                                        }
+                                                        if (options[item].equals(getString(R.string.count_title))) {
+                                                            new AlertDialog.Builder(getActivity())
+                                                                    .setTitle(getString(R.string.action_backup))
+                                                                    .setMessage(getString(R.string.toast_confirm_backup))
+                                                                    .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+                                                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                                                            try {
+                                                                                helper_security.encryptBackup(getActivity(),"/count_DB_v01.db");
+                                                                                Snackbar.make(frameLayout, getString(R.string.toast_done), Snackbar.LENGTH_LONG).show();
+                                                                            } catch (Exception e) {
+                                                                                Snackbar.make(frameLayout, getString(R.string.toast_error), Snackbar.LENGTH_LONG).show();
+                                                                                e.printStackTrace();
+                                                                            }
+                                                                        }
+                                                                    })
+                                                                    .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+                                                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                                                            dialog.cancel();
+                                                                        }
+                                                                    }).show();
+                                                        }
+                                                    }
+                                                }).show();
                                     }
-                                    if (options[item].equals(getString(R.string.action_restore))) {
-                                        AlertDialog.Builder builder;
-                                        builder = new AlertDialog.Builder(getActivity());
-                                        builder.setTitle(getString(R.string.action_restore))
-                                                .setMessage(getString(R.string.toast_confirm_restore))
-                                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        try {decrypt("/schedule_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                                                        try {decrypt("/subject_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                                                        try {decrypt("/bookmarks_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                                                        try {decrypt("/courses_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                                                        try {decrypt("/notes_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                                                        try {decrypt("/random_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                                                        try {decrypt("/todo_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                                                        try {decrypt("/count_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-                                                    }
-                                                })
-                                                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                                                    public void onClick(DialogInterface dialog, int which) {
+
+
+                                    if (options2[item].equals(getString(R.string.action_restore))) {
+
+                                        new AlertDialog.Builder(getActivity())
+                                                .setTitle(getString(R.string.action_restore))
+                                                .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int whichButton) {
                                                         dialog.cancel();
                                                     }
                                                 })
-                                                .show();
+                                                .setItems(options, new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int item) {
+                                                        if (options[item].equals(getString(R.string.menu_all))) {
+                                                            new AlertDialog.Builder(getActivity())
+                                                                    .setTitle(getString(R.string.action_restore))
+                                                                    .setMessage(getString(R.string.toast_confirm_restore))
+                                                                    .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+                                                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                                                            Snackbar.make(frameLayout, getString(R.string.toast_done), Snackbar.LENGTH_LONG).show();
+                                                                            try {decrypt("/schedule_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                                                            try {decrypt("/bookmarks_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                                                            try {decrypt("/courses_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                                                            try {decrypt("/notes_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                                                            try {decrypt("/random_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                                                            try {decrypt("/todo_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
+                                                                            try {decrypt("/count_DB_v01.db");} catch (Exception e) {e.printStackTrace();}}
+                                                                    })
+                                                                    .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+                                                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                                                            dialog.cancel();
+                                                                        }
+                                                                    }).show();
+                                                        }
+                                                        if (options[item].equals(getString(R.string.title_bookmarks))) {
+                                                            new AlertDialog.Builder(getActivity())
+                                                                    .setTitle(getString(R.string.action_restore))
+                                                                    .setMessage(getString(R.string.toast_confirm_restore))
+                                                                    .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+                                                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                                                            try {
+                                                                                decrypt("/bookmarks_DB_v01.db");
+                                                                                Snackbar.make(frameLayout, getString(R.string.toast_done), Snackbar.LENGTH_LONG).show();
+                                                                            } catch (Exception e) {
+                                                                                Snackbar.make(frameLayout, getString(R.string.toast_error), Snackbar.LENGTH_LONG).show();
+                                                                                e.printStackTrace();
+                                                                            }
+                                                                        }
+                                                                    })
+                                                                    .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+                                                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                                                            dialog.cancel();
+                                                                        }
+                                                                    }).show();
+                                                        }
+                                                        if (options[item].equals(getString(R.string.courseList_title))) {
+                                                            new AlertDialog.Builder(getActivity())
+                                                                    .setTitle(getString(R.string.action_restore))
+                                                                    .setMessage(getString(R.string.toast_confirm_restore))
+                                                                    .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+                                                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                                                            try {
+                                                                                decrypt("/courses_DB_v01.db");
+                                                                                Snackbar.make(frameLayout, getString(R.string.toast_done), Snackbar.LENGTH_LONG).show();
+                                                                            } catch (Exception e) {
+                                                                                Snackbar.make(frameLayout, getString(R.string.toast_error), Snackbar.LENGTH_LONG).show();
+                                                                                e.printStackTrace();
+                                                                            }
+                                                                        }
+                                                                    })
+                                                                    .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+                                                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                                                            dialog.cancel();
+                                                                        }
+                                                                    }).show();
+                                                        }
+                                                        if (options[item].equals(getString(R.string.title_notes))) {
+                                                            new AlertDialog.Builder(getActivity())
+                                                                    .setTitle(getString(R.string.action_restore))
+                                                                    .setMessage(getString(R.string.toast_confirm_restore))
+                                                                    .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+                                                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                                                            try {
+                                                                                decrypt("/notes_DB_v01.db");
+                                                                                Snackbar.make(frameLayout, getString(R.string.toast_done), Snackbar.LENGTH_LONG).show();
+                                                                            } catch (Exception e) {
+                                                                                Snackbar.make(frameLayout, getString(R.string.toast_error), Snackbar.LENGTH_LONG).show();
+                                                                                e.printStackTrace();
+                                                                            }
+                                                                        }
+                                                                    })
+                                                                    .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+                                                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                                                            dialog.cancel();
+                                                                        }
+                                                                    }).show();
+                                                        }
+                                                        if (options[item].equals(getString(R.string.number_title))) {
+                                                            new AlertDialog.Builder(getActivity())
+                                                                    .setTitle(getString(R.string.action_restore))
+                                                                    .setMessage(getString(R.string.toast_confirm_restore))
+                                                                    .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+                                                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                                                            try {
+                                                                                decrypt("/random_DB_v01.db");
+                                                                                Snackbar.make(frameLayout, getString(R.string.toast_done), Snackbar.LENGTH_LONG).show();
+                                                                            } catch (Exception e) {
+                                                                                Snackbar.make(frameLayout, getString(R.string.toast_error), Snackbar.LENGTH_LONG).show();
+                                                                                e.printStackTrace();
+                                                                            }
+                                                                        }
+                                                                    })
+                                                                    .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+                                                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                                                            dialog.cancel();
+                                                                        }
+                                                                    }).show();
+                                                        }
+                                                        if (options[item].equals(getString(R.string.todo_title))) {
+                                                            new AlertDialog.Builder(getActivity())
+                                                                    .setTitle(getString(R.string.action_restore))
+                                                                    .setMessage(getString(R.string.toast_confirm_restore))
+                                                                    .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+                                                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                                                            try {
+                                                                                decrypt("/todo_DB_v01.db");
+                                                                                Snackbar.make(frameLayout, getString(R.string.toast_done), Snackbar.LENGTH_LONG).show();
+                                                                            } catch (Exception e) {
+                                                                                Snackbar.make(frameLayout, getString(R.string.toast_error), Snackbar.LENGTH_LONG).show();
+                                                                                e.printStackTrace();
+                                                                            }
+                                                                        }
+                                                                    })
+                                                                    .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+                                                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                                                            dialog.cancel();
+                                                                        }
+                                                                    }).show();
+                                                        }
+                                                        if (options[item].equals(getString(R.string.count_title))) {
+                                                            new AlertDialog.Builder(getActivity())
+                                                                    .setTitle(getString(R.string.action_restore))
+                                                                    .setMessage(getString(R.string.toast_confirm_restore))
+                                                                    .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+                                                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                                                            try {
+                                                                                decrypt("/count_DB_v01.db");
+                                                                                Snackbar.make(frameLayout, getString(R.string.toast_done), Snackbar.LENGTH_LONG).show();
+                                                                            } catch (Exception e) {
+                                                                                Snackbar.make(frameLayout, getString(R.string.toast_error), Snackbar.LENGTH_LONG).show();
+                                                                                e.printStackTrace();
+                                                                            }
+                                                                        }
+                                                                    })
+                                                                    .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+                                                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                                                            dialog.cancel();
+                                                                        }
+                                                                    }).show();
+                                                        }
+                                                    }
+                                                }).show();
+                                    }
+
+                                    if (options2[item].equals(getString(R.string.action_delete))) {
+
+                                        new AlertDialog.Builder(getActivity())
+                                                .setTitle(getString(R.string.action_delete))
+                                                .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                                        dialog.cancel();
+                                                    }
+                                                })
+                                                .setItems(options, new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int item) {
+                                                        if (options[item].equals(getString(R.string.menu_all))) {
+                                                            new AlertDialog.Builder(getActivity())
+                                                                    .setTitle(getString(R.string.action_delete))
+                                                                    .setMessage(getString(R.string.toast_confirm_delete))
+                                                                    .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+                                                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                                                            getActivity().deleteDatabase("bookmarks_DB_v01.db");
+                                                                            getActivity().deleteDatabase("courses_DB_v01.db");
+                                                                            getActivity().deleteDatabase("notes_DB_v01.db");
+                                                                            getActivity().deleteDatabase("random_DB_v01.db");
+                                                                            getActivity().deleteDatabase("todo_DB_v01.db");
+                                                                            getActivity().deleteDatabase("count_DB_v01.db");
+                                                                            Bookmarks_helper.insertDefaultBookmarks(getActivity());
+
+                                                                            Snackbar.make(frameLayout, getString(R.string.toast_done), Snackbar.LENGTH_LONG).show();
+                                                                        }
+                                                                    })
+                                                                    .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+                                                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                                                            dialog.cancel();
+                                                                        }
+                                                                    }).show();
+                                                        }
+                                                        if (options[item].equals(getString(R.string.title_bookmarks))) {
+                                                            new AlertDialog.Builder(getActivity())
+                                                                    .setTitle(getString(R.string.action_delete))
+                                                                    .setMessage(getString(R.string.toast_confirm_delete))
+                                                                    .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+                                                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                                                            getActivity().deleteDatabase("bookmarks_DB_v01.db");
+                                                                            Bookmarks_helper.insertDefaultBookmarks(getActivity());
+                                                                            Snackbar.make(frameLayout, getString(R.string.toast_done), Snackbar.LENGTH_LONG).show();
+                                                                        }
+                                                                    })
+                                                                    .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+                                                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                                                            dialog.cancel();
+                                                                        }
+                                                                    }).show();
+                                                        }
+                                                        if (options[item].equals(getString(R.string.courseList_title))) {
+                                                            new AlertDialog.Builder(getActivity())
+                                                                    .setTitle(getString(R.string.action_delete))
+                                                                    .setMessage(getString(R.string.toast_confirm_delete))
+                                                                    .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+                                                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                                                            getActivity().deleteDatabase("courses_DB_v01.db");
+                                                                            Snackbar.make(frameLayout, getString(R.string.toast_done), Snackbar.LENGTH_LONG).show();
+                                                                        }
+                                                                    })
+                                                                    .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+                                                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                                                            dialog.cancel();
+                                                                        }
+                                                                    }).show();
+                                                        }
+                                                        if (options[item].equals(getString(R.string.title_notes))) {
+                                                            new AlertDialog.Builder(getActivity())
+                                                                    .setTitle(getString(R.string.action_delete))
+                                                                    .setMessage(getString(R.string.toast_confirm_delete))
+                                                                    .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+                                                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                                                            getActivity().deleteDatabase("notes_DB_v01.db");
+                                                                            Snackbar.make(frameLayout, getString(R.string.toast_done), Snackbar.LENGTH_LONG).show();
+                                                                        }
+                                                                    })
+                                                                    .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+                                                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                                                            dialog.cancel();
+                                                                        }
+                                                                    }).show();
+                                                        }
+                                                        if (options[item].equals(getString(R.string.number_title))) {
+                                                            new AlertDialog.Builder(getActivity())
+                                                                    .setTitle(getString(R.string.action_delete))
+                                                                    .setMessage(getString(R.string.toast_confirm_delete))
+                                                                    .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+                                                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                                                            getActivity().deleteDatabase("random_DB_v01.db");
+                                                                            Snackbar.make(frameLayout, getString(R.string.toast_done), Snackbar.LENGTH_LONG).show();
+                                                                        }
+                                                                    })
+                                                                    .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+                                                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                                                            dialog.cancel();
+                                                                        }
+                                                                    }).show();
+                                                        }
+                                                        if (options[item].equals(getString(R.string.todo_title))) {
+                                                            new AlertDialog.Builder(getActivity())
+                                                                    .setTitle(getString(R.string.action_delete))
+                                                                    .setMessage(getString(R.string.toast_confirm_delete))
+                                                                    .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+                                                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                                                            getActivity().deleteDatabase("todo_DB_v01.db");
+                                                                            Snackbar.make(frameLayout, getString(R.string.toast_done), Snackbar.LENGTH_LONG).show();
+                                                                        }
+                                                                    })
+                                                                    .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+                                                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                                                            dialog.cancel();
+                                                                        }
+                                                                    }).show();
+                                                        }
+                                                        if (options[item].equals(getString(R.string.count_title))) {
+                                                            new AlertDialog.Builder(getActivity())
+                                                                    .setTitle(getString(R.string.action_delete))
+                                                                    .setMessage(getString(R.string.toast_confirm_delete))
+                                                                    .setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+                                                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                                                            getActivity().deleteDatabase("count_DB_v01.db");
+                                                                            Snackbar.make(frameLayout, getString(R.string.toast_done), Snackbar.LENGTH_LONG).show();
+                                                                        }
+                                                                    })
+                                                                    .setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+                                                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                                                            dialog.cancel();
+                                                                        }
+                                                                    }).show();
+                                                        }
+                                                    }
+                                                }).show();
                                     }
                                 }
                             }).show();
@@ -451,6 +847,8 @@ public class Activity_settings extends AppCompatActivity {
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
 
+            frameLayout = getActivity().findViewById(R.id.content_frame);
+
             addPreferencesFromResource(R.xml.user_settings);
             addUsernameListener();
             addProtectListener();
@@ -458,7 +856,6 @@ public class Activity_settings extends AppCompatActivity {
             addIntroListener();
             addShortcutListener();
             addPermissionListener();
-            addPermissionDistListener();
         }
 
         private void decrypt(String name) throws IOException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {

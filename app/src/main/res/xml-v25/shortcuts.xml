@@ -18,6 +18,23 @@
     </shortcut>
 
     <shortcut
+        android:shortcutId="shortcutFiles"
+        android:enabled="true"
+        android:icon="@drawable/qc_files"
+        android:shortcutShortLabel="@string/title_files"
+        android:shortcutLongLabel="@string/title_files"
+        android:shortcutDisabledMessage="@string/title_files">
+        <intent
+            android:action="shortcutFiles"
+            android:targetPackage="de.baumann.hhsmoodle"
+            android:targetClass="de.baumann.hhsmoodle.activities.Activity_splash" />
+        <!-- If your shortcut is associated with multiple intents, include them
+             here. The last intent in the list is what the user sees when they
+             launch this shortcut. -->
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+
+    <shortcut
         android:shortcutId="shortcutToDo"
         android:enabled="true"
         android:icon="@drawable/qc_todo"
@@ -43,23 +60,6 @@
         android:shortcutDisabledMessage="@string/title_notes">
         <intent
             android:action="shortcutNotes"
-            android:targetPackage="de.baumann.hhsmoodle"
-            android:targetClass="de.baumann.hhsmoodle.activities.Activity_splash" />
-        <!-- If your shortcut is associated with multiple intents, include them
-             here. The last intent in the list is what the user sees when they
-             launch this shortcut. -->
-        <categories android:name="android.shortcut.conversation" />
-    </shortcut>
-
-    <shortcut
-        android:shortcutId="shortcutSchedule"
-        android:enabled="true"
-        android:icon="@drawable/qc_schedule"
-        android:shortcutShortLabel="@string/schedule_title"
-        android:shortcutLongLabel="@string/schedule_title"
-        android:shortcutDisabledMessage="@string/schedule_title">
-        <intent
-            android:action="shortcutSchedule"
             android:targetPackage="de.baumann.hhsmoodle"
             android:targetClass="de.baumann.hhsmoodle.activities.Activity_splash" />
         <!-- If your shortcut is associated with multiple intents, include them

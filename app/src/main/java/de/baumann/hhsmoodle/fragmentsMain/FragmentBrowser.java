@@ -41,6 +41,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -115,7 +116,7 @@ public class FragmentBrowser extends Fragment {
     @SuppressLint("SetJavaScriptEnabled")
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_screen_browser, container, false);
 
@@ -127,11 +128,11 @@ public class FragmentBrowser extends Fragment {
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         sharedPref.edit().putString("browserStarted", "true").apply();
 
-        customViewContainer = (FrameLayout) rootView.findViewById(R.id.customViewContainer);
-        progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
-        viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
+        customViewContainer = rootView.findViewById(R.id.customViewContainer);
+        progressBar = rootView.findViewById(R.id.progressBar);
+        viewPager = getActivity().findViewById(R.id.viewpager);
 
-        SwipeRefreshLayout swipeView = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe);
+        SwipeRefreshLayout swipeView = rootView.findViewById(R.id.swipe);
         assert swipeView != null;
         swipeView.setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent);
         swipeView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -141,12 +142,12 @@ public class FragmentBrowser extends Fragment {
             }
         });
 
-        mWebView = (WebView) rootView.findViewById(R.id.webView);
+        mWebView = rootView.findViewById(R.id.webView);
         mWebChromeClient = new myWebChromeClient();
         mWebView.setWebChromeClient(mWebChromeClient);
 
-        imageButton_left = (ImageButton) rootView.findViewById(R.id.imageButton_left);
-        imageButton_right = (ImageButton) rootView.findViewById(R.id.imageButton_right);
+        imageButton_left = rootView.findViewById(R.id.imageButton_left);
+        imageButton_right = rootView.findViewById(R.id.imageButton_right);
 
         imageButton_left.setVisibility(View.INVISIBLE);
         imageButton_right.setVisibility(View.INVISIBLE);
@@ -248,7 +249,7 @@ public class FragmentBrowser extends Fragment {
                     .setAction(getString(R.string.toast_yes), new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            ViewPager viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
+                            ViewPager viewPager = getActivity().findViewById(R.id.viewpager);
                             viewPager.setCurrentItem(5, true);
                         }
                     });
@@ -334,7 +335,7 @@ public class FragmentBrowser extends Fragment {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 View dialogView = View.inflate(getActivity(), R.layout.dialog_edit_title, null);
 
-                final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
+                final EditText edit_title = dialogView.findViewById(R.id.pass_title);
                 edit_title.setHint(R.string.bookmark_edit_title);
                 edit_title.setText(mWebView.getTitle());
 

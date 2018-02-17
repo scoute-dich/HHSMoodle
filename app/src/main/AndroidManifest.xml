@@ -4,12 +4,9 @@
     package="de.baumann.hhsmoodle">
 
     <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permisson.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
 
     <application
         android:allowBackup="true"
@@ -46,7 +43,7 @@
                 <action android:name="shortcutNotes" />
                 <action android:name="shortcutToDo" />
                 <action android:name="shortcutBrowser" />
-                <action android:name="shortcutSchedule" />
+                <action android:name="shortcutFiles" />
             </intent-filter>
 
             <intent-filter>
@@ -73,7 +70,7 @@
                 <action android:name="shortcutNotes_HS" />
                 <action android:name="shortcutToDo_HS" />
                 <action android:name="shortcutBrowser_HS" />
-                <action android:name="shortcutSchedule_HS" />
+                <action android:name="shortcutFiles_HS" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -144,11 +141,6 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name=".data_schedule.Schedule_Help"
-            android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity
             android:name=".fragmentsMain.FragmentGrades_Help"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -160,11 +152,6 @@
 
         <activity
             android:name=".data_random.Random_Help"
-            android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity
-            android:name=".data_subjects.Subjects_Help"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar" />
 
@@ -193,21 +180,6 @@
             android:theme="@style/AppThemeDialog" />
 
         <activity
-            android:name=".popup.Popup_subjects"
-            android:noHistory="true"
-            android:launchMode="singleTask"
-            android:theme="@style/AppThemeDialog">
-            <intent-filter>
-                <action android:name="subjectList_random" />
-                <action android:name="subjectList_todo" />
-                <action android:name="subjectList_note" />
-                <action android:name="subjectList_subject" />
-                <action android:name="subjectList_count" />
-                <action android:name="search_bySubject" />
-            </intent-filter>
-        </activity>
-
-        <activity
             android:name=".popup.Popup_todo"
             android:noHistory="true"
             android:launchMode="singleTask"
@@ -223,7 +195,7 @@
             android:name=".popup.Popup_todo_restart"
             android:noHistory="true"
             android:launchMode="singleTask"
-            android:theme="@style/AppThemeDialog" />
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
 
         <activity
             android:name=".popup.Popup_courseList"
@@ -263,10 +235,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths"/>
         </provider>
-
-        <service android:name="de.baumann.hhsmoodle.helper.class_NotService"/>
-        <service android:name="de.baumann.hhsmoodle.helper.class_AlarmService"/>
-
 
         <receiver android:name="de.baumann.hhsmoodle.helper.RebootReceiver_not">
             <intent-filter>

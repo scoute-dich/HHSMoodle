@@ -143,6 +143,13 @@ class About_content {
                 .setOnClickListener(ConvenienceBuilder.createWebViewDialogOnClickAction(c, "Material Design Icons", "https://github.com/Templarian/MaterialDesign", true, false))
                 .build());
 
+        convenienceCardBuilder.addItem(new MaterialAboutActionItem.Builder()
+                .text("RxImagePicker")
+                .subText(R.string.about_license_1)
+                .icon(R.drawable.github_circle)
+                .setOnClickListener(ConvenienceBuilder.createWebViewDialogOnClickAction(c, "RxImagePicker", "https://github.com/MLSDev/RxImagePicker", true, false))
+                .build());
+
         return new MaterialAboutList(appCardBuilder.build(), authorCardBuilder.build(), convenienceCardBuilder.build());
     }
 

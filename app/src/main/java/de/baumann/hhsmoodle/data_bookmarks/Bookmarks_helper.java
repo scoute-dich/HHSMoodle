@@ -24,9 +24,9 @@ import android.app.Activity;
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.helper.helper_main;
 
-class Bookmarks_helper {
+public class Bookmarks_helper {
 
-    static void insertDefaultBookmarks (Activity activity) {
+    public static void insertDefaultBookmarks (Activity activity) {
 
         Bookmarks_DbAdapter db = new Bookmarks_DbAdapter(activity);
         db.open();

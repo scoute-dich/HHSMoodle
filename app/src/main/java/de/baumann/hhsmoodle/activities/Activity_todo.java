@@ -23,7 +23,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -103,7 +102,7 @@ public class Activity_todo extends AppCompatActivity {
         setContentView(R.layout.activity_todo);
         setTitle(toDo_title);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         helper_main.onStart(Activity_todo.this);
 
@@ -124,13 +123,13 @@ public class Activity_todo extends AppCompatActivity {
             Log.e("Exception", "File write failed: " + e.toString());
         }
 
-        etNewItem = (EditText) findViewById(R.id.etNewItem);
-        lvItems = (ListView) findViewById(R.id.lvItems);
+        etNewItem = findViewById(R.id.etNewItem);
+        lvItems = findViewById(R.id.lvItems);
         items = new ArrayList<>();
         readItems();
         setAdapter();
         
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -196,8 +195,8 @@ public class Activity_todo extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(Activity_todo.this);
                 View dialogView = View.inflate(Activity_todo.this, R.layout.dialog_edit_text_singleline, null);
 
-                final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
-                ImageButton ib_paste = (ImageButton) dialogView.findViewById(R.id.imageButtonPaste);
+                final EditText edit_title = dialogView.findViewById(R.id.pass_title);
+                ImageButton ib_paste = dialogView.findViewById(R.id.imageButtonPaste);
 
                 ib_paste.setOnClickListener(new View.OnClickListener() {
 
@@ -280,13 +279,14 @@ public class Activity_todo extends AppCompatActivity {
 
                 if (convertView == null) {
                     LayoutInflater infInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    assert infInflater != null;
                     convertView = infInflater.inflate(R.layout.list_item_todo, parent, false);
                 }
 
                 getValues(position);
 
-                final ImageButton ib_plus = (ImageButton) convertView.findViewById(R.id.but_plus);
-                final TextView textTITLE = (TextView) convertView.findViewById(R.id.count_title);
+                final ImageButton ib_plus = convertView.findViewById(R.id.but_plus);
+                final TextView textTITLE = convertView.findViewById(R.id.count_title);
                 final StrikethroughSpan STRIKE_THROUGH_SPAN = new StrikethroughSpan();
 
                 if (countString.equals("[-]")) {

@@ -1,3 +1,15 @@
+### 4.6
+- neu: Wechsel der Bibliothek um Bilder aus zu wählen
+- neu: Datenbanken einzeln löschen, sichern, wieder herstellen
+- entfernt: automatischer Flugmodus
+- entfernt: Lautlosmodus
+- entfernt: Fächerlisten
+- entfernt: Stundenplan
+- fix: Dateien teilen
+- fix: Anhänge aus Versehen gelöscht
+- fix: bearbeiten Lesezeichen Icon
+- fix: einige kleine Fehler
+
 ### 4.5
 - neu: Einträge abhaken (Todoliste)
 - neu: neue Einträge uas Fächerliste
@@ -32,7 +44,6 @@
 - fix: App Crash bei älteren Android Versionen (wenn Einstellungen geöffnet werden)
 
 ### 4.0
-
 - neu: Zähler
 - neu: Suche nach Kursen
 - verbessert: Suche

@@ -63,7 +63,6 @@ import de.baumann.hhsmoodle.data_random.Random_helper;
 import de.baumann.hhsmoodle.data_todo.Todo_helper;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.popup.Popup_courseList;
-import de.baumann.hhsmoodle.popup.Popup_subjects;
 
 public class Bookmarks_Fragment extends Fragment {
 
@@ -82,7 +81,7 @@ public class Bookmarks_Fragment extends Fragment {
     private int index;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_screen_notes, container, false);
 
@@ -94,16 +93,16 @@ public class Bookmarks_Fragment extends Fragment {
             sharedPref.edit().putString("default_bookmarks", "yes").apply();
         }
 
-        imgHeader = (ImageView) rootView.findViewById(R.id.imageView_header);
+        imgHeader = rootView.findViewById(R.id.imageView_header);
         helper_main.setImageHeader(getActivity(), imgHeader);
 
-        filter_layout = (RelativeLayout) rootView.findViewById(R.id.filter_layout);
+        filter_layout = rootView.findViewById(R.id.filter_layout);
         filter_layout.setVisibility(View.GONE);
-        lv = (ListView) rootView.findViewById(R.id.listNotes);
-        filter = (EditText) rootView.findViewById(R.id.myFilter);
-        viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
+        lv = rootView.findViewById(R.id.listNotes);
+        filter = rootView.findViewById(R.id.myFilter);
+        viewPager = getActivity().findViewById(R.id.viewpager);
 
-        ImageButton ib_hideKeyboard = (ImageButton) rootView.findViewById(R.id.ib_hideKeyboard);
+        ImageButton ib_hideKeyboard = rootView.findViewById(R.id.ib_hideKeyboard);
         ib_hideKeyboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -117,7 +116,7 @@ public class Bookmarks_Fragment extends Fragment {
             }
         });
 
-        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        FloatingActionButton fab = rootView.findViewById(R.id.fab);
         fab.setVisibility(View.GONE);
 
         //calling Notes_DbAdapter
@@ -194,8 +193,8 @@ public class Bookmarks_Fragment extends Fragment {
                 final String bookmarks_creation = row.getString(row.getColumnIndexOrThrow("bookmarks_creation"));
 
                 View v = super.getView(position, convertView, parent);
-                ImageView iv_icon = (ImageView) v.findViewById(R.id.icon_notes);
-                final ImageView iv_attachment = (ImageView) v.findViewById(R.id.att_notes);
+                ImageView iv_icon = v.findViewById(R.id.icon_notes);
+                final ImageView iv_attachment = v.findViewById(R.id.att_notes);
 
                 helper_main.switchIcon(getActivity(), bookmarks_icon,"bookmarks_icon", iv_icon);
 
@@ -278,7 +277,7 @@ public class Bookmarks_Fragment extends Fragment {
                             public View getView(int position, View convertView, @NonNull ViewGroup parent) {
                                 //Use super class to create the View
                                 View v = super.getView(position, convertView, parent);
-                                TextView tv = (TextView)v.findViewById(android.R.id.text1);
+                                TextView tv = v.findViewById(android.R.id.text1);
                                 tv.setTextSize(18);
                                 tv.setCompoundDrawablesWithIntrinsicBounds(items[position].icon, 0, 0, 0);
                                 //Add margin between image and text (support various screen densities)
@@ -300,76 +299,76 @@ public class Bookmarks_Fragment extends Fragment {
 
                                     public void onClick(DialogInterface dialog, int item) {
                                         if (item == 0) {
-                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "01", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_content), "01", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         } else if (item == 1) {
-                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "02", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_content), "02", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         } else if (item == 2) {
-                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "03", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_content), "03", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         } else if (item == 3) {
-                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "04", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_content), "04", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         } else if (item == 4) {
-                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "05", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_content), "05", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         } else if (item == 5) {
-                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "06", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_content), "06", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         } else if (item == 6) {
-                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "07", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_content), "07", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         } else if (item == 7) {
-                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "08", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_content), "08", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         } else if (item == 8) {
-                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "09", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_content), "09", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         } else if (item == 9) {
-                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "10", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_content), "10", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         } else if (item == 10) {
-                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "11", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_content), "11", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         } else if (item == 11) {
-                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "12", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_content), "12", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         } else if (item == 12) {
-                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "13", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_content), "13", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         } else if (item == 13) {
-                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "14", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_content), "14", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         } else if (item == 14) {
-                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "15", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_content), "15", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         } else if (item == 15) {
-                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "16", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_content), "16", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         } else if (item == 16) {
-                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "17", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_content), "17", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         } else if (item == 17) {
-                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "18", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_content), "18", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         } else if (item == 18) {
-                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "19", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_content), "19", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         } else if (item == 19) {
-                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "20", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_content), "20", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         } else if (item == 20) {
-                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "21", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_content), "21", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         } else if (item == 21) {
-                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "22", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_content), "22", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         } else if (item == 22) {
-                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "23", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_content), "23", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         } else if (item == 23) {
-                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_title), "24", bookmarks_attachment, bookmarks_creation);
+                                            db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_content), "24", bookmarks_attachment, bookmarks_creation);
                                             setBookmarksList();
                                         }
                                     }
@@ -408,7 +407,7 @@ public class Bookmarks_Fragment extends Fragment {
                 Cursor row2 = (Cursor) lv.getItemAtPosition(position);
                 final String bookmarks_content = row2.getString(row2.getColumnIndexOrThrow("bookmarks_content"));
                 sharedPref.edit().putString("loadURL", bookmarks_content).apply();
-                ViewPager viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
+                ViewPager viewPager = getActivity().findViewById(R.id.viewpager);
                 viewPager.setCurrentItem(0);
             }
         });
@@ -450,7 +449,7 @@ public class Bookmarks_Fragment extends Fragment {
                                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                     View dialogView = View.inflate(getActivity(), R.layout.dialog_edit_title, null);
 
-                                    final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
+                                    final EditText edit_title = dialogView.findViewById(R.id.pass_title);
                                     edit_title.setHint(R.string.bookmark_edit_title);
                                     edit_title.setText(bookmarks_title);
 
@@ -516,7 +515,7 @@ public class Bookmarks_Fragment extends Fragment {
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createEvent))) {
-                                    helper_main.createCalendarEvent(getActivity(), bookmarks_title, bookmarks_content);
+                                    helper_main.createCalendarEvent(getActivity(), bookmarks_title, bookmarks_content, lv);
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createShortcut))) {
@@ -553,8 +552,6 @@ public class Bookmarks_Fragment extends Fragment {
         menu.findItem(R.id.sort_ext).setVisible(false);
         menu.findItem(R.id.filter_content).setVisible(false);
         menu.findItem(R.id.filter_att).setVisible(false);
-        menu.findItem(R.id.filter_teacher).setVisible(false);
-        menu.findItem(R.id.filter_room).setVisible(false);
         menu.findItem(R.id.filter_ext).setVisible(false);
         setTitle();
         helper_main.hideKeyboard(getActivity());
@@ -600,11 +597,6 @@ public class Bookmarks_Fragment extends Fragment {
                 Intent mainIntent = new Intent(getActivity(), Popup_courseList.class);
                 mainIntent.setAction("search_byCourse");
                 startActivity(mainIntent);
-                return true;
-            case R.id.filter_subject:
-                Intent mainIntent2 = new Intent(getActivity(), Popup_subjects.class);
-                mainIntent2.setAction("search_bySubject");
-                startActivity(mainIntent2);
                 return true;
 
             case R.id.filter_today:

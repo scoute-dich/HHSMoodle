@@ -120,7 +120,7 @@ public class helper_main {
         View toastLayout = inflater.inflate(R.layout.toast,
                 (ViewGroup) activity.findViewById(R.id.toast_root_view));
 
-        TextView header = (TextView) toastLayout.findViewById(R.id.toast_message);
+        TextView header = toastLayout.findViewById(R.id.toast_message);
         header.setText(Text);
 
         Toast toast = new Toast(activity.getApplicationContext());
@@ -302,13 +302,19 @@ public class helper_main {
         }
     }
 
-    public static void createCalendarEvent (Activity activity, String title, String description) {
+    public static void createCalendarEvent (Activity activity, String title, String description, View view) {
 
-        Intent calIntent = new Intent(Intent.ACTION_INSERT);
-        calIntent.setType("vnd.android.cursor.item/event");
-        calIntent.putExtra(CalendarContract.Events.TITLE, title);
-        calIntent.putExtra(CalendarContract.Events.DESCRIPTION, description);
-        activity.startActivity(calIntent);
+        try {
+            Intent calIntent = new Intent(Intent.ACTION_INSERT);
+            calIntent.setType("vnd.android.cursor.item/event");
+            calIntent.putExtra(CalendarContract.Events.TITLE, title);
+            calIntent.putExtra(CalendarContract.Events.DESCRIPTION, description);
+            activity.startActivity(calIntent);
+        } catch (Exception e) {
+            Snackbar snackbar = Snackbar
+                    .make(view, R.string.app_missing, Snackbar.LENGTH_LONG);
+            snackbar.show();
+        }
     }
 
     public static void showKeyboard(final Activity activity, final EditText editText) {

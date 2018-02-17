@@ -39,7 +39,6 @@ import java.util.Random;
 
 import de.baumann.hhsmoodle.HHS_MainScreen;
 import de.baumann.hhsmoodle.R;
-import de.baumann.hhsmoodle.data_schedule.Schedule_helper;
 import de.baumann.hhsmoodle.helper.class_SecurePreferences;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.helper.helper_security;
@@ -71,30 +70,28 @@ public class Activity_splash extends AppCompatActivity {
                 char c = chars[random.nextInt(chars.length)];
                 sb.append(c);
             }
-            Schedule_helper.insertDefaultBookmarks(Activity_splash.this);
             sharedPrefSec.put("key_encryption_01", sb.toString());
             sharedPref.edit().putString("key_generated_01", "yes").apply();
         }
 
         helper_security.decryptDatabases(Activity_splash.this);
-        Schedule_helper.setAlarm(Activity_splash.this);
         helper_main.onStart(Activity_splash.this);
 
-        TextInputLayout editUsernameLayout = (TextInputLayout) findViewById(R.id.editUsernameLayout);
+        TextInputLayout editUsernameLayout = findViewById(R.id.editUsernameLayout);
         editUsernameLayout.setVisibility(View.INVISIBLE);
-        TextInputLayout editPasswordLayout = (TextInputLayout) findViewById(R.id.editPasswordLayout);
+        TextInputLayout editPasswordLayout = findViewById(R.id.editPasswordLayout);
         editPasswordLayout.setVisibility(View.INVISIBLE);
 
-        editUsername = (EditText) findViewById(R.id.editUsername);
+        editUsername = findViewById(R.id.editUsername);
         assert editUsername != null;
         editUsername.setVisibility(View.INVISIBLE);
         editUsername.getBackground().mutate().setColorFilter(ContextCompat.getColor(Activity_splash.this, R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
-        editPassword = (EditText) findViewById(R.id.editPassword);
+        editPassword = findViewById(R.id.editPassword);
         assert editPassword != null;
         editPassword.setVisibility(View.INVISIBLE);
         editPassword.getBackground().mutate().setColorFilter(ContextCompat.getColor(Activity_splash.this, R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
-        Image = (ImageView) findViewById(R.id.image);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        Image = findViewById(R.id.image);
+        FloatingActionButton fab = findViewById(R.id.fab);
         assert fab != null;
         fab.setVisibility(View.INVISIBLE);
 
@@ -171,6 +168,7 @@ public class Activity_splash extends AppCompatActivity {
             new Handler().postDelayed(new Runnable() {
                 public void run() {
                     Uri data = intent.getData();
+                    assert data != null;
                     String link = data.toString();
                     sharedPref.edit().putString("loadURL", link).apply();
                     Intent mainIntent = new Intent(Activity_splash.this, HHS_MainScreen.class);
@@ -224,12 +222,12 @@ public class Activity_splash extends AppCompatActivity {
                     overridePendingTransition(0,0);
                 }
             }, 500);
-        } else if ("shortcutSchedule".equals(action)) {
+        } else if ("shortcutFiles".equals(action)) {
             helper_security.decryptDatabases(Activity_splash.this);
             new Handler().postDelayed(new Runnable() {
                 public void run() {
                     Intent mainIntent = new Intent(Activity_splash.this, HHS_MainScreen.class);
-                    mainIntent.setAction("shortcutSchedule_HS");
+                    mainIntent.setAction("shortcutFiles_HS");
                     startActivity(mainIntent);
                     Activity_splash.this.finish();
                     overridePendingTransition(0,0);

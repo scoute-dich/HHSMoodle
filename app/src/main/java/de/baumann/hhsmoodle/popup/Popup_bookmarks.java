@@ -49,7 +49,7 @@ public class Popup_bookmarks extends Activity {
 
         setContentView(R.layout.activity_popup);
 
-        lv = (ListView) findViewById(R.id.dialogList);
+        lv = findViewById(R.id.dialogList);
 
         //calling Notes_DbAdapter
         db = new Bookmarks_DbAdapter(Popup_bookmarks.this);
@@ -77,7 +77,7 @@ public class Popup_bookmarks extends Activity {
                 Cursor row2 = (Cursor) lv.getItemAtPosition(position);
                 final String bookmarks_icon = row2.getString(row2.getColumnIndexOrThrow("bookmarks_icon"));
                 View v = super.getView(position, convertView, parent);
-                ImageView iv_icon = (ImageView) v.findViewById(R.id.icon_notes);
+                ImageView iv_icon = v.findViewById(R.id.icon_notes);
                 helper_main.switchIcon(Popup_bookmarks.this, bookmarks_icon, "subject_icon", iv_icon);
                 return v;
             }

@@ -72,7 +72,6 @@ import de.baumann.hhsmoodle.data_random.Random_helper;
 import de.baumann.hhsmoodle.data_todo.Todo_helper;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.popup.Popup_courseList;
-import de.baumann.hhsmoodle.popup.Popup_subjects;
 
 public class Notes_Fragment extends Fragment {
 
@@ -89,7 +88,6 @@ public class Notes_Fragment extends Fragment {
     private FloatingActionButton fab;
     private LinearLayout fabLayout1;
     private LinearLayout fabLayout2;
-    private LinearLayout fabLayout3;
     private boolean isFABOpen=false;
     private ViewPager viewPager;
 
@@ -97,23 +95,23 @@ public class Notes_Fragment extends Fragment {
     private int index;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_screen_notes, container, false);
 
         PreferenceManager.setDefaultValues(getActivity(), R.xml.user_settings, false);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-        imgHeader = (ImageView) rootView.findViewById(R.id.imageView_header);
+        imgHeader = rootView.findViewById(R.id.imageView_header);
         helper_main.setImageHeader(getActivity(), imgHeader);
 
-        filter_layout = (RelativeLayout) rootView.findViewById(R.id.filter_layout);
+        filter_layout = rootView.findViewById(R.id.filter_layout);
         filter_layout.setVisibility(View.GONE);
-        lv = (ListView) rootView.findViewById(R.id.listNotes);
-        filter = (EditText) rootView.findViewById(R.id.myFilter);
-        viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
+        lv = rootView.findViewById(R.id.listNotes);
+        filter = rootView.findViewById(R.id.myFilter);
+        viewPager = getActivity().findViewById(R.id.viewpager);
 
-        ImageButton ib_hideKeyboard =(ImageButton) rootView.findViewById(R.id.ib_hideKeyboard);
+        ImageButton ib_hideKeyboard = rootView.findViewById(R.id.ib_hideKeyboard);
         ib_hideKeyboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -127,12 +125,11 @@ public class Notes_Fragment extends Fragment {
             }
         });
 
-        fabLayout1= (LinearLayout) rootView.findViewById(R.id.fabLayout1);
-        fabLayout2= (LinearLayout) rootView.findViewById(R.id.fabLayout2);
-        fabLayout3= (LinearLayout) rootView.findViewById(R.id.fabLayout3);
-        fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
-        FloatingActionButton fab1 = (FloatingActionButton) rootView.findViewById(R.id.fab1);
-        FloatingActionButton fab2 = (FloatingActionButton) rootView.findViewById(R.id.fab2);
+        fabLayout1= rootView.findViewById(R.id.fabLayout1);
+        fabLayout2= rootView.findViewById(R.id.fabLayout2);
+        fab = rootView.findViewById(R.id.fab);
+        FloatingActionButton fab1 = rootView.findViewById(R.id.fab1);
+        FloatingActionButton fab2 = rootView.findViewById(R.id.fab2);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,18 +162,6 @@ public class Notes_Fragment extends Fragment {
             }
         });
 
-        FloatingActionButton fab3 = (FloatingActionButton) rootView.findViewById(R.id.fab3);
-        fab3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                closeFABMenu();
-                sharedPref.edit().putString("handleTextCreate", helper_main.createDate()).apply();
-                Intent mainIntent = new Intent(getActivity(), Popup_subjects.class);
-                mainIntent.setAction("subjectList_note");
-                startActivity(mainIntent);
-            }
-        });
-
         //calling Notes_DbAdapter
         db = new Notes_DbAdapter(getActivity());
         db.open();
@@ -191,20 +176,17 @@ public class Notes_Fragment extends Fragment {
         isFABOpen=true;
         fabLayout1.setVisibility(View.VISIBLE);
         fabLayout2.setVisibility(View.VISIBLE);
-        fabLayout3.setVisibility(View.VISIBLE);
 
         fab.animate().rotationBy(180);
         fabLayout1.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
         fabLayout2.animate().translationY(-getResources().getDimension(R.dimen.standard_100));
-        fabLayout3.animate().translationY(-getResources().getDimension(R.dimen.standard_145));
     }
 
     private void closeFABMenu(){
         isFABOpen=false;
         fab.animate().rotationBy(-180);
         fabLayout1.animate().translationY(0);
-        fabLayout2.animate().translationY(0);
-        fabLayout3.animate().translationY(0).setListener(new Animator.AnimatorListener() {
+        fabLayout2.animate().translationY(0).setListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animator) {}
 
@@ -213,7 +195,6 @@ public class Notes_Fragment extends Fragment {
                 if(!isFABOpen){
                     fabLayout1.setVisibility(View.GONE);
                     fabLayout2.setVisibility(View.GONE);
-                    fabLayout3.setVisibility(View.GONE);
                 }
             }
 
@@ -298,8 +279,8 @@ public class Notes_Fragment extends Fragment {
                 final String note_creation = row2.getString(row2.getColumnIndexOrThrow("note_creation"));
 
                 View v = super.getView(position, convertView, parent);
-                ImageView iv_icon = (ImageView) v.findViewById(R.id.icon_notes);
-                ImageView iv_attachment = (ImageView) v.findViewById(R.id.att_notes);
+                ImageView iv_icon = v.findViewById(R.id.icon_notes);
+                ImageView iv_attachment = v.findViewById(R.id.att_notes);
                 helper_main.switchIcon(getActivity(), note_icon, "note_icon", iv_icon);
 
                 switch (note_attachment) {
@@ -359,7 +340,7 @@ public class Notes_Fragment extends Fragment {
                             public View getView(int position, View convertView, @NonNull ViewGroup parent) {
                                 //Use super class to create the View
                                 View v = super.getView(position, convertView, parent);
-                                TextView tv = (TextView)v.findViewById(android.R.id.text1);
+                                TextView tv = v.findViewById(android.R.id.text1);
                                 tv.setTextSize(18);
                                 tv.setCompoundDrawablesWithIntrinsicBounds(items[position].icon, 0, 0, 0);
                                 //Add margin between image and text (support various screen densities)
@@ -518,14 +499,14 @@ public class Notes_Fragment extends Fragment {
                 final String attName = note_attachment.substring(note_attachment.lastIndexOf("/")+1);
                 final String att = getString(R.string.app_att) + ": " + attName;
 
-                attachment = (Button) dialogView.findViewById(R.id.button_att);
+                attachment = dialogView.findViewById(R.id.button_att);
                 if (attName.equals("")) {
                     attachment.setVisibility(View.GONE);
                 } else {
                     attachment.setText(att);
                 }
 
-                textInput = (TextView) dialogView.findViewById(R.id.note_text_input);
+                textInput = dialogView.findViewById(R.id.note_text_input);
                 if (note_content.isEmpty()) {
                     textInput.setVisibility(View.GONE);
                 } else {
@@ -541,8 +522,8 @@ public class Notes_Fragment extends Fragment {
                     }
                 });
 
-                final ImageView be = (ImageView) dialogView.findViewById(R.id.imageButtonPri);
-                final ImageView attImage = (ImageView) dialogView.findViewById(R.id.attImage);
+                final ImageView be = dialogView.findViewById(R.id.imageButtonPri);
+                final ImageView attImage = dialogView.findViewById(R.id.attImage);
 
                 File file2 = new File(note_attachment);
                 if (!file2.exists()) {
@@ -704,7 +685,7 @@ public class Notes_Fragment extends Fragment {
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createEvent))) {
-                                    helper_main.createCalendarEvent(getActivity(), note_title, note_content);
+                                    helper_main.createCalendarEvent(getActivity(), note_title, note_content, lv);
                                 }
 
 
@@ -722,8 +703,6 @@ public class Notes_Fragment extends Fragment {
         super.onPrepareOptionsMenu(menu);
         menu.findItem(R.id.sort_notification).setVisible(false);
         menu.findItem(R.id.sort_ext).setVisible(false);
-        menu.findItem(R.id.filter_teacher).setVisible(false);
-        menu.findItem(R.id.filter_room).setVisible(false);
         menu.findItem(R.id.filter_url).setVisible(false);
         menu.findItem(R.id.filter_ext).setVisible(false);
         setTitle();
@@ -760,11 +739,6 @@ public class Notes_Fragment extends Fragment {
                 Intent mainIntent = new Intent(getActivity(), Popup_courseList.class);
                 mainIntent.setAction("search_byCourse");
                 startActivity(mainIntent);
-                return true;
-            case R.id.filter_subject:
-                Intent mainIntent2 = new Intent(getActivity(), Popup_subjects.class);
-                mainIntent2.setAction("search_bySubject");
-                startActivity(mainIntent2);
                 return true;
 
             case R.id.filter_today:

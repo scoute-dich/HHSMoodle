@@ -75,7 +75,7 @@ public class Activity_course extends AppCompatActivity {
         setContentView(R.layout.activity_random);
         helper_main.onStart(Activity_course.this);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         ActionBar actionBar = getSupportActionBar();
@@ -96,7 +96,7 @@ public class Activity_course extends AppCompatActivity {
 
         setTitle(toDo_title);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setVisibility(View.GONE);
 
         try {
@@ -110,7 +110,7 @@ public class Activity_course extends AppCompatActivity {
             Log.e("Exception", "File write failed: " + e.toString());
         }
 
-        lvItems = (ListView) findViewById(R.id.lvItems);
+        lvItems = findViewById(R.id.lvItems);
         itemsTitle = new ArrayList<>();
         readItemsTitle();
         setAdapter();
@@ -128,7 +128,7 @@ public class Activity_course extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(Activity_course.this);
                 View dialogView = View.inflate(Activity_course.this, R.layout.dialog_edit_text_singleline_count, null);
 
-                final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
+                final EditText edit_title = dialogView.findViewById(R.id.pass_title);
                 edit_title.setText(title);
 
                 builder.setView(dialogView);
@@ -297,7 +297,7 @@ public class Activity_course extends AppCompatActivity {
             index = lvItems.getFirstVisiblePosition();
             View v = lvItems.getChildAt(0);
             top = (v == null) ? 0 : (v.getTop() - lvItems.getPaddingTop());
-            final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
+            final EditText edit_title = dialogView.findViewById(R.id.pass_title);
             edit_title.setHint(R.string.menu_addEntry);
 
             builder.setView(dialogView);

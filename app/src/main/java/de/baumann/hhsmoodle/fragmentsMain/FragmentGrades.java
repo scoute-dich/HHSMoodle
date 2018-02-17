@@ -21,6 +21,7 @@ package de.baumann.hhsmoodle.fragmentsMain;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -157,123 +158,123 @@ public class FragmentGrades extends Fragment {
     private String maxPointsString;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_screen_grade, container, false);
 
-        maxPointsText = (EditText) rootView.findViewById(R.id.maxPoints);
+        maxPointsText = rootView.findViewById(R.id.maxPoints);
         maxPointsText.setText(R.string.grade_100);
 
-        text_100_points = (TextView) rootView.findViewById(R.id.text_100_points);
-        text_99_points = (TextView) rootView.findViewById(R.id.text_99_points);
-        text_98_points = (TextView) rootView.findViewById(R.id.text_98_points);
-        text_97_points = (TextView) rootView.findViewById(R.id.text_97_points);
-        text_96_points = (TextView) rootView.findViewById(R.id.text_96_points);
-        text_95_points = (TextView) rootView.findViewById(R.id.text_95_points);
-        text_94_points = (TextView) rootView.findViewById(R.id.text_94_points);
-        text_93_points = (TextView) rootView.findViewById(R.id.text_93_points);
-        text_92_points = (TextView) rootView.findViewById(R.id.text_92_points);
-        text_91_points = (TextView) rootView.findViewById(R.id.text_91_points);
-        text_90_points = (TextView) rootView.findViewById(R.id.text_90_points);
+        text_100_points = rootView.findViewById(R.id.text_100_points);
+        text_99_points = rootView.findViewById(R.id.text_99_points);
+        text_98_points = rootView.findViewById(R.id.text_98_points);
+        text_97_points = rootView.findViewById(R.id.text_97_points);
+        text_96_points = rootView.findViewById(R.id.text_96_points);
+        text_95_points = rootView.findViewById(R.id.text_95_points);
+        text_94_points = rootView.findViewById(R.id.text_94_points);
+        text_93_points = rootView.findViewById(R.id.text_93_points);
+        text_92_points = rootView.findViewById(R.id.text_92_points);
+        text_91_points = rootView.findViewById(R.id.text_91_points);
+        text_90_points = rootView.findViewById(R.id.text_90_points);
 
-        text_89_points = (TextView) rootView.findViewById(R.id.text_89_points);
-        text_88_points = (TextView) rootView.findViewById(R.id.text_88_points);
-        text_87_points = (TextView) rootView.findViewById(R.id.text_87_points);
-        text_86_points = (TextView) rootView.findViewById(R.id.text_86_points);
-        text_85_points = (TextView) rootView.findViewById(R.id.text_85_points);
-        text_84_points = (TextView) rootView.findViewById(R.id.text_84_points);
-        text_83_points = (TextView) rootView.findViewById(R.id.text_83_points);
-        text_82_points = (TextView) rootView.findViewById(R.id.text_82_points);
-        text_81_points = (TextView) rootView.findViewById(R.id.text_81_points);
-        text_80_points = (TextView) rootView.findViewById(R.id.text_80_points);
+        text_89_points = rootView.findViewById(R.id.text_89_points);
+        text_88_points = rootView.findViewById(R.id.text_88_points);
+        text_87_points = rootView.findViewById(R.id.text_87_points);
+        text_86_points = rootView.findViewById(R.id.text_86_points);
+        text_85_points = rootView.findViewById(R.id.text_85_points);
+        text_84_points = rootView.findViewById(R.id.text_84_points);
+        text_83_points = rootView.findViewById(R.id.text_83_points);
+        text_82_points = rootView.findViewById(R.id.text_82_points);
+        text_81_points = rootView.findViewById(R.id.text_81_points);
+        text_80_points = rootView.findViewById(R.id.text_80_points);
 
-        text_79_points = (TextView) rootView.findViewById(R.id.text_79_points);
-        text_78_points = (TextView) rootView.findViewById(R.id.text_78_points);
-        text_77_points = (TextView) rootView.findViewById(R.id.text_77_points);
-        text_76_points = (TextView) rootView.findViewById(R.id.text_76_points);
-        text_75_points = (TextView) rootView.findViewById(R.id.text_75_points);
-        text_74_points = (TextView) rootView.findViewById(R.id.text_74_points);
-        text_73_points = (TextView) rootView.findViewById(R.id.text_73_points);
-        text_72_points = (TextView) rootView.findViewById(R.id.text_72_points);
-        text_71_points = (TextView) rootView.findViewById(R.id.text_71_points);
-        text_70_points = (TextView) rootView.findViewById(R.id.text_70_points);
+        text_79_points = rootView.findViewById(R.id.text_79_points);
+        text_78_points = rootView.findViewById(R.id.text_78_points);
+        text_77_points = rootView.findViewById(R.id.text_77_points);
+        text_76_points = rootView.findViewById(R.id.text_76_points);
+        text_75_points = rootView.findViewById(R.id.text_75_points);
+        text_74_points = rootView.findViewById(R.id.text_74_points);
+        text_73_points = rootView.findViewById(R.id.text_73_points);
+        text_72_points = rootView.findViewById(R.id.text_72_points);
+        text_71_points = rootView.findViewById(R.id.text_71_points);
+        text_70_points = rootView.findViewById(R.id.text_70_points);
 
-        text_69_points = (TextView) rootView.findViewById(R.id.text_69_points);
-        text_68_points = (TextView) rootView.findViewById(R.id.text_68_points);
-        text_67_points = (TextView) rootView.findViewById(R.id.text_67_points);
-        text_66_points = (TextView) rootView.findViewById(R.id.text_66_points);
-        text_65_points = (TextView) rootView.findViewById(R.id.text_65_points);
-        text_64_points = (TextView) rootView.findViewById(R.id.text_64_points);
-        text_63_points = (TextView) rootView.findViewById(R.id.text_63_points);
-        text_62_points = (TextView) rootView.findViewById(R.id.text_62_points);
-        text_61_points = (TextView) rootView.findViewById(R.id.text_61_points);
-        text_60_points = (TextView) rootView.findViewById(R.id.text_60_points);
+        text_69_points = rootView.findViewById(R.id.text_69_points);
+        text_68_points = rootView.findViewById(R.id.text_68_points);
+        text_67_points = rootView.findViewById(R.id.text_67_points);
+        text_66_points = rootView.findViewById(R.id.text_66_points);
+        text_65_points = rootView.findViewById(R.id.text_65_points);
+        text_64_points = rootView.findViewById(R.id.text_64_points);
+        text_63_points = rootView.findViewById(R.id.text_63_points);
+        text_62_points = rootView.findViewById(R.id.text_62_points);
+        text_61_points = rootView.findViewById(R.id.text_61_points);
+        text_60_points = rootView.findViewById(R.id.text_60_points);
 
-        text_59_points = (TextView) rootView.findViewById(R.id.text_59_points);
-        text_58_points = (TextView) rootView.findViewById(R.id.text_58_points);
-        text_57_points = (TextView) rootView.findViewById(R.id.text_57_points);
-        text_56_points = (TextView) rootView.findViewById(R.id.text_56_points);
-        text_55_points = (TextView) rootView.findViewById(R.id.text_55_points);
-        text_54_points = (TextView) rootView.findViewById(R.id.text_54_points);
-        text_53_points = (TextView) rootView.findViewById(R.id.text_53_points);
-        text_52_points = (TextView) rootView.findViewById(R.id.text_52_points);
-        text_51_points = (TextView) rootView.findViewById(R.id.text_51_points);
-        text_50_points = (TextView) rootView.findViewById(R.id.text_50_points);
+        text_59_points = rootView.findViewById(R.id.text_59_points);
+        text_58_points = rootView.findViewById(R.id.text_58_points);
+        text_57_points = rootView.findViewById(R.id.text_57_points);
+        text_56_points = rootView.findViewById(R.id.text_56_points);
+        text_55_points = rootView.findViewById(R.id.text_55_points);
+        text_54_points = rootView.findViewById(R.id.text_54_points);
+        text_53_points = rootView.findViewById(R.id.text_53_points);
+        text_52_points = rootView.findViewById(R.id.text_52_points);
+        text_51_points = rootView.findViewById(R.id.text_51_points);
+        text_50_points = rootView.findViewById(R.id.text_50_points);
 
-        text_49_points = (TextView) rootView.findViewById(R.id.text_49_points);
-        text_48_points = (TextView) rootView.findViewById(R.id.text_48_points);
-        text_47_points = (TextView) rootView.findViewById(R.id.text_47_points);
-        text_46_points = (TextView) rootView.findViewById(R.id.text_46_points);
-        text_45_points = (TextView) rootView.findViewById(R.id.text_45_points);
-        text_44_points = (TextView) rootView.findViewById(R.id.text_44_points);
-        text_43_points = (TextView) rootView.findViewById(R.id.text_43_points);
-        text_42_points = (TextView) rootView.findViewById(R.id.text_42_points);
-        text_41_points = (TextView) rootView.findViewById(R.id.text_41_points);
-        text_40_points = (TextView) rootView.findViewById(R.id.text_40_points);
+        text_49_points = rootView.findViewById(R.id.text_49_points);
+        text_48_points = rootView.findViewById(R.id.text_48_points);
+        text_47_points = rootView.findViewById(R.id.text_47_points);
+        text_46_points = rootView.findViewById(R.id.text_46_points);
+        text_45_points = rootView.findViewById(R.id.text_45_points);
+        text_44_points = rootView.findViewById(R.id.text_44_points);
+        text_43_points = rootView.findViewById(R.id.text_43_points);
+        text_42_points = rootView.findViewById(R.id.text_42_points);
+        text_41_points = rootView.findViewById(R.id.text_41_points);
+        text_40_points = rootView.findViewById(R.id.text_40_points);
 
-        text_39_points = (TextView) rootView.findViewById(R.id.text_39_points);
-        text_38_points = (TextView) rootView.findViewById(R.id.text_38_points);
-        text_37_points = (TextView) rootView.findViewById(R.id.text_37_points);
-        text_36_points = (TextView) rootView.findViewById(R.id.text_36_points);
-        text_35_points = (TextView) rootView.findViewById(R.id.text_35_points);
-        text_34_points = (TextView) rootView.findViewById(R.id.text_34_points);
-        text_33_points = (TextView) rootView.findViewById(R.id.text_33_points);
-        text_32_points = (TextView) rootView.findViewById(R.id.text_32_points);
-        text_31_points = (TextView) rootView.findViewById(R.id.text_31_points);
-        text_30_points = (TextView) rootView.findViewById(R.id.text_30_points);
+        text_39_points = rootView.findViewById(R.id.text_39_points);
+        text_38_points = rootView.findViewById(R.id.text_38_points);
+        text_37_points = rootView.findViewById(R.id.text_37_points);
+        text_36_points = rootView.findViewById(R.id.text_36_points);
+        text_35_points = rootView.findViewById(R.id.text_35_points);
+        text_34_points = rootView.findViewById(R.id.text_34_points);
+        text_33_points = rootView.findViewById(R.id.text_33_points);
+        text_32_points = rootView.findViewById(R.id.text_32_points);
+        text_31_points = rootView.findViewById(R.id.text_31_points);
+        text_30_points = rootView.findViewById(R.id.text_30_points);
 
-        text_29_points = (TextView) rootView.findViewById(R.id.text_29_points);
-        text_28_points = (TextView) rootView.findViewById(R.id.text_28_points);
-        text_27_points = (TextView) rootView.findViewById(R.id.text_27_points);
-        text_26_points = (TextView) rootView.findViewById(R.id.text_26_points);
-        text_25_points = (TextView) rootView.findViewById(R.id.text_25_points);
-        text_24_points = (TextView) rootView.findViewById(R.id.text_24_points);
-        text_23_points = (TextView) rootView.findViewById(R.id.text_23_points);
-        text_22_points = (TextView) rootView.findViewById(R.id.text_22_points);
-        text_21_points = (TextView) rootView.findViewById(R.id.text_21_points);
-        text_20_points = (TextView) rootView.findViewById(R.id.text_20_points);
+        text_29_points = rootView.findViewById(R.id.text_29_points);
+        text_28_points = rootView.findViewById(R.id.text_28_points);
+        text_27_points = rootView.findViewById(R.id.text_27_points);
+        text_26_points = rootView.findViewById(R.id.text_26_points);
+        text_25_points = rootView.findViewById(R.id.text_25_points);
+        text_24_points = rootView.findViewById(R.id.text_24_points);
+        text_23_points = rootView.findViewById(R.id.text_23_points);
+        text_22_points = rootView.findViewById(R.id.text_22_points);
+        text_21_points = rootView.findViewById(R.id.text_21_points);
+        text_20_points = rootView.findViewById(R.id.text_20_points);
 
-        text_19_points = (TextView) rootView.findViewById(R.id.text_19_points);
-        text_18_points = (TextView) rootView.findViewById(R.id.text_18_points);
-        text_17_points = (TextView) rootView.findViewById(R.id.text_17_points);
-        text_16_points = (TextView) rootView.findViewById(R.id.text_16_points);
-        text_15_points = (TextView) rootView.findViewById(R.id.text_15_points);
-        text_14_points = (TextView) rootView.findViewById(R.id.text_14_points);
-        text_13_points = (TextView) rootView.findViewById(R.id.text_13_points);
-        text_12_points = (TextView) rootView.findViewById(R.id.text_12_points);
-        text_11_points = (TextView) rootView.findViewById(R.id.text_11_points);
-        text_10_points = (TextView) rootView.findViewById(R.id.text_10_points);
+        text_19_points = rootView.findViewById(R.id.text_19_points);
+        text_18_points = rootView.findViewById(R.id.text_18_points);
+        text_17_points = rootView.findViewById(R.id.text_17_points);
+        text_16_points = rootView.findViewById(R.id.text_16_points);
+        text_15_points = rootView.findViewById(R.id.text_15_points);
+        text_14_points = rootView.findViewById(R.id.text_14_points);
+        text_13_points = rootView.findViewById(R.id.text_13_points);
+        text_12_points = rootView.findViewById(R.id.text_12_points);
+        text_11_points = rootView.findViewById(R.id.text_11_points);
+        text_10_points = rootView.findViewById(R.id.text_10_points);
 
-        text_09_points = (TextView) rootView.findViewById(R.id.text_09_points);
-        text_08_points = (TextView) rootView.findViewById(R.id.text_08_points);
-        text_07_points = (TextView) rootView.findViewById(R.id.text_07_points);
-        text_06_points = (TextView) rootView.findViewById(R.id.text_06_points);
-        text_05_points = (TextView) rootView.findViewById(R.id.text_05_points);
-        text_04_points = (TextView) rootView.findViewById(R.id.text_04_points);
-        text_03_points = (TextView) rootView.findViewById(R.id.text_03_points);
-        text_02_points = (TextView) rootView.findViewById(R.id.text_02_points);
-        text_01_points = (TextView) rootView.findViewById(R.id.text_01_points);
-        text_00_points = (TextView) rootView.findViewById(R.id.text_00_points);
+        text_09_points = rootView.findViewById(R.id.text_09_points);
+        text_08_points = rootView.findViewById(R.id.text_08_points);
+        text_07_points = rootView.findViewById(R.id.text_07_points);
+        text_06_points = rootView.findViewById(R.id.text_06_points);
+        text_05_points = rootView.findViewById(R.id.text_05_points);
+        text_04_points = rootView.findViewById(R.id.text_04_points);
+        text_03_points = rootView.findViewById(R.id.text_03_points);
+        text_02_points = rootView.findViewById(R.id.text_02_points);
+        text_01_points = rootView.findViewById(R.id.text_01_points);
+        text_00_points = rootView.findViewById(R.id.text_00_points);
 
         maxPointsString = maxPointsText.getText().toString();
 
@@ -283,7 +284,7 @@ public class FragmentGrades extends Fragment {
             Snackbar.make(maxPointsText, R.string.grade_toast, Snackbar.LENGTH_LONG).show();
         }
 
-        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        FloatingActionButton fab = rootView.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

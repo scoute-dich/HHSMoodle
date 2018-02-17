@@ -27,8 +27,6 @@
                         android:title="@string/filter_own" />
                     <item android:id="@+id/filter_course"
                         android:title="@string/action_filter_course" />
-                    <item android:id="@+id/filter_subject"
-                        android:title="@string/action_filter_subject" />
                 </menu>
             </item>
 
@@ -40,13 +38,8 @@
                 android:title="@string/action_filter_ext" />
             <item android:id="@+id/filter_att"
                 android:title="@string/action_filter_att" />
-            <item android:id="@+id/filter_teacher"
-                android:title="@string/schedule_search_teacher" />
-            <item android:id="@+id/filter_room"
-                android:title="@string/schedule_search_room" />
 
             <item
-                android:id="@+id/filter_creation"
                 android:orderInCategory="100"
                 android:title="@string/action_filter_create"
                 app:showAsAction="ifRoom" >

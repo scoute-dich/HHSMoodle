@@ -67,7 +67,6 @@ import de.baumann.hhsmoodle.data_notes.Notes_helper;
 import de.baumann.hhsmoodle.data_todo.Todo_helper;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.popup.Popup_courseList;
-import de.baumann.hhsmoodle.popup.Popup_subjects;
 
 public class Random_Fragment extends Fragment {
 
@@ -79,7 +78,6 @@ public class Random_Fragment extends Fragment {
     private FloatingActionButton fab;
     private LinearLayout fabLayout1;
     private LinearLayout fabLayout2;
-    private LinearLayout fabLayout3;
     private boolean isFABOpen=false;
     private SharedPreferences sharedPref;
     private SimpleCursorAdapter adapter;
@@ -94,7 +92,7 @@ public class Random_Fragment extends Fragment {
     private int index;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_screen_notes, container, false);
@@ -102,16 +100,16 @@ public class Random_Fragment extends Fragment {
         PreferenceManager.setDefaultValues(getActivity(), R.xml.user_settings, false);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-        imgHeader = (ImageView) rootView.findViewById(R.id.imageView_header);
+        imgHeader = rootView.findViewById(R.id.imageView_header);
         helper_main.setImageHeader(getActivity(), imgHeader);
 
-        filter_layout = (RelativeLayout) rootView.findViewById(R.id.filter_layout);
+        filter_layout = rootView.findViewById(R.id.filter_layout);
         filter_layout.setVisibility(View.GONE);
-        lv = (ListView) rootView.findViewById(R.id.listNotes);
-        filter = (EditText) rootView.findViewById(R.id.myFilter);
-        viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
+        lv = rootView.findViewById(R.id.listNotes);
+        filter = rootView.findViewById(R.id.myFilter);
+        viewPager = getActivity().findViewById(R.id.viewpager);
 
-        ImageButton ib_hideKeyboard =(ImageButton) rootView.findViewById(R.id.ib_hideKeyboard);
+        ImageButton ib_hideKeyboard = rootView.findViewById(R.id.ib_hideKeyboard);
         ib_hideKeyboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -124,12 +122,11 @@ public class Random_Fragment extends Fragment {
             }
         });
 
-        fabLayout1= (LinearLayout) rootView.findViewById(R.id.fabLayout1);
-        fabLayout2= (LinearLayout) rootView.findViewById(R.id.fabLayout2);
-        fabLayout3= (LinearLayout) rootView.findViewById(R.id.fabLayout3);
-        fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
-        FloatingActionButton fab1 = (FloatingActionButton) rootView.findViewById(R.id.fab1);
-        FloatingActionButton fab2 = (FloatingActionButton) rootView.findViewById(R.id.fab2);
+        fabLayout1= rootView.findViewById(R.id.fabLayout1);
+        fabLayout2= rootView.findViewById(R.id.fabLayout2);
+        fab = rootView.findViewById(R.id.fab);
+        FloatingActionButton fab1 = rootView.findViewById(R.id.fab1);
+        FloatingActionButton fab2 = rootView.findViewById(R.id.fab2);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,17 +157,6 @@ public class Random_Fragment extends Fragment {
             }
         });
 
-        FloatingActionButton fab3 = (FloatingActionButton) rootView.findViewById(R.id.fab3);
-        fab3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                closeFABMenu();
-                Intent mainIntent = new Intent(getActivity(), Popup_subjects.class);
-                mainIntent.setAction("subjectList_random");
-                startActivity(mainIntent);
-            }
-        });
-
         //calling Notes_DbAdapter
         db = new Random_DbAdapter(getActivity());
         db.open();
@@ -185,20 +171,17 @@ public class Random_Fragment extends Fragment {
         isFABOpen=true;
         fabLayout1.setVisibility(View.VISIBLE);
         fabLayout2.setVisibility(View.VISIBLE);
-        fabLayout3.setVisibility(View.VISIBLE);
 
         fab.animate().rotationBy(180);
         fabLayout1.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
         fabLayout2.animate().translationY(-getResources().getDimension(R.dimen.standard_100));
-        fabLayout3.animate().translationY(-getResources().getDimension(R.dimen.standard_145));
     }
 
     private void closeFABMenu(){
         isFABOpen=false;
         fab.animate().rotationBy(-180);
         fabLayout1.animate().translationY(0);
-        fabLayout2.animate().translationY(0);
-        fabLayout3.animate().translationY(0).setListener(new Animator.AnimatorListener() {
+        fabLayout2.animate().translationY(0).setListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animator) {}
 
@@ -207,7 +190,6 @@ public class Random_Fragment extends Fragment {
                 if(!isFABOpen){
                     fabLayout1.setVisibility(View.GONE);
                     fabLayout2.setVisibility(View.GONE);
-                    fabLayout3.setVisibility(View.GONE);
                 }
             }
 
@@ -289,7 +271,7 @@ public class Random_Fragment extends Fragment {
                 final String random_creation = row2.getString(row2.getColumnIndexOrThrow("random_creation"));
 
                 View v = super.getView(position, convertView, parent);
-                ImageView iv_icon = (ImageView) v.findViewById(R.id.icon_notes);
+                ImageView iv_icon = v.findViewById(R.id.icon_notes);
                 helper_main.switchIcon(getActivity(), random_icon, "random_icon", iv_icon);
 
                 iv_icon.setOnClickListener(new View.OnClickListener() {
@@ -334,7 +316,7 @@ public class Random_Fragment extends Fragment {
                             public View getView(int position, View convertView, @NonNull ViewGroup parent) {
                                 //Use super class to create the View
                                 View v = super.getView(position, convertView, parent);
-                                TextView tv = (TextView)v.findViewById(android.R.id.text1);
+                                TextView tv = v.findViewById(android.R.id.text1);
                                 tv.setTextSize(18);
                                 tv.setCompoundDrawablesWithIntrinsicBounds(items[position].icon, 0, 0, 0);
                                 //Add margin between image and text (support various screen densities)
@@ -526,7 +508,7 @@ public class Random_Fragment extends Fragment {
                                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                     View dialogView = View.inflate(getActivity(), R.layout.dialog_edit_title, null);
 
-                                    final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
+                                    final EditText edit_title = dialogView.findViewById(R.id.pass_title);
                                     edit_title.setHint(R.string.bookmark_edit_title);
                                     edit_title.setText(random_title);
 
@@ -588,7 +570,7 @@ public class Random_Fragment extends Fragment {
                                 }
 
                                 if (options[item].equals (getString(R.string.bookmark_createEvent))) {
-                                    helper_main.createCalendarEvent(getActivity(), random_title, random_content);
+                                    helper_main.createCalendarEvent(getActivity(), random_title, random_content, lv);
                                 }
 
                             }
@@ -612,8 +594,6 @@ public class Random_Fragment extends Fragment {
         menu.findItem(R.id.filter_ext).setVisible(false);
         menu.findItem(R.id.filter_att).setVisible(false);
         menu.findItem(R.id.filter_url).setVisible(false);
-        menu.findItem(R.id.filter_teacher).setVisible(false);
-        menu.findItem(R.id.filter_room).setVisible(false);
 
         getActivity().setTitle(R.string.number_title);
         setRandomList();
@@ -643,11 +623,6 @@ public class Random_Fragment extends Fragment {
                 Intent mainIntent = new Intent(getActivity(), Popup_courseList.class);
                 mainIntent.setAction("search_byCourse");
                 startActivity(mainIntent);
-                return true;
-            case R.id.filter_subject:
-                Intent mainIntent2 = new Intent(getActivity(), Popup_subjects.class);
-                mainIntent2.setAction("search_bySubject");
-                startActivity(mainIntent2);
                 return true;
 
             case R.id.filter_content:
@@ -700,8 +675,8 @@ public class Random_Fragment extends Fragment {
                 android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getActivity());
                 View dialogView = View.inflate(getActivity(), R.layout.dialog_dice, null);
 
-                final TextView textChoose2 = (TextView) dialogView.findViewById(R.id.textChoose);
-                final EditText editNumber2 = (EditText) dialogView.findViewById(R.id.editNumber);
+                final TextView textChoose2 = dialogView.findViewById(R.id.textChoose);
+                final EditText editNumber2 = dialogView.findViewById(R.id.editNumber);
                 editNumber2.setHint(R.string.number_dice_hint);
 
                 builder.setView(dialogView);

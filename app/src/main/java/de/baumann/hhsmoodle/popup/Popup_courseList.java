@@ -53,7 +53,7 @@ public class Popup_courseList extends Activity {
 
         setContentView(R.layout.activity_popup);
 
-        lv = (ListView)findViewById(R.id.dialogList);
+        lv = findViewById(R.id.dialogList);
 
         db = new Courses_DbAdapter(Popup_courseList.this);
         db.open();
@@ -155,7 +155,7 @@ public class Popup_courseList extends Activity {
                 Cursor row2 = (Cursor) lv.getItemAtPosition(position);
                 String courses_icon = row2.getString(row2.getColumnIndexOrThrow("courses_icon"));
                 View v = super.getView(position, convertView, parent);
-                ImageView iv_icon = (ImageView) v.findViewById(R.id.icon_notes);
+                ImageView iv_icon = v.findViewById(R.id.icon_notes);
                 helper_main.switchIcon(Popup_courseList.this, courses_icon,"courses_icon", iv_icon);
                 return v;
             }

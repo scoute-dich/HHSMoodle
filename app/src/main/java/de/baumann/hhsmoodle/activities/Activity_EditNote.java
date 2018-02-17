@@ -1,11 +1,12 @@
 package de.baumann.hhsmoodle.activities;
 
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -24,14 +25,14 @@ import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
-import com.mvc.imagepicker.ImagePicker;
+import com.mlsdev.rximagepicker.RxImageConverters;
+import com.mlsdev.rximagepicker.RxImagePicker;
+import com.mlsdev.rximagepicker.Sources;
 
-import java.io.BufferedInputStream;
+import org.apache.commons.io.FilenameUtils;
+
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.FileFilter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -40,7 +41,9 @@ import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.data_notes.Notes_DbAdapter;
 import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.popup.Popup_files;
-
+import io.reactivex.ObservableSource;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 
 public class Activity_EditNote extends AppCompatActivity {
 
@@ -51,12 +54,13 @@ public class Activity_EditNote extends AppCompatActivity {
     private EditText textInput;
     private SharedPreferences sharedPref;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_edit);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setTitle(R.string.note_edit);
 
@@ -73,9 +77,9 @@ public class Activity_EditNote extends AppCompatActivity {
         String file = sharedPref.getString("handleTextAttachment", "");
         final String attName = file.substring(file.lastIndexOf("/")+1);
 
-        attachmentRem = (ImageButton) findViewById(R.id.button_rem);
-        attachment = (Button) findViewById(R.id.button_att);
-        attachmentCam = (ImageButton) findViewById(R.id.button_cam);
+        attachmentRem = findViewById(R.id.button_rem);
+        attachment = findViewById(R.id.button_att);
+        attachmentCam = findViewById(R.id.button_cam);
 
         String att = getString(R.string.note_attachment) + ": " + attName;
 
@@ -95,8 +99,8 @@ public class Activity_EditNote extends AppCompatActivity {
             attachmentCam.setVisibility(View.VISIBLE);
         }
 
-        titleInput = (EditText) findViewById(R.id.note_title_input);
-        textInput = (EditText) findViewById(R.id.note_text_input);
+        titleInput = findViewById(R.id.note_title_input);
+        textInput = findViewById(R.id.note_text_input);
 
         titleInput.setText(sharedPref.getString("handleTextTitle", ""));
         titleInput.setSelection(titleInput.getText().length());
@@ -142,11 +146,64 @@ public class Activity_EditNote extends AppCompatActivity {
 
             @Override
             public void onClick(View arg0) {
-                onPickImage();
+                final CharSequence[] options = {
+                        getString(R.string.choose_gallery),
+                        getString(R.string.choose_camera)};
+
+                final AlertDialog.Builder dialog = new AlertDialog.Builder(Activity_EditNote.this);
+                dialog.setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        dialog.cancel();
+                    }
+                });
+                dialog.setItems(options, new DialogInterface.OnClickListener() {
+                    @SuppressWarnings("ResultOfMethodCallIgnored")
+                    @Override
+                    public void onClick(DialogInterface dialog, int item) {
+
+                        if (options[item].equals(getString(R.string.choose_gallery))) {
+                            RxImagePicker.with(Activity_EditNote.this).requestImage(Sources.GALLERY)
+                                    .flatMap(new Function<Uri, ObservableSource<File>>() {
+                                        @Override
+                                        public ObservableSource<File> apply(@NonNull Uri uri) throws Exception {
+                                            return RxImageConverters.uriToFile(Activity_EditNote.this, uri, helper_main.newFile());
+                                        }
+                                    }).subscribe(new Consumer<File>() {
+                                @Override
+                                public void accept(@NonNull File file) throws Exception {
+                                    // Do something with your file copy
+                                    sharedPref.edit().putString("handleTextAttachment", file.getAbsolutePath()).apply();
+                                    attachment.setText(FilenameUtils.getName(file.getAbsolutePath()));
+                                }
+                            });
+                        }
+                        if (options[item].equals(getString(R.string.choose_camera))) {
+
+                            RxImagePicker.with(Activity_EditNote.this).requestImage(Sources.CAMERA)
+                                    .flatMap(new Function<Uri, ObservableSource<File>>() {
+                                        @Override
+                                        public ObservableSource<File> apply(@NonNull Uri uri) throws Exception {
+                                            return RxImageConverters.uriToFile(Activity_EditNote.this, uri, helper_main.newFile());
+                                        }
+                                    }).subscribe(new Consumer<File>() {
+                                @Override
+                                public void accept(@NonNull File file) throws Exception {
+                                    // Do something with your file copy
+                                    sharedPref.edit().putString("handleTextAttachment", file.getAbsolutePath()).apply();
+                                    File f = lastFileModified(Environment.getExternalStorageDirectory() + File.separator + "Pictures");
+                                    f.delete();
+                                    attachment.setText(FilenameUtils.getName(file.getAbsolutePath()));
+                                }
+                            });
+                        }
+                    }
+                });
+                dialog.show();
             }
         });
 
-        final ImageButton be = (ImageButton) findViewById(R.id.imageButtonPri);
+        final ImageButton be = findViewById(R.id.imageButtonPri);
         helper_main.switchIcon(this, priority, "handleTextIcon", be);
 
         be.setOnClickListener(new View.OnClickListener() {
@@ -190,7 +247,7 @@ public class Activity_EditNote extends AppCompatActivity {
                     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
                         //Use super class to create the View
                         View v = super.getView(position, convertView, parent);
-                        TextView tv = (TextView)v.findViewById(android.R.id.text1);
+                        TextView tv = v.findViewById(android.R.id.text1);
                         tv.setTextSize(18);
                         tv.setCompoundDrawablesWithIntrinsicBounds(items[position].icon, 0, 0, 0);
                         //Add margin between image and text (support various screen densities)
@@ -217,35 +274,22 @@ public class Activity_EditNote extends AppCompatActivity {
         });
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        InputStream inputStream = ImagePicker.getInputStreamFromResult(this, requestCode, resultCode, data);
-        BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
-        Bitmap bitmap = BitmapFactory.decodeStream(bufferedInputStream);
-
-        if (bitmap != null) {
-            try {
-                //create a file to write bitmap data
-                File f = helper_main.newFile();
-                //noinspection ResultOfMethodCallIgnored
-                f.createNewFile();
-
-                OutputStream outStream = new FileOutputStream(f);
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
-                outStream.flush();
-                outStream.close();
-                sharedPref.edit().putString("handleTextAttachment", f.getAbsolutePath()).apply();
-
-            } catch (IOException e) {
-                e.printStackTrace();
+    private static File lastFileModified(String dir) {
+        File fl = new File(dir);
+        File[] files = fl.listFiles(new FileFilter() {
+            public boolean accept(File file) {
+                return file.isFile();
+            }
+        });
+        long lastMod = Long.MIN_VALUE;
+        File choice = null;
+        for (File file : files) {
+            if (file.lastModified() > lastMod) {
+                choice = file;
+                lastMod = file.lastModified();
             }
         }
-    }
-
-    private void onPickImage() {
-        // Click on image button
-        ImagePicker.pickImage(this, "Select your image:");
+        return choice;
     }
 
     @Override
@@ -255,9 +299,9 @@ public class Activity_EditNote extends AppCompatActivity {
         String filePath = sharedPref.getString("handleTextAttachment", "");
         final String attName = filePath.substring(filePath.lastIndexOf("/")+1);
 
-        attachmentRem = (ImageButton) findViewById(R.id.button_rem);
-        attachment = (Button) findViewById(R.id.button_att);
-        attachmentCam = (ImageButton) findViewById(R.id.button_cam);
+        attachmentRem = findViewById(R.id.button_rem);
+        attachment = findViewById(R.id.button_att);
+        attachmentCam = findViewById(R.id.button_cam);
 
         String att = getString(R.string.note_attachment) + ": " + attName;
 

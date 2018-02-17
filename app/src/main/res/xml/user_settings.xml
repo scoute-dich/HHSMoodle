@@ -17,14 +17,14 @@
             android:key="protect_PW" />
 
         <Preference
-            android:title="@string/action_backup"
-            android:icon="@drawable/backup_restore"
+            android:title="@string/action_data"
+            android:icon="@drawable/database"
             android:summary="@string/action_backup_summary"
             android:key="backup_db" />
 
         <CheckBoxPreference
             android:title="@string/action_backupAut"
-            android:icon="@drawable/restore"
+            android:icon="@drawable/backup_restore"
             android:summary="@string/action_backupAut_summary"
             android:key="backup_aut"
             android:defaultValue="true" />
@@ -43,15 +43,6 @@
             android:entries="@array/listArrayTabMain"
             android:entryValues="@array/listValuesTabMain" />
 
-        <ListPreference
-            android:title="@string/action_font"
-            android:icon="@drawable/format_size"
-            android:summary="@string/action_font_summary"
-            android:key="font"
-            android:defaultValue="100"
-            android:entries="@array/listArrayFont"
-            android:entryValues="@array/listValuesFont" />
-
         <Preference
             android:title="@string/action_shortcut"
             android:icon="@drawable/arrow_top_right"
@@ -59,17 +50,10 @@
             android:key="shortcuts" />
 
         <CheckBoxPreference
-            android:title="@string/action_silent"
-            android:icon="@drawable/bell_off"
-            android:summary="@string/action_silent_summary"
-            android:key="silent_mode"
-            android:defaultValue="false" />
-
-        <CheckBoxPreference
-            android:title="@string/action_airplane"
-            android:icon="@drawable/airplane"
-            android:summary="@string/action_airplane_summary"
-            android:key="airplane_mode"
+            android:title="@string/action_not"
+            android:icon="@drawable/checkbox_marked_circle_outline"
+            android:summary="@string/action_not_summary"
+            android:key="action_not"
             android:defaultValue="false" />
 
     </PreferenceCategory>
@@ -89,13 +73,6 @@
             android:icon="@drawable/security"
             android:summary="@string/perm_notShow_title_summary"
             android:key="perm_notShow"
-            android:defaultValue="true" />
-
-        <Preference
-            android:title="@string/perm_notShow_title_dist"
-            android:icon="@drawable/do_not_disturb"
-            android:summary="@string/perm_notShow_title_summary_dist"
-            android:key="perm_notShow_dist"
             android:defaultValue="true" />
 
     </PreferenceCategory>

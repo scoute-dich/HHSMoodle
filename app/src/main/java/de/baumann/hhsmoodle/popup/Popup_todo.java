@@ -55,7 +55,7 @@ public class Popup_todo extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_popup);
-        lv = (ListView) findViewById(R.id.dialogList);
+        lv = findViewById(R.id.dialogList);
 
         //calling Notes_DbAdapter
         db = new Todo_DbAdapter(Popup_todo.this);
@@ -99,14 +99,14 @@ public class Popup_todo extends Activity {
                 final String todo_attachment = row2.getString(row2.getColumnIndexOrThrow("todo_attachment"));
 
                 View v = super.getView(position, convertView, parent);
-                ImageView iv_icon = (ImageView) v.findViewById(R.id.icon_notes);
-                ImageView iv_attachment = (ImageView) v.findViewById(R.id.att_notes);
+                ImageView iv_icon = v.findViewById(R.id.icon_notes);
+                ImageView iv_attachment = v.findViewById(R.id.att_notes);
                 helper_main.switchIcon(Popup_todo.this, todo_icon, "todo_icon", iv_icon);
 
                 switch (todo_attachment) {
                     case "true":
                         iv_attachment.setVisibility(View.VISIBLE);
-                        iv_attachment.setImageResource(R.drawable.alert_circle_outline_dark);
+                        iv_attachment.setImageResource(R.drawable.alert_circle_dark);
                         break;
                     default:
                         iv_attachment.setVisibility(View.VISIBLE);

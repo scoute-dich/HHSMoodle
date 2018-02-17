@@ -19,15 +19,6 @@
         &lt;i>Grant permission later:&lt;/i>&lt;br>
         If you don\'t permit this now, you can do it later. Please open then \"Settings -> Grant permission\".</string>
 
-    <string name="app_permissions_title_dist">Used permission</string>
-    <string name="app_permissions_dist">
-
-        &lt;i>Manage \"Do not disturb\":&lt;/i>&lt;br>
-        This is used to set your phone in silent mode during lessons.&lt;br>&lt;br>
-
-        &lt;i>Grant permission later:&lt;/i>&lt;br>
-        If you don\'t permit this now, you can do it later. Please open then \"Settings -> Do not disturb\".</string>
-
     <string name="app_share_screenshot">Share screenshot using:</string>
     <string name="app_share_link">Share link using:</string>
     <string name="app_share_file">Choose file with:</string>
@@ -35,6 +26,7 @@
     <string name="app_att">Attachment</string>
     <string name="app_myMoodle">My Moodle</string>
     <string name="app_close">Please wait … Closing app.</string>
+    <string name="app_missing">No compatible application found.</string>
 
 
     // Moodle
@@ -75,6 +67,7 @@
     <string name="about_license_7">Used to create the \"About screen\".</string>
     <string name="about_license_8">The source of nearly all icons.</string>
     <string name="about_license_9">A powerful library for Android to display media files.</string>
+    <string name="about_license_1">Library to choose or make pictures.</string>
 
 
     // IntroScreen
@@ -115,6 +108,7 @@
     <string name="title_bookmarks">Bookmarks</string>
     <string name="title_notes">Notes</string>
     <string name="title_browser">Browser</string>
+    <string name="title_files">Files</string>
 
     <string name="sort_title">title</string>
     <string name="sort_date">date</string>
@@ -139,6 +133,7 @@
     <string name="menu_finish">Exit app</string>
     <string name="menu_configure">Configure</string>
     <string name="menu_addEntry">Add entry</string>
+    <string name="menu_all">All of them …</string>
 
     <string name="action_sort">Sort entries</string>
     <string name="action_sort_title">Sort by title</string>
@@ -192,11 +187,9 @@
 
     <string name="action_problem_summary">Problems? Send me a mail.</string>
 
-    <string name="action_font">Font size</string>
-    <string name="action_font_summary">Change font size for websites.</string>
-
     <string name="action_backup">Backup</string>
-    <string name="action_backup_summary">Backup and restore your databases (notes, bookmarks, …). A new backup overwrites the old one.</string>
+    <string name="action_backup_summary">Backup and restore your databases (notes, bookmarks, …). A new backup overwrites the old one. You can also
+        delete an existing database.</string>
 
     <string name="action_backupAut">Automatic backup</string>
     <string name="action_backupAut_summary">Always backup all databases (Todo, bookmarks, …), when leaving the app.</string>
@@ -205,14 +198,13 @@
     <string name="action_shortcut_summary">Create shortcuts on your desktop for fast access to main functions of the app (Bookmarks,
         todo lists, …).</string>
 
-    <string name="action_silent">Silent mode</string>
-    <string name="action_silent_summary">Set your phone in silent mode during lessons. If you use Android Nougat or newer you need
-        to permit \"Do not disturb\" below.</string>
-
-    <string name="action_airplane">Airplane mode</string>
-    <string name="action_airplane_summary">Enable airplane mode during lessons. Works only on rooted devices (Thanks Google!).</string>
+    <string name="action_not">Notification</string>
+    <string name="action_not_summary">Receive a notification after restarting the phone, which allows to search fast
+        for important todo lists.</string>
 
     <string name="action_restore">Restore</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_data">Data</string>
 
 
     // Snackbar
@@ -241,6 +233,12 @@
     <string name="toast_settings">Open settings</string>
     <string name="toast_confirm_backup">This overwrites the actual backup, which gets lost.</string>
     <string name="toast_confirm_restore">This overwrites the actual database. Current data will be lost.</string>
+    <string name="toast_done">Done!</string>
+    <string name="toast_error">An error occurred!</string>
+    <string name="toast_confirm_delete">This delete the actual database. Current data will be lost.</string>
+    <string name="toast_restart_title">Something todo?</string>
+    <string name="toast_restart_text">CLick to check. If nothing happens - nothing to do!</string>
+
 
 
     // Bookmarks
@@ -264,6 +262,8 @@
     <string name="title_hint">Title</string>
     <string name="text_hint">Content</string>
     <string name="note_content">+ Content</string>
+    <string name="choose_gallery">Gallery</string>
+    <string name="choose_camera">Camera</string>
 
 
     // Password
@@ -314,7 +314,6 @@
 
     <string name="todo_title">Todo</string>
     <string name="todo_from_courseList">From course list</string>
-    <string name="todo_from_subjectList">From subject list</string>
     <string name="todo_from_new">Custom title</string>
     <string name="todo_hint">New entry …</string>
     <string name="todo_menu">Create todo list</string>
@@ -333,35 +332,7 @@
     <string name="courseList_content">+ course members</string>
 
 
-    // Schedule
-
-    <string name="schedule_weekend">Weekend</string>
-    <string name="schedule_title">Schedule</string>
-    <string name="schedule_def_title">---</string>
-    <string name="schedule_def_teacher">---</string>
-
-    <string name="schedule_mon">Monday</string>
-    <string name="schedule_tue">Tuesday</string>
-    <string name="schedule_wed">Wednesday</string>
-    <string name="schedule_thu">Thursday</string>
-    <string name="schedule_fri">Friday</string>
-
-    <string name="schedule_search_teacher">Search by teachers</string>
-    <string name="schedule_search_room">Search by rooms</string>
-
-    <string name="schedule_fromSubjectList">From subject list</string>
-    <string name="schedule_todo">Show todo list</string>
-    <string name="schedule_notes">Show notes</string>
-
-
     // Subjects
-
-    <string name="subjects_title">Subjects</string>
-    <string name="subjects_edit_title">Name</string>
-    <string name="subjects_edit_teacher">Teacher</string>
-    <string name="subjects_edit_room">Room</string>
-    <string name="subjects_edit">Edit subject</string>
-    <string name="subjects_copy">Copy entry</string>
 
     <string name="subjects_color_red">Red</string>
     <string name="subjects_color_pink">Pink</string>

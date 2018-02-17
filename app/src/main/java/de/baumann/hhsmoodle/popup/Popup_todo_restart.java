@@ -21,26 +21,25 @@ package de.baumann.hhsmoodle.popup;
 
 import android.app.Activity;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
 import de.baumann.hhsmoodle.R;
-import de.baumann.hhsmoodle.data_schedule.Schedule_helper;
 import de.baumann.hhsmoodle.data_todo.Todo_DbAdapter;
-import de.baumann.hhsmoodle.helper.class_AlarmService;
 import de.baumann.hhsmoodle.helper.helper_security;
 
 @SuppressWarnings("SameParameterValue")
@@ -61,7 +60,7 @@ public class Popup_todo_restart extends Activity {
 
         setContentView(R.layout.activity_popup_restart);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        lv = (ListView)findViewById(R.id.dialogList);
+        lv = findViewById(R.id.dialogList);
         //calling Notes_DbAdapter
         db = new Todo_DbAdapter(Popup_todo_restart.this);
         db.open();
@@ -70,16 +69,8 @@ public class Popup_todo_restart extends Activity {
 
     private void setTodoList() {
 
-        NotificationManager nMgr = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        nMgr.cancelAll();
-
-        Schedule_helper.setAlarm(Popup_todo_restart.this);
-
-        Intent serviceIntent = new Intent(Popup_todo_restart.this, class_AlarmService.class);
-        startService(serviceIntent);
-
         //display data
-        final int layoutstyle=R.layout.list_item_notes;
+        final int layoutStyle=R.layout.list_item_notes;
         int[] xml_id = new int[] {
                 R.id.textView_title_notes,
                 R.id.textView_des_notes,
@@ -91,27 +82,23 @@ public class Popup_todo_restart extends Activity {
                 "todo_creation"
         };
         final Cursor row = db.fetchAllData(Popup_todo_restart.this);
-        SimpleCursorAdapter adapter = new SimpleCursorAdapter(Popup_todo_restart.this, layoutstyle,row,column, xml_id, 0) {
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(Popup_todo_restart.this, layoutStyle,row,column, xml_id, 0) {
             @Override
             public View getView (final int position, View convertView, ViewGroup parent) {
 
-                Cursor row2 = (Cursor) lv.getItemAtPosition(position);
-                final String _id = row2.getString(row2.getColumnIndexOrThrow("_id"));
-                final String todo_title = row2.getString(row2.getColumnIndexOrThrow("todo_title"));
-                final String todo_content = row2.getString(row2.getColumnIndexOrThrow("todo_content"));
-                final String todo_attachment = row2.getString(row2.getColumnIndexOrThrow("todo_attachment"));
+                Cursor row = (Cursor) lv.getItemAtPosition(position);
+                final String _id = row.getString(row.getColumnIndexOrThrow("_id"));
+                final String todo_title = row.getString(row.getColumnIndexOrThrow("todo_title"));
+                final String todo_content = row.getString(row.getColumnIndexOrThrow("todo_content"));
+                final String todo_attachment = row.getString(row.getColumnIndexOrThrow("todo_attachment"));
 
                 View v = super.getView(position, convertView, parent);
-                ImageView iv_attachment = (ImageView) v.findViewById(R.id.att_notes);
 
                 switch (todo_attachment) {
                     case "true":
-                        iv_attachment.setVisibility(View.VISIBLE);
-                        iv_attachment.setImageResource(R.drawable.alert_circle_outline_dark);
+                        //do nothing
                         break;
                     default:
-                        iv_attachment.setVisibility(View.VISIBLE);
-                        iv_attachment.setImageResource(R.drawable.alert_circle_red);
 
                         int n = Integer.valueOf(_id);
 
@@ -120,30 +107,38 @@ public class Popup_todo_restart extends Activity {
                         iMain.setClassName(Popup_todo_restart.this, "de.baumann.hhsmoodle.activities.Activity_splash");
                         PendingIntent piMain = PendingIntent.getActivity(Popup_todo_restart.this, n, iMain, 0);
 
-                        NotificationCompat.Builder builderSummary =
-                                new NotificationCompat.Builder(Popup_todo_restart.this)
-                                        .setSmallIcon(R.drawable.school)
-                                        .setColor(ContextCompat.getColor(Popup_todo_restart.this, R.color.colorPrimary))
-                                        .setGroup("HHS_Moodle")
-                                        .setGroupSummary(true)
-                                        .setContentIntent(piMain);
+                        NotificationCompat.Builder builder;
 
-                        Notification notification = new NotificationCompat.Builder(Popup_todo_restart.this)
+                        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            String CHANNEL_ID = "hhs_not";// The id of the channel.
+                            CharSequence name = getString(R.string.app_name);// The user-visible name of the channel.
+                            NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, name, NotificationManager.IMPORTANCE_HIGH);
+                            mNotificationManager.createNotificationChannel(mChannel);
+                            builder = new NotificationCompat.Builder(Popup_todo_restart.this, CHANNEL_ID);
+                        } else {
+                            //noinspection deprecation
+                            builder = new NotificationCompat.Builder(Popup_todo_restart.this);
+                        }
+
+                        @SuppressWarnings("deprecation")
+                        Notification notification  = builder
                                 .setColor(ContextCompat.getColor(Popup_todo_restart.this, R.color.colorPrimary))
                                 .setSmallIcon(R.drawable.school)
                                 .setContentTitle(todo_title)
                                 .setContentText(todo_content)
                                 .setContentIntent(piMain)
                                 .setAutoCancel(true)
+                                .setGroupSummary(true)
                                 .setGroup("HHS_Moodle")
                                 .setStyle(new NotificationCompat.BigTextStyle().bigText(todo_content))
                                 .setPriority(Notification.PRIORITY_DEFAULT)
                                 .setVibrate(new long[0])
                                 .build();
 
-                        NotificationManager notificationManager = (NotificationManager) Popup_todo_restart.this.getSystemService(NOTIFICATION_SERVICE);
+                        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                         notificationManager.notify(n, notification);
-                        notificationManager.notify(0, builderSummary.build());
+
                         break;
                 }
                 return v;
@@ -151,7 +146,7 @@ public class Popup_todo_restart extends Activity {
         };
 
         lv.setAdapter(adapter);
-        //onClick function
+
         try {
             helper_security.encrypt(Popup_todo_restart.this, "/databases/todo_DB_v01.db","/databases/todo_DB_v01_en.db");
         } catch (Exception e) {
@@ -160,8 +155,9 @@ public class Popup_todo_restart extends Activity {
 
         new Handler().postDelayed(new Runnable() {
             public void run() {
+                Log.d("HHS_Moodle", "NotificationService finish");
                 finish();
             }
-        }, 1000);
+        }, 2000);
     }
 }

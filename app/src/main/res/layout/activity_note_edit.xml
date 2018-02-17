@@ -94,7 +94,7 @@
                 android:id="@+id/button_att"
                 android:background="?android:selectableItemBackground"
                 android:layout_alignStart="@+id/layout_cont"
-                android:layout_toStartOf="@+id/button_cam"
+                android:layout_toStartOf="@+id/imageButtonPri"
                 android:gravity="center_vertical"
                 android:layout_marginStart="4dp" />
 

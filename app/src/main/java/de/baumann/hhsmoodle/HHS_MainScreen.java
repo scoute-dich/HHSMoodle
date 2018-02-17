@@ -20,15 +20,12 @@
 package de.baumann.hhsmoodle;
 
 import android.Manifest;
-import android.app.NotificationManager;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
-import android.os.Build;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -56,8 +53,6 @@ import de.baumann.hhsmoodle.data_notes.Notes_helper;
 import de.baumann.hhsmoodle.data_random.Random_Fragment;
 import de.baumann.hhsmoodle.data_courses.Courses_Fragment;
 import de.baumann.hhsmoodle.data_notes.Notes_Fragment;
-import de.baumann.hhsmoodle.data_schedule.Schedule_Fragment;
-import de.baumann.hhsmoodle.data_subjects.Subjects_Fragment;
 import de.baumann.hhsmoodle.data_todo.Todo_Fragment;
 import de.baumann.hhsmoodle.fragmentsMain.FragmentBrowser;
 import de.baumann.hhsmoodle.fragmentsMain.FragmentGrades;
@@ -80,32 +75,34 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_screen_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         helper_security.checkPin(HHS_MainScreen.this);
         helper_security.grantPermissions(HHS_MainScreen.this);
         helper_main.onStart(HHS_MainScreen.this);
+
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
 
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPref.edit().putString("browserLoad", "").apply();
         class_SecurePreferences sharedPrefSec = new class_SecurePreferences(HHS_MainScreen.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
 
-
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager = findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         View headerView =  navigationView.getHeaderView(0);
-        TextView nav_user = (TextView)headerView.findViewById(R.id.usernameNav);
+        TextView nav_user = headerView.findViewById(R.id.usernameNav);
         nav_user.setText(sharedPrefSec.getString("username"));
 
         TypedArray images = getResources().obtainTypedArray(R.array.splash_images);
@@ -129,36 +126,6 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
         }
 
         onNewIntent(getIntent());
-
-        if (sharedPref.getBoolean("silent_mode", true)) {
-            final NotificationManager notificationManager =
-                    (NotificationManager) HHS_MainScreen.this.getSystemService(Context.NOTIFICATION_SERVICE);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && !notificationManager.isNotificationPolicyAccessGranted()) {
-                if (sharedPref.getString ("show_permission_disturb", "true").equals("true")){
-                    new android.app.AlertDialog.Builder(this)
-                            .setTitle(R.string.app_permissions_title_dist)
-                            .setMessage(helper_main.textSpannable(getString(R.string.app_permissions_dist)))
-                            .setNeutralButton(R.string.toast_notAgain, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.cancel();
-                                    sharedPref.edit().putString("show_permission_disturb", "false").apply();
-                                }
-                            })
-                            .setPositiveButton(getString(R.string.toast_yes), new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && !notificationManager.isNotificationPolicyAccessGranted()) {
-                                        Intent intent = new Intent(android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
-                                        startActivity(intent);
-                                    }
-                                }
-                            })
-                            .setNegativeButton(getString(R.string.toast_cancel), null)
-                            .show();
-                }
-            }
-        }
     }
 
     protected void onNewIntent(final Intent intent) {
@@ -169,18 +136,18 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
         if ("shortcutBookmarks_HS".equals(action)) {
             viewPager.setCurrentItem(1, true);
         } else if ("shortcutNotes_HS".equals(action)) {
-            viewPager.setCurrentItem(3, true);
+            viewPager.setCurrentItem(4, true);
         }  else if ("shortcutNotesNew_HS".equals(action)) {
-            viewPager.setCurrentItem(3, true);
+            viewPager.setCurrentItem(4, true);
             String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
             String sharedTitle = intent.getStringExtra(Intent.EXTRA_SUBJECT);
             Notes_helper.newNote(HHS_MainScreen.this, sharedTitle, sharedText, "19", getString(R.string.note_content), false);
         } else if ("shortcutToDo_HS".equals(action)) {
-            viewPager.setCurrentItem(2, true);
-        } else if ("shortcutSchedule_HS".equals(action)) {
-            viewPager.setCurrentItem(4, true);
+            viewPager.setCurrentItem(3, true);
         } else if ("shortcutBrowser_HS".equals(action)) {
             viewPager.setCurrentItem(0, true);
+        } else if ("shortcutFiles_HS".equals(action)) {
+            viewPager.setCurrentItem(2, true);
         }
     }
 
@@ -192,15 +159,13 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
 
         adapter.addFragment(new FragmentBrowser(), String.valueOf(getString(R.string.title_browser)));
         adapter.addFragment(new Bookmarks_Fragment(), String.valueOf(getString(R.string.title_bookmarks)));
+        adapter.addFragment(new Files_Fragment(), String.valueOf(getString(R.string.choose_titleMain)));
         adapter.addFragment(new Todo_Fragment(), String.valueOf(getString(R.string.todo_title)));
         adapter.addFragment(new Notes_Fragment(), String.valueOf(getString(R.string.title_notes)));
-        adapter.addFragment(new Schedule_Fragment(), String.valueOf(getString(R.string.schedule_title)));
-        adapter.addFragment(new Files_Fragment(), String.valueOf(getString(R.string.choose_titleMain)));
         adapter.addFragment(new Random_Fragment(), String.valueOf(getString(R.string.number_title)));
         adapter.addFragment(new Count_Fragment(), String.valueOf(getString(R.string.count_title)));
         adapter.addFragment(new FragmentGrades(), String.valueOf(getString(R.string.action_grades)));
         adapter.addFragment(new Courses_Fragment(), String.valueOf(getString(R.string.courseList_title)));
-        adapter.addFragment(new Subjects_Fragment(), String.valueOf(getString(R.string.subjects_title)));
 
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(startTabInt,true);
@@ -258,7 +223,7 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else if(viewPager.getCurrentItem() == 0) {
@@ -267,25 +232,22 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
         } else if(viewPager.getCurrentItem() == 1) {
             Bookmarks_Fragment bookmarks_Fragment = (Bookmarks_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
             bookmarks_Fragment.doBack();
-        } else if(viewPager.getCurrentItem() == 2) {
+        } else if(viewPager.getCurrentItem() == 3) {
             Todo_Fragment todo_Fragment = (Todo_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
             todo_Fragment.doBack();
-        } else if(viewPager.getCurrentItem() == 3) {
+        } else if(viewPager.getCurrentItem() == 4) {
             Notes_Fragment notes_Fragment = (Notes_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
             notes_Fragment.doBack();
-        } else if(viewPager.getCurrentItem() == 4) {
-            Schedule_Fragment schedule_Fragment = (Schedule_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
-            schedule_Fragment.doBack();
-        } else if(viewPager.getCurrentItem() == 5) {
+        } else if(viewPager.getCurrentItem() == 2) {
             Files_Fragment files_Fragment = (Files_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
             files_Fragment.doBack();
-        } else if(viewPager.getCurrentItem() == 6) {
+        } else if(viewPager.getCurrentItem() == 5) {
             Random_Fragment random_Fragment = (Random_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
             random_Fragment.doBack();
-        } else if(viewPager.getCurrentItem() == 7) {
+        } else if(viewPager.getCurrentItem() == 6) {
             Count_Fragment count_Fragment = (Count_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
             count_Fragment.doBack();
-        } else if(viewPager.getCurrentItem() == 9) {
+        } else if(viewPager.getCurrentItem() == 8) {
             Courses_Fragment courses_Fragment = (Courses_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
             courses_Fragment.doBack();
         } else {
@@ -307,20 +269,17 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
             bookmarks_Fragment.setTitle();
             bookmarks_Fragment.setBookmarksList();
         } else if (id == R.id.nav_todo) {
-            viewPager.setCurrentItem(2, true);
+            viewPager.setCurrentItem(3, true);
             Todo_Fragment todo_Fragment = (Todo_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
             todo_Fragment.setTitle();
             todo_Fragment.setTodoList();
         } else if (id == R.id.nav_notes) {
-            viewPager.setCurrentItem(3, true);
+            viewPager.setCurrentItem(4, true);
             Notes_Fragment notes_Fragment = (Notes_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
             notes_Fragment.setTitle();
             notes_Fragment.setNotesList();
-        } else if (id == R.id.nav_schedule) {
-            viewPager.setCurrentItem(4, true);
-            setTitle(R.string.schedule_title);
-        }  else if (id == R.id.nav_files) {
-            viewPager.setCurrentItem(5, true);
+        } else if (id == R.id.nav_files) {
+            viewPager.setCurrentItem(2, true);
             Files_Fragment files_Fragment = (Files_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
             files_Fragment.setTitle();
             if (android.os.Build.VERSION.SDK_INT >= 23) {
@@ -334,27 +293,24 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
                 files_Fragment.setFilesList();
             }
         } else if (id == R.id.nav_random) {
-            viewPager.setCurrentItem(6, true);
+            viewPager.setCurrentItem(5, true);
             setTitle(R.string.number_title);
         } else if (id == R.id.nav_count) {
-            viewPager.setCurrentItem(7, true);
+            viewPager.setCurrentItem(6, true);
             Count_Fragment count_Fragment = (Count_Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
             count_Fragment.setTitle();
             count_Fragment.setCountList();
         } else if (id == R.id.nav_grades) {
-            viewPager.setCurrentItem(8, true);
+            viewPager.setCurrentItem(7, true);
             setTitle(R.string.action_grades);
         } else if (id == R.id.nav_courseList) {
-            viewPager.setCurrentItem(9, true);
+            viewPager.setCurrentItem(8, true);
             setTitle(R.string.courseList_title);
-        } else if (id == R.id.nav_subjectList) {
-            viewPager.setCurrentItem(10, true);
-            setTitle(R.string.subjects_title);
         } else if (id == R.id.nav_settings) {
             helper_main.switchToActivity(HHS_MainScreen.this, Activity_settings.class, true);
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

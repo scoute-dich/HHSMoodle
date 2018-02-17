@@ -94,7 +94,6 @@ public class helper_security {
     }
 
     public static void decryptDatabases (Activity activity) {
-        try {decrypt(activity, "/databases/schedule_DB_v01_en.db", "/databases/schedule_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
         try {decrypt(activity, "/databases/subject_DB_v01_en.db", "/databases/subject_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
         try {decrypt(activity, "/databases/random_DB_v01_en.db", "/databases/random_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
         try {decrypt(activity, "/databases/todo_DB_v01_en.db", "/databases/todo_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
@@ -162,7 +161,6 @@ public class helper_security {
 
     public static void encryptDatabases (final Activity activity) {
 
-        try {encrypt(activity, "/databases/schedule_DB_v01.db","/databases/schedule_DB_v01_en.db");} catch (Exception e) {e.printStackTrace();}
         try {encrypt(activity, "/databases/subject_DB_v01.db","/databases/subject_DB_v01_en.db");} catch (Exception e) {e.printStackTrace();}
         try {encrypt(activity, "/databases/random_DB_v01.db","/databases/random_DB_v01_en.db");} catch (Exception e) {e.printStackTrace();}
         try {encrypt(activity, "/databases/todo_DB_v01.db","/databases/todo_DB_v01_en.db");} catch (Exception e) {e.printStackTrace();}
@@ -274,9 +272,9 @@ public class helper_security {
             AlertDialog.Builder builder = new AlertDialog.Builder(activity, R.style.YourStyle);
             final View dialogView = View.inflate(activity, R.layout.dialog_password, null);
 
-            final TextView text = (TextView) dialogView.findViewById(R.id.pass_userPin);
+            final TextView text = dialogView.findViewById(R.id.pass_userPin);
 
-            Button ib0 = (Button) dialogView.findViewById(R.id.button0);
+            Button ib0 = dialogView.findViewById(R.id.button0);
             assert ib0 != null;
             ib0.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -285,7 +283,7 @@ public class helper_security {
                 }
             });
 
-            Button ib1 = (Button) dialogView.findViewById(R.id.button1);
+            Button ib1 = dialogView.findViewById(R.id.button1);
             assert ib1 != null;
             ib1.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -294,7 +292,7 @@ public class helper_security {
                 }
             });
 
-            Button ib2 = (Button) dialogView.findViewById(R.id.button2);
+            Button ib2 = dialogView.findViewById(R.id.button2);
             assert ib2 != null;
             ib2.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -303,7 +301,7 @@ public class helper_security {
                 }
             });
 
-            Button ib3 = (Button) dialogView.findViewById(R.id.button3);
+            Button ib3 = dialogView.findViewById(R.id.button3);
             assert ib3 != null;
             ib3.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -312,7 +310,7 @@ public class helper_security {
                 }
             });
 
-            Button ib4 = (Button) dialogView.findViewById(R.id.button4);
+            Button ib4 = dialogView.findViewById(R.id.button4);
             assert ib4 != null;
             ib4.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -321,7 +319,7 @@ public class helper_security {
                 }
             });
 
-            Button ib5 = (Button) dialogView.findViewById(R.id.button5);
+            Button ib5 = dialogView.findViewById(R.id.button5);
             assert ib5 != null;
             ib5.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -330,7 +328,7 @@ public class helper_security {
                 }
             });
 
-            Button ib6 = (Button) dialogView.findViewById(R.id.button6);
+            Button ib6 = dialogView.findViewById(R.id.button6);
             assert ib6 != null;
             ib6.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -339,7 +337,7 @@ public class helper_security {
                 }
             });
 
-            Button ib7 = (Button) dialogView.findViewById(R.id.button7);
+            Button ib7 = dialogView.findViewById(R.id.button7);
             assert ib7 != null;
             ib7.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -348,7 +346,7 @@ public class helper_security {
                 }
             });
 
-            Button ib8 = (Button) dialogView.findViewById(R.id.button8);
+            Button ib8 = dialogView.findViewById(R.id.button8);
             assert ib8 != null;
             ib8.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -357,7 +355,7 @@ public class helper_security {
                 }
             });
 
-            Button ib9 = (Button) dialogView.findViewById(R.id.button9);
+            Button ib9 = dialogView.findViewById(R.id.button9);
             assert ib9 != null;
             ib9.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -367,10 +365,10 @@ public class helper_security {
             });
 
 
-            ImageButton enter = (ImageButton) dialogView.findViewById(R.id.imageButtonEnter);
+            ImageButton enter = dialogView.findViewById(R.id.imageButtonEnter);
             assert enter != null;
 
-            final ImageButton cancel = (ImageButton) dialogView.findViewById(R.id.imageButtonCancel);
+            final ImageButton cancel = dialogView.findViewById(R.id.imageButtonCancel);
             assert cancel != null;
             cancel.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -379,7 +377,7 @@ public class helper_security {
                 }
             });
 
-            final Button clear = (Button) dialogView.findViewById(R.id.buttonReset);
+            final Button clear = dialogView.findViewById(R.id.buttonReset);
             assert clear != null;
             clear.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -432,7 +430,7 @@ public class helper_security {
     }
 
     private static void enterNum (View view, String number) {
-        TextView text = (TextView) view.findViewById(R.id.pass_userPin);
+        TextView text = view.findViewById(R.id.pass_userPin);
         String textNow = text.getText().toString().trim();
         String pin = textNow + number;
         text.setText(pin);

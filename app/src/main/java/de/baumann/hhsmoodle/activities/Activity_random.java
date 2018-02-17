@@ -83,7 +83,7 @@ public class Activity_random extends AppCompatActivity {
         setContentView(R.layout.activity_random);
         helper_main.onStart(Activity_random.this);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         ActionBar actionBar = getSupportActionBar();
@@ -104,7 +104,7 @@ public class Activity_random extends AppCompatActivity {
 
         setTitle(toDo_title);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -131,7 +131,7 @@ public class Activity_random extends AppCompatActivity {
             Log.e("Exception", "File write failed: " + e.toString());
         }
 
-        lvItems = (ListView) findViewById(R.id.lvItems);
+        lvItems = findViewById(R.id.lvItems);
         itemsTitle = new ArrayList<>();
         readItemsTitle();
         setAdapter(1000);
@@ -149,7 +149,7 @@ public class Activity_random extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(Activity_random.this);
                 View dialogView = View.inflate(Activity_random.this, R.layout.dialog_edit_text_singleline_count, null);
 
-                final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
+                final EditText edit_title = dialogView.findViewById(R.id.pass_title);
                 edit_title.setText(title);
 
                 builder.setView(dialogView);
@@ -221,13 +221,14 @@ public class Activity_random extends AppCompatActivity {
 
                 if (convertView == null) {
                     LayoutInflater infInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    assert infInflater != null;
                     convertView = infInflater.inflate(R.layout.list_item_count, parent, false);
                 }
 
-                ImageButton ib_plus = (ImageButton) convertView.findViewById(R.id.but_plus);
-                ImageButton ib_minus = (ImageButton) convertView.findViewById(R.id.but_minus);
-                TextView textTITLE = (TextView) convertView.findViewById(R.id.count_title);
-                TextView textDES = (TextView) convertView.findViewById(R.id.count_count);
+                ImageButton ib_plus = convertView.findViewById(R.id.but_plus);
+                ImageButton ib_minus = convertView.findViewById(R.id.but_minus);
+                TextView textTITLE = convertView.findViewById(R.id.count_title);
+                TextView textDES = convertView.findViewById(R.id.count_count);
 
                 ib_plus.setVisibility(View.GONE);
                 ib_minus.setVisibility(View.GONE);
@@ -350,7 +351,7 @@ public class Activity_random extends AppCompatActivity {
             index = lvItems.getFirstVisiblePosition();
             View v = lvItems.getChildAt(0);
             top = (v == null) ? 0 : (v.getTop() - lvItems.getPaddingTop());
-            final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
+            final EditText edit_title = dialogView.findViewById(R.id.pass_title);
             edit_title.setHint(R.string.menu_addEntry);
 
             builder.setView(dialogView);

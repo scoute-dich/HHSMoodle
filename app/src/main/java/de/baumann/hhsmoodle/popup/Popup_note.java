@@ -60,7 +60,7 @@ public class Popup_note extends Activity {
         PreferenceManager.setDefaultValues(Popup_note.this, R.xml.user_settings, false);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(Popup_note.this);
 
-        lv = (ListView) findViewById(R.id.dialogList);
+        lv = findViewById(R.id.dialogList);
 
         //calling Notes_DbAdapter
         db = new Notes_DbAdapter(Popup_note.this);
@@ -95,8 +95,8 @@ public class Popup_note extends Activity {
                 final String note_attachment = row2.getString(row2.getColumnIndexOrThrow("note_attachment"));
 
                 View v = super.getView(position, convertView, parent);
-                ImageView iv_icon = (ImageView) v.findViewById(R.id.icon_notes);
-                ImageView iv_attachment = (ImageView) v.findViewById(R.id.att_notes);
+                ImageView iv_icon = v.findViewById(R.id.icon_notes);
+                ImageView iv_attachment = v.findViewById(R.id.att_notes);
                 helper_main.switchIcon(Popup_note.this, note_icon, "note_icon", iv_icon);
 
                 switch (note_attachment) {
@@ -142,7 +142,7 @@ public class Popup_note extends Activity {
                 final String attName = note_attachment.substring(note_attachment.lastIndexOf("/")+1);
                 final String att = getString(R.string.app_att) + ": " + attName;
 
-                attachment2 = (Button) dialogView.findViewById(R.id.button_att);
+                attachment2 = dialogView.findViewById(R.id.button_att);
                 if (attName.equals("")) {
                     attachment2.setVisibility(View.GONE);
                 } else {
@@ -153,7 +153,7 @@ public class Popup_note extends Activity {
                     attachment2.setVisibility(View.GONE);
                 }
 
-                textInput = (TextView) dialogView.findViewById(R.id.note_text_input);
+                textInput = dialogView.findViewById(R.id.note_text_input);
                 textInput.setText(note_content);
                 Linkify.addLinks(textInput, Linkify.WEB_URLS);
 
@@ -165,7 +165,7 @@ public class Popup_note extends Activity {
                     }
                 });
 
-                final ImageView be = (ImageView) dialogView.findViewById(R.id.imageButtonPri);
+                final ImageView be = dialogView.findViewById(R.id.imageButtonPri);
 
                 helper_main.switchIcon(Popup_note.this, note_icon, "note_icon", be);
 

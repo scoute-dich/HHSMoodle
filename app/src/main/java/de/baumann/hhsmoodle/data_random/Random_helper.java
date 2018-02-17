@@ -38,7 +38,7 @@ public class Random_helper {
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(activity);
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(activity);
         View dialogView = View.inflate(activity, R.layout.dialog_edit_title, null);
-        final EditText edit_title = (EditText) dialogView.findViewById(R.id.pass_title);
+        final EditText edit_title = dialogView.findViewById(R.id.pass_title);
         edit_title.setText(title);
         edit_title.setHint(R.string.bookmark_edit_title);
 
