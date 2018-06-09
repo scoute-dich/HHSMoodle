@@ -31,9 +31,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.provider.CalendarContract;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.text.Html;
 import android.text.SpannableString;
@@ -42,8 +40,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.MimeTypeMap;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -139,14 +137,6 @@ public class helper_main {
         activity.startActivity(intent);
         if (finishActivity) {
             activity.finish();
-        }
-    }
-
-    public static void onStart (final Activity activity) {
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            activity.getWindow().setStatusBarColor(ContextCompat.getColor(activity, R.color.colorPrimaryDark));
         }
     }
 
@@ -302,21 +292,6 @@ public class helper_main {
         }
     }
 
-    public static void createCalendarEvent (Activity activity, String title, String description, View view) {
-
-        try {
-            Intent calIntent = new Intent(Intent.ACTION_INSERT);
-            calIntent.setType("vnd.android.cursor.item/event");
-            calIntent.putExtra(CalendarContract.Events.TITLE, title);
-            calIntent.putExtra(CalendarContract.Events.DESCRIPTION, description);
-            activity.startActivity(calIntent);
-        } catch (Exception e) {
-            Snackbar snackbar = Snackbar
-                    .make(view, R.string.app_missing, Snackbar.LENGTH_LONG);
-            snackbar.show();
-        }
-    }
-
     public static void showKeyboard(final Activity activity, final EditText editText) {
         new Handler().postDelayed(new Runnable() {
             public void run() {
@@ -339,7 +314,7 @@ public class helper_main {
     // Strings, files, ...
 
     public static File appDir () {
-        return  new File(Environment.getExternalStorageDirectory() + "/Android/data/de.baumann.hhsmoodle/");
+        return  Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
     }
 
     public static File newFile () {
@@ -347,7 +322,7 @@ public class helper_main {
     }
 
     public static String newFileDest () {
-        return  ("/Android/data/de.baumann.hhsmoodle/");
+        return  (Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + "/");
     }
 
     public static String newFileName () {
@@ -366,122 +341,50 @@ public class helper_main {
         return  format.format(date);
     }
 
-    public static String createDateSecond () {
-        Date date = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss", Locale.getDefault());
-        return  format.format(date);
-    }
-
 
     // Open files
 
     public static void openAtt (Activity activity, View view, String fileString) {
+
         File file = new File(fileString);
-        final String fileExtension = file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("."));
-        String text = activity.getString(R.string.toast_extension) + ": " + fileExtension;
 
-        switch (fileExtension) {
-            case ".gif":case ".bmp":case ".tiff":case ".svg":case ".png":case ".jpg":case ".jpeg":case ".JPG":
-                helper_main.openFile(activity, file, "image/*", view);
-                break;
-            case ".m3u8":case ".mp3":case ".wma":case ".midi":case ".wav":case ".aac":case ".aif":case ".amp3":case ".weba":
-                helper_main.openFile(activity, file, "audio/*", view);
-                break;
-            case ".mpeg":case ".mp4":case ".ogg":case ".webm":case ".qt":case ".3gp":case ".3g2":case ".avi":case ".f4v":
-            case ".flv":case ".h261":case ".h263":case ".h264":case ".asf":case ".wmv":
-                helper_main.openFile(activity, file, "video/*", view);
-                break;
-            case ".rtx":case ".csv":case ".txt":case ".vcs":case ".vcf":case ".css":case ".ics":case ".conf":case ".config":case ".java":
-                helper_main.openFile(activity, file, "text/*", view);
-                break;
-            case ".html":
-                helper_main.openFile(activity, file, "text/html", view);
-                break;
-            case ".apk":
-                helper_main.openFile(activity, file, "application/vnd.android.package-archive", view);
-                break;
-            case ".pdf":
-                helper_main.openFile(activity, file, "application/pdf", view);
-                break;
-            case ".doc":
-                helper_main.openFile(activity, file, "application/msword", view);
-                break;
-            case ".xls":
-                helper_main.openFile(activity, file, "application/vnd.ms-excel", view);
-                break;
-            case ".ppt":
-                helper_main.openFile(activity, file, "application/vnd.ms-powerpoint", view);
-                break;
-            case ".docx":
-                helper_main.openFile(activity, file, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", view);
-                break;
-            case ".pptx":
-                helper_main.openFile(activity, file, "application/vnd.openxmlformats-officedocument.presentationml.presentation", view);
-                break;
-            case ".xlsx":
-                helper_main.openFile(activity, file, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", view);
-                break;
-            case ".odt":
-                helper_main.openFile(activity, file, "application/vnd.oasis.opendocument.text", view);
-                break;
-            case ".ods":
-                helper_main.openFile(activity, file, "application/vnd.oasis.opendocument.spreadsheet", view);
-                break;
-            case ".odp":
-                helper_main.openFile(activity, file, "application/vnd.oasis.opendocument.presentation", view);
-                break;
-            case ".zip":
-                helper_main.openFile(activity, file, "application/zip", view);
-                break;
-            case ".rar":
-                helper_main.openFile(activity, file, "application/x-rar-compressed", view);
-                break;
-            case ".epub":
-                helper_main.openFile(activity, file, "application/epub+zip", view);
-                break;
-            case ".cbz":
-                helper_main.openFile(activity, file, "application/x-cbz", view);
-                break;
-            case ".cbr":
-                helper_main.openFile(activity, file, "application/x-cbr", view);
-                break;
-            case ".fb2":
-                helper_main.openFile(activity, file, "application/x-fb2", view);
-                break;
-            case ".rtf":
-                helper_main.openFile(activity, file, "application/rtf", view);
-                break;
-            case ".opml":
-                helper_main.openFile(activity, file, "application/opml", view);
-                break;
-
-            default:
-                Snackbar snackbar = Snackbar
-                        .make(view, text, Snackbar.LENGTH_LONG);
-                snackbar.show();
-                break;
-        }
-    }
-
-    private static void openFile(Activity activity, File file, String string, View view) {
-
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_VIEW);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        MimeTypeMap myMime = MimeTypeMap.getSingleton();
+        Intent newIntent = new Intent(Intent.ACTION_VIEW);
+        String mimeType = myMime.getMimeTypeFromExtension(fileExt(file.getAbsolutePath()).substring(1));
+        newIntent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        newIntent.setDataAndType(Uri.fromFile(file),mimeType);
+        newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            newIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             Uri contentUri = FileProvider.getUriForFile(activity, activity.getApplicationContext().getPackageName() + ".provider", file);
-            intent.setDataAndType(contentUri,string);
-
+            newIntent.setDataAndType(contentUri,mimeType);
         } else {
-            intent.setDataAndType(Uri.fromFile(file),string);
+            newIntent.setDataAndType(Uri.fromFile(file),mimeType);
         }
 
         try {
-            activity.startActivity (intent);
+            activity.startActivity (newIntent);
         } catch (ActivityNotFoundException e) {
             Snackbar.make(view, R.string.toast_install_app, Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+    private static String fileExt(String url) {
+        if (url.contains("?")) {
+            url = url.substring(0, url.indexOf("?"));
+        }
+        if (url.lastIndexOf(".") == -1) {
+            return null;
+        } else {
+            String ext = url.substring(url.lastIndexOf(".") + 1);
+            if (ext.contains("%")) {
+                ext = ext.substring(0, ext.indexOf("%"));
+            }
+            if (ext.contains("/")) {
+                ext = ext.substring(0, ext.indexOf("/"));
+            }
+            return ext.toLowerCase();
         }
     }
 }

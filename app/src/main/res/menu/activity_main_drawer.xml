@@ -18,7 +18,8 @@
         </menu>
     </item>
 
-    <item android:title="@string/menu_tools">
+    <item android:title="@string/menu_tools"
+        android:id="@+id/nav_tools">
         <menu>
 
             <item

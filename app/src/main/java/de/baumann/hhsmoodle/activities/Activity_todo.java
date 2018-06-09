@@ -104,7 +104,6 @@ public class Activity_todo extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        helper_main.onStart(Activity_todo.this);
 
         final ActionBar actionBar = getSupportActionBar();
         if(actionBar != null) {

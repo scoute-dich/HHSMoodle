@@ -513,8 +513,7 @@ public class Count_Fragment extends Fragment {
                         getString(R.string.todo_share),
                         getString(R.string.todo_menu),
                         getString(R.string.bookmark_createNote),
-                        getString(R.string.number_create),
-                        getString(R.string.bookmark_createEvent)};
+                        getString(R.string.number_create)};
                 new AlertDialog.Builder(getActivity())
                         .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
 
@@ -587,10 +586,6 @@ public class Count_Fragment extends Fragment {
                                     Random_helper.newRandom(getActivity(), count_title, count_content, count_icon, getActivity().getString(R.string.note_content), false);
                                 }
 
-                                if (options[item].equals (getString(R.string.bookmark_createEvent))) {
-                                    helper_main.createCalendarEvent(getActivity(), count_title, count_content, lv);
-                                }
-
                                 if (options[item].equals (getString(R.string.bookmark_createNote))) {
                                     Notes_helper.newNote(getActivity(),count_title,count_content,count_icon,getString(R.string.note_content), false);
                                 }
@@ -621,10 +616,6 @@ public class Count_Fragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        Calendar cal = Calendar.getInstance();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        String search;
-
         switch (item.getItemId()) {
 
             case R.id.action_help:
@@ -650,44 +641,6 @@ public class Count_Fragment extends Fragment {
                         "", getString(R.string.action_filter_cont), true);
                 return true;
 
-            case R.id.filter_today:
-                helper_main.changeFilter(getActivity(), "filter_countBY", "count_creation");
-                setCountList();
-                search = dateFormat.format(cal.getTime());
-                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
-                        search, getString(R.string.action_filter_create), false);
-                return true;
-            case R.id.filter_yesterday:
-                helper_main.changeFilter(getActivity(), "filter_countBY", "count_creation");
-                setCountList();
-                cal.add(Calendar.DATE, -1);
-                search = dateFormat.format(cal.getTime());
-                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
-                        search, getString(R.string.action_filter_create), false);
-                return true;
-            case R.id.filter_before:
-                helper_main.changeFilter(getActivity(), "filter_countBY", "count_creation");
-                setCountList();
-                cal.add(Calendar.DATE, -2);
-                search = dateFormat.format(cal.getTime());
-                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
-                        search, getString(R.string.action_filter_create), false);
-                return true;
-            case R.id.filter_month:
-                helper_main.changeFilter(getActivity(), "filter_countBY", "count_creation");
-                setCountList();
-                DateFormat dateFormatMonth = new SimpleDateFormat("yyyy-MM", Locale.getDefault());
-                search = dateFormatMonth.format(cal.getTime());
-                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
-                        search, getString(R.string.action_filter_create), false);
-                return true;
-            case R.id.filter_own:
-                helper_main.changeFilter(getActivity(), "filter_countBY", "count_creation");
-                setCountList();
-                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
-                        "", getString(R.string.action_filter_create), true);
-                return true;
-
             case R.id.sort_title:
                 sharedPref.edit().putString("sortDBC", "title").apply();
                 setTitle();
@@ -695,11 +648,6 @@ public class Count_Fragment extends Fragment {
                 return true;
             case R.id.sort_icon:
                 sharedPref.edit().putString("sortDBC", "icon").apply();
-                setTitle();
-                setCountList();
-                return true;
-            case R.id.sort_creation:
-                sharedPref.edit().putString("sortDBC", "create").apply();
                 setTitle();
                 setCountList();
                 return true;

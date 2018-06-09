@@ -172,7 +172,7 @@ public class FragmentBrowser extends Fragment {
                                 request.addRequestHeader("Cookie", CookieManager.getInstance().getCookie(url));
                                 request.allowScanningByMediaScanner();
                                 request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED); //Notify client once download is completed!
-                                request.setDestinationInExternalPublicDir(newFileDest(), filename);
+                                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOCUMENTS, filename);
                                 DownloadManager dm = (DownloadManager) getActivity().getSystemService(DOWNLOAD_SERVICE);
                                 dm.enqueue(request);
 
@@ -250,7 +250,7 @@ public class FragmentBrowser extends Fragment {
                         @Override
                         public void onClick(View view) {
                             ViewPager viewPager = getActivity().findViewById(R.id.viewpager);
-                            viewPager.setCurrentItem(5, true);
+                            viewPager.setCurrentItem(2, true);
                         }
                     });
             snackbar.show();
@@ -465,18 +465,6 @@ public class FragmentBrowser extends Fragment {
             progressBar.setVisibility(progress == 100 ? View.GONE : View.VISIBLE);
         }
 
-        //For Android 4.1
-        @SuppressWarnings({"UnusedParameters", "unused"})
-        public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String capture) {
-            mUploadMessage = uploadMsg;
-            Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-            i.addCategory(Intent.CATEGORY_OPENABLE);
-            i.setType("*/*");
-            startActivityForResult(Intent.createChooser(i, getString(R.string.app_share_file)),
-                    RESULT_CODE_ICE_CREAM);
-        }
-
-        //For Android5.0+
         public boolean onShowFileChooser(
                 WebView webView, ValueCallback<Uri[]> filePathCallback,
                 FileChooserParams fileChooserParams) {
@@ -605,6 +593,17 @@ public class FragmentBrowser extends Fragment {
                 Uri uri = Uri.fromFile(shareFile);
                 Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri);
                 getActivity().sendBroadcast(intent);
+
+                Snackbar snackbar = Snackbar
+                        .make(mWebView, getString(R.string.toast_download_2), Snackbar.LENGTH_LONG)
+                        .setAction(getString(R.string.toast_yes), new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                ViewPager viewPager = getActivity().findViewById(R.id.viewpager);
+                                viewPager.setCurrentItem(2, true);
+                            }
+                        });
+                snackbar.show();
 
             } catch (Exception e) {
                 e.printStackTrace();

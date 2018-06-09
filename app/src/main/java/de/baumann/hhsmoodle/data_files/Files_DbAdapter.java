@@ -21,14 +21,10 @@ package de.baumann.hhsmoodle.data_files;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.preference.PreferenceManager;
-
-import de.baumann.hhsmoodle.R;
 
 
 public class Files_DbAdapter {
@@ -82,36 +78,14 @@ public class Files_DbAdapter {
     }
 
     //fetch data
-    public Cursor fetchAllData(Context context) {
-
-        PreferenceManager.setDefaultValues(context, R.xml.user_settings, false);
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+    public Cursor fetchAllData() {
 
         String[] columns = new String[]{"_id", "files_title", "files_content", "files_icon","files_attachment","files_creation"};
 
-        if (sp.getString("sortDBF", "title").equals("title")) {
-            return sqlDb.query(dbTable, columns, null, null, null, null, "files_title" + " COLLATE NOCASE ASC;");
-        } else if (sp.getString("sortDBF", "title").equals("file_Size")) {
+        String orderBy = "files_icon" + "," +
+                "files_title" + " COLLATE NOCASE ASC;";
 
-            String orderBy = "files_content" + "," +
-                    "files_title" + " COLLATE NOCASE ASC;";
-
-            return sqlDb.query(dbTable, columns, null, null, null, null, orderBy);
-        } else if (sp.getString("sortDBF", "title").equals("file_ext")) {
-
-            String orderBy = "files_icon" + "," +
-                    "files_title" + " COLLATE NOCASE ASC;";
-
-            return sqlDb.query(dbTable, columns, null, null, null, null, orderBy);
-        } else if (sp.getString("sortDBF", "title").equals("file_date")) {
-
-            String orderBy = "files_creation" + "," +
-                    "files_title" + " COLLATE NOCASE ASC;";
-
-            return sqlDb.query(dbTable, columns, null, null, null, null, orderBy);
-        }
-
-        return null;
+        return sqlDb.query(dbTable, columns, null, null, null, null, orderBy);
     }
 
     //fetch data by filter

@@ -29,7 +29,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
@@ -81,7 +80,6 @@ public class Activity_settings extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        helper_main.onStart(Activity_settings.this);
 
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         if(actionBar != null) {
@@ -96,98 +94,6 @@ public class Activity_settings extends AppCompatActivity {
     public static class SettingsFragment extends PreferenceFragment {
 
         private FrameLayout frameLayout;
-
-        private void addShortcutListener() {
-
-            final Activity activity = getActivity();
-            Preference reset = findPreference("shortcuts");
-
-            reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                public boolean onPreferenceClick(Preference pref) {
-
-                    final CharSequence[] options = {
-                            getString(R.string.title_browser),
-                            getString(R.string.title_bookmarks),
-                            getString(R.string.todo_title),
-                            getString(R.string.title_notes)};
-
-                    new AlertDialog.Builder(activity)
-                            .setTitle(getString(R.string.action_shortcut))
-                            .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    dialog.cancel();
-                                }
-                            })
-                            .setItems(options, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int item) {
-
-                                    if (options[item].equals (getString(R.string.title_browser))) {
-                                        Intent i = new Intent(activity.getApplicationContext(), Activity_splash.class);
-                                        i.setAction("shortcutBrowser");
-
-                                        Intent shortcut = new Intent();
-                                        shortcut.setAction(Intent.ACTION_MAIN);
-                                        shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, i);
-                                        shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, (getString(R.string.title_browser)));
-                                        shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
-                                                Intent.ShortcutIconResource.fromContext(activity.getApplicationContext(), R.drawable.qc_moodle));
-                                        shortcut.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
-                                        activity.sendBroadcast(shortcut);
-                                        helper_main.makeToast(activity, getString(R.string.toast_shortcut));
-                                    }
-
-                                    if (options[item].equals (getString(R.string.title_bookmarks))) {
-                                        Intent i = new Intent(activity.getApplicationContext(), Activity_splash.class);
-                                        i.setAction("shortcutBookmarks");
-
-                                        Intent shortcut = new Intent();
-                                        shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, i);
-                                        shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, i);
-                                        shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, (getString(R.string.title_bookmarks)));
-                                        shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
-                                                Intent.ShortcutIconResource.fromContext(activity.getApplicationContext(), R.drawable.qc_fav));
-                                        shortcut.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
-                                        activity.sendBroadcast(shortcut);
-                                        helper_main.makeToast(activity, getString(R.string.toast_shortcut));
-                                    }
-
-                                    if (options[item].equals (getString(R.string.todo_title))) {
-                                        Intent i = new Intent(activity.getApplicationContext(), Activity_splash.class);
-                                        i.setAction("shortcutToDo");
-
-                                        Intent shortcut = new Intent();
-                                        shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, i);
-                                        shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, (getString(R.string.todo_title)));
-                                        shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
-                                                Intent.ShortcutIconResource.fromContext(activity.getApplicationContext(), R.drawable.qc_todo));
-                                        shortcut.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
-                                        activity.sendBroadcast(shortcut);
-                                        helper_main.makeToast(activity, getString(R.string.toast_shortcut));
-                                    }
-
-                                    if (options[item].equals (getString(R.string.title_notes))) {
-                                        Intent i = new Intent(activity.getApplicationContext(), Activity_splash.class);
-                                        i.setAction("shortcutNotes");
-
-                                        Intent shortcut = new Intent();
-                                        shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, i);
-                                        shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, (getString(R.string.title_notes)));
-                                        shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
-                                                Intent.ShortcutIconResource.fromContext(activity.getApplicationContext(), R.drawable.qc_note));
-                                        shortcut.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
-                                        activity.sendBroadcast(shortcut);
-                                        helper_main.makeToast(activity, getString(R.string.toast_shortcut));
-                                    }
-
-                                }
-                            }).show();
-
-                    return true;
-                }
-            });
-        }
 
         private void addIntroListener() {
 
@@ -320,7 +226,7 @@ public class Activity_settings extends AppCompatActivity {
             reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference pref) {
 
-                    File directory = new File(Environment.getExternalStorageDirectory() + "/Android/data/hhsmoodle.backup/");
+                    File directory = new File(helper_main.appDir() + "/moodle_backup/");
                     helper_security.grantPermissions(getActivity());
 
                     if (!directory.exists()) {
@@ -854,7 +760,6 @@ public class Activity_settings extends AppCompatActivity {
             addProtectListener();
             addBackup_dbListener();
             addIntroListener();
-            addShortcutListener();
             addPermissionListener();
         }
 
@@ -866,7 +771,7 @@ public class Activity_settings extends AppCompatActivity {
                 PackageInfo p = m.getPackageInfo(s, 0);
                 s = p.applicationInfo.dataDir;
 
-                String pathIN = Environment.getExternalStorageDirectory() + "/Android/data/hhsmoodle.backup/" + name;
+                String pathIN = helper_main.appDir() + "/moodle_backup/" + name;
                 String pathOUT = s + "/databases/" + name;
                 File fileIN = new File(pathIN);
 

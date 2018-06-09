@@ -87,7 +87,7 @@
         and other content on your sd-card.</string>
 
     <string name="files_help2">File operations</string>
-    <string name="files_help_text2">Of course you can open the files. You can also delete, rename and share them.</string>
+    <string name="files_help_text2">You can open (click), share and delete (long click) files.</string>
 
     <string name="count_help1">Counter</string>
     <string name="count_help_text1">With the counter you can create lists with different entries. Each entry has start

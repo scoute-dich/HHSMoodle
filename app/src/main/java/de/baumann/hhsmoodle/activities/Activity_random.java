@@ -81,7 +81,6 @@ public class Activity_random extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_random);
-        helper_main.onStart(Activity_random.this);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

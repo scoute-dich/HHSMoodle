@@ -31,6 +31,9 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             style="@android:style/Widget.ProgressBar.Horizontal"
+            android:progressBackgroundTint="@color/colorPrimary"
+            android:progressBackgroundTintMode="src_over"
+            android:progressTint="@color/colorAccent"
             android:id="@+id/progressBar" />
 
         <ImageButton

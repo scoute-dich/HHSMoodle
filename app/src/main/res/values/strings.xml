@@ -26,7 +26,6 @@
     <string name="app_att">Attachment</string>
     <string name="app_myMoodle">My Moodle</string>
     <string name="app_close">Please wait … Closing app.</string>
-    <string name="app_missing">No compatible application found.</string>
 
 
     // Moodle
@@ -76,14 +75,8 @@
     <string name="intro1_text">Thanks for choosing HHS Moodle. Please read the following introduction carefully. You can reach
         all important functions by swiping from the left to the middle of your screen.</string>
 
-    <string name="intro2_title">Navigation</string>
-    <string name="intro2_text">You can reach all important functions by swiping from the left to the middle of your screen.</string>
-
     <string name="intro6_title">Help</string>
     <string name="intro6_text">Over the menu you can reach a help dialog on every screen.</string>
-
-    <string name="intro7_title">Settings</string>
-    <string name="intro7_text">Configure the app to your fittings.</string>
 
     <string name="intro8_title">Security</string>
     <string name="intro8_text">All databases and your login data are decrypted. Create a pin to protect the app against unwanted usage.</string>
@@ -112,7 +105,6 @@
 
     <string name="sort_title">title</string>
     <string name="sort_date">date</string>
-    <string name="sort_extension">extension</string>
     <string name="sort_icon">icon</string>
     <string name="sort_not">notification</string>
     <string name="sort_att">attachment</string>
@@ -138,7 +130,6 @@
     <string name="action_sort">Sort entries</string>
     <string name="action_sort_title">Sort by title</string>
     <string name="action_sort_icon">Sort by icon</string>
-    <string name="action_sort_create">Sort by date</string>
     <string name="action_sort_att">Sort by Attachment</string>
     <string name="action_sort_notification">Sort by notification</string>
     <string name="action_sort_ext">Sort by extension</string>
@@ -146,18 +137,11 @@
     <string name="action_filter">Search</string>
     <string name="action_filter_title">Search in titles</string>
     <string name="action_filter_cont">Search in content</string>
-    <string name="action_filter_create">Search in creation dates</string>
     <string name="action_filter_url">Search in URLs</string>
     <string name="action_filter_att">Search in attachments</string>
     <string name="action_filter_course">Search in courses</string>
     <string name="action_filter_subject">Search in subjects</string>
     <string name="action_filter_ext">Search for file extension</string>
-
-    <string name="filter_today">Today</string>
-    <string name="filter_yesterday">Yesterday</string>
-    <string name="filter_before">Day before yesterday</string>
-    <string name="filter_month">This month</string>
-    <string name="filter_own">Own search</string>
 
 
     // Context Menu
@@ -194,10 +178,6 @@
     <string name="action_backupAut">Automatic backup</string>
     <string name="action_backupAut_summary">Always backup all databases (Todo, bookmarks, …), when leaving the app.</string>
 
-    <string name="action_shortcut">Shortcuts</string>
-    <string name="action_shortcut_summary">Create shortcuts on your desktop for fast access to main functions of the app (Bookmarks,
-        todo lists, …).</string>
-
     <string name="action_not">Notification</string>
     <string name="action_not_summary">Receive a notification after restarting the phone, which allows to search fast
         for important todo lists.</string>
@@ -205,6 +185,10 @@
     <string name="action_restore">Restore</string>
     <string name="action_delete">Delete</string>
     <string name="action_data">Data</string>
+
+    <string name="action_tools">Tools</string>
+    <string name="action_tools_summary">Use advanced tools within \"HHS Moodle\": notes, todo-lists, counter and some more.
+        They will also be reachable within the navigation drawer.</string>
 
 
     // Snackbar
@@ -217,11 +201,9 @@
     <string name="toast_download_2">Download completed. Open folder manager?</string>
     <string name="toast_perm">Permissions granted?</string>
     <string name="toast_wrongPW">Uuups. Wrong password.</string>
-    <string name="toast_shortcut">Shortcut successfully created.</string>
     <string name="toast_backup_not">Backup failed.</string>
     <string name="toast_restore_not">Restore failed.</string>
     <string name="toast_screenshot_failed">Failed to create screenshot.</string>
-    <string name="toast_extension">No supported file extension</string>
     <string name="toast_install_app">Please install an app to perform action.</string>
     <string name="toast_newTitle">Title already exists.</string>
     <string name="toast_noEntry">There\'s no entry in the list.</string>
@@ -249,8 +231,6 @@
     <string name="bookmark_setFav_not">You can only choose one favorite.</string>
     <string name="bookmark_edit_title">Edit title</string>
     <string name="bookmark_createNote">Create note</string>
-    <string name="bookmark_createEvent">Create calendar event</string>
-    <string name="bookmark_createShortcut">Create shortcut</string>
 
 
     // Notes
@@ -278,11 +258,8 @@
 
     <string name="choose_titleMain">Files</string>
     <string name="choose_menu_2">Share</string>
-    <string name="choose_menu_3">Rename</string>
     <string name="choose_menu_4">Delete</string>
 
-    <string name="choose_hint">New filename</string>
-    <string name="choose_title">Edit filename</string>
     <string name="choose_att">Choose attachment</string>
 
 

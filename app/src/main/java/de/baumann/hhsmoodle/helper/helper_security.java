@@ -8,7 +8,6 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
@@ -180,7 +179,7 @@ public class helper_security {
             PackageInfo p = m.getPackageInfo(s, 0);
             s = p.applicationInfo.dataDir;
 
-            String pathOUT = Environment.getExternalStorageDirectory() + "/Android/data/hhsmoodle.backup/" + name;
+            String pathOUT = helper_main.appDir() + "/moodle_backup/" + name;
             String pathIN = s + "/databases/" + name;
 
             File fileIN = new File(pathIN);

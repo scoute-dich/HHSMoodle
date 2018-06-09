@@ -490,8 +490,7 @@ public class Random_Fragment extends Fragment {
                         getString(R.string.todo_share),
                         getString(R.string.todo_menu),
                         getString(R.string.bookmark_createNote),
-                        getString(R.string.count_create),
-                        getString(R.string.bookmark_createEvent)};
+                        getString(R.string.count_create)};
                 new android.app.AlertDialog.Builder(getActivity())
                         .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
 
@@ -569,10 +568,6 @@ public class Random_Fragment extends Fragment {
                                     Count_helper.newCount(getActivity(), random_title, random_content, random_icon,getActivity().getString(R.string.note_content), false);
                                 }
 
-                                if (options[item].equals (getString(R.string.bookmark_createEvent))) {
-                                    helper_main.createCalendarEvent(getActivity(), random_title, random_content, lv);
-                                }
-
                             }
                         }).show();
 
@@ -603,10 +598,6 @@ public class Random_Fragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        Calendar cal = Calendar.getInstance();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        String search;
-
         switch (item.getItemId()) {
 
             case R.id.action_help:
@@ -630,44 +621,6 @@ public class Random_Fragment extends Fragment {
                 setRandomList();
                 helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
                         "", getString(R.string.action_filter_cont), true);
-                return true;
-
-            case R.id.filter_today:
-                helper_main.changeFilter(getActivity(), "filter_randomBY", "random_creation");
-                setRandomList();
-                search = dateFormat.format(cal.getTime());
-                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
-                        search, getString(R.string.action_filter_create), false);
-                return true;
-            case R.id.filter_yesterday:
-                helper_main.changeFilter(getActivity(), "filter_randomBY", "random_creation");
-                setRandomList();
-                cal.add(Calendar.DATE, -1);
-                search = dateFormat.format(cal.getTime());
-                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
-                        search, getString(R.string.action_filter_create), false);
-                return true;
-            case R.id.filter_before:
-                helper_main.changeFilter(getActivity(), "filter_randomBY", "random_creation");
-                setRandomList();
-                cal.add(Calendar.DATE, -2);
-                search = dateFormat.format(cal.getTime());
-                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
-                        search, getString(R.string.action_filter_create), false);
-                return true;
-            case R.id.filter_month:
-                helper_main.changeFilter(getActivity(), "filter_randomBY", "random_creation");
-                setRandomList();
-                DateFormat dateFormatMonth = new SimpleDateFormat("yyyy-MM", Locale.getDefault());
-                search = dateFormatMonth.format(cal.getTime());
-                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
-                        search, getString(R.string.action_filter_create), false);
-                return true;
-            case R.id.filter_own:
-                helper_main.changeFilter(getActivity(), "filter_randomBY", "random_creation");
-                setRandomList();
-                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
-                        "", getString(R.string.action_filter_create), true);
                 return true;
 
 

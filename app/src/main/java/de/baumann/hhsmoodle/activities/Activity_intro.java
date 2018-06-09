@@ -41,26 +41,19 @@ public class Activity_intro extends OnboarderActivity {
 
         // Create your first page
         OnboarderPage onboarderPage1 = new OnboarderPage(getString(R.string.intro1_title), getString(R.string.intro1_text), R.drawable.launcher_big);
-        OnboarderPage onboarderPage2 = new OnboarderPage(getString(R.string.intro2_title), getString(R.string.intro2_text), R.drawable.screenshot_0);
         OnboarderPage onboarderPage7 = new OnboarderPage(getString(R.string.intro6_title), getString(R.string.intro6_text), R.drawable.screenshot_5);
-        OnboarderPage onboarderPage8 = new OnboarderPage(getString(R.string.intro7_title), getString(R.string.intro7_text), R.drawable.screenshot_6);
         OnboarderPage onboarderPage9 = new OnboarderPage(getString(R.string.intro8_title), getString(R.string.intro8_text), R.drawable.screenshot_7);
         OnboarderPage onboarderPage10 = new OnboarderPage(getString(R.string.intro9_title), getString(R.string.intro9_text), R.drawable.screenshot_8);
+
         // You can define title and description colors (by default white)
         // Don't forget to set background color for your page
 
         onboarderPage1.setBackgroundColor(R.color.colorPrimaryDark);
         onboarderPage1.setTitleColor(R.color.colorAccent);
         onboarderPage1.setDescriptionColor(R.color.color_light);
-        onboarderPage2.setBackgroundColor(R.color.colorPrimaryDark);
-        onboarderPage2.setTitleColor(R.color.colorAccent);
-        onboarderPage2.setDescriptionColor(R.color.color_light);
         onboarderPage7.setBackgroundColor(R.color.colorPrimaryDark);
         onboarderPage7.setTitleColor(R.color.colorAccent);
         onboarderPage7.setDescriptionColor(R.color.color_light);
-        onboarderPage8.setBackgroundColor(R.color.colorPrimaryDark);
-        onboarderPage8.setTitleColor(R.color.colorAccent);
-        onboarderPage8.setDescriptionColor(R.color.color_light);
         onboarderPage9.setBackgroundColor(R.color.colorPrimaryDark);
         onboarderPage9.setTitleColor(R.color.colorAccent);
         onboarderPage9.setDescriptionColor(R.color.color_light);
@@ -70,9 +63,7 @@ public class Activity_intro extends OnboarderActivity {
 
         // Add your pages to the list
         onboarderPages.add(onboarderPage1);
-        onboarderPages.add(onboarderPage2);
         onboarderPages.add(onboarderPage7);
-        onboarderPages.add(onboarderPage8);
         onboarderPages.add(onboarderPage9);
         onboarderPages.add(onboarderPage10);
 

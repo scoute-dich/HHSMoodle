@@ -98,8 +98,7 @@
     deiner SD-Karte durchsuchen.</string>
 
     <string name="files_help2">Dateioperationen</string>
-    <string name="files_help_text2">Natürlich kannst du Dateien öffnen. Du kannst sie aber auch löschen, umbenennen oder
-        teilen.</string>
+    <string name="files_help_text2">Du kannst Dateien öffnen (anklicken), teilen oder löschen (langer Klick).</string>
 
     <string name="count_help1">Zähler</string>
     <string name="count_help_text1">Hier kannst du Listen mit mehreren Einträgen anlegen. Jeder Eintrag hat einen Startwert von \"0\".</string>

@@ -10,10 +10,10 @@ import android.text.method.LinkMovementMethod;
 import android.widget.TextView;
 
 import com.danielstone.materialaboutlibrary.ConvenienceBuilder;
-import com.danielstone.materialaboutlibrary.model.MaterialAboutActionItem;
+import com.danielstone.materialaboutlibrary.items.MaterialAboutActionItem;
+import com.danielstone.materialaboutlibrary.items.MaterialAboutTitleItem;
 import com.danielstone.materialaboutlibrary.model.MaterialAboutCard;
 import com.danielstone.materialaboutlibrary.model.MaterialAboutList;
-import com.danielstone.materialaboutlibrary.model.MaterialAboutTitleItem;
 
 import de.baumann.hhsmoodle.R;
 import de.baumann.hhsmoodle.activities.Activity_intro;

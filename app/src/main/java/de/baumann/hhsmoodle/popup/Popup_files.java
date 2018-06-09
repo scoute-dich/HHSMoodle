@@ -35,8 +35,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
-import com.bumptech.glide.Glide;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -211,10 +209,7 @@ public class Popup_files extends Activity {
 
         Popup_files.this.deleteDatabase("files_DB_v01.db");
 
-        String path = sharedPref.getString("files_startFolder",
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath());
-
-        File f = new File(path);
+        File f = new File (sharedPref.getString("files_startFolder", helper_main.newFileDest()));
         final File[] files = f.listFiles();
 
         // looping through all items <item>
@@ -269,14 +264,13 @@ public class Popup_files extends Activity {
                 "files_creation"
         };
 
-        final Cursor row = db.fetchAllData(Popup_files.this);
+        final Cursor row = db.fetchAllData();
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(Popup_files.this, layoutstyle,row,column, xml_id, 0) {
             @Override
             public View getView (final int position, View convertView, ViewGroup parent) {
 
                 Cursor row = (Cursor) lv.getItemAtPosition(position);
                 final String files_icon = row.getString(row.getColumnIndexOrThrow("files_icon"));
-                final String files_attachment = row.getString(row.getColumnIndexOrThrow("files_attachment"));
 
                 View v = super.getView(position, convertView, parent);
                 final ImageView iv = v.findViewById(R.id.icon_notes);
@@ -293,16 +287,7 @@ public class Popup_files extends Activity {
                 } else if (files_icon.matches("(.mpeg|.mp4|.webm|.qt|.3gp|.3g2|.avi|.flv|.h261|.h263|.h264|.asf|.wmv)")) {
                     iv.setImageResource(R.drawable.file_video);
                 } else if(files_icon.matches("(.gif|.bmp|.tiff|.svg|.png|.jpg|.JPG|.jpeg)")) {
-                    try {
-                        Glide.with(Popup_files.this)
-                                .load(files_attachment) // or URI/path
-                                .override(76, 76)
-                                .centerCrop()
-                                .into(iv); //imageView to set thumbnail to
-                    } catch (Exception e) {
-                        Log.w("HHS_Moodle", "Error load thumbnail", e);
-                        iv.setImageResource(R.drawable.file_image);
-                    }
+                    iv.setImageResource(R.drawable.file_image);
                 } else if (files_icon.matches("(.vcs|.vcf|.css|.ics|.conf|.config|.java|.html)")) {
                     iv.setImageResource(R.drawable.file_xml);
                 } else if (files_icon.matches("(.apk)")) {

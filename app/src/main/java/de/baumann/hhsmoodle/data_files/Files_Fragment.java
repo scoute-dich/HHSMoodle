@@ -53,13 +53,9 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SimpleCursorAdapter;
 
-import com.bumptech.glide.Glide;
-
 import java.io.File;
-import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -170,10 +166,7 @@ public class Files_Fragment extends Fragment {
         db = new Files_DbAdapter(getActivity());
         db.open();
 
-        String folder = sharedPref.getString("folder", "/Android/data/de.baumann.pdf/");
-
-        File f = new File(sharedPref.getString("files_startFolder",
-                folder));
+        File f = new File(sharedPref.getString("files_startFolder", helper_main.newFileDest()));
         final File[] files = f.listFiles();
 
         try {
@@ -232,7 +225,7 @@ public class Files_Fragment extends Fragment {
                 "files_content",
                 "files_creation"
         };
-        final Cursor row = db.fetchAllData(getActivity());
+        final Cursor row = db.fetchAllData();
         adapter = new SimpleCursorAdapter(getActivity(), layoutstyle,row,column, xml_id, 0) {
             @Override
             public View getView (final int position, View convertView, ViewGroup parent) {
@@ -260,16 +253,7 @@ public class Files_Fragment extends Fragment {
                             break;
                         case ".gif":case ".bmp":case ".tiff":case ".svg":
                         case ".png":case ".jpg":case ".JPG":case ".jpeg":
-                            try {
-                                Glide.with(getActivity())
-                                        .load(files_attachment) // or URI/path
-                                        .override(76, 76)
-                                        .centerCrop()
-                                        .into(iv); //imageView to set thumbnail to
-                            } catch (Exception e) {
-                                Log.w("HHS_Moodle", "Error load thumbnail", e);
-                                iv.setImageResource(R.drawable.file_image);
-                            }
+                            iv.setImageResource(R.drawable.file_image);
                             break;
                         case ".m3u8":case ".mp3":case ".wma":case ".midi":case ".wav":case ".aac":
                         case ".aif":case ".amp3":case ".weba":case ".ogg":
@@ -278,16 +262,7 @@ public class Files_Fragment extends Fragment {
                         case ".mpeg":case ".mp4":case ".webm":case ".qt":case ".3gp":
                         case ".3g2":case ".avi":case ".f4v":case ".flv":case ".h261":case ".h263":
                         case ".h264":case ".asf":case ".wmv":
-                            try {
-                                Glide.with(getActivity())
-                                        .load(files_attachment) // or URI/path
-                                        .override(76, 76)
-                                        .centerCrop()
-                                        .into(iv); //imageView to set thumbnail to
-                            } catch (Exception e) {
-                                Log.w("HHS_Moodle", "Error load thumbnail", e);
-                                iv.setImageResource(R.drawable.file_video);
-                            }
+                            iv.setImageResource(R.drawable.file_video);
                             break;
                         case ".vcs":case ".vcf":case ".css":case ".ics":case ".conf":case ".config":
                         case ".java":case ".html":
@@ -345,7 +320,6 @@ public class Files_Fragment extends Fragment {
                 isEdited();
                 Cursor row2 = (Cursor) lv.getItemAtPosition(position);
                 final String files_attachment = row2.getString(row2.getColumnIndexOrThrow("files_attachment"));
-
                 final File pathFile = new File(files_attachment);
 
                 if(pathFile.isDirectory()) {
@@ -397,7 +371,6 @@ public class Files_Fragment extends Fragment {
 
                     final CharSequence[] options = {
                             getString(R.string.choose_menu_2),
-                            getString(R.string.choose_menu_3),
                             getString(R.string.choose_menu_4)};
 
                     final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
@@ -435,41 +408,6 @@ public class Files_Fragment extends Fragment {
                                             }
                                         });
                                 snackbar.show();
-                            }
-                            if (options[item].equals(getString(R.string.choose_menu_3))) {
-
-                                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getActivity());
-                                View dialogView = View.inflate(getActivity(), R.layout.dialog_edit_file, null);
-
-                                final EditText edit_title = dialogView.findViewById(R.id.pass_title);
-                                edit_title.setText(files_title);
-
-                                builder.setView(dialogView);
-                                builder.setTitle(R.string.choose_title);
-                                builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
-
-                                    public void onClick(DialogInterface dialog, int whichButton) {
-
-                                        String inputTag = edit_title.getText().toString().trim();
-
-                                        File dir = pathFile.getParentFile();
-                                        File to = new File(dir,inputTag);
-
-                                        pathFile.renameTo(to);
-                                        pathFile.delete();
-                                        setFilesList();
-                                    }
-                                });
-                                builder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                                    public void onClick(DialogInterface dialog, int whichButton) {
-                                        dialog.cancel();
-                                    }
-                                });
-                                AlertDialog dialog2 = builder.create();
-                                // Display the custom alert dialog on interface
-                                dialog2.show();
-                                helper_main.showKeyboard(getActivity(),edit_title);
                             }
                         }
                     });
@@ -520,15 +458,8 @@ public class Files_Fragment extends Fragment {
     public void onPrepareOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         super.onPrepareOptionsMenu(menu);
-        menu.findItem(R.id.sort_attachment).setVisible(false);
-        menu.findItem(R.id.sort_notification).setVisible(false);
-        menu.findItem(R.id.sort_icon).setVisible(false);
-        menu.findItem(R.id.sort_icon).setVisible(false);
-        menu.findItem(R.id.filter_content).setVisible(false);
-        menu.findItem(R.id.filter_att).setVisible(false);
-        menu.findItem(R.id.filter_url).setVisible(false);
-        menu.findItem(R.id.filter_course).setVisible(false);
-        menu.findItem(R.id.filter_title_own).setVisible(false);
+        menu.findItem(R.id.action_filter).setVisible(false);
+        menu.findItem(R.id.action_sort).setVisible(false);
         setTitle();
         fillFileList();
         helper_main.hideKeyboard(getActivity());
@@ -537,17 +468,13 @@ public class Files_Fragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        Calendar cal = Calendar.getInstance();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        String search;
-
         switch (item.getItemId()) {
 
             case R.id.action_help:
                 helper_main.switchToActivity(getActivity(), Files_Help.class, false);
                 return true;
 
-            case R.id.filter_title:
+            case R.id.filter_title_own:
                 helper_main.changeFilter(getActivity(), "filter_filesBY", "files_title");
                 fillFileList();
                 helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
@@ -560,72 +487,13 @@ public class Files_Fragment extends Fragment {
                         "", getString(R.string.action_filter_ext), true);
                 return true;
 
-            case R.id.filter_today:
-                helper_main.changeFilter(getActivity(), "filter_filesBY", "files_creation");
-                fillFileList();
-                search = dateFormat.format(cal.getTime());
-                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
-                        search, getString(R.string.action_filter_create), false);
-                return true;
-            case R.id.filter_yesterday:
-                helper_main.changeFilter(getActivity(), "filter_filesBY", "files_creation");
-                fillFileList();
-                cal.add(Calendar.DATE, -1);
-                search = dateFormat.format(cal.getTime());
-                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
-                        search, getString(R.string.action_filter_create), false);
-                return true;
-            case R.id.filter_before:
-                helper_main.changeFilter(getActivity(), "filter_filesBY", "files_creation");
-                fillFileList();
-                cal.add(Calendar.DATE, -2);
-                search = dateFormat.format(cal.getTime());
-                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
-                        search, getString(R.string.action_filter_create), false);
-                return true;
-            case R.id.filter_month:
-                helper_main.changeFilter(getActivity(), "filter_filesBY", "files_creation");
-                setFilesList();
-                DateFormat dateFormatMonth = new SimpleDateFormat("yyyy-MM", Locale.getDefault());
-                search = dateFormatMonth.format(cal.getTime());
-                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
-                        search, getString(R.string.action_filter_create), false);
-                return true;
-            case R.id.filter_own:
-                helper_main.changeFilter(getActivity(), "filter_filesBY", "files_creation");
-                setFilesList();
-                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
-                        "", getString(R.string.action_filter_create), true);
-                return true;
-
-            case R.id.sort_title:
-                sharedPref.edit().putString("sortDBF", "title").apply();
-                setTitle();
-                setFilesList();
-                return true;
-            case R.id.sort_ext:
-                sharedPref.edit().putString("sortDBF", "file_ext").apply();
-                setTitle();
-                setFilesList();
-                return true;
-            case R.id.sort_creation:
-                sharedPref.edit().putString("sortDBF", "file_date").apply();
-                setTitle();
-                setFilesList();
-                return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
     public void setTitle () {
-        if (sharedPref.getString("sortDBF", "title").equals("title")) {
-            getActivity().setTitle(getString(R.string.choose_titleMain) + " | " + getString(R.string.sort_title));
-        } else if (sharedPref.getString("sortDBF", "title").equals("file_ext")) {
-            getActivity().setTitle(getString(R.string.choose_titleMain) + " | " + getString(R.string.sort_extension));
-        } else {
-            getActivity().setTitle(getString(R.string.choose_titleMain) + " | " + getString(R.string.sort_date));
-        }
+        getActivity().setTitle(getString(R.string.choose_titleMain));
     }
 
     private void fillFileList() {

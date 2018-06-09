@@ -34,42 +34,6 @@
         <categories android:name="android.shortcut.conversation" />
     </shortcut>
 
-    <shortcut
-        android:shortcutId="shortcutToDo"
-        android:enabled="true"
-        android:icon="@drawable/qc_todo"
-        android:shortcutShortLabel="@string/todo_title"
-        android:shortcutLongLabel="@string/todo_title"
-        android:shortcutDisabledMessage="@string/todo_title">
-        <intent
-            android:action="shortcutToDo"
-            android:targetPackage="de.baumann.hhsmoodle"
-            android:targetClass="de.baumann.hhsmoodle.activities.Activity_splash" />
-        <!-- If your shortcut is associated with multiple intents, include them
-             here. The last intent in the list is what the user sees when they
-             launch this shortcut. -->
-        <categories android:name="android.shortcut.conversation" />
-    </shortcut>
-
-    <shortcut
-        android:shortcutId="shortcutNotes"
-        android:enabled="true"
-        android:icon="@drawable/qc_note"
-        android:shortcutShortLabel="@string/title_notes"
-        android:shortcutLongLabel="@string/title_notes"
-        android:shortcutDisabledMessage="@string/title_notes">
-        <intent
-            android:action="shortcutNotes"
-            android:targetPackage="de.baumann.hhsmoodle"
-            android:targetClass="de.baumann.hhsmoodle.activities.Activity_splash" />
-        <!-- If your shortcut is associated with multiple intents, include them
-             here. The last intent in the list is what the user sees when they
-             launch this shortcut. -->
-        <categories android:name="android.shortcut.conversation" />
-    </shortcut>
-
-
-
 </shortcuts>
         
 

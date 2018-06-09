@@ -75,7 +75,6 @@ public class Activity_splash extends AppCompatActivity {
         }
 
         helper_security.decryptDatabases(Activity_splash.this);
-        helper_main.onStart(Activity_splash.this);
 
         TextInputLayout editUsernameLayout = findViewById(R.id.editUsernameLayout);
         editUsernameLayout.setVisibility(View.INVISIBLE);

@@ -57,7 +57,6 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -552,8 +551,6 @@ public class Notes_Fragment extends Fragment {
                         try {
                             Glide.with(getActivity())
                                     .load(note_attachment) // or URI/path
-                                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                                    .skipMemoryCache(true)
                                     .into(attImage); //imageView to set thumbnail to
                         } catch (Exception e) {
                             Log.w("HHS_Moodle", "Error load thumbnail", e);
@@ -620,8 +617,7 @@ public class Notes_Fragment extends Fragment {
                         getString(R.string.todo_share),
                         getString(R.string.todo_menu),
                         getString(R.string.number_create),
-                        getString(R.string.count_create),
-                        getString(R.string.bookmark_createEvent)};
+                        getString(R.string.count_create)};
                 new AlertDialog.Builder(getActivity())
                         .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
 
@@ -684,11 +680,6 @@ public class Notes_Fragment extends Fragment {
                                     Count_helper.newCount(getActivity(), note_title, note_content, note_icon,getActivity().getString(R.string.note_content), false);
                                 }
 
-                                if (options[item].equals (getString(R.string.bookmark_createEvent))) {
-                                    helper_main.createCalendarEvent(getActivity(), note_title, note_content, lv);
-                                }
-
-
                             }
                         }).show();
 
@@ -712,10 +703,6 @@ public class Notes_Fragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-        Calendar cal = Calendar.getInstance();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        String search;
 
         switch (item.getItemId()) {
 
@@ -741,44 +728,6 @@ public class Notes_Fragment extends Fragment {
                 startActivity(mainIntent);
                 return true;
 
-            case R.id.filter_today:
-                helper_main.changeFilter(getActivity(), "filter_noteBY", "note_creation");
-                setNotesList();
-                search = dateFormat.format(cal.getTime());
-                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
-                        search, getString(R.string.action_filter_create), false);
-                return true;
-            case R.id.filter_yesterday:
-                helper_main.changeFilter(getActivity(), "filter_noteBY", "note_creation");
-                setNotesList();
-                cal.add(Calendar.DATE, -1);
-                search = dateFormat.format(cal.getTime());
-                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
-                        search, getString(R.string.action_filter_create), false);
-                return true;
-            case R.id.filter_before:
-                helper_main.changeFilter(getActivity(), "filter_noteBY", "note_creation");
-                setNotesList();
-                cal.add(Calendar.DATE, -2);
-                search = dateFormat.format(cal.getTime());
-                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
-                        search, getString(R.string.action_filter_create), false);
-                return true;
-            case R.id.filter_month:
-                helper_main.changeFilter(getActivity(), "filter_noteBY", "note_creation");
-                setNotesList();
-                DateFormat dateFormatMonth = new SimpleDateFormat("yyyy-MM", Locale.getDefault());
-                search = dateFormatMonth.format(cal.getTime());
-                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
-                        search, getString(R.string.action_filter_create), false);
-                return true;
-            case R.id.filter_own:
-                helper_main.changeFilter(getActivity(), "filter_noteBY", "note_creation");
-                setNotesList();
-                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
-                        "", getString(R.string.action_filter_create), false);
-                return true;
-
             case R.id.filter_att:
                 helper_main.changeFilter(getActivity(), "filter_noteBY", "note_attachment");
                 setNotesList();
@@ -793,11 +742,6 @@ public class Notes_Fragment extends Fragment {
                 return true;
             case R.id.sort_icon:
                 sharedPref.edit().putString("sortDB", "icon").apply();
-                setTitle();
-                setNotesList();
-                return true;
-            case R.id.sort_creation:
-                sharedPref.edit().putString("sortDB", "create").apply();
                 setTitle();
                 setNotesList();
                 return true;

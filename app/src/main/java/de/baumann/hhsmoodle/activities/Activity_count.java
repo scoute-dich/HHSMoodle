@@ -101,7 +101,6 @@ public class Activity_count extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        helper_main.onStart(Activity_count.this);
 
         final ActionBar actionBar = getSupportActionBar();
         if(actionBar != null) {

@@ -1,3 +1,8 @@
+### 4.7
+- neu: Werkzeuge (Notizen, Zufallsgenerator, ...) sind optional
+- Vereinfachung der Menüs
+- viele kleine Fehlerbehebungen
+
 ### 4.6
 - neu: Wechsel der Bibliothek um Bilder aus zu wählen
 - neu: Datenbanken einzeln löschen, sichern, wieder herstellen

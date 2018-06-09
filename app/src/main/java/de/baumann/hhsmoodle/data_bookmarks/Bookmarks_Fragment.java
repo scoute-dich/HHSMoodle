@@ -24,7 +24,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -430,9 +429,7 @@ public class Bookmarks_Fragment extends Fragment {
                         getString(R.string.todo_menu),
                         getString(R.string.bookmark_createNote),
                         getString(R.string.number_create),
-                        getString(R.string.count_create),
-                        getString(R.string.bookmark_createShortcut),
-                        getString(R.string.bookmark_createEvent)};
+                        getString(R.string.count_create)};
                 new AlertDialog.Builder(getActivity())
                         .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
 
@@ -514,25 +511,6 @@ public class Bookmarks_Fragment extends Fragment {
                                     Count_helper.newCount(getActivity(), bookmarks_title, bookmarks_content, bookmarks_icon,getActivity().getString(R.string.note_content), false);
                                 }
 
-                                if (options[item].equals (getString(R.string.bookmark_createEvent))) {
-                                    helper_main.createCalendarEvent(getActivity(), bookmarks_title, bookmarks_content, lv);
-                                }
-
-                                if (options[item].equals (getString(R.string.bookmark_createShortcut))) {
-                                    Intent i = new Intent();
-                                    i.setAction(Intent.ACTION_VIEW);
-                                    i.setData(Uri.parse(bookmarks_content));
-
-                                    Intent shortcut = new Intent();
-                                    shortcut.putExtra("android.intent.extra.shortcut.INTENT", i);
-                                    shortcut.putExtra("android.intent.extra.shortcut.NAME", "THE NAME OF SHORTCUT TO BE SHOWN");
-                                    shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, bookmarks_title);
-                                    shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(getActivity().getApplicationContext(), R.mipmap.ic_launcher));
-                                    shortcut.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
-                                    getActivity().sendBroadcast(shortcut);
-                                    Snackbar.make(lv, R.string.toast_shortcut, Snackbar.LENGTH_LONG).show();
-                                }
-
                             }
                         }).show();
 
@@ -571,10 +549,6 @@ public class Bookmarks_Fragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        Calendar cal = Calendar.getInstance();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        String search;
-
         switch (item.getItemId()) {
 
             case R.id.action_help:
@@ -599,44 +573,6 @@ public class Bookmarks_Fragment extends Fragment {
                 startActivity(mainIntent);
                 return true;
 
-            case R.id.filter_today:
-                helper_main.changeFilter(getActivity(), "filter_bookmarksBY", "bookmarks_creation");
-                setBookmarksList();
-                search = dateFormat.format(cal.getTime());
-                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
-                        search, getString(R.string.action_filter_create), false);
-                return true;
-            case R.id.filter_yesterday:
-                helper_main.changeFilter(getActivity(), "filter_bookmarksBY", "bookmarks_creation");
-                setBookmarksList();
-                cal.add(Calendar.DATE, -1);
-                search = dateFormat.format(cal.getTime());
-                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
-                        search, getString(R.string.action_filter_create), false);
-                return true;
-            case R.id.filter_before:
-                helper_main.changeFilter(getActivity(), "filter_bookmarksBY", "bookmarks_creation");
-                setBookmarksList();
-                cal.add(Calendar.DATE, -2);
-                search = dateFormat.format(cal.getTime());
-                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
-                        search, getString(R.string.action_filter_create), false);
-                return true;
-            case R.id.filter_month:
-                helper_main.changeFilter(getActivity(), "filter_bookmarksBY", "bookmarks_creation");
-                setBookmarksList();
-                DateFormat dateFormatMonth = new SimpleDateFormat("yyyy-MM", Locale.getDefault());
-                search = dateFormatMonth.format(cal.getTime());
-                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
-                        search, getString(R.string.action_filter_create), false);
-                return true;
-            case R.id.filter_own:
-                helper_main.changeFilter(getActivity(), "filter_bookmarksBY", "bookmarks_creation");
-                setBookmarksList();
-                helper_main.showFilter(getActivity(), filter_layout, imgHeader, filter,
-                        "", getString(R.string.action_filter_create), true);
-                return true;
-
             case R.id.sort_title:
                 sharedPref.edit().putString("sortDBB", "title").apply();
                 setTitle();
@@ -644,11 +580,6 @@ public class Bookmarks_Fragment extends Fragment {
                 return true;
             case R.id.sort_icon:
                 sharedPref.edit().putString("sortDBB", "icon").apply();
-                setTitle();
-                setBookmarksList();
-                return true;
-            case R.id.sort_creation:
-                sharedPref.edit().putString("sortDBB", "create").apply();
                 setTitle();
                 setBookmarksList();
                 return true;

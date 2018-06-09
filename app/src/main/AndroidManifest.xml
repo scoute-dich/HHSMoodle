@@ -32,7 +32,7 @@
             </intent-filter>
 
             <intent-filter
-                android:icon="@mipmap/ic_note_plus" >
+                android:icon="@mipmap/ic_launcher" >
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="text/plain" />

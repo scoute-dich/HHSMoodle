@@ -131,16 +131,12 @@ public class helper_webView {
                         "var ans = document.getElementsByName('answer');"                  +
                         "document.getElementById('loginbtn').click()";
 
-                if (Build.VERSION.SDK_INT >= 19) {
-                    view.evaluateJavascript(js, new ValueCallback<String>() {
-                        @Override
-                        public void onReceiveValue(String s) {
+                view.evaluateJavascript(js, new ValueCallback<String>() {
+                    @Override
+                    public void onReceiveValue(String s) {
 
-                        }
-                    });
-                } else {
-                    view.loadUrl(js);
-                }
+                    }
+                });
             }
 
             @SuppressWarnings("deprecation")

@@ -43,11 +43,12 @@
             android:entries="@array/listArrayTabMain"
             android:entryValues="@array/listValuesTabMain" />
 
-        <Preference
-            android:title="@string/action_shortcut"
-            android:icon="@drawable/arrow_top_right"
-            android:summary="@string/action_shortcut_summary"
-            android:key="shortcuts" />
+        <CheckBoxPreference
+            android:title="@string/action_tools"
+            android:icon="@drawable/toolbox"
+            android:summary="@string/action_tools_summary"
+            android:key="action_tools"
+            android:defaultValue="false" />
 
         <CheckBoxPreference
             android:title="@string/action_not"

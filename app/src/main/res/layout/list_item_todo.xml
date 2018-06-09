@@ -27,7 +27,7 @@
         android:layout_marginEnd="4dp"
         android:layout_centerVertical="true"
         android:layout_alignParentEnd="true"
-        android:background="@drawable/custom_button2"
+        android:background="?attr/actionBarItemBackground"
         app:srcCompat="@drawable/plus_dark"
         tools:ignore="ContentDescription" />
 

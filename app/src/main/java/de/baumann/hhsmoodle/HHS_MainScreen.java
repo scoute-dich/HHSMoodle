@@ -23,7 +23,12 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.pm.ShortcutInfo;
+import android.content.pm.ShortcutManager;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Icon;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
@@ -44,8 +49,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import de.baumann.hhsmoodle.activities.Activity_splash;
 import de.baumann.hhsmoodle.data_count.Count_Fragment;
 import de.baumann.hhsmoodle.data_files.Files_Fragment;
 import de.baumann.hhsmoodle.data_bookmarks.Bookmarks_Fragment;
@@ -75,19 +82,65 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_screen_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        helper_security.checkPin(HHS_MainScreen.this);
-        helper_security.grantPermissions(HHS_MainScreen.this);
-        helper_main.onStart(HHS_MainScreen.this);
-
-        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-        StrictMode.setVmPolicy(builder.build());
 
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPref.edit().putString("browserLoad", "").apply();
         class_SecurePreferences sharedPrefSec = new class_SecurePreferences(HHS_MainScreen.this, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        if (!sharedPref.getBoolean("action_tools", false)) {
+            Menu menu = navigationView.getMenu();
+            MenuItem menu_tools = menu.findItem(R.id.nav_tools);
+            menu_tools.setVisible(false);
+            MenuItem menu_courseList = menu.findItem(R.id.nav_courseList);
+            menu_courseList.setVisible(false);
+
+            ShortcutManager shortcutManager;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                shortcutManager = getSystemService(ShortcutManager.class);
+                assert shortcutManager != null;
+                shortcutManager.removeAllDynamicShortcuts();
+            }
+        } else {
+            ShortcutManager shortcutManager;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+
+                shortcutManager = getSystemService(ShortcutManager.class);
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                    ShortcutInfo shortcut = new ShortcutInfo.Builder(this, "shortcutToDo")
+                            .setShortLabel(getString(R.string.todo_title))
+                            .setLongLabel(getString(R.string.todo_title))
+                            .setIcon(Icon.createWithResource(this, R.drawable.qc_todo))
+                            .setIntent(new Intent(Intent.ACTION_MAIN, Uri.EMPTY, this, Activity_splash.class).setAction("shortcutToDo"))
+                            .build();
+
+                    assert shortcutManager != null;
+                    shortcutManager.addDynamicShortcuts(Collections.singletonList(shortcut));
+
+                    ShortcutInfo shortcut2 = new ShortcutInfo.Builder(this, "shortcutNotes")
+                            .setShortLabel(getString(R.string.title_notes))
+                            .setLongLabel(getString(R.string.title_notes))
+                            .setIcon(Icon.createWithResource(this, R.drawable.qc_note))
+                            .setIntent(new Intent(Intent.ACTION_MAIN, Uri.EMPTY, this, Activity_splash.class).setAction("shortcutNotes"))
+                            .build();
+
+                    shortcutManager.addDynamicShortcuts(Collections.singletonList(shortcut2));
+                }
+            }
+        }
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        helper_security.checkPin(HHS_MainScreen.this);
+        helper_security.grantPermissions(HHS_MainScreen.this);
+
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+
 
         viewPager = findViewById(R.id.viewpager);
         setupViewPager(viewPager);
@@ -97,9 +150,6 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
 
         View headerView =  navigationView.getHeaderView(0);
         TextView nav_user = headerView.findViewById(R.id.usernameNav);
@@ -111,7 +161,7 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
         images.recycle();
 
         if (!appDir().exists()) {
-            if (android.os.Build.VERSION.SDK_INT >= 23) {
+            if (Build.VERSION.SDK_INT >= 23) {
                 int hasWRITE_EXTERNAL_STORAGE = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
                 if (hasWRITE_EXTERNAL_STORAGE == PackageManager.PERMISSION_GRANTED) {
                     if (!appDir().exists()) {
@@ -160,12 +210,15 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
         adapter.addFragment(new FragmentBrowser(), String.valueOf(getString(R.string.title_browser)));
         adapter.addFragment(new Bookmarks_Fragment(), String.valueOf(getString(R.string.title_bookmarks)));
         adapter.addFragment(new Files_Fragment(), String.valueOf(getString(R.string.choose_titleMain)));
-        adapter.addFragment(new Todo_Fragment(), String.valueOf(getString(R.string.todo_title)));
-        adapter.addFragment(new Notes_Fragment(), String.valueOf(getString(R.string.title_notes)));
-        adapter.addFragment(new Random_Fragment(), String.valueOf(getString(R.string.number_title)));
-        adapter.addFragment(new Count_Fragment(), String.valueOf(getString(R.string.count_title)));
-        adapter.addFragment(new FragmentGrades(), String.valueOf(getString(R.string.action_grades)));
-        adapter.addFragment(new Courses_Fragment(), String.valueOf(getString(R.string.courseList_title)));
+
+        if (sharedPref.getBoolean("action_tools", false)) {
+            adapter.addFragment(new Todo_Fragment(), String.valueOf(getString(R.string.todo_title)));
+            adapter.addFragment(new Notes_Fragment(), String.valueOf(getString(R.string.title_notes)));
+            adapter.addFragment(new Random_Fragment(), String.valueOf(getString(R.string.number_title)));
+            adapter.addFragment(new Count_Fragment(), String.valueOf(getString(R.string.count_title)));
+            adapter.addFragment(new FragmentGrades(), String.valueOf(getString(R.string.action_grades)));
+            adapter.addFragment(new Courses_Fragment(), String.valueOf(getString(R.string.courseList_title)));
+        }
 
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(startTabInt,true);
@@ -221,6 +274,7 @@ public class HHS_MainScreen extends AppCompatActivity implements NavigationView.
         return super.onOptionsItemSelected(item);
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
