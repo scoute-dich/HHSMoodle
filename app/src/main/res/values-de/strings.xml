@@ -177,7 +177,7 @@
 
     <string name="action_backup">Sicherung</string>
     <string name="action_backup_summary">Sichere alle Datenbanken (Notizen, Lesezeichen, …) oder stelle eine vorherige Sicherung
-        wieder her. Eine neue Sicherung überschreibt immer die bestehende. Du kannst Datenbanken uch löschen.</string>
+        wieder her. Eine neue Sicherung überschreibt immer die bestehende. Du kannst Datenbanken auch löschen.</string>
 
     <string name="action_backupAut">Automatische Sicherung</string>
     <string name="action_backupAut_summary">Sichere immer alle Datenbanken (Notizen, Lesezeichen, …), bevor die App geschlossen
