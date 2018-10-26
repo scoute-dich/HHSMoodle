@@ -1,3 +1,6 @@
+### 5.0
+- complete redesign
+
 ### 4.7
 - neu: Werkzeuge (Notizen, Zufallsgenerator, ...) sind optional
 - Vereinfachung der Menüs

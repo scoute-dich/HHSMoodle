@@ -22,17 +22,12 @@ package de.baumann.hhsmoodle.browser;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.View;
 import android.webkit.ValueCallback;
 import android.webkit.WebResourceRequest;
@@ -41,15 +36,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.RelativeLayout;
 
-import java.net.URISyntaxException;
-
 import de.baumann.hhsmoodle.R;
-import de.baumann.hhsmoodle.helper.Activity_settings;
 import de.baumann.hhsmoodle.helper.Class_SecurePreferences;
-import de.baumann.hhsmoodle.helper.helper_main;
-import de.baumann.hhsmoodle.helper.helper_security;
-
-import static android.content.ContentValues.TAG;
 
 class browser_helper {
 
@@ -130,6 +118,7 @@ class browser_helper {
                 return handleUri(uri);
             }
 
+            @SuppressWarnings("SameReturnValue")
             private boolean handleUri(final Uri uri) {
                 final String url = uri.toString();
                 // Based on some condition you need to determine if you are going to load the url

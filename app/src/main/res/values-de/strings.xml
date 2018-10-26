@@ -136,9 +136,6 @@
     <string name="menu_save_bookmark">Speichere als Lesezeichen</string>
     <string name="menu_save_pdf">Speichere als PDF</string>
 
-    <string name="menu_share_link">Link teilen</string>
-    <string name="menu_share_otherApp">Link öffnen mit …</string>
-
     <string name="menu_more_settings">Einstellungen</string>
     <string name="menu_more_files">Downloads</string>
     <string name="menu_more_help">Hilfe</string>

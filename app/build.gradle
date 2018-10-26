@@ -1,15 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+    compileSdkVersion 28
+    buildToolsVersion '28.0.3'
 
     defaultConfig {
         applicationId "de.baumann.hhsmoodle"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
         minSdkVersion 21
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode 60
         versionName "4.6"
     }
@@ -28,7 +28,7 @@ android {
 }
 
 dependencies {
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support:design:27.1.1'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support:design:28.0.0'
     implementation 'com.mlsdev.rximagepicker:library:2.0.2'
 }

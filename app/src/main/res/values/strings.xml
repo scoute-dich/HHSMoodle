@@ -84,8 +84,6 @@
     <string name="menu_save_bookmark">Save as bookmark</string>
     <string name="menu_save_pdf">Save as PDF</string>
 
-    <string name="menu_share_otherApp">Open link with …</string>
-
     <string name="menu_more_settings">Settings</string>
     <string name="menu_more_files">Downloads</string>
     <string name="menu_more_help">Help</string>
