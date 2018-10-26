@@ -89,17 +89,13 @@
             </WebView>
 
             <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
                 android:id="@+id/progressBar"
-                style="@android:style/Widget.ProgressBar.Horizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentStart="true"
-                android:maxHeight="4dip"
-                android:minHeight="4dip"
-                android:progressBackgroundTint="@color/colorPrimary"
-                android:progressBackgroundTintMode="src_over"
-                android:progressTint="@color/colorAccent" />
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:maxHeight="4dp"
+                android:progressTint="@color/colorAccent"
+                android:layout_alignParentBottom="true"/>
 
         </RelativeLayout>
 
@@ -108,8 +104,6 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
             android:background="@drawable/toolbar_drop_shadow"/>
-
-
 
     </RelativeLayout>
 
