@@ -4,14 +4,7 @@
     <color name="colorPrimary">#880e4f</color>
     <color name="colorPrimaryDark">#670e44</color>
     <color name="colorAccent">#ff9800</color>
-    <color name="colorAccent_trans">#26ff9800</color>
-    <color name="color_trans">#00ff9800</color>
-    <color name="color_trans_grey">#1A757575</color>
     <color name="color_light">#fafafa</color>
-
-    <color name="color_red">#f44336</color>
-    <color name="color_green">#4caf50</color>
-    <color name="color_grey">#757575</color>
 
     <color name="shadow_light">#59323232</color>
     <color name="transparent">@android:color/transparent</color>

@@ -4,29 +4,17 @@
 
     // Application
 
-    <string name="navigation_drawer_open">Öffne Navigation Drawer</string>
-    <string name="navigation_drawer_close">Schließe Navigation Drawer</string>
-
     <string name="app_name">HHS Moodle</string>
     <string name="app_permissions_title">Verlangte Berechtigung</string>
     <string name="app_permissions">
 
         &lt;i>Zugriff auf SD Karte:&lt;/i>&lt;br>
-        &#8226; Listen: erstellen und zwischenspeichern.&lt;br>
-        &#8226; Sicherung: Sicherung und Wiederherstellung von Datenbanken.&lt;br>
-        &#8226; Dateien herunterladen: um heruntergeladene Datein auf der SD-Karte speichern zu können.&lt;br>
-        &#8226; Bildschirmfoto: um Bildschirmfotos von Internetseiten auf der SD-Karte zu speichern.&lt;br>&lt;br>
+        Dateien herunterladen: um heruntergeladene Datein auf der SD-Karte speichern zu können.&lt;br>&lt;br>
 
         &lt;i>Berechtigung nachträglich erteilen:&lt;/i>&lt;br>
         Wenn du die Berechtigung verweigerst, kannst du sie nachträglich erteilen, indem du \"Einstellungen -> Berechtigung erteilen\" öffnest.</string>
 
-    <string name="app_share_screenshot">Bildschirmfoto teilen mit:</string>
-    <string name="app_share_link">Link teilen mit:</string>
-    <string name="app_share_file">Datei auswählen mit:</string>
-    <string name="app_contDesc_3">Splashscreen</string>
-    <string name="app_att">Anhang</string>
-    <string name="app_myMoodle">Mein Moodle</string>
-    <string name="app_close">Bitte warten … App wird beendet.</string>
+    <string name="app_share">Teilen mit:</string>
 
 
     // Moodle
@@ -42,279 +30,8 @@
     <string name="text_tit_11">Moodle</string>
     <string name="text_tit_9">Erledigt</string>
     <string name="text_tit_10">Uhr</string>
-
-
-    // About
-
-    <string name="about_title_main">Über HHS Moodle</string>
-    <string name="about_title_dev">Entwickler</string>
-    <string name="about_title_libs">Benutzte Open Source Bibliotheken</string>
-
-    <string name="about_changelog">Änderungen</string>
-    <string name="about_changelog_summary">Öffne die Github Seite und schaue, was es Neues gibt … (braucht eine Internetverbindung)</string>
-
-    <string name="about_license">Lizenz</string>
-    <string name="about_license_summary">Die App steht unter der GPL Lizenz und ist komplett frei (wie in Freiheit). Der Quellcode kann
-        eingesehen werden.</string>
-
-    <string name="about_dev">Gaukler Faun</string>
-    <string name="about_dev_summary">Öffne mein Github Profil (braucht eine Internetverbindung).</string>
-
-    <string name="about_intro">Einführung</string>
-    <string name="about_intro_summary">Zeige noch einmal die Einführung an.</string>
-
-    <string name="about_license_3">Gebraucht um die Einführung anzuzeigen.</string>
-    <string name="about_license_5">Gebraucht um die Pin und den Schlüssel für die Logindaten zu verschlüsseln.</string>
-    <string name="about_license_7">Gebraucht um den \"Über Schirm\" zu erstellen.</string>
-    <string name="about_license_8">Die Quelle von fast allen Icons.</string>
-    <string name="about_license_9">Bibliothek zum Downloaden und Anzeigen von Mediendateien.</string>
-    <string name="about_license_1">Android Bibliothek um Bilder zu machen oder auszuwählen.</string>
-
-
-    // IntroScreen
-
-    <string name="intro1_title">HHS Moodle</string>
-    <string name="intro1_text">Danke, dass du dich für HHS Moodle entschieden hast. Bitte lies die folgende kurze Einführung
-        aufmerksam durch.</string>
-
-    <string name="intro6_title">Hilfe</string>
-    <string name="intro6_text">Auf jedem Schirm erreichst du über das Menü einen kurzen Hilfedialog.</string>
-
-    <string name="intro8_title">Sicherheit</string>
-    <string name="intro8_text">Alle Datenbanken und die Logindaten sind verschlüsselt. Setze eine Pin, um die App vor ungewolltem
-    Zugriff zu schützen.</string>
-
-    <string name="intro9_title">Anmeldung</string>
-    <string name="intro9_text">Gib auf dem folgenden Schirm deine Moodle Anmeldedaten ein. Du wirst dann immer automatisch
-    angemeldet. Ändern kannst du deine Anmeldedaten in den Einstellungen.</string>
-
-
-    // Login
-
-    <string name="login_user">Benutzername</string>
-    <string name="login_password">Passwort</string>
-    <string name="login_hint">Bitte Benutzername und Passwort eingeben.</string>
-    <string name="login_title">Automatische Anmeldung</string>
-    <string name="login_text">Wenn das nicht funktioniert, gib bitte die richtigen Logindaten in den Einstellungen an.
-        Dieser Dialog verschwindet, wenn du erfolgreich eingeloggt bist.</string>
-
-
-    // Tab - Titles
-
-    <string name="title_bookmarks">Lesezeichen</string>
-    <string name="title_notes">Notizen</string>
-    <string name="title_browser">Browser</string>
-    <string name="title_files">Dateien</string>
-
-    <string name="sort_title">Titel</string>
-    <string name="sort_date">Datum</string>
-    <string name="sort_icon">Icon</string>
-    <string name="sort_not">Benachrichtigung</string>
-    <string name="sort_att">Anhang</string>
-
-
-    // Menu Items
-
-    <string name="menu_share">Seite teilen</string>
-    <string name="menu_share_screenshot">Bildschirmfoto teilen</string>
-    <string name="menu_share_link">Link als Text teilen</string>
-    <string name="menu_share_link_browser">Link im externen Browser öffnen</string>
-    <string name="menu_share_link_copy">Link in Zwischenablage kopierenn</string>
-    <string name="menu_save_screenshot">Bildschirmfoto speichern</string>
-    <string name="menu_settings">Einstellungen</string>
-    <string name="menu_bookmark">Lesezeichen hinzufügen</string>
-    <string name="menu_help">Hilfe</string>
-    <string name="menu_tools">Werkzeuge</string>
-    <string name="menu_finish">App beenden</string>
-    <string name="menu_configure">Einrichten</string>
-    <string name="menu_addEntry">Eintrag hinzufügen</string>
-    <string name="menu_all">Alles davon …</string>
-
-    <string name="action_sort">Einträge sortieren</string>
-    <string name="action_sort_title">Sortiere nach Titel</string>
-    <string name="action_sort_icon">Sortiere nach Icon</string>
-    <string name="action_sort_att">Sortiere nach Anhängen</string>
-    <string name="action_sort_notification">Sortiere nach Benachrichtigungen</string>
-    <string name="action_sort_ext">Sortiere nach Erweiterung</string>
-
-    <string name="action_filter">Suche</string>
-    <string name="action_filter_title">Suche in Titeln</string>
-    <string name="action_filter_cont">Suche in Inhalten</string>
-    <string name="action_filter_url">Suche nach URL</string>
-    <string name="action_filter_att">Suche nach Anhang</string>
-    <string name="action_filter_course">Suche nach Kursen</string>
-    <string name="action_filter_subject">Suche nach Fächern</string>
-    <string name="action_filter_ext">Suche nach Dateiendung</string>
-
-
-    // Context Menu
-
-    <string name="context_linkCopy_toast">Link erfolgreich kopiert</string>
-    <string name="context_saveImage_toast">Speichere Bild als:</string>
-
-
-    // Settings
-
-    <string name="pref_2">App Einstellungen</string>
-    <string name="pref_3">Berechtigungen | Über</string>
-    <string name="pref_5">Sicherheit</string>
-
-    <string name="action_username">Logindaten (Moodle)</string>
-    <string name="action_username_summary">Bitte gib deinen Moodle Benutzernamen und dein Passwort an, um automatisch angemeldet zu
-        werden.</string>
-
-    <string name="action_tabMain">Startschirm</string>
-    <string name="action_tabMain_summary">Welcher Tab soll standardmäßig auf dem Startschirm geöffnet werden?</string>
-
-    <string name="action_notShow_title">Über</string>
-    <string name="action_notShow_title_summary">Erfahre mehr über die App (Changelog, Lizenz, benutzte Bibliotheken, …).</string>
-
-    <string name="action_protect">Pin (App Zugang)</string>
-    <string name="action_protect_summary">Bestimme eine Pin um die App vor unbefugtem Zugriff zu schützen. Benutze nur Nummern.
-        Leer lassen, wenn du die App nicht schützen willst (eigenes Risiko).</string>
-
-    <string name="action_problem_summary">Probleme? Schicke mir eine Mail.</string>
-
-    <string name="action_backup">Sicherung</string>
-    <string name="action_backup_summary">Sichere alle Datenbanken (Notizen, Lesezeichen, …) oder stelle eine vorherige Sicherung
-        wieder her. Eine neue Sicherung überschreibt immer die bestehende. Du kannst Datenbanken uch löschen.</string>
-
-    <string name="action_backupAut">Automatische Sicherung</string>
-    <string name="action_backupAut_summary">Sichere immer alle Datenbanken (Notizen, Lesezeichen, …), bevor die App geschlossen
-        wird.</string>
-
-    <string name="action_not">Benachrichtigung</string>
-    <string name="action_not_summary">Erhalte nach einem Neustart eine Benachrichtigung, die es dir erlaubt, schnell
-        nach wichtigen Todolisten zu suchen.</string>
-
-    <string name="action_restore">Wiederherstellung</string>
-    <string name="action_delete">Löschen</string>
-    <string name="action_data">Daten</string>
-
-    <string name="action_tools">Werkzeuge</string>
-    <string name="action_tools_summary">Benutze erweiterte Funktionen von \"HHS Moodle\": Notizen, Todo-Listen, Zähler und
-        weitere. Diese werden dann ebenfalls über die Navigationsleiste erreichbar.</string>
-
-
-    // Snackbar
-
-    <string name="toast_yes">OK</string>
-    <string name="toast_cancel">Abbrechen</string>
-    <string name="toast_notAgain">Nicht anzeigen</string>
-    <string name="toast_download">Lade herunter:</string>
-    <string name="toast_download_1">Möchtest du herunterladen:</string>
-    <string name="toast_perm">Berechtigungen gewährt?</string>
-    <string name="toast_wrongPW">Uuups. Falsches Passwort.</string>
-    <string name="toast_backup_not">Sicherung fehlgeschlagen.</string>
-    <string name="toast_restore_not">Wiederherstellung fehlgeschlagen.</string>
-    <string name="toast_download_2">Download vollständig. Ordner öffnen?</string>
-    <string name="toast_screenshot_failed">Konnte Screenshot nicht erstellen.</string>
-    <string name="toast_install_app">Please install an app to perform action.</string>
-    <string name="toast_newTitle">Titel existiert bereits.</string>
-    <string name="toast_noEntry">Kein Eintrag in der Liste vorhanden.</string>
-    <string name="toast_notSave">Kann Eintrag nicht speichern.</string>
-    <string name="toast_contentAdded">Inhalt hinzugefügt.</string>
-    <string name="toast_directory">Kann Verzeichnis nicht öffnen.</string>
-    <string name="toast_files">Keine Dateien im Verzeichnis.</string>
-    <string name="toast_textFile">Bitte Textdatei auswählen.</string>
-    <string name="toast_settings">Einstellungen öffnen</string>
-    <string name="toast_confirm_backup">Die alte Sicherung wird überschrieben und geht verloren.</string>
-    <string name="toast_confirm_restore">Die aktuellen Daten werden überschrieben und gehen verloren.</string>
-    <string name="toast_done">Erledigt!</string>
-    <string name="toast_error">Es ist ein Fehler passsiert!</string>
-    <string name="toast_confirm_delete">Die aktuellen Daten werden gelöscht und gehen verloren.</string>
-    <string name="toast_restart_title">Etwas zu erledigen?</string>
-    <string name="toast_restart_text">Klicken um zu prüfen. Wenn nichts passiert - nichts zu tun!</string>
-
-
-
-    // Bookmarks
-
-    <string name="bookmark_remove_bookmark">Eintrag löschen</string>
-    <string name="bookmark_added">Eintrag wird hinzugefügt.</string>
-    <string name="bookmark_setFav">Erfolgreich als Favorit gespeichert.</string>
-    <string name="bookmark_setFav_not">Du kannst nur einen Favorit auswählen.</string>
-    <string name="bookmark_edit_title">Titel bearbeiten</string>
-    <string name="bookmark_createNote">Erstelle Notiz</string>
-
-
-    // Notes
-
-    <string name="note_remove_confirmation">Eintrag wird entfernt. OK?</string>
-    <string name="note_edit">Notiz bearbeiten</string>
-    <string name="note_share_2">Notiz teilen mit:</string>
-    <string name="note_attachment">Anhang</string>
-    <string name="title_hint">Titel</string>
-    <string name="text_hint">Inhalt</string>
-    <string name="note_content">+ Inhalt</string>
-    <string name="choose_gallery">Galerie</string>
-    <string name="choose_camera">Kamera</string>
-
-
-    // Password
-
-    <string name="pw_hint">Pin (nur Nummern)</string>
-    <string name="pw_forgotten">Pin vergessen?</string>
-    <string name="pw_forgotten_dialog">Möchtest du alle persönlichen Daten (auch die Logindaten, gespeicherten Lesezeichen, Notizen,
-        …) löschen, um deine Zugangspin zurückzusetzen? Die Anwendung wird dann beendet.</string>
-
-
-    //File chooser
-
-    <string name="choose_titleMain">Dateien</string>
-    <string name="choose_menu_2">Teilen</string>
-    <string name="choose_menu_4">Löschen</string>
-
-    <string name="choose_att">Anhang auswählen</string>
-
-
-    // Grade
-
-    <string name="grade_100">100</string>
-    <string name="grade_hint">Maximale Punktzahl</string>
-    <string name="grade_toast">Bitte maximale Punktzahl eingeben.</string>
-    <string name="action_grades">Noten berechnen</string>
-    <string name="grade_text_percent">Prozent</string>
-    <string name="grade_text_credits">Punkte</string>
-    <string name="grade_text_grade">Note</string>
-
-
-    // Number
-
-    <string name="number_title">Zufallsgenerator</string>
-    <string name="number_error_read">Fehler beim Lesen der Datei.</string>
-    <string name="number_dice">Zufällige Zahl</string>
-    <string name="number_dice_hint">Zahl eingeben …</string>
-    <string name="number_dice_error">Zuerst eine Zahl eingeben …</string>
-    <string name="number_dice_hint2">… dann  \"ok\" klicken.</string>
-    <string name="number_edit_entry">Eintrag bearbeiten</string>
-    <string name="number_enterData">Bitte der Liste Daten hinzufügen.</string>
-    <string name="number_create">Erstelle Zufallsliste</string>
-
-
-    // ToDo
-
-    <string name="todo_title">Todo</string>
-    <string name="todo_from_courseList">Aus Kursliste</string>
-    <string name="todo_from_new">Eigener Titel</string>
-    <string name="todo_hint">Neuer Eintrag …</string>
-    <string name="todo_menu">Erstelle ToDo Liste</string>
-    <string name="todo_removed">Eintrag gelöscht</string>
-    <string name="todo_removed_back">Rückgängig?</string>
-    <string name="todo_share">Eintrag teilen</string>
-    <string name="paste_date">Aktuelles Datum einfügen</string>
-    <string name="paste_time">Aktuelle Zeit einfügen</string>
-    <string name="todo_enter">Bitte zuerst einen Eintrag eingeben.</string>
-
-
-    // CourseList
-
-    <string name="courseList_title">Kurslisten</string>
-    <string name="courseList_fromText">Aus Textdatei</string>
-    <string name="courseList_content">+ Teilnehmer</string>
-
-
-    // Subjects
+    <string name="text_tit_12">Notizen</string>
+    <string name="text_tit_13">Lesezeichen</string>
 
     <string name="subjects_color_red">Rot</string>
     <string name="subjects_color_pink">Pink</string>
@@ -322,16 +39,147 @@
     <string name="subjects_color_blue">Blau</string>
     <string name="subjects_color_teal">Teal</string>
     <string name="subjects_color_green">Grün</string>
-    <string name="subjects_color_lime">Lime</string>
+    <string name="subjects_color_lime">Limette</string>
     <string name="subjects_color_yellow">Gelb</string>
     <string name="subjects_color_orange">Orange</string>
     <string name="subjects_color_brown">Braun</string>
     <string name="subjects_color_grey">Grau</string>
 
+    // Login
 
-    // Count
+    <string name="login_user">Benutzername</string>
+    <string name="login_password">Passwort (8 Zeichen: Groß-/Kleinbuchstabe, Zahl, Sonderzeichen)</string>
+    <string name="login_automatic_title">Automatische Anmeldung</string>
+    <string name="login_automatic_text">Wenn das nicht funktioniert, gib bitte die richtigen Logindaten in
+        den Einstellungen an. Dieser Dialog verschwindet, wenn du erfolgreich eingeloggt bist.</string>
+    <string name="login_edit">Logindaten bearbeiten</string>
 
-    <string name="count_title">Zähler</string>
-    <string name="count_create">Erstelle Zähler</string>
+    <string name="login_text_enter">Bitte gib deine Moodle Logindaten ein. Wenn du dich vertippst, kannst du die
+    Logindaten später in den Einstellungen bearbeiten. Es kann sein, dass du die App neu starten musst um die
+        Änderungen zu übernehmen.</string>
+    <string name="login_text_edit">Bitte die richtigen Logindaten eingeben.</string>
+
+
+
+    // Dialogs
+
+    <string name="dialog_help_title">Hilfe</string>
+    <string name="dialog_help_text">
+
+        &lt;b>Toolbargesten:&lt;/b>&lt;br>
+        \u25AA Wische hoch/runter \u2192 scrolle die Seite nach oben/unten&lt;br>
+        \u25AA Wische links/rechts \u2192  bewegw dich in deinem Browserverauf zurück/vor&lt;br>&lt;br>&lt;br>
+
+        &lt;b>Lesezeichen&lt;/b>&lt;br>
+        \u25AA Anklicken um ein Lesezeichen zu öffnen.&lt;br>
+        \u25AA Lange klicken um ein Kontextmenü für den EIntrag zu öffnen.&lt;br>
+        \u25AA Im Kopfbereich kannst du die Sortierung deiner Lesezeichen ändern oder die Einstellungen öffnen.&lt;br>
+    </string>
+
+    <string name="dialog_license_title">Copyright © 2018 by AOSD</string>
+    <string name="dialog_license_text">
+
+        &lt;i>Besuche für mehr Informationen die Projektseite auf Github: https://github.com/scoute-dich/Browser&lt;br>&lt;br>
+
+        Dieses Programm ist freie Software. Sie können es unter den Bedingungen der GNU General Public License, wie von
+        der Free Software Foundation veröffentlicht, weitergeben und/oder modifizieren, entweder gemäß Version 3 der Lizenz oder
+        (nach Ihrer Option) jeder späteren Version. Die Veröffentlichung dieses Programms erfolgt in der Hoffnung, daß es Ihnen
+        von Nutzen sein wird, aber OHNE IRGENDEINE GARANTIE, sogar ohne die implizite Garantie der MARKTREIFE oder der
+        VERWENDBARKEIT FÜR EINEN BESTIMMTEN ZWECK. Details finden Sie in der GNU General Public License. Sie sollten ein
+        Exemplar der GNU General Public License zusammen mit diesem Programm erhalten haben. Falls nicht,
+        siehe http://www.gnu.org/licenses.&lt;br>&lt;br>&lt;br>
+
+        &lt;i>Die folgenden Open Source Bibliotheken oder Projekte werden in dieser Software verwendet:&lt;/i>&lt;br>&lt;br>
+
+        &lt;b>Encrypted UserPrefs&lt;/b>&lt;br>
+        GPL&lt;br>
+        sveinungkb&lt;br>
+        &lt;i>https://github.com/sveinungkb/encrypted-userprefs&lt;/i>&lt;br>&lt;br>
+
+        &lt;b>Material Design Icons&lt;/b>&lt;br>
+        SIL Open Font License, Version 1.1.&lt;br>
+        Templarian&lt;br>
+        &lt;i>https://github.com/Templarian/MaterialDesign&lt;/i>&lt;br>&lt;br>
+
+        &lt;b>RxImagePicker&lt;/b>&lt;br>
+        MIT License&lt;br>
+        MLSDev&lt;br>
+        &lt;i>https://github.com/MLSDev/RxImagePicker&lt;/i>
+    </string>
+
+    <string name="dialog_sortName">Sortiere nach Namen</string>
+    <string name="dialog_sortIcon">Sortiere nach Icon</string>
+
+
+    // Bookmarks
+
+    <string name="bookmark_remove">Lesezeichen löschen</string>
+    <string name="bookmark_remove_confirm">Möchtest du es wirklich löschen?</string>
+    <string name="bookmark_setFav">Favorit setzen | entfernen</string>
+    <string name="bookmark_setFav_not">Du kannst nur einen Favorit haben. Lösche den bestehenden.</string>
+    <string name="bookmark_edit">Lesezeichen bearbeiten</string>
+    <string name="bookmark_edit_hint">Neuen Titel eingeben …</string>
+    <string name="bookmark_share">Lesezeichen teilen</string>
+    <string name="bookmark_saved">Lesezeichen erfolgreich gespeichert.</string>
+    <string name="bookmark_saved_not">Lesezeichen existiert bereits.</string>
+    <string name="bookmark_icon">Neues Icon wählen</string>
+
+    // Menu Items
+
+    <string name="menu_share">Seite teilen</string>
+    <string name="menu_save">Seite speichern</string>
+    <string name="menu_more">Mehr …</string>
+    <string name="menu_finish">App verlassen</string>
+    <string name="menu_bookmark">Lesezeichen</string>
+    <string name="menu_reload">Seite neu laden</string>
+
+    <string name="menu_save_bookmark">Speichere als Lesezeichen</string>
+    <string name="menu_save_pdf">Speichere als PDF</string>
+
+    <string name="menu_share_link">Link teilen</string>
+    <string name="menu_share_otherApp">Link öffnen mit …</string>
+
+    <string name="menu_more_settings">Einstellungen</string>
+    <string name="menu_more_files">Downloads</string>
+    <string name="menu_more_help">Hilfe</string>
+
+
+    // Settings
+
+    <string name="settings_license">Lizenz</string>
+    <string name="settings_security">Sicherheit</string>
+
+    <string name="settings_security_moodle">Logindaten (Moodle)</string>
+    <string name="settings_security_moodle_summary">Bitte gib deinen Moodle Benutzernamen und dein Passwort an, um automatisch angemeldet zu
+        werden.</string>
+
+    <string name="settings_license_about_summary">Erfahre mehr über die App (Changelog, Lizenz, benutzte Bibliotheken, …).</string>
+
+    <string name="settings_security_pin">Pin (App Zugang)</string>
+    <string name="settings_security_pin_summary">Bestimme eine Pin um die App vor unbefugtem Zugriff zu schützen. Benutze nur Nummern.
+        Leer lassen, wenn du die App nicht schützen willst (eigenes Risiko).</string>
+
+    <string name="settings_security_permission">Berechtigung erteilen</string>
+    <string name="settings_security_permission_summary">Nur für Android Marshmallow und neuere Versionen. Gewähre erforderliche
+        Berechtigung, indem du im folgenden Fenster \"Berechtigungen\" öffnest. Danach die App neu starten.</string>
+
+    // Snackbar
+
+    <string name="toast_yes">OK</string>
+    <string name="toast_cancel">Abbrechen</string>
+    <string name="toast_notAgain">Nicht mehr anzeigen</string>
+    <string name="toast_download">Lade Datei herunter:</string>
+    <string name="toast_download_1">Möchtest du herunterladen:</string>
+    <string name="toast_download_2">Download vollständig. Ordner öffnen?</string>
+    <string name="toast_wrongPW">Uuups. Falsches Passwort.</string>
+    <string name="toast_webviewForward">Kann keine nächste Seite laden.</string>
+    <string name="toast_webViewBack">Kann keine vorherige Seite laden.</string>
+
+    // Password
+
+    <string name="pw_hint">Pin (nur Ziffern)</string>
+    <string name="pw_forgotten">Pin vergessen?</string>
+    <string name="pw_forgotten_dialog">Möchtest du alle Daten löschen, um deine Pin zurückzusetzen?</string>
+
 
 </resources>

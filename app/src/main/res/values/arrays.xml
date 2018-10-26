@@ -13,20 +13,4 @@
         <item>@drawable/splash7</item>
     </array>
 
-    <string-array name="listArrayTabMain">
-        <item>Browser</item>
-        <item>Bookmarks</item>
-        <item>Files</item>
-        <item>Todo</item>
-        <item>Notes</item>
-    </string-array>
-
-    <string-array name="listValuesTabMain">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-    </string-array>
-
 </resources>

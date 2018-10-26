@@ -2,78 +2,37 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-        android:title="@string/pref_5">
+        android:title="@string/settings_security">
 
         <Preference
-            android:title="@string/action_username"
+            android:title="@string/settings_security_moodle"
             android:icon="@drawable/key"
-            android:summary="@string/action_username_summary"
-            android:key="username" />
+            android:summary="@string/settings_security_moodle_summary"
+            android:key="settings_security_moodle" />
 
         <Preference
-            android:title="@string/action_protect"
+            android:title="@string/settings_security_pin"
             android:icon="@drawable/close_circle_outline"
-            android:summary="@string/action_protect_summary"
-            android:key="protect_PW" />
+            android:summary="@string/settings_security_pin_summary"
+            android:key="settings_security_pin" />
 
         <Preference
-            android:title="@string/action_data"
-            android:icon="@drawable/database"
-            android:summary="@string/action_backup_summary"
-            android:key="backup_db" />
-
-        <CheckBoxPreference
-            android:title="@string/action_backupAut"
-            android:icon="@drawable/backup_restore"
-            android:summary="@string/action_backupAut_summary"
-            android:key="backup_aut"
-            android:defaultValue="true" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:title="@string/pref_2">
-
-        <ListPreference
-            android:title="@string/action_tabMain"
-            android:icon="@drawable/cellphone_iphone"
-            android:summary="@string/action_tabMain_summary"
-            android:key="tabMain"
-            android:defaultValue="1"
-            android:entries="@array/listArrayTabMain"
-            android:entryValues="@array/listValuesTabMain" />
-
-        <CheckBoxPreference
-            android:title="@string/action_tools"
-            android:icon="@drawable/toolbox"
-            android:summary="@string/action_tools_summary"
-            android:key="action_tools"
-            android:defaultValue="false" />
-
-        <CheckBoxPreference
-            android:title="@string/action_not"
-            android:icon="@drawable/checkbox_marked_circle_outline"
-            android:summary="@string/action_not_summary"
-            android:key="action_not"
-            android:defaultValue="false" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:title="@string/pref_3">
-
-        <Preference
-            android:title="@string/action_notShow_title"
-            android:icon="@drawable/information_outline"
-            android:summary="@string/action_notShow_title_summary"
-            android:key="intro_show"
-            android:defaultValue="true" />
-
-        <Preference
-            android:title="@string/perm_notShow_title"
+            android:title="@string/settings_security_permission"
             android:icon="@drawable/security"
-            android:summary="@string/perm_notShow_title_summary"
-            android:key="perm_notShow"
+            android:summary="@string/settings_security_permission_summary"
+            android:key="settings_security_permission"
+            android:defaultValue="true" />
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory
+        android:title="@string/settings_license">
+
+        <Preference
+            android:icon="@drawable/information_outline"
+            android:summary="@string/settings_license_about_summary"
+            android:key="settings_license"
             android:defaultValue="true" />
 
     </PreferenceCategory>

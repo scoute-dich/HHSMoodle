@@ -3,36 +3,55 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_bookmark"
         android:orderInCategory="100"
-        android:title="@string/title_bookmarks"
-        android:icon="@drawable/star"
-        app:showAsAction="ifRoom" />
-
-    <item
-        android:orderInCategory="100"
-        android:title="@string/menu_share"
-        android:icon="@drawable/share_variant"
-        app:showAsAction="ifRoom" >
+        android:title="@string/menu_more"
+        app:showAsAction="never" >
         <!-- "file" submenu -->
         <menu>
-            <item android:id="@+id/menu_share_screenshot"
-                android:title="@string/menu_share_screenshot" />
-            <item android:id="@+id/menu_save_screenshot"
-                android:title="@string/menu_save_screenshot" />
-            <item android:id="@+id/menu_share_link"
-                android:title="@string/menu_share_link" />
-            <item android:id="@+id/menu_share_link_browser"
-                android:title="@string/menu_share_link_browser" />
-            <item android:id="@+id/menu_share_link_copy"
-                android:title="@string/menu_share_link_copy" />
+            <item android:id="@+id/menu_more_help"
+                android:title="@string/menu_more_help" />
+            <item android:id="@+id/menu_more_settings"
+                android:title="@string/menu_more_settings" />
+            <item android:id="@+id/menu_more_files"
+                android:title="@string/menu_more_files" />
         </menu>
     </item>
 
     <item
-        android:id="@+id/action_saveBookmark"
+        android:orderInCategory="100"
+        android:title="@string/menu_save"
+        app:showAsAction="never" >
+        <!-- "file" submenu -->
+        <menu>
+            <item android:id="@+id/menu_save_bookmark"
+                android:title="@string/menu_save_bookmark" />
+            <item android:id="@+id/menu_save_pdf"
+                android:title="@string/menu_save_pdf" />
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/menu_share"
+        android:orderInCategory="100"
+        android:title="@string/menu_share"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_reload"
+        android:orderInCategory="100"
+        android:title="@string/menu_reload"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_finish"
+        android:orderInCategory="100"
+        android:title="@string/menu_finish"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_bookmark"
         android:orderInCategory="100"
         android:title="@string/menu_bookmark"
-        app:showAsAction="never" />
+        android:icon="@drawable/ic_bookmark_light"
+        app:showAsAction="always" />
 
 </menu>

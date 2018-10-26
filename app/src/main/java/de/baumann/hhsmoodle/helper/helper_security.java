@@ -1,35 +1,20 @@
 package de.baumann.hhsmoodle.helper;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.preference.PreferenceManager;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.security.InvalidKeyException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
-
-import javax.crypto.Cipher;
-import javax.crypto.CipherInputStream;
-import javax.crypto.CipherOutputStream;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.spec.SecretKeySpec;
 
 import de.baumann.hhsmoodle.R;
 
@@ -40,184 +25,57 @@ public class helper_security {
     private static SharedPreferences sharedPref;
     private static final int REQUEST_CODE_ASK_PERMISSIONS = 123;
 
-    public static void decrypt(Activity activity, String in, String out) throws IOException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {
-
-        class_SecurePreferences sharedPrefSec = new class_SecurePreferences(activity, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
-
-        PackageManager m = activity.getPackageManager();
-        String s = activity.getPackageName();
+    public static void setLoginData (final Activity activity) {
         try {
-            PackageInfo p = m.getPackageInfo(s, 0);
-            s = p.applicationInfo.dataDir;
 
-            String pathIN = s + in;
-            String pathOUT = s + out;
+            final Class_SecurePreferences sharedPrefSec = new Class_SecurePreferences(activity, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
 
-            File fileIN = new File(pathIN);
+            AlertDialog.Builder builder = new AlertDialog.Builder(activity, R.style.AppTheme_Fullscreen);
+            final View dialogView = View.inflate(activity, R.layout.dialog_edit_login, null);
 
-            if (fileIN.exists()) {
-                FileInputStream fis = new FileInputStream(pathIN);
-                FileOutputStream fos = new FileOutputStream(pathOUT);
+            final EditText pass_userName = dialogView.findViewById(R.id.pass_userName);
+            pass_userName.setText(sharedPrefSec.getString("username"));
+            final EditText pass_userPW = dialogView.findViewById(R.id.pass_userPW);
+            pass_userPW.setText(sharedPrefSec.getString("password"));
+            final Button fab = dialogView.findViewById(R.id.fab);
 
-                byte[] key = (sharedPrefSec.getString("key_encryption_01").getBytes("UTF-8"));
-                MessageDigest sha = MessageDigest.getInstance("SHA-1");
-                key = sha.digest(key);
-                key = Arrays.copyOf(key, 16); // use only first 128 bit
+            builder.setView(dialogView);
 
-                SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
-                // Length is 16 byte
-                // Create cipher
-                @SuppressLint("GetInstance") Cipher cipher = Cipher.getInstance("AES");
-                cipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
-                CipherInputStream cis = new CipherInputStream(fis, cipher);
-                int b;
-                byte[] d = new byte[8];
-                while((b = cis.read(d)) != -1) {
-                    fos.write(d, 0, b);
+
+            final AlertDialog dialog = builder.create();
+            dialog.show();
+
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    String username = pass_userName.getText().toString().trim();
+                    String password = pass_userPW.getText().toString().trim();
+
+                    if (username.isEmpty() || password.length() < 8) {
+                        Snackbar snackbar = Snackbar
+                                .make(fab, activity.getString(R.string.login_text_edit), Snackbar.LENGTH_LONG)
+                                .setAction(activity.getString(R.string.toast_cancel), new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        dialog.cancel();
+                                    }
+                                });
+                        snackbar.show();
+                    } else {
+                        sharedPrefSec.put("username", username);
+                        sharedPrefSec.put("password", password);
+                        dialog.cancel();
+                    }
                 }
-                fos.flush();
-                fos.close();
-                cis.close();
-                Log.w("HHS_Moodle", "DB decrypted");
+            });
 
-                //noinspection ResultOfMethodCallIgnored
-                fileIN.delete();
-                Log.w("HHS_Moodle", "DB deleted");
-            }
-
-
-
-        } catch (PackageManager.NameNotFoundException e) {
-            Log.w("HHS_Moodle", "Error Package name not found ", e);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
-    public static void decryptDatabases (Activity activity) {
-        try {decrypt(activity, "/databases/subject_DB_v01_en.db", "/databases/subject_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-        try {decrypt(activity, "/databases/random_DB_v01_en.db", "/databases/random_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-        try {decrypt(activity, "/databases/todo_DB_v01_en.db", "/databases/todo_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-        try {decrypt(activity, "/databases/notes_DB_v01_en.db", "/databases/notes_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-        try {decrypt(activity, "/databases/courses_DB_v01_en.db", "/databases/courses_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-        try {decrypt(activity, "/databases/bookmarks_DB_v01_en.db", "/databases/bookmarks_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-        try {decrypt(activity, "/databases/count_DB_v01_en.db", "/databases/count_DB_v01.db");} catch (Exception e) {e.printStackTrace();}
-    }
 
-    public static void encrypt(Activity activity, String in, String out) throws IOException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {
-
-        class_SecurePreferences sharedPrefSec = new class_SecurePreferences(activity, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
-
-        PackageManager m = activity.getPackageManager();
-        String s = activity.getPackageName();
-
-        try {
-
-            PackageInfo p = m.getPackageInfo(s, 0);
-            s = p.applicationInfo.dataDir;
-
-            String pathIN = s + in;
-            String pathOUT = s + out;
-
-            File fileIN = new File(pathIN);
-
-            if (fileIN.exists()) {
-                FileInputStream fis = new FileInputStream(pathIN);
-                FileOutputStream fos = new FileOutputStream(pathOUT);
-
-                byte[] key = (sharedPrefSec.getString("key_encryption_01").getBytes("UTF-8"));
-                MessageDigest sha = MessageDigest.getInstance("SHA-1");
-                key = sha.digest(key);
-                key = Arrays.copyOf(key, 16); // use only first 128 bit
-
-                SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
-                // Length is 16 byte
-                // Create cipher
-                @SuppressLint("GetInstance") Cipher cipher = Cipher.getInstance("AES");
-                cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
-                // Wrap the output stream
-                CipherOutputStream cos = new CipherOutputStream(fos, cipher);
-                // Write bytes
-                int b;
-                byte[] d = new byte[8];
-                while((b = fis.read(d)) != -1) {
-                    cos.write(d, 0, b);
-                }
-                // Flush and close streams.
-
-                cos.flush();
-                cos.close();
-                fis.close();
-                Log.w("HHS_Moodle", "DB encrypted");
-
-                //noinspection ResultOfMethodCallIgnored
-                fileIN.delete();
-                Log.w("HHS_Moodle", "DB deleted");
-            }
-
-        } catch (PackageManager.NameNotFoundException e) {
-            Log.w("HHS_Moodle", "Error Package name not found ", e);
-        }
-    }
-
-    public static void encryptDatabases (final Activity activity) {
-
-        try {encrypt(activity, "/databases/subject_DB_v01.db","/databases/subject_DB_v01_en.db");} catch (Exception e) {e.printStackTrace();}
-        try {encrypt(activity, "/databases/random_DB_v01.db","/databases/random_DB_v01_en.db");} catch (Exception e) {e.printStackTrace();}
-        try {encrypt(activity, "/databases/todo_DB_v01.db","/databases/todo_DB_v01_en.db");} catch (Exception e) {e.printStackTrace();}
-        try {encrypt(activity, "/databases/notes_DB_v01.db","/databases/notes_DB_v01_en.db");} catch (Exception e) {e.printStackTrace();}
-        try {encrypt(activity, "/databases/courses_DB_v01.db","/databases/courses_DB_v01_en.db");} catch (Exception e) {e.printStackTrace();}
-        try {encrypt(activity, "/databases/bookmarks_DB_v01.db","/databases/bookmarks_DB_v01_en.db");} catch (Exception e) {e.printStackTrace();}
-        try {encrypt(activity, "/databases/count_DB_v01.db","/databases/count_DB_v01_en.db");} catch (Exception e) {e.printStackTrace();}
-    }
-
-    public static void encryptBackup (Activity activity, String name) throws IOException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {
-
-        PackageManager m = activity.getPackageManager();
-        String s = activity.getPackageName();
-
-        try {
-
-            PackageInfo p = m.getPackageInfo(s, 0);
-            s = p.applicationInfo.dataDir;
-
-            String pathOUT = helper_main.appDir() + "/moodle_backup/" + name;
-            String pathIN = s + "/databases/" + name;
-
-            File fileIN = new File(pathIN);
-
-            if (fileIN.exists()) {
-                FileInputStream fis = new FileInputStream(pathIN);
-                FileOutputStream fos = new FileOutputStream(pathOUT);
-
-                byte[] key = ("[MGq)sY6k(GV,*?i".getBytes("UTF-8"));
-                MessageDigest sha = MessageDigest.getInstance("SHA-1");
-                key = sha.digest(key);
-                key = Arrays.copyOf(key, 16); // use only first 128 bit
-
-                SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
-                // Length is 16 byte
-                // Create cipher
-                @SuppressLint("GetInstance") Cipher cipher = Cipher.getInstance("AES");
-                cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
-                // Wrap the output stream
-                CipherOutputStream cos = new CipherOutputStream(fos, cipher);
-                // Write bytes
-                int b;
-                byte[] d = new byte[8];
-                while((b = fis.read(d)) != -1) {
-                    cos.write(d, 0, b);
-                }
-                // Flush and close streams.
-                cos.flush();
-                cos.close();
-                fis.close();
-                Log.w("HHS_Moodle", "DB backup");
-            }
-
-        } catch (PackageManager.NameNotFoundException e) {
-            Log.w("HHS_Moodle", "Error Package name not found ", e);
-            helper_main.makeToast(activity, activity.getString(R.string.toast_backup_not));
-        }
-    }
 
     public static void grantPermissions(final Activity activity) {
 
@@ -240,11 +98,11 @@ public class helper_security {
                                     }
                                 })
                                 .setPositiveButton(activity.getString(R.string.toast_yes), new DialogInterface.OnClickListener() {
+                                    @RequiresApi(api = Build.VERSION_CODES.M)
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        if (android.os.Build.VERSION.SDK_INT >= 23)
-                                            activity.requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                                                    REQUEST_CODE_ASK_PERMISSIONS);
+                                        activity.requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                                REQUEST_CODE_ASK_PERMISSIONS);
                                     }
                                 })
                                 .setNegativeButton(activity.getString(R.string.toast_cancel), null)
@@ -264,12 +122,12 @@ public class helper_security {
         PreferenceManager.setDefaultValues(activity, R.xml.user_settings, false);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(activity);
 
-        class_SecurePreferences sharedPrefSec = new class_SecurePreferences(activity, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
-        protect = sharedPrefSec.getString("protect_PW");
+        Class_SecurePreferences sharedPrefSec = new Class_SecurePreferences(activity, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
+        protect = sharedPrefSec.getString("settings_security_pin");
 
         if (protect != null  && protect.length() > 0) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(activity, R.style.YourStyle);
-            final View dialogView = View.inflate(activity, R.layout.dialog_password, null);
+            AlertDialog.Builder builder = new AlertDialog.Builder(activity, R.style.AppTheme_Fullscreen);
+            final View dialogView = View.inflate(activity, R.layout.dialog_enter_pin, null);
 
             final TextView text = dialogView.findViewById(R.id.pass_userPin);
 

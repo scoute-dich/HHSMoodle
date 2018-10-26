@@ -5,50 +5,31 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <!-- activities main -->
-
         <activity
-            android:name="de.baumann.hhsmoodle.activities.Activity_splash"
-            android:launchMode="singleTask"
+            android:name=".HHS_MainScreen"
+            android:launchMode="singleInstance"
+            android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize"
-            android:theme="@style/Login">
+            android:windowSoftInputMode="stateHidden">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
-            <intent-filter
-                android:icon="@mipmap/ic_launcher" >
-                <action android:name="android.intent.action.SEND" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="text/plain" />
-            </intent-filter>
-
-            <intent-filter>
-                <action android:name="shortcutBookmarks" />
-                <action android:name="shortcutNotes" />
-                <action android:name="shortcutToDo" />
-                <action android:name="shortcutBrowser" />
-                <action android:name="shortcutFiles" />
-            </intent-filter>
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-                <action android:name="shortcutFavorite_Browser" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="http" />
@@ -56,14 +37,6 @@
                 <data android:host="moodle.huebsch.ka.schule-bw.de" />
             </intent-filter>
 
-            <meta-data android:name="android.app.shortcuts"
-                android:resource="@xml/shortcuts" />
-        </activity>
-
-        <activity
-            android:name=".HHS_MainScreen"
-            android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="shortcutBookmarks_HS" />
@@ -75,156 +48,10 @@
             </intent-filter>
         </activity>
 
-
-        <!-- activities helper -->
-
         <activity
-            android:name=".activities.Activity_EditNote"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity
-            android:name=".about.About_activity"
-            android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar"  />
-
-        <activity
-            android:name=".activities.Activity_todo"
+            android:name=".helper.Activity_settings"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity
-            android:name=".activities.Activity_random"
-            android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity
-            android:name=".activities.Activity_course"
-            android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity
-            android:name=".activities.Activity_count"
-            android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity
-            android:name=".activities.Activity_settings"
-            android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar" />
-
-        <!-- help -->
-
-        <activity
-            android:name=".activities.Activity_intro"
-            android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity
-            android:name=".fragmentsMain.FragmentBrowser_Help"
-            android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity
-            android:name=".data_bookmarks.Bookmarks_Help"
-            android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity
-            android:name=".data_todo.Todo_Help"
-            android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity
-            android:name=".data_notes.Notes_Help"
-            android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity
-            android:name=".fragmentsMain.FragmentGrades_Help"
-            android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity
-            android:name=".data_courses.Courses_Help"
-            android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity
-            android:name=".data_random.Random_Help"
-            android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity
-            android:name=".activities.Activity_settings_Help"
-            android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity
-            android:name=".data_files.Files_Help"
-            android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity
-            android:name=".data_count.Count_Help"
-            android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar" />
-
-
-        <!-- popups -->
-
-        <activity
-            android:name=".popup.Popup_bookmarks"
-            android:noHistory="true"
-            android:launchMode="singleTask"
-            android:theme="@style/AppThemeDialog" />
-
-        <activity
-            android:name=".popup.Popup_todo"
-            android:noHistory="true"
-            android:launchMode="singleTask"
-            android:theme="@style/AppThemeDialog" />
-
-        <activity
-            android:name=".popup.Popup_note"
-            android:noHistory="true"
-            android:launchMode="singleTask"
-            android:theme="@style/AppThemeDialog" />
-
-        <activity
-            android:name=".popup.Popup_todo_restart"
-            android:noHistory="true"
-            android:launchMode="singleTask"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
-
-        <activity
-            android:name=".popup.Popup_courseList"
-            android:noHistory="true"
-            android:launchMode="singleTask"
-            android:theme="@style/AppThemeDialog">
-            <intent-filter>
-                <action android:name="courseList_random" />
-                <action android:name="courseList_todo" />
-                <action android:name="courseList_note" />
-                <action android:name="courseList_subject" />
-                <action android:name="courseList_count" />
-                <action android:name="search_byCourse" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".popup.Popup_files"
-            android:noHistory="true"
-            android:launchMode="singleTask"
-            android:theme="@style/AppThemeDialog">
-            <intent-filter>
-                <action android:name="file_chooseText" />
-                <action android:name="file_chooseAttachment" />
-            </intent-filter>
-        </activity>
-
-
-        <!-- provider, receiver, service -->
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -236,13 +63,6 @@
                 android:resource="@xml/file_paths"/>
         </provider>
 
-        <receiver android:name="de.baumann.hhsmoodle.helper.RebootReceiver_not">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-            </intent-filter>
-        </receiver>
-
     </application>
-
 
 </manifest>
