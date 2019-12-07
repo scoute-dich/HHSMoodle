@@ -19,45 +19,37 @@
 
 package de.baumann.hhsmoodle;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.preference.PreferenceManager;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import de.baumann.hhsmoodle.browser.browser_fragment;
+import de.baumann.hhsmoodle.helper.Fragment_Browser;
+import de.baumann.hhsmoodle.helper.helper_main;
 import de.baumann.hhsmoodle.helper.helper_security;
 
-@SuppressWarnings("ResultOfMethodCallIgnored")
 public class HHS_MainScreen extends AppCompatActivity {
 
     private ViewPager viewPager;
-    private SharedPreferences sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 
+        helper_main.applyTheme(this);
         setContentView(R.layout.activity_screen_main);
-
-        PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
-        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         helper_security.checkPin(HHS_MainScreen.this);
-        helper_security.grantPermissions(HHS_MainScreen.this);
-
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
 
@@ -67,21 +59,9 @@ public class HHS_MainScreen extends AppCompatActivity {
         onNewIntent(getIntent());
     }
 
-    protected void onNewIntent(final Intent intent) {
-
-        String action = intent.getAction();
-        sharedPref.edit().putString("Intent", "yes").apply();
-
-        if ("shortcutBookmarks_HS".equals(action)) {
-            viewPager.setCurrentItem(1, true);
-        } else if ("shortcutNotes_HS".equals(action)) {
-            viewPager.setCurrentItem(4, true);
-        }
-    }
-
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new browser_fragment(), String.valueOf(getString(R.string.app_name)));
+        adapter.addFragment(new Fragment_Browser(), getString(R.string.app_name));
         viewPager.setAdapter(adapter);
     }
 
@@ -117,7 +97,7 @@ public class HHS_MainScreen extends AppCompatActivity {
     @SuppressWarnings("ConstantConditions")
     @Override
     public void onBackPressed() {
-        browser_fragment fragmentBrowser = (browser_fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
+        Fragment_Browser fragmentBrowser = (Fragment_Browser) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
         fragmentBrowser.doBack();
     }
 }

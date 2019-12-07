@@ -8,12 +8,10 @@
     android:gravity="center_vertical|center_horizontal"
     tools:ignore="Overdraw" >
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:background="@color/colorPrimary"
         android:gravity="center_vertical|center_horizontal"
         tools:ignore="Overdraw" >
@@ -24,7 +22,7 @@
             android:inputType="numberPassword"
             android:id="@+id/pass_userPin"
             android:layout_marginBottom="12dp"
-            android:textColor="?android:attr/textColorPrimaryInverse"
+            android:textColor="@color/color_light"
             android:fontFamily="sans-serif-condensed"
             android:textAppearance="?android:attr/textAppearanceMedium"
             tools:ignore="TextViewEdits" />
@@ -210,7 +208,7 @@
             android:background="?android:selectableItemBackground"
             android:fontFamily="sans-serif-condensed"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="?android:attr/textColorPrimaryInverse" />
+            android:textColor="@color/color_light" />
 
     </LinearLayout>
 

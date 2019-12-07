@@ -19,10 +19,9 @@
         <activity
             android:name=".HHS_MainScreen"
             android:launchMode="singleInstance"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/AppTheme"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden">
+            android:configChanges="orientation|keyboardHidden|screenSize|uiMode">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,36 +32,16 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="http" />
                 <data android:scheme="https" />
                 <data android:host="moodle.huebsch.ka.schule-bw.de" />
             </intent-filter>
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="shortcutBookmarks_HS" />
-                <action android:name="shortcutNotes_HS" />
-                <action android:name="shortcutToDo_HS" />
-                <action android:name="shortcutBrowser_HS" />
-                <action android:name="shortcutFiles_HS" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
         </activity>
 
         <activity
-            android:name=".helper.Activity_settings"
+            android:name=".helper.Activity_Settings"
             android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar" />
-
-        <provider
-            android:name="android.support.v4.content.FileProvider"
-            android:authorities="de.baumann.hhsmoodle.provider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"/>
-        </provider>
+            android:theme="@style/AppTheme" />
 
     </application>
 

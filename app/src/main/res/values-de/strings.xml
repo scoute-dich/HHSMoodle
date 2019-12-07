@@ -5,11 +5,10 @@
     // Application
 
     <string name="app_name">HHS Moodle</string>
-    <string name="app_permissions_title">Verlangte Berechtigung</string>
     <string name="app_permissions">
 
         &lt;i>Zugriff auf SD Karte:&lt;/i>&lt;br>
-        Dateien herunterladen: um heruntergeladene Datein auf der SD-Karte speichern zu können.&lt;br>&lt;br>
+        wird gebraucht, um Downloads auf der SD-Karte speichern zu können.&lt;br>&lt;br>
 
         &lt;i>Berechtigung nachträglich erteilen:&lt;/i>&lt;br>
         Wenn du die Berechtigung verweigerst, kannst du sie nachträglich erteilen, indem du \"Einstellungen -> Berechtigung erteilen\" öffnest.</string>
@@ -25,13 +24,6 @@
     <string name="text_tit_3">Bewertungen</string>
     <string name="text_tit_4">Mitteilungen</string>
     <string name="text_tit_5">Einstellungen</string>
-    <string name="text_tit_6">Schulhomepage</string>
-    <string name="text_tit_7">Websuche</string>
-    <string name="text_tit_11">Moodle</string>
-    <string name="text_tit_9">Erledigt</string>
-    <string name="text_tit_10">Uhr</string>
-    <string name="text_tit_12">Notizen</string>
-    <string name="text_tit_13">Lesezeichen</string>
 
     <string name="subjects_color_red">Rot</string>
     <string name="subjects_color_pink">Pink</string>
@@ -65,14 +57,13 @@
 
     <string name="dialog_help_title">Hilfe</string>
     <string name="dialog_help_text">
-
         &lt;b>Toolbargesten:&lt;/b>&lt;br>
         \u25AA Wische hoch/runter \u2192 scrolle die Seite nach oben/unten&lt;br>
-        \u25AA Wische links/rechts \u2192  bewegw dich in deinem Browserverauf zurück/vor&lt;br>&lt;br>&lt;br>
+        \u25AA Wische links/rechts \u2192  bewege dich in deinem Browserverauf zurück/vor&lt;br>&lt;br>&lt;br>
 
         &lt;b>Lesezeichen&lt;/b>&lt;br>
         \u25AA Anklicken um ein Lesezeichen zu öffnen.&lt;br>
-        \u25AA Lange klicken um ein Kontextmenü für den EIntrag zu öffnen.&lt;br>
+        \u25AA Lange klicken um ein Kontextmenü für den Eintrag zu öffnen.&lt;br>
         \u25AA Im Kopfbereich kannst du die Sortierung deiner Lesezeichen ändern oder die Einstellungen öffnen.&lt;br>
     </string>
 
@@ -99,12 +90,7 @@
         &lt;b>Material Design Icons&lt;/b>&lt;br>
         SIL Open Font License, Version 1.1.&lt;br>
         Templarian&lt;br>
-        &lt;i>https://github.com/Templarian/MaterialDesign&lt;/i>&lt;br>&lt;br>
-
-        &lt;b>RxImagePicker&lt;/b>&lt;br>
-        MIT License&lt;br>
-        MLSDev&lt;br>
-        &lt;i>https://github.com/MLSDev/RxImagePicker&lt;/i>
+        &lt;i>https://github.com/Templarian/MaterialDesign&lt;/i>
     </string>
 
     <string name="dialog_sortName">Sortiere nach Namen</string>
@@ -113,37 +99,32 @@
 
     // Bookmarks
 
-    <string name="bookmark_remove">Lesezeichen löschen</string>
+    <string name="bookmark_remove">Löschen</string>
     <string name="bookmark_remove_confirm">Möchtest du es wirklich löschen?</string>
-    <string name="bookmark_setFav">Favorit setzen | entfernen</string>
+    <string name="bookmark_setFav">Startseite</string>
     <string name="bookmark_setFav_not">Du kannst nur einen Favorit haben. Lösche den bestehenden.</string>
-    <string name="bookmark_edit">Lesezeichen bearbeiten</string>
+    <string name="bookmark_edit">Bearbeiten</string>
     <string name="bookmark_edit_hint">Neuen Titel eingeben …</string>
-    <string name="bookmark_share">Lesezeichen teilen</string>
+    <string name="bookmark_share">Teilen</string>
     <string name="bookmark_saved">Lesezeichen erfolgreich gespeichert.</string>
     <string name="bookmark_saved_not">Lesezeichen existiert bereits.</string>
-    <string name="bookmark_icon">Neues Icon wählen</string>
+    <string name="bookmark_icon">Icon</string>
 
     // Menu Items
 
-    <string name="menu_share">Seite teilen</string>
-    <string name="menu_save">Seite speichern</string>
-    <string name="menu_more">Mehr …</string>
-    <string name="menu_finish">App verlassen</string>
-    <string name="menu_bookmark">Lesezeichen</string>
-    <string name="menu_reload">Seite neu laden</string>
+    <string name="menu_share">Teilen</string>
+    <string name="menu_finish">Beenden</string>
 
-    <string name="menu_save_bookmark">Speichere als Lesezeichen</string>
-    <string name="menu_save_pdf">Speichere als PDF</string>
+    <string name="menu_save_bookmark">Lesezeichen speichern</string>
+    <string name="menu_save_pdf">PDF speichern</string>
 
     <string name="menu_more_settings">Einstellungen</string>
     <string name="menu_more_files">Downloads</string>
-    <string name="menu_more_help">Hilfe</string>
 
 
     // Settings
 
-    <string name="settings_license">Lizenz</string>
+    <string name="settings_other">Sonstiges</string>
     <string name="settings_security">Sicherheit</string>
 
     <string name="settings_security_moodle">Logindaten (Moodle)</string>
@@ -156,15 +137,10 @@
     <string name="settings_security_pin_summary">Bestimme eine Pin um die App vor unbefugtem Zugriff zu schützen. Benutze nur Nummern.
         Leer lassen, wenn du die App nicht schützen willst (eigenes Risiko).</string>
 
-    <string name="settings_security_permission">Berechtigung erteilen</string>
-    <string name="settings_security_permission_summary">Nur für Android Marshmallow und neuere Versionen. Gewähre erforderliche
-        Berechtigung, indem du im folgenden Fenster \"Berechtigungen\" öffnest. Danach die App neu starten.</string>
-
     // Snackbar
 
     <string name="toast_yes">OK</string>
     <string name="toast_cancel">Abbrechen</string>
-    <string name="toast_notAgain">Nicht mehr anzeigen</string>
     <string name="toast_download">Lade Datei herunter:</string>
     <string name="toast_download_1">Möchtest du herunterladen:</string>
     <string name="toast_download_2">Download vollständig. Ordner öffnen?</string>
@@ -177,6 +153,16 @@
     <string name="pw_hint">Pin (nur Ziffern)</string>
     <string name="pw_forgotten">Pin vergessen?</string>
     <string name="pw_forgotten_dialog">Möchtest du alle Daten löschen, um deine Pin zurückzusetzen?</string>
+
+
+    <string name="setting_theme_system">System</string>
+    <string name="setting_theme_light">Hell</string>
+    <string name="setting_theme_dark">Dunkel</string>
+
+    <string name="setting_theme">Thema</string>
+    <string name="setting_theme_summary">Wähle zwischen der dunklen und der hellen Seite.</string>
+
+    <string name="dialog_help_summary">Ein paar Tipps zur Nutzung der App.</string>
 
 
 </resources>

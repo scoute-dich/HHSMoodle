@@ -1,51 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
+<LinearLayout
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:descendantFocusability="blocksDescendants"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ImageView
         android:id="@+id/icon_notes"
-        android:layout_width="36dp"
+        android:layout_width="12dp"
         android:layout_height="match_parent"
-        android:layout_marginStart="12dp"
-        android:layout_centerVertical="true"
-        app:srcCompat="@drawable/android"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:srcCompat="@drawable/circle_red"
         tools:ignore="ContentDescription" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/textView_title_notes"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="13dp"
-        android:layout_toEndOf="@+id/icon_notes">
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:lines="1"
+        android:ellipsize="end" />
 
-        <TextView
-            android:id="@+id/textView_title_notes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_toStartOf="@+id/att_notes"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:lines="1"
-            tools:ignore="RelativeOverlap"
-            android:ellipsize="end" />
-
-        <ImageView
-            android:id="@+id/att_notes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/textView_title_notes"
-            android:layout_alignBottom="@+id/textView_title_notes"
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="12dp"
-            android:scaleType="center"
-            tools:ignore="ContentDescription" />
-
-    </RelativeLayout>
-
-</RelativeLayout>
+</LinearLayout>

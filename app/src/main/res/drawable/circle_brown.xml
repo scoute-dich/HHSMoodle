@@ -9,8 +9,8 @@
         android:color="#795548"/>
 
     <size
-        android:width="24dp"
-        android:height="24dp"/>
+        android:width="18dp"
+        android:height="18dp"/>
 
     <stroke android:width="4dp"
         android:color="@android:color/transparent"/>

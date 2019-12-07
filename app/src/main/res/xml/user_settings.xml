@@ -1,40 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory
-        android:title="@string/settings_security">
-
+    <PreferenceCategory android:title="@string/settings_security">
         <Preference
             android:title="@string/settings_security_moodle"
             android:icon="@drawable/key"
             android:summary="@string/settings_security_moodle_summary"
             android:key="settings_security_moodle" />
-
         <Preference
             android:title="@string/settings_security_pin"
             android:icon="@drawable/close_circle_outline"
             android:summary="@string/settings_security_pin_summary"
             android:key="settings_security_pin" />
-
-        <Preference
-            android:title="@string/settings_security_permission"
-            android:icon="@drawable/security"
-            android:summary="@string/settings_security_permission_summary"
-            android:key="settings_security_permission"
-            android:defaultValue="true" />
-
     </PreferenceCategory>
 
 
-    <PreferenceCategory
-        android:title="@string/settings_license">
-
+    <PreferenceCategory android:title="@string/settings_other">
+        <ListPreference
+            android:icon="@drawable/icon_ui"
+            android:key="sp_theme"
+            android:defaultValue="1"
+            android:title="@string/setting_theme"
+            android:summary="@string/setting_theme_summary"
+            android:entries="@array/setting_entries_theme"
+            android:entryValues="@array/setting_values_theme"/>
         <Preference
-            android:icon="@drawable/information_outline"
+            android:icon="@drawable/icon_help"
+            android:title="@string/dialog_help_title"
+            android:summary="@string/dialog_help_summary"
+            android:key="settings_help"
+            android:defaultValue="true" />
+        <Preference
+            android:icon="@drawable/icon_info"
             android:summary="@string/settings_license_about_summary"
             android:key="settings_license"
             android:defaultValue="true" />
-
     </PreferenceCategory>
 
 </PreferenceScreen>

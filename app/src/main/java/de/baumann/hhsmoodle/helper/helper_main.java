@@ -19,23 +19,28 @@
 
 package de.baumann.hhsmoodle.helper;
 
+import android.Manifest;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
-import android.os.Handler;
-import android.preference.PreferenceManager;
+import android.net.Uri;
+import android.provider.Settings;
 import android.text.Html;
 import android.text.SpannableString;
-import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.preference.PreferenceManager;
+
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -46,27 +51,11 @@ import de.baumann.hhsmoodle.R;
 
 public class helper_main {
 
-    public static void showHelpDialog (Activity activity) {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        builder.setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-            }
-        });
-        builder.setTitle(R.string.dialog_help_title);
-        builder.setMessage(helper_main.textSpannable(activity.getString(R.string.dialog_help_text)));
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
-
-        ((TextView)dialog.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
-
-    }
+    private static final int REQUEST_CODE_ASK_PERMISSIONS = 123;
 
     // Layouts -> filter, header, ...
 
-    public static void setImageHeader (Activity activity, ImageView imageView) {
+    static void setImageHeader (Activity activity, ImageView imageView) {
 
         if(imageView != null) {
             TypedArray images = activity.getResources().obtainTypedArray(R.array.splash_images);
@@ -79,13 +68,12 @@ public class helper_main {
 
     // Messages, Toasts, ...
 
-    public static SpannableString textSpannable (String text) {
+    static SpannableString textSpannable (String text) {
         SpannableString s;
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             s = new SpannableString(Html.fromHtml(text,Html.FROM_HTML_MODE_LEGACY));
         } else {
-            //noinspection deprecation
             s = new SpannableString(Html.fromHtml(text));
         }
         Linkify.addLinks(s, Linkify.WEB_URLS);
@@ -94,7 +82,7 @@ public class helper_main {
 
     // Activities -> start, end, ...
 
-    public static void switchToActivity(Activity activity, Class to) {
+    static void switchToActivity(Activity activity, Class to) {
         Intent intent = new Intent(activity, to);
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         activity.startActivity(intent);
@@ -105,52 +93,23 @@ public class helper_main {
     public static class Item{
         final String text;
         public final int icon;
-        public Item(String text, Integer icon) {
+        Item(String text, Integer icon) {
             this.text = text;
             this.icon = icon;
         }
-
         @Override
         public String toString() {
             return text;
         }
     }
 
-    public static void switchIcon (Activity activity, String string, String fieldDB, ImageView be) {
+    static void switchIcon (Activity activity, String string, String fieldDB, ImageView be) {
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(activity);
 
         assert be != null;
 
         switch (string) {
-            case "01":be.setImageResource(R.drawable.school_grey_dark);
-                sharedPref.edit().putString(fieldDB, "01").apply();break;
-            case "02":be.setImageResource(R.drawable.ic_view_dashboard_grey600_48dp);
-                sharedPref.edit().putString(fieldDB, "02").apply();break;
-            case "03":be.setImageResource(R.drawable.ic_face_profile_grey600_48dp);
-                sharedPref.edit().putString(fieldDB, "03").apply();break;
-            case "04":be.setImageResource(R.drawable.ic_calendar_grey600_48dp);
-                sharedPref.edit().putString(fieldDB, "04").apply();break;
-            case "05":be.setImageResource(R.drawable.ic_chart_areaspline_grey600_48dp);
-                sharedPref.edit().putString(fieldDB, "05").apply();break;
-            case "06":be.setImageResource(R.drawable.ic_bell_grey600_48dp);
-                sharedPref.edit().putString(fieldDB, "06").apply();break;
-            case "07":be.setImageResource(R.drawable.ic_settings_grey600_48dp);
-                sharedPref.edit().putString(fieldDB, "07").apply();break;
-            case "08":be.setImageResource(R.drawable.ic_web_grey600_48dp);
-                sharedPref.edit().putString(fieldDB, "08").apply();break;
-            case "09":be.setImageResource(R.drawable.ic_magnify_grey600_48dp);
-                sharedPref.edit().putString(fieldDB, "09").apply();break;
-            case "10":be.setImageResource(R.drawable.ic_pencil_grey600_48dp);
-                sharedPref.edit().putString(fieldDB, "10").apply();break;
-            case "11":be.setImageResource(R.drawable.ic_check_grey600_48dp);
-                sharedPref.edit().putString(fieldDB, "11").apply();break;
-            case "12":be.setImageResource(R.drawable.ic_clock_grey600_48dp);
-                sharedPref.edit().putString(fieldDB, "12").apply();break;
-            case "13":be.setImageResource(R.drawable.ic_bookmark_grey600_48dp);
-                sharedPref.edit().putString(fieldDB, "13").apply();break;
-            case "14":be.setImageResource(R.drawable.circle_red);
-                sharedPref.edit().putString(fieldDB, "14").apply();break;
             case "15":be.setImageResource(R.drawable.circle_pink);
                 sharedPref.edit().putString(fieldDB, "15").apply();break;
             case "16":be.setImageResource(R.drawable.circle_purple);
@@ -169,25 +128,15 @@ public class helper_main {
                 sharedPref.edit().putString(fieldDB, "22").apply();break;
             case "23":be.setImageResource(R.drawable.circle_brown);
                 sharedPref.edit().putString(fieldDB, "23").apply();break;
-            case "24":be.setImageResource(R.drawable.circle_grey);
-                sharedPref.edit().putString(fieldDB, "24").apply();break;
+            default:be.setImageResource(R.drawable.circle_red);
+                sharedPref.edit().putString(fieldDB, "14").apply();break;
         }
-    }
-
-    public static void showKeyboard(final Activity activity, final EditText editText) {
-        new Handler().postDelayed(new Runnable() {
-            public void run() {
-                InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-                Objects.requireNonNull(imm).showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
-                editText.setSelection(editText.length());
-            }
-        }, 200);
     }
 
 
     // Strings, files, ...
 
-    public static String secString (String string) {
+    static String secString (String string) {
         return  string.replaceAll("'", "\'\'");
     }
 
@@ -195,5 +144,74 @@ public class helper_main {
         Date date = new Date();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
         return  format.format(date);
+    }
+
+    static void grantPermissionsStorage(final Activity activity) {
+        if (android.os.Build.VERSION.SDK_INT >= 23) {
+            int hasWRITE_EXTERNAL_STORAGE = activity.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            if (hasWRITE_EXTERNAL_STORAGE != PackageManager.PERMISSION_GRANTED) {
+                final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(activity);
+                View dialogView = View.inflate(activity, R.layout.dialog_action, null);
+                TextView textView = dialogView.findViewById(R.id.dialog_text);
+                textView.setText(helper_main.textSpannable(activity.getString(R.string.app_permissions)));
+                Button action_ok = dialogView.findViewById(R.id.action_ok);
+                action_ok.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        activity.requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                REQUEST_CODE_ASK_PERMISSIONS);
+                        bottomSheetDialog.cancel();
+                    }
+                });
+                Button action_cancel = dialogView.findViewById(R.id.action_cancel);
+                action_cancel.setText(R.string.menu_more_settings);
+                action_cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent();
+                        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        Uri uri = Uri.fromParts("package", activity.getPackageName(), null);
+                        intent.setData(uri);
+                        activity.startActivity(intent);
+                        bottomSheetDialog.cancel();
+                    }
+                });
+                bottomSheetDialog.setContentView(dialogView);
+                bottomSheetDialog.show();
+                helper_main.setBottomSheetBehavior(bottomSheetDialog, dialogView, BottomSheetBehavior.STATE_EXPANDED);
+            }
+        }
+    }
+
+    public static void applyTheme(Context context) {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        String showNavButton = Objects.requireNonNull(sharedPref.getString("sp_theme", "1"));
+        switch (showNavButton) {
+            case "0":
+                context.setTheme(R.style.AppTheme_system);
+                break;
+            case "2":
+                context.setTheme(R.style.AppTheme_dark);
+                break;
+            default:
+                context.setTheme(R.style.AppTheme);
+                break;
+        }
+    }
+
+    static void setBottomSheetBehavior (final BottomSheetDialog dialog, final View view, int beh) {
+        BottomSheetBehavior mBehavior = BottomSheetBehavior.from((View) view.getParent());
+        mBehavior.setState(beh);
+        mBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                    dialog.cancel();
+                }
+            }
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+            }
+        });
     }
 }

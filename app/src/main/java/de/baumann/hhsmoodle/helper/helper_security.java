@@ -1,20 +1,17 @@
 package de.baumann.hhsmoodle.helper;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.os.Build;
-import android.preference.PreferenceManager;
-import android.support.annotation.RequiresApi;
-import android.support.design.widget.Snackbar;
+import com.google.android.material.snackbar.Snackbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import androidx.preference.PreferenceManager;
 
 import de.baumann.hhsmoodle.R;
 
@@ -23,9 +20,8 @@ public class helper_security {
 
     private static String protect;
     private static SharedPreferences sharedPref;
-    private static final int REQUEST_CODE_ASK_PERMISSIONS = 123;
 
-    public static void setLoginData (final Activity activity) {
+    static void setLoginData (final Activity activity) {
         try {
 
             final Class_SecurePreferences sharedPrefSec = new Class_SecurePreferences(activity, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
@@ -72,47 +68,6 @@ public class helper_security {
 
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
-
-
-
-    public static void grantPermissions(final Activity activity) {
-
-        sharedPref = PreferenceManager.getDefaultSharedPreferences(activity);
-
-        if (android.os.Build.VERSION.SDK_INT >= 23) {
-            if (sharedPref.getString ("show_permission", "true").equals("true")){
-                int hasWRITE_EXTERNAL_STORAGE = activity.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-                if (hasWRITE_EXTERNAL_STORAGE != PackageManager.PERMISSION_GRANTED) {
-                    if (!activity.shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-
-                        new android.app.AlertDialog.Builder(activity)
-                                .setTitle(R.string.app_permissions_title)
-                                .setMessage(helper_main.textSpannable(activity.getString(R.string.app_permissions)))
-                                .setNeutralButton(R.string.toast_notAgain, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.cancel();
-                                        sharedPref.edit().putString("show_permission", "false").apply();
-                                    }
-                                })
-                                .setPositiveButton(activity.getString(R.string.toast_yes), new DialogInterface.OnClickListener() {
-                                    @RequiresApi(api = Build.VERSION_CODES.M)
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        activity.requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                                                REQUEST_CODE_ASK_PERMISSIONS);
-                                    }
-                                })
-                                .setNegativeButton(activity.getString(R.string.toast_cancel), null)
-                                .show();
-                        return;
-                    }
-                    activity.requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                            REQUEST_CODE_ASK_PERMISSIONS);
-                }
-            }
         }
     }
 

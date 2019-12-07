@@ -4,9 +4,10 @@
     tools:ignore="ContentDescription"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:background="?android:attr/colorBackground">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="100dp">
 
@@ -30,10 +31,24 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
         <TextView
+            android:layout_above="@+id/favoriteTitle"
+            android:layout_marginStart="16dp"
+            android:id="@+id/userName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed"
+            android:typeface="sans"
+            android:textColor="@color/color_light"
+            android:textStyle="normal"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/login_user"
+            tools:ignore="RelativeOverlap" />
+
+        <TextView
             android:layout_alignParentBottom="true"
             android:layout_marginStart="16dp"
             android:layout_marginBottom="16dp"
-            android:id="@+id/userName"
+            android:id="@+id/favoriteTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed"
@@ -56,30 +71,6 @@
             android:contentDescription="@null"
             android:foregroundGravity="center"
             android:src="@drawable/sort_descending" />
-
-        <ImageButton
-            android:id="@+id/ib_settings"
-            android:layout_alignParentBottom="true"
-            android:layout_toStartOf="@+id/ib_bookmarkSort"
-            android:layout_width="42dp"
-            android:layout_height="42dp"
-            android:layout_marginBottom="8dp"
-            android:background="?attr/actionBarItemBackground"
-            android:contentDescription="@null"
-            android:foregroundGravity="center"
-            android:src="@drawable/settings" />
-
-        <ImageButton
-            android:id="@+id/ib_help"
-            android:layout_alignParentBottom="true"
-            android:layout_toStartOf="@+id/ib_settings"
-            android:layout_width="42dp"
-            android:layout_height="42dp"
-            android:layout_marginBottom="8dp"
-            android:background="?attr/actionBarItemBackground"
-            android:contentDescription="@null"
-            android:foregroundGravity="center"
-            android:src="@drawable/help_light" />
 
     </RelativeLayout>
 

@@ -23,30 +23,31 @@ package de.baumann.hhsmoodle.helper;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.preference.Preference;
-import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
-import android.provider.Settings;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
+import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceManager;
+
 import android.text.method.LinkMovementMethod;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.Objects;
+
 import de.baumann.hhsmoodle.HHS_MainScreen;
 import de.baumann.hhsmoodle.R;
 
-public class Activity_settings extends AppCompatActivity {
+public class Activity_Settings extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        helper_main.applyTheme(this);
         setContentView(R.layout.activity_settings);
 
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
@@ -57,42 +58,44 @@ public class Activity_settings extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        androidx.appcompat.app.ActionBar actionBar = getSupportActionBar();
         if(actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        // Display the fragment as the activity_screen_main content
-        getFragmentManager().beginTransaction().replace(R.id.content_frame, new SettingsFragment()).commit();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.content_frame, new SettingsFragment())
+                .commit();
     }
 
-    public static class SettingsFragment extends PreferenceFragment {
+    public static class SettingsFragment extends PreferenceFragmentCompat {
 
+        @Override
+        public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+            setPreferencesFromResource(R.xml.user_settings, rootKey);
 
-
-        private void addPermissionListener() {
-
-            Preference reset = findPreference("settings_security_permission");
-            reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                public boolean onPreferenceClick(Preference pref) {
-
-                    if (android.os.Build.VERSION.SDK_INT >= 23) {
-                        Intent intent = new Intent();
-                        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                        Uri uri = Uri.fromParts("package", getActivity().getPackageName(), null);
-                        intent.setData(uri);
-                        getActivity().startActivity(intent);
-                    }
-                    return true;
+            Objects.requireNonNull(findPreference("settings_help")).setOnPreferenceClickListener(new androidx.preference.Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(androidx.preference.Preference preference) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+                    builder.setTitle(R.string.dialog_help_title);
+                    builder.setMessage(helper_main.textSpannable(getActivity().getString(R.string.dialog_help_text)));
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                    ((TextView)dialog.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
+                    return false;
                 }
             });
-        }
 
-        private void addShowLicenseListener() {
-            Preference reset = findPreference("settings_license");
-            reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                public boolean onPreferenceClick(Preference pref) {
-
+            Objects.requireNonNull(findPreference("settings_license")).setOnPreferenceClickListener(new androidx.preference.Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(androidx.preference.Preference preference) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
@@ -101,26 +104,27 @@ public class Activity_settings extends AppCompatActivity {
                     });
                     builder.setTitle(R.string.dialog_license_title);
                     builder.setMessage(helper_main.textSpannable(getActivity().getString(R.string.dialog_license_text)));
-
                     AlertDialog dialog = builder.create();
                     dialog.show();
-
                     ((TextView)dialog.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
-                    return true;
+                    return false;
                 }
             });
-        }
 
-        private void addProtectListener() {
 
-            Preference reset = findPreference("settings_security_pin");
-            reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                public boolean onPreferenceClick(Preference pref) {
-
+            Objects.requireNonNull(findPreference("settings_security_moodle")).setOnPreferenceClickListener(new androidx.preference.Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(androidx.preference.Preference preference) {
+                    helper_security.setLoginData (getActivity());
+                    return false;
+                }
+            });
+            Objects.requireNonNull(findPreference("settings_security_pin")).setOnPreferenceClickListener(new androidx.preference.Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(androidx.preference.Preference preference) {
                     final Activity activity = getActivity();
                     final Class_SecurePreferences sharedPrefSec = new Class_SecurePreferences(activity, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
                     final String password = sharedPrefSec.getString("settings_security_pin");
-
                     AlertDialog.Builder builder = new AlertDialog.Builder(activity);
                     View dialogView = View.inflate(activity, R.layout.dialog_edit_pin, null);
 
@@ -144,36 +148,11 @@ public class Activity_settings extends AppCompatActivity {
                             dialog.cancel();
                         }
                     });
-
                     final AlertDialog dialog = builder.create();
                     dialog.show();
-                    helper_main.showKeyboard(activity, pass_userPW);
-
-                    return true;
+                    return false;
                 }
             });
-        }
-
-        private void addUsernameListener() {
-
-            Preference reset = findPreference("settings_security_moodle");
-            reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                public boolean onPreferenceClick(Preference pref) {
-                    helper_security.setLoginData (getActivity());
-                    return true;
-                }
-            });
-        }
-
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-
-            addPreferencesFromResource(R.xml.user_settings);
-            addUsernameListener();
-            addProtectListener();
-            addPermissionListener();
-            addShowLicenseListener();
         }
     }
 
@@ -186,7 +165,7 @@ public class Activity_settings extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == android.R.id.home) {
-            helper_main.switchToActivity(Activity_settings.this, HHS_MainScreen.class);
+            helper_main.switchToActivity(Activity_Settings.this, HHS_MainScreen.class);
         }
 
         return super.onOptionsItemSelected(item);

@@ -8,12 +8,11 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 
 
-@SuppressWarnings("WeakerAccess")
 public class Class_SwipeTouchListener implements OnTouchListener {
 
     private final GestureDetector gestureDetector;
 
-    public Class_SwipeTouchListener(Context ctx){
+    Class_SwipeTouchListener(Context ctx){
         gestureDetector = new GestureDetector(ctx, new GestureListener());
     }
 
