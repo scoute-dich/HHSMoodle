@@ -88,19 +88,6 @@ public class helper_main {
 
     // used Methods
 
-    static class Item{
-        final String text;
-        final int icon;
-        Item(String text, Integer icon) {
-            this.text = text;
-            this.icon = icon;
-        }
-        @Override
-        public String toString() {
-            return text;
-        }
-    }
-
     static void switchIcon(Activity activity, String string, ImageView be) {
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(activity);
