@@ -18,7 +18,7 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package de.baumann.hhsmoodle.helper;
+package de.baumann.hhsmoodle;
 
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
@@ -58,40 +58,30 @@ class Class_SecurePreferences {
     private final Cipher keyWriter;
     private final SharedPreferences preferences;
 
-    /**
-     * This will initialize an instance of the Class_SecurePreferences class
-     * @param context your current context.
-     * @param preferenceName name of preferences file (preferenceName.xml)
-     * @param secureKey the key used for encryption, finding a good key scheme is hard.
-     * Hardcoding your key in the application is bad, but better than plaintext preferences. Having the user enter the key upon application launch is a safe(r) alternative, but annoying to the user.
-     * @param encryptKeys settings this to false will only encrypt the values,
-     * true will encrypt both values and keys. Keys can contain a lot of information about
-     * the plaintext value of the value which can be used to decipher the value.
-     * @throws SecurePreferencesException description
-     */
+
 
     @SuppressLint("GetInstance")
-    Class_SecurePreferences(Context context, String preferenceName, String secureKey, boolean encryptKeys) throws SecurePreferencesException {
+    Class_SecurePreferences(Context context) throws SecurePreferencesException {
         try {
             this.writer = Cipher.getInstance(TRANSFORMATION);
             this.reader = Cipher.getInstance(TRANSFORMATION);
             this.keyWriter = Cipher.getInstance(KEY_TRANSFORMATION);
 
-            initCiphers(secureKey);
+            initCiphers();
 
-            this.preferences = context.getSharedPreferences(preferenceName, Context.MODE_PRIVATE);
+            this.preferences = context.getSharedPreferences("sharedPrefSec", Context.MODE_PRIVATE);
 
-            this.encryptKeys = encryptKeys;
+            this.encryptKeys = true;
         }
         catch (GeneralSecurityException | UnsupportedEncodingException e) {
             throw new SecurePreferencesException(e);
         }
     }
 
-    private void initCiphers(String secureKey) throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException,
+    private void initCiphers() throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException,
             InvalidAlgorithmParameterException {
         IvParameterSpec ivSpec = getIv();
-        SecretKeySpec secretKey = getSecretKey(secureKey);
+        SecretKeySpec secretKey = getSecretKey();
 
         writer.init(Cipher.ENCRYPT_MODE, secretKey, ivSpec);
         reader.init(Cipher.DECRYPT_MODE, secretKey, ivSpec);
@@ -104,8 +94,8 @@ class Class_SecurePreferences {
         return new IvParameterSpec(iv);
     }
 
-    private SecretKeySpec getSecretKey(String key) throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        byte[] keyBytes = createKeyBytes(key);
+    private SecretKeySpec getSecretKey() throws UnsupportedEncodingException, NoSuchAlgorithmException {
+        byte[] keyBytes = createKeyBytes("Ywn-YM.XK$b:/:&CsL8;=L,y4");
         return new SecretKeySpec(keyBytes, TRANSFORMATION);
     }
 

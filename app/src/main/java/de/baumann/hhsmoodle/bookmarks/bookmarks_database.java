@@ -26,7 +26,8 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.preference.PreferenceManager;
+
+import androidx.preference.PreferenceManager;
 
 import de.baumann.hhsmoodle.R;
 
@@ -76,13 +77,6 @@ public class bookmarks_database {
     //check entry already in database or not
     public boolean isExist(String bookmarks_content){
         String query = "SELECT bookmarks_content FROM bookmarks WHERE bookmarks_content='"+bookmarks_content+"' LIMIT 1";
-        @SuppressLint("Recycle") Cursor row = sqlDb.rawQuery(query, null);
-        return row.moveToFirst();
-    }
-    //check entry already in database or not
-    @SuppressWarnings("SameParameterValue")
-    public boolean isExistFav(String bookmarks_attachment){
-        String query = "SELECT bookmarks_attachment FROM bookmarks WHERE bookmarks_attachment='"+bookmarks_attachment+"' LIMIT 1";
         @SuppressLint("Recycle") Cursor row = sqlDb.rawQuery(query, null);
         return row.moveToFirst();
     }

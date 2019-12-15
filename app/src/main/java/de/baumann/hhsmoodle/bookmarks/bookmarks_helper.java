@@ -22,7 +22,7 @@ package de.baumann.hhsmoodle.bookmarks;
 import android.app.Activity;
 
 import de.baumann.hhsmoodle.R;
-import de.baumann.hhsmoodle.helper.helper_main;
+import de.baumann.hhsmoodle.helper_main;
 
 public class bookmarks_helper {
 

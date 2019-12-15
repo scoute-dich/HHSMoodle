@@ -35,7 +35,6 @@
     <string name="subjects_color_yellow">Gelb</string>
     <string name="subjects_color_orange">Orange</string>
     <string name="subjects_color_brown">Braun</string>
-    <string name="subjects_color_grey">Grau</string>
 
     // Login
 
@@ -58,13 +57,13 @@
     <string name="dialog_help_title">Hilfe</string>
     <string name="dialog_help_text">
         &lt;b>Toolbargesten:&lt;/b>&lt;br>
-        \u25AA Wische hoch/runter \u2192 scrolle die Seite nach oben/unten&lt;br>
-        \u25AA Wische links/rechts \u2192  bewege dich in deinem Browserverauf zurück/vor&lt;br>&lt;br>&lt;br>
+        \u25AA Wische hoch/runter \u2192 scrolle nach oben/unten&lt;br>
+        \u25AA Wische links/rechts \u2192 bewege dich im Verlauf zurück/vor&lt;br>&lt;br>
 
         &lt;b>Lesezeichen&lt;/b>&lt;br>
-        \u25AA Anklicken um ein Lesezeichen zu öffnen.&lt;br>
-        \u25AA Lange klicken um ein Kontextmenü für den Eintrag zu öffnen.&lt;br>
-        \u25AA Im Kopfbereich kannst du die Sortierung deiner Lesezeichen ändern oder die Einstellungen öffnen.&lt;br>
+        \u25AA Klicken um ein Lesezeichen zu öffnen.&lt;br>
+        \u25AA Lange klicken um ein Kontextmenü zu öffnen.&lt;br>
+        \u25AA Im Kopfbereich kannst du die Sortierung deiner Lesezeichen ändern oder dein Profil öffnen.
     </string>
 
     <string name="dialog_license_title">Copyright © 2018 by AOSD</string>
@@ -102,10 +101,8 @@
     <string name="bookmark_remove">Löschen</string>
     <string name="bookmark_remove_confirm">Möchtest du es wirklich löschen?</string>
     <string name="bookmark_setFav">Startseite</string>
-    <string name="bookmark_setFav_not">Du kannst nur einen Favorit haben. Lösche den bestehenden.</string>
     <string name="bookmark_edit">Bearbeiten</string>
     <string name="bookmark_edit_hint">Neuen Titel eingeben …</string>
-    <string name="bookmark_share">Teilen</string>
     <string name="bookmark_saved">Lesezeichen erfolgreich gespeichert.</string>
     <string name="bookmark_saved_not">Lesezeichen existiert bereits.</string>
     <string name="bookmark_icon">Icon</string>

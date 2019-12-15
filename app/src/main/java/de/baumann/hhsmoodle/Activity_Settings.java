@@ -17,7 +17,7 @@
     If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.baumann.hhsmoodle.helper;
+package de.baumann.hhsmoodle;
 
 
 import android.app.Activity;
@@ -37,9 +37,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.Objects;
-
-import de.baumann.hhsmoodle.HHS_MainScreen;
-import de.baumann.hhsmoodle.R;
 
 public class Activity_Settings extends AppCompatActivity {
 
@@ -69,7 +66,7 @@ public class Activity_Settings extends AppCompatActivity {
                 .commit();
     }
 
-    public static class SettingsFragment extends PreferenceFragmentCompat {
+    static class SettingsFragment extends PreferenceFragmentCompat {
 
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -85,7 +82,7 @@ public class Activity_Settings extends AppCompatActivity {
                         }
                     });
                     builder.setTitle(R.string.dialog_help_title);
-                    builder.setMessage(helper_main.textSpannable(getActivity().getString(R.string.dialog_help_text)));
+                    builder.setMessage(helper_main.textSpannable(Objects.requireNonNull(getActivity()).getString(R.string.dialog_help_text)));
                     AlertDialog dialog = builder.create();
                     dialog.show();
                     ((TextView)dialog.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
@@ -103,7 +100,7 @@ public class Activity_Settings extends AppCompatActivity {
                         }
                     });
                     builder.setTitle(R.string.dialog_license_title);
-                    builder.setMessage(helper_main.textSpannable(getActivity().getString(R.string.dialog_license_text)));
+                    builder.setMessage(helper_main.textSpannable(Objects.requireNonNull(getActivity()).getString(R.string.dialog_license_text)));
                     AlertDialog dialog = builder.create();
                     dialog.show();
                     ((TextView)dialog.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
@@ -123,7 +120,7 @@ public class Activity_Settings extends AppCompatActivity {
                 @Override
                 public boolean onPreferenceClick(androidx.preference.Preference preference) {
                     final Activity activity = getActivity();
-                    final Class_SecurePreferences sharedPrefSec = new Class_SecurePreferences(activity, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
+                    final Class_SecurePreferences sharedPrefSec = new Class_SecurePreferences(Objects.requireNonNull(activity));
                     final String password = sharedPrefSec.getString("settings_security_pin");
                     AlertDialog.Builder builder = new AlertDialog.Builder(activity);
                     View dialogView = View.inflate(activity, R.layout.dialog_edit_pin, null);
@@ -163,7 +160,6 @@ public class Activity_Settings extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == android.R.id.home) {
             helper_main.switchToActivity(Activity_Settings.this, HHS_MainScreen.class);
         }

@@ -1,4 +1,4 @@
-package de.baumann.hhsmoodle.helper;
+package de.baumann.hhsmoodle;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,9 +10,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import de.baumann.hhsmoodle.R;
-
-public class GridAdapter_Menu extends BaseAdapter {
+class GridAdapter_Menu extends BaseAdapter {
     private static class Holder {
         TextView title;
         ImageView icon;

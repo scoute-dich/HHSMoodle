@@ -17,7 +17,7 @@
     If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.baumann.hhsmoodle.helper;
+package de.baumann.hhsmoodle;
 
 import android.Manifest;
 import android.app.Activity;
@@ -46,8 +46,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
-
-import de.baumann.hhsmoodle.R;
 
 public class helper_main {
 
@@ -90,9 +88,9 @@ public class helper_main {
 
     // used Methods
 
-    public static class Item{
+    static class Item{
         final String text;
-        public final int icon;
+        final int icon;
         Item(String text, Integer icon) {
             this.text = text;
             this.icon = icon;
@@ -103,7 +101,7 @@ public class helper_main {
         }
     }
 
-    static void switchIcon (Activity activity, String string, String fieldDB, ImageView be) {
+    static void switchIcon(Activity activity, String string, ImageView be) {
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(activity);
 
@@ -111,25 +109,25 @@ public class helper_main {
 
         switch (string) {
             case "15":be.setImageResource(R.drawable.circle_pink);
-                sharedPref.edit().putString(fieldDB, "15").apply();break;
+                sharedPref.edit().putString("bookmarks_icon", "15").apply();break;
             case "16":be.setImageResource(R.drawable.circle_purple);
-                sharedPref.edit().putString(fieldDB, "16").apply();break;
+                sharedPref.edit().putString("bookmarks_icon", "16").apply();break;
             case "17":be.setImageResource(R.drawable.circle_blue);
-                sharedPref.edit().putString(fieldDB, "17").apply();break;
+                sharedPref.edit().putString("bookmarks_icon", "17").apply();break;
             case "18":be.setImageResource(R.drawable.circle_teal);
-                sharedPref.edit().putString(fieldDB, "18").apply();break;
+                sharedPref.edit().putString("bookmarks_icon", "18").apply();break;
             case "19":be.setImageResource(R.drawable.circle_green);
-                sharedPref.edit().putString(fieldDB, "19").apply();break;
+                sharedPref.edit().putString("bookmarks_icon", "19").apply();break;
             case "20":be.setImageResource(R.drawable.circle_lime);
-                sharedPref.edit().putString(fieldDB, "20").apply();break;
+                sharedPref.edit().putString("bookmarks_icon", "20").apply();break;
             case "21":be.setImageResource(R.drawable.circle_yellow);
-                sharedPref.edit().putString(fieldDB, "21").apply();break;
+                sharedPref.edit().putString("bookmarks_icon", "21").apply();break;
             case "22":be.setImageResource(R.drawable.circle_orange);
-                sharedPref.edit().putString(fieldDB, "22").apply();break;
+                sharedPref.edit().putString("bookmarks_icon", "22").apply();break;
             case "23":be.setImageResource(R.drawable.circle_brown);
-                sharedPref.edit().putString(fieldDB, "23").apply();break;
+                sharedPref.edit().putString("bookmarks_icon", "23").apply();break;
             default:be.setImageResource(R.drawable.circle_red);
-                sharedPref.edit().putString(fieldDB, "14").apply();break;
+                sharedPref.edit().putString("bookmarks_icon", "14").apply();break;
         }
     }
 
@@ -178,7 +176,7 @@ public class helper_main {
                 });
                 bottomSheetDialog.setContentView(dialogView);
                 bottomSheetDialog.show();
-                helper_main.setBottomSheetBehavior(bottomSheetDialog, dialogView, BottomSheetBehavior.STATE_EXPANDED);
+                helper_main.setBottomSheetBehavior(bottomSheetDialog, dialogView);
             }
         }
     }
@@ -199,9 +197,9 @@ public class helper_main {
         }
     }
 
-    static void setBottomSheetBehavior (final BottomSheetDialog dialog, final View view, int beh) {
+    static void setBottomSheetBehavior(final BottomSheetDialog dialog, final View view) {
         BottomSheetBehavior mBehavior = BottomSheetBehavior.from((View) view.getParent());
-        mBehavior.setState(beh);
+        mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         mBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {

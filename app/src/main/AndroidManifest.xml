@@ -39,7 +39,7 @@
         </activity>
 
         <activity
-            android:name=".helper.Activity_Settings"
+            android:name=".Activity_Settings"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme" />
 

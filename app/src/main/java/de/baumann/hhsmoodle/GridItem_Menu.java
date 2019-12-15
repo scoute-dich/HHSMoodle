@@ -1,7 +1,7 @@
-package de.baumann.hhsmoodle.helper;
+package de.baumann.hhsmoodle;
 
 
-public class GridItem_Menu {
+class GridItem_Menu {
     private final String title;
     String getTitle() {
         return title;

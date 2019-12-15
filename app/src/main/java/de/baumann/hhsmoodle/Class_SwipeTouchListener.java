@@ -1,4 +1,4 @@
-package de.baumann.hhsmoodle.helper;
+package de.baumann.hhsmoodle;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 
 
-public class Class_SwipeTouchListener implements OnTouchListener {
+class Class_SwipeTouchListener implements OnTouchListener {
 
     private final GestureDetector gestureDetector;
 
@@ -65,15 +65,15 @@ public class Class_SwipeTouchListener implements OnTouchListener {
     }
 
     // ↓ do not remove, needed for swipe listener of the "navigation button"
-    public void onSwipeRight() {
+    void onSwipeRight() {
     }
 
-    public void onSwipeLeft() {
+    void onSwipeLeft() {
     }
 
-    public void onSwipeTop() {
+    void onSwipeTop() {
     }
 
-    public void onSwipeBottom() {
+    void onSwipeBottom() {
     }
 }

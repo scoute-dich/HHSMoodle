@@ -1,4 +1,4 @@
-package de.baumann.hhsmoodle.helper;
+package de.baumann.hhsmoodle;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -13,10 +13,8 @@ import android.widget.TextView;
 
 import androidx.preference.PreferenceManager;
 
-import de.baumann.hhsmoodle.R;
 
-
-public class helper_security {
+class helper_security {
 
     private static String protect;
     private static SharedPreferences sharedPref;
@@ -24,7 +22,7 @@ public class helper_security {
     static void setLoginData (final Activity activity) {
         try {
 
-            final Class_SecurePreferences sharedPrefSec = new Class_SecurePreferences(activity, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
+            final Class_SecurePreferences sharedPrefSec = new Class_SecurePreferences(activity);
 
             AlertDialog.Builder builder = new AlertDialog.Builder(activity, R.style.AppTheme_Fullscreen);
             final View dialogView = View.inflate(activity, R.layout.dialog_edit_login, null);
@@ -77,7 +75,7 @@ public class helper_security {
         PreferenceManager.setDefaultValues(activity, R.xml.user_settings, false);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(activity);
 
-        Class_SecurePreferences sharedPrefSec = new Class_SecurePreferences(activity, "sharedPrefSec", "Ywn-YM.XK$b:/:&CsL8;=L,y4", true);
+        Class_SecurePreferences sharedPrefSec = new Class_SecurePreferences(activity);
         protect = sharedPrefSec.getString("settings_security_pin");
 
         if (protect != null  && protect.length() > 0) {

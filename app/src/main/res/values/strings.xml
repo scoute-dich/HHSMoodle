@@ -34,7 +34,6 @@
     <string name="subjects_color_yellow">Yellow</string>
     <string name="subjects_color_orange">Orange</string>
     <string name="subjects_color_brown">Brown</string>
-    <string name="subjects_color_grey">Grey</string>
 
 
     // Login
@@ -56,10 +55,8 @@
     <string name="bookmark_remove">Delete</string>
     <string name="bookmark_remove_confirm">Do you really want to delete it?</string>
     <string name="bookmark_setFav">Start site</string>
-    <string name="bookmark_setFav_not">You can only choose one favorite. Please remove the existing one.</string>
     <string name="bookmark_edit">Edit</string>
     <string name="bookmark_edit_hint">Enter new title …</string>
-    <string name="bookmark_share">Share</string>
     <string name="bookmark_saved">Bookmark successfully saved.</string>
     <string name="bookmark_saved_not">Bookmark already exists.</string>
     <string name="bookmark_icon">Icon</string>
@@ -90,7 +87,7 @@
     <string name="settings_security_pin_summary">Set a pin to protect app against unwanted access. Only use numbers. Let empty, if you do
         not want to protect the app (own risk).</string>
 
-    // Snackbar
+    // SnackBar
 
     <string name="toast_yes">OK</string>
     <string name="toast_cancel">Cancel</string>
@@ -106,13 +103,13 @@
     <string name="dialog_help_title">Help</string>
     <string name="dialog_help_text">
         &lt;b>Swipe on the toolbar:&lt;/b>&lt;br>
-        \u25AA Swipe up/down     \u2192  scroll the page to top/bottom&lt;br>
-        \u25AA Swipe left/right  \u2192  navigate back/forward in browsing history&lt;br>&lt;br>&lt;br>
+        \u25AA Swipe up/down     \u2192  scroll to top/bottom&lt;br>
+        \u25AA Swipe left/right  \u2192  navigate back/forward in history&lt;br>&lt;br>
 
         &lt;b>Bookmarks&lt;/b>&lt;br>
-        \u25AA Click to open a bookmark.&lt;br>
-        \u25AA Long press an entry to enter a context menu.&lt;br>
-        \u25AA In the header you can also change the order of your bookmarks or open the application settings.&lt;br>
+        \u25AA Click to open.&lt;br>
+        \u25AA Long press to enter a context menu.&lt;br>
+        \u25AA In the header you can also change the order of your bookmarks or open your profile.
     </string>
 
     <string name="dialog_license_title">Copyright © 2018 by AOSD</string>
