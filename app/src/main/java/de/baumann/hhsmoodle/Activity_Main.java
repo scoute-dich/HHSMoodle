@@ -76,12 +76,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-import de.baumann.hhsmoodle.bookmarks.bookmarks_database;
-import de.baumann.hhsmoodle.bookmarks.bookmarks_helper;
-
-import static de.baumann.hhsmoodle.helper_main.createDate;
-
-public class HHS_MainScreen extends AppCompatActivity {
+public class Activity_Main extends AppCompatActivity {
 
     private WebView mWebView;
     private ProgressBar progressBar;
@@ -93,7 +88,7 @@ public class HHS_MainScreen extends AppCompatActivity {
 
     private static final int INPUT_FILE_REQUEST_CODE = 1;
 
-    private bookmarks_database db;
+    private Bookmarks_Database db;
     private ListView lv;
     private BottomSheetDialog bottomSheetDialog;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -106,18 +101,18 @@ public class HHS_MainScreen extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
-        helper_main.applyTheme(this);
+        Class_Helper.applyTheme(this);
         setContentView(R.layout.activity_screen_main);
 
         final Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        helper_security.checkPin(HHS_MainScreen.this);
+        Class_Helper.checkPin(Activity_Main.this);
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
 
         WebView.enableSlowWholeDocumentDraw();
 
-        activity = HHS_MainScreen.this;
+        activity = Activity_Main.this;
         sharedPrefSec = new Class_SecurePreferences(Objects.requireNonNull(activity));
 
         PreferenceManager.setDefaultValues(activity, R.xml.user_settings, false);
@@ -219,7 +214,7 @@ public class HHS_MainScreen extends AppCompatActivity {
                                 if (android.os.Build.VERSION.SDK_INT >= 23) {
                                     int hasWRITE_EXTERNAL_STORAGE = activity.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
                                     if (hasWRITE_EXTERNAL_STORAGE != PackageManager.PERMISSION_GRANTED) {
-                                        helper_main.grantPermissionsStorage(activity);
+                                        Class_Helper.grantPermissionsStorage(activity);
                                     } else {
                                         manager.enqueue(request);
                                         Snackbar.make(mWebView, getString(R.string.toast_download) + " " + filename , Snackbar.LENGTH_LONG).show();
@@ -236,13 +231,13 @@ public class HHS_MainScreen extends AppCompatActivity {
 
         try {
             if (sharedPrefSec.getString("username").isEmpty() || sharedPrefSec.getString("password").isEmpty()) {
-                helper_security.setLoginData (activity);
+                Class_Helper.setLoginData (activity);
             } else {
                 mWebView.loadUrl(sharedPref.getString("favoriteURL", "https://moodle.huebsch.ka.schule-bw.de/moodle/my/"));
             }
         } catch (Exception e) {
             e.printStackTrace();
-            helper_security.setLoginData (activity);
+            Class_Helper.setLoginData (activity);
         }
 
         Toolbar ab = activity.findViewById(R.id.toolbar);
@@ -276,7 +271,7 @@ public class HHS_MainScreen extends AppCompatActivity {
         editLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                helper_security.setLoginData(activity);
+                Class_Helper.setLoginData(activity);
             }
         });
 
@@ -297,12 +292,12 @@ public class HHS_MainScreen extends AppCompatActivity {
                 String userName = sharedPrefSec.getString("username");
                 String favoriteTitle = sharedPref.getString("favoriteTitle", "Dashboard");
 
-                db = new bookmarks_database(activity);
+                db = new Bookmarks_Database(activity);
                 db.open();
                 bottomSheetDialog = new BottomSheetDialog(Objects.requireNonNull(activity));
                 View dialogView = View.inflate(activity, R.layout.dialog_bookmark, null);
                 ImageView imageView = dialogView.findViewById(R.id.bookmarkHeader);
-                helper_main.setImageHeader(activity, imageView);
+                Class_Helper.setImageHeader(activity, imageView);
                 TextView userNameTV = dialogView.findViewById(R.id.userName);
                 userNameTV.setText(userName);
                 favoriteTitleTV = dialogView.findViewById(R.id.favoriteTitle);
@@ -354,7 +349,7 @@ public class HHS_MainScreen extends AppCompatActivity {
                 setBookmarksList();
                 bottomSheetDialog.setContentView(dialogView);
                 bottomSheetDialog.show();
-                helper_main.setBottomSheetBehavior(bottomSheetDialog, dialogView);
+                Class_Helper.setBottomSheetBehavior(bottomSheetDialog, dialogView);
             }
         });
 
@@ -394,7 +389,7 @@ public class HHS_MainScreen extends AppCompatActivity {
                         switch (position) {
                             case 0:
                                 bottomSheetDialog.cancel();
-                                helper_main.switchToActivity(activity, Activity_Settings.class);
+                                Class_Helper.switchToActivity(activity, Activity_Settings.class);
                                 break;
                             case 1:
                                 bottomSheetDialog.cancel();
@@ -403,9 +398,9 @@ public class HHS_MainScreen extends AppCompatActivity {
                             case 2:
                                 if (url != null) {
                                     bottomSheetDialog.cancel();
-                                    final bookmarks_database db = new bookmarks_database(activity);
+                                    final Bookmarks_Database db = new Bookmarks_Database(activity);
                                     db.open();
-                                    if(db.isExist(helper_main.secString(mWebView.getUrl()))){
+                                    if(db.isExist(Class_Helper.secString(mWebView.getUrl()))){
                                         Snackbar.make(mWebView, getString(R.string.bookmark_saved_not), Snackbar.LENGTH_LONG).show();
                                     }else{
                                         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
@@ -418,7 +413,7 @@ public class HHS_MainScreen extends AppCompatActivity {
                                         builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int whichButton) {
                                                 String inputTag = edit_title.getText().toString().trim();
-                                                db.insert(helper_main.secString(inputTag), helper_main.secString(mWebView.getUrl()), "04", "", createDate());
+                                                db.insert(Class_Helper.secString(inputTag), Class_Helper.secString(mWebView.getUrl()), "04", "", "");
                                                 dialog.cancel();
                                                 Snackbar.make(mWebView, R.string.bookmark_saved, Snackbar.LENGTH_LONG).show();
                                             }
@@ -464,7 +459,7 @@ public class HHS_MainScreen extends AppCompatActivity {
 
                 bottomSheetDialog.setContentView(dialogView);
                 bottomSheetDialog.show();
-                helper_main.setBottomSheetBehavior(bottomSheetDialog, dialogView);
+                Class_Helper.setBottomSheetBehavior(bottomSheetDialog, dialogView);
             }
         });
     }
@@ -534,7 +529,7 @@ public class HHS_MainScreen extends AppCompatActivity {
                 final String bookmarks_icon = row.getString(row.getColumnIndexOrThrow("bookmarks_icon"));
                 View v = super.getView(position, convertView, parent);
                 ImageView iv_icon = v.findViewById(R.id.icon_notes);
-                helper_main.switchIcon(activity, bookmarks_icon, iv_icon);
+                Class_Helper.switchIcon(activity, bookmarks_icon, iv_icon);
                 return v;
             }
         };
@@ -542,7 +537,7 @@ public class HHS_MainScreen extends AppCompatActivity {
         lv.setAdapter(adapter);
 
         if (lv.getAdapter().getCount() == 0) {
-            bookmarks_helper.insertDefaultBookmarks(activity);
+            Class_Helper.insertDefaultBookmarks(activity);
             sharedPref.edit()
                     .putString("favoriteURL", "https://moodle.huebsch.ka.schule-bw.de/moodle/my/")
                     .putString("favoriteTitle", "Dashboard").apply();
@@ -606,7 +601,7 @@ public class HHS_MainScreen extends AppCompatActivity {
 
                                     public void onClick(DialogInterface dialog, int whichButton) {
                                         String inputTag = edit_title.getText().toString().trim();
-                                        db.update(Integer.parseInt(_id), helper_main.secString(inputTag), helper_main.secString(bookmarks_url), bookmarks_icon, bookmarks_fav, "");
+                                        db.update(Integer.parseInt(_id), Class_Helper.secString(inputTag), Class_Helper.secString(bookmarks_url), bookmarks_icon, bookmarks_fav);
                                         setBookmarksList();
                                     }
                                 });
@@ -659,52 +654,52 @@ public class HHS_MainScreen extends AppCompatActivity {
                                         switch (position) {
                                             case 0:
                                                 bottomSheetDialog_icon.cancel();
-                                                db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_url), "14", bookmarks_fav, "");
+                                                db.update(Integer.parseInt(_id), Class_Helper.secString(bookmarks_title), Class_Helper.secString(bookmarks_url), "14", bookmarks_fav);
                                                 setBookmarksList();
                                                 break;
                                             case 1:
                                                 bottomSheetDialog_icon.cancel();
-                                                db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_url), "15", bookmarks_fav, "");
+                                                db.update(Integer.parseInt(_id), Class_Helper.secString(bookmarks_title), Class_Helper.secString(bookmarks_url), "15", bookmarks_fav);
                                                 setBookmarksList();
                                                 break;
                                             case 2:
                                                 bottomSheetDialog_icon.cancel();
-                                                db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_url), "16", bookmarks_fav, "");
+                                                db.update(Integer.parseInt(_id), Class_Helper.secString(bookmarks_title), Class_Helper.secString(bookmarks_url), "16", bookmarks_fav);
                                                 setBookmarksList();
                                                 break;
                                             case 3:
                                                 bottomSheetDialog_icon.cancel();
-                                                db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_url), "17", bookmarks_fav, "");
+                                                db.update(Integer.parseInt(_id), Class_Helper.secString(bookmarks_title), Class_Helper.secString(bookmarks_url), "17", bookmarks_fav);
                                                 setBookmarksList();
                                                 break;
                                             case 4:
                                                 bottomSheetDialog_icon.cancel();
-                                                db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_url), "18", bookmarks_fav, "");
+                                                db.update(Integer.parseInt(_id), Class_Helper.secString(bookmarks_title), Class_Helper.secString(bookmarks_url), "18", bookmarks_fav);
                                                 setBookmarksList();
                                                 break;
                                             case 5:
                                                 bottomSheetDialog_icon.cancel();
-                                                db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_url), "19", bookmarks_fav, "");
+                                                db.update(Integer.parseInt(_id), Class_Helper.secString(bookmarks_title), Class_Helper.secString(bookmarks_url), "19", bookmarks_fav);
                                                 setBookmarksList();
                                                 break;
                                             case 6:
                                                 bottomSheetDialog_icon.cancel();
-                                                db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_url), "20", bookmarks_fav, "");
+                                                db.update(Integer.parseInt(_id), Class_Helper.secString(bookmarks_title), Class_Helper.secString(bookmarks_url), "20", bookmarks_fav);
                                                 setBookmarksList();
                                                 break;
                                             case 7:
                                                 bottomSheetDialog_icon.cancel();
-                                                db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_url), "21", bookmarks_fav, "");
+                                                db.update(Integer.parseInt(_id), Class_Helper.secString(bookmarks_title), Class_Helper.secString(bookmarks_url), "21", bookmarks_fav);
                                                 setBookmarksList();
                                                 break;
                                             case 8:
                                                 bottomSheetDialog_icon.cancel();
-                                                db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_url), "22", bookmarks_fav, "");
+                                                db.update(Integer.parseInt(_id), Class_Helper.secString(bookmarks_title), Class_Helper.secString(bookmarks_url), "22", bookmarks_fav);
                                                 setBookmarksList();
                                                 break;
                                             case 9:
                                                 bottomSheetDialog_icon.cancel();
-                                                db.update(Integer.parseInt(_id), helper_main.secString(bookmarks_title), helper_main.secString(bookmarks_url), "23", bookmarks_fav, "");
+                                                db.update(Integer.parseInt(_id), Class_Helper.secString(bookmarks_title), Class_Helper.secString(bookmarks_url), "23", bookmarks_fav);
                                                 setBookmarksList();
                                                 break;
                                         }
@@ -712,7 +707,7 @@ public class HHS_MainScreen extends AppCompatActivity {
                                 });
                                 bottomSheetDialog_icon.setContentView(dialogView2);
                                 bottomSheetDialog_icon.show();
-                                helper_main.setBottomSheetBehavior(bottomSheetDialog_icon, dialogView2);
+                                Class_Helper.setBottomSheetBehavior(bottomSheetDialog_icon, dialogView2);
                                 break;
                             case 2:
                                 bottomSheetDialog_context.cancel();
@@ -741,7 +736,7 @@ public class HHS_MainScreen extends AppCompatActivity {
 
                 bottomSheetDialog_context.setContentView(dialogView);
                 bottomSheetDialog_context.show();
-                helper_main.setBottomSheetBehavior(bottomSheetDialog_context, dialogView);
+                Class_Helper.setBottomSheetBehavior(bottomSheetDialog_context, dialogView);
                 return true;
             }
         });

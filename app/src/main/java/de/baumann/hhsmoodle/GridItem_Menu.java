@@ -8,7 +8,7 @@ class GridItem_Menu {
     }
 
     private final int icon;
-    public int getIcon() {
+    int getIcon() {
         return icon;
     }
 

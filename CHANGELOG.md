@@ -1,4 +1,4 @@
-### 5.0 (WIP)
+### 5.0
 - complete redesign
 
 ### 4.7

@@ -95,14 +95,14 @@ class Class_SecurePreferences {
     }
 
     private SecretKeySpec getSecretKey() throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        byte[] keyBytes = createKeyBytes("Ywn-YM.XK$b:/:&CsL8;=L,y4");
+        byte[] keyBytes = createKeyBytes();
         return new SecretKeySpec(keyBytes, TRANSFORMATION);
     }
 
-    private byte[] createKeyBytes(String key) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+    private byte[] createKeyBytes() throws UnsupportedEncodingException, NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance(SECRET_KEY_HASH_TRANSFORMATION);
         md.reset();
-        return md.digest(key.getBytes(CHARSET));
+        return md.digest("Ywn-YM.XK$b:/:&CsL8;=L,y4".getBytes(CHARSET));
     }
 
     void put(String key, String value) {

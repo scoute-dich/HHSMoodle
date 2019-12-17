@@ -44,7 +44,7 @@ public class Activity_Settings extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        helper_main.applyTheme(this);
+        Class_Helper.applyTheme(this);
         setContentView(R.layout.activity_settings);
 
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
@@ -66,7 +66,8 @@ public class Activity_Settings extends AppCompatActivity {
                 .commit();
     }
 
-    static class SettingsFragment extends PreferenceFragmentCompat {
+    @SuppressWarnings("WeakerAccess")
+    public static class SettingsFragment extends PreferenceFragmentCompat {
 
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -82,7 +83,7 @@ public class Activity_Settings extends AppCompatActivity {
                         }
                     });
                     builder.setTitle(R.string.dialog_help_title);
-                    builder.setMessage(helper_main.textSpannable(Objects.requireNonNull(getActivity()).getString(R.string.dialog_help_text)));
+                    builder.setMessage(Class_Helper.textSpannable(Objects.requireNonNull(getActivity()).getString(R.string.dialog_help_text)));
                     AlertDialog dialog = builder.create();
                     dialog.show();
                     ((TextView)dialog.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
@@ -100,7 +101,7 @@ public class Activity_Settings extends AppCompatActivity {
                         }
                     });
                     builder.setTitle(R.string.dialog_license_title);
-                    builder.setMessage(helper_main.textSpannable(Objects.requireNonNull(getActivity()).getString(R.string.dialog_license_text)));
+                    builder.setMessage(Class_Helper.textSpannable(Objects.requireNonNull(getActivity()).getString(R.string.dialog_license_text)));
                     AlertDialog dialog = builder.create();
                     dialog.show();
                     ((TextView)dialog.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
@@ -112,7 +113,7 @@ public class Activity_Settings extends AppCompatActivity {
             Objects.requireNonNull(findPreference("settings_security_moodle")).setOnPreferenceClickListener(new androidx.preference.Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(androidx.preference.Preference preference) {
-                    helper_security.setLoginData (getActivity());
+                    Class_Helper.setLoginData (getActivity());
                     return false;
                 }
             });
@@ -161,7 +162,7 @@ public class Activity_Settings extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == android.R.id.home) {
-            helper_main.switchToActivity(Activity_Settings.this, HHS_MainScreen.class);
+            Class_Helper.switchToActivity(Activity_Settings.this, Activity_Main.class);
         }
 
         return super.onOptionsItemSelected(item);
