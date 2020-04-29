@@ -8,11 +8,12 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 
 
-class Class_SwipeTouchListener implements OnTouchListener {
+@SuppressWarnings("WeakerAccess")
+public class SwipeTouchListener implements OnTouchListener {
 
     private final GestureDetector gestureDetector;
 
-    Class_SwipeTouchListener(Context ctx){
+    public SwipeTouchListener(Context ctx){
         gestureDetector = new GestureDetector(ctx, new GestureListener());
     }
 
@@ -65,15 +66,15 @@ class Class_SwipeTouchListener implements OnTouchListener {
     }
 
     // ↓ do not remove, needed for swipe listener of the "navigation button"
-    void onSwipeRight() {
+    public void onSwipeRight() {
     }
 
-    void onSwipeLeft() {
+    public void onSwipeLeft() {
     }
 
-    void onSwipeTop() {
+    public void onSwipeTop() {
     }
 
-    void onSwipeBottom() {
+    public void onSwipeBottom() {
     }
 }

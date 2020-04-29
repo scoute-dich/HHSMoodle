@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_bookmark"
+        app:showAsAction="always"
+        android:icon="@drawable/icon_bookmark_light"
+        android:title="@string/action_bookmark"
+        tools:ignore="AlwaysShowAction" />
+
+    <item
+        android:id="@+id/action_menu"
+        app:showAsAction="always"
+        android:icon="@drawable/icon_overflow_light"
+        android:title="@string/action_menu" />
+</menu>

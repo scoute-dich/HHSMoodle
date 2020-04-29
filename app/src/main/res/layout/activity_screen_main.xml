@@ -1,144 +1,54 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:ignore="ContentDescription" >
+    android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <include layout="@layout/content_main" />
+
+    <!-- Bottom bar -->
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bar"
+        style="@style/Widget.MaterialComponents.BottomAppBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        android:id="@+id/view3">
+        android:layout_gravity="bottom"
+        app:backgroundTint="@color/colorPrimary"
+        app:hideOnScroll="true"
+        android:elevation="4dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                android:layout_toStartOf="@id/ib_bookmarks">
-
-            </androidx.appcompat.widget.Toolbar>
-
-            <ImageButton android:id="@+id/ib_bookmarks"
-                android:layout_centerInParent="true"
+            <TextView
+                android:id="@+id/titleView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toStartOf="@id/ib_menu"
-                android:padding="8dp"
-                android:src="@drawable/icon_bookmark_light"
-                android:background="?attr/actionBarItemBackground" />
-
-            <ImageButton android:id="@+id/ib_menu"
-                android:layout_centerInParent="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:padding="8dp"
-                android:src="@drawable/icon_overflow_light"
-                android:background="?attr/actionBarItemBackground"/>
+                android:text="@string/app_name"
+                android:textColor="@color/color_light"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"/>
 
         </RelativeLayout>
 
-    </com.google.android.material.appbar.AppBarLayout>
+    </com.google.android.material.bottomappbar.BottomAppBar>
 
-    <RelativeLayout
-        android:layout_above="@+id/view3"
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_gravity="top|center"
+        app:layout_anchor="@+id/bar"
+        android:id="@+id/progressBar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" >
+        android:layout_height="4dp"
+        android:maxHeight="4dp"
+        android:progressTint="?android:attr/colorAccent"/>
 
-        <LinearLayout
-            android:layout_margin="32dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center_horizontal" >
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@drawable/toolbar_drop_shadow"
+        android:layout_gravity="top|center"
+        app:layout_anchor="@+id/bar"/>
 
-            <ImageView
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:layout_margin="32dp"
-                android:id="@+id/image"
-                android:src="@drawable/logo"
-                android:scaleType="centerInside"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="20dp"
-                android:paddingEnd="4dp"
-                android:paddingStart="4dp"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textStyle="bold"
-                android:text="@string/login_automatic_title"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="20dp"
-                android:paddingEnd="4dp"
-                android:paddingStart="4dp"
-                android:text="@string/login_automatic_text"/>
-
-            <ProgressBar
-                style="?android:attr/progressBarStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <Button
-                android:id="@+id/bt_editLogin"
-                android:text="@string/login_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                android:layout_marginTop="20dp"
-                app:srcCompat="@drawable/check" />
-
-        </LinearLayout>
-
-        <RelativeLayout
-            android:id="@+id/webViewLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                android:id="@+id/swipeRefreshLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <WebView
-                    android:id="@+id/webView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_above="@+id/progressBar">
-                </WebView>
-
-            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-            <ProgressBar
-                style="?android:attr/progressBarStyleHorizontal"
-                android:id="@+id/progressBar"
-                android:layout_width="match_parent"
-                android:layout_height="4dp"
-                android:maxHeight="4dp"
-                android:progressTint="@color/colorAccent"
-                android:layout_alignParentBottom="true"/>
-
-        </RelativeLayout>
-
-        <View android:layout_width="match_parent"
-            android:layout_height="4dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true"
-            android:background="@drawable/toolbar_drop_shadow"/>
-
-    </RelativeLayout>
-
-</RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

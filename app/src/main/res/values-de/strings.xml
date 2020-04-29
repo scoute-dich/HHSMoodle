@@ -4,7 +4,7 @@
 
     // Application
 
-    <string name="app_name">HHS Moodle</string>
+    <string name="app_name">FOSS Moodle</string>
     <string name="app_permissions">
 
         &lt;i>Zugriff auf SD Karte:&lt;/i>&lt;br>
@@ -17,13 +17,6 @@
 
 
     // Moodle
-
-    <string name="text_tit_1">Dashbord</string>
-    <string name="text_tit_2">Profil</string>
-    <string name="text_tit_8">Kalender</string>
-    <string name="text_tit_3">Bewertungen</string>
-    <string name="text_tit_4">Mitteilungen</string>
-    <string name="text_tit_5">Einstellungen</string>
 
     <string name="subjects_color_red">Rot</string>
     <string name="subjects_color_pink">Pink</string>
@@ -39,16 +32,12 @@
     // Login
 
     <string name="login_user">Benutzername</string>
+    <string name="login_link">Link deiner Moodle Instanz</string>
     <string name="login_password">Passwort (8 Zeichen: Groß-/Kleinbuchstabe, Zahl, Sonderzeichen)</string>
     <string name="login_automatic_title">Automatische Anmeldung</string>
-    <string name="login_automatic_text">Wenn das nicht funktioniert, gib bitte die richtigen Logindaten in
-        den Einstellungen an. Dieser Dialog verschwindet, wenn du erfolgreich eingeloggt bist.</string>
+    <string name="login_automatic_text">Dieser Dialog verschwindet, wenn du erfolgreich eingeloggt bist.</string>
     <string name="login_edit">Logindaten bearbeiten</string>
-
-    <string name="login_text_enter">Bitte gib deine Moodle Logindaten ein. Wenn du dich vertippst, kannst du die
-    Logindaten später in den Einstellungen bearbeiten. Es kann sein, dass du die App neu starten musst um die
-        Änderungen zu übernehmen.</string>
-    <string name="login_text_edit">Bitte die richtigen Logindaten eingeben.</string>
+    <string name="login_text_edit">Bitte Logindaten eingeben.</string>
 
 
 
@@ -56,17 +45,16 @@
 
     <string name="dialog_help_title">Hilfe</string>
     <string name="dialog_help_text">
-        &lt;b>Toolbargesten:&lt;/b>&lt;br>
-        \u25AA Wische hoch/runter \u2192 scrolle nach oben/unten&lt;br>
-        \u25AA Wische links/rechts \u2192 bewege dich im Verlauf zurück/vor&lt;br>&lt;br>
-
         &lt;b>Lesezeichen&lt;/b>&lt;br>
-        \u25AA Klicken um ein Lesezeichen zu öffnen.&lt;br>
-        \u25AA Lange klicken um ein Kontextmenü zu öffnen.&lt;br>
-        \u25AA Im Kopfbereich kannst du die Sortierung deiner Lesezeichen ändern oder dein Profil öffnen.
+        \u25AA Klicken um Eintrag zu öffnen.&lt;br>
+        \u25AA Lange klicken um Eintrag zu bearbeiten.&lt;br>
+        \u25AA Den FAB Knopf lange drücken um die Lesezeichen zu öffnen.&lt;br>&lt;br>
+
+        &lt;b>Wische&lt;/b>&lt;br>
+        Wische auf der Toolbar oder dem FAB Knopf nach links/rechts um im Verlauf zurück/nach vorne zu kommen.
     </string>
 
-    <string name="dialog_license_title">Copyright © 2018 by AOSD</string>
+    <string name="dialog_license_title">Copyright © 2020 by AOSD</string>
     <string name="dialog_license_text">
 
         &lt;i>Besuche für mehr Informationen die Projektseite auf Github: https://github.com/scoute-dich/Browser&lt;br>&lt;br>
@@ -81,42 +69,44 @@
 
         &lt;i>Die folgenden Open Source Bibliotheken oder Projekte werden in dieser Software verwendet:&lt;/i>&lt;br>&lt;br>
 
-        &lt;b>Encrypted UserPrefs&lt;/b>&lt;br>
-        GPL&lt;br>
-        sveinungkb&lt;br>
-        &lt;i>https://github.com/sveinungkb/encrypted-userprefs&lt;/i>&lt;br>&lt;br>
-
         &lt;b>Material Design Icons&lt;/b>&lt;br>
         SIL Open Font License, Version 1.1.&lt;br>
         Templarian&lt;br>
         &lt;i>https://github.com/Templarian/MaterialDesign&lt;/i>
     </string>
 
-    <string name="dialog_sortName">Sortiere nach Namen</string>
-    <string name="dialog_sortIcon">Sortiere nach Icon</string>
+    <string name="dialog_sortName">Name</string>
+    <string name="dialog_sortIcon">Icon</string>
+    <string name="dialog_searchHint">Suchbegriff eingeben</string>
 
 
     // Bookmarks
 
     <string name="bookmark_remove">Löschen</string>
-    <string name="bookmark_remove_confirm">Möchtest du es wirklich löschen?</string>
+    <string name="bookmark_remove_confirm">Lesezeichen löschen?</string>
     <string name="bookmark_setFav">Startseite</string>
     <string name="bookmark_edit">Bearbeiten</string>
-    <string name="bookmark_edit_hint">Neuen Titel eingeben …</string>
-    <string name="bookmark_saved">Lesezeichen erfolgreich gespeichert.</string>
+    <string name="bookmark_edit_hint">Neuer Titel …</string>
+    <string name="bookmark_saved">Lesezeichen gespeichert.</string>
     <string name="bookmark_saved_not">Lesezeichen existiert bereits.</string>
     <string name="bookmark_icon">Icon</string>
 
     // Menu Items
 
+    <string name="action_bookmark">Lesezeichen</string>
+    <string name="action_menu">Menu</string>
+
     <string name="menu_share">Teilen</string>
     <string name="menu_finish">Beenden</string>
 
-    <string name="menu_save_bookmark">Lesezeichen speichern</string>
-    <string name="menu_save_pdf">PDF speichern</string>
+    <string name="menu_save_bookmark">Speichern</string>
+    <string name="menu_save_pdf">Drucken</string>
 
     <string name="menu_more_settings">Einstellungen</string>
     <string name="menu_more_files">Downloads</string>
+
+    <string name="menu_search">Suchen</string>
+    <string name="menu_reload">Neu laden</string>
 
 
     // Settings
@@ -125,31 +115,30 @@
     <string name="settings_security">Sicherheit</string>
 
     <string name="settings_security_moodle">Logindaten (Moodle)</string>
-    <string name="settings_security_moodle_summary">Bitte gib deinen Moodle Benutzernamen und dein Passwort an, um automatisch angemeldet zu
-        werden.</string>
+    <string name="settings_security_moodle_summary">Bitte gib deinen Moodledaten an, um automatisch angemeldet zu werden. Nach dem Bearbeiten die App neu starten.</string>
 
-    <string name="settings_license_about_summary">Erfahre mehr über die App (Changelog, Lizenz, benutzte Bibliotheken, …).</string>
+    <string name="settings_license_about_summary">Erfahre mehr über die App.</string>
 
     <string name="settings_security_pin">Pin (App Zugang)</string>
-    <string name="settings_security_pin_summary">Bestimme eine Pin um die App vor unbefugtem Zugriff zu schützen. Benutze nur Nummern.
-        Leer lassen, wenn du die App nicht schützen willst (eigenes Risiko).</string>
+    <string name="settings_security_pin_summary">Bestimme eine Pin um die App vor unbefugtem Zugriff zu schützen. Benutze nur Nummern.</string>
 
     // Snackbar
 
     <string name="toast_yes">OK</string>
     <string name="toast_cancel">Abbrechen</string>
     <string name="toast_download">Lade Datei herunter:</string>
-    <string name="toast_download_1">Möchtest du herunterladen:</string>
-    <string name="toast_download_2">Download vollständig. Ordner öffnen?</string>
-    <string name="toast_wrongPW">Uuups. Falsches Passwort.</string>
-    <string name="toast_webviewForward">Kann keine nächste Seite laden.</string>
-    <string name="toast_webViewBack">Kann keine vorherige Seite laden.</string>
+    <string name="toast_download_1">Herunterladen:</string>
+    <string name="toast_download_2">Download vollständig. Downloadmanager öffnen?</string>
+    <string name="toast_wrongPW">Falsches Passwort.</string>
+    <string name="toast_notPrint">Kein Drucker gefunden.</string>
+    <string name="toast_notBack">Keine vorherige Seite.</string>
+    <string name="toast_notForward">Keine nächste Seite.</string>
 
     // Password
 
-    <string name="pw_hint">Pin (nur Ziffern)</string>
+    <string name="pw_hint">nur Ziffern</string>
     <string name="pw_forgotten">Pin vergessen?</string>
-    <string name="pw_forgotten_dialog">Möchtest du alle Daten löschen, um deine Pin zurückzusetzen?</string>
+    <string name="pw_forgotten_dialog">Anwendungsdaten löschen?</string>
 
 
     <string name="setting_theme_system">System</string>
@@ -158,6 +147,9 @@
 
     <string name="setting_theme">Thema</string>
     <string name="setting_theme_summary">Wähle zwischen der dunklen und der hellen Seite.</string>
+
+    <string name="setting_sort">Sortierung</string>
+    <string name="setting_sort_summary">Sortiere Lesezeichen nach Namen oder Icon.</string>
 
     <string name="dialog_help_summary">Ein paar Tipps zur Nutzung der App.</string>
 

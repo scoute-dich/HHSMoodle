@@ -27,7 +27,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.TypedArray;
 import android.net.Uri;
 import android.provider.Settings;
 import android.text.Html;
@@ -39,41 +38,19 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.preference.PreferenceManager;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Objects;
 
 class Class_Helper {
 
     private static final int REQUEST_CODE_ASK_PERMISSIONS = 123;
-
-    static void insertDefaultBookmarks (Activity activity) {
-        Bookmarks_Database db = new Bookmarks_Database(activity);
-        db.open();
-        db.insert(activity.getString(R.string.text_tit_1), "https://moodle.huebsch.ka.schule-bw.de/moodle/my/", "14", "", "");
-        db.insert(activity.getString(R.string.text_tit_2), "https://moodle.huebsch.ka.schule-bw.de/moodle/user/profile.php", "15", "", "");
-        db.insert(activity.getString(R.string.text_tit_8), "https://moodle.huebsch.ka.schule-bw.de/moodle/calendar/view.php", "16", "", "");
-        db.insert(activity.getString(R.string.text_tit_3), "https://moodle.huebsch.ka.schule-bw.de/moodle/grade/report/overview/index.php", "17", "", "");
-        db.insert(activity.getString(R.string.text_tit_4), "https://moodle.huebsch.ka.schule-bw.de/moodle/message/index.php", "18", "", "");
-        db.insert(activity.getString(R.string.text_tit_5), "https://moodle.huebsch.ka.schule-bw.de/moodle/user/preferences.php", "19", "", "");
-    }
-
-    // Layouts -> filter, header, ...
-
-    static void setImageHeader (Activity activity, ImageView imageView) {
-        if(imageView != null) {
-            TypedArray images = activity.getResources().obtainTypedArray(R.array.splash_images);
-            int choice = (int) (Math.random() * images.length());
-            imageView.setImageResource(images.getResourceId(choice, R.drawable.splash1));
-            images.recycle();
-        }
-    }
 
     // Messages, Toasts, ...
 
@@ -136,7 +113,7 @@ class Class_Helper {
     }
 
     static void grantPermissionsStorage(final Activity activity) {
-        if (android.os.Build.VERSION.SDK_INT >= 23) {
+        if (android.os.Build.VERSION.SDK_INT >= 23 && android.os.Build.VERSION.SDK_INT < 29) {
             int hasWRITE_EXTERNAL_STORAGE = activity.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
             if (hasWRITE_EXTERNAL_STORAGE != PackageManager.PERMISSION_GRANTED) {
                 final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(activity);
@@ -188,9 +165,26 @@ class Class_Helper {
         }
     }
 
+    static void applyTheme_Settings(Context context) {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        String showNavButton = Objects.requireNonNull(sharedPref.getString("sp_theme", "1"));
+        switch (showNavButton) {
+            case "0":
+                context.setTheme(R.style.AppTheme_system_Settings);
+                break;
+            case "2":
+                context.setTheme(R.style.AppTheme_dark_Settings);
+                break;
+            default:
+                context.setTheme(R.style.AppTheme_Settings);
+                break;
+        }
+    }
+
     static void setBottomSheetBehavior(final BottomSheetDialog dialog, final View view) {
         BottomSheetBehavior mBehavior = BottomSheetBehavior.from((View) view.getParent());
         mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+
         mBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
@@ -211,69 +205,53 @@ class Class_Helper {
 
     static void setLoginData (final Activity activity) {
         try {
-
-            final Class_SecurePreferences sharedPrefSec = new Class_SecurePreferences(activity);
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(activity, R.style.AppTheme_Fullscreen);
+            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
             final View dialogView = View.inflate(activity, R.layout.dialog_edit_login, null);
-
-            final EditText pass_userName = dialogView.findViewById(R.id.pass_userName);
-            pass_userName.setText(sharedPrefSec.getString("username"));
-            final EditText pass_userPW = dialogView.findViewById(R.id.pass_userPW);
-            pass_userPW.setText(sharedPrefSec.getString("password"));
-            final Button fab = dialogView.findViewById(R.id.fab);
-
+            final EditText moodle_link = dialogView.findViewById(R.id.moodle_link);
+            moodle_link.setText(sharedPref.getString("link", "https://moodle.huebsch.ka.schule-bw.de/moodle/"));
+            final EditText moodle_userName = dialogView.findViewById(R.id.moodle_userName);
+            moodle_userName.setText(sharedPref.getString("username", ""));
+            final EditText moodle_userPW = dialogView.findViewById(R.id.moodle_userPW);
+            moodle_userPW.setText(sharedPref.getString("password", ""));
             builder.setView(dialogView);
-
-
-            final AlertDialog dialog = builder.create();
-            dialog.show();
-
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    String username = pass_userName.getText().toString().trim();
-                    String password = pass_userPW.getText().toString().trim();
+            builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    final String username = moodle_userName.getText().toString().trim();
+                    final String password = moodle_userPW.getText().toString().trim();
+                    final String link = moodle_link.getText().toString().trim();
 
                     if (username.isEmpty() || password.length() < 8) {
-                        Snackbar snackbar = Snackbar
-                                .make(fab, activity.getString(R.string.login_text_edit), Snackbar.LENGTH_LONG)
-                                .setAction(activity.getString(R.string.toast_cancel), new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        dialog.cancel();
-                                    }
-                                });
-                        snackbar.show();
+                        Toast.makeText(activity, activity.getString(R.string.login_text_edit), Toast.LENGTH_SHORT).show();
                     } else {
-                        sharedPrefSec.put("username", username);
-                        sharedPrefSec.put("password", password);
+                        sharedPref.edit().putString("username", username).apply();
+                        sharedPref.edit().putString("password", password).apply();
+                        sharedPref.edit().putString("link", link).apply();
                         dialog.cancel();
                     }
                 }
             });
-
+            builder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    dialog.cancel();
+                }
+            });
+            final AlertDialog dialog = builder.create();
+            dialog.show();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-
     static void checkPin (final Activity activity) {
 
         PreferenceManager.setDefaultValues(activity, R.xml.user_settings, false);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(activity);
+        protect = sharedPref.getString("settings_security_pin", "");
 
-        Class_SecurePreferences sharedPrefSec = new Class_SecurePreferences(activity);
-        protect = sharedPrefSec.getString("settings_security_pin");
-
-        if (protect != null  && protect.length() > 0) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(activity, R.style.AppTheme_Fullscreen);
+        if (protect.length() > 0) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
             final View dialogView = View.inflate(activity, R.layout.dialog_enter_pin, null);
-
             final TextView text = dialogView.findViewById(R.id.pass_userPin);
-
             Button ib0 = dialogView.findViewById(R.id.button0);
             assert ib0 != null;
             ib0.setOnClickListener(new View.OnClickListener() {
@@ -383,21 +361,35 @@ class Class_Helper {
                 @Override
                 public void onClick(View view) {
 
-                    Snackbar snackbar = Snackbar
-                            .make(clear, activity.getString(R.string.pw_forgotten_dialog), Snackbar.LENGTH_LONG)
-                            .setAction(activity.getString(R.string.toast_yes), new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    try {
-                                        // clearing app data
-                                        Runtime runtime = Runtime.getRuntime();
-                                        runtime.exec("pm clear de.baumann.hhsmoodle");
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            });
-                    snackbar.show();
+                    final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(activity);
+                    View dialogView = View.inflate(activity, R.layout.dialog_action, null);
+                    TextView textView = dialogView.findViewById(R.id.dialog_text);
+                    textView.setText(activity.getString(R.string.pw_forgotten_dialog));
+                    Button action_ok = dialogView.findViewById(R.id.action_ok);
+                    action_ok.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            try {
+                                // clearing app data
+                                Runtime runtime = Runtime.getRuntime();
+                                runtime.exec("pm clear de.baumann.hhsmoodle");
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    });
+                    Button action_cancel = dialogView.findViewById(R.id.action_cancel);
+                    action_cancel.setText(R.string.toast_cancel);
+                    action_cancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            bottomSheetDialog.cancel();
+                        }
+                    });
+                    bottomSheetDialog.setContentView(dialogView);
+                    bottomSheetDialog.show();
+                    Class_Helper.setBottomSheetBehavior(bottomSheetDialog, dialogView);
                 }
             });
 
@@ -422,7 +414,7 @@ class Class_Helper {
                         sharedPref.edit().putBoolean("isOpened", false).apply();
                         dialog.dismiss();
                     } else {
-                        Snackbar.make(text, R.string.toast_wrongPW, Snackbar.LENGTH_LONG).show();
+                        Toast.makeText(activity, activity.getString(R.string.toast_wrongPW), Toast.LENGTH_SHORT).show();
                     }
                 }
             });

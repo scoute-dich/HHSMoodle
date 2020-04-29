@@ -23,10 +23,10 @@ package de.baumann.hhsmoodle;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.Toolbar;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 
@@ -44,16 +44,13 @@ public class Activity_Settings extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Class_Helper.applyTheme(this);
+        Class_Helper.applyTheme_Settings(this);
         setContentView(R.layout.activity_settings);
 
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
         setTitle(R.string.menu_more_settings);
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         androidx.appcompat.app.ActionBar actionBar = getSupportActionBar();
         if(actionBar != null) {
@@ -121,8 +118,8 @@ public class Activity_Settings extends AppCompatActivity {
                 @Override
                 public boolean onPreferenceClick(androidx.preference.Preference preference) {
                     final Activity activity = getActivity();
-                    final Class_SecurePreferences sharedPrefSec = new Class_SecurePreferences(Objects.requireNonNull(activity));
-                    final String password = sharedPrefSec.getString("settings_security_pin");
+                    final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(Objects.requireNonNull(activity));
+                    final String password = sharedPref.getString("settings_security_pin", "");
                     AlertDialog.Builder builder = new AlertDialog.Builder(activity);
                     View dialogView = View.inflate(activity, R.layout.dialog_edit_pin, null);
 
@@ -134,10 +131,8 @@ public class Activity_Settings extends AppCompatActivity {
                     builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
 
                         public void onClick(DialogInterface dialog, int whichButton) {
-
                             String inputTag = pass_userPW.getText().toString().trim();
-                            sharedPrefSec.put("settings_security_pin", inputTag);
-
+                            sharedPref.edit().putString("settings_security_pin", inputTag).apply();
                         }
                     });
                     builder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {

@@ -43,7 +43,7 @@ class Bookmarks_Database {
 
         @Override
         public void onCreate(SQLiteDatabase db) {
-            db.execSQL("CREATE TABLE IF NOT EXISTS "+dbTable+" (_id INTEGER PRIMARY KEY autoincrement, bookmarks_title, bookmarks_content, bookmarks_icon, bookmarks_attachment, bookmarks_creation, UNIQUE(bookmarks_content))");
+            db.execSQL("CREATE TABLE IF NOT EXISTS "+dbTable+" (_id INTEGER PRIMARY KEY autoincrement, bookmarks_title, bookmarks_content, bookmarks_icon, bookmarks_attachment, UNIQUE(bookmarks_content))");
         }
 
         @Override
@@ -67,9 +67,9 @@ class Bookmarks_Database {
 
     //insert data
     @SuppressWarnings("SameParameterValue")
-    void insert(String bookmarks_title, String bookmarks_content, String bookmarks_icon, String bookmarks_attachment, String bookmarks_creation) {
+    void insert(String bookmarks_title, String bookmarks_content, String bookmarks_icon, String bookmarks_attachment) {
         if(!isExist(bookmarks_title)) {
-            sqlDb.execSQL("INSERT INTO bookmarks (bookmarks_title, bookmarks_content, bookmarks_icon, bookmarks_attachment, bookmarks_creation) VALUES('" + bookmarks_title + "','" + bookmarks_content + "','" + bookmarks_icon + "','" + bookmarks_attachment + "','" + bookmarks_creation + "')");
+            sqlDb.execSQL("INSERT INTO bookmarks (bookmarks_title, bookmarks_content, bookmarks_icon, bookmarks_attachment) VALUES('" + bookmarks_title + "','" + bookmarks_content + "','" + bookmarks_icon + "','" + bookmarks_attachment + "')");
         }
     }
     //check entry already in database or not
@@ -80,7 +80,7 @@ class Bookmarks_Database {
     }
     //edit data
     void update(int id,String bookmarks_title,String bookmarks_content,String bookmarks_icon,String bookmarks_attachment) {
-        sqlDb.execSQL("UPDATE "+dbTable+" SET bookmarks_title='"+bookmarks_title+"', bookmarks_content='"+bookmarks_content+"', bookmarks_icon='"+bookmarks_icon+"', bookmarks_attachment='"+bookmarks_attachment+"', bookmarks_creation='"+""+"'   WHERE _id=" + id);
+        sqlDb.execSQL("UPDATE "+dbTable+" SET bookmarks_title='"+bookmarks_title+"', bookmarks_content='"+bookmarks_content+"', bookmarks_icon='"+bookmarks_icon+"', bookmarks_attachment='"+bookmarks_attachment+"'   WHERE _id=" + id);
     }
 
     //delete data
@@ -88,29 +88,20 @@ class Bookmarks_Database {
         sqlDb.execSQL("DELETE FROM "+dbTable+" WHERE _id="+id);
     }
 
-
     //fetch data
     Cursor fetchAllData(Context context) {
-
         PreferenceManager.setDefaultValues(context, R.xml.user_settings, false);
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-
-        String[] columns = new String[]{"_id", "bookmarks_title", "bookmarks_content", "bookmarks_icon","bookmarks_attachment","bookmarks_creation"};
+        String[] columns = new String[]{"_id", "bookmarks_title", "bookmarks_content", "bookmarks_icon","bookmarks_attachment"};
 
         switch (sp.getString("sortDBB", "title")) {
             case "title":
                 return sqlDb.query(dbTable, columns, null, null, null, null, "bookmarks_title" + " COLLATE NOCASE ASC;");
-
             case "icon": {
-
-                String orderBy = "bookmarks_icon" + "," +
-                        "bookmarks_title" + " COLLATE NOCASE ASC;";
-
+                String orderBy = "bookmarks_icon" + "," + "bookmarks_title" + " COLLATE NOCASE ASC;";
                 return sqlDb.query(dbTable, columns, null, null, null, null, orderBy);
-
             }
         }
-
         return null;
     }
 }

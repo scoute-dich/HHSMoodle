@@ -41,6 +41,8 @@ import android.os.StrictMode;
 import android.print.PrintAttributes;
 import android.print.PrintDocumentAdapter;
 import android.print.PrintManager;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
@@ -56,44 +58,44 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.preference.PreferenceManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.preference.PreferenceManager;
+import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
+
 public class Activity_Main extends AppCompatActivity {
 
     private WebView mWebView;
     private ProgressBar progressBar;
-
     private SharedPreferences sharedPref;
-
-    private Class_SecurePreferences sharedPrefSec;
     private ValueCallback<Uri[]> mFilePathCallback;
 
     private static final int INPUT_FILE_REQUEST_CODE = 1;
 
     private Bookmarks_Database db;
-    private ListView lv;
+    private GridView bookmarkList;
     private BottomSheetDialog bottomSheetDialog;
-    private SwipeRefreshLayout swipeRefreshLayout;
     private TextView favoriteTitleTV;
     private Activity activity;
+    private TextView titleView;
+
+    private BottomAppBar bottomAppBar;
 
     @SuppressLint({"ClickableViewAccessibility", "SetJavaScriptEnabled"})
     @Override
@@ -103,9 +105,8 @@ public class Activity_Main extends AppCompatActivity {
 
         Class_Helper.applyTheme(this);
         setContentView(R.layout.activity_screen_main);
+        setUpBottomAppBar();
 
-        final Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         Class_Helper.checkPin(Activity_Main.this);
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
@@ -113,7 +114,6 @@ public class Activity_Main extends AppCompatActivity {
         WebView.enableSlowWholeDocumentDraw();
 
         activity = Activity_Main.this;
-        sharedPrefSec = new Class_SecurePreferences(Objects.requireNonNull(activity));
 
         PreferenceManager.setDefaultValues(activity, R.xml.user_settings, false);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(activity);
@@ -135,21 +135,21 @@ public class Activity_Main extends AppCompatActivity {
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
 
-        final RelativeLayout webViewLayout = findViewById(R.id.webViewLayout);
+        final RelativeLayout loginScreen = findViewById(R.id.loginScreen);
         mWebView.setWebViewClient(new WebViewClient() {
 
             public void onPageFinished(WebView view, final String url) {
                 super.onPageFinished(view, url);
 
-                if (url != null && url.contains("moodle.huebsch.ka.schule-bw.de/moodle/") && url.contains("/login/")) {
-                    webViewLayout.setVisibility(View.INVISIBLE);
+
+                if (url != null && url.contains(sharedPref.getString("link", "moodle.huebsch.ka.schule-bw.de/moodle/")) && url.contains("/login/")) {
+                    loginScreen.setVisibility(View.VISIBLE);
                 } else {
-                    webViewLayout.setVisibility(View.VISIBLE);
+                    loginScreen.setVisibility(View.INVISIBLE);
                 }
 
-                Class_SecurePreferences sharedPrefSec = new Class_SecurePreferences(activity);
-                String username = sharedPrefSec.getString("username");
-                String password = sharedPrefSec.getString("password");
+                String username = sharedPref.getString("username", "");
+                String password = sharedPref.getString("password", "");
 
                 final String js = "javascript:" +
                         "document.getElementById('password').value = '" + password + "';"  +
@@ -179,7 +179,7 @@ public class Activity_Main extends AppCompatActivity {
             @SuppressWarnings("SameReturnValue")
             private boolean handleUri(final Uri uri) {
                 final String url = uri.toString();
-                if(url.contains("moodle.huebsch.ka.schule-bw.de/moodle/")) {
+                if(url.contains(sharedPref.getString("link", "moodle.huebsch.ka.schule-bw.de/moodle/"))) {
                     mWebView.loadUrl(url);
                 } else {
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
@@ -192,45 +192,59 @@ public class Activity_Main extends AppCompatActivity {
         mWebView.setDownloadListener(new DownloadListener() {
 
             public void onDownloadStart(final String url, String userAgent, final String contentDisposition, final String mimetype, long contentLength) {
-
                 final String filename= URLUtil.guessFileName(url, contentDisposition, mimetype);
-                Snackbar snackbar = Snackbar
-                        .make(mWebView, getString(R.string.toast_download_1) + " " + filename, Snackbar.LENGTH_INDEFINITE)
-                        .setAction(getString(R.string.toast_yes), new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
+                String text = getString(R.string.toast_download_1) + " " + filename;
 
-                                DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
-                                CookieManager cookieManager = CookieManager.getInstance();
-                                String cookie = cookieManager.getCookie(url);
-                                request.addRequestHeader("Cookie", cookie);
-                                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-                                request.setTitle(filename);
-                                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename);
-                                DownloadManager manager = (DownloadManager) Objects.requireNonNull(activity).getSystemService(Context.DOWNLOAD_SERVICE);
-                                assert manager != null;
-                                activity.registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+                final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(activity);
+                View dialogView = View.inflate(activity, R.layout.dialog_action, null);
+                TextView textView = dialogView.findViewById(R.id.dialog_text);
+                textView.setText(text);
+                Button action_ok = dialogView.findViewById(R.id.action_ok);
+                action_ok.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        bottomSheetDialog.cancel();
+                        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+                        CookieManager cookieManager = CookieManager.getInstance();
+                        String cookie = cookieManager.getCookie(url);
+                        request.addRequestHeader("Cookie", cookie);
+                        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                        request.setTitle(filename);
+                        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename);
+                        DownloadManager manager = (DownloadManager) Objects.requireNonNull(activity).getSystemService(Context.DOWNLOAD_SERVICE);
+                        assert manager != null;
+                        activity.registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
 
-                                if (android.os.Build.VERSION.SDK_INT >= 23) {
-                                    int hasWRITE_EXTERNAL_STORAGE = activity.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-                                    if (hasWRITE_EXTERNAL_STORAGE != PackageManager.PERMISSION_GRANTED) {
-                                        Class_Helper.grantPermissionsStorage(activity);
-                                    } else {
-                                        manager.enqueue(request);
-                                        Snackbar.make(mWebView, getString(R.string.toast_download) + " " + filename , Snackbar.LENGTH_LONG).show();
-                                    }
-                                } else {
-                                    manager.enqueue(request);
-                                    Snackbar.make(mWebView, getString(R.string.toast_download) + " " + filename , Snackbar.LENGTH_LONG).show();
-                                }
+                        if (android.os.Build.VERSION.SDK_INT >= 23 && android.os.Build.VERSION.SDK_INT < 29) {
+                            int hasWRITE_EXTERNAL_STORAGE = activity.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                            if (hasWRITE_EXTERNAL_STORAGE != PackageManager.PERMISSION_GRANTED) {
+                                Class_Helper.grantPermissionsStorage(activity);
+                            } else {
+                                manager.enqueue(request);
+                                Toast.makeText(activity, getString(R.string.toast_download) + " " + filename, Toast.LENGTH_SHORT).show();
                             }
-                        });
-                snackbar.show();
+                        } else {
+                            manager.enqueue(request);
+                            Toast.makeText(activity, getString(R.string.toast_download) + " " + filename, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+                Button action_cancel = dialogView.findViewById(R.id.action_cancel);
+                action_cancel.setText(R.string.toast_cancel);
+                action_cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        bottomSheetDialog.cancel();
+                    }
+                });
+                bottomSheetDialog.setContentView(dialogView);
+                bottomSheetDialog.show();
+                Class_Helper.setBottomSheetBehavior(bottomSheetDialog, dialogView);
             }
         });
 
         try {
-            if (sharedPrefSec.getString("username").isEmpty() || sharedPrefSec.getString("password").isEmpty()) {
+            if (sharedPref.getString("username", "").isEmpty() || sharedPref.getString("password", "").isEmpty()) {
                 Class_Helper.setLoginData (activity);
             } else {
                 mWebView.loadUrl(sharedPref.getString("favoriteURL", "https://moodle.huebsch.ka.schule-bw.de/moodle/my/"));
@@ -240,33 +254,6 @@ public class Activity_Main extends AppCompatActivity {
             Class_Helper.setLoginData (activity);
         }
 
-        Toolbar ab = activity.findViewById(R.id.toolbar);
-        ab.setOnTouchListener(new Class_SwipeTouchListener(activity) {
-
-            public void onSwipeTop() {
-                mWebView.pageUp(true);
-            }
-            public void onSwipeBottom() {
-                mWebView.pageDown(true);
-            }
-
-            public void onSwipeRight() {
-                if (mWebView.canGoForward()) {
-                    mWebView.goForward();
-                } else {
-                    Snackbar.make(mWebView, R.string.toast_webviewForward, Snackbar.LENGTH_LONG).show();
-                }
-            }
-
-            public void onSwipeLeft() {
-                if (mWebView.canGoBack()) {
-                    mWebView.goBack();
-                } else {
-                    Snackbar.make(mWebView, R.string.toast_webViewBack, Snackbar.LENGTH_LONG).show();
-                }
-            }
-        });
-
         Button editLogin = findViewById(R.id.bt_editLogin);
         editLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -274,194 +261,255 @@ public class Activity_Main extends AppCompatActivity {
                 Class_Helper.setLoginData(activity);
             }
         });
+    }
 
-        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
-        swipeRefreshLayout.setOnRefreshListener(
-                new SwipeRefreshLayout.OnRefreshListener() {
-                    @Override
-                    public void onRefresh() {
-                        mWebView.reload();
-                    }
+    @SuppressLint("ClickableViewAccessibility")
+    private void setUpBottomAppBar() {
+
+        bottomAppBar = findViewById(R.id.bar);
+        bottomAppBar.setNavigationIcon(null);
+        setSupportActionBar(bottomAppBar);
+
+        bottomAppBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_search_close:
+                        mWebView.findAllAsync(null);
+                        titleView.setText(mWebView.getTitle());
+                        bottomAppBar.replaceMenu(R.menu.menu_main);
+                        break;
+                    case R.id.action_bookmark:
+                        openBookmarkDialog();
+                        break;
+                    case R.id.action_menu:
+                        openMenu();
+                        break;
                 }
-        );
+                return false;
+            }
+        });
 
-        ImageButton ib_bookmarks = Objects.requireNonNull(activity).findViewById(R.id.ib_bookmarks);
-        ib_bookmarks.setOnClickListener(new View.OnClickListener() {
+        bottomAppBar.setOnTouchListener(new SwipeTouchListener(activity) {
+            public void onSwipeTop() {}
+            public void onSwipeBottom() {}
+            public void onSwipeRight() {
+                if (mWebView.canGoForward()) {
+                    mWebView.goForward();
+                } else {
+                    Toast.makeText(activity, getString(R.string.toast_notForward), Toast.LENGTH_SHORT).show();
+                }
+            }
+            public void onSwipeLeft() {
+                if (mWebView.canGoBack()) {
+                    mWebView.goBack();
+                } else {
+                    Toast.makeText(activity, getString(R.string.toast_notBack), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String userName = sharedPrefSec.getString("username");
-                String favoriteTitle = sharedPref.getString("favoriteTitle", "Dashboard");
+                openMenu();
+            }
+        });
 
-                db = new Bookmarks_Database(activity);
-                db.open();
-                bottomSheetDialog = new BottomSheetDialog(Objects.requireNonNull(activity));
-                View dialogView = View.inflate(activity, R.layout.dialog_bookmark, null);
-                ImageView imageView = dialogView.findViewById(R.id.bookmarkHeader);
-                Class_Helper.setImageHeader(activity, imageView);
-                TextView userNameTV = dialogView.findViewById(R.id.userName);
-                userNameTV.setText(userName);
-                favoriteTitleTV = dialogView.findViewById(R.id.favoriteTitle);
-                favoriteTitleTV.setText(favoriteTitle);
+        fab.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                openBookmarkDialog();
+                return false;
+            }
+        });
 
-                ImageButton ib_bookmarkSort = dialogView.findViewById(R.id.ib_bookmarkSort);
-                ib_bookmarkSort.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+        fab.setOnTouchListener(new SwipeTouchListener(activity) {
+            public void onSwipeTop() {}
+            public void onSwipeBottom() {}
+            public void onSwipeRight() {
+                if (mWebView.canGoForward()) {
+                    mWebView.goForward();
+                } else {
+                    Toast.makeText(activity, getString(R.string.toast_notForward), Toast.LENGTH_SHORT).show();
+                }
+            }
+            public void onSwipeLeft() {
+                if (mWebView.canGoBack()) {
+                    mWebView.goBack();
+                } else {
+                    Toast.makeText(activity, getString(R.string.toast_notBack), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
 
-                        final CharSequence[] options = {
-                                getString(R.string.dialog_sortName),
-                                getString(R.string.dialog_sortIcon)};
-                        new AlertDialog.Builder(activity)
-                                .setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+    private void openBookmarkDialog () {
+        db = new Bookmarks_Database(activity);
+        db.open();
+        bottomSheetDialog = new BottomSheetDialog(Objects.requireNonNull(activity));
+        View dialogView = View.inflate(activity, R.layout.grid_layout, null);
+        String favoriteTitle = getString(R.string.bookmark_setFav) + ": " + sharedPref.getString("favoriteTitle", "Dashboard");
+        favoriteTitleTV = dialogView.findViewById(R.id.grid_title);
+        favoriteTitleTV.setText(favoriteTitle);
+        bookmarkList = dialogView.findViewById(R.id.grid_item);
+        setBookmarksList();
+        bottomSheetDialog.setContentView(dialogView);
+        bottomSheetDialog.show();
+    }
+
+    private void openMenu () {
+        bottomSheetDialog = new BottomSheetDialog(Objects.requireNonNull(activity));
+        View dialogView = View.inflate(activity, R.layout.grid_layout, null);
+        TextView menuTitle = dialogView.findViewById(R.id.grid_title);
+        menuTitle.setText(mWebView.getTitle());
+        GridView grid = dialogView.findViewById(R.id.grid_item);
+        GridItem_Menu itemAlbum_01 = new GridItem_Menu(getResources().getString(R.string.menu_more_files), R.drawable.icon_download);
+        GridItem_Menu itemAlbum_02 = new GridItem_Menu(getResources().getString(R.string.menu_more_settings), R.drawable.icon_settings);
+        GridItem_Menu itemAlbum_03 = new GridItem_Menu(getResources().getString(R.string.menu_save_bookmark), R.drawable.icon_bookmark);
+        GridItem_Menu itemAlbum_04 = new GridItem_Menu(getResources().getString(R.string.menu_save_pdf), R.drawable.icon_printer);
+        GridItem_Menu itemAlbum_05 = new GridItem_Menu(getResources().getString(R.string.menu_share), R.drawable.icon_share);
+        GridItem_Menu itemAlbum_06 = new GridItem_Menu(getResources().getString(R.string.menu_finish), R.drawable.icon_exit);
+        GridItem_Menu itemAlbum_07 = new GridItem_Menu(getResources().getString(R.string.menu_search), R.drawable.icon_magnify);
+        GridItem_Menu itemAlbum_08 = new GridItem_Menu(getResources().getString(R.string.menu_reload), R.drawable.icon_reload);
+
+        final String url = mWebView.getUrl();
+        final List<GridItem_Menu> gridList = new LinkedList<>();
+        gridList.add(gridList.size(), itemAlbum_02);
+        gridList.add(gridList.size(), itemAlbum_01);
+        gridList.add(gridList.size(), itemAlbum_03);
+        gridList.add(gridList.size(), itemAlbum_05);
+        gridList.add(gridList.size(), itemAlbum_04);
+        gridList.add(gridList.size(), itemAlbum_07);
+        gridList.add(gridList.size(), itemAlbum_08);
+        gridList.add(gridList.size(), itemAlbum_06);
+
+        GridAdapter_Menu gridAdapter = new GridAdapter_Menu(activity, gridList);
+        grid.setAdapter(gridAdapter);
+        grid.setNumColumns(2);
+        gridAdapter.notifyDataSetChanged();
+
+        grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                switch (position) {
+                    case 0:
+                        bottomSheetDialog.cancel();
+                        Class_Helper.switchToActivity(activity, Activity_Settings.class);
+                        break;
+                    case 1:
+                        bottomSheetDialog.cancel();
+                        startActivity(new Intent(DownloadManager.ACTION_VIEW_DOWNLOADS));
+                        break;
+                    case 2:
+                        if (url != null) {
+                            bottomSheetDialog.cancel();
+                            final Bookmarks_Database db = new Bookmarks_Database(activity);
+                            db.open();
+                            if(db.isExist(Class_Helper.secString(mWebView.getUrl()))){
+                                Toast.makeText(activity, getString(R.string.bookmark_saved_not), Toast.LENGTH_SHORT).show();
+                            }else{
+                                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                                View dialogView = View.inflate(activity, R.layout.dialog_edit_title, null);
+                                final EditText edit_title = dialogView.findViewById(R.id.pass_title);
+                                edit_title.setHint(R.string.bookmark_edit_hint);
+                                edit_title.setText(mWebView.getTitle());
+                                builder.setView(dialogView);
+                                builder.setTitle(R.string.bookmark_edit);
+                                builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                        String inputTag = edit_title.getText().toString().trim();
+                                        db.insert(Class_Helper.secString(inputTag), Class_Helper.secString(mWebView.getUrl()), "04", "");
+                                        dialog.cancel();
+                                        Toast.makeText(activity, getString(R.string.bookmark_saved), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                                builder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int whichButton) {
                                         dialog.cancel();
                                     }
-                                })
-                                .setItems(options, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int item) {
-
-                                        if (options[item].equals (getString(R.string.dialog_sortName))) {
-                                            sharedPref.edit().putString("sortDBB", "title").apply();
-                                            setBookmarksList();
-                                        }
-
-                                        if (options[item].equals (getString(R.string.dialog_sortIcon))) {
-                                            sharedPref.edit().putString("sortDBB", "icon").apply();
-                                            setBookmarksList();
-                                        }
-                                    }
-                                }).show();
-
-                    }
-                });
-
-                ImageButton ib_profile = dialogView.findViewById(R.id.ib_profile);
-                ib_profile.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        bottomSheetDialog.cancel();
-                        mWebView.loadUrl("https://moodle.huebsch.ka.schule-bw.de/moodle/user/profile.php");
-                    }
-                });
-
-                lv = dialogView.findViewById(R.id.dialogList);
-                setBookmarksList();
-                bottomSheetDialog.setContentView(dialogView);
-                bottomSheetDialog.show();
-                Class_Helper.setBottomSheetBehavior(bottomSheetDialog, dialogView);
-            }
-        });
-
-        ImageButton ib_menu = activity.findViewById(R.id.ib_menu);
-        ib_menu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                bottomSheetDialog = new BottomSheetDialog(Objects.requireNonNull(activity));
-                View dialogView = View.inflate(activity, R.layout.grid_menu, null);
-                GridView grid = dialogView.findViewById(R.id.grid_filter);
-                GridItem_Menu itemAlbum_01 = new GridItem_Menu(getResources().getString(R.string.menu_more_files), R.drawable.icon_download);
-                GridItem_Menu itemAlbum_02 = new GridItem_Menu(getResources().getString(R.string.menu_more_settings), R.drawable.icon_settings);
-                GridItem_Menu itemAlbum_03 = new GridItem_Menu(getResources().getString(R.string.menu_save_bookmark), R.drawable.icon_bookmark);
-                GridItem_Menu itemAlbum_04 = new GridItem_Menu(getResources().getString(R.string.menu_save_pdf), R.drawable.icon_document);
-                GridItem_Menu itemAlbum_05 = new GridItem_Menu(getResources().getString(R.string.menu_share), R.drawable.icon_share);
-                GridItem_Menu itemAlbum_06 = new GridItem_Menu(getResources().getString(R.string.menu_finish), R.drawable.icon_exit);
-
-                final List<GridItem_Menu> gridList = new LinkedList<>();
-                gridList.add(gridList.size(), itemAlbum_02);
-                gridList.add(gridList.size(), itemAlbum_01);
-                gridList.add(gridList.size(), itemAlbum_03);
-                gridList.add(gridList.size(), itemAlbum_05);
-                gridList.add(gridList.size(), itemAlbum_04);
-                gridList.add(gridList.size(), itemAlbum_06);
-
-                GridAdapter_Menu gridAdapter = new GridAdapter_Menu(activity, gridList);
-                grid.setAdapter(gridAdapter);
-                gridAdapter.notifyDataSetChanged();
-
-                final String url = mWebView.getUrl();
-
-                grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                        switch (position) {
-                            case 0:
-                                bottomSheetDialog.cancel();
-                                Class_Helper.switchToActivity(activity, Activity_Settings.class);
-                                break;
-                            case 1:
-                                bottomSheetDialog.cancel();
-                                startActivity(new Intent(DownloadManager.ACTION_VIEW_DOWNLOADS));
-                                break;
-                            case 2:
-                                if (url != null) {
-                                    bottomSheetDialog.cancel();
-                                    final Bookmarks_Database db = new Bookmarks_Database(activity);
-                                    db.open();
-                                    if(db.isExist(Class_Helper.secString(mWebView.getUrl()))){
-                                        Snackbar.make(mWebView, getString(R.string.bookmark_saved_not), Snackbar.LENGTH_LONG).show();
-                                    }else{
-                                        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-                                        View dialogView = View.inflate(activity, R.layout.dialog_edit_title, null);
-                                        final EditText edit_title = dialogView.findViewById(R.id.pass_title);
-                                        edit_title.setHint(R.string.bookmark_edit_hint);
-                                        edit_title.setText(mWebView.getTitle());
-                                        builder.setView(dialogView);
-                                        builder.setTitle(R.string.bookmark_edit);
-                                        builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int whichButton) {
-                                                String inputTag = edit_title.getText().toString().trim();
-                                                db.insert(Class_Helper.secString(inputTag), Class_Helper.secString(mWebView.getUrl()), "04", "", "");
-                                                dialog.cancel();
-                                                Snackbar.make(mWebView, R.string.bookmark_saved, Snackbar.LENGTH_LONG).show();
-                                            }
-                                        });
-                                        builder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int whichButton) {
-                                                dialog.cancel();
-                                            }
-                                        });
-                                        final AlertDialog dialog = builder.create();
-                                        dialog.show();
-                                    }
-                                }
-                                break;
-                            case 3:
-                                if (url != null) {
-                                    bottomSheetDialog.cancel();
-                                    Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-                                    sharingIntent.setType("text/plain");
-                                    sharingIntent.putExtra(Intent.EXTRA_SUBJECT, mWebView.getTitle());
-                                    sharingIntent.putExtra(Intent.EXTRA_TEXT, mWebView.getUrl());
-                                    startActivity(Intent.createChooser(sharingIntent, (getString(R.string.app_share))));
-                                    break;
-                                }
-                            case 4:
-                                if (url != null) {
-                                    bottomSheetDialog.cancel();
-                                    String title = mWebView.getTitle() + ".pdf";
-                                    String pdfTitle = mWebView.getTitle();
-                                    PrintManager printManager = (PrintManager) Objects.requireNonNull(activity).getSystemService(Context.PRINT_SERVICE);
-                                    PrintDocumentAdapter printAdapter = mWebView.createPrintDocumentAdapter(title);
-                                    Objects.requireNonNull(printManager).print(pdfTitle, printAdapter, new PrintAttributes.Builder().build());
-                                }
-                                break;
-                            case 5:
-                                bottomSheetDialog.cancel();
-                                mWebView.destroy();
-                                Objects.requireNonNull(activity).finish();
-                                break;
+                                });
+                                final AlertDialog dialog = builder.create();
+                                dialog.show();
+                            }
                         }
-                    }
-                });
+                        break;
+                    case 3:
+                        if (url != null) {
+                            bottomSheetDialog.cancel();
+                            Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                            sharingIntent.setType("text/plain");
+                            sharingIntent.putExtra(Intent.EXTRA_SUBJECT, mWebView.getTitle());
+                            sharingIntent.putExtra(Intent.EXTRA_TEXT, mWebView.getUrl());
+                            startActivity(Intent.createChooser(sharingIntent, (getString(R.string.app_share))));
+                            break;
+                        }
+                    case 4:
+                        if (url != null) {
+                            bottomSheetDialog.cancel();
+                            try {
+                                String title = mWebView.getTitle() + ".pdf";
+                                String pdfTitle = mWebView.getTitle();
+                                PrintManager printManager = (PrintManager) Objects.requireNonNull(activity).getSystemService(Context.PRINT_SERVICE);
+                                PrintDocumentAdapter printAdapter = mWebView.createPrintDocumentAdapter(title);
+                                Objects.requireNonNull(printManager).print(pdfTitle, printAdapter, new PrintAttributes.Builder().build());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                Toast.makeText(activity, getString(R.string.toast_notPrint), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        break;
+                    case 7:
+                        bottomSheetDialog.cancel();
+                        mWebView.destroy();
+                        Objects.requireNonNull(activity).finish();
+                        break;
+                    case 5:
+                        bottomSheetDialog.cancel();
+                        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                        View dialogView2 = View.inflate(activity, R.layout.dialog_edit_title, null);
+                        final EditText edit_title = dialogView2.findViewById(R.id.pass_title);
+                        edit_title.setHint(R.string.dialog_searchHint);
+                        builder.setView(dialogView2);
+                        builder.setTitle(R.string.menu_search);
+                        builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
 
-                bottomSheetDialog.setContentView(dialogView);
-                bottomSheetDialog.show();
-                Class_Helper.setBottomSheetBehavior(bottomSheetDialog, dialogView);
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                String text = getResources().getString(R.string.menu_search) + ": " + edit_title.getText();
+                                titleView.setText(text);
+                                dialog.cancel();
+                                mWebView.findAllAsync(edit_title.getText().toString());
+                                bottomAppBar.replaceMenu(R.menu.menu_search);
+
+                            }
+                        });
+                        builder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                dialog.cancel();
+                            }
+                        });
+                        final AlertDialog dialog = builder.create();
+                        dialog.show();
+                        break;
+                    case 6:
+                        bottomSheetDialog.cancel();
+                        mWebView.reload();
+                        break;
+                }
             }
         });
+        bottomSheetDialog.setContentView(dialogView);
+        bottomSheetDialog.show();
+        Class_Helper.setBottomSheetBehavior(bottomSheetDialog, dialogView);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -498,15 +546,29 @@ public class Activity_Main extends AppCompatActivity {
 
     private final BroadcastReceiver onComplete = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
-            Snackbar snackbar = Snackbar
-                    .make(mWebView, getString(R.string.toast_download_2), Snackbar.LENGTH_LONG)
-                    .setAction(getString(R.string.toast_yes), new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            startActivity(new Intent(DownloadManager.ACTION_VIEW_DOWNLOADS));
-                        }
-                    });
-            snackbar.show();
+            final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(activity);
+            View dialogView = View.inflate(activity, R.layout.dialog_action, null);
+            TextView textView = dialogView.findViewById(R.id.dialog_text);
+            textView.setText(Class_Helper.textSpannable(activity.getString(R.string.toast_download_2)));
+            Button action_ok = dialogView.findViewById(R.id.action_ok);
+            action_ok.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    bottomSheetDialog.cancel();
+                    startActivity(new Intent(DownloadManager.ACTION_VIEW_DOWNLOADS));
+                }
+            });
+            Button action_cancel = dialogView.findViewById(R.id.action_cancel);
+            action_cancel.setText(R.string.toast_cancel);
+            action_cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    bottomSheetDialog.cancel();
+                }
+            });
+            bottomSheetDialog.setContentView(dialogView);
+            bottomSheetDialog.show();
+            Class_Helper.setBottomSheetBehavior(bottomSheetDialog, dialogView);
             Objects.requireNonNull(activity).unregisterReceiver(onComplete);
         }
     };
@@ -514,9 +576,9 @@ public class Activity_Main extends AppCompatActivity {
     private void setBookmarksList() {
 
         //display data
-        final int layoutStyle = R.layout.dialog_bookmark_item;
+        final int layoutStyle = R.layout.item;
         int[] xml_id = new int[] {
-                R.id.textView_title_notes
+                R.id.item_title
         };
         String[] column = new String[] {
                 "bookmarks_title"
@@ -525,38 +587,39 @@ public class Activity_Main extends AppCompatActivity {
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(activity, layoutStyle, row, column, xml_id, 0) {
             @Override
             public View getView(final int position, View convertView, ViewGroup parent) {
-                Cursor row = (Cursor) lv.getItemAtPosition(position);
+                Cursor row = (Cursor) bookmarkList.getItemAtPosition(position);
                 final String bookmarks_icon = row.getString(row.getColumnIndexOrThrow("bookmarks_icon"));
                 View v = super.getView(position, convertView, parent);
-                ImageView iv_icon = v.findViewById(R.id.icon_notes);
+                ImageView iv_icon = v.findViewById(R.id.item_icon);
                 Class_Helper.switchIcon(activity, bookmarks_icon, iv_icon);
                 return v;
             }
         };
 
-        lv.setAdapter(adapter);
+        bookmarkList.setAdapter(adapter);
+        bookmarkList.setNumColumns(1);
 
-        if (lv.getAdapter().getCount() == 0) {
-            Class_Helper.insertDefaultBookmarks(activity);
+        if (bookmarkList.getAdapter().getCount() == 0) {
+            db.insert("Moodle", sharedPref.getString("link", "https://moodle.huebsch.ka.schule-bw.de/moodle/"), "14", "");
             sharedPref.edit()
-                    .putString("favoriteURL", "https://moodle.huebsch.ka.schule-bw.de/moodle/my/")
+                    .putString("favoriteURL", "https://moodle.huebsch.ka.schule-bw.de/moodle/")
                     .putString("favoriteTitle", "Dashboard").apply();
             setBookmarksList();
         }
         //onClick function
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        bookmarkList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 bottomSheetDialog.cancel();
-                Cursor row2 = (Cursor) lv.getItemAtPosition(position);
+                Cursor row2 = (Cursor) bookmarkList.getItemAtPosition(position);
                 final String bookmarks_content = row2.getString(row2.getColumnIndexOrThrow("bookmarks_content"));
                 mWebView.loadUrl(bookmarks_content);
             }
         });
 
-        lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        bookmarkList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Cursor row = (Cursor) lv.getItemAtPosition(position);
+                Cursor row = (Cursor) bookmarkList.getItemAtPosition(position);
                 final String _id = row.getString(row.getColumnIndexOrThrow("_id"));
                 final String bookmarks_title = row.getString(row.getColumnIndexOrThrow("bookmarks_title"));
                 final String bookmarks_url = row.getString(row.getColumnIndexOrThrow("bookmarks_content"));
@@ -564,8 +627,10 @@ public class Activity_Main extends AppCompatActivity {
                 final String bookmarks_fav = row.getString(row.getColumnIndexOrThrow("bookmarks_attachment"));
 
                 final BottomSheetDialog bottomSheetDialog_context = new BottomSheetDialog(Objects.requireNonNull(activity));
-                View dialogView = View.inflate(activity, R.layout.grid_menu, null);
-                GridView grid = dialogView.findViewById(R.id.grid_filter);
+                View dialogView = View.inflate(activity, R.layout.grid_layout, null);
+                TextView menuTitle = dialogView.findViewById(R.id.grid_title);
+                menuTitle.setText(getString(R.string.action_bookmark));
+                GridView grid = dialogView.findViewById(R.id.grid_item);
                 GridItem_Menu itemAlbum_01 = new GridItem_Menu(getResources().getString(R.string.bookmark_edit), R.drawable.icon_edit);
                 GridItem_Menu itemAlbum_02 = new GridItem_Menu(getResources().getString(R.string.bookmark_icon), R.drawable.icon_ui);
                 GridItem_Menu itemAlbum_03 = new GridItem_Menu(getResources().getString(R.string.bookmark_setFav), R.drawable.icon_fav);
@@ -585,11 +650,13 @@ public class Activity_Main extends AppCompatActivity {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                        View dialogView;
+
                         switch (position) {
                             case 0:
                                 bottomSheetDialog_context.cancel();
                                 AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-                                View dialogView = View.inflate(activity, R.layout.dialog_edit_title, null);
+                                dialogView = View.inflate(activity, R.layout.dialog_edit_title, null);
 
                                 final EditText edit_title = dialogView.findViewById(R.id.pass_title);
                                 edit_title.setHint(R.string.bookmark_edit_hint);
@@ -618,8 +685,10 @@ public class Activity_Main extends AppCompatActivity {
                                 bottomSheetDialog_context.cancel();
 
                                 final BottomSheetDialog bottomSheetDialog_icon = new BottomSheetDialog(Objects.requireNonNull(activity));
-                                View dialogView2 = View.inflate(activity, R.layout.grid_menu, null);
-                                GridView grid = dialogView2.findViewById(R.id.grid_filter);
+                                dialogView = View.inflate(activity, R.layout.grid_layout, null);
+                                TextView menuTitle = dialogView.findViewById(R.id.grid_title);
+                                menuTitle.setText(getString(R.string.bookmark_icon));
+                                GridView grid = dialogView.findViewById(R.id.grid_item);
                                 GridItem_Menu itemAlbum_01 = new GridItem_Menu(getResources().getString(R.string.subjects_color_red), R.drawable.circle_red);
                                 GridItem_Menu itemAlbum_02 = new GridItem_Menu(getResources().getString(R.string.subjects_color_pink), R.drawable.circle_pink);
                                 GridItem_Menu itemAlbum_03 = new GridItem_Menu(getResources().getString(R.string.subjects_color_purple), R.drawable.circle_purple);
@@ -705,30 +774,46 @@ public class Activity_Main extends AppCompatActivity {
                                         }
                                     }
                                 });
-                                bottomSheetDialog_icon.setContentView(dialogView2);
+                                bottomSheetDialog_icon.setContentView(dialogView);
                                 bottomSheetDialog_icon.show();
-                                Class_Helper.setBottomSheetBehavior(bottomSheetDialog_icon, dialogView2);
+                                Class_Helper.setBottomSheetBehavior(bottomSheetDialog_icon, dialogView);
                                 break;
                             case 2:
                                 bottomSheetDialog_context.cancel();
                                 sharedPref.edit()
                                         .putString("favoriteURL", bookmarks_url)
                                         .putString("favoriteTitle", bookmarks_title).apply();
-                                favoriteTitleTV.setText(bookmarks_title);
+
+                                String favoriteTitle = getString(R.string.bookmark_setFav) + ": " + sharedPref.getString("favoriteTitle", "Dashboard");
+
+                                favoriteTitleTV.setText(favoriteTitle);
                                 break;
                             case 3:
                                 bottomSheetDialog_context.cancel();
-                                bottomSheetDialog.cancel();
-                                Snackbar snackbar = Snackbar
-                                        .make(mWebView, R.string.bookmark_remove_confirm, Snackbar.LENGTH_LONG)
-                                        .setAction(R.string.toast_yes, new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View view) {
-                                                db.delete(Integer.parseInt(_id));
-                                                setBookmarksList();
-                                            }
-                                        });
-                                snackbar.show();
+                                final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(activity);
+                                dialogView = View.inflate(activity, R.layout.dialog_action, null);
+                                TextView textView = dialogView.findViewById(R.id.dialog_text);
+                                textView.setText(Class_Helper.textSpannable(activity.getString(R.string.bookmark_remove_confirm)));
+                                Button action_ok = dialogView.findViewById(R.id.action_ok);
+                                action_ok.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        bottomSheetDialog.cancel();
+                                        db.delete(Integer.parseInt(_id));
+                                        setBookmarksList();
+                                    }
+                                });
+                                Button action_cancel = dialogView.findViewById(R.id.action_cancel);
+                                action_cancel.setText(R.string.toast_cancel);
+                                action_cancel.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        bottomSheetDialog.cancel();
+                                    }
+                                });
+                                bottomSheetDialog.setContentView(dialogView);
+                                bottomSheetDialog.show();
+                                Class_Helper.setBottomSheetBehavior(bottomSheetDialog, dialogView);
                                 break;
                         }
                     }
@@ -743,21 +828,12 @@ public class Activity_Main extends AppCompatActivity {
     }
 
     private class myWebChromeClient extends WebChromeClient {
-
         public void onProgressChanged(WebView view, int progress) {
-            String url = mWebView.getUrl();
-
             progressBar.setProgress(progress);
-            Objects.requireNonNull(activity).setTitle(mWebView.getTitle());
-            if (url != null && url.contains("moodle.huebsch.ka.schule-bw.de")) {
-                mWebView.loadUrl("javascript:(function() { " +
-                        "var head = document.getElementsByClassName('navbar navbar-fixed-top moodle-has-zindex')[0];" +
-                        "head.parentNode.removeChild(head);" +
-                        "})()");
-            }
-            if (progress == 100) {
-                swipeRefreshLayout.setRefreshing(false);
-            }
+            titleView = findViewById(R.id.titleView);
+            titleView.setText(mWebView.getTitle());
+            mWebView.findAllAsync(null);
+            bottomAppBar.replaceMenu(R.menu.menu_main);
             progressBar.setVisibility(progress == 100 ? View.GONE : View.VISIBLE);
         }
 

@@ -1,3 +1,7 @@
+### 5.1
+- neu: überflüssige Berechtigungen entfernt (Android 10+)
+- fix: Anmeldedaten eingeben
+
 ### 5.0
 - complete redesign
 

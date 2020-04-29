@@ -1,37 +1,32 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/colorPrimary"
-    android:gravity="center_vertical|center_horizontal"
-    tools:ignore="Overdraw" >
+    android:background="?android:attr/colorBackground" >
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/colorPrimary"
-        android:gravity="center_vertical|center_horizontal"
-        tools:ignore="Overdraw" >
+        android:padding="32dp" >
 
         <TextView
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="numberPassword"
             android:id="@+id/pass_userPin"
-            android:layout_marginBottom="12dp"
-            android:textColor="@color/color_light"
+            android:textColor="?android:attr/textColorSecondary"
             android:fontFamily="sans-serif-condensed"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            tools:ignore="TextViewEdits" />
+            tools:ignore="TextViewEdits"
+            android:layout_gravity="center" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical|center_horizontal" >
+            android:orientation="horizontal">
 
             <Button
                 android:text="1"
@@ -41,7 +36,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:id="@+id/button1"
                 android:textSize="24sp"
-                android:textColor="@color/colorAccent"
+                android:progressTint="?android:attr/colorAccent"
                 tools:ignore="HardcodedText"
                 style="?android:attr/buttonBarStyle"/>
 
@@ -53,7 +48,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:id="@+id/button2"
                 android:textSize="24sp"
-                android:textColor="@color/colorAccent"
+                android:progressTint="?android:attr/colorAccent"
                 tools:ignore="HardcodedText"
                 style="?android:attr/buttonBarStyle"/>
 
@@ -65,17 +60,16 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:id="@+id/button3"
                 android:textSize="24sp"
-                android:textColor="@color/colorAccent"
+                android:progressTint="?android:attr/colorAccent"
                 tools:ignore="HardcodedText"
                 style="?android:attr/buttonBarStyle"/>
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical|center_horizontal" >
+            android:orientation="horizontal" >
 
             <Button
                 android:text="4"
@@ -85,7 +79,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:id="@+id/button4"
                 android:textSize="24sp"
-                android:textColor="@color/colorAccent"
+                android:progressTint="?android:attr/colorAccent"
                 tools:ignore="HardcodedText"
                 style="?android:attr/buttonBarStyle"/>
 
@@ -97,7 +91,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:id="@+id/button5"
                 android:textSize="24sp"
-                android:textColor="@color/colorAccent"
+                android:progressTint="?android:attr/colorAccent"
                 tools:ignore="HardcodedText"
                 style="?android:attr/buttonBarStyle"/>
 
@@ -109,17 +103,16 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:id="@+id/button6"
                 android:textSize="24sp"
-                android:textColor="@color/colorAccent"
+                android:progressTint="?android:attr/colorAccent"
                 tools:ignore="HardcodedText"
                 style="?android:attr/buttonBarStyle"/>
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical|center_horizontal" >
+            android:orientation="horizontal">
 
             <Button
                 android:text="7"
@@ -129,7 +122,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:id="@+id/button7"
                 android:textSize="24sp"
-                android:textColor="@color/colorAccent"
+                android:progressTint="?android:attr/colorAccent"
                 tools:ignore="HardcodedText"
                 style="?android:attr/buttonBarStyle"/>
 
@@ -141,7 +134,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:id="@+id/button8"
                 android:textSize="24sp"
-                android:textColor="@color/colorAccent"
+                android:progressTint="?android:attr/colorAccent"
                 tools:ignore="HardcodedText"
                 style="?android:attr/buttonBarStyle"/>
 
@@ -153,17 +146,17 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:id="@+id/button9"
                 android:textSize="24sp"
-                android:textColor="@color/colorAccent"
+                android:progressTint="?android:attr/colorAccent"
                 tools:ignore="HardcodedText"
                 style="?android:attr/buttonBarStyle"/>
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center_vertical|center_horizontal" >
+            tools:ignore="ContentDescription" >
 
             <ImageButton
                 android:layout_width="75dp"
@@ -172,8 +165,7 @@
                 android:id="@+id/imageButtonCancel"
                 android:layout_height="75dp"
                 android:scaleType="fitCenter"
-                android:padding="24dp"
-                tools:ignore="ContentDescription" />
+                android:padding="24dp" />
 
             <Button
                 android:text="0"
@@ -183,7 +175,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:id="@+id/button0"
                 android:textSize="24sp"
-                android:textColor="@color/colorAccent"
+                android:progressTint="?android:attr/colorAccent"
                 tools:ignore="HardcodedText"
                 style="?android:attr/buttonBarStyle"/>
 
@@ -195,8 +187,7 @@
                 android:id="@+id/imageButtonEnter"
                 android:layout_height="75dp"
                 android:scaleType="fitCenter"
-                android:padding="24dp"
-                tools:ignore="ContentDescription" />
+                android:padding="24dp" />
 
         </LinearLayout>
 
@@ -205,11 +196,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/buttonReset"
+            android:layout_gravity="center"
             android:background="?android:selectableItemBackground"
-            android:fontFamily="sans-serif-condensed"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/color_light" />
+            android:textColor="?android:attr/textColorSecondary" />
 
     </LinearLayout>
 
-</RelativeLayout>
+</ScrollView>

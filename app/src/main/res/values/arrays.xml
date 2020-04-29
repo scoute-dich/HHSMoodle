@@ -3,16 +3,6 @@
 
     //String arrays
 
-    <array name="splash_images">
-        <item>@drawable/splash1</item>
-        <item>@drawable/splash2</item>
-        <item>@drawable/splash3</item>
-        <item>@drawable/splash4</item>
-        <item>@drawable/splash5</item>
-        <item>@drawable/splash6</item>
-        <item>@drawable/splash7</item>
-    </array>
-
     <!-- theme -->
     <string-array name="setting_entries_theme">
         <item>@string/setting_theme_system</item>
@@ -24,6 +14,17 @@
         <item>0</item>
         <item>1</item>
         <item>2</item>
+    </string-array>
+
+    <!-- sorting -->
+    <string-array name="setting_entries_sort">
+        <item>@string/dialog_sortName</item>
+        <item>@string/dialog_sortIcon</item>
+    </string-array>
+
+    <string-array name="setting_values_sort">
+        <item>title</item>
+        <item>icon</item>
     </string-array>
 
 </resources>

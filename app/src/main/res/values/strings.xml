@@ -3,7 +3,7 @@
 
     // Application
 
-    <string name="app_name">HHS Moodle</string>
+    <string name="app_name">FOSS Moodle</string>
     <string name="app_permissions">
 
         &lt;i>\"Access storage\" permission:&lt;/i>&lt;br>
@@ -16,13 +16,6 @@
 
 
     // Moodle
-
-    <string name="text_tit_1">Dashboard</string>
-    <string name="text_tit_2">Profile</string>
-    <string name="text_tit_8">Calendar</string>
-    <string name="text_tit_3">Ratings</string>
-    <string name="text_tit_4">Notifications</string>
-    <string name="text_tit_5">Settings</string>
 
     <string name="subjects_color_red">Red</string>
     <string name="subjects_color_pink">Pink</string>
@@ -39,38 +32,42 @@
     // Login
 
     <string name="login_user">Username</string>
+    <string name="login_link">Link of your Moodle instance</string>
     <string name="login_password">Password (8 characters): big/small letter, number, extra sign)</string>
     <string name="login_automatic_title">Automatic login</string>
-    <string name="login_automatic_text">This dialog will disappear, when you are successfully logged in.
-        If this does not work: edit your login data in the settings.</string>
+    <string name="login_automatic_text">This dialog will disappear, when you are successfully logged in.</string>
     <string name="login_edit">Edit login data</string>
-    <string name="login_text_enter">Please enter your Moodle login data. You can edit your login data also in the
-        settings. It could be possible that you must restart the app to apply changes.</string>
-    <string name="login_text_edit">Please fill in correct the login data.</string>
+    <string name="login_text_edit">Please fill in login data.</string>
 
 
 
     // Bookmarks
 
     <string name="bookmark_remove">Delete</string>
-    <string name="bookmark_remove_confirm">Do you really want to delete it?</string>
+    <string name="bookmark_remove_confirm">Delete Bookmark?</string>
     <string name="bookmark_setFav">Start site</string>
     <string name="bookmark_edit">Edit</string>
-    <string name="bookmark_edit_hint">Enter new title …</string>
-    <string name="bookmark_saved">Bookmark successfully saved.</string>
+    <string name="bookmark_edit_hint">New title …</string>
+    <string name="bookmark_saved">Bookmark saved.</string>
     <string name="bookmark_saved_not">Bookmark already exists.</string>
     <string name="bookmark_icon">Icon</string>
 
     // Menu Items
 
+    <string name="action_bookmark">Bookmarks</string>
+    <string name="action_menu">Menu</string>
+
     <string name="menu_share">Share</string>
     <string name="menu_finish">Exit</string>
 
-    <string name="menu_save_bookmark">Save bookmark</string>
-    <string name="menu_save_pdf">Save PDF</string>
+    <string name="menu_save_bookmark">Save</string>
+    <string name="menu_save_pdf">Print</string>
 
     <string name="menu_more_settings">Settings</string>
     <string name="menu_more_files">Downloads</string>
+
+    <string name="menu_search">Search</string>
+    <string name="menu_reload">Reload</string>
 
 
     // Settings
@@ -79,40 +76,39 @@
     <string name="settings_security">Security</string>
 
     <string name="settings_security_moodle">Login data (Moodle)</string>
-    <string name="settings_security_moodle_summary">Please enter your Moodle username and password to get automatically logged in.</string>
+    <string name="settings_security_moodle_summary">Enter your Moodle login data to get automatically logged in. Please restart the app after editing your data.</string>
 
-    <string name="settings_license_about_summary">Learn more about the app (license, used libraries, …).</string>
+    <string name="settings_license_about_summary">Learn more about the app.</string>
 
     <string name="settings_security_pin">Pin (App access)</string>
-    <string name="settings_security_pin_summary">Set a pin to protect app against unwanted access. Only use numbers. Let empty, if you do
-        not want to protect the app (own risk).</string>
+    <string name="settings_security_pin_summary">Set a pin to protect app against unwanted access. Only use numbers.</string>
 
     // SnackBar
 
     <string name="toast_yes">OK</string>
     <string name="toast_cancel">Cancel</string>
     <string name="toast_download">Downloading file:</string>
-    <string name="toast_download_1">Do you want to download:</string>
+    <string name="toast_download_1">Download:</string>
     <string name="toast_download_2">Download completed. Open download manager?</string>
-    <string name="toast_wrongPW">Uuups. Wrong password.</string>
-    <string name="toast_webviewForward">Can not go forward.</string>
-    <string name="toast_webViewBack">Can not go back.</string>
+    <string name="toast_wrongPW">Wrong password.</string>
+    <string name="toast_notPrint">No printer found.</string>
+    <string name="toast_notBack">Can not go back.</string>
+    <string name="toast_notForward">Can not go forward.</string>
 
     // Dialogs
 
     <string name="dialog_help_title">Help</string>
     <string name="dialog_help_text">
-        &lt;b>Swipe on the toolbar:&lt;/b>&lt;br>
-        \u25AA Swipe up/down     \u2192  scroll to top/bottom&lt;br>
-        \u25AA Swipe left/right  \u2192  navigate back/forward in history&lt;br>&lt;br>
-
         &lt;b>Bookmarks&lt;/b>&lt;br>
-        \u25AA Click to open.&lt;br>
-        \u25AA Long press to enter a context menu.&lt;br>
-        \u25AA In the header you can also change the order of your bookmarks or open your profile.
+        \u25AA Click to open entry.&lt;br>
+        \u25AA Long press to edit entry.&lt;br>
+        \u25AA Long press FAB button to open bookmarks.&lt;br>&lt;br>
+
+        &lt;b>Swipe&lt;/b>&lt;br>
+        Swipe left/right on the toolbar or FAB button to ga back/forward in history.
     </string>
 
-    <string name="dialog_license_title">Copyright © 2018 by AOSD</string>
+    <string name="dialog_license_title">Copyright © 2020 by AOSD</string>
     <string name="dialog_license_text">
 
         &lt;i>For more information visit the project site: https://github.com/scoute-dich/HHSMoodle&lt;/i>&lt;br>&lt;br>
@@ -132,26 +128,22 @@
 
         &lt;i>Following open source libraries or projects are used within this software:&lt;/i>&lt;br>&lt;br>&lt;br>
 
-        &lt;b>Encrypted UserPrefs&lt;/b>&lt;br>
-        GPL&lt;br>
-        sveinungkb&lt;br>
-        &lt;i>https://github.com/sveinungkb/encrypted-userprefs&lt;/i>&lt;br>&lt;br>
-
         &lt;b>Material Design Icons&lt;/b>&lt;br>
         SIL Open Font License, Version 1.1.&lt;br>
         Templarian&lt;br>
         &lt;i>https://github.com/Templarian/MaterialDesign&lt;/i>
     </string>
 
-    <string name="dialog_sortName">Sort by name</string>
-    <string name="dialog_sortIcon">Sort by icon</string>
+    <string name="dialog_sortName">Name</string>
+    <string name="dialog_sortIcon">Icon</string>
+    <string name="dialog_searchHint">Enter search term</string>
 
 
     // Password
 
-    <string name="pw_hint">Pin (only numbers)</string>
+    <string name="pw_hint">only numbers</string>
     <string name="pw_forgotten">Pin forgotten?</string>
-    <string name="pw_forgotten_dialog">Do you want to delete all user data to reset your pin?</string>
+    <string name="pw_forgotten_dialog">Reset app data?</string>
 
 
     <string name="setting_theme_system">System</string>
@@ -160,6 +152,9 @@
 
     <string name="setting_theme">Theme</string>
     <string name="setting_theme_summary">Choose between the dark and the light site.</string>
+
+    <string name="setting_sort">Sorting</string>
+    <string name="setting_sort_summary">Sort bookmarks by name or icon.</string>
 
     <string name="dialog_help_summary">Some useful hints for using the app.</string>
 

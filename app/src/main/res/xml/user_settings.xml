@@ -24,9 +24,18 @@
             android:summary="@string/setting_theme_summary"
             android:entries="@array/setting_entries_theme"
             android:entryValues="@array/setting_values_theme"/>
+
+        <ListPreference
+            android:icon="@drawable/icon_sort"
+            android:key="sortDBB"
+            android:defaultValue="title"
+            android:title="@string/setting_sort"
+            android:summary="@string/setting_sort_summary"
+            android:entries="@array/setting_entries_sort"
+            android:entryValues="@array/setting_values_sort"/>
+
         <Preference
             android:icon="@drawable/icon_help"
-            android:title="@string/dialog_help_title"
             android:summary="@string/dialog_help_summary"
             android:key="settings_help"
             android:defaultValue="true" />

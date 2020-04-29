@@ -1,36 +1,20 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="?android:attr/colorBackground"
-    android:gravity="center_vertical|center_horizontal"
-    tools:ignore="Overdraw" >
+    android:layout_height="fill_parent"
+    android:gravity="center_horizontal"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
-        android:layout_margin="32dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        tools:ignore="Overdraw,UselessParent" >
-
-        <ImageView
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_margin="32dp"
-            android:id="@+id/image"
-            android:src="@drawable/logo"
-            android:scaleType="centerInside"
-            tools:ignore="ContentDescription" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="20dp"
-            android:paddingEnd="4dp"
-            android:paddingStart="4dp"
+            android:layout_margin="20dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textStyle="bold"
             android:text="@string/login_automatic_title"/>
@@ -38,18 +22,37 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="20dp"
-            android:paddingEnd="4dp"
-            android:paddingStart="4dp"
-            android:text="@string/login_text_enter"/>
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:text="@string/settings_security_moodle_summary"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             app:passwordToggleEnabled="false" >
 
             <EditText
-                android:id="@+id/pass_userName"
+                android:id="@+id/moodle_link"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:hint="@string/login_link"
+                tools:ignore="Autofill" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:passwordToggleEnabled="false"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp" >
+
+            <EditText
+                android:id="@+id/moodle_userName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
@@ -61,10 +64,12 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:passwordToggleEnabled="true" >
+            app:passwordToggleEnabled="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp">
 
             <EditText
-                android:id="@+id/pass_userPW"
+                android:id="@+id/moodle_userPW"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
@@ -73,15 +78,6 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
-            android:id="@+id/fab"
-            android:text="@string/toast_yes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_marginTop="20dp"
-            app:srcCompat="@drawable/check" />
-
     </LinearLayout>
 
-</RelativeLayout>
+</ScrollView>
