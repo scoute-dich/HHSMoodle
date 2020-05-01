@@ -25,4 +25,10 @@ Die offizielle Moodle Mobile App gibt es [hier für Android und IOS](https://dow
 ### Links:
 - Watch [Changelog](https://github.com/scoute-dich/HHSMoodle/blob/master/CHANGELOG.md)
 - See [license](https://github.com/scoute-dich/HHSMoodle/blob/master/LICENSE.md)
-- See [screenshots](https://github.com/scoute-dich/HHSMoodle/blob/master/SCREENSHOTS.md)
+
+![1](https://github.com/scoute-dich/HHSMoodle/blob/master/fastlane/metadata/android/de-DE/images/phoneScreenshots/1.jpg)
+![2](https://github.com/scoute-dich/HHSMoodle/blob/master/fastlane/metadata/android/de-DE/images/phoneScreenshots/2.jpg)
+![3](https://github.com/scoute-dich/HHSMoodle/blob/master/fastlane/metadata/android/de-DE/images/phoneScreenshots/3.jpg)
+![4](https://github.com/scoute-dich/HHSMoodle/blob/master/fastlane/metadata/android/de-DE/images/phoneScreenshots/4.jpg)
+![5](https://github.com/scoute-dich/HHSMoodle/blob/master/fastlane/metadata/android/de-DE/images/phoneScreenshots/5.jpg)
+![6](https://github.com/scoute-dich/HHSMoodle/blob/master/fastlane/metadata/android/de-DE/images/phoneScreenshots/6.jpg)
