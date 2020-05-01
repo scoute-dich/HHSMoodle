@@ -10,3 +10,4 @@ FOSS Moodle zeigt dir die mobile Internetseite von Moodleinstanzen an. Dazu müs
 • App-Schutz durch PIN
 • keine Werbung
 • keine unnötigen Berechtigungen
+• Quelloffen: https://github.com/scoute-dich/HHSMoodle
