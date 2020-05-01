@@ -1,0 +1,1 @@
+Zeigt die mobile Seite von Moodleinstanzen an.

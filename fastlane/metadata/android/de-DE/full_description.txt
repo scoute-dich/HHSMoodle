@@ -1,0 +1,12 @@
+FOSS Moodle zeigt dir die mobile Internetseite von Moodleinstanzen an. Dazu müssen Link, Benutzername und Passwort deines Accounts eingegeben werden. Standardmäßig ist die App für die Heinrich-Hübsch-Schule in Karlsruhe entwickelt.
+
+-------------------------------------------------
+<b>FOSS MOODLE – EIGENSCHAFTEN</b>
+-------------------------------------------------
+
+• alle Funktionen der mobilen Moodleseite
+• automatische Anmeldung
+• eigene Lesezeichenverwaltung
+• App-Schutz durch PIN
+• keine Werbung
+• keine unnötigen Berechtigungen
