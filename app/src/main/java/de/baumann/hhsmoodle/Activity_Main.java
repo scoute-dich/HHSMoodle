@@ -144,23 +144,22 @@ public class Activity_Main extends AppCompatActivity {
 
                 if (url != null && url.contains(sharedPref.getString("link", "moodle.huebsch.ka.schule-bw.de/moodle/")) && url.contains("/login/")) {
                     loginScreen.setVisibility(View.VISIBLE);
+                    String username = sharedPref.getString("username", "");
+                    String password = sharedPref.getString("password", "");
+
+                    final String js = "javascript:" +
+                            "document.getElementById('password').value = '" + password + "';"  +
+                            "document.getElementById('username').value = '" + username + "';"  +
+                            "var ans = document.getElementsByName('answer');"                  +
+                            "document.getElementById('loginbtn').click()";
+
+                    view.evaluateJavascript(js, new ValueCallback<String>() {
+                        @Override
+                        public void onReceiveValue(String s) {}
+                    });
                 } else {
                     loginScreen.setVisibility(View.INVISIBLE);
                 }
-
-                String username = sharedPref.getString("username", "");
-                String password = sharedPref.getString("password", "");
-
-                final String js = "javascript:" +
-                        "document.getElementById('password').value = '" + password + "';"  +
-                        "document.getElementById('username').value = '" + username + "';"  +
-                        "var ans = document.getElementsByName('answer');"                  +
-                        "document.getElementById('loginbtn').click()";
-
-                view.evaluateJavascript(js, new ValueCallback<String>() {
-                    @Override
-                    public void onReceiveValue(String s) {}
-                });
             }
 
             @Override
