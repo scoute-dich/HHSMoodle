@@ -44,7 +44,6 @@ public class Activity_Settings extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Class_Helper.applyTheme_Settings(this);
         setContentView(R.layout.activity_settings);
 
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);

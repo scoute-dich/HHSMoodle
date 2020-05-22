@@ -15,7 +15,7 @@
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
+        android:theme="@style/AppTheme_system"
         android:usesCleartextTraffic="true"
         android:largeHeap="true"
         android:hardwareAccelerated="true"
@@ -24,6 +24,7 @@
 
         <activity
             android:name=".Activity_Main"
+            android:theme="@style/AppTheme_system"
             android:launchMode="singleInstance"
             android:label="@string/app_name"
             android:configChanges="orientation|keyboardHidden|screenSize|uiMode">
@@ -37,6 +38,7 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="http" />
                 <data android:scheme="https" />
                 <data android:host="moodle.huebsch.ka.schule-bw.de" />
             </intent-filter>
@@ -45,6 +47,7 @@
 
         <activity
             android:name=".Activity_Settings"
+            android:theme="@style/AppTheme_system_Settings"
             android:launchMode="singleTask" />
 
     </application>

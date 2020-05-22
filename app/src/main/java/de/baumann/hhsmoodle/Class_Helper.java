@@ -20,9 +20,9 @@
 package de.baumann.hhsmoodle;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -43,8 +43,6 @@ import androidx.preference.PreferenceManager;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-
-import java.util.Objects;
 
 class Class_Helper {
 
@@ -134,38 +132,6 @@ class Class_Helper {
         }
     }
 
-    static void applyTheme(Context context) {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-        String showNavButton = Objects.requireNonNull(sharedPref.getString("sp_theme", "1"));
-        switch (showNavButton) {
-            case "0":
-                context.setTheme(R.style.AppTheme_system);
-                break;
-            case "2":
-                context.setTheme(R.style.AppTheme_dark);
-                break;
-            default:
-                context.setTheme(R.style.AppTheme);
-                break;
-        }
-    }
-
-    static void applyTheme_Settings(Context context) {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-        String showNavButton = Objects.requireNonNull(sharedPref.getString("sp_theme", "1"));
-        switch (showNavButton) {
-            case "0":
-                context.setTheme(R.style.AppTheme_system_Settings);
-                break;
-            case "2":
-                context.setTheme(R.style.AppTheme_dark_Settings);
-                break;
-            default:
-                context.setTheme(R.style.AppTheme_Settings);
-                break;
-        }
-    }
-
     static void setBottomSheetBehavior(final BottomSheetDialog dialog, final View view) {
         BottomSheetBehavior mBehavior = BottomSheetBehavior.from((View) view.getParent());
         mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
@@ -200,6 +166,7 @@ class Class_Helper {
             moodle_userPW.setText(sharedPref.getString("password", ""));
             builder.setView(dialogView);
             builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+                @SuppressLint("ApplySharedPref")
                 public void onClick(DialogInterface dialog, int whichButton) {
                     final String username = moodle_userName.getText().toString().trim();
                     final String password = moodle_userPW.getText().toString().trim();

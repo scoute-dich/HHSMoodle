@@ -35,8 +35,6 @@
     <string name="login_link">Link of your Moodle instance</string>
     <string name="login_password">Password (8 characters): big/small letter, number, extra sign)</string>
     <string name="login_automatic_title">Automatic login</string>
-    <string name="login_automatic_text">This dialog will disappear, when you are successfully logged in.</string>
-    <string name="login_edit">Edit login data</string>
     <string name="login_text_edit">Please fill in login data.</string>
 
 
@@ -68,12 +66,10 @@
 
     <string name="menu_search">Search</string>
     <string name="menu_reload">Reload</string>
+    <string name="menu_openInBrowser">Open in Browser</string>
 
 
     // Settings
-
-    <string name="settings_other">Other</string>
-    <string name="settings_security">Security</string>
 
     <string name="settings_security_moodle">Login data (Moodle)</string>
     <string name="settings_security_moodle_summary">Enter your Moodle login data. It will be filled in automatically. Please restart the app after editing your
@@ -106,9 +102,9 @@
         \u25AA Long press FAB button to open bookmarks.&lt;br>&lt;br>
 
         &lt;b>Swipe&lt;/b>&lt;br>
-        Swipe on the toolbar or FAB button:
+        Swipe on the toolbar or FAB button:&lt;br>
         \u25AA left/right to go back/forward in history.&lt;br>
-        \u25AA top/bottom to scroll to top/bottom of website.&lt;br>
+        \u25AA top/bottom to scroll to top/bottom of website.
     </string>
 
     <string name="dialog_license_title">Copyright © 2020 by AOSD</string>
@@ -148,13 +144,6 @@
     <string name="pw_forgotten">Pin forgotten?</string>
     <string name="pw_forgotten_dialog">Reset app data?</string>
 
-
-    <string name="setting_theme_system">System</string>
-    <string name="setting_theme_light">Light</string>
-    <string name="setting_theme_dark">Dark</string>
-
-    <string name="setting_theme">Theme</string>
-    <string name="setting_theme_summary">Choose between the dark and the light site.</string>
 
     <string name="setting_sort">Sorting</string>
     <string name="setting_sort_summary">Sort bookmarks by name or icon.</string>

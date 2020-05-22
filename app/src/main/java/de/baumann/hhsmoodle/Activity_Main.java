@@ -21,7 +21,6 @@ package de.baumann.hhsmoodle;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DownloadManager;
@@ -34,7 +33,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
@@ -50,7 +48,6 @@ import android.webkit.DownloadListener;
 import android.webkit.URLUtil;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -58,6 +55,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SimpleCursorAdapter;
@@ -102,7 +100,6 @@ public class Activity_Main extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
-        Class_Helper.applyTheme(this);
         setContentView(R.layout.activity_screen_main);
         setUpBottomAppBar();
 
@@ -149,25 +146,6 @@ public class Activity_Main extends AppCompatActivity {
                     @Override
                     public void onReceiveValue(String s) {}
                 });
-            }
-
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                final Uri uri = Uri.parse(url);
-                return handleUri(uri);
-            }
-
-            @TargetApi(Build.VERSION_CODES.N)
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                final Uri uri = request.getUrl();
-                return handleUri(uri);
-            }
-
-            private boolean handleUri(final Uri uri) {
-                final String url = uri.toString();
-                mWebView.loadUrl(url);
-                return true;
             }
         });
 
@@ -342,6 +320,18 @@ public class Activity_Main extends AppCompatActivity {
         View dialogView = View.inflate(activity, R.layout.grid_layout, null);
         TextView menuTitle = dialogView.findViewById(R.id.grid_title);
         menuTitle.setText(mWebView.getTitle());
+
+        ImageButton menu_refresh = dialogView.findViewById(R.id.menu_refresh);
+        menu_refresh.setVisibility(View.VISIBLE);
+        menu_refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomSheetDialog.cancel();
+                mWebView.reload();
+            }
+        });
+
+
         GridView grid = dialogView.findViewById(R.id.grid_item);
         GridItem_Menu itemAlbum_01 = new GridItem_Menu(getResources().getString(R.string.menu_more_files), R.drawable.icon_download);
         GridItem_Menu itemAlbum_02 = new GridItem_Menu(getResources().getString(R.string.menu_more_settings), R.drawable.icon_settings);
@@ -350,7 +340,7 @@ public class Activity_Main extends AppCompatActivity {
         GridItem_Menu itemAlbum_05 = new GridItem_Menu(getResources().getString(R.string.menu_share), R.drawable.icon_share);
         GridItem_Menu itemAlbum_06 = new GridItem_Menu(getResources().getString(R.string.menu_finish), R.drawable.icon_exit);
         GridItem_Menu itemAlbum_07 = new GridItem_Menu(getResources().getString(R.string.menu_search), R.drawable.icon_magnify);
-        GridItem_Menu itemAlbum_08 = new GridItem_Menu(getResources().getString(R.string.menu_reload), R.drawable.icon_reload);
+        GridItem_Menu itemAlbum_08 = new GridItem_Menu(getResources().getString(R.string.menu_openInBrowser), R.drawable.icon_earth);
 
         final String url = mWebView.getUrl();
         final List<GridItem_Menu> gridList = new LinkedList<>();
@@ -474,7 +464,9 @@ public class Activity_Main extends AppCompatActivity {
                         break;
                     case 6:
                         bottomSheetDialog.cancel();
-                        mWebView.reload();
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(mWebView.getUrl()));
+                        startActivity(i);
                         break;
                 }
             }
@@ -579,8 +571,8 @@ public class Activity_Main extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 bottomSheetDialog.cancel();
-                Cursor row2 = (Cursor) bookmarkList.getItemAtPosition(position);
-                final String bookmarks_content = row2.getString(row2.getColumnIndexOrThrow("bookmarks_content"));
+                Cursor row = (Cursor) bookmarkList.getItemAtPosition(position);
+                final String bookmarks_content = row.getString(row.getColumnIndexOrThrow("bookmarks_content"));
                 mWebView.loadUrl(bookmarks_content);
             }
         });
@@ -597,7 +589,7 @@ public class Activity_Main extends AppCompatActivity {
                 final BottomSheetDialog bottomSheetDialog_context = new BottomSheetDialog(Objects.requireNonNull(activity));
                 View dialogView = View.inflate(activity, R.layout.grid_layout, null);
                 TextView menuTitle = dialogView.findViewById(R.id.grid_title);
-                menuTitle.setText(getString(R.string.action_bookmark));
+                menuTitle.setText(bookmarks_title);
                 GridView grid = dialogView.findViewById(R.id.grid_item);
                 GridItem_Menu itemAlbum_01 = new GridItem_Menu(getResources().getString(R.string.bookmark_edit), R.drawable.icon_edit);
                 GridItem_Menu itemAlbum_02 = new GridItem_Menu(getResources().getString(R.string.bookmark_icon), R.drawable.icon_ui);

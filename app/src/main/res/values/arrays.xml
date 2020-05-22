@@ -3,19 +3,6 @@
 
     //String arrays
 
-    <!-- theme -->
-    <string-array name="setting_entries_theme">
-        <item>@string/setting_theme_system</item>
-        <item>@string/setting_theme_light</item>
-        <item>@string/setting_theme_dark</item>
-    </string-array>
-
-    <string-array name="setting_values_theme">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-    </string-array>
-
     <!-- sorting -->
     <string-array name="setting_entries_sort">
         <item>@string/dialog_sortName</item>
