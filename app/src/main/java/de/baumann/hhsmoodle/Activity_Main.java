@@ -60,19 +60,18 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.widget.NestedScrollView;
 import androidx.preference.PreferenceManager;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -134,32 +133,22 @@ public class Activity_Main extends AppCompatActivity {
         mWebView.getSettings().setLoadWithOverviewMode(true);
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
-
-        final RelativeLayout loginScreen = findViewById(R.id.loginScreen);
         mWebView.setWebViewClient(new WebViewClient() {
 
             public void onPageFinished(WebView view, final String url) {
                 super.onPageFinished(view, url);
 
+                String username = sharedPref.getString("username", "");
+                String password = sharedPref.getString("password", "");
 
-                if (url != null && url.contains(sharedPref.getString("link", "moodle.huebsch.ka.schule-bw.de/moodle/")) && url.contains("/login/")) {
-                    loginScreen.setVisibility(View.VISIBLE);
-                    String username = sharedPref.getString("username", "");
-                    String password = sharedPref.getString("password", "");
+                final String js = "javascript:" +
+                        "document.getElementById('password').value = '" + password + "';"  +
+                        "document.getElementById('username').value = '" + username + "';";
 
-                    final String js = "javascript:" +
-                            "document.getElementById('password').value = '" + password + "';"  +
-                            "document.getElementById('username').value = '" + username + "';"  +
-                            "var ans = document.getElementsByName('answer');"                  +
-                            "document.getElementById('loginbtn').click()";
-
-                    view.evaluateJavascript(js, new ValueCallback<String>() {
-                        @Override
-                        public void onReceiveValue(String s) {}
-                    });
-                } else {
-                    loginScreen.setVisibility(View.INVISIBLE);
-                }
+                view.evaluateJavascript(js, new ValueCallback<String>() {
+                    @Override
+                    public void onReceiveValue(String s) {}
+                });
             }
 
             @Override
@@ -175,15 +164,9 @@ public class Activity_Main extends AppCompatActivity {
                 return handleUri(uri);
             }
 
-            @SuppressWarnings("SameReturnValue")
             private boolean handleUri(final Uri uri) {
                 final String url = uri.toString();
-                if(url.contains(sharedPref.getString("link", "moodle.huebsch.ka.schule-bw.de/moodle/"))) {
-                    mWebView.loadUrl(url);
-                } else {
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                    mWebView.getContext().startActivity(intent);
-                }
+                mWebView.loadUrl(url);
                 return true;
             }
         });
@@ -228,14 +211,6 @@ public class Activity_Main extends AppCompatActivity {
                         }
                     }
                 });
-                Button action_cancel = dialogView.findViewById(R.id.action_cancel);
-                action_cancel.setText(R.string.toast_cancel);
-                action_cancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        bottomSheetDialog.cancel();
-                    }
-                });
                 bottomSheetDialog.setContentView(dialogView);
                 bottomSheetDialog.show();
                 Class_Helper.setBottomSheetBehavior(bottomSheetDialog, dialogView);
@@ -243,23 +218,17 @@ public class Activity_Main extends AppCompatActivity {
         });
 
         try {
-            if (sharedPref.getString("username", "").isEmpty() || sharedPref.getString("password", "").isEmpty()) {
+            if (sharedPref.getString("username", "").length() < 1 ||
+                    sharedPref.getString("password", "").length() < 1  ||
+                    sharedPref.getString("link", "https://moodle.huebsch.ka.schule-bw.de/moodle/").length() < 1 ) {
                 Class_Helper.setLoginData (activity);
             } else {
-                mWebView.loadUrl(sharedPref.getString("favoriteURL", "https://moodle.huebsch.ka.schule-bw.de/moodle/my/"));
+                mWebView.loadUrl(sharedPref.getString("favoriteURL", "https://moodle.huebsch.ka.schule-bw.de/moodle/"));
             }
         } catch (Exception e) {
             e.printStackTrace();
             Class_Helper.setLoginData (activity);
         }
-
-        Button editLogin = findViewById(R.id.bt_editLogin);
-        editLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Class_Helper.setLoginData(activity);
-            }
-        });
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -289,9 +258,15 @@ public class Activity_Main extends AppCompatActivity {
             }
         });
 
+        final NestedScrollView scrollView = findViewById(R.id.scrollView);
+
         bottomAppBar.setOnTouchListener(new SwipeTouchListener(activity) {
-            public void onSwipeTop() {}
-            public void onSwipeBottom() {}
+
+            public void onSwipeTop() {
+                scrollView.smoothScrollTo(0,0);
+            }
+            public void onSwipeBottom() {
+                scrollView.smoothScrollTo(0,1000000000);}
             public void onSwipeRight() {
                 if (mWebView.canGoForward()) {
                     mWebView.goForward();
@@ -325,8 +300,12 @@ public class Activity_Main extends AppCompatActivity {
         });
 
         fab.setOnTouchListener(new SwipeTouchListener(activity) {
-            public void onSwipeTop() {}
-            public void onSwipeBottom() {}
+
+            public void onSwipeTop() {
+                scrollView.smoothScrollTo(0,0);
+            }
+            public void onSwipeBottom() {
+                scrollView.smoothScrollTo(0,1000000000);}
             public void onSwipeRight() {
                 if (mWebView.canGoForward()) {
                     mWebView.goForward();
@@ -557,14 +536,6 @@ public class Activity_Main extends AppCompatActivity {
                     startActivity(new Intent(DownloadManager.ACTION_VIEW_DOWNLOADS));
                 }
             });
-            Button action_cancel = dialogView.findViewById(R.id.action_cancel);
-            action_cancel.setText(R.string.toast_cancel);
-            action_cancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    bottomSheetDialog.cancel();
-                }
-            });
             bottomSheetDialog.setContentView(dialogView);
             bottomSheetDialog.show();
             Class_Helper.setBottomSheetBehavior(bottomSheetDialog, dialogView);
@@ -599,10 +570,8 @@ public class Activity_Main extends AppCompatActivity {
         bookmarkList.setNumColumns(1);
 
         if (bookmarkList.getAdapter().getCount() == 0) {
-            db.insert("Moodle", sharedPref.getString("link", "https://moodle.huebsch.ka.schule-bw.de/moodle/"), "14", "");
-            sharedPref.edit()
-                    .putString("favoriteURL", "https://moodle.huebsch.ka.schule-bw.de/moodle/")
-                    .putString("favoriteTitle", "Dashboard").apply();
+            String url = sharedPref.getString("link", "https://moodle.huebsch.ka.schule-bw.de/moodle/");
+            db.insert("Dashboard", url, "14", "");
             setBookmarksList();
         }
         //onClick function
@@ -800,14 +769,6 @@ public class Activity_Main extends AppCompatActivity {
                                         bottomSheetDialog.cancel();
                                         db.delete(Integer.parseInt(_id));
                                         setBookmarksList();
-                                    }
-                                });
-                                Button action_cancel = dialogView.findViewById(R.id.action_cancel);
-                                action_cancel.setText(R.string.toast_cancel);
-                                action_cancel.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        bottomSheetDialog.cancel();
                                     }
                                 });
                                 bottomSheetDialog.setContentView(dialogView);

@@ -27,8 +27,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.net.Uri;
-import android.provider.Settings;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.util.Linkify;
@@ -129,19 +127,6 @@ class Class_Helper {
                         bottomSheetDialog.cancel();
                     }
                 });
-                Button action_cancel = dialogView.findViewById(R.id.action_cancel);
-                action_cancel.setText(R.string.menu_more_settings);
-                action_cancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent();
-                        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                        Uri uri = Uri.fromParts("package", activity.getPackageName(), null);
-                        intent.setData(uri);
-                        activity.startActivity(intent);
-                        bottomSheetDialog.cancel();
-                    }
-                });
                 bottomSheetDialog.setContentView(dialogView);
                 bottomSheetDialog.show();
                 Class_Helper.setBottomSheetBehavior(bottomSheetDialog, dialogView);
@@ -220,12 +205,15 @@ class Class_Helper {
                     final String password = moodle_userPW.getText().toString().trim();
                     final String link = moodle_link.getText().toString().trim();
 
-                    if (username.isEmpty() || password.length() < 8) {
+                    if (username.length() < 1 || password.length() < 1  || link.length() < 1 ) {
                         Toast.makeText(activity, activity.getString(R.string.login_text_edit), Toast.LENGTH_SHORT).show();
                     } else {
-                        sharedPref.edit().putString("username", username).apply();
-                        sharedPref.edit().putString("password", password).apply();
-                        sharedPref.edit().putString("link", link).apply();
+                        sharedPref.edit()
+                                .putString("username", username)
+                                .putString("password", password)
+                                .putString("link", link)
+                                .putString("favoriteURL", link)
+                                .putString("favoriteTitle", "Dashboard").commit();
                         dialog.cancel();
                     }
                 }
@@ -377,14 +365,6 @@ class Class_Helper {
                                 e.printStackTrace();
                             }
 
-                        }
-                    });
-                    Button action_cancel = dialogView.findViewById(R.id.action_cancel);
-                    action_cancel.setText(R.string.toast_cancel);
-                    action_cancel.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            bottomSheetDialog.cancel();
                         }
                     });
                     bottomSheetDialog.setContentView(dialogView);

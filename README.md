@@ -3,7 +3,7 @@
 FOSS Moodle zeigt dir die mobile Internetseite von Moodleinstanzen an. Dazu müssen Link, Benutzername und Passwort deines Accounts eingegeben werden. Standardmäßig ist die App für die Heinrich-Hübsch-Schule in Karlsruhe entwickelt.
 
 ------
-### FOSS MOODLE – EIGENSCHAFTEN
+### FUNKTIONEN
 ------
 
 - alle Funktionen der mobilen Moodleseite
@@ -12,6 +12,7 @@ FOSS Moodle zeigt dir die mobile Internetseite von Moodleinstanzen an. Dazu müs
 - App-Schutz durch PIN
 - keine Werbung
 - keine unnötigen Berechtigungen
+- geringer Speicherbedarf (<3mb)
 - Quelloffen: https://github.com/scoute-dich/HHSMoodle
 
 ### Download
@@ -27,8 +28,13 @@ Die offizielle Moodle Mobile App gibt es [hier für Android und IOS](https://dow
 - [Lizenz](https://github.com/scoute-dich/HHSMoodle/blob/master/LICENSE.md)
 
 ![1](https://github.com/scoute-dich/HHSMoodle/blob/master/fastlane/metadata/android/de-DE/images/phoneScreenshots/1.jpg)
+
 ![2](https://github.com/scoute-dich/HHSMoodle/blob/master/fastlane/metadata/android/de-DE/images/phoneScreenshots/2.jpg)
+
 ![3](https://github.com/scoute-dich/HHSMoodle/blob/master/fastlane/metadata/android/de-DE/images/phoneScreenshots/3.jpg)
+
 ![4](https://github.com/scoute-dich/HHSMoodle/blob/master/fastlane/metadata/android/de-DE/images/phoneScreenshots/4.jpg)
+
 ![5](https://github.com/scoute-dich/HHSMoodle/blob/master/fastlane/metadata/android/de-DE/images/phoneScreenshots/5.jpg)
+
 ![6](https://github.com/scoute-dich/HHSMoodle/blob/master/fastlane/metadata/android/de-DE/images/phoneScreenshots/6.jpg)

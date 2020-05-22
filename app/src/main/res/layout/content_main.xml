@@ -7,64 +7,16 @@
     tools:showIn="@layout/activity_screen_main">
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <WebView
             android:id="@+id/webView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="fill_parent" />
 
     </androidx.core.widget.NestedScrollView>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#99000000"
-        android:id="@+id/loginScreen">
-
-        <LinearLayout
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:visibility="visible"
-            android:padding="32dp"
-            android:layout_centerInParent="true"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:background="@drawable/bg" >
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textStyle="bold"
-                android:text="@string/login_automatic_title"/>
-
-            <TextView
-                android:layout_marginTop="16dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/login_automatic_text"/>
-
-            <ProgressBar
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_marginTop="16dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:indeterminate="true" />
-
-            <Button
-                android:id="@+id/bt_editLogin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:includeFontPadding="false"
-                android:background="?attr/selectableItemBackground"
-                android:textColor="?android:attr/colorAccent"
-                android:text="@string/login_edit"/>
-
-        </LinearLayout>
-
-    </RelativeLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"

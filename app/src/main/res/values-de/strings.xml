@@ -51,13 +51,15 @@
         \u25AA Den FAB Knopf lange drücken um die Lesezeichen zu öffnen.&lt;br>&lt;br>
 
         &lt;b>Wische&lt;/b>&lt;br>
-        Wische auf der Toolbar oder dem FAB Knopf nach links/rechts um im Verlauf zurück/nach vorne zu kommen.
+        Wische auf der Toolbar oder dem FAB Knopf:
+        \u25AA nach links/rechts um im Verlauf zurück/nach vorne zu kommen.&lt;br>
+        \u25AA nach oben/unten um auf der Seite nach oben/unten zu scrollen.&lt;br>
     </string>
 
     <string name="dialog_license_title">Copyright © 2020 by AOSD</string>
     <string name="dialog_license_text">
 
-        &lt;i>For more information visit the project site: https://github.com/scoute-dich/HHSMoodle&lt;/i>&lt;br>&lt;br>
+        &lt;i>Besuche für mehr Informationen: https://github.com/scoute-dich/HHSMoodle&lt;/i>&lt;br>&lt;br>
 
         Dieses Programm ist freie Software. Sie können es unter den Bedingungen der GNU General Public License, wie von
         der Free Software Foundation veröffentlicht, weitergeben und/oder modifizieren, entweder gemäß Version 3 der Lizenz oder
@@ -115,7 +117,8 @@
     <string name="settings_security">Sicherheit</string>
 
     <string name="settings_security_moodle">Logindaten (Moodle)</string>
-    <string name="settings_security_moodle_summary">Bitte gib deinen Moodledaten an, um automatisch angemeldet zu werden. Nach dem Bearbeiten die App neu starten.</string>
+    <string name="settings_security_moodle_summary">Bitte gib deinen Moodledaten an. Sie werden dann auf der Anmeldeseite automatisch eingefügt. Nach dem
+        Bearbeiten die App neu starten und evtl. veraltete Lesezeichen löschen.</string>
 
     <string name="settings_license_about_summary">Erfahre mehr über die App.</string>
 

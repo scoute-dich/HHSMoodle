@@ -1,12 +1,14 @@
 FOSS Moodle displays mobile Moodle websites. You must set link, username and password to use the app. By default the app is developed for the Heinrich-Hübsch-Schule in Karlsruhe.
 
 -------------------------------------------------
-<b>FOSS MOODLE – FEATURES</b>
+<b>FEATURES</b>
 -------------------------------------------------
 
 • all features of mobile Moodle websites
 • automatic login
 • own bookmark management
 • app protection by pin
+• small app size (<3mb)
 • no ads
 • no unnecessary permissions
+• Open Source: https://github.com/scoute-dich/HHSMoodle

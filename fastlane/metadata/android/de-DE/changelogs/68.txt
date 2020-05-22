@@ -1,3 +1,0 @@
-<b> Version 5.2</b>
-
-- neu: F-Droid Beschreibungen
