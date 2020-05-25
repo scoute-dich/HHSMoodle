@@ -1,4 +1,4 @@
-### 5.3 (WIP)
+### 5.3
 - verbessert: webView Layout
 - fix: Link zur Projektseite
 - neu: kompatibel mit mebis
