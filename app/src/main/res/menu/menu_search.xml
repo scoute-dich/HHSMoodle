@@ -1,11 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:ignore="AlwaysShowAction">
+
+    <item
+        android:id="@+id/action_search_next"
+        app:showAsAction="always"
+        android:icon="@drawable/icon_down"
+        android:title="@string/action_search_next" />
+
+    <item
+        android:id="@+id/action_search_prev"
+        app:showAsAction="always"
+        android:icon="@drawable/icon_up"
+        android:title="@string/action_search_prev" />
 
     <item
         android:id="@+id/action_search_close"
         app:showAsAction="always"
         android:icon="@drawable/icon_close_light"
-        android:title="@string/action_bookmark" />
+        android:title="@string/action_search_cancel" />
 
 </menu>

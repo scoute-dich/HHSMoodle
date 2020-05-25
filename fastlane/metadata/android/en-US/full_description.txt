@@ -9,6 +9,7 @@ FOSS Moodle displays mobile Moodle websites. You must set link, username and pas
 • own bookmark management
 • app protection by pin
 • small app size (<3mb)
+• gesture navigation
 • no ads
 • no unnecessary permissions
 • Open Source: https://github.com/scoute-dich/HHSMoodle

@@ -35,7 +35,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.StrictMode;
 import android.print.PrintAttributes;
 import android.print.PrintDocumentAdapter;
 import android.print.PrintManager;
@@ -69,7 +68,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -104,10 +102,6 @@ public class Activity_Main extends AppCompatActivity {
         setUpBottomAppBar();
 
         Class_Helper.checkPin(Activity_Main.this);
-        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-        StrictMode.setVmPolicy(builder.build());
-
-        WebView.enableSlowWholeDocumentDraw();
 
         activity = Activity_Main.this;
 
@@ -221,9 +215,15 @@ public class Activity_Main extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_search_close:
-                        mWebView.findAllAsync(null);
+                        mWebView.findAllAsync("");
                         titleView.setText(mWebView.getTitle());
                         bottomAppBar.replaceMenu(R.menu.menu_main);
+                        break;
+                    case R.id.action_search_next:
+                        mWebView.findNext(true);
+                        break;
+                    case R.id.action_search_prev:
+                        mWebView.findNext(false);
                         break;
                     case R.id.action_bookmark:
                         openBookmarkDialog();
@@ -239,45 +239,6 @@ public class Activity_Main extends AppCompatActivity {
         final NestedScrollView scrollView = findViewById(R.id.scrollView);
 
         bottomAppBar.setOnTouchListener(new SwipeTouchListener(activity) {
-
-            public void onSwipeTop() {
-                scrollView.smoothScrollTo(0,0);
-            }
-            public void onSwipeBottom() {
-                scrollView.smoothScrollTo(0,1000000000);}
-            public void onSwipeRight() {
-                if (mWebView.canGoForward()) {
-                    mWebView.goForward();
-                } else {
-                    Toast.makeText(activity, getString(R.string.toast_notForward), Toast.LENGTH_SHORT).show();
-                }
-            }
-            public void onSwipeLeft() {
-                if (mWebView.canGoBack()) {
-                    mWebView.goBack();
-                } else {
-                    Toast.makeText(activity, getString(R.string.toast_notBack), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openMenu();
-            }
-        });
-
-        fab.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                openBookmarkDialog();
-                return false;
-            }
-        });
-
-        fab.setOnTouchListener(new SwipeTouchListener(activity) {
 
             public void onSwipeTop() {
                 scrollView.smoothScrollTo(0,0);
@@ -784,8 +745,8 @@ public class Activity_Main extends AppCompatActivity {
             progressBar.setProgress(progress);
             titleView = findViewById(R.id.titleView);
             titleView.setText(mWebView.getTitle());
-            mWebView.findAllAsync(null);
             bottomAppBar.replaceMenu(R.menu.menu_main);
+            mWebView.findAllAsync("");
             progressBar.setVisibility(progress == 100 ? View.GONE : View.VISIBLE);
         }
 

@@ -45,11 +45,10 @@
     <string name="dialog_help_text">
         &lt;b>Lesezeichen&lt;/b>&lt;br>
         \u25AA Klicken um Eintrag zu öffnen.&lt;br>
-        \u25AA Lange klicken um Eintrag zu bearbeiten.&lt;br>
-        \u25AA Den FAB Knopf lange drücken um die Lesezeichen zu öffnen.&lt;br>&lt;br>
+        \u25AA Lange klicken um Eintrag zu bearbeiten.&lt;br>&lt;br>
 
         &lt;b>Wische&lt;/b>&lt;br>
-        Wische auf der Toolbar oder dem FAB Knopf:&lt;br>
+        Wische auf der Toolbar:&lt;br>
         \u25AA nach links/rechts um im Verlauf zurück/nach vorne zu kommen.&lt;br>
         \u25AA nach oben/unten um auf der Seite nach oben/unten zu scrollen.
     </string>
@@ -95,6 +94,9 @@
 
     <string name="action_bookmark">Lesezeichen</string>
     <string name="action_menu">Menu</string>
+    <string name="action_search_prev">Nächstes Ergebnis</string>
+    <string name="action_search_next">Vorheriges Ergebnis</string>
+    <string name="action_search_cancel">Suche beenden</string>
 
     <string name="menu_share">Teilen</string>
     <string name="menu_finish">Beenden</string>

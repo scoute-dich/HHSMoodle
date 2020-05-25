@@ -54,6 +54,9 @@
 
     <string name="action_bookmark">Bookmarks</string>
     <string name="action_menu">Menu</string>
+    <string name="action_search_prev">Next</string>
+    <string name="action_search_next">Previous</string>
+    <string name="action_search_cancel">Cancel search</string>
 
     <string name="menu_share">Share</string>
     <string name="menu_finish">Exit</string>
@@ -98,11 +101,10 @@
     <string name="dialog_help_text">
         &lt;b>Bookmarks&lt;/b>&lt;br>
         \u25AA Click to open entry.&lt;br>
-        \u25AA Long press to edit entry.&lt;br>
-        \u25AA Long press FAB button to open bookmarks.&lt;br>&lt;br>
+        \u25AA Long press to edit entry.&lt;br>&lt;br>
 
         &lt;b>Swipe&lt;/b>&lt;br>
-        Swipe on the toolbar or FAB button:&lt;br>
+        Swipe on the toolbar:&lt;br>
         \u25AA left/right to go back/forward in history.&lt;br>
         \u25AA top/bottom to scroll to top/bottom of website.
     </string>

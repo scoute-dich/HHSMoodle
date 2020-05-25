@@ -8,6 +8,7 @@ FOSS Moodle zeigt dir die mobile Internetseite von Moodleinstanzen an. Dazu müs
 • automatische Anmeldung
 • eigene Lesezeichenverwaltung
 • App-Schutz durch PIN
+• Gestensteuerung
 • keine Werbung
 • keine unnötigen Berechtigungen
 • geringer Speicherbedarf (<3mb)
