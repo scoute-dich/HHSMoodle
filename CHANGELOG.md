@@ -1,3 +1,9 @@
+### 5.4 (WIP)
+- neu: Navigationsknopf
+- neu: Spaltenanzahl in Listen (Einstellungen)
+- neu: dunkles Design für Webinhalte (Einstellungen)
+- neu: Dialog für externe Links (Einstellungen)
+
 ### 5.3
 - verbessert: webView Layout
 - fix: Link zur Projektseite

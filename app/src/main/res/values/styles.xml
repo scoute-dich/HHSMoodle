@@ -5,13 +5,11 @@
     <style name="AppTheme_system" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
     </style>
 
     <style name="AppTheme_system_Settings" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
     </style>
 
 </resources>

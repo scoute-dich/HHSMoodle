@@ -94,6 +94,7 @@
     <string name="toast_notPrint">No printer found.</string>
     <string name="toast_notBack">Can not go back.</string>
     <string name="toast_notForward">Can not go forward.</string>
+    <string name="toast_external">External link. Open in default browser?</string>
 
     // Dialogs
 
@@ -101,10 +102,11 @@
     <string name="dialog_help_text">
         &lt;b>Bookmarks&lt;/b>&lt;br>
         \u25AA Click to open entry.&lt;br>
-        \u25AA Long press to edit entry.&lt;br>&lt;br>
+        \u25AA Long press to edit entry.&lt;br>
+        \u25AA Long press navigation button to open bookmarks.&lt;br>&lt;br>
 
         &lt;b>Swipe&lt;/b>&lt;br>
-        Swipe on the toolbar:&lt;br>
+        Swipe on the toolbar or navigation button:&lt;br>
         \u25AA left/right to go back/forward in history.&lt;br>
         \u25AA top/bottom to scroll to top/bottom of website.
     </string>
@@ -149,6 +151,15 @@
 
     <string name="setting_sort">Sorting</string>
     <string name="setting_sort_summary">Sort bookmarks by name or icon.</string>
+
+    <string name="setting_columns">Columns</string>
+    <string name="setting_columns_summary">Number of columns in bookmark list and menu.</string>
+
+    <string name="setting_external">External link</string>
+    <string name="setting_external_summary">Show a dialog to open external links in default browser.</string>
+
+    <string name="setting_nightMode">Dark mode</string>
+    <string name="setting_nightMode_summary">Use the dark mode to display websites, if system uses dark mode. This works only if latest webview is installed on device.</string>
 
     <string name="dialog_help_summary">Some useful hints for using the app.</string>
 

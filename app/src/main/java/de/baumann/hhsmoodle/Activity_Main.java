@@ -21,6 +21,7 @@ package de.baumann.hhsmoodle;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DownloadManager;
@@ -31,13 +32,16 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.print.PrintAttributes;
 import android.print.PrintDocumentAdapter;
 import android.print.PrintManager;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -47,6 +51,7 @@ import android.webkit.DownloadListener;
 import android.webkit.URLUtil;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -65,9 +70,12 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.NestedScrollView;
 import androidx.preference.PreferenceManager;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.webkit.WebSettingsCompat;
+import androidx.webkit.WebViewFeature;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -82,6 +90,9 @@ public class Activity_Main extends AppCompatActivity {
     private ValueCallback<Uri[]> mFilePathCallback;
 
     private static final int INPUT_FILE_REQUEST_CODE = 1;
+    private int columns;
+
+    private boolean loadUrl = true;
 
     private Bookmarks_Database db;
     private GridView bookmarkList;
@@ -107,6 +118,7 @@ public class Activity_Main extends AppCompatActivity {
 
         PreferenceManager.setDefaultValues(activity, R.xml.user_settings, false);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(activity);
+        columns = Integer.parseInt(sharedPref.getString("columns", "2"));
 
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.GONE);
@@ -125,6 +137,64 @@ public class Activity_Main extends AppCompatActivity {
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
         mWebView.setWebViewClient(new WebViewClient() {
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                final Uri uri = Uri.parse(url);
+                return handleUri(view, uri);
+            }
+
+            @TargetApi(Build.VERSION_CODES.N)
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                final Uri uri = request.getUrl();
+                return handleUri(view, uri);
+            }
+
+            private boolean handleUri(final WebView webView, final Uri uri) {
+
+                final String url = uri.toString();
+                loadUrl = true;
+
+                if (sharedPref.getBoolean("external", true)) {
+                    if (url.contains(sharedPref.getString("link", "https://moodle.huebsch.ka.schule-bw.de/moodle/"))) {
+                        webView.loadUrl(url);
+                        return true;
+                    } else {
+                        final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(activity);
+                        View dialogView = View.inflate(activity, R.layout.dialog_action, null);
+                        TextView textView = dialogView.findViewById(R.id.dialog_text);
+                        textView.setText(getResources().getString(R.string.toast_external));
+                        Button action_ok = dialogView.findViewById(R.id.action_ok);
+                        action_ok.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                loadUrl = false;
+                                Intent intent = new Intent(Intent.ACTION_VIEW);
+                                intent.setData(uri);
+                                Intent chooser = Intent.createChooser(intent, null);
+                                startActivity(chooser);
+                                bottomSheetDialog.cancel();
+                            }
+                        });
+                        bottomSheetDialog.setContentView(dialogView);
+                        bottomSheetDialog.show();
+                        Class_Helper.setBottomSheetBehavior(bottomSheetDialog, dialogView);
+                        bottomSheetDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                            @Override
+                            public void onCancel(DialogInterface dialog) {
+                                bottomSheetDialog.cancel();
+                                if (loadUrl) {
+                                    webView.loadUrl(url);
+                                }
+                            }
+                        });
+                    }
+                } else {
+                    webView.loadUrl(url);
+                }
+                return true;//do nothing in other cases
+            }
 
             public void onPageFinished(WebView view, final String url) {
                 super.onPageFinished(view, url);
@@ -189,6 +259,83 @@ public class Activity_Main extends AppCompatActivity {
             }
         });
 
+        registerForContextMenu(mWebView);
+
+        if(WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK) && sharedPref.getBoolean("nightMode", false)) {
+            int currentNightMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+            switch (currentNightMode) {
+                case Configuration.UI_MODE_NIGHT_NO:
+                    // Night mode is not active, we're using the light theme
+                    WebSettingsCompat.setForceDark(mWebView.getSettings(), WebSettingsCompat.FORCE_DARK_OFF);
+                    break;
+                case Configuration.UI_MODE_NIGHT_YES:
+                    // Night mode is active, we're using dark theme
+                    WebSettingsCompat.setForceDark(mWebView.getSettings(), WebSettingsCompat.FORCE_DARK_ON);
+                    break;
+            }
+        }
+
+        final NestedScrollView scrollView = findViewById(R.id.scrollView);
+
+        bottomAppBar.setOnTouchListener(new SwipeTouchListener(activity) {
+            public void onSwipeTop() {
+                scrollView.smoothScrollTo(0,0);
+            }
+            public void onSwipeBottom() {
+                scrollView.smoothScrollTo(0,1000000000);
+            }public void onSwipeRight() {
+                if (mWebView.canGoForward()) {
+                    mWebView.goForward();
+                } else {
+                    Toast.makeText(activity, getString(R.string.toast_notForward), Toast.LENGTH_SHORT).show();
+                }
+            }
+            public void onSwipeLeft() {
+                if (mWebView.canGoBack()) {
+                    mWebView.goBack();
+                } else {
+                    Toast.makeText(activity, getString(R.string.toast_notBack), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openMenu();
+            }
+        });
+        fab.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                openBookmarkDialog();
+                return false;
+            }
+        });
+
+        fab.setOnTouchListener(new SwipeTouchListener(activity) {
+            public void onSwipeTop() {
+                scrollView.smoothScrollTo(0,0);
+            }
+            public void onSwipeBottom() {
+                scrollView.smoothScrollTo(0,1000000000);
+            }public void onSwipeRight() {
+                if (mWebView.canGoForward()) {
+                    mWebView.goForward();
+                } else {
+                    Toast.makeText(activity, getString(R.string.toast_notForward), Toast.LENGTH_SHORT).show();
+                }
+            }
+            public void onSwipeLeft() {
+                if (mWebView.canGoBack()) {
+                    mWebView.goBack();
+                } else {
+                    Toast.makeText(activity, getString(R.string.toast_notBack), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
         try {
             if (sharedPref.getString("username", "").length() < 1 ||
                     sharedPref.getString("password", "").length() < 1  ||
@@ -200,6 +347,36 @@ public class Activity_Main extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
             Class_Helper.setLoginData (activity);
+        }
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
+        super.onCreateContextMenu(menu, v, menuInfo);
+        WebView.HitTestResult result = mWebView.getHitTestResult();
+        if (result.getType() == WebView.HitTestResult.SRC_ANCHOR_TYPE) {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(result.getExtra()));
+            Intent chooser = Intent.createChooser(intent, null);
+            startActivity(chooser);
+        }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if(WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK) && sharedPref.getBoolean("nightMode", false)) {
+            int currentNightMode = newConfig.uiMode & Configuration.UI_MODE_NIGHT_MASK;
+            switch (currentNightMode) {
+                case Configuration.UI_MODE_NIGHT_NO:
+                    // Night mode is not active, we're using the light theme
+                    WebSettingsCompat.setForceDark(mWebView.getSettings(), WebSettingsCompat.FORCE_DARK_OFF);
+                    break;
+                case Configuration.UI_MODE_NIGHT_YES:
+                    // Night mode is active, we're using dark theme
+                    WebSettingsCompat.setForceDark(mWebView.getSettings(), WebSettingsCompat.FORCE_DARK_ON);
+                    break;
+            }
         }
     }
 
@@ -235,31 +412,6 @@ public class Activity_Main extends AppCompatActivity {
                 return false;
             }
         });
-
-        final NestedScrollView scrollView = findViewById(R.id.scrollView);
-
-        bottomAppBar.setOnTouchListener(new SwipeTouchListener(activity) {
-
-            public void onSwipeTop() {
-                scrollView.smoothScrollTo(0,0);
-            }
-            public void onSwipeBottom() {
-                scrollView.smoothScrollTo(0,1000000000);}
-            public void onSwipeRight() {
-                if (mWebView.canGoForward()) {
-                    mWebView.goForward();
-                } else {
-                    Toast.makeText(activity, getString(R.string.toast_notForward), Toast.LENGTH_SHORT).show();
-                }
-            }
-            public void onSwipeLeft() {
-                if (mWebView.canGoBack()) {
-                    mWebView.goBack();
-                } else {
-                    Toast.makeText(activity, getString(R.string.toast_notBack), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
     }
 
     private void openBookmarkDialog () {
@@ -292,7 +444,6 @@ public class Activity_Main extends AppCompatActivity {
             }
         });
 
-
         GridView grid = dialogView.findViewById(R.id.grid_item);
         GridItem_Menu itemAlbum_01 = new GridItem_Menu(getResources().getString(R.string.menu_more_files), R.drawable.icon_download);
         GridItem_Menu itemAlbum_02 = new GridItem_Menu(getResources().getString(R.string.menu_more_settings), R.drawable.icon_settings);
@@ -316,7 +467,7 @@ public class Activity_Main extends AppCompatActivity {
 
         GridAdapter_Menu gridAdapter = new GridAdapter_Menu(activity, gridList);
         grid.setAdapter(gridAdapter);
-        grid.setNumColumns(2);
+        grid.setNumColumns(columns);
         gridAdapter.notifyDataSetChanged();
 
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -520,7 +671,7 @@ public class Activity_Main extends AppCompatActivity {
         };
 
         bookmarkList.setAdapter(adapter);
-        bookmarkList.setNumColumns(1);
+        bookmarkList.setNumColumns(columns);
 
         if (bookmarkList.getAdapter().getCount() == 0) {
             String url = sharedPref.getString("link", "https://moodle.huebsch.ka.schule-bw.de/moodle/");
@@ -741,6 +892,7 @@ public class Activity_Main extends AppCompatActivity {
     }
 
     private class myWebChromeClient extends WebChromeClient {
+
         public void onProgressChanged(WebView view, int progress) {
             progressBar.setProgress(progress);
             titleView = findViewById(R.id.titleView);

@@ -79,7 +79,7 @@ public class Activity_Settings extends AppCompatActivity {
                         }
                     });
                     builder.setTitle(R.string.dialog_help_title);
-                    builder.setMessage(Class_Helper.textSpannable(Objects.requireNonNull(getActivity()).getString(R.string.dialog_help_text)));
+                    builder.setMessage(Class_Helper.textSpannable(requireActivity().getString(R.string.dialog_help_text)));
                     AlertDialog dialog = builder.create();
                     dialog.show();
                     ((TextView)dialog.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
@@ -97,7 +97,7 @@ public class Activity_Settings extends AppCompatActivity {
                         }
                     });
                     builder.setTitle(R.string.dialog_license_title);
-                    builder.setMessage(Class_Helper.textSpannable(Objects.requireNonNull(getActivity()).getString(R.string.dialog_license_text)));
+                    builder.setMessage(Class_Helper.textSpannable(requireActivity().getString(R.string.dialog_license_text)));
                     AlertDialog dialog = builder.create();
                     dialog.show();
                     ((TextView)dialog.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());

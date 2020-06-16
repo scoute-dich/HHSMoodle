@@ -45,10 +45,11 @@
     <string name="dialog_help_text">
         &lt;b>Lesezeichen&lt;/b>&lt;br>
         \u25AA Klicken um Eintrag zu öffnen.&lt;br>
-        \u25AA Lange klicken um Eintrag zu bearbeiten.&lt;br>&lt;br>
+        \u25AA Lange klicken um Eintrag zu bearbeiten.&lt;br>
+        \u25AA Lange auf den Navigationsknopf drücken, um Lesezeichen zu öffnen.&lt;br>&lt;br>
 
         &lt;b>Wische&lt;/b>&lt;br>
-        Wische auf der Toolbar:&lt;br>
+        Wische auf der Toolbar oder dem Navigationsknopf:&lt;br>
         \u25AA nach links/rechts um im Verlauf zurück/nach vorne zu kommen.&lt;br>
         \u25AA nach oben/unten um auf der Seite nach oben/unten zu scrollen.
     </string>
@@ -134,6 +135,7 @@
     <string name="toast_notPrint">Kein Drucker gefunden.</string>
     <string name="toast_notBack">Keine vorherige Seite.</string>
     <string name="toast_notForward">Keine nächste Seite.</string>
+    <string name="toast_external">Externer Link. Im Standardbrowser öffnen?</string>
 
     // Password
 
@@ -144,6 +146,15 @@
 
     <string name="setting_sort">Sortierung</string>
     <string name="setting_sort_summary">Sortiere Lesezeichen nach Namen oder Icon.</string>
+
+    <string name="setting_columns">Spalten</string>
+    <string name="setting_columns_summary">Anzahl der Spalten in der Lesezeichenliste und dem Menü.</string>
+
+    <string name="setting_external">Externe Links</string>
+    <string name="setting_external_summary">Einen Dialog anzeigen, um externe Links im Standardbrowser zu öffnen.</string>
+
+    <string name="setting_nightMode">Nachtmodus</string>
+    <string name="setting_nightMode_summary">Benutze den Nachtmodus um Internetseiten dazustellen, wenn das System den Nachtmodus nutzt. Das funktioniert nur, wenn du die aktuelle WebView auf dem Handy installiert hast.</string>
 
     <string name="dialog_help_summary">Ein paar Tipps zur Nutzung der App.</string>
 
