@@ -1,4 +1,4 @@
-### 5.4 (WIP)
+### 5.4
 - neu: Navigationsknopf
 - neu: Spaltenanzahl in Listen (Einstellungen)
 - neu: dunkles Design für Webinhalte (Einstellungen)
