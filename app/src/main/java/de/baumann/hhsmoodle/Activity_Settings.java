@@ -62,88 +62,60 @@ public class Activity_Settings extends AppCompatActivity {
                 .commit();
     }
 
-    @SuppressWarnings("WeakerAccess")
+    @SuppressWarnings("ConstantConditions")
     public static class SettingsFragment extends PreferenceFragmentCompat {
 
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.user_settings, rootKey);
 
-            Objects.requireNonNull(findPreference("settings_help")).setOnPreferenceClickListener(new androidx.preference.Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(androidx.preference.Preference preference) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    builder.setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
-                        }
-                    });
-                    builder.setTitle(R.string.dialog_help_title);
-                    builder.setMessage(Class_Helper.textSpannable(requireActivity().getString(R.string.dialog_help_text)));
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-                    ((TextView)dialog.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
-                    return false;
-                }
+            findPreference("settings_help").setOnPreferenceClickListener(preference -> {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setPositiveButton(R.string.toast_cancel, (dialog, id) -> dialog.cancel());
+                builder.setTitle(R.string.dialog_help_title);
+                builder.setMessage(Class_Helper.textSpannable(requireActivity().getString(R.string.dialog_help_text)));
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                ((TextView)dialog.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
+                return false;
             });
 
-            Objects.requireNonNull(findPreference("settings_license")).setOnPreferenceClickListener(new androidx.preference.Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(androidx.preference.Preference preference) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    builder.setPositiveButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
-                        }
-                    });
-                    builder.setTitle(R.string.dialog_license_title);
-                    builder.setMessage(Class_Helper.textSpannable(requireActivity().getString(R.string.dialog_license_text)));
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-                    ((TextView)dialog.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
-                    return false;
-                }
+            findPreference("settings_license").setOnPreferenceClickListener(preference -> {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setPositiveButton(R.string.toast_cancel, (dialog, id) -> dialog.cancel());
+                builder.setTitle(R.string.dialog_license_title);
+                builder.setMessage(Class_Helper.textSpannable(requireActivity().getString(R.string.dialog_license_text)));
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                ((TextView)dialog.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
+                return false;
             });
 
-
-            Objects.requireNonNull(findPreference("settings_security_moodle")).setOnPreferenceClickListener(new androidx.preference.Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(androidx.preference.Preference preference) {
-                    Class_Helper.setLoginData (getActivity());
-                    return false;
-                }
+            findPreference("settings_security_moodle").setOnPreferenceClickListener(preference -> {
+                Class_Helper.setLoginData (getActivity());
+                return false;
             });
-            Objects.requireNonNull(findPreference("settings_security_pin")).setOnPreferenceClickListener(new androidx.preference.Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(androidx.preference.Preference preference) {
-                    final Activity activity = getActivity();
-                    final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(Objects.requireNonNull(activity));
-                    final String password = sharedPref.getString("settings_security_pin", "");
-                    AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-                    View dialogView = View.inflate(activity, R.layout.dialog_edit_pin, null);
 
-                    final EditText pass_userPW = dialogView.findViewById(R.id.pass_userPin);
-                    pass_userPW.setText(password);
+            findPreference("settings_security_pin").setOnPreferenceClickListener(preference -> {
+                final Activity activity = getActivity();
+                final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(Objects.requireNonNull(activity));
+                final String password = sharedPref.getString("settings_security_pin", "");
+                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                View dialogView = View.inflate(activity, R.layout.dialog_edit_pin, null);
 
-                    builder.setView(dialogView);
-                    builder.setTitle(R.string.settings_security_pin);
-                    builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
+                final EditText pass_userPW = dialogView.findViewById(R.id.pass_userPin);
+                pass_userPW.setText(password);
 
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            String inputTag = pass_userPW.getText().toString().trim();
-                            sharedPref.edit().putString("settings_security_pin", inputTag).apply();
-                        }
-                    });
-                    builder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            dialog.cancel();
-                        }
-                    });
-                    final AlertDialog dialog = builder.create();
-                    dialog.show();
-                    return false;
-                }
+                builder.setView(dialogView);
+                builder.setTitle(R.string.settings_security_pin);
+                builder.setPositiveButton(R.string.toast_yes, (dialog, whichButton) -> {
+                    String inputTag = pass_userPW.getText().toString().trim();
+                    sharedPref.edit().putString("settings_security_pin", inputTag).apply();
+                });
+                builder.setNegativeButton(R.string.toast_cancel, (dialog, whichButton) -> dialog.cancel());
+                final AlertDialog dialog = builder.create();
+                dialog.show();
+                return false;
             });
         }
     }

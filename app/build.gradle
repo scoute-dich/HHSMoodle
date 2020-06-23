@@ -4,14 +4,20 @@ android {
     compileSdkVersion 29
     buildToolsVersion '28.0.3'
 
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     defaultConfig {
         applicationId "de.baumann.hhsmoodle"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 71
-        versionName "5.4"
+        versionCode 72
+        versionName "5.4.1"
     }
     buildTypes {
         release {

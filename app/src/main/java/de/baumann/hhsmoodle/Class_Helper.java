@@ -117,13 +117,10 @@ class Class_Helper {
                 TextView textView = dialogView.findViewById(R.id.dialog_text);
                 textView.setText(Class_Helper.textSpannable(activity.getString(R.string.app_permissions)));
                 Button action_ok = dialogView.findViewById(R.id.action_ok);
-                action_ok.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        activity.requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                                REQUEST_CODE_ASK_PERMISSIONS);
-                        bottomSheetDialog.cancel();
-                    }
+                action_ok.setOnClickListener(view -> {
+                    activity.requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                            REQUEST_CODE_ASK_PERMISSIONS);
+                    bottomSheetDialog.cancel();
                 });
                 bottomSheetDialog.setContentView(dialogView);
                 bottomSheetDialog.show();
@@ -165,31 +162,24 @@ class Class_Helper {
             final EditText moodle_userPW = dialogView.findViewById(R.id.moodle_userPW);
             moodle_userPW.setText(sharedPref.getString("password", ""));
             builder.setView(dialogView);
-            builder.setPositiveButton(R.string.toast_yes, new DialogInterface.OnClickListener() {
-                @SuppressLint("ApplySharedPref")
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    final String username = moodle_userName.getText().toString().trim();
-                    final String password = moodle_userPW.getText().toString().trim();
-                    final String link = moodle_link.getText().toString().trim();
+            builder.setPositiveButton(R.string.toast_yes, (dialog, whichButton) -> {
+                final String username = moodle_userName.getText().toString().trim();
+                final String password = moodle_userPW.getText().toString().trim();
+                final String link = moodle_link.getText().toString().trim();
 
-                    if (username.length() < 1 || password.length() < 1  || link.length() < 1 ) {
-                        Toast.makeText(activity, activity.getString(R.string.login_text_edit), Toast.LENGTH_SHORT).show();
-                    } else {
-                        sharedPref.edit()
-                                .putString("username", username)
-                                .putString("password", password)
-                                .putString("link", link)
-                                .putString("favoriteURL", link)
-                                .putString("favoriteTitle", "Dashboard").commit();
-                        dialog.cancel();
-                    }
-                }
-            });
-            builder.setNegativeButton(R.string.toast_cancel, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
+                if (username.length() < 1 || password.length() < 1  || link.length() < 1 ) {
+                    Toast.makeText(activity, activity.getString(R.string.login_text_edit), Toast.LENGTH_SHORT).show();
+                } else {
+                    sharedPref.edit()
+                            .putString("username", username)
+                            .putString("password", password)
+                            .putString("link", link)
+                            .putString("favoriteURL", link)
+                            .putString("favoriteTitle", "Dashboard").commit();
                     dialog.cancel();
                 }
             });
+            builder.setNegativeButton(R.string.toast_cancel, (dialog, whichButton) -> dialog.cancel());
             final AlertDialog dialog = builder.create();
             dialog.show();
         } catch (Exception e) {
@@ -209,93 +199,43 @@ class Class_Helper {
             final TextView text = dialogView.findViewById(R.id.pass_userPin);
             Button ib0 = dialogView.findViewById(R.id.button0);
             assert ib0 != null;
-            ib0.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    enterNum(dialogView, "0");
-                }
-            });
+            ib0.setOnClickListener(view -> enterNum(dialogView, "0"));
 
             Button ib1 = dialogView.findViewById(R.id.button1);
             assert ib1 != null;
-            ib1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    enterNum(dialogView, "1");
-                }
-            });
+            ib1.setOnClickListener(view -> enterNum(dialogView, "1"));
 
             Button ib2 = dialogView.findViewById(R.id.button2);
             assert ib2 != null;
-            ib2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    enterNum(dialogView, "2");
-                }
-            });
+            ib2.setOnClickListener(view -> enterNum(dialogView, "2"));
 
             Button ib3 = dialogView.findViewById(R.id.button3);
             assert ib3 != null;
-            ib3.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    enterNum(dialogView, "3");
-                }
-            });
+            ib3.setOnClickListener(view -> enterNum(dialogView, "3"));
 
             Button ib4 = dialogView.findViewById(R.id.button4);
             assert ib4 != null;
-            ib4.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    enterNum(dialogView, "4");
-                }
-            });
+            ib4.setOnClickListener(view -> enterNum(dialogView, "4"));
 
             Button ib5 = dialogView.findViewById(R.id.button5);
             assert ib5 != null;
-            ib5.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    enterNum(dialogView, "5");
-                }
-            });
+            ib5.setOnClickListener(view -> enterNum(dialogView, "5"));
 
             Button ib6 = dialogView.findViewById(R.id.button6);
             assert ib6 != null;
-            ib6.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    enterNum(dialogView, "6");
-                }
-            });
+            ib6.setOnClickListener(view -> enterNum(dialogView, "6"));
 
             Button ib7 = dialogView.findViewById(R.id.button7);
             assert ib7 != null;
-            ib7.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    enterNum(dialogView, "7");
-                }
-            });
+            ib7.setOnClickListener(view -> enterNum(dialogView, "7"));
 
             Button ib8 = dialogView.findViewById(R.id.button8);
             assert ib8 != null;
-            ib8.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    enterNum(dialogView, "8");
-                }
-            });
+            ib8.setOnClickListener(view -> enterNum(dialogView, "8"));
 
             Button ib9 = dialogView.findViewById(R.id.button9);
             assert ib9 != null;
-            ib9.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    enterNum(dialogView, "9");
-                }
-            });
+            ib9.setOnClickListener(view -> enterNum(dialogView, "9"));
 
 
             ImageButton enter = dialogView.findViewById(R.id.imageButtonEnter);
@@ -303,66 +243,47 @@ class Class_Helper {
 
             final ImageButton cancel = dialogView.findViewById(R.id.imageButtonCancel);
             assert cancel != null;
-            cancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    text.setText("");
-                }
-            });
+            cancel.setOnClickListener(view -> text.setText(""));
 
             final Button clear = dialogView.findViewById(R.id.buttonReset);
             assert clear != null;
-            clear.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+            clear.setOnClickListener(view -> {
 
-                    final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(activity);
-                    View dialogView = View.inflate(activity, R.layout.dialog_action, null);
-                    TextView textView = dialogView.findViewById(R.id.dialog_text);
-                    textView.setText(activity.getString(R.string.pw_forgotten_dialog));
-                    Button action_ok = dialogView.findViewById(R.id.action_ok);
-                    action_ok.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            try {
-                                // clearing app data
-                                Runtime runtime = Runtime.getRuntime();
-                                runtime.exec("pm clear de.baumann.hhsmoodle");
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
+                final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(activity);
+                View dialogView1 = View.inflate(activity, R.layout.dialog_action, null);
+                TextView textView = dialogView1.findViewById(R.id.dialog_text);
+                textView.setText(activity.getString(R.string.pw_forgotten_dialog));
+                Button action_ok = dialogView1.findViewById(R.id.action_ok);
+                action_ok.setOnClickListener(view1 -> {
+                    try {
+                        // clearing app data
+                        Runtime runtime = Runtime.getRuntime();
+                        runtime.exec("pm clear de.baumann.hhsmoodle");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
 
-                        }
-                    });
-                    bottomSheetDialog.setContentView(dialogView);
-                    bottomSheetDialog.show();
-                    Class_Helper.setBottomSheetBehavior(bottomSheetDialog, dialogView);
-                }
+                });
+                bottomSheetDialog.setContentView(dialogView1);
+                bottomSheetDialog.show();
+                Class_Helper.setBottomSheetBehavior(bottomSheetDialog, dialogView1);
             });
 
             builder.setView(dialogView);
-            builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                @Override
-                public void onCancel(DialogInterface dialog) {
-                    activity.finishAffinity();
-                }
-            });
+            builder.setOnCancelListener(dialog -> activity.finishAffinity());
 
             final AlertDialog dialog = builder.create();
             // Display the custom alert dialog on interface
             dialog.show();
 
-            enter.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    String Password = text.getText().toString().trim();
+            enter.setOnClickListener(view -> {
+                String Password = text.getText().toString().trim();
 
-                    if (Password.equals(protect)) {
-                        sharedPref.edit().putBoolean("isOpened", false).apply();
-                        dialog.dismiss();
-                    } else {
-                        Toast.makeText(activity, activity.getString(R.string.toast_wrongPW), Toast.LENGTH_SHORT).show();
-                    }
+                if (Password.equals(protect)) {
+                    sharedPref.edit().putBoolean("isOpened", false).apply();
+                    dialog.dismiss();
+                } else {
+                    Toast.makeText(activity, activity.getString(R.string.toast_wrongPW), Toast.LENGTH_SHORT).show();
                 }
             });
         }

@@ -10,7 +10,6 @@
 
 
     <RelativeLayout
-        android:id="@+id/titleBar"
         android:layout_width="match_parent"
         android:layout_height="?android:listPreferredItemHeight"
         android:layout_marginStart="8dp"
